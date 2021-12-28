@@ -1,0 +1,217 @@
+buildscript {
+    ext {
+        springBootVersion = '2.2.9.RELEASE'
+        querydslPluginVersion = '1.0.10'
+        gradleSshVersion = '2.10.1'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" } // plugin 저장소
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
+        classpath("org.hidetake:gradle-ssh-plugin:${gradleSshVersion}") //gradle 플러그인 의존성 추가
+    }
+}
+plugins {
+    id 'org.springframework.boot' version '2.2.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'war'
+    id 'idea'
+    id 'eclipse-wtp'
+    id 'eclipse'
+    id 'org.hidetake.ssh' version '2.10.1'
+}
+tasks.withType(Test){
+    scanForTestClasses = false
+    include "**/*Test.class"
+}
+
+group = 'com.trism'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'org.apache.logging.log4j') {
+                details.useVersion '2.17.0'
+            }
+        }
+    }
+    
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydslapt
+    providedRuntime
+    lombok
+}
+war {
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+//    baseName = 'woorien-admin-service'
+}
+
+bootWar {
+    archiveName 'jesica-admin-service.war'
+}
+
+//source encoding utf-8
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //spring
+    compile("org.springframework.boot:spring-boot-starter") {
+        exclude module: "tomcat-embed-el"
+    }
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    implementation 'mysql:mysql-connector-java:8.0.20'
+    implementation 'org.hibernate:hibernate-entitymanager:5.3.7.Final'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    /*annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'*/
+    /*annotationProcessor 'org.projectlombok:lombok'*/
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    compile group: 'org.springframework.security', name: 'spring-security-core'
+    // querydslspring-boot-starter-tomcat
+    implementation 'com.querydsl:querydsl-jpa'
+    implementation 'com.querydsl:querydsl-apt'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat
+    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.2.1.RELEASE'
+
+    //json
+    implementation 'org.json:json:20200518'
+
+    // lucy xss
+    implementation('com.navercorp.lucy:lucy-xss:1.6.3')
+    // lucy xss servlet
+    implementation('com.navercorp.lucy:lucy-xss-servlet:2.0.1')
+
+    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.21'// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile 'javax.servlet:jstl:1.2'
+
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+
+    // https://github.com/sargue/java-time-jsptags
+    compile 'net.sargue:java-time-jsptags:1.1.4'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16
+    implementation group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+  /*  compile 'org.springframework.security:spring-security-web:5.2.5.RELEASE'
+    compile 'org.springframework.security:spring-security-config:5.2.5.RELEASE'*/
+
+    // https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib
+    implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    implementation 'org.apache.httpcomponents:httpclient:4.5'
+
+    implementation 'org.modelmapper:modelmapper:2.3.9'
+
+    // https://mvnrepository.com/artifact/org.ehcache/ehcache
+/*    compile('org.springframework.boot:spring-boot-starter-cache')
+    implementation group: 'org.ehcache', name: 'ehcache', version: '2.10.3'*/
+
+}
+
+test {
+    useJUnitPlatform()
+}
+sourceSets {
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+    }
+}
+
+
+//add queryDSL START
+apply plugin: "com.ewerk.gradle.plugins.querydsl" // Plugin 적용
+def querydslDir = "src/main/java/generated"
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+sourceSets {
+    main{
+        java {
+            srcDirs = ['src/main/java', querydslDir]
+        }
+    }
+}
+
+
+//add queryDLS END
+
+project.ext{
+    warBaseName = 'jesica-admin-service';
+    //warVersion = '-'+ version;
+    filePaths = System.getProperty( 'user.dir' )
+}
+
+
+task callSSH_woorien_admin {
+    doLast {
+        ssh.run {
+            session(remotes.woorien_app_dev) {
+                def warName = project.warBaseName  + '.war'
+                println "war 이름 : ${warName}"
+
+                println "dev 서버 파일 전송 시작"
+/*
+                    from : 현재 폴더를 기준으로 from path 지정
+                    into : 도착서버의 디렉토리 path 지정
+*/
+
+
+                put from: "${project.filePaths}/build/libs/${warName}", into: project.properties["devDir"]
+                println "dev 서버 파일 전송 완료"
+            }
+        }
+    }
+}

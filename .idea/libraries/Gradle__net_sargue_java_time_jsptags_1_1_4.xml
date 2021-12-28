@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.sargue:java-time-jsptags:1.1.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sargue/java-time-jsptags/1.1.4/80d82efac6ff1538461b37a35347214ceb28e626/java-time-jsptags-1.1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sargue/java-time-jsptags/1.1.4/15874899146b54d2a1f0a9dfd5d4973381716b34/java-time-jsptags-1.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

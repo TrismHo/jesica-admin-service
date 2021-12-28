@@ -1,0 +1,12 @@
+11:01:58.881- Update_role :adminId = D42BEA9966010029B367A5765E270C01 / userId =  test222 / ip = 0:0:0:0:0:0:0:1 / type = save
+11:02:17.530- Update_role :adminId = D42BEA9966010029B367A5765E270C01 / userId =  32423324233242332423 / ip = 0:0:0:0:0:0:0:1 / type = save
+11:02:30.486- Update_role :adminId = D42BEA9966010029B367A5765E270C01 / userId =  50505050505050505050 / ip = 0:0:0:0:0:0:0:1 / type = save
+11:13:44.685- Update_role :adminId = null / userId =  test222 / ip = 0:0:0:0:0:0:0:1 / type = update
+11:17:05.888- Update_role :adminId = LoginSession(userStaffNo=1, userStaffName=마스터, userLoginId=admin, userId=null, userRole=0, userDataStatus=1, headNo=1000, branchNo=10000, storeNo=100000, insertTime=2021-03-05T19:54:43) / userId =  12311231123112311231 / ip = 127.0.0.1 / type = update
+11:21:16.212- Update_role :adminId = admin / userId =  12311231123112311231 / ip = 0:0:0:0:0:0:0:1 / type = update
+11:21:30.684- Update_role :adminId = admin / userId =  32423324233242332423 / ip = 0:0:0:0:0:0:0:1 / type = update
+11:23:09.749- Update_role :adminId = admin / userId =  12311231123112311231 / ip = 0:0:0:0:0:0:0:1 / type = update
+11:23:23.817- Update_role :adminId = admin / userId =  32423324233242332423 / ip = 0:0:0:0:0:0:0:1 / type = update
+11:23:34.147- Update_role :adminId = admin / userId =  50505050505050505050 / ip = 0:0:0:0:0:0:0:1 / type = update
+15:04:21.381- Update_role :adminId = admin / userId =  yrdy / ip = 192.168.0.18 / type = save
+15:04:29.296- Update_role :adminId = admin / userId =  yrdy / ip = 192.168.0.18 / type = update

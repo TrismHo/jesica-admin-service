@@ -1,0 +1,1067 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<%@include file="../../../common/include_head.jsp" %>
+	<link href="${path}/assets/css/app.min.css" rel="stylesheet"/>
+	<title><spring:message code="list.controll.control" text="관제"/> | <spring:message code="list.controll.controlsystem" text="관제시스템"/></title>
+	<%@include file="../../../common/include_common_js.jsp" %>
+	<meta name="description" content="">
+	<style>
+		/*.app-sidebar-minify-btn {
+            margin: 10px 0;
+            padding: 5px 20px 5px 10px !important;
+            background: #242b30;
+            color: #fff;
+            border-radius: 20px 0 0 20px;
+        }*/
+		@media (min-width: 992px){
+			.mailbox .mailbox-sidebar {
+				width: 155px;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+				-ms-flex-direction: column;
+				flex-direction: column;
+				-webkit-box-flex: 0 0 155px;
+				-ms-flex: 0 0 155px;
+				flex: 0 0 155px;
+			}
+		}
+		@media (min-width: 992px) {
+			.mailbox .mailbox-content {
+				max-width: calc(100% - 100px);
+				border-left: 1px solid #ced4da;
+			}
+		}
+		.map_wrap, .map_wrap * {margin:0; padding:0;font-size:12px;}
+		.map_wrap {position:relative;width:100%;height:100%;}
+		#mapwrap{position:relative;overflow:hidden;}
+		.category, .category *{margin:0;padding:0;color:#000;}
+		.category_sub {position:absolute;overflow:hidden;top:70px;right:10px;width:100px;height:30px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+		.category {position:absolute;overflow:hidden;top:10px;right:10px;width:102px;height:55px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+		.category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;}
+		.category li{list-style:none;float:left;width:50px;height:55px;padding-top:5px;cursor:pointer;}
+		.category .ico_comm {display:block;margin:0 auto 2px;width:22px;height:26px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png') no-repeat;}
+		.category .ico_coffee {background-position:-10px 0;}
+		.category .ico_store {background-position:-10px -36px;}
+		.category .ico_carpark {background-position:-10px -72px;}
+
+		.map_wrap, .map_wrap * {margin:0;padding:0;font-size:12px;}
+		.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+		.map_wrap {position:relative;width:100%;height:100%;}
+		#menu_wrap1,#menu_wrap2 { overflow-x: hidden;position:absolute;top:0;left:170px;bottom:50%;width:320px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
+		#menu_wrap_left {position:absolute;top:0;left:0;bottom:0;width:160px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
+		.bg_white {background:#fff;}
+		#menu_wrap1 hr,#menu_wrap2 hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+		#menu_wrap_left hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+		#menu_wrap1 .option, #menu_wrap2 .option{text-align: left;}
+		#menu_wrap_leftoption{text-align: left;}
+		#menu_wrap1 .option p,#menu_wrap2 .option p {margin:10px 0;}
+		#menu_wrap_left .option p {margin:10px 0;}
+		#menu_wrap1 .option button,#menu_wrap2 .option button {margin-left:5px;}
+		#menu_wrap_left .option button {margin-left:5px;}
+		#placesList li, #placesList2 li  {list-style: none;}
+		#placesList .item, #placesList2 .item {border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 46px;}
+		#placesList .item span, #placesList2 .item span {display: block;margin-top:8px; width:50px; float: right;}
+		#placesList .item h5, #placesList .item .info, #placesList2 .item h5, #placesList2 .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+		#placesList .item .info{padding:10px 0 10px 55px;}
+		#placesList .info .gray {color:#8a8a8a;}
+		#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+		#placesList .info .tel {color:#009900;     width: 100px;float: left;}
+		#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+		#placesList .item .marker_1 {background-position: 0 -10px;}
+		#placesList .item .marker_2 {background-position: 0 -56px;}
+		#placesList .item .marker_3 {background-position: 0 -102px}
+		#placesList .item .marker_4 {background-position: 0 -148px;}
+		#placesList .item .marker_5 {background-position: 0 -194px;}
+		#placesList .item .marker_6 {background-position: 0 -240px;}
+		#placesList .item .marker_7 {background-position: 0 -286px;}
+		#placesList .item .marker_8 {background-position: 0 -332px;}
+		#placesList .item .marker_9 {background-position: 0 -378px;}
+		#placesList .item .marker_10 {background-position: 0 -423px;}
+		#placesList .item .marker_11 {background-position: 0 -470px;}
+		#placesList .item .marker_12 {background-position: 0 -516px;}
+		#placesList .item .marker_13 {background-position: 0 -562px;}
+		#placesList .item .marker_14 {background-position: 0 -608px;}
+		#placesList .item .marker_15 {background-position: 0 -654px;}
+		#pagination {margin:10px auto;text-align: center;}
+		#pagination a {display:inline-block;margin-right:10px;}
+		#pagination .on {font-weight: bold; cursor: default;color:#777;}
+		.wrap {position: absolute;left: 0;bottom: -33px;width: 288px;height: 132px;margin-left: -68px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+		.wrap * {padding: 0;margin: 0;}
+		.wrap .info_ {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+		.wrap .info_:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+		.info_ .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+		.info_ .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+		.info_ .close:hover {cursor: pointer;}
+		.info_ .body {position: relative;overflow: hidden;}
+		.info_ .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+		.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+		.desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+		.info_ .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+		.info_:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+		.info_ .link {color: #5085BB;}
+
+		.side_menu {
+			width: 100%;
+			height: 30px;
+			vertical-align: middle;
+			padding-top: 5px;
+			border-radius: 0px;
+			border-color: #fff;
+		}
+		.fa-rotate-back:before, .fa-rotate-backward:before, .fa-rotate-left:before, .fa-undo-alt:before {
+			content: "\f2ea";
+		}
+		.reload {
+			cursor: pointer;
+			position: absolute;
+			z-index: 999;
+			top: 21px;
+			right: 360px;
+		}
+
+		.mapList {
+			left : 0px;
+		}
+		#category {position:absolute;top:10px;right:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
+		#category li {float:left;list-style: none;width:50px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
+		#category li.on {background: #eee;}
+		#category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
+		#category li:last-child{margin-right:0;border-right:0;}
+		#category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+		#category li .category_bg {background:url(../../assets/img/control/control_img.png) no-repeat;}
+		#category li .bank {background-position: -10px 0;}
+		#category li .mart {background-position: -10px -36px;}
+		#category li .pharmacy {background-position: -10px -72px;}
+		#category li .oil {background-position: -10px -108px;}
+		#category li .cafe {background-position: -10px -144px;}
+		#category li .store {background-position: -10px -180px;}
+		#category li.on .category_bg {background-position-x:-46px;}
+		.placeinfo_wrap {position:absolute;bottom:28px;left:-86px;width:172px;}
+		.placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
+		.placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+		.placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+		.placeinfo a, .placeinfo a:hover, .placeinfo a:active{color:#fff;text-decoration: none;}
+		.placeinfo a, .placeinfo span {display: block;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+		.placeinfo span {margin:5px 5px 0 5px;cursor: default;font-size:13px;}
+		.placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050;}
+		.placeinfo .tel {color:#0f7833;}
+		.placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
+		/*#keyword {
+			width: 100%;
+			border: 0;
+			border-radius: 2px;
+			font-size: .93em;
+			line-height: 16px;
+			background-color: transparent;
+			color: #000;
+			vertical-align: top;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}*/
+		#boxSearch {
+			height: 30px;
+			padding: 6px 6px 0;
+			border: 1px solid #D3D4D6;
+			border-radius: 5px;
+			width: 311px;
+			background-color: #fff;
+		}
+		#boxSearch .tf_query {
+			width: 100%;
+			outline: none;
+			border: 0;
+			border-radius: 2px;
+			font-size: .93em;
+			line-height: 16px;
+			background-color: transparent;
+			color: #000;
+			vertical-align: top;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		#boxSearch .btn_dummy_search .ico_sch {
+			display: block;
+			width: 17px;
+			height: 17px;
+			margin: 13px 0px 6px;
+			background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/search_icon.png) 0 1px no-repeat;
+		}
+		#boxSearch .btn_dummy_search {
+			position: absolute;
+			top: -1px;
+			right: -2px;
+			display: block;
+			float: left;
+			width: 30px;
+			height: 30px;
+			border: 0;
+			font-size: 0;
+			line-height: 0;
+			background-color: transparent;
+			cursor: default;
+			text-align: center;
+		}
+
+	</style>
+</head>
+
+<!-- Modal -->
+<body>
+<div class="mailbox">
+
+	<div class="mailbox-sidebar">
+		<div class="mailbox-sidebar-header d-flex justify-content-center">
+			<%--<a href="" data-bs-toggle="collapse" class="btn btn-inverse btn-sm me-auto d-block d-lg-none">
+				<div class="invoice-from">
+					<i class="fa fa-cog"></i>
+					<strong class="text-inverse1" style="color:#fff;">MENU</strong><br>
+				</div>
+			</a>--%>
+			<div class="panel-heading ui-sortable-handle btn btn-inverse btn-sm me-auto d-block d-lg-none">
+				<i class="fa fa-cog  drop-action-btn"></i>
+				<strong class="text-inverse1  drop-action-btn" style="color:#fff;"> <spring:message code="list.controll.menu" text="MENU"/></strong><br>
+				<div class="btn-group my-n1">
+					<div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(-36px, 12px);">
+						<ul class="nav nav-inbox">
+							<li class="active active-li"><a class="control-1" style="cursor: pointer;"><i class="fas fa-lg fa-fw me-10px fa-car "></i> <spring:message code="list.controll.rent" text="렌트"/> <span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
+							<li class="active-li"><a class="control-2" style="cursor: pointer;" url="http://192.168.0.90:22201/orders"><i class="fas fa-lg fa-fw me-10px fa-user"></i> <spring:message code="list.controll.consignment" text="탁송"/> <span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<a href="" class="btn btn-inverse ps-15px pe-15px btn-sm">
+				<div class="invoice-from">
+					<i class="fas fa-lg fa-fw me-10px fa-map " style="color:#fff;"></i>
+					<strong class="text-inverse1" style="color:#fff;"><spring:message code="list.controll.controlsystem" text="관제시스템"/></strong><br>
+				</div>
+			</a>
+		</div>
+		<div class="mailbox-sidebar-content collapse d-lg-block" id="emailNav">
+
+			<div data-scrollbar="true" data-height="100%" data-skip-mobile="true" class="ps" data-init="true" style="height: 100%;">
+				<div class="nav-title"><b><spring:message code="list.controll.controlsystem" text="관제 리스트"/></b></div>
+				<ul class="nav nav-inbox">
+					<li class="active active-li"><a class="control-1" style="cursor: pointer;"><i class="fas fa-lg fa-fw me-10px fa-car "></i>  <spring:message code="list.controll.driver1" text="드라이버"/><span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
+					<li class="active-li"><a class="control-2" style="cursor: pointer;" ><i class="fas fa-lg fa-fw me-10px fa-user"></i>  <spring:message code="list.controll.consignment1" text="차량배달"/><span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
+				</ul>
+				<%--<div class="menu-item d-flex">
+					<a href="javascript:;" class="app-sidebar-minify-btn ms-auto" data-toggle="app-sidebar-minify"><i class="fa fa-angle-double-left"></i></a>
+				</div>--%>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="mailbox-content">
+		<div class="mailbox-content-header">
+			<div class="btn-toolbar">
+				<div class="btn-group me-2">
+
+				</div>
+				<div class="btn-group me-2">
+					<a href="javascript:;" onclick="openFullScreenMode();" class="btn btn-sm btn-white ">
+						<i class="fa  fa-window-maximize t-plus-1 fa-fw fa-lg" ></i> <spring:message code="list.controll.fullscreen" text="전체화면"/></a>
+					<a href="javascript:;"  onclick="closeFullScreenMode();" class="btn btn-sm btn-white ">
+						<i class="fa  fa-window-restore t-plus-1 fa-fw fa-lg"></i> <spring:message code="list.controll.unfullscreen" text="전체화면 해제"/></a>
+				</div>
+
+				<div class="btn-group ms-auto me-2">
+				</div>
+				<div class="btn-group">
+					<a href="javascript:;" class="btn btn-sm btn-white" onclick="finish_vote();">
+						<i class="fa  fa-window-close t-plus-1 text-danger fa-fw fa-lg "></i> <spring:message code="list.controll.endofcontrol" text="관제종료"/>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="mailbox-content-body"><i class="fas fa-lg fa-fw me-10px fa-arrow-rotate-left"></i>
+			<div data-scrollbar="true" data-height="100%" data-skip-mobile="true" class="ps" data-init="true" style="height: 100%;">
+				<%--<iframe class="frame" style="display:none;"  src="http://admin.jesicar.co.kr:22201/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">--%>
+				<iframe class="frame" style="display:none;"  src="http://192.168.0.90:22201/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">
+
+				</iframe>
+
+				<div class="map_wrap" >
+					<div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+					<ul id="category" class="category">
+						<li id="waiting" class="first_search " status="waiting" data-order="0">
+							<span class="category_bg bank"></span>
+							대기중
+						</li>
+						<li id="driving" class="" status="driving" data-order="1">
+							<span class="category_bg mart"></span>
+							운행중
+						</li>
+					</ul>
+					<div class="category_sub" >
+						<ul>
+							<li>
+								<a href="javascript:;"  class="btn btn-sm btn-white side_menu ">
+									<spring:message code="list.controll.driverllist" text="리스트"/> <span class="onOff" style="color: #009900;">on</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="category_sub" style="top: 100px;">
+						<ul>
+							<li>
+								<a href="javascript:;"  class="btn btn-sm btn-white refresh" style="padding: 4px 18.9px;">
+									<spring:message code="list.controll.driverllist" text="새로고침"/> <i class="fa fa-rotate-left" style="color: #009900;transform: scaleX(-1);"></i></i></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					<div id="menu_wrap1" class="bg_white " style="height: 41px;overflow-y: hidden;">
+						<div class="option">
+							<div>
+								<form onsubmit="searchPlaces2(); return false;">
+									<div class="panel_search">
+										<div id="boxSearch">
+											<input type="text" id="keyword" class="tf_query" title="검색어 입력" placeholder="지역을 입력해주세요." name="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+											<button type="button" class="btn_reset">
+											<span class="ico_del">
+											</span>
+											</button>
+												<div type="submit" class="btn_dummy_search">
+												<span class="ico_sch">
+												</span>
+											</div>
+										</div>
+									</div>
+								<%--	<spring:message code="list.controll.search" text="지역"/> : <input type="text" value="" id="keyword" size="15">
+									<button type="submit"><spring:message code="list.controll.search" text="검색하기"/></button>--%>
+								</form>
+							</div>
+						</div>
+						<hr>
+					</div>
+					<div id="menu_wrap2" class="bg_white menu_text" style="top:43px; display: none;">
+						<ul id="placesList"></ul>
+						<div id="pagination"></div>
+					</div>
+
+					<div id="menu_wrap_left" class="bg_white">
+						<div class="option">
+							<ul id="placesList2"></ul>
+							<div id="pagination2"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+</body>
+<!-- services 라이브러리 불러오기 -->
+<!-- services와 clusterer, drawing 라이브러리 불러오기 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript">
+
+
+	let waiting = [];
+	let running = [];
+
+	reload();
+
+	$(document).ready(function(){
+		searchPlaces2();
+		$("#menu_wrap2").css("display","none");
+
+		$(".refresh").on("click",function(){
+			reload();
+			searchPlaces2();
+			$("#menu_wrap2").css("display","none");
+		});
+		$(".search-btn").click(function () {
+			let iframe = document.getElementById("iframe")
+		});
+		window.onload = function(){
+
+			$(".search-btn").click();
+
+		}
+	});
+
+	var markers = [];
+
+	// 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
+	var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}),
+			contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+			markers = [], // 마커를 담을 배열입니다
+			currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+			mapOption = {
+				center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+				level: 9 // 지도의 확대 레벨
+			};
+
+	// 지도를 생성합니다
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+
+	// 장소 검색 객체를 생성합니다
+	var ps = new kakao.maps.services.Places(map);
+
+	// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+	var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+	// 지도에 idle 이벤트를 등록합니다
+	kakao.maps.event.addListener(map, 'idle', searchPlaces);
+
+	// 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
+	contentNode.className = 'placeinfo_wrap';
+
+	// 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
+	// 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
+	addEventHandle(contentNode, 'mousedown', kakao.maps.event.preventMap);
+	addEventHandle(contentNode, 'touchstart', kakao.maps.event.preventMap);
+
+	// 커스텀 오버레이 컨텐츠를 설정합니다
+	placeOverlay.setContent(contentNode);
+
+	// 각 카테고리에 클릭 이벤트를 등록합니다
+	addCategoryClickEvent();
+
+	// 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
+	function addEventHandle(target, type, callback) {
+		if (target.addEventListener) {
+			target.addEventListener(type, callback);
+		} else {
+			target.attachEvent('on' + type, callback);
+		}
+	}
+
+	// 키워드 검색을 요청하는 함수입니다
+	function searchPlaces2() {
+		$("#menu_wrap2").css("display","block");
+		var jejukey = "제주특별자치도 ";
+		var keyword = document.getElementById('keyword').value;
+		keyword = jejukey + keyword;
+		if (!keyword.replace(/^\s+|\s+$/g, '')) {
+			alert('키워드를 입력해주세요!');
+			return false;
+		}
+
+		// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+		ps.keywordSearch(keyword, placesSearchCB2);
+	}
+
+	// 카테고리 검색을 요청하는 함수입니다
+	function searchPlaces() {
+		if (!currCategory) {
+			return;
+		}
+
+		// 커스텀 오버레이를 숨깁니다
+		placeOverlay.setMap(null);
+
+		// 지도에 표시되고 있는 마커를 제거합니다
+		removeMarker();
+
+		/*ps.categorySearch(currCategory, placesSearchCB, {useMapBounds:true});*/
+		placesSearchCB(waiting);
+	}
+
+	// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+	function placesSearchCB(data){
+		let list = waiting;
+		if($("#waiting").hasClass("on")){
+			list = waiting;
+		}else {
+			list = running;
+		}
+
+		var bounds = new kakao.maps.LatLngBounds();
+		displayPlaces(list);
+	}
+
+	// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+	function placesSearchCB2(data, status, pagination) {
+		if (status === kakao.maps.services.Status.OK) {
+
+			// 정상적으로 검색이 완료됐으면
+			// 검색 목록과 마커를 표출합니다
+			displayPlaces2(data);
+
+			// 페이지 번호를 표출합니다
+			displayPagination2(pagination);
+
+		} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+
+			alert('검색 결과가 존재하지 않습니다.');
+			return;
+
+		} else if (status === kakao.maps.services.Status.ERROR) {
+
+			alert('검색 결과 중 오류가 발생했습니다.');
+			return;
+
+		}
+	}
+
+	// 지도에 마커를 표시하는 함수입니다
+	/*function displayMarker(place) {
+
+		// 마커를 생성하고 지도에 표시합니다
+		var marker = new kakao.maps.Marker({
+			map: map,
+			position: new kakao.maps.LatLng(place.y, place.x)
+		});
+
+		// 마커에 클릭이벤트를 등록합니다
+		kakao.maps.event.addListener(marker, 'click', function() {
+			// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+			infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+			infowindow.open(map, marker);
+		});
+	}*/
+
+
+	// 검색 결과 목록과 마커를 표출하는 함수입니다
+	function displayPlaces2(places) {
+
+		var listEl = document.getElementById('placesList'),
+				menuEl = document.getElementById('menu_wrap2'),
+				fragment = document.createDocumentFragment(),
+				bounds = new kakao.maps.LatLngBounds(),
+				listStr = '';
+
+		// 검색 결과 목록에 추가된 항목들을 제거합니다
+		removeAllChildNods(listEl);
+
+		// 지도에 표시되고 있는 마커를 제거합니다
+		removeMarker();
+
+		for ( var i=0; i<places.length; i++ ) {
+
+			// 마커를 생성하고 지도에 표시합니다
+			var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+					marker = addMarker2(placePosition, i),
+					itemEl = getListItem2(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+
+
+			// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+			// LatLngBounds 객체에 좌표를 추가합니다
+			bounds.extend(placePosition);
+
+			// 마커와 검색결과 항목에 mouseover 했을때
+			// 해당 장소에 인포윈도우에 장소명을 표시합니다
+			// mouseout 했을 때는 인포윈도우를 닫습니다
+			(function(marker, title) {
+				kakao.maps.event.addListener(marker, 'mouseover', function() {
+					displayInfowindow(marker, title);
+				});
+
+				kakao.maps.event.addListener(marker, 'mouseout', function() {
+					infowindow.close();
+				});
+
+				itemEl.onmouseover =  function () {
+					displayInfowindow(marker, title);
+				};
+
+				itemEl.onmouseout =  function () {
+					infowindow.close();
+				};
+			})(marker, places[i].place_name);
+
+			fragment.appendChild(itemEl);
+		}
+
+		// 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
+		listEl.appendChild(fragment);
+		menuEl.scrollTop = 0;
+
+		// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		map.setBounds(bounds);
+	}
+
+
+	// 지도에 마커를 표출하는 함수입니다
+	function displayPlaces(places) {
+
+		// 몇번째 카테고리가 선택되어 있는지 얻어옵니다
+		// 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
+		var order = document.getElementById(currCategory).getAttribute('data-order');
+		var listEl = document.getElementById('placesList2'),
+				menuEl = document.getElementById('menu_wrap_left'),
+				fragment = document.createDocumentFragment(),
+				bounds = new kakao.maps.LatLngBounds(),
+				listStr = '';
+
+		// 검색 결과 목록에 추가된 항목들을 제거합니다
+		removeAllChildNods(listEl);
+		for ( var i=0; i<places.length; i++ ) {
+			var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
+			// 마커를 생성하고 지도에 표시합니다
+			var marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order),
+					itemEl = getListItem(i, places[i]);
+			bounds.extend(placePosition);
+
+			// 마커와 검색결과 항목을 클릭 했을 때
+			// 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+			(function(marker, place) {
+				kakao.maps.event.addListener(marker, 'click', function() {
+					displayPlaceInfo(place);
+				});
+
+				kakao.maps.event.addListener(marker, 'mouseover', function() {
+					//displayInfowindow(marker, place.place_name);
+					//displayPlaceInfo(place);
+				});
+
+				kakao.maps.event.addListener(marker, 'mouseout', function() {
+					//displayPlaceInfoClose(place);
+				});
+
+				itemEl.onmouseover =  function () {
+					//displayInfowindow(marker, place.place_name);
+					displayPlaceInfo(place);
+				};
+
+				itemEl.onmouseout =  function () {
+					//displayPlaceInfoClose(place);
+				};
+				// 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
+				listEl.appendChild(fragment);
+
+				menuEl.scrollTop = 0;
+			})(marker, places[i]);
+			let result =listEl.appendChild(itemEl);
+		}
+	}
+
+
+	// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+	function addMarker2(position, idx, title) {
+		var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+				imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+				imgOptions =  {
+					spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+					spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+					offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+				},
+				markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+				marker = new kakao.maps.Marker({
+					position: position, // 마커의 위치
+					image: markerImage
+				});
+
+		marker.setMap(map); // 지도 위에 마커를 표출합니다
+		markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+		return marker;
+	}
+
+	// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+	function addMarker(position, order) {
+		var imageSrc = '../../assets/img/control/control_img.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+				imageSize = new kakao.maps.Size(27, 28),  // 마커 이미지의 크기
+				imgOptions =  {
+					spriteSize : new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
+					spriteOrigin : new kakao.maps.Point(46, (order*36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+					offset: new kakao.maps.Point(11, 28) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+				},
+				markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+				marker = new kakao.maps.Marker({
+					position: position, // 마커의 위치
+					image: markerImage
+				});
+
+		marker.setMap(map); // 지도 위에 마커를 표출합니다
+		markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+		return marker;
+	}
+
+
+	// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+	function removeMarker() {
+		for ( var i = 0; i < markers.length; i++ ) {
+			markers[i].setMap(null);
+		}
+		markers = [];
+	}
+
+	// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
+	function displayPlaceInfo (place) {
+		var content = '<div class="placeinfo">' +
+				'   <div class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +"이름 : "+ place.name + '</div>';
+
+		content += '    <span title="' + place.road_address_name + '">' +"연락처 : "+ phoneNumber(place.phone) + '</span>' +
+				'  <span class="jibun" title="' + place.address_name + '">(소속 : ' + place.branchName + ')</span>';
+
+		content +=
+				'</div>' +
+				'<div class="after"></div>';
+
+		contentNode.innerHTML = content;
+		placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
+		placeOverlay.setMap(map);
+	}
+
+
+
+	// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
+	function displayPlaceInfoClose (place) {
+		var content = '';
+
+		contentNode.innerHTML = content;
+		placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
+		placeOverlay.setMap(map);
+	}
+
+	// 검색결과 항목을 Element로 반환하는 함수입니다
+	function getListItem(index, places) {
+
+		var statusText = "";
+		if($("#waiting").hasClass("on")){
+			statusText = "대기중";
+		}else {
+			statusText = "운행중";
+		}
+
+		var el = document.createElement('li'),
+				itemStr =
+						'<div class="info">' +
+						'   <h5 style="margin:5px;line-height: 19px;">  ' + places.name + '<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px " style="background-color:#9dbad1;">'+statusText+'</span><br>' + phoneNumber(places.phone)  +
+						'</h5>';
+
+
+
+		/*itemStr += '  <span class="tel">' + phoneNumber(places.phone)  + '</span>';*/
+
+		itemStr += '' +
+				'</div>';
+
+		el.innerHTML = itemStr;
+		el.className = 'item';
+
+		return el;
+	}
+
+	// 검색결과 항목을 Element로 반환하는 함수입니다
+	function getListItem2(index, places) {
+
+		var el = document.createElement('li'),
+				itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+						'<div class="info">' +
+						'   <h5>' + places.place_name + '</h5>';
+
+		if (places.road_address_name) {
+			itemStr += '    <span>' + places.road_address_name + '</span>' +
+					'   <span class="jibun gray">' +  places.address_name  + '</span>';
+		} else {
+			itemStr += '    <span>' +  places.address_name  + '</span>';
+		}
+
+		itemStr += '  <span class="tel">' + phoneNumber(places.phone)  + '</span>' +
+				'</div>';
+
+		el.innerHTML = itemStr;
+		el.className = 'item';
+
+		return el;
+	}
+
+
+	// 각 카테고리에 클릭 이벤트를 등록합니다
+	function addCategoryClickEvent() {
+		var category = document.getElementById('category'),
+				children = category.children;
+
+		for (var i=0; i<children.length; i++) {
+			children[i].onclick = onClickCategory;
+		}
+	}
+
+	// 카테고리를 클릭했을 때 호출되는 함수입니다
+	function onClickCategory() {
+		var id = this.id,
+				className = this.className;
+
+		placeOverlay.setMap(null);
+
+		if (className === 'on') {
+			currCategory = '';
+			changeCategoryClass();
+			removeMarker();
+		} else {
+			currCategory = id;
+			changeCategoryClass(this);
+			searchPlaces();
+		}
+	}
+
+	// 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
+	function changeCategoryClass(el) {
+		var category = document.getElementById('category'),
+				children = category.children,
+				i;
+
+		for ( i=0; i<children.length; i++ ) {
+			children[i].className = '';
+		}
+
+		if (el) {
+			el.className = 'on';
+		}
+	}
+
+
+	// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+	function displayPagination(pagination) {
+		var paginationEl = document.getElementById('pagination2'),
+				fragment = document.createDocumentFragment(),
+				i;
+
+		// 기존에 추가된 페이지번호를 삭제합니다
+		while (paginationEl.hasChildNodes()) {
+			paginationEl.removeChild (paginationEl.lastChild);
+		}
+
+		for (i=1; i<=pagination.last; i++) {
+			var el = document.createElement('a');
+			el.href = "#";
+			el.innerHTML = i;
+
+			if (i===pagination.current) {
+				el.className = 'on';
+			} else {
+				el.onclick = (function(i) {
+					return function() {
+						pagination.gotoPage(i);
+					}
+				})(i);
+			}
+
+			fragment.appendChild(el);
+		}
+		paginationEl.appendChild(fragment);
+	}
+
+	// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+	function displayPagination2(pagination) {
+		var paginationEl = document.getElementById('pagination'),
+				fragment = document.createDocumentFragment(),
+				i;
+
+		// 기존에 추가된 페이지번호를 삭제합니다
+		while (paginationEl.hasChildNodes()) {
+			paginationEl.removeChild (paginationEl.lastChild);
+		}
+
+		for (i=1; i<=pagination.last; i++) {
+			var el = document.createElement('a');
+			el.href = "#";
+			el.innerHTML = i;
+
+			if (i===pagination.current) {
+				el.className = 'on';
+			} else {
+				el.onclick = (function(i) {
+					return function() {
+						pagination.gotoPage(i);
+					}
+				})(i);
+			}
+
+			fragment.appendChild(el);
+		}
+		paginationEl.appendChild(fragment);
+	}
+
+
+
+	// 검색결과 목록의 자식 Element를 제거하는 함수입니다
+	function removeAllChildNods(el) {
+		while (el.hasChildNodes()) {
+			el.removeChild (el.lastChild);
+		}
+	}
+
+	// 인포윈도우에 장소명을 표시합니다
+	function displayInfowindow(marker, title) {
+		var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+		infowindow.setContent(content);
+		infowindow.open(map, marker);
+	}
+
+
+
+
+
+
+
+	$(document).on("click","#placesList",function(){
+		$("#menu_wrap2").css("display","none");
+	});
+
+
+
+	$(document).on("click",".app-sidebar-minify-btn",function(){
+		$(".mailbox-sidebar").css("flex","0 0 0px;");
+	});
+	$(document).on("click",".side_menu",function(){
+
+		let visible = $("#menu_wrap_left").is(":visible");
+		if(visible == true) {
+			$(".onOff").text("off");
+			$("#menu_wrap_left").hide();
+
+		}else {
+			$(".onOff").text("on");
+			$("#menu_wrap_left").show();
+		}
+
+	});
+	$(document).on("click",".drop-action-btn",function(){
+		if($(".dropdown-menu").hasClass("show")){
+			$(".dropdown-menu").removeClass("show");
+		}else{
+			$(".dropdown-menu").addClass("show");
+		}
+	});
+
+
+	$("#menu_wrap2").css("display","none");
+	function reload() {
+		$.ajax({
+			type: "GET",
+			url: "${path}/api/location/getLocation",
+			data: {
+				type : "GO_TO_WORK"
+			},
+			contentType: "application/json;",
+			dataType: "json",
+			success: function (data) {
+				console.log(data);
+				let list = data.body.data;
+				waiting =[];
+				if(data.body.serviceStatus == "OK") {
+					for(var i = 0 ; i < list.length ; i++){
+
+						let push = {
+							distance: "",
+							userNo: list[i].userNo,
+							phone: list[i].phone,
+							name: list[i].name,
+							branchName : list[i].branchName,
+							x: list[i].lng,
+							y: list[i].lat
+						}
+						waiting.push(push)
+					}
+				} else {
+					alert(data.body.data.desc);
+					return;
+				}
+				console.log(waiting);
+			}
+		});
+		$.ajax({
+			type: "GET",
+			url: "${path}/api/location/getLocation",
+			data: {
+				type : "RUNNING"
+			},
+			contentType: "application/json;",
+			dataType: "json",
+			success: function (data) {
+				console.log(data);
+				let list = data.body.data;
+				running =[];
+				if(data.body.serviceStatus == "OK") {
+					for(var i = 0 ; i < list.length ; i++){
+						let push = {
+							distance: "",
+							phone: list[i].phone,
+							name: list[i].name,
+							branchName : data.body.data.branchName,
+							x: list[i].lng,
+							y: list[i].lat
+						}
+						running.push(push)
+					}
+				} else {
+					alert(data.body.data.desc);
+					return;
+				}
+				console.log(running);
+			}
+		});
+	}
+
+	function finish_vote() {
+		if (confirm('관제를 종료하시겠습니까?')) {
+			window.close();
+		}
+	}
+
+	$(document).on("click",".control-1,.control-2",function(){
+		let thisClass = $(this).attr("class");
+		$(".active-li").removeClass("active");
+		$("."+thisClass).parents("li").addClass("active");
+		$(".viewer").hide();
+		$("."+thisClass).find(".viewer").show();
+
+		if(thisClass =='control-1'){
+			$(".frame").css("display","none");
+			$(".map_wrap").css("display","block");
+			reload();
+			$("#menu_wrap2").css("display","none");
+		} else if (thisClass == 'control-2') {
+			$(".frame").css("display","block");
+			$("#menu_wrap2").css("display","none");
+		}
+
+
+	});
+	var docV = document.documentElement;
+	// 전체화면 설정
+	function openFullScreenMode() {
+		if (docV.requestFullscreen)
+			docV.requestFullscreen();
+		else if (docV.webkitRequestFullscreen) // Chrome, Safari (webkit)
+			docV.webkitRequestFullscreen();
+		else if (docV.mozRequestFullScreen) // Firefox
+			docV.mozRequestFullScreen();
+		else if (docV.msRequestFullscreen) // IE or Edge
+			docV.msRequestFullscreen();
+	}
+	// 전체화면 해제
+	function closeFullScreenMode() {
+		if (document.exitFullscreen)
+			document.exitFullscreen();
+		else if (document.webkitExitFullscreen) // Chrome, Safari (webkit)
+			document.webkitExitFullscreen();
+		else if (document.mozCancelFullScreen) // Firefox
+			document.mozCancelFullScreen();
+		else if (document.msExitFullscreen) // IE or Edge
+			document.msExitFullscreen();
+	}
+	function phoneNumber(value) {
+		value = value.replace(/[^0-9]/g, "");
+		return value.replace(
+				/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
+				"$1-$2-$3"
+		);
+	}
+	$(".first_search").click();
+
+</script>
+</html>

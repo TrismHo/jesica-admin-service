@@ -1,0 +1,203 @@
+##########
+security:
+  password: Wwf//in2FRW9bmRDPSTDohaGu7OpIDYvySgTAWfSEp0=
+  iv: RWF0c3VkYTIwMjE=
+server:
+  #port: 8080
+  port: 9002
+  #port: 9000
+  #port: 8892
+
+
+  error:
+    path: /error
+    #오류 응답에 stacktrace 내용을 포함할지 여부 (ALWAYS, NEVER, ON_TRACE_PARAM)
+    include-stacktrace: always
+
+    #오류 응답에 exception의 내용을 포함할지 여부
+    include-exception: true
+
+    #브라우저 요청에 대해 서버 오류시 기본으로 노출할 페이지를 사용할지 여부
+    whitelabel:
+      enabled: true
+
+
+
+---
+### 로그 설정
+logging:
+  config: classpath:logs/logback-spring.xml
+  level:
+    com.woorien.mobile: info
+  file:
+    #test
+     path: /home/rnd/jesicaAdmin/log
+    #real
+    #$path: /data/jesica/logs/
+    #path: /data/jesica/logs/
+---
+
+spring:
+  cache:
+    jcache:
+      config: classpath:cache/ehcache.xml
+  datasource:
+    hikari:
+      #test
+      jdbc-url: jdbc:mysql://101.55.126.138/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+      username: jesicar01
+      password: wptlzk2021
+
+      #real
+      driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
+  jpa:
+    show-sql: true
+    open-in-view: false
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database: mysql
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      ddl-auto: none
+    properties:
+      hibernate.show_sql: true
+      hibernate.format_sql: true
+      hibernate.use_sql_comments: true
+      hibernate.enable_lazy_load_no_trans: true
+  mvc:
+    view:
+      prefix: /WEB-INF/views
+      suffix: .jsp
+#      hibernate.cache.use_second_level_cache: false
+#      hibernate.cache.use_query_cache: true
+#      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+#      hibernate.generate_statistics: false
+#      hibernate.hbm2ddl.auto: none
+#      hibernate.default_batch_fetch_size: 20
+#      hibernate.connection.provider_disables_autocommit: true
+---
+#server:
+#  servlet:
+#    context-path: /
+---
+######################
+#Common Properties
+######################
+## dbcp pool
+#
+spring:
+  datasource:
+    hikari:
+      pool-name: manna-hikari-cp
+      maximum-pool-size: 10
+      #      minimum-idle: 5
+      connection-timeout: 30000
+      auto-commit: false
+      idle-timeout: 1800000
+      max-lifetime: 1800000
+      data-source-properties:
+        cachePrepStmts : true
+        prepStmtCacheSize : 250
+        prepStmtCacheSqlLimit : 2048
+        useServerPrepStmts : true
+
+---
+
+spring:
+  devtools:
+    livereload:
+      enabled: true # 정적 파일 실시간 갱신
+    restart:
+      enabled: false
+---
+spring:
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+---
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+---
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+---
+
+file:
+  #기본 이미지 경로
+  baseImgPath:
+    path: /home/rnd
+  servicePath:
+    path: /jesica_data/driver
+  imgPath:
+    path: /img
+  profilePath:
+    path: /profile
+    thumbPath : /profile/thumb
+  licensePath:
+    path: /license
+  careerPath:
+    path: /career
+
+  messageFile:
+    #test
+    path: /home/rnd/jesicaAdmin/messages/message
+    #real
+    #path: /data/jesica/messages/message
+
+spring:
+  profiles:
+
+
+
+
+########################################
+## dev properties
+########################################
+
+#spring.config.activate.on-profile: dev
+
+## accessToken 만료시간 1-day
+## refreshToken 만료시간 30-day
+security:
+  cert-key-path: keys/jesica-aes-dev.pem
+  iv: SmVzaWNhQVBJUHJvZDIwMjEhQCM=
+  jwt:
+    cert-key-path: keys/jesica-jwt-dev.pem
+    access-expiration-hour: 24
+    refresh-expiration-hour: 336
+trism:
+  admin:
+    key:
+      enc: mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=
+      plain: TrismDevAdmin2021
+
+
+
+########################################
+## production properties
+########################################
+
+#spring.config.activate.on-profile: prod
+
+#security:
+#  cert-key-path: keys/jesica-aes-prod.pem
+#  iv: SmVzaWNhX2RsdnlfcHJvZF8yMDIxIQ==
+#  jwt:
+#    cert-key-path: keys/jesica-jwt-prod.pem
+#    access-expiration-hour: 24
+#    refresh-expiration-hour: 336
+
+#trism:
+#  admin:
+#    key:
+#      enc: 0T+QQSe2RklYb94k8hvQI2hV5AXZFYkqeBLGL3c2Dko=
+#      plain: TrismProdAdmin2021

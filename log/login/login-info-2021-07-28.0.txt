@@ -1,0 +1,12 @@
+14:59:50.831-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip=0:0:0:0:0:0:0:1 / ID=admin / result=200:로그인 성공
+15:00:24.195-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip=0:0:0:0:0:0:0:1 / ID=dfgsdfg / result=500:null
+15:01:18.423-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip=0:0:0:0:0:0:0:1 / ID=dfgsdfg / result=500:null
+15:04:41.401-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip=0:0:0:0:0:0:0:1 / ID=dfgsdfg / result=500:null
+15:06:01.647-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip=0:0:0:0:0:0:0:1 / ID=dfgsdfg / result=500:null
+15:07:21.067-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip = 0:0:0:0:0:0:0:1 / ID = 12312 / result = 500:권한등급이 다른계정입니다. 관리자에 문의하세요.
+15:07:26.136-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip = 0:0:0:0:0:0:0:1 / ID = 1412 / result = 500:로그인 정보가 일치하지 않습니다.
+15:11:47.227-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip = 192.168.0.18 / ID = adfnjadf234 / result = 500:로그인 정보가 일치하지 않습니다.
+15:19:37.654-[32mINFO [0;39m-c.t.manna.Controller.MainController - Login_user : ip = 0:0:0:0:0:0:0:1 / ID = admin / result = 200: null
+15:27:06.778- Login_user : ip = 0:0:0:0:0:0:0:1 / ID = admin / result = 200: null
+17:34:58.172- Login_user : ip = 0:0:0:0:0:0:0:1 / ID = admin / result = 200: 로그인 성공
+17:51:08.813- Login_user : ip = 0:0:0:0:0:0:0:1 / ID = admin / result = 200: 로그인 성공

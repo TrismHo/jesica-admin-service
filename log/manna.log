@@ -1,0 +1,201 @@
+31-08-2021 00:02:26.892 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:05:27.064 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:08:27.086 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:11:27.122 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:14:27.136 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:17:27.146 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:20:27.171 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:23:27.182 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:26:27.195 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:29:27.211 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:32:27.233 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:35:27.255 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:38:27.264 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:41:27.285 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:44:27.299 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:47:27.328 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:50:27.344 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:53:27.360 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:56:27.378 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 00:59:27.391 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:02:27.410 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:05:27.422 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:08:27.447 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:11:27.461 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:14:27.477 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:17:27.513 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:17:27.516 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6c664ac5 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:17:27.519 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@613d4e41 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:17:27.521 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@691cbdcc (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:17:27.521 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@37f2f248 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:17:27.523 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5c80e154 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:17:27.525 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@57c4f3c3 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:17:27.526 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5b3ac62a (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:17:27.527 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7bfa0fb7 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:17:27.529 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@20abcbdd (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 01:20:27.539 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:23:27.577 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:26:27.597 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:29:27.613 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:32:27.632 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:35:27.645 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:38:27.658 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:41:27.668 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:44:27.683 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:47:27.700 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:50:27.728 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:53:27.750 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:56:27.783 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 01:59:27.815 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:02:27.850 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:05:27.859 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:08:27.882 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:11:27.905 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:14:27.944 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:17:27.962 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:20:27.975 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:23:27.991 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:26:28.012 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:29:28.030 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:32:28.039 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:35:28.054 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:38:28.088 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:41:28.100 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:44:28.121 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:47:28.162 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:50:28.179 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:53:28.189 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:56:28.213 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 02:59:28.235 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:02:28.245 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:05:28.267 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:08:28.288 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:11:28.297 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:14:28.308 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:17:28.341 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:20:28.351 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:23:28.368 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:26:28.388 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:29:28.411 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:32:28.442 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:35:28.465 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:38:28.495 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:41:28.519 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:44:28.545 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:47:28.598 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:50:28.609 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:53:28.631 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:56:28.641 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 03:59:28.662 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:02:28.682 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:05:28.703 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:08:28.715 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:11:28.726 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:14:28.740 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:17:28.750 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:20:28.774 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:23:28.791 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:26:28.813 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:29:28.822 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:32:28.846 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:35:28.857 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:38:28.866 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:41:28.899 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:44:28.922 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:44:28.924 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@20f247dc (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 04:44:28.962 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@47b27b35 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 04:44:28.992 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7cbc3e6b (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 04:44:29.001 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4e425a87 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 04:44:29.012 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@105e1ac1 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 04:44:29.014 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4461b02c (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 04:44:29.032 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@59b381ad (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 04:44:29.044 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5797e7e (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 04:47:29.067 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:50:29.081 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:53:29.118 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:56:29.131 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 04:59:29.153 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:02:29.165 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:05:29.175 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:08:29.195 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:11:29.209 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:14:29.219 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:17:29.237 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:20:29.256 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:23:29.277 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:26:29.290 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:29:29.311 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:32:29.334 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:35:29.356 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:38:29.375 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:41:29.388 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:44:29.403 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:47:29.421 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:50:29.451 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:53:29.462 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:56:29.485 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 05:59:29.505 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:02:29.514 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:05:29.528 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:08:29.540 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:11:29.563 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:14:29.577 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:17:29.590 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:20:29.600 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:23:29.615 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:26:29.634 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:29:29.656 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:32:29.669 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:35:29.688 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:38:29.696 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:41:29.715 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:44:29.739 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:47:29.750 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:50:29.770 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:53:29.780 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:56:29.791 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 06:59:29.808 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:02:29.829 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:05:29.843 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:08:29.857 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:11:29.878 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:14:29.902 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:17:29.918 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:20:29.939 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:23:29.952 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:26:29.968 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:29:29.980 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:32:29.989 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:35:30.004 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:38:30.020 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:41:30.033 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:44:30.051 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:47:30.063 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:50:30.079 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:53:30.097 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:56:30.111 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 07:59:30.129 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:02:30.151 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:05:30.172 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:08:30.193 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:11:30.203 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:11:30.205 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@2b300cce (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 08:11:30.236 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@644cf1ca (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 08:11:30.240 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@64c65b24 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 08:11:30.248 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4fbb6d0e (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 08:11:30.251 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@595f3b04 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 08:11:30.253 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5a1e5344 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 08:11:30.256 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@cd72c58 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 08:11:30.257 [scheduling-1] WARN  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive - manna-hikari-cp - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@1810e3d1 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+31-08-2021 08:14:30.284 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:17:30.306 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:20:30.342 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:23:30.356 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:26:30.389 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:29:30.412 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:32:30.424 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:35:30.439 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:38:30.450 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:41:30.482 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:44:30.495 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24
+31-08-2021 08:47:30.512 [scheduling-1] INFO  com.trism.manna.MannaScheduler.reloadProperties - @@@ reloadProperties 2021-08-25T16:19:24

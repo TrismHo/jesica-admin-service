@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
+<c:set var="now" value="<%=new java.util.Date()%>" />
+<%--<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>--%>
+
+<c:set var="path" value="${pageContext.servletContext.contextPath}"/>
+<c:set var="date" value="<%=new java.util.Date()%>" />
+<c:set var="now"><fmt:formatDate value="${date}" pattern="yyyy-MM-dd" /></c:set>
+    <%--GoogleMapTestKey--%>
+
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANWaKymkYvONhGDsRjCd7pwNHO_ygW3Og&libraries=drawing,places&v=weekly"defer></script>--%>
+
+<!--kakaoMapTestKey-->
+<c:set var="appkey" value="94f23e0f25ea704e6e4a26359fb10b86&libraries=services"/>
+<%--<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=94f23e0f25ea704e6e4a26359fb10b86&libraries=services"></script>--%>
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANWaKymkYvONhGDsRjCd7pwNHO_ygW3Og&callback=initMap&libraries=drawing&v=weekly"defer></script>--%>
+
+<!--kakaoMapRealKey-->
+<%--<c:set var="appkey" value="94f23e0f25ea704e6e4a26359fb10b86&libraries=services"/>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=94f23e0f25ea704e6e4a26359fb10b86&libraries=services"></script>--%>
+
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<c:set var="servletPath" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
+
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+
+<%--<meta name="_csrf" id="_csrf" content="${_csrf.token}"/>--%>
+<%--<meta name="_csrf_header" id="_csrf_header" content="${_csrf.headerName}"/>--%>
+<!-- ================== BEGIN BASE CSS STYLE ================== -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+<%--<link href="${path}/css/jquery.dataTables.min.css" rel="stylesheet"/>--%>
+<link href="${path}/assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
+<link href="${path}/assets/css/default/app.min.css" rel="stylesheet"/>
+<link href="${path}/css/custom.css" rel="stylesheet" >
+<link href="${path}/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+<link href="${path}/assets/plugins/flag-icon-css/css/flag-icon.min.css" rel="stylesheet" />
+<!-- ================== END BASE CSS STYLE ================== -->
+<link href="${path}/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+<link href="${path}/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />
+<link href="${path}/assets/plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link href="${path}/assets/plugins/tag-it/css/jquery.tagit.css" rel="stylesheet" />
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+<link href="${path}/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+
+
+<%--<c:set var="session" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication}"/>--%>

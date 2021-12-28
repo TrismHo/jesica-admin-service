@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="com.trism.jesica-admin-service.main" target="1.8" />
+      <module name="com.trism.jesica-admin-service.querydsl" target="1.8" />
+      <module name="com.trism.jesica-admin-service.test" target="1.8" />
+      <module name="com.trism.manna.main" target="1.8" />
+      <module name="com.trism.manna.querydsl" target="1.8" />
+      <module name="com.trism.manna.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
