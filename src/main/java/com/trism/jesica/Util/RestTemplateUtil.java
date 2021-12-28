@@ -1,0 +1,138 @@
+package com.trism.jesica.Util;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
+
+@Slf4j
+@Component
+public class RestTemplateUtil {
+	@Autowired
+	private RestTemplate restTemplate;
+
+	//클리이언트 정보/코드 획득
+	public ResponseEntity<Map> authorizeToken() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		String url = "http://101.55.126.138:13000/api/v1/token/authorize";
+		return restTemplate.getForEntity(url, Map.class);
+	}
+
+	//지도정보
+	public ResponseEntity<Map> getLocation(HttpSession session,String type) {
+		HttpHeaders headers = new HttpHeaders();
+		String authorization = "";
+		if (session.getAttribute("accessToken") != null ){
+			authorization ="Bearer "+session.getAttribute("accessToken").toString();
+		}
+		headers.add("Content-Type", "application/json");
+		headers.add(HttpHeaders.AUTHORIZATION, authorization);
+		String url = "http://101.55.126.138:13300/api/v1/dlvy/workers/locations?type="+type;
+		Map<String,Object> requestDto = new HashMap<>();
+		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
+		return restTemplate.exchange(url, HttpMethod.GET,entity,Map.class);
+	}
+
+	//토큰 만료되었을때
+	public ResponseEntity<Map> refreshToken(HttpSession session ,String clientId, String code, String refreshToken ) {
+		Map<String,String> requestDto = new HashMap<>();
+		requestDto.put("grantType","REFRESH_TOKEN");
+		requestDto.put("refreshToken",refreshToken);
+		requestDto.put("clientId",clientId);
+		requestDto.put("code", code);
+		String authorization = "";
+
+		if (session.getAttribute("accessToken") != null ){
+			authorization ="Bearer "+session.getAttribute("accessToken").toString();
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		headers.add(HttpHeaders.AUTHORIZATION, authorization);
+		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
+		String url = "http://101.55.126.138:13000/api/v1/token";
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}
+
+	//토큰 만료되었을때Vue용
+	public ResponseEntity<Map> refreshTokenVue(String refreshToken, String code, String clientId, String accessToken ) {
+		Map<String,String> requestDto = new HashMap<>();
+		requestDto.put("grantType","REFRESH_TOKEN");
+		requestDto.put("refreshToken",refreshToken);
+		requestDto.put("clientId",clientId);
+		requestDto.put("code", code);
+		HttpHeaders headers = new HttpHeaders();
+		String authorization ="Bearer "+accessToken;
+
+		headers.add("Content-Type", "application/json");
+		headers.add("Access-Control-Allow-Origin", "*");
+		headers.add(HttpHeaders.AUTHORIZATION, authorization);
+		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
+		String url = "http://101.55.126.138:13000/api/v1/token";
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}
+
+	//accessToken으로 정보조회
+	public ResponseEntity<Map> getAccessInfo(String accessToken) {
+		HttpHeaders headers = new HttpHeaders();
+		String authorization ="Bearer "+accessToken;
+		log.info("authorization+"+authorization);
+		headers.add("Content-Type", "application/json");
+		headers.add(HttpHeaders.AUTHORIZATION, authorization);
+		String url = "http://101.55.126.138:13000/api/v1/token/info";
+		Map<String,Object> requestDto = new HashMap<>();
+		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
+		return restTemplate.exchange(url, HttpMethod.GET,entity,Map.class);
+	}
+
+	//토큰 - 로그인시 사용
+	public ResponseEntity<Map> loginAuth(String clientId, String code, String uuid, String loginId ,String pass) {
+		Map<String,String> requestDto = new HashMap<>();
+		requestDto.put("userId",loginId);
+		requestDto.put("password",pass);
+		requestDto.put("loginType","DEFAULT");
+		requestDto.put("role","UT_CONSULTANT");
+		requestDto.put("deviceType","WEB");
+		requestDto.put("deviceId",uuid);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		headers.add("clientId", clientId);
+		headers.add("code", code);
+		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
+		String url = "http://101.55.126.138:13000/api/v1/auth/login";
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}
+
+
+
+	//드라이버 수정이나 등록시 상태갱신
+	public ResponseEntity<Map> driverStatusInit(Long workerNo,HttpSession session) {
+		Map<String,Integer> requestDto = new HashMap<>();
+		HttpHeaders headers = new HttpHeaders();
+
+		String authorization = "";
+		if (session.getAttribute("accessToken") != null ){
+			authorization ="Bearer "+session.getAttribute("accessToken").toString();
+		}
+
+		headers.add("Content-Type", "application/json");
+		headers.add(HttpHeaders.AUTHORIZATION, authorization);
+		HttpEntity<Map<String,Integer>> entity = new HttpEntity<>(requestDto, headers);
+		String url = "http://101.55.126.138:13000/api/v1/dlvy/workers/sync/"+workerNo;
+		return restTemplate.exchange(url, HttpMethod.PUT,entity,Map.class);
+	}
+
+
+
+
+}

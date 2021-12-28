@@ -1,0 +1,191 @@
+package com.trism.jesica.Service;
+
+import com.trism.jesica.Util.SearchUtil;
+import com.trism.jesica.config.JesicaProperties;
+import com.trism.jesica.dto.TbBranchDTO;
+import com.trism.jesica.dto.TbHeadDTO;
+import com.trism.jesica.dto.TbServiceChargeDTO;
+import com.trism.jesica.exception.ErrorCode;
+import com.trism.jesica.exception.ServiceException;
+import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
+import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
+import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayApproval;
+import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayCancel;
+import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayCardData;
+import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayCert;
+import com.trism.jesica.persistence.Entitiy.service.TbServiceCharge;
+import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
+import com.trism.jesica.persistence.Repository.business.TbBranchRepository;
+import com.trism.jesica.persistence.Repository.business.TbHeadRepository;
+import com.trism.jesica.persistence.Repository.order.TbOrderAllRepository;
+import com.trism.jesica.persistence.Repository.order.TbOrderDayRepository;
+import com.trism.jesica.persistence.Repository.paymenthistory.TbPayApprovalRepository;
+import com.trism.jesica.persistence.Repository.paymenthistory.TbPayCancelRepository;
+import com.trism.jesica.persistence.Repository.paymenthistory.TbPayCardDataRepository;
+import com.trism.jesica.persistence.Repository.paymenthistory.TbPayCertRepository;
+import com.trism.jesica.persistence.Repository.service.TbServiceChargeGroupRepository;
+import com.trism.jesica.persistence.Repository.service.TbServiceChargeRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@RequiredArgsConstructor
+@Service
+@Slf4j
+public class SettlementService {
+
+    private final JesicaProperties jesicaProperties;
+
+    @Autowired
+    private final TbServiceChargeGroupRepository tbServiceChargeGroupRepository;
+
+    @Autowired
+    private final TbServiceChargeRepository tbServiceChargeRepository;
+
+    @Autowired
+    private final TbHeadRepository tbHeadRepository;
+
+    @Autowired
+    private final TbBranchRepository tbBranchRepository;
+
+    @Autowired
+    private final TbPayCertRepository tbPayCertRepository;
+
+    @Autowired
+    private final TbPayApprovalRepository tbPayApprovalRepository;
+
+    @Autowired
+    private final TbPayCancelRepository tbPayCancelRepository;
+
+    @Autowired
+    private final TbPayCardDataRepository tbPayCardDataRepository;
+
+    @Autowired
+    private final TbOrderDayRepository tbOrderDayRepository;
+
+    @Autowired
+    private final TbOrderAllRepository tbOrderAllRepository;
+
+
+    @Transactional(readOnly = true)
+    public List<TbServiceChargeGroup> searchServiceChargeGroup(Map<String,Object> searchValue) {
+        Specification<TbServiceChargeGroup> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+
+            predicate = (Specification<TbServiceChargeGroup>) SearchUtil.searchServiceChargeGroup(searchValue);
+        }
+        return searchValue.isEmpty() ? tbServiceChargeGroupRepository.findAll()
+                : tbServiceChargeGroupRepository.findAll(predicate);
+    }
+
+
+    @Transactional(readOnly = true)
+    public TbServiceChargeGroup searchServiceChargeGroupDetail(Long chargeNo) {
+        Optional<TbServiceChargeGroup> tbServiceChargeGroup = tbServiceChargeGroupRepository.findById(chargeNo);
+        if(tbServiceChargeGroup.isPresent() == false) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+        return tbServiceChargeGroup.get();
+    }
+
+    @Transactional(readOnly = true)
+    public TbServiceCharge searchServiceCharge(Long chargeNo, Integer platformType, Integer serviceType) {
+        TbServiceCharge tbServiceCharge = tbServiceChargeRepository.findByChargeNoAndPlatformTypeAndServiceType(chargeNo,platformType,serviceType);
+        return tbServiceCharge;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbServiceChargeDTO> tbServiceChargefindById(Long chargeNo) {
+        List<TbServiceChargeDTO> tbServiceCharge = tbServiceChargeRepository.findByChargeNo(chargeNo);
+
+        return tbServiceCharge;
+    }
+    @Transactional(readOnly = true)
+    public TbServiceChargeGroup tbServiceChargeGroupfindById(Long chargeNo) {
+        TbServiceChargeGroup tbServiceChargeGroup = tbServiceChargeGroupRepository.findByChargeNo(chargeNo);
+
+        return tbServiceChargeGroup;
+    }
+
+    @Transactional(readOnly = true)
+    public  List<TbHeadDTO> getHeadAll() {
+        List<TbHeadDTO> tbHeadDTO = tbHeadRepository.findByAll();
+
+        return tbHeadDTO;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbBranchDTO> getBranchAll() {
+       List<TbBranchDTO> tbBranchDTO = tbBranchRepository.findByAll();
+
+        return tbBranchDTO;
+    }
+/*
+    @Transactional(readOnly = true)
+    public List<TbPayApproval> getPaymenthistoryList() {
+       *//*List<TbPayCardData> tbPayCardData = tbPayCardDataRepository.findAll();*//*
+       List<TbPayApproval> tbPayApprovals = tbPayApprovalRepository.findAll();
+
+        return tbPayApprovals;
+    }*/
+
+    @Transactional(readOnly = true)
+    public List<TbPayApproval> getPaymenthistoryList(Map<String,Object> searchValue) {
+        Specification<TbPayApproval> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+
+            predicate = (Specification<TbPayApproval>) SearchUtil.searchPaymenthistoryList(searchValue);
+        }
+        return searchValue.isEmpty() ? tbPayApprovalRepository.findAll()
+                : tbPayApprovalRepository.findAll(predicate);
+    }
+
+    @Transactional(readOnly = true)
+    public TbPayCert getCert(Long orderNo) {
+        TbPayCert tbPayCert = tbPayCertRepository.findByOrderNo(orderNo);
+        return tbPayCert;
+    }
+
+    @Transactional(readOnly = true)
+    public TbPayApproval getApproval(String tid) {
+        TbPayApproval tbPayCert = tbPayApprovalRepository.findByTid(tid);
+        return tbPayCert;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbPayCancel> getCancel(Long orderNo) {
+        List<TbPayCancel> tbPayCancel = tbPayCancelRepository.findByOrderNo(orderNo);
+        return tbPayCancel;
+    }
+    @Transactional(readOnly = true)
+    public TbPayCardData getPayCardData(String tid) {
+        TbPayCardData tbPayCardData = tbPayCardDataRepository.findByTid(tid);
+        return tbPayCardData;
+    }
+
+    @Transactional(readOnly = true)
+    public TbOrderDay getOrderDay(Long orderNo) {
+        TbOrderDay tbOrderDay = tbOrderDayRepository.findByOrderNo(orderNo);
+        return tbOrderDay;
+    }
+
+    @Transactional(readOnly = true)
+    public TbOrderAll getOrderAll(Long orderNo) {
+        TbOrderAll tbOrderAll = tbOrderAllRepository.findByOrderNo(orderNo);
+        return tbOrderAll;
+    }
+
+
+}
+

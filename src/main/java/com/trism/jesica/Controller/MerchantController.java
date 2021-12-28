@@ -1,0 +1,475 @@
+package com.trism.jesica.Controller;
+
+import com.trism.jesica.Service.MerchanExtraService;
+import com.trism.jesica.Service.MerchanGroupService;
+import com.trism.jesica.Service.MerchandiseService;
+import com.trism.jesica.Service.WorkGroupService;
+import com.trism.jesica.dto.TbStoreCategoryDTO;
+import com.trism.jesica.dto.TbStoreGoodsItemDTO;
+import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaCharge;
+import com.trism.jesica.persistence.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory;
+import com.trism.jesica.persistence.Entitiy.goods.TbStoreGoods;
+import com.trism.jesica.persistence.Entitiy.goods.TbStoreOption;
+import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
+import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
+import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
+import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
+import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RequestMapping("/merchant")
+@RestController
+@RequiredArgsConstructor
+@Slf4j
+public class MerchantController {
+
+    private final MerchandiseService merchandiseService;
+
+    private final MerchanGroupService merchanGroupService;
+
+    private final MerchanExtraService merchanExtraService;
+
+    private final WorkGroupService workGroupService;
+
+
+    //상품
+    @GetMapping("/merchandise/list")
+    public ModelAndView listMerchandise(@RequestParam Map<String,Object> searchValue,
+                                        Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        try {
+            if (!searchValue.isEmpty()) {
+
+              /*  List<TbStoreGoods> tbStoreGoodsSearch = merchandiseService.tbStoreGoodsSearch(searchValue);
+                List<TbStoreGoodsData> tbStoreGoodsDataList = null;
+
+                String url = "";
+                String url2 = "";
+                for (TbStoreGoods tbStoreGoodsSearchData : tbStoreGoodsSearch) {
+                    TbStoreGoodsData tbStoreGoodsData = new TbStoreGoodsData();
+                    if (tbStoreGoodsSearchData.getImgFile1() != null) {
+                        url = URLEncoder.encode(tbStoreGoodsData.getImgFile1(), "UTF-8");
+                    }
+                    if (tbStoreGoodsSearchData.getImgFileSmall() != null) {
+                        url2 = URLEncoder.encode(tbStoreGoodsData.getImgFileSmall(), "UTF-8");
+                    }
+                    tbStoreGoodsData.setImgFile1(url);
+                    tbStoreGoodsData.setImgFileSmall(url2);
+                    tbStoreGoodsDataList.add(tbStoreGoodsData);
+                }
+*/
+                putSearchOption(session, searchValue);
+            } else {
+                searchValue = getSearchOption(session);
+            }
+
+            List<TbStoreGoods> resultList = null;
+            if (searchValue.containsKey("storeNo")) {
+                resultList = merchandiseService.tbStoreGoodsSearch(searchValue);
+            }
+            model.addAttribute("tbStoreGoods", resultList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*model.addAttribute("tbStoreGoods", merchandiseService.tbStoreGoodsSearch(searchValue));*/
+        model.addAttribute("searchValue", searchValue);
+        return new ModelAndView("jesica/merchant/merchandise/list");
+    }
+
+    @GetMapping("/merchandise/insert")
+    public ModelAndView insertMerchandise(HttpSession session, Model model) {
+        model.addAttribute("searchValue",getSearchOption(session));
+        return new ModelAndView("jesica/merchant/merchandise/insert");
+    }
+
+    @GetMapping("/merchandise/detail")
+    public ModelAndView detailMerchandise(@RequestParam Long storeGoodsNo,Model model) {
+        log.info("@@storeGoodsNo {}",storeGoodsNo);
+
+        try {
+            TbStoreGoods tbStoreGoods = merchandiseService.getTbStoreGoodsDetail(storeGoodsNo);
+
+            List<TbStoreCategoryDTO> tbStoreCategoryList = merchandiseService.getTbStoreCategoryList(tbStoreGoods.getStoreNo(),Integer.parseInt(storeGoodsNo.toString()));
+            List<TbStoreGoodsItemDTO> tbStoreGoodsItemList = merchandiseService.getTbStoreGoodsItemList(storeGoodsNo);
+            int maxNo = merchandiseService.getTbStoreGoodsItemMaxNo(storeGoodsNo);
+
+            model.addAttribute("tbStoreGoodsDetail",tbStoreGoods);
+            model.addAttribute("tbStoreGoodsItemList",tbStoreGoodsItemList);
+            model.addAttribute("tbStoreCategoryList",tbStoreCategoryList);
+            model.addAttribute("maxNo",maxNo);
+            if(tbStoreGoods.getImgFile1() != null){
+                model.addAttribute("imgFile1", URLEncoder.encode(tbStoreGoods.getImgFile1(),"UTF-8"));
+            } else {
+                model.addAttribute("imgFile1", null);
+            }
+
+            if(tbStoreGoods.getImgFile2() != null){
+                model.addAttribute("imgFile2", URLEncoder.encode(tbStoreGoods.getImgFile2(),"UTF-8"));
+            } else {
+                model.addAttribute("imgFile2", null);
+            }
+
+            if(tbStoreGoods.getImgFile3() != null){
+                model.addAttribute("imgFile3", URLEncoder.encode(tbStoreGoods.getImgFile3(),"UTF-8"));
+            } else {
+                model.addAttribute("imgFile3", null);
+            }
+
+            if(tbStoreGoods.getImgFileSmall() != null){
+                model.addAttribute("imgFileSmall", URLEncoder.encode(tbStoreGoods.getImgFileSmall(),"UTF-8"));
+            } else {
+                model.addAttribute("imgFileSmall", null);
+            }
+          /*  model.addAttribute("imgFile1", URLEncoder.encode(tbStoreGoods.getImgFile1(),"UTF-8"));
+            model.addAttribute("imgFile2", URLEncoder.encode(tbStoreGoods.getImgFile2(),"UTF-8"));
+            model.addAttribute("imgFile3", URLEncoder.encode(tbStoreGoods.getImgFile3(),"UTF-8"));
+            model.addAttribute("imgFileSmall", URLEncoder.encode(tbStoreGoods.getImgFileSmall(),"UTF-8"));*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/merchant/merchandise/detail");
+    }
+
+    @GetMapping("/merchanext/list")
+    public ModelAndView listMerchanExtra(@RequestParam Map<String,Object> searchValue,
+                                       Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            putSearchOption(session, searchValue);
+        } else {
+            searchValue = getSearchOption(session);
+        }
+
+        List<TbStoreOption> resultList = null;
+        if (searchValue.containsKey("storeNo")) {
+            resultList = merchanExtraService.tbStoreOptionSearch(searchValue);
+        }
+        model.addAttribute("tbStoreOption", resultList);
+        model.addAttribute("searchValue",searchValue);
+        return new ModelAndView("jesica/merchant/merchandiseextra/list");
+    }
+
+    @GetMapping("/merchanext/detail")
+    public ModelAndView listMerchanExtraDetail(Long storeOptNo, Model model) {
+        log.info("@@@@ storeOptNo {}", storeOptNo);
+        try {
+            TbStoreOption tbStoreOption = merchanExtraService.tbStoreOptionSearchDetail(storeOptNo);
+            int maxNo = merchanExtraService.getTbStoreOptionItemMaxNo(storeOptNo);
+            Integer storeNo =  tbStoreOption.getStoreNo();
+            TbStore tbStore = workGroupService.getTbStoreDetail(Long.parseLong(Integer.toString(storeNo)));
+            model.addAttribute("tbStoreOptionDetail",tbStoreOption);
+            model.addAttribute("tbStore",tbStore);
+            model.addAttribute("maxNo",maxNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/merchant/merchandiseextra/detail");
+    }
+
+    @GetMapping("/merchanext/insert")
+    public ModelAndView listMerchanExtraInsert(HttpSession session, Model model) {
+        model.addAttribute("searchValue",getSearchOption(session));
+        return new ModelAndView("jesica/merchant/merchandiseextra/insert");
+    }
+
+    @GetMapping("/merchangroup/list")
+    public ModelAndView listMerchanGroup(@RequestParam Map<String,Object> searchValue,
+                                         Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            putSearchOption(session, searchValue);
+        } else {
+            searchValue = getSearchOption(session);
+        }
+
+        List<TbStoreCategory> resultList = null;
+        if (searchValue.containsKey("storeNo")) {
+            resultList = merchanGroupService.tbStoreCategotySearch(searchValue);
+        }
+        model.addAttribute("tbStoreCategory", resultList);
+        model.addAttribute("searchValue",searchValue);
+        return new ModelAndView("jesica/merchant/merchandisegroup/list");
+    }
+
+    @GetMapping("/storemngcharge/list")
+    public ModelAndView listStoreMngCharge(@RequestParam Map<String,Object> searchValue,
+                                           Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            putSearchOption(session, searchValue);
+        } else {
+            searchValue = getSearchOption(session);
+        }
+
+        List<TbStoreMngCharge> resultList = null;
+        if (searchValue.containsKey("storeNo")) {
+            resultList = merchanGroupService.tbStoreMngChargeSearch(searchValue);
+        }
+        model.addAttribute("tbStoreMngCharge", resultList);
+        model.addAttribute("searchValue",searchValue);
+        return new ModelAndView("jesica/merchant/storemngcharge/list");
+    }
+
+    @GetMapping("/storemngcharge/insert")
+    public ModelAndView storemngchargeInsert(HttpSession session, Model model) {
+        model.addAttribute("searchValue",getSearchOption(session));
+        return new ModelAndView("jesica/merchant/storemngcharge/insert");
+    }
+
+    @GetMapping("/storemngcharge/detail")
+    public ModelAndView storemngchargeDetail(Long storeNo, Model model) {
+        log.info("@@@@ storeNo {}", storeNo);
+        try {
+            TbStore tbStore = workGroupService.getTbStoreDetail(storeNo);
+            List<TbDlvyAreaCharge> tbDlvyAreaChargeList = workGroupService.getTbDlvyAreaChargeListAll();
+            TbStoreMngCharge tbStoreMngCharge = workGroupService.getTbStoreMngCharge(storeNo);
+            List<TbDlvyPriceCharge> tbDlvyPriceChargeList = workGroupService.getTbDlvyPriceChargeListAll();
+            List<TbServiceChargeGroup> tbServiceChargeGroup = workGroupService.getTbServiceChargeGroup();
+            TbStoreServiceCharge tbStoreServiceCharge0 = workGroupService.getTbStoreServiceCharge(storeNo, 0);
+            TbStoreServiceCharge tbStoreServiceCharge1 = workGroupService.getTbStoreServiceCharge(storeNo, 1);
+
+            model.addAttribute("tbStore",tbStore);
+            model.addAttribute("tbStoreMngCharge",tbStoreMngCharge);
+            model.addAttribute("tbDlvyAreaChargeList",tbDlvyAreaChargeList);
+            model.addAttribute("tbDlvyPriceChargeList",tbDlvyPriceChargeList);
+            model.addAttribute("tbServiceChargeGroup",tbServiceChargeGroup);
+            model.addAttribute("tbStoreServiceCharge0",tbStoreServiceCharge0);
+            model.addAttribute("tbStoreServiceCharge1",tbStoreServiceCharge1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/merchant/storemngcharge/detail");
+    }
+
+
+
+    @GetMapping("/storedlvycharge/list")
+    public ModelAndView listStoreDlvyCharge(@RequestParam Map<String,Object> searchValue,
+                                           Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            putSearchOption(session, searchValue);
+        } else {
+            searchValue = getSearchOption(session);
+        }
+
+        List<TbStoreDlvyCharge> resultList = null;
+        if (searchValue.containsKey("storeNo")) {
+            resultList = merchanGroupService.tbStoreDlvyChargeSearch(searchValue);
+        }
+        model.addAttribute("tbStoreDlvyCharge", resultList);
+        model.addAttribute("searchValue",searchValue);
+        return new ModelAndView("jesica/merchant/storedlvycharge/list");
+    }
+
+    @GetMapping("/storedlvycharge/insert")
+    public ModelAndView storrDlvyChargeInsert(HttpSession session, Model model) {
+        model.addAttribute("searchValue",getSearchOption(session));
+        return new ModelAndView("jesica/merchant/storedlvycharge/insert");
+    }
+
+    @GetMapping("/storedlvycharge/detail")
+    public ModelAndView storeDlvyChargeDetail(Long storeNo, Model model) {
+        log.info("@@@@ storeNo {}", storeNo);
+        try {
+            TbStore tbStore = workGroupService.getTbStoreDetail(storeNo);
+            TbStoreDlvyCharge tbStoreDlvyCharge = workGroupService.getTbStoreDlvyCharge(storeNo);
+            List<TbDlvyAreaCharge> tbDlvyAreaChargeList = workGroupService.getTbDlvyAreaChargeListAll();
+            List<TbDlvyPriceCharge> tbDlvyPriceChargeList = workGroupService.getTbDlvyPriceChargeListAll();
+
+            model.addAttribute("tbStore",tbStore);
+            model.addAttribute("tbStoreDlvyCharge",tbStoreDlvyCharge);
+            model.addAttribute("tbDlvyAreaChargeList",tbDlvyAreaChargeList);
+            model.addAttribute("tbDlvyPriceChargeList",tbDlvyPriceChargeList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/merchant/storedlvycharge/detail");
+    }
+
+    @GetMapping("/merchancopy/list")
+    public ModelAndView listMerchanCopy() {
+
+        return new ModelAndView("jesica/merchant/merchandisecopy/list");
+    }
+
+    @GetMapping("/uploadexcel/list")
+    public ModelAndView listUploadExcel() {
+
+        return new ModelAndView("jesica/merchant/uploadexcel/list");
+    }
+
+    @GetMapping("/uploadexcel/insert")
+    public ModelAndView insertExcel() {
+
+        return new ModelAndView("jesica/merchant/uploadexcel/insert");
+    }
+
+    @GetMapping("/uploadexcel/excelform")
+    public ModelAndView formExcel() {
+
+        return new ModelAndView("jesica/merchant/uploadexcel/excelform");
+    }
+
+    @GetMapping("/multifrchi/list")
+    public ModelAndView listMultifranchise() {
+
+        return new ModelAndView("jesica/merchant/multifranchise/list");
+    }
+
+    @GetMapping("/othgrpset/list")
+    public ModelAndView listOtherGroupSetting() {
+
+        return new ModelAndView("jesica/merchant/othergroupsetting/list");
+    }
+
+    @GetMapping("/onlineevent/list")
+    public ModelAndView listOnlineEvent() {
+
+        return new ModelAndView("jesica/merchant/onlineevent/list");
+    }
+
+    @GetMapping("/onlineevent/detail")
+    public ModelAndView detailOnlineEvent() {
+
+        return new ModelAndView("jesica/merchant/onlineevent/detail");
+    }
+
+    @GetMapping("/ratemgt/list")
+    public ModelAndView listRateManagement() {
+
+        return new ModelAndView("jesica/merchant/ratemanagement/list");
+    }
+
+    @GetMapping("/ratemgt/detail")
+    public ModelAndView detailRateManagement() {
+
+        return new ModelAndView("jesica/merchant/ratemanagement/detail");
+    }
+
+
+    //차량관리
+    @GetMapping("/car/list")
+    public ModelAndView listCar(@RequestParam Map<String,Object> searchValue,
+                                        Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        try {
+            if (!searchValue.isEmpty()) {
+
+              /*  List<TbStoreGoods> tbStoreGoodsSearch = merchandiseService.tbStoreGoodsSearch(searchValue);
+                List<TbStoreGoodsData> tbStoreGoodsDataList = null;
+
+                String url = "";
+                String url2 = "";
+                for (TbStoreGoods tbStoreGoodsSearchData : tbStoreGoodsSearch) {
+                    TbStoreGoodsData tbStoreGoodsData = new TbStoreGoodsData();
+                    if (tbStoreGoodsSearchData.getImgFile1() != null) {
+                        url = URLEncoder.encode(tbStoreGoodsData.getImgFile1(), "UTF-8");
+                    }
+                    if (tbStoreGoodsSearchData.getImgFileSmall() != null) {
+                        url2 = URLEncoder.encode(tbStoreGoodsData.getImgFileSmall(), "UTF-8");
+                    }
+                    tbStoreGoodsData.setImgFile1(url);
+                    tbStoreGoodsData.setImgFileSmall(url2);
+                    tbStoreGoodsDataList.add(tbStoreGoodsData);
+                }
+*/
+                putSearchOption(session, searchValue);
+            } else {
+                searchValue = getSearchOption(session);
+            }
+
+            List<TbStoreRentalCar> resultList = null;
+            if (searchValue.containsKey("storeNo")) {
+                resultList = merchandiseService.tbStoreRentalCar(searchValue);
+            }
+            model.addAttribute("tbStoreRentalCar", resultList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*model.addAttribute("tbStoreGoods", merchandiseService.tbStoreGoodsSearch(searchValue));*/
+        model.addAttribute("searchValue", searchValue);
+        return new ModelAndView("jesica/merchant/car/list");
+    }
+
+    @GetMapping("/car/insert")
+    public ModelAndView insertCar(HttpSession session, Model model) {
+        model.addAttribute("searchValue",getSearchOption(session));
+        return new ModelAndView("jesica/merchant/car/insert");
+    }
+
+    @GetMapping("/car/detail")
+    public ModelAndView rentailCar(@RequestParam Integer rentalCarNo,Model model) {
+        log.info("@@rentalCarNo {}",rentalCarNo);
+
+        try {
+            TbStoreRentalCar tbStoreRentalCar = merchandiseService.getTbStoreRentalCarDetail(rentalCarNo);
+
+            model.addAttribute("tbStoreRentalCar",tbStoreRentalCar);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/merchant/car/detail");
+    }
+
+
+
+
+
+
+    private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {
+        session.setAttribute("headNo", searchValue.get("headNo"));
+        session.setAttribute("headNoText", searchValue.get("headNoText"));
+        session.setAttribute("branchNo", searchValue.get("branchNo"));
+        session.setAttribute("branchNoText", searchValue.get("branchNoText"));
+        session.setAttribute("storeNo", searchValue.get("storeNo"));
+        session.setAttribute("storeNoText", searchValue.get("storeNoText"));
+    }
+
+    private Map<String,Object> getSearchOption(HttpSession session) {
+        Map<String,Object> searchValue = new HashMap<>();
+        if (session == null) return searchValue;
+
+        String headNo = (String) session.getAttribute("headNo");
+        if (headNo != null) {
+            String headNoText = (String) session.getAttribute("headNoText");
+            String branchNo = (String) session.getAttribute("branchNo");
+            String branchNoText = (String) session.getAttribute("branchNoText");
+            String storeNo = (String) session.getAttribute("storeNo");
+            String storeNoText = (String) session.getAttribute("storeNoText");
+
+            searchValue.put("headNo", headNo);
+            searchValue.put("headNoText", headNoText);
+            searchValue.put("branchNo", branchNo);
+            searchValue.put("branchNoText", branchNoText);
+            searchValue.put("storeNo", storeNo);
+            searchValue.put("storeNoText", storeNoText);
+            searchValue.put("dataStatus", null);
+        }
+
+        return searchValue;
+    }
+
+}
