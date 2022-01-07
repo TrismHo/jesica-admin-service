@@ -48,6 +48,7 @@
 <link href="${path}/assets/plugins/tag-it/css/jquery.tagit.css" rel="stylesheet" />
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
 <link href="${path}/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+<link link rel="shortcut icon" href="${path}/assets/img/icon/icon.png"/>
 
 
 <%--<c:set var="session" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication}"/>--%>

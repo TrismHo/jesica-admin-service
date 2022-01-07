@@ -5,9 +5,10 @@ import com.trism.jesica.Service.WorkGroupService;
 import com.trism.jesica.Service.WorkerApplyService;
 import com.trism.jesica.Util.Secure.CipherAESUtils;
 import com.trism.jesica.config.KeyGeneratorConfig;
-import com.trism.jesica.persistence.Entitiy.TbWorkerApply;
 import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerCharge;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -195,6 +196,8 @@ public class DriverApplyController {
 
         try {
             TbUserWorker tbUserWorker = workGroupService.getTbUserWorker(userNo);
+            TbWorkerCharge tbWorkerCharge = workGroupService.getTbWorkerCharge(userNo);
+
 
             //은행명 조회
             if(workGroupService.getSystemCode("BT",tbUserWorker.getBankTypeCode()) != null){
@@ -219,6 +222,7 @@ public class DriverApplyController {
             model.addAttribute("bankAccount", cipherAESUtils.decryptAES(tbUserWorker.getBankAccount()));
             model.addAttribute("bankOwner", cipherAESUtils.decryptAES(tbUserWorker.getBankOwner()));
             model.addAttribute("tbUserWorker", tbUserWorker);
+            model.addAttribute("tbWorkerCharge", tbWorkerCharge);
             model.addAttribute("imgFile", url);
         } catch (Exception e){
             e.printStackTrace();

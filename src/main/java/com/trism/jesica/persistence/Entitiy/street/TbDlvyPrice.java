@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * 배송_요금설정
@@ -16,17 +16,15 @@ import java.sql.Timestamp;
 @Table(name = "tb_dlvy_price")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Accessors(chain = true)
-@AllArgsConstructor
-@Builder
 @Getter
+@Setter
 @ToString(callSuper = true, exclude = {})
-@EqualsAndHashCode(callSuper = true)
 @DynamicInsert
 @DynamicUpdate
 public class TbDlvyPrice extends CreatedDateEntity {
     private static final long serialVersionUID = 1L;
     /**
-     * 요금_번호
+     * 요금일련번호
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +34,22 @@ public class TbDlvyPrice extends CreatedDateEntity {
     /**
      * 구간요금제_번호
      */
+/*
     @Column(name = "price_charge_no", nullable = false)
     private Long priceChargeNo;
+*/
+
+    /**
+     * 그룹 일련번호
+     */
+    @Column(name = "group_no", nullable = false)
+    private Long groupNo;
+
+    /**
+     * 그룹 일련번호
+     */
+    @Column(name = "group_type", nullable = false)
+    private Integer groupType;
 
     /**
      * 요일(1~7;월~일)
@@ -67,7 +79,12 @@ public class TbDlvyPrice extends CreatedDateEntity {
      * 수정_일시
      */
     @Column(name = "update_date")
-    private Timestamp updateDate;
+    private LocalDateTime updateDate;
+    /**
+     * 등록일
+     */
+    @Column(name = "insert_date", updatable = false)
+    private LocalDateTime insertDate;
 
     /**
      * 수정_사용자ID
@@ -88,22 +105,16 @@ public class TbDlvyPrice extends CreatedDateEntity {
     private Integer radius = null;
 
     /**
-     * 요금_1건
+     * 고객요금
      */
-    @Column(name = "price_1")
-    private Integer price1 = null;
+    @Column(name = "cust_price")
+    private Integer custPrice = null;
 
     /**
-     * 요금_2건
+     * 배송요금
      */
-    @Column(name = "price_2")
-    private Integer price2 = null;
-
-    /**
-     * 요금_3건
-     */
-    @Column(name = "price_3")
-    private Integer price3 = null;
+    @Column(name = "dlvy_price")
+    private Integer dlvyPrice = null;
 
     
 }

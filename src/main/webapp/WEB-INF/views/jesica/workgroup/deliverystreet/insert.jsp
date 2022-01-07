@@ -477,9 +477,14 @@
     });
 
     function inputDataCheck(args) {
-        let entertheplanname = "<spring:message code="list.script.entertheplanname" text="취소"/>";
+        console.log(args)
+        let entertheplanname = "<spring:message code="list.script.entertheplanname" text="요금제 이름을 입력해주세요."/>";
         if (isNull(args.priceChargeName)) {
             return alert_focus("priceChargeName", entertheplanname);
+        } else if(isNull(args.headNoText)) {
+            return alert_focus("headNoText", "제휴본사명를 선택해주세요.");
+        } else if(isNull(args.branchNoText)) {
+            return alert_focus("branchNoText", "총판을 선택해주세요.");
         }
         return true;
     }

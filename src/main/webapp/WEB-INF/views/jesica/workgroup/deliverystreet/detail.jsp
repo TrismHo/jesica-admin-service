@@ -365,9 +365,9 @@
                     for(let j = 0 ; j <= 24 ; j ++) {
                         let timeText = "";
                         if(j < 10){
-                             timeText  = "0"+j;
+                            timeText  = "0"+j;
                         } else {
-                             timeText  = j;
+                            timeText  = j;
                         }
                         if (sortList[i].startTime == j) {
 
@@ -382,9 +382,9 @@
                     for(let j = 0 ; j <= 24 ; j ++) {
                         let timeText = "";
                         if(j < 10){
-                             timeText  = "0"+j;
+                            timeText  = "0"+j;
                         } else {
-                             timeText  = j;
+                            timeText  = j;
                         }
                         if (sortList[i].endTime == j) {
                             endTime = endTime +"<option value="+j+" selected>"+timeText+" ("+end+")</option>\n";
@@ -441,7 +441,7 @@
                 if(data.tbDlvyPriceList.length == 0) {
                     $(".addTbody").append(
                         "<tr class=\"\"  >\n" +
-                            "<th class=\"text-center\" colspan=\"9\">"+nolistmsg+"</th>"+
+                        "<th class=\"text-center\" colspan=\"9\">"+nolistmsg+"</th>"+
                         "</tr>"
                     )
                 }

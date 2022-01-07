@@ -1,16 +1,16 @@
 package com.trism.jesica.Controller;
 
-import com.trism.jesica.Service.SafeService;
-import com.trism.jesica.Service.SystemGoodsService;
-import com.trism.jesica.Service.WorkerApplyService;
+import com.trism.jesica.Service.*;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.TbSystemCategoryDTO;
-import com.trism.jesica.persistence.Entitiy.TbWorkerApply;
+import com.trism.jesica.dto.TbUserStaffDTO;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.goods.TbSystemGoods;
 import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Entitiy.safe.TbSafenMappingLog;
+import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.util.Utils;
@@ -37,6 +37,10 @@ public class SystemController {
     private final SystemGoodsService systemGoodsService;
 
     private final WorkerApplyService workerApplyService;
+
+    private final MasterService masterService;
+
+    private final ApiService apiService;
 
     @GetMapping("/coopcompany/list")
     public ModelAndView listCooperativeCompany() {
@@ -309,7 +313,70 @@ public class SystemController {
     }
 
 
+    /**
+     * 마스터관리자 관리
+     */
+    @GetMapping("/master/list")
+    public ModelAndView getMasterList(@RequestParam Map<String,Object> searchValue,
+                                      Model model ) {
 
+        log.info("@@searchValue {}",searchValue);
+        String name = "";
+        String dataStatus = "";
+        List<TbUserStaffDTO> resultList = null;
+        if (!searchValue.isEmpty() && searchValue != null){
+            if(searchValue.get("dataStatus") != null && searchValue.get("dataStatus") != null){
+                if(searchValue.get("dataStatus") != ""){
+                    resultList =  masterService.getUserDataStatusList(searchValue.get("name").toString(),Integer.parseInt(searchValue.get("dataStatus").toString()));
+                }else {
+                    resultList =  masterService.getUserList(searchValue.get("name").toString());
+                }
+            }else {
+                resultList =  masterService.getUserList(searchValue.get("name").toString());
+            }
+        } else {
+            resultList =  masterService.getUserList(name);
+        }
+
+        try {
+            model.addAttribute("tbUserStaffList", resultList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("jesica/system/adminuser/list");
+    }
+
+    /**
+     * 마스터관리자 관리 insert
+     */
+    @GetMapping("/master/insert")
+    public ModelAndView insertMastert( Model model) {
+        return new ModelAndView("jesica/system/adminuser/insert");
+    }
+
+    /**
+     * 마스터관리자 관리 detail
+     */
+    @GetMapping("/master/detail")
+    public ModelAndView detailAffiliated(@RequestParam Long userNo, Model model) {
+        log.info("@@headNo {}",userNo);
+
+        try {
+            List<TbSystemCode> systemCodeList = apiService.systemCodeList("BL");
+            model.addAttribute("systemCodeList",systemCodeList);
+            //유저명
+            TbUserStaffDTO tbUserStaff = masterService.tbUserSearchDetail(userNo);
+            model.addAttribute("tbUserStaff", tbUserStaff);
+            model.addAttribute("userNo", userNo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/system/adminuser/detail");
+    }
 
 
 

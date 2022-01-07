@@ -35,7 +35,8 @@
 		}
 		@media (min-width: 992px) {
 			.mailbox .mailbox-content {
-				max-width: calc(100% - 100px);
+				/*max-width: calc(100% - 100px);*/
+				max-width: calc(100%);
 				border-left: 1px solid #ced4da;
 			}
 		}
@@ -68,7 +69,7 @@
 		#menu_wrap_left .option button {margin-left:5px;}
 		#placesList li, #placesList2 li  {list-style: none;}
 		#placesList .item, #placesList2 .item {border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 46px;}
-		#placesList .item span, #placesList2 .item span {display: block;margin-top:8px; width:50px; float: right;}
+		#placesList2 .item span {display: block;margin-top:8px; width:50px; float: right;}
 		#placesList .item h5, #placesList .item .info, #placesList2 .item h5, #placesList2 .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 		#placesList .item .info{padding:10px 0 10px 55px;}
 		#placesList .info .gray {color:#8a8a8a;}
@@ -219,7 +220,7 @@
 <body>
 <div class="mailbox">
 
-	<div class="mailbox-sidebar">
+	<div class="mailbox-sidebar" style="display:none;">
 		<div class="mailbox-sidebar-header d-flex justify-content-center">
 			<%--<a href="" data-bs-toggle="collapse" class="btn btn-inverse btn-sm me-auto d-block d-lg-none">
 				<div class="invoice-from">
@@ -227,6 +228,7 @@
 					<strong class="text-inverse1" style="color:#fff;">MENU</strong><br>
 				</div>
 			</a>--%>
+
 			<div class="panel-heading ui-sortable-handle btn btn-inverse btn-sm me-auto d-block d-lg-none">
 				<i class="fa fa-cog  drop-action-btn"></i>
 				<strong class="text-inverse1  drop-action-btn" style="color:#fff;"> <spring:message code="list.controll.menu" text="MENU"/></strong><br>
@@ -234,19 +236,14 @@
 					<div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(-36px, 12px);">
 						<ul class="nav nav-inbox">
 							<li class="active active-li"><a class="control-1" style="cursor: pointer;"><i class="fas fa-lg fa-fw me-10px fa-car "></i> <spring:message code="list.controll.rent" text="렌트"/> <span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
-							<li class="active-li"><a class="control-2" style="cursor: pointer;" url="http://192.168.0.90:22201/orders"><i class="fas fa-lg fa-fw me-10px fa-user"></i> <spring:message code="list.controll.consignment" text="탁송"/> <span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
+							<li class="active-li"><a class="control-2" style="cursor: pointer;" url="http://admin.jesicar.co.kr:22201/orders?accessToken=${sessionScope.accessToken}"><i class="fas fa-lg fa-fw me-10px fa-user"></i> <spring:message code="list.controll.consignment" text="탁송"/> <span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<a href="" class="btn btn-inverse ps-15px pe-15px btn-sm">
-				<div class="invoice-from">
-					<i class="fas fa-lg fa-fw me-10px fa-map " style="color:#fff;"></i>
-					<strong class="text-inverse1" style="color:#fff;"><spring:message code="list.controll.controlsystem" text="관제시스템"/></strong><br>
-				</div>
-			</a>
+
 		</div>
-		<div class="mailbox-sidebar-content collapse d-lg-block" id="emailNav">
+		<%--<div class="mailbox-sidebar-content collapse d-lg-block" id="emailNav">
 
 			<div data-scrollbar="true" data-height="100%" data-skip-mobile="true" class="ps" data-init="true" style="height: 100%;">
 				<div class="nav-title"><b><spring:message code="list.controll.controlsystem" text="관제 리스트"/></b></div>
@@ -254,11 +251,11 @@
 					<li class="active active-li"><a class="control-1" style="cursor: pointer;"><i class="fas fa-lg fa-fw me-10px fa-car "></i>  <spring:message code="list.controll.driver1" text="드라이버"/><span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
 					<li class="active-li"><a class="control-2" style="cursor: pointer;" ><i class="fas fa-lg fa-fw me-10px fa-user"></i>  <spring:message code="list.controll.consignment1" text="차량배달"/><span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
 				</ul>
-				<%--<div class="menu-item d-flex">
+				&lt;%&ndash;<div class="menu-item d-flex">
 					<a href="javascript:;" class="app-sidebar-minify-btn ms-auto" data-toggle="app-sidebar-minify"><i class="fa fa-angle-double-left"></i></a>
-				</div>--%>
+				</div>&ndash;%&gt;
 			</div>
-		</div>
+		</div>--%>
 	</div>
 
 
@@ -266,16 +263,32 @@
 		<div class="mailbox-content-header">
 			<div class="btn-toolbar">
 				<div class="btn-group me-2">
+					<a href="" class="btn btn-inverse ps-15px pe-15px btn-sm">
+						<div class="invoice-from">
+							<i class="fas fa-lg fa-fw me-10px fa-map " style="color:#fff;"></i>
+							<strong class="text-inverse1" style="color:#fff;"><spring:message code="list.controll.controlsystem" text="관제시스템"/></strong><br>
+						</div>
+					</a>
+					<ul class="nav nav-inbox m-l-20" >
+						<li class="active active-li"><a class="control-1" style="cursor: pointer;"><i class="fas fa-lg fa-fw me-10px fa-car "></i>  <spring:message code="list.controll.driver1" text="드라이버"/>
+							<%--<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer"><spring:message code="list.controll.displaying" text="표시중"/></span>--%>
+						</a></li>
+					</ul>
+					<ul class="nav nav-inbox">
+						<li class="active-li"><a class="control-2" style="cursor: pointer;" ><i class="fas fa-lg fa-fw me-10px fa-user"></i>  <spring:message code="list.controll.consignment1" text="차량배달"/>
+							<%--<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span>--%>
+						</a></li>
+					</ul>
+				</div>
 
+
+				<div class="btn-group ms-auto me-2">
 				</div>
 				<div class="btn-group me-2">
 					<a href="javascript:;" onclick="openFullScreenMode();" class="btn btn-sm btn-white ">
 						<i class="fa  fa-window-maximize t-plus-1 fa-fw fa-lg" ></i> <spring:message code="list.controll.fullscreen" text="전체화면"/></a>
 					<a href="javascript:;"  onclick="closeFullScreenMode();" class="btn btn-sm btn-white ">
 						<i class="fa  fa-window-restore t-plus-1 fa-fw fa-lg"></i> <spring:message code="list.controll.unfullscreen" text="전체화면 해제"/></a>
-				</div>
-
-				<div class="btn-group ms-auto me-2">
 				</div>
 				<div class="btn-group">
 					<a href="javascript:;" class="btn btn-sm btn-white" onclick="finish_vote();">
@@ -286,8 +299,8 @@
 		</div>
 		<div class="mailbox-content-body"><i class="fas fa-lg fa-fw me-10px fa-arrow-rotate-left"></i>
 			<div data-scrollbar="true" data-height="100%" data-skip-mobile="true" class="ps" data-init="true" style="height: 100%;">
-				<%--<iframe class="frame" style="display:none;"  src="http://admin.jesicar.co.kr:22201/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">--%>
-				<iframe class="frame" style="display:none;"  src="http://192.168.0.90:22201/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">
+				<iframe class="frame" style="display:none;"  src="http://admin.jesicar.co.kr:22201/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">
+				<%--<iframe class="frame" style="display:none;"  src="http://192.168.0.90:22201/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">--%>
 
 				</iframe>
 
@@ -370,30 +383,98 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services,clusterer,drawing"></script>
 <script type="text/javascript">
 
-
 	let waiting = [];
 	let running = [];
 
-	reload();
+	function reload() {
+		$.ajax({
+			type: "GET",
+			url: "${path}/api/location/getLocation",
+			data: {
+				type : "GO_TO_WORK"
+			},
+			async: false,
+			contentType: "application/json;",
+			dataType: "json",
+			success: function (data) {
+				let list = data.body.data;
+				waiting =[];
+				if(data.body.serviceStatus == "OK") {
+					for(var i = 0 ; i < list.length ; i++){
+
+						let push = {
+							distance: "",
+							userNo: list[i].userNo,
+							phone: list[i].phone,
+							name: list[i].name,
+							branchName : list[i].branchName,
+							x: list[i].lng,
+							y: list[i].lat
+						}
+						if(list[i].lng != null){
+							waiting.push(push)
+						}
+					}
+					console.log(data);
+				} else {
+					alert(data.body.data.desc);
+					return;
+				}
+			}
+		});
+		$.ajax({
+			type: "GET",
+			url: "${path}/api/location/getLocation",
+			data: {
+				type : "RUNNING"
+			},
+			async: false,
+			contentType: "application/json;",
+			dataType: "json",
+			success: function (data) {
+				let list = data.body.data;
+				running =[];
+				if(data.body.serviceStatus == "OK") {
+					for(var i = 0 ; i < list.length ; i++){
+						let push = {
+							distance: "",
+							phone: list[i].phone,
+							name: list[i].name,
+							branchName : data.body.data.branchName,
+							x: list[i].lng,
+							y: list[i].lat
+						}
+						if(list[i].lng != null){
+							running.push(push);
+						}
+					}
+					console.log(data);
+
+				} else {
+					alert(data.body.data.desc);
+					return;
+				}
+			}
+		});
+
+	}
 
 	$(document).ready(function(){
-		searchPlaces2();
-		$("#menu_wrap2").css("display","none");
+		//
 
+		reload();
+		$(".first_search").click();
+		/*searchPlaces2();
+		$("#menu_wrap2").css("display","none");
+		placesSearchCB();*/
 		$(".refresh").on("click",function(){
-			reload();
+
+
 			searchPlaces2();
 			$("#menu_wrap2").css("display","none");
 		});
-		$(".search-btn").click(function () {
-			let iframe = document.getElementById("iframe")
-		});
-		window.onload = function(){
-
-			$(".search-btn").click();
-
-		}
 	});
+
 
 	var markers = [];
 
@@ -529,7 +610,6 @@
 		});
 	}*/
 
-
 	// 검색 결과 목록과 마커를 표출하는 함수입니다
 	function displayPlaces2(places) {
 
@@ -589,7 +669,6 @@
 		map.setBounds(bounds);
 	}
 
-
 	// 지도에 마커를 표출하는 함수입니다
 	function displayPlaces(places) {
 
@@ -610,7 +689,6 @@
 			var marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order),
 					itemEl = getListItem(i, places[i]);
 			bounds.extend(placePosition);
-
 			// 마커와 검색결과 항목을 클릭 했을 때
 			// 장소정보를 표출하도록 클릭 이벤트를 등록합니다
 			(function(marker, place) {
@@ -618,32 +696,31 @@
 					displayPlaceInfo(place);
 				});
 
-				kakao.maps.event.addListener(marker, 'mouseover', function() {
+				//kakao.maps.event.addListener(marker, 'mouseover', function() {
 					//displayInfowindow(marker, place.place_name);
 					//displayPlaceInfo(place);
-				});
+				//});
 
-				kakao.maps.event.addListener(marker, 'mouseout', function() {
+				//kakao.maps.event.addListener(marker, 'mouseout', function() {
 					//displayPlaceInfoClose(place);
-				});
+				//});
 
 				itemEl.onmouseover =  function () {
 					//displayInfowindow(marker, place.place_name);
 					displayPlaceInfo(place);
 				};
 
-				itemEl.onmouseout =  function () {
+				//itemEl.onmouseout =  function () {
 					//displayPlaceInfoClose(place);
-				};
+				//};
 				// 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
 				listEl.appendChild(fragment);
 
 				menuEl.scrollTop = 0;
 			})(marker, places[i]);
-			let result =listEl.appendChild(itemEl);
+			listEl.appendChild(itemEl);
 		}
 	}
-
 
 	// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 	function addMarker2(position, idx, title) {
@@ -687,7 +764,6 @@
 		return marker;
 	}
 
-
 	// 지도 위에 표시되고 있는 마커를 모두 제거합니다
 	function removeMarker() {
 		for ( var i = 0; i < markers.length; i++ ) {
@@ -712,8 +788,6 @@
 		placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
 		placeOverlay.setMap(map);
 	}
-
-
 
 	// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 	function displayPlaceInfoClose (place) {
@@ -740,10 +814,6 @@
 						'   <h5 style="margin:5px;line-height: 19px;">  ' + places.name + '<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px " style="background-color:#9dbad1;">'+statusText+'</span><br>' + phoneNumber(places.phone)  +
 						'</h5>';
 
-
-
-		/*itemStr += '  <span class="tel">' + phoneNumber(places.phone)  + '</span>';*/
-
 		itemStr += '' +
 				'</div>';
 
@@ -763,7 +833,7 @@
 
 		if (places.road_address_name) {
 			itemStr += '    <span>' + places.road_address_name + '</span>' +
-					'   <span class="jibun gray">' +  places.address_name  + '</span>';
+					'   <br><span class="jibun gray">' +  places.address_name  + '</span>';
 		} else {
 			itemStr += '    <span>' +  places.address_name  + '</span>';
 		}
@@ -796,16 +866,21 @@
 		placeOverlay.setMap(null);
 
 		if (className === 'on') {
-			currCategory = '';
+		/*	currCategory = '';
 			changeCategoryClass();
-			removeMarker();
+			removeMarker();*/
 		} else {
 			currCategory = id;
 			changeCategoryClass(this);
 			searchPlaces();
 		}
 	}
-
+/*	$(document).on("click","#waiting,#driving",function(){
+		if($(this).hasClass("on")){
+		}else {
+			$(this).addClass("on");
+		}
+	});*/
 	// 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
 	function changeCategoryClass(el) {
 		var category = document.getElementById('category'),
@@ -901,21 +976,14 @@
 		infowindow.open(map, marker);
 	}
 
-
-
-
-
-
-
 	$(document).on("click","#placesList",function(){
 		$("#menu_wrap2").css("display","none");
 	});
 
-
-
 	$(document).on("click",".app-sidebar-minify-btn",function(){
 		$(".mailbox-sidebar").css("flex","0 0 0px;");
 	});
+
 	$(document).on("click",".side_menu",function(){
 
 		let visible = $("#menu_wrap_left").is(":visible");
@@ -927,7 +995,6 @@
 			$(".onOff").text("on");
 			$("#menu_wrap_left").show();
 		}
-
 	});
 	$(document).on("click",".drop-action-btn",function(){
 		if($(".dropdown-menu").hasClass("show")){
@@ -937,74 +1004,8 @@
 		}
 	});
 
-
 	$("#menu_wrap2").css("display","none");
-	function reload() {
-		$.ajax({
-			type: "GET",
-			url: "${path}/api/location/getLocation",
-			data: {
-				type : "GO_TO_WORK"
-			},
-			contentType: "application/json;",
-			dataType: "json",
-			success: function (data) {
-				console.log(data);
-				let list = data.body.data;
-				waiting =[];
-				if(data.body.serviceStatus == "OK") {
-					for(var i = 0 ; i < list.length ; i++){
 
-						let push = {
-							distance: "",
-							userNo: list[i].userNo,
-							phone: list[i].phone,
-							name: list[i].name,
-							branchName : list[i].branchName,
-							x: list[i].lng,
-							y: list[i].lat
-						}
-						waiting.push(push)
-					}
-				} else {
-					alert(data.body.data.desc);
-					return;
-				}
-				console.log(waiting);
-			}
-		});
-		$.ajax({
-			type: "GET",
-			url: "${path}/api/location/getLocation",
-			data: {
-				type : "RUNNING"
-			},
-			contentType: "application/json;",
-			dataType: "json",
-			success: function (data) {
-				console.log(data);
-				let list = data.body.data;
-				running =[];
-				if(data.body.serviceStatus == "OK") {
-					for(var i = 0 ; i < list.length ; i++){
-						let push = {
-							distance: "",
-							phone: list[i].phone,
-							name: list[i].name,
-							branchName : data.body.data.branchName,
-							x: list[i].lng,
-							y: list[i].lat
-						}
-						running.push(push)
-					}
-				} else {
-					alert(data.body.data.desc);
-					return;
-				}
-				console.log(running);
-			}
-		});
-	}
 
 	function finish_vote() {
 		if (confirm('관제를 종료하시겠습니까?')) {
@@ -1021,11 +1022,13 @@
 
 		if(thisClass =='control-1'){
 			$(".frame").css("display","none");
+            //$(".frame").attr("src","");
 			$(".map_wrap").css("display","block");
 			reload();
 			$("#menu_wrap2").css("display","none");
 		} else if (thisClass == 'control-2') {
 			$(".frame").css("display","block");
+			//$(".frame").attr("src","http://192.168.0.90:22201/orders?accessToken=${sessionScope.accessToken}");
 			$("#menu_wrap2").css("display","none");
 		}
 
@@ -1061,7 +1064,7 @@
 				"$1-$2-$3"
 		);
 	}
-	$(".first_search").click();
+
 
 </script>
 </html>

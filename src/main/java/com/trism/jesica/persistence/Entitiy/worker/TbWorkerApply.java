@@ -1,4 +1,4 @@
-package com.trism.jesica.persistence.Entitiy;
+package com.trism.jesica.persistence.Entitiy.worker;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;

@@ -30,9 +30,9 @@
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.merchantsetting" text="가맹점 설정"/><%--가맹점 설정--%></a></li>
                     <li class="breadcrumb-item"><a href="/merchant/merchandise/list"><spring:message code="sidemenu.merchantsetting.222" text="렌터카"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.productregistration" text="렌터카 등록"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.productregistration1" text="렌터카 등록"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.productregistration" text="렌터카 등록"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.productregistration1" text="렌터카 등록"/></h3>
             </div>
 <%--            <div class="tab-content">--%>
                 <!-- begin tab-pane -->

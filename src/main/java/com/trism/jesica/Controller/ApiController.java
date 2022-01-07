@@ -13,11 +13,15 @@ import com.trism.jesica.dto.*;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyArea;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
+import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
+import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.Entitiy.goods.TbStoreCharge;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreGoods;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreOption;
+import com.trism.jesica.persistence.Entitiy.goods.TbStorePrice;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,10 +49,7 @@ import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/api")
 @RestController
@@ -408,6 +409,8 @@ public class ApiController {
     public ResponseEntity<?> affilfranchUpdateAction(@RequestPart TbStoreData tbStoreData
                                                     ,@RequestPart(value="tbBusinessInfoData" ,required = false) TbBusinessInfoData tbBusinessInfoData
                                                     ,@RequestPart(value="tbStoreCategoryFo" ,required = false) List<TbStoreCategoryFoData> tbStoreCategoryFo
+                                                    ,@RequestPart(value="tbStoreCharge" ,required = false) TbStoreCharge tbStoreCharge
+                                                    ,@RequestPart(value="tbStorePrice" ,required = false) TbStorePrice tbStorePrice
                                                     ,@RequestPart(value="deleteList" ,required = false) List<HashMap<String,Object>> deleteList
                                                     ,@RequestPart(value="imgFile1" ,required = false) MultipartFile imgFile
                                                     ,@RequestPart(value="imgFileSmall", required = false) MultipartFile imgFileSmall) {
@@ -417,7 +420,7 @@ public class ApiController {
         log.info("deleteList::{}", deleteList);
         log.info("imgFile::{}", imgFile);
         log.info("imgFileSmall::{}", imgFileSmall);
-        int result =  apiService.updateTbStore(tbStoreData, tbBusinessInfoData, tbStoreCategoryFo, deleteList, imgFile, imgFileSmall);
+        int result =  apiService.updateTbStore(tbStoreData, tbBusinessInfoData, tbStoreCategoryFo,tbStoreCharge,tbStorePrice, deleteList, imgFile, imgFileSmall);
         Map<String,Object> map = new HashMap<>();
         if(result > 0 ) {
             map.put("result","200");
@@ -1015,9 +1018,44 @@ public class ApiController {
     ) {
         log.info("TbUserWorker storeNo::{}", tbUserWorkerData.getStoreNo());
         /*log.info("TbUser tbUserWorker::{}", tbUserWorker);*/
+        TbUserWorker tbUserWorker = null;
         int result = 0;
         try {
-            result =  apiService.insertTbUserWork(tbUserWorkerData, imgFile, session);
+
+            if("".equals(tbUserWorkerData.getUserId())){
+                tbUserWorkerData.setUserId(null);
+            }
+            if("".equals(tbUserWorkerData.getRegistNum())){
+                tbUserWorkerData.setRegistNum(null);
+            }
+            if("".equals(tbUserWorkerData.getMemo())){
+                tbUserWorkerData.setMemo(null);
+            }
+            if("".equals(tbUserWorkerData.getBankTypeCode())){
+                tbUserWorkerData.setBankTypeCode(null);
+            }
+            if("".equals(tbUserWorkerData.getAddr())){
+                tbUserWorkerData.setAddr(null);
+            }
+            if("".equals(tbUserWorkerData.getRetireDate())){
+                tbUserWorkerData.setRetireDate(null);
+            }
+            if("".equals(tbUserWorkerData.getBankAccount())){
+                tbUserWorkerData.setBankAccount(null);
+            }
+            tbUserWorker =  apiService.insertTbUserWork(tbUserWorkerData, imgFile, session);
+            if (tbUserWorker != null) {
+                if(tbUserWorker.getUserNo() != null){
+                    ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorker.getUserNo(), session);
+                    Map<String, Object> codeMap2 = (Map) tokenMap.getBody();//아이디가 있으면 update
+                    if ("OK".equals(codeMap2.get("serviceStatus"))) {
+                        log.info("driverStatusOk:::" + tbUserWorkerData.getUserNo());
+                        result = 1;
+                    } else {
+                        log.info("driverStatusError");
+                    }
+                }
+            }
         } catch (DataIntegrityViolationException e) {
             result = 500;
         } catch (Exception e){
@@ -1088,10 +1126,13 @@ public class ApiController {
             @RequestPart(value="tbUserStaffData" ,required = true) TbUserStaffData tbUserStaffData
     ) {
         log.info("TbUserStaffData headNo::{}", tbUserStaffData.getHeadNo());
+        log.info("tbUserStaffData ::{}", tbUserStaffData);
         /*log.info("TbUser tbUserWorker::{}", tbUserWorker);*/
 
+        if(tbUserStaffData.getDataStatus().ordinal() == 1){
+            tbUserStaffData.setBlockTypeCode(null);
+        }
         int result =  apiService.updateTbUserStaff(tbUserStaffData);
-
 
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String ip = GetClientIp.getClientIP(request);
@@ -1107,21 +1148,82 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    //사용자 update 기존패스워드 검사 -값이 매번 바뀜 사용x
+    @ResponseBody
+    @PostMapping(value="/userStaff/oldpass/confirm" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> userStaffoldpassConfirm(
+            HttpSession session,
+            HttpServletRequest request,
+            @RequestPart(value="tbUserStaffData" ,required = true) TbUserStaffData tbUserStaffData
+    ) {
+        log.info("TbUserStaffData headNo::{}", tbUserStaffData.getHeadNo());
+        int result =  apiService.confirmOldPass(tbUserStaffData);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0 ) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
 
     //드라이버 update
     @ResponseBody
     @PostMapping(value="/deliveryman/update/action" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> deliverymanUpdateAction(
-            @RequestPart(value="tbUserWorkerData" ,required = true) TbUserWorkerData tbUserWorkerData
+            @RequestPart(value="tbUserWorkerData" ,required = true) TbUserWorkerData tbUserWorkerData,
+            @RequestPart(value="tbWorkerChargeData" ,required = true) TbWorkerChargeData tbWorkerChargeData
             ,@RequestPart(value="imgFile" ,required = false) MultipartFile imgFile
             ,HttpSession session
     ) {
         log.info("TbUserWorker headNo::{}", tbUserWorkerData.getHeadNo());
         /*log.info("TbUser tbUserWorker::{}", tbUserWorker);*/
-        int result =  apiService.updateTbUser(tbUserWorkerData, imgFile, session);
+
+        if("".equals(tbUserWorkerData.getUserId())){
+            tbUserWorkerData.setUserId(null);
+        }
+        if("".equals(tbUserWorkerData.getRegistNum())){
+            tbUserWorkerData.setRegistNum(null);
+        }
+        if("".equals(tbUserWorkerData.getMemo())){
+            tbUserWorkerData.setMemo(null);
+        }
+        if("".equals(tbUserWorkerData.getBankTypeCode())){
+            tbUserWorkerData.setBankTypeCode(null);
+        }
+        if("".equals(tbUserWorkerData.getAddr())){
+            tbUserWorkerData.setAddr(null);
+        }
+        if("".equals(tbUserWorkerData.getRetireDate())){
+            tbUserWorkerData.setRetireDate(null);
+        }
+        if("".equals(tbUserWorkerData.getBankAccount())){
+            tbUserWorkerData.setBankAccount(null);
+        }
+        int result = 0;
+        try {
+            result =  apiService.updateTbUser(tbUserWorkerData,tbWorkerChargeData, imgFile, session);
+        } catch (Exception e){
+            log.error("error :"+e.getMessage());
+        }
+
+
+        if(result == 1){
+            ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorkerData.getUserNo(), session);
+            Map<String,Object> codeMap2 = (Map)tokenMap.getBody();//아이디가 있으면 update
+            if("OK".equals(codeMap2.get("serviceStatus"))){
+                log.info("driverStatusOk:::"+tbUserWorkerData.getUserNo());
+                result = 1;
+            } else {
+                log.info("driverStatusError");
+            }
+        }
+
         Map<String,Object> map = new HashMap<>();
         if(result > 0 ) {
-
             map.put("result","200");
             map.put("message", "수정 되었습니다.");
         } else {
@@ -1417,10 +1519,10 @@ public class ApiController {
     //블록 등록 리스트
     @ResponseBody
     @PostMapping("/deliverystreet/dlvyPrice/list")
-    public ResponseEntity<?> deliveryPriceList(@RequestParam("priceChargeNo") String priceChargeNo) {
-        log.info("priceChargeNo::{}", priceChargeNo);
+    public ResponseEntity<?> deliveryPriceList(@RequestParam("groupNo") String groupNo) {
+        log.info("groupNo::{}", groupNo);
         Map<String,Object> map = new HashMap<>();
-        List<TbDlvyPrice> tbDlvyPriceList = apiService.tbDlvyPriceList(Long.parseLong(priceChargeNo));
+        List<TbDlvyPrice> tbDlvyPriceList = apiService.tbDlvyPriceList(Long.parseLong(groupNo));
 
         map.put("tbDlvyPriceList",  tbDlvyPriceList);
         return new ResponseEntity<>(map,HttpStatus.OK);
@@ -1690,6 +1792,62 @@ public class ApiController {
         } else {
             map.put("result","400");
             map.put("message", "수정에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //릴리즈내역 공지 등록
+    @ResponseBody
+    @PostMapping(value="/board/release/insert" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> tbNoticeReleseInsertAction(
+            @RequestPart(value="tbNoticeRelease" ,required = true) TbNoticeRelease tbNoticeRelease
+    ) {
+        log.info("TbNoticePlatform tbNoticeRelease::{}", tbNoticeRelease);
+        int result =  apiService.insertTbNoticeRelease(tbNoticeRelease);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0 ) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //릴리즈내역 공지 수정
+    @ResponseBody
+    @PostMapping(value="/board/release/update" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> tbNoticeReleseUpdateAction(
+            @RequestPart(value="tbNoticeRelease" ,required = true) TbNoticeRelease tbNoticeRelease
+    ) {
+        log.info("TbNoticePlatform tbNoticeRelease::{}", tbNoticeRelease);
+        int result =  apiService.updateTbNoticeRelease(tbNoticeRelease);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0 ) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+    //플랫폼 공지삭제
+    @ResponseBody
+    @PostMapping("/board/release/delete")
+    public ResponseEntity<?> noticeReleaseDelete(@RequestParam("noticeNo") Long noticeNo
+    ) {
+        log.info("noticeNo::{}", noticeNo);
+
+        int result =  apiService.noticeReleaseDelete(noticeNo);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0) {
+            map.put("result","200");
+            map.put("message", "삭제 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "삭제에 실패하였습니다.");
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
@@ -1975,7 +2133,7 @@ public class ApiController {
                     uploadFile,
                     Integer.parseInt(authStatus),
                     Integer.parseInt(applyNo),
-                    Integer.parseInt(updateUserId));
+                    updateUserId);
             map.put("result" , result);
         } catch (Exception e) {
             map.put("result" , 0);
@@ -2038,6 +2196,97 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+
+    //외부연동 API TEST
+    @ResponseBody
+    @PostMapping("/rentcar/insert/action")
+    public ResponseEntity<?> carUpdateAction(
+            @RequestParam("storeName") String storeName,
+            @RequestParam("carNum") String carNum,
+            @RequestParam("custDriverTel1") String custDriverTel1,
+            @RequestParam("reservStartDate") String reservStartDate,
+            @RequestParam("reservEndDate") String reservEndDate,
+            HttpSession session
+    ) {
+        Map<String,Object> map = new HashMap<>();
+
+        String random = numberGen(40,1);
+        try {
+            TbRentalInfoData tbRentalInfoData = new TbRentalInfoData();
+            tbRentalInfoData.setReservNum(random);
+            tbRentalInfoData.setStoreName(storeName);
+            tbRentalInfoData.setCarNum(carNum);
+            tbRentalInfoData.setCustTel(null);
+            tbRentalInfoData.setCustDriverTel1(custDriverTel1);
+            tbRentalInfoData.setReservStartDate(reservStartDate);
+            tbRentalInfoData.setReservEndDate(reservEndDate);
+
+            ResponseEntity<Map> resultMap = restTemplateUtil.insertCarRent(tbRentalInfoData,session);
+            Map<String,Object> bodyMap = (Map)resultMap.getBody();
+            log.info("result ::"+bodyMap);
+            if(!"OK".equals(bodyMap.get("serviceStatus"))){
+                log.info("result :: 오류");
+                map.put("result", 500);
+            }else {
+                log.info("result :: 성공");
+                map.put("result", 200);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //기사가입신청 승인(프로필,면허증,경력확인서)
+    @ResponseBody
+    @PostMapping("/main/chart/list")
+    public ResponseEntity<?> attachApproval()  {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            map.put("getCallAllListType2040" , apiService.getCallAllListType2040());
+            map.put("getCallAllListType2041" , apiService.getCallAllListType2041());
+            map.put("getCallAllListType2140" , apiService.getCallAllListType2140());
+            map.put("getCallAllListType2141" , apiService.getCallAllListType2141());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    /**
+     * 전달된 파라미터에 맞게 난수를 생성한다
+     * @param len : 생성할 난수의 길이
+     * @param dupCd : 중복 허용 여부 (1: 중복허용, 2:중복제거)
+     *
+     */
+    public static String numberGen(int len, int dupCd ) {
+        Random rand = new Random();
+        String numStr = ""; //난수가 저장될 변수
+
+        for(int i=0;i<len;i++) {
+
+            //0~9 까지 난수 생성
+            String ran = Integer.toString(rand.nextInt(10));
+
+            if(dupCd==1) {
+                //중복 허용시 numStr에 append
+                numStr += ran;
+            }else if(dupCd==2) {
+                //중복을 허용하지 않을시 중복된 값이 있는지 검사한다
+                if(!numStr.contains(ran)) {
+                    //중복된 값이 없으면 numStr에 append
+                    numStr += ran;
+                }else {
+                    //생성된 난수가 중복되면 루틴을 다시 실행한다
+                    i-=1;
+                }
+            }
+        }
+        return numStr;
+    }
 }
 
 

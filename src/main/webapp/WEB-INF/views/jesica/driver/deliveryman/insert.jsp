@@ -150,6 +150,18 @@
                                         <td class="text-danger-darker"><spring:message code="list.description.entertheloginpassword" text="로그인 비밀번호를 입력하세요. (영문/숫자/기호 4~20자 이내)"/></td>
                                     </tr>
                                     <tr>
+                                        <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="기사 급여방식"/></td>
+                                        <td>
+                                            <label class="">
+                                                <input type="radio" name="workerPayType" value="1" class="align-bottom workerPayType"  checked> <spring:message code="list.detail.male1" text="급여"/>
+                                            </label>
+                                            <label class="m-l-10 ">
+                                                <input type="radio" name="workerPayType" value="2" class="align-bottom workerPayType" > <spring:message code="list.detail.female1" text="수수료"/>
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image" text="이미지"/></td>
                                         <td>
                                             <div class="category_sort">
@@ -195,16 +207,16 @@
                                         <td class="text-danger-darker">	<spring:message code="list.description.deliverymanphonemessage1" text="드라이버 연락처를 입력하세요."/></td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light "><spring:message code="list.detail.deliverymangender1" text="드라이버 성별"/></td>
+                                        <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="드라이버 성별"/></td>
                                         <td>
                                             <label class="">
-                                                <input type="radio" name="gender" value="1" class="align-bottom gender" > <spring:message code="list.detail.male" text="남성"/>
+                                                <input type="radio" name="gender" value="M" class="align-bottom gender" > <spring:message code="list.detail.male" text="남성"/>
                                             </label>
                                             <label class="m-l-10 ">
-                                                <input type="radio" name="gender" value="2" class="align-bottom gender" > <spring:message code="list.detail.female" text="여성"/>
+                                                <input type="radio" name="gender" value="F" class="align-bottom gender" > <spring:message code="list.detail.female" text="여성"/>
                                             </label>
                                             <label class="m-l-10">
-                                                <input type="radio" name="gender" value="0" class="align-bottom gender" checked> <spring:message code="list.detail.unknown" text="알수없음"/>
+                                                <input type="radio" name="gender" value="N" class="align-bottom gender" checked> <spring:message code="list.detail.unknown" text="알수없음"/>
                                             </label>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
@@ -1100,8 +1112,7 @@
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
             let duplicatemsg = "<spring:message code="list.script.duplicateaccount" text="계정이 중복되었습니다."/>";
 
-            /*let req2 = convertFormToObj(_forms2);*/
-            if (inputDataCheck(req)) {
+           if (inputDataCheck(req)) {
                 swal({
                     title: confirmmsg,
                     icon: "warning",
@@ -1115,7 +1126,6 @@
                         var formData = new FormData(document.getElementById('insert_form'));
                         formData.append("tbUserWorkerData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
                         formData.append("imgFile", $("#imgFile")[0].files[0]);
-                        /*formData.append("tbUserWorker",  new Blob([JSON.stringify(req2)], {type:"application/json"}));*/
                         $.ajax({
                             type: "POST",
                             url: url,
@@ -1144,23 +1154,28 @@
 
 
     function inputDataCheck(args) {
-        console.log(args)
-        /*nullChk(args.LoginId);*/
-    /*    let pwCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/.test(args.bmLoginPwd);
+        let pwCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/.test(args.bmLoginPwd);
         let regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@#$%&\\\=\(\'\"]/gi;
 
-        if (regExp.test(args.LoginId)) {
+       /* if (regExp.test(args.LoginId)) {
             return alert_focus("LoginId", "로그인ID에는 특수문자를 사용할수없습니다.");
         }
         if (isNull(args.bmLoginId)) {
             return alert_focus("LoginId", "로그인ID를 입력해주세요.");
-        } else if (isNull(args.LoginPwd)) {
-            return alert_focus("LoginPwd", "비밀번호를 입력해주세요");
-        } else if (isNull(args.Name)) {
-            return alert_focus("Name", "이름을 입력해주세요");
-        } else if(!pwCheck) {
-            return alert_focus("LoginPwd", "비밀번호는 8자리 이상, 영문+숫자+특수문자로 조합하여 설정해주세요.");
-        }*/
+        } else */
+       if (isNull(args.name)) {
+            return alert_focus("name", " 드라이버 이름을 입력해주세요");
+        } else if (isNull(args.phone)) {
+            return alert_focus("phone", "드라이버 연락처를 입력해주세요");
+        }  else if (isNull(args.bankAccount)) {
+            return alert_focus("bankAccount", "계좌번호를 입력해주세요");
+        } else if (isNull(args.bankAccount)) {
+            return alert_focus("bankOwner", "예금주를 입력해주세요");
+        } else if (isNull(args.pinNum)) {
+            return alert_focus("pinNum", "pin번호를 입력해주세요");
+        } else if (isNull(args.storeNo)) {
+            return alert_focus("storeNo", "가맹점을 선택해주세요");
+        }
         return true;
     }
 

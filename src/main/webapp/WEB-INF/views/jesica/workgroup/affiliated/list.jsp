@@ -241,10 +241,10 @@
             <div class="panel-body p-15">
                 <table id="testTable" class="display table table-bordered w-100 table-striped ">
                     <thead>
-                        <th class="text-center">
+                     <%--   <th class="text-center">
                             <input type="checkbox" name="checked_all" id="select0" class="d-none">
                             <label for="select0" class="input-label "> <i class="fa fa-square check_all_i"></i></label>
-                        </th>
+                        </th>--%>
                         <th class="text-center"><spring:message code="list.word.no" text="순번"/></th>
                         <th class="text-center"><spring:message code="list.word.brand" text="브랜드"/></th>
                         <th class="text-center"><spring:message code="list.word.affiliated" text="제휴본사"/></th>
@@ -261,10 +261,10 @@
                     <tbody>
                     <c:forEach var="item" items="${workGroup}" varStatus="status">
                         <tr class="detailRow" headNo="${item.headNo}">
-                            <td class="select-td checkbox_label" onclick="event.cancelBubble = true">
+                           <%-- <td class="select-td checkbox_label" onclick="event.cancelBubble = true">
                                 <input type="checkbox" name="chk" id="select${status.index}" class="checkbox d-none">
                                 <label for="select${status.index}" class="input-label"> <i class="fa fa-square check_all_i"></i></label>
-                            </td>
+                            </td>--%>
                             <td>${status.index + 1}</td>
                             <td>${item.brand.brandName}</td>
                             <td>

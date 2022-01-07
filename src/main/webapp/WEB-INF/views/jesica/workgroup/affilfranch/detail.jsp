@@ -149,24 +149,36 @@
                               <span class="d-sm-block d-none">배달대행 설정&lt;%&ndash;<spring:message code="merchandise.detail.tab2" text="default text"/>&ndash;%&gt;&lt;%&ndash;가격 정보&ndash;%&gt;</span>
                           </a>
                       </li>--%>
-                    <li class="nav-item">
+                  <%--  <li class="nav-item">
                         <a href="#default-tab-5" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none"><spring:message code="list.detail.onlineplatformsettings" text="온라인 플랫폼 설정"/><%--<spring:message code="merchandise.detail.tab3" text="default text"/>--%><%--상품 그룹--%></span>
-                            <span class="d-sm-block d-none"><spring:message code="list.detail.onlineplatformsettings" text="온라인 플랫폼 설정"/><%--<spring:message code="merchandise.detail.tab3" text="default text"/>--%><%--가격 정보--%></span>
+                            <span class="d-sm-none"><spring:message code="list.detail.onlineplatformsettings" text="온라인 플랫폼 설정"/>&lt;%&ndash;<spring:message code="merchandise.detail.tab3" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품 그룹&ndash;%&gt;</span>
+                            <span class="d-sm-block d-none"><spring:message code="list.detail.onlineplatformsettings" text="온라인 플랫폼 설정"/>&lt;%&ndash;<spring:message code="merchandise.detail.tab3" text="default text"/>&ndash;%&gt;&lt;%&ndash;가격 정보&ndash;%&gt;</span>
                         </a>
-                    </li>
+                    </li>--%>
                     <li class="nav-item">
                         <a href="#default-tab-6" data-toggle="tab" class="nav-link">
                             <span class="d-sm-none"><spring:message code="list.detail.user" text="사용자"/></span>
                             <span class="d-sm-block d-none"><spring:message code="list.detail.user" text="사용자"/></span>
                         </a>
                     </li>
-                     <%--<li class="nav-item">
-                          <a href="#default-tab-6"  data-toggle="tab" class="nav-link">
-                              <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="블록 배달팁 설정"/></span>
-                              <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="블록 배달팁 설정"/></span>
+                    <li class="nav-item">
+                        <a href="#default-tab-7" data-toggle="tab" class="nav-link">
+                            <span class="d-sm-none"><spring:message code="list.detail.user1" text="가맹점 수수료"/></span>
+                            <span class="d-sm-block d-none"><spring:message code="list.detail.user1" text="가맹점 수수료"/></span>
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                          <a href="#default-tab-8"  data-toggle="tab" class="nav-link">
+                              <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="요금설정"/></span>
+                              <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="요금설정"/></span>
                           </a>
-                      </li>--%>
+                      </li>
+                     <li class="nav-item">
+                          <a href="#default-tab-9"  data-toggle="tab" class="nav-link">
+                              <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
+                              <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
+                          </a>
+                      </li>
                     <%--<li class="nav-item">
                         <a href="#default-tab-7" data-toggle="tab" class="nav-link">
                             <span class="d-sm-none">특정지명 배달팁 설정&lt;%&ndash;<spring:message code="merchandise.detail.tab4" text="default text"/>&ndash;%&gt;&lt;%&ndash;옵션&ndash;%&gt;</span>
@@ -284,26 +296,26 @@
                                     <td class="bg-light height-50"><spring:message code="list.detail.storetype" text="매장타입"/></td>
                                     <td>
                                         <label class="">
-                                            <input type="radio" name="storeType" value="0"
-                                                   class="align-bottom storeType"
+                                            <input type="radio" name="serviceType" value="RENTCAR"
+                                                   class="align-bottom serviceType"
                                                    <c:if test="${tbStore.serviceType == 'RENTCAR'}">checked</c:if>> <spring:message
                                                 code="list.detail.1" text="렌터카"/>
                                         </label>
                                         <label class="m-l-10 ">
-                                            <input type="radio" name="storeType" value="1"
-                                                   class="align-bottom storeType"
+                                            <input type="radio" name="serviceType" value="CONSIGNMENT"
+                                                   class="align-bottom serviceType"
                                                    <c:if test="${tbStore.serviceType == 'CONSIGNMENT'}">checked</c:if>> <spring:message
                                                 code="list.detail.1" text="탁송"/>
                                         </label>
                                         <label class="m-l-10 ">
-                                            <input type="radio" name="storeType" value="2"
-                                                   class="align-bottom storeType"
+                                            <input type="radio" name="serviceType" value="RESTAURANT"
+                                                   class="align-bottom serviceType"
                                                    <c:if test="${tbStore.serviceType == 'RESTAURANT'}">checked</c:if>> <spring:message
                                                 code="list.detail.1" text="맛집"/>
                                         </label>
                                         <label class="m-l-10 ">
-                                            <input type="radio" name="storeType" value="3"
-                                                   class="align-bottom storeType"
+                                            <input type="radio" name="serviceType" value="MART"
+                                                   class="align-bottom serviceType"
                                                    <c:if test="${tbStore.serviceType == 'MART'}">checked</c:if>>
                                             <spring:message code="list.detail.1" text="마트"/>
                                         </label>
@@ -420,7 +432,7 @@
                                 </tr>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.storerepresentativenumber" text="가맹점 대표번호"/></td>
-                                    <td><input type="text" class="form-control width-200" name="storeTel"
+                                    <td><input type="text" class="form-control width-200 storeTel" name="storeTel"
                                                value="${tbStore.storeTel}"  maxlength="20" numberOnly></td>
                                     <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourrepresentativenumber" text="대표번호를 입력하세요."/></td>
                                 </tr>
@@ -442,13 +454,13 @@
                                   </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.mobilephoneforauthentication" text="인증용 휴대전화"/></td>
-                                    <td><input type="text" class="form-control width-200" name="authTel"
+                                    <td><input type="text" class="form-control width-200 authTel" name="authTel"
                                                value="${tbStore.authTel}"  maxlength="20" numberOnly></td>
                                     <td class="text-danger-darker"><spring:message code="list.description.enterthemobilephonenumbertobeusedforauthentication" text="인증시 사용할 휴대전화번호를 입력하세요."/></td>
                                 </tr>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.salesrepresentativename" text="영업담당자 이름"/></td>
-                                    <td><input type="text" class="form-control width-200" name="mngrName"
+                                    <td><input type="text" class="form-control width-200 mngrName" name="mngrName"
                                                value="${tbStore.mngrName}"  maxlength="40"></td>
                                     <td class="text-danger-darker"><spring:message code="list.description.pleaseenterthenameofyoursalesrepresentative" text="영업 담당자 이름을 입력하세요."/></td>
                                 </tr>
@@ -529,7 +541,7 @@
                                                     <td class="" >
                                                         <label>
                                                             <select class="form-control masterStoreNo" name="masterStoreNoSelect">
-                                                            </select>
+                                                            </selectㅇ
                                                         </label>
                                                     </td>
                                                 </tr>
@@ -778,477 +790,13 @@
                     </div>
                     <!-- end tab-pane -->
                     <!-- begin tab-pane -->
-                    <%--<div class="tab-pane fade" id="default-tab-3">
-                        <div class="table-responsive">
-                            <table class="table table-condensed table-bordered">
-                                <tr>
-                                    <td rowspan="4" class="bg-light-darker"><spring:message code="list.detail.typeofbusiness/industry" text="만나 플랫폼"/></td>
-                                    <td class="bg-light"><spring:message code="list.detail.whetherornottouse" text="사용 여부"/></td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked><spring:message code="list.detail.used" text="사용"/>
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom"><spring:message code="list.detail.notused" text="사용안함"/>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.usagefeeperorder" text="주문건당 사용료"/></td>
-                                    <td>660원 / 월 최대 66,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">차감 시작일</td>
-                                    <td>
-                                        <label>
-                                            <input type="text" class="date form-control background-white" readonly>
-                                        </label>
-                                        <label>
-                                            부터 차감 / 매월
-                                        </label>
-                                        <label>
-                                            <select class="form-control width-80">
-                                                <c:forEach begin="1" end="28" varStatus="idx">
-                                                    <option>${idx.index}일</option>
-                                                </c:forEach>
-                                                <option>말일</option>
-                                            </select>
-                                        </label>
-                                        <label>
-                                            누적금액 초기화
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">수수료 정산대상</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom" checked>지정
-                                            안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">지정&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light-darker" rowspan="2">온라인 플랫폼</td>
-                                    <td class="bg-light">주문건당 가맹비</td>
-                                    <td>
-                                        <label>
-                                            <input type="text" class="form-control width-200" value="0">
-                                        </label>
-                                        <label>
-                                            % (주문금액 대비)
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">수수료 정산대상</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom" checked>지정
-                                            안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">지정&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="4" class="bg-light-darker">MCS 플랫폼</td>
-                                    <td class="bg-light">사용 여부</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>사용&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">사용안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">월 사용료</td>
-                                    <td><input type="text" class="form-control width-200"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">차감 시작일</td>
-                                    <td>
-                                        <label>관리자_D 에서 신청 가능합니다</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">수수료 정산대상</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>소속총판&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">영업총판&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="3" class="bg-light-darker">기타 사용료</td>
-                                    <td class="bg-light">심부름 건당관리비</td>
-                                    <td>
-                                        <label>
-                                            <input type="text" class="form-control width-200">
-                                        </label>
-                                        <label>
-                                            원 이하 주문 시 심부름 건당관리비 차감안함
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">알림톡 건당</td>
-                                    <td>
-                                        <label>
-                                            <input type="text" class="form-control width-200">
-                                        </label>
-                                        <label>
-                                            원
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">친구톡 건당</td>
-                                    <td>
-                                        <label>
-                                            <input type="text" class="form-control width-200">
-                                        </label>
-                                        <label>
-                                            원
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light-darker">리스비</td>
-                                    <td colspan="2">
-                                        <label>
-                                            <label>
-                                                <select class="form-control width-200">
-                                                    <option>리스비 구분 선택</option>
-                                                    <option>프린터 리스</option>
-                                                    <option>키폰 리스</option>
-                                                    <option>CID 리스</option>
-                                                    <option>전기자전거 리스</option>
-                                                    <option>운전자보험(바이크마스터)</option>
-                                                    <option>오토바이리스(바이크마스터)</option>
-                                                    <option>오토바이렌탈(대전런닝맨)</option>
-                                                    <option>기타장비 리스</option>
-                                                </select>
-                                            </label>
-                                            <label>
-                                                <input type="text" class="form-control width-200" placeholder="관리명 입력">
-                                            </label>
-                                            <label>
-                                                <input type="text" class="form-control width-200" placeholder="0">원
-                                            </label>
-                                        </label>
-                                        <br>
-                                        <label class="m-t-10">
-                                            <label>
-                                                <input type="text" class="date form-control background-white" readonly>부터
-                                            </label>
-                                            <label class="m-l-5 ">
-                                                <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                       class="align-bottom">매월&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <label>
-                                                <select class="form-control width-80">
-                                                    <option>1일</option>
-                                                    <option>5일</option>
-                                                    <option>10일</option>
-                                                    <option>15일</option>
-                                                    <option>20일</option>
-                                                    <option>25일</option>
-                                                    <option>말일</option>
-                                                </select>
-                                            </label>
-                                            <label>
-                                                <select class="form-control width-80">
-                                                    <c:forEach begin="1" end="24" varStatus="idx">
-                                                        <option>${idx.index}개월</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </label>
-                                            <label class="m-l-5 ">
-                                                <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                       class="align-bottom">매일&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <label>
-                                                <select class="form-control width-80">
-                                                    <c:forEach begin="1" end="365" varStatus="idx">
-                                                        <option>${idx.index}일</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </label>
-                                            <label>
-                                                <button type="button" class="btn-box">등록하기</button>
-                                            </label>
-                                        </label>
-                                        <br>
-                                        <label class="col-form-label">
-                                            <i class="fa fa-asterisk rix_asterisk " title="필수 입력 항목입니다.">
-                                                <strong class="">리스비 사용시
-                                                    등록하세요.&lt;%&ndash;<spring:message code="merchandise.insert.affiliates.warning" text="default text"/>&ndash;%&gt;&lt;%&ndash;[등록 후 변경불가] 상품을 등록할 가맹점을 선택합니다.&ndash;%&gt; </strong>
-                                            </i>
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>--%>
-                    <!-- end tab-pane -->
-                    <!-- begin tab-pane -->
-                    <%--<div class="tab-pane fade" id="default-tab-4">
-                        <div class="table-responsive">
-                            <table class="table table-condensed table-bordered">
-                                <tr>
-                                    <td class="bg-light">가맹점 특이시항(기사용)</td>
-                                    <td colspan="2"><input type="text" class="form-control width-200"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light text-left">24시간
-                                        운영&lt;%&ndash;<spring:message code="merchandise.detail.merchanname" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</td>
-                                    <td colspan="2">
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>설정&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">설정안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light text-left">할증여부
-                                        표시설정&lt;%&ndash;<spring:message code="merchandise.detail.merchanname" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</td>
-                                    <td colspan="3">
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>표시&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">표시안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light text-left">배달의 민족 포장주문
-                                        연동&lt;%&ndash;<spring:message code="merchandise.detail.merchanname" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</td>
-                                    <td colspan="3">
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>표시&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">표시안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">상품 준비시간</td>
-                                    <td colspan="2">
-                                        <select class="form-control width-80">
-                                            <option>5분</option>
-                                            <option>10분</option>
-                                            <option>15분</option>
-                                            <option>20분</option>
-                                            <option>25분</option>
-                                            <option>30분</option>
-                                            <option>40분</option>
-                                            <option>50분</option>
-                                            <option>60분</option>
-                                            <option>90분</option>
-                                            <option>120분</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light text-left">접수시
-                                        자동변경&lt;%&ndash;<spring:message code="merchandise.detail.merchanname" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</td>
-                                    <td colspan="3">
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>사용안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom">배달요청으로
-                                            변경&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom">완료로
-                                            변경&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="4" class="bg-light">MCS 플랫폼</td>
-                                    <td>차감대상</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>제휴본사&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">총판&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">가맹점&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>현금결제 시 배송원 상품대금 지불방식</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom" checked>현금
-                                            가능&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom">페이만 가능 (완료시
-                                            자동정산)&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>배송원 정산</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>정산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">정산안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>세무 처리</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>현금영수증(플랫폼사)&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">세금계산서(플랫폼사)&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">세금계산서(소속총판)&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">자체발행(소속총판)&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="p-l-10">
-                                            <button type="button" class="btn btn-gray" data-toggle="modal"
-                                                    data-target="#listRequest_modal">신청내역
-                                            </button>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">배달대행 락 타임</td>
-                                    <td colspan="2">
-                                        <select class="form-control width-80">
-                                            <option>즉시</option>
-                                            <option>10초</option>
-                                            <option>20초</option>
-                                            <option>30초</option>
-                                            <option>40초</option>
-                                            <option>50초</option>
-                                            <option>1분</option>
-                                            <option>2분</option>
-                                            <option>5분</option>
-                                            <option>7분</option>
-                                            <option>10분</option>
-                                            <option>공유안함</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">외부 포스 연동</td>
-                                    <td colspan="2">
-                                        <label>
-                                            <select class="form-control width-170">
-                                                <option value="">포스 선택</option>
-                                                <option value="1001">유니타스</option>
-                                                <option value="1002">SPC</option>
-                                                <option value="1003">SKY포스A</option>
-                                                <option value="1004">EasyPOS</option>
-                                                <option value="1005">솔비POS</option>
-                                                <option value="1006">OK POS(KIS)</option>
-                                                <option value="1007">푸드테크</option>
-                                                <option value="1008">KFC</option>
-                                                <option value="1009">OK POS(스파이더)</option>
-                                                <option value="1015">씨스페이스</option>
-                                                <option value="1018">도깨비포스(마마트)</option>
-                                                <option value="1019">바나나포스</option>
-                                                <option value="1020">도깨비포스(포유25)</option>
-                                                <option value="1021">BBQ-M</option>
-                                                <option value="1022">네투시스</option>
-                                                <option value="1023">CNTT</option>
-                                                <option value="1024">콜신저</option>
-                                                <option value="1025">여보세요</option>
-                                                <option value="1027">포스피드</option>
-                                            </select>
-                                        </label>
-                                        <label>
-                                            <select class="form-control">
-                                                <option value="">브랜드없음</option>
-                                            </select>
-                                        </label>
-                                        <label>
-                                            <input type="text" class="form-control width-200" placeholder="포스매장코드">
-                                        </label>
-                                        <label>
-                                            <button type="button" class="btn btn-gray">연동하기</button>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">배달 가능 지역 설정</td>
-                                    <td colspan="2">
-                                        <label class="">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="align-bottom"
-                                                   checked>사용안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" padding: 0 10px 0 50px; min-width:400px;
-                                                   class="align-bottom">사용&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>--%>
-                    <!-- end tab-pane -->
-                    <!-- begin tab-pane -->
                     <div class="tab-pane fade" id="default-tab-5">
                         <div class="table-responsive">
-                            <form class="update_form" id="update_form5" method="post">
+                            <form class="update_form5" id="update_form5" method="post">
                             <table class="table table-condensed table-bordered">
                                 <tr>
                                     <td class="bg-light" style="width:15%"><spring:message code="list.detail.merchantdisplayname" text="가맹점 표시명"/></td>
-                                    <td style="width:60%"><input type="text" class="form-control width-200" name="storeNameInapp" value="${tbStore.storeNameInapp}" maxlength="30"></td>
+                                    <td style="width:60%"><input type="text" class="form-control width-200 storeNameInapp" name="storeNameInapp" value="${tbStore.storeNameInapp}" maxlength="30"></td>
                                     <td class="text-danger-darker"><spring:message code="list.description.thestorenameasitappearsintheapp" text="앱에 표시되는 매장 이름입니다."/></td>
                                 </tr>
                                 <tr>
@@ -1270,9 +818,6 @@
                                     <td>
                                         <c:forEach var="item" items="${tbSystemCategory}" varStatus="status1">
                                     <label class=" m-r-5">
-
-
-
                                             <div class="checks small m-l-10">
                                                 <input type="checkbox" class="chkCatCode" id="ex_chk${status1.index}"
                                                        catCode="${item.catCode}"
@@ -1289,9 +834,7 @@
                                                 >
                                                 <label for="ex_chk${status1.index}">    ${item.catName}</label>
                                             </div>
-
                                     </label>
-
                                 </c:forEach>
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.selectthedeliverycategorymessage" text="앱에 노출될 배달 카테고리를 선택하세요."/></td>
@@ -1363,243 +906,6 @@
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.thisistheimagedisplayedonthemainstore" text="매장 메인에 표시되는 이미지입니다."/></td>
                                 </tr>
-                                <%--<tr>
-                                    <td class="bg-light">가맹점 설명</td>
-                                    <td><input type="text" class="form-control width-400" value=""></td>
-                                </tr>--%>
-
-                                <%-- <tr>
-                                     <td class="bg-light">영업 상태</td>
-                                     <td>
-                                         <label class="">
-                                             <input type="radio" name="status19" class="align-bottom"
-                                                    checked>영업&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                         </label>
-                                         <label class="m-l-10 ">
-                                             <input type="radio" name="status19"
-                                                    class="align-bottom">휴식&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                         </label>
-                                     </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="bg-light">영업 시간</td>
-                                     <td>
-                                         <label>
-                                             <select class="form-control width-70">
-                                                 <c:forEach begin="00" end="23" var="hour">
-                                                     <c:if test="${hour lt 10}"><option value="0${hour}">0${hour}</c:if></option>
-                                                     <c:if test="${hour gt 9}"><option value="${hour}">${hour}</c:if></option>
-                                                 </c:forEach>
-                                             </select>
-                                         </label>
-                                         <label>
-                                             <select class="form-control width-70">
-                                                 <c:forEach begin="00" end="59" var="hour">
-                                                     <c:if test="${hour lt 10}"><option value="0${hour}">0${hour}</c:if></option>
-                                                     <c:if test="${hour gt 9}"><option value="${hour}">${hour}</c:if></option>
-                                                 </c:forEach>
-                                             </select>
-                                         </label>
-                                         ~
-                                         <label>
-                                             <select class="form-control width-70">
-                                                 <c:forEach begin="00" end="23" var="hour">
-                                                     <c:if test="${hour lt 10}"><option value="0${hour}">0${hour}</c:if></option>
-                                                     <c:if test="${hour gt 9}"><option value="${hour}">${hour}</c:if></option>
-                                                 </c:forEach>
-                                             </select>
-                                         </label>
-                                         <label>
-                                             <select class="form-control width-70">
-                                                 <c:forEach begin="00" end="59" var="hour">
-                                                     <c:if test="${hour lt 10}"><option value="0${hour}">0${hour}</c:if></option>
-                                                     <c:if test="${hour gt 9}"><option value="${hour}">${hour}</c:if></option>
-                                                 </c:forEach>
-                                             </select>
-                                         </label>
-                                     </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="bg-light">영업 요일</td>
-                                     <td>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status20" checked>일
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status20" checked>월
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status20" checked>화
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status20" checked>수
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status20" checked>목
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status20" checked>금
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status20" checked>토
-                                         </label>
-                                     </td>
-                                 </tr>--%>
-
-                                <%-- <tr>
-                                     <td class="bg-light">봉사료</td>
-                                     <td class="p-0">
-                                         <table class="width-full">
-                                             <tr>
-                                                 <td class="border-left-0 border-top-0">구간1</td>
-                                                 <td class="border-left-0 border-top-0 border-right-0">
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">원 미만 주문 시
-                                                     </label>
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">원
-                                                     </label>
-                                                 </td>
-                                             </tr>
-                                             <tr>
-                                                 <td class="border-left-0">구간2</td>
-                                                 <td class="border-right-0 border-left-0">
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">원 미만 주문 시
-                                                     </label>
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">원
-                                                     </label>
-                                                 </td>
-                                             </tr>
-                                             <tr>
-                                                 <td class="border-left-0">구간3</td>
-                                                 <td class="border-right-0 border-left-0">
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">원 미만 주문 시
-                                                     </label>
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">원
-                                                     </label>
-                                                 </td>
-                                             </tr>
-                                             <tr>
-                                                 <td class="border-bottom-0 border-left-0">최종 구간</td>
-                                                 <td class="border-bottom-0 border-right-0">
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">원 이상
-                                                     </label>
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">원
-                                                     </label>
-                                                 </td>
-                                             </tr>
-                                         </table>
-                                     </td>
-                                 </tr>--%>
-                                <%-- <tr>
-                                     <td class="bg-light">결제수단설정</td>
-                                     <td>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status22" checked>선결제(신용카드)
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status22" checked>선결제(제로페이)
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status22" checked>선결제(온통대전)
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status22" checked>만나서결제(현금)
-                                         </label>
-                                         <label class=" m-r-5">
-                                             <input type="checkbox" class="align-bottom" name="status22" checked>만나서결제(카드)
-                                         </label>
-                                     </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="bg-light">외부 주문플랫폼 연동</td>
-                                     <td>
-                                         <label>
-                                             <select class="form-control width-170">
-                                                 <option>플랫폼 선택</option>
-                                                 <option>KT지니</option>
-                                                 <option>바로플랫폼</option>
-                                                 <option>KIS(스마트오더)</option>
-                                                 <option>스마트데이터</option>
-                                                 <option>모아플랫폼</option>
-                                                 <option>KG이니시스</option>
-                                             </select>
-                                         </label>
-                                         <label>
-                                             <input type="text" class="form-control width-200"
-                                                    placeholder="외부 주문플랫폼 가맹점 식별자">
-                                         </label>
-                                         <label>
-                                             <button type="button" class="btn-box">연동 추가</button>
-                                         </label>
-                                     </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="bg-light">보이는 ARS</td>
-                                     <td class="p-0">
-                                         <table class="width-full">
-                                             <tr>
-                                                 <td class="border-top-0">ARS 번호</td>
-                                                 <td class="border-top-0">
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">
-                                                     </label>
-                                                     <label>
-                                                         <button type="button" class="btn-box">번호 검색</button>
-                                                     </label>
-                                                 </td>
-                                                 <td rowspan="2" class="p-0 border-top-0 border-bottom-0 border-right-0"
-                                                     style="width: 60%; max-width: 60%;">
-                                                     <label>
-                                                         <button type="button" class="btn btn-gray"
-                                                                 style="height: 95px; width: 95px; border-radius: 0;">ARS 설정
-                                                         </button>
-                                                     </label>
-                                                 </td>
-                                             </tr>
-                                             <tr>
-                                                 <td class="border-bottom-0">연결 URL</td>
-                                                 <td class="border-bottom-0">
-                                                     <label>
-                                                         <input type="text" class="form-control width-200">
-                                                     </label>
-                                                 </td>
-                                             </tr>
-                                         </table>
-                                     </td>
-                                 </tr>--%>
-
-                                <%-- <tr>
-                                     <td class="bg-light">배달가능 최소 주문금액</td>
-                                     <td>
-                                         <label>
-                                             <input type="text" class="form-control width-200">원 이상 주문 가능
-                                         </label>
-                                     </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="bg-light">매장 테이블 개수</td>
-                                     <td>
-                                         <label>
-                                             <input type="text" class="form-control width-200">개
-                                         </label>
-                                     </td>
-                                 </tr>--%>
-
-                                <%-- <tr>
-                                     <td class="bg-light">영수증 원산지 표시</td>
-                                     <td>
-                                         <label>
-                                             <input type="text" class="form-control width-300">
-                                         </label>
-                                     </td>
-                                 </tr>--%>
                             </table>
                             </form>
                             <div class="m-l-5 m-t-5">
@@ -1609,7 +915,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="default-tab-6">
-                            <form class="update_form" id="update_form6" method="post">
+                            <form class="update_form6" id="update_form6" method="post">
                                 <div class="table-responsive" style="overflow: hidden;">
                                     <a href="#modal-message" class="btn btn-sm btn-primary m-t-25 m-b-10" data-toggle="modal"><spring:message code="list.detail.userregistration" text="사용자 등록"/></a>
                                     <table class="table table-condensed table-bordered">
@@ -1652,637 +958,672 @@
                                 </div>
                             </form>
                     </div>
-                    <!-- end tab-pane -->
-                    <!-- begin tab-pane -->
-                    <%--<div class="tab-pane fade" id="default-tab-6">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6">
-                                <table class="table table-bordered">
-                                    <caption></caption>
-                                    <colgroup>
-                                        <col width="10%"/>
-                                        <col width="20%"/>
-                                        <col width="20%"/>
-                                        <col width="15%"/>
-                                        <col width="15%"/>
-                                        <col width="20%"/>
-                                    </colgroup>
-                                    <tbody>
+                    <div class="tab-pane fade" id="default-tab-7">
+                        <form class="update_form7" id="update_form7" method="post">
+                            <div class="table-responsive" style="overflow: hidden;">
+                                <table class="table table-condensed table-bordered">
                                     <tr>
-                                        <th colspan="6" class="tabla-custom-title">블록 등록/수정</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="bg-light text-center">선택</th>
-                                        <th class="bg-light">블록명</th>
-                                        <th class="bg-light">금액</th>
-                                        <th class="bg-light">요금구분</th>
-                                        <th class="bg-light">상태</th>
-                                        <th class="bg-light">정렬</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="bg-light"></th>
-                                        <td><input type="text" class="form-control-width-custom"></td>
-                                        <th>
-                                            <input type="text" class="form-control-width-custom">
-                                        </th>
-                                        <td>
-                                            <select class="form-control-width-custom">
-                                                <option>고정</option>
-                                                <option>추가</option>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="선결제 수수료"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="주문건당"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <input type="text"  class="form-control width-200 pgCharge" name="pgCharge" value="${tbStoreCharge.pgCharge}" numberCommaOnly>
+                                            <select name="pgRateType" class="form-control width-60">
+                                                <option value="1"<c:if test="${tbStoreCharge.pgRateType == 1}" >selected</c:if>>원</option>
+                                                <option value="2"<c:if test="${tbStoreCharge.pgRateType == 2}" >selected</c:if>>%</option>
                                             </select>
                                         </td>
-                                        <th>
-                                            <select class="form-control-width-custom">
-                                                <option>정상</option>
-                                                <option>정지</option>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="선결제 수수료를 입력해주세요."/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light" rowspan="4"><spring:message code="list.detail.accountholder1" text="주문중개 수수료"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="인수대행 "/></td>
+                                        <td >
+                                            <select name="takeoverUseYn" class="form-control width-100">
+                                                <option value="1"<c:if test="${tbStoreCharge.takeoverUseYn == 1}" >selected</c:if>>사용</option>
+                                                <option value="0"<c:if test="${tbStoreCharge.takeoverUseYn == 0}" >selected</c:if>>미사용</option>
                                             </select>
-                                        </th>
-                                        <td>
-                                            <button type="button" class="btn btn-purple"><i class="fa fa-cog"></i> 초기화
-                                            </button>
                                         </td>
+                                        <td class="border-right-0">
+                                            <input type="text"  class="form-control width-200 takeoverCharge" name="takeoverCharge" value="${tbStoreCharge.takeoverCharge}" numberCommaOnly>
+                                            <select name="takeoverRateType" class="form-control width-60">
+                                                <option value="1"<c:if test="${tbStoreCharge.takeoverRateType == 1}" >selected</c:if>>원</option>
+                                                <option value="2"<c:if test="${tbStoreCharge.takeoverRateType == 2}" >selected</c:if>>%</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 선결제 수수료를 입력해주세요."/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="반납대행 "/></td>
+                                        <td >
+                                            <select name="returnUseYn" class="form-control width-100">
+                                                <option value="1"<c:if test="${tbStoreCharge.returnUseYn == 1}" >selected</c:if>>사용</option>
+                                                <option value="0"<c:if test="${tbStoreCharge.returnUseYn == 0}" >selected</c:if>>미사용</option>
+                                            </select>
+                                        </td>
+                                        <td class="border-right-0">
+                                            <input type="text"  class="form-control width-200 returnCharge" name="returnCharge" value="${tbStoreCharge.returnCharge}" numberCommaOnly>
+                                            <select name="returnRateType" class="form-control width-60">
+                                                <option value="1"<c:if test="${tbStoreCharge.returnRateType == 1}" >selected</c:if>>원</option>
+                                                <option value="2"<c:if test="${tbStoreCharge.returnRateType == 2}" >selected</c:if>>%</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="반납대행 선결제 수수료를 입력해주세요."/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="마이카 "/></td>
+                                        <td >
+                                            <select name="mycarUseYn" class="form-control width-100">
+                                                <option value="1"<c:if test="${tbStoreCharge.mycarUseYn == 1}" >selected</c:if>>사용</option>
+                                                <option value="0"<c:if test="${tbStoreCharge.mycarUseYn == 0}" >selected</c:if>>미사용</option>
+                                            </select>
+                                        </td>
+                                        <td class="border-right-0">
+                                            <input type="text"  class="form-control width-200 mycarCharge" name="mycarCharge" value="${tbStoreCharge.mycarCharge}" numberCommaOnly>
+                                            <select name="mycarRateType" class="form-control width-60">
+                                                <option value="1"<c:if test="${tbStoreCharge.mycarRateType == 1}" >selected</c:if>>원</option>
+                                                <option value="2"<c:if test="${tbStoreCharge.mycarRateType == 2}" >selected</c:if>>%</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="마이카 선결제 수수료를 입력해주세요."/></td>
+                                    </tr>
+                                    <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.accountholder1" text="올레길탁송 "/></td>
+                                    <td >
+                                        <select name="olleUseYn" class="form-control width-100">
+                                            <option value="1"<c:if test="${tbStoreCharge.olleUseYn == 1}" >selected</c:if>>사용</option>
+                                            <option value="0"<c:if test="${tbStoreCharge.olleUseYn == 0}" >selected</c:if>>미사용</option>
+                                        </select>
+                                    </td>
+                                    <td class="border-right-0">
+                                        <input type="text"  class="form-control width-200 olleCharge" name="olleCharge" value="${tbStoreCharge.olleCharge}" numberCommaOnly>
+                                        <select name="olleRateType" class="form-control width-60">
+                                            <option value="1"<c:if test="${tbStoreCharge.olleRateType == 1}" >selected</c:if>>원</option>
+                                            <option value="2"<c:if test="${tbStoreCharge.olleRateType == 2}" >selected</c:if>>%</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="올레길탁송 선결제 수수료를 입력해주세요."/></td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="float-right m-b-20">
-                                    <div class="btn-group">
-                                        <button type="button" onclick="insBlock()" class="btn btn-white border-right-0 color">등록</button>
-                                        <button type="button" onclick="selectOverlay('POLYGON')" class="btn btn-white btn-draw">그리기</button>
-                                        <button type="button" class="btn btn-white btn-draw-hide d-none">숨기기</button>
-                                    </div>
+                                <div class="m-t-10">
+                                    <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                                    <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
                                 </div>
-                                <table class="table table-bordered">
-                                    <caption></caption>
-                                    <tbody>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="default-tab-8">
+                        <form class="update_form8" id="update_form8" method="post">
+                            <div class="table-responsive" style="overflow: hidden;">
+                                <table class="table table-condensed table-bordered">
                                     <tr>
-                                        <th colspan="6" class="tabla-custom-title">등록 리스트</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="bg-light text-center">선택</th>
-                                        <th class="bg-light">블록명</th>
-                                        <th class="bg-light">금액</th>
-                                        <th class="bg-light">요금구분</th>
-                                        <th class="bg-light">상태</th>
-                                        <th class="bg-light">정렬</th>
-                                    </tr>
-                                    <tr>
-                                        <th><input type="radio"></th>
-                                        <td>신도림동</td>
-                                        <th>
-                                            <input type="text" class="form-control-width-custom">
-                                        </th>
-                                        <td>
-                                            <select class="form-control-width-custom">
-                                                <option>고정</option>
-                                                <option>추가</option>
-                                            </select>
+                                        <td class="bg-light height-50 "  colspan="2"><spring:message code="list.detail.accountholder1" text="설정값"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <label class="">
+                                                <input type="radio" name="useYn" class="align-bottom m-r-10 useYn" value="0" <c:if test="${tbStorePrice.useYn == 0}" >checked</c:if>>총판설정 사용
+                                            </label>
+                                            <label class="m-l-10">
+                                                <input type="radio" name="useYn" class="align-bottom m-r-10 useYn" value="1" <c:if test="${tbStorePrice.useYn == 1}" >checked</c:if>>가맹점설정 사용
+                                            </label>
+
+                                           <%-- <select name="useYn" class="form-control width-150">
+                                                <option value="0"<c:if test="${tbStorePrice.useYn == 0}" >selected</c:if>>총판설정 사용</option>
+                                                <option value="1"<c:if test="${tbStorePrice.useYn == 1}" >selected</c:if>>가맹점설정 사용</option>
+                                            </select>--%>
                                         </td>
-                                        <th>
-                                            <select class="form-control-width-custom">
-                                                <option>정상</option>
-                                                <option>정지</option>
-                                            </select>
-                                        </th>
-                                        <td>
-                                            <div class="d-table m-auto">
-                                                <a class="btn btn-out width-30 height-25 cursor-pointer d-table-cell">
-                                                    <span class="fa fa-angle-double-up align-sub"></span>
-                                                </a>
-                                                <a class="btn btn-out width-30 height-25 cursor-pointer d-table-cell">
-                                                    <span class="fa fa-angle-up align-sub"></span></a>
-                                                <a class="btn btn-out width-30 height-25 cursor-pointer d-table-cell">
-                                                    <span class="fa fa-angle-down align-sub"></span>
-                                                </a>
-                                                <a class="btn btn-out width-30 height-25 cursor-pointer d-table-cell">
-                                                    <span class="fa fa-angle-double-down align-sub"></span>
-                                                </a>
-                                            </div>
-                                        </td>
+                                        <td class="text-danger-darker   " style="width: 232px;"><spring:message code="list.description.cannotbemodified" text="가맹점설정 유형을 선택해주세요."/></td>
                                     </tr>
+                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>" >
+                                        <td class="bg-light height-50 width-60" colspan="2"><spring:message code="list.detail.accountholder1" text="적용할 요금제"/></td>
+                                        <td colspan="2">
+                                            <label class="">
+                                                <input type="radio" name="meterUseYn" class="align-bottom m-r-10 meterUseYn" value="1" <c:if test="${tbStorePrice.meterUseYn == 1}" >checked</c:if>>기본(미터)요금 사용
+                                            </label>
+                                            <label class="m-l-10">
+                                                <input type="radio" name="meterUseYn" class="align-bottom m-r-10 meterUseYn" value="0" <c:if test="${tbStorePrice.meterUseYn == 0}" >checked</c:if>>거리구간요금 사용
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="거리구간 요금 유형을 선택해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="주문요금"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
+                                        <td class="border-right-0" colspan="1">
+                                            <input type="text"  class="form-control width-200 meterPrice" name="meterPrice" value="${tbStorePrice.meterPrice}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="border-right-0" colspan="">
+                                            <input type="text"  class="form-control width-200 meterBaseDistance" name="meterBaseDistance" value="${tbStorePrice.meterBaseDistance}" numberCommaOnly>  (M 단위)
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="기본요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="추가요금"/></td>
+                                        <td class="border-right-0" colspan="1">
+                                            <input type="text"  class="form-control width-200 meterAddition" name="meterAddition" value="${tbStorePrice.meterAddition}" numberCommaOnly>  원
+                                        </td>
+                                        <td class="border-right-0" colspan="">
+                                            <input type="text"  class="form-control width-200 meterAddDistance" name="meterAddDistance" value="${tbStorePrice.meterAddDistance}" numberCommaOnly> (M 단위)
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="추가요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="최대요금"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <input type="text"  class="form-control width-200 meterMaximum" name="meterMaximum" value="${tbStorePrice.meterMaximum}" numberCommaOnly>  원
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="배송요금"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
+                                        <td class="border-right-0" colspan="">
+                                            <input type="text"  class="form-control width-200 dlvyPrice" name="dlvyPrice" value="${tbStorePrice.dlvyPrice}" numberCommaOnly>  원
+                                        </td>
+                                        <td class="border-right-0" colspan="">
+                                            <input type="text"  class="form-control width-200 dlvyBaseDistance" name="dlvyBaseDistance" value="${tbStorePrice.dlvyBaseDistance}" numberCommaOnly> (M 단위)
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="기본요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="추가요금"/></td>
+                                        <td class="border-right-0" colspan="1">
+                                            <input type="text"  class="form-control width-200 dlvyAddition" name="dlvyAddition" value="${tbStorePrice.dlvyAddition}" numberCommaOnly>  원
+                                        </td>
+                                        <td class="border-right-0" colspan="1">
+                                            <input type="text"  class="form-control width-200 dlvyAddDistance" name="dlvyAddDistance" value="${tbStorePrice.dlvyAddDistance}" numberCommaOnly> (M 단위)
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="추가요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="최대요금"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <input type="text"  class="form-control width-200 dlvyMaximum" name="dlvyMaximum" value="${tbStorePrice.dlvyMaximum}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="8"><spring:message code="list.detail.accountholder1" text="할증요금 "/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증 "/></td>
+                                        <td colspan="2">
+                                            <select name="dayChargeYn" class="form-control width-100">
+                                                <option value="0"<c:if test="${tbStorePrice.dayChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                                <option value="1"<c:if test="${tbStorePrice.dayChargeYn == 1}" >selected</c:if>>사용</option>
+                                            </select>
+                                            <input type="text"  class="form-control width-120 dayCharge" name="dayCharge" value="${tbStorePrice.dayCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
+                                    </tr>
+                                   <%-- <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증 금액"/></td>
+                                        <td class="border-right-0">
+                                            <input type="text"  class="form-control width-200 dayCharge" name="dayCharge" value="${tbStorePrice.dayCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="반납대행 선결제 수수료를 입력해주세요."/></td>
+                                    </tr>--%>
+                                   <%-- <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="눈비할증 금액"/></td>
+
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 금액을 입력해주세요."/></td>
+                                    </tr>--%>
+
+                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="1"><spring:message code="list.detail.accountholder1" text="시간할증 "/></td>
+                                        <td colspan="1">
+                                            <select name="timeChargeYn" class="form-control width-100">
+                                                <option value="0"<c:if test="${tbStorePrice.timeChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                                <option value="1"<c:if test="${tbStorePrice.timeChargeYn == 1}" >selected</c:if>>할증사용</option>
+                                            </select>
+                                            <input type="text"  class="form-control width-120 timeCharge" name="timeCharge" value="${tbStorePrice.timeCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td>
+                                            시작시간 : <input type="text" name="timeStart" class="timeStart form-control" value="${tbStorePrice.timeStart}" maxlength="4" numberOnly> ~
+                                            종료시간 : <input type="text" name="timeEnd" class="timeEnd form-control" value="${tbStorePrice.timeEnd}" maxlength="4" numberOnly>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증정보를 입력해주세요"/></td>
+                                    </tr>
+                                   <%-- <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="시간할증 금액"/></td>
+
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증금액을 입력해주세요."/></td>
+                                    </tr>--%>
+                                    <%--<tr>
+                                        <td class="border-right-0" colspan="2">
+
+                                           &lt;%&ndash; <label>
+                                                <select class="form-control">
+                                                    <c:forEach begin="0" end="24" varStatus="hour">
+                                                        <c:if test="${hour.index.length < 1}">
+                                                            <option <c:if test="${tbStorePrice.timeStart == '0'+hour.index}">>selected</c:if>> 0${hour.index} </option>
+                                                        </c:if>
+                                                        <c:if test="${hour.index.length >= 1}">
+                                                            <option <c:if test="${tbStorePrice.timeStart ==  hour.index}">>selected</c:if>> ${hour.index} </option>
+                                                        </c:if>
+                                                        ${hour.index}
+                                                    </c:forEach>
+                                                </select>
+                                            </label>
+                                            <label>
+                                                <select class="form-control">
+                                                    <c:forEach begin="0" end="24" varStatus="hour">
+                                                        <c:if test="${hour.index.length < 1}">
+                                                            <option <c:if test="${tbStorePrice.timeStart == '0'+hour.index}">>selected</c:if>> 0${hour.index} </option>
+                                                        </c:if>
+                                                        <c:if test="${hour.index.length >= 1}">
+                                                            <option <c:if test="${tbStorePrice.timeStart ==  hour.index}">>selected</c:if>> ${hour.index} </option>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </select>
+                                            </label>&ndash;%&gt;
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증 시작/종료시간을 입력해주세요."/></td>
+                                        </tr>--%>
+                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="2"><spring:message code="list.detail.accountholder1" text="눈비할증"/></td>
+                                        <td colspan="1" rowspan="2">
+                                            <select name="weatherChargeYn" class="form-control width-100">
+                                                <option value="0"<c:if test="${tbStorePrice.weatherChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                                <option value="1"<c:if test="${tbStorePrice.weatherChargeYn == 1}" >selected</c:if>>사용</option>
+                                            </select>
+                                            <input type="text"  class="form-control width-120 weatherCharge" name="weatherCharge" value="${tbStorePrice.weatherCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="월" <c:if test="${fn:contains(tbStorePrice.dayFilter, '월')}">checked</c:if>>월</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="화" <c:if test="${fn:contains(tbStorePrice.dayFilter, '화')}">checked</c:if>>화</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="수" <c:if test="${fn:contains(tbStorePrice.dayFilter, '수')}">checked</c:if>>수</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="목" <c:if test="${fn:contains(tbStorePrice.dayFilter, '목')}">checked</c:if>>목</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="금" <c:if test="${fn:contains(tbStorePrice.dayFilter, '금')}">checked</c:if>>금</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="토" <c:if test="${fn:contains(tbStorePrice.dayFilter, '토')}">checked</c:if>>토</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="일" <c:if test="${fn:contains(tbStorePrice.dayFilter, '일')}">checked</c:if>>일</label>
+                                            <input type="hidden" name="dayFilter" class="dayFilter" value="${tbStorePrice.dayFilter}">
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 정보를 입력해주세요"/></td>
+                                    </tr>
+                                   <%-- <tr>
+                                       &lt;%&ndash; <td class="bg-light height-50" ><spring:message code="list.detail.accountholder1" text="적용요일"/></td>&ndash;%&gt;
+
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="적용요일을 선택해주세요."/></td>
+                                    </tr>--%>
+                                      <%--  <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.accountholder1" text="시간할증 종료시간"/></td>
+                                            <td class="border-right-0">
+                                                <label>
+                                                    <select class="form-control">
+                                                        <c:forEach begin="0" end="24" varStatus="hour">
+                                                            <option>${hour.index}시(시작)</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </label>
+                                                <label>
+                                                    <select class="form-control">
+                                                        <c:forEach begin="0" end="24" varStatus="hour">
+                                                            <option>${hour.index}시(종료)</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증 종료시간을 선택해주세요."/></td>
+                                        </tr>--%>
                                     </tbody>
                                 </table>
+                                <div class="m-t-10">
+                                    <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                                    <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
+                                </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 height-full">
-                                <table class="table table-condensed table-bordered">
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="map_wrap mapRefreshBtn" style="height: 650px;">
-                                                <div id="drawingMap"></div>
-                                                <p class="modes">
-                                                    <input type="button" class="btn btn-primary p-5" onclick="" value="모든 블록 보기">
-                                                    <input type="button" class="btn btn-white p-5" onclick="" value="모든 블록 닫기">
-                                                </p>
-&lt;%&ndash;
-                                                <p class="modes">
-                                                    <input type="button" onclick="selectOverlay('MARKER')" value="마커">
-                                                    <input type="button" onclick="selectOverlay('POLYLINE')" value="선">
-                                                    <input type="button" onclick="selectOverlay('CIRCLE')" value="원">
-                                                    <input type="button" onclick="selectOverlay('RECTANGLE')" value="사각형">
-                                                    <input type="button" onclick="selectOverlay('POLYGON')" value="다각형">
-                                                </p>
-&ndash;%&gt;
-                                            </div>
-
-                                        </td>
-                                    </tr>
-
-                                    </tbody></table>
-                               &lt;%&ndash; <div id="tipmap" class="height-full width-full"></div>&ndash;%&gt;
-
-                            </div>
-
-                            <div class="m-l-5 m-t-5">
-                                <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> 목록&lt;%&ndash;<spring:message code="merchandise.insert.listbutton" text="default text"/>&ndash;%&gt;&lt;%&ndash;목록&ndash;%&gt;</button>
-                                <button type="button" class="btn btn-primary btn_update float-left m-t-5 m-l-20"><i class="fa fa-check m-r-3"></i> 수정&lt;%&ndash;<spring:message code="merchandise.insert.insertbutton" text="default text"/>&ndash;%&gt;&lt;%&ndash;등록&ndash;%&gt;</button>
-                            </div>
-                        </div>
-                    </div>--%>
-
-                    <!-- end tab-pane -->
-                    <!-- begin tab-pane -->
-                   <%-- <div class="tab-pane fade" id="default-tab-7">
-                        <div class="height-500" data-scrollbar="true">
-                            <div class="table-responsive">
-                                <table class="table table-condensed table-bordered">
-                                    <thead>
-                                    <th>특정지명</th>
-                                    <th>추가요금</th>
-                                    <th>검색범위</th>
-                                    <th>등록/수정/삭제</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td><input type="text" class="form-control width-200" placeholder="특정지명을 입력하세요">
-                                        </td>
-                                        <td><input type="text" class="form-control width-200" value="0">원</td>
-                                        <td>
-                                            <label class=" m-r-5">
-                                                <input type="checkbox" class="align-bottom">지번
-                                            </label>
-                                            <label class=" m-r-5">
-                                                <input type="checkbox" class="align-bottom">도로명
-                                            </label>
-                                            <label class=" m-r-5">
-                                                <input type="checkbox" class="align-bottom">상세주소
-                                            </label>
-                                            <label class=" m-r-5">
-                                                <input type="checkbox" class="align-bottom">행정동명
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary">등록</button>
-                                            <button type="button" class="btn btn-green">엑셀등록</button>
-                                            <button type="button" class="btn btn-green">양식다운</button>
-                                        </td>
-                                    </tr>
-                                    <c:forEach begin="0" end="5">
-                                        <tr>
-                                            <td><input type="text" class="form-control width-200" placeholder="특정지명을 입력하세요">
-                                            </td>
-                                            <td><input type="text" class="form-control width-200" value="0">원</td>
-                                            <td>
-                                                <label class=" m-r-5">
-                                                    <input type="checkbox" class="align-bottom" padding: 0 10px 0 50px; min-width:400px;  checked>지번
-                                                </label>
-                                                <label class=" m-r-5">
-                                                    <input type="checkbox" class="align-bottom" padding: 0 10px 0 50px; min-width:400px;  checked>도로명
-                                                </label>
-                                                <label class=" m-r-5">
-                                                    <input type="checkbox" class="align-bottom" padding: 0 10px 0 50px; min-width:400px;  checked>상세주소
-                                                </label>
-                                                <label class=" m-r-5">
-                                                    <input type="checkbox" class="align-bottom" padding: 0 10px 0 50px; min-width:400px;  checked>행정동명
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary">수정</button>
-                                                <button type="button" class="btn btn-danger">삭제</button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>--%>
-                    <!-- begin tab-pane -->
-                    <%--<div class="tab-pane fade" id="default-tab-8">
-                        <div class="table-responsive">
-                            <table class="table table-condensed table-bordered">
-                                <tbody>
-                                <tr>
-                                    <td class="bg-light" style="width:15%">영업상태</td>
-                                    <td style="width:60%">
-                                        <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="saleStatus" value="1"> 영업</label>
-                                        <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="saleStatus" value="0" checked=""> 휴식</label>
-                                    </td>
-                                    <td class="text-danger-darker">매장 open/close 상태를 변경할 수 있습니다.</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">영업요일</td>
-                                    <td>
-                                        <label><input type="radio" padding: 0 10px 0 50px; min-width:400px;  id="sOrdWorkType" name="sOrdWorkType" value="1" onclick="fncWorkDayChDisplay('1');" checked> 평일 / 주말 동일</label>
-                                        <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px;  id="sOrdWorkType" name="sOrdWorkType" value="2" onclick="fncWorkDayChDisplay('2');" checked> 평일 / 주말 별도</label>
-                                    </td>
-                                    <td class="text-danger-darker">평일과 주말의 영업시간이 동일한지를 선택하세요.</td>
-                                </tr>
-                                <tr class="padding-0">
-                                    <td class="bg-light">영업시간</td>
-                                    <td class="padding-0 border-left-0">
-                                        <table class="border-left-0 border-top-0 border-bottom-0" style="width:100%;">
-                                            <tbody><tr id="eWorkDay_0" style="display:none">
-                                                <td class="border-left-0 border-top-0 border-bottom-0 width-100" id="eAllDayTime">매일</td>
-                                                <td class="border-left-0 border-right-0 border-top-0 border-bottom-0">
-                                                    <label style="">시작</label>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>								</select>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>								</select>
-                                                    <label style="">종료</label>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>								</select>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>								</select>
-                                                    <input type="button" class="btn btn-primary p-t-5 p-b-5 " style="vertical-align :middle;" onclick="fncInitTime('0');" value="24시간">
-                                                </td>
-                                            </tr>
-                                            <tr id="eWorkDay_1" style="">
-                                                <td class="border-left-0 border-top-0 width-100" id="eAllDayTime">월 ~ 금</td>
-                                                <td class="border-left-0 border-right-0 border-top-0">
-                                                    <label style="">시작</label>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>								</select>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>								</select>
-                                                    <label style="">종료</label>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>								</select>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>								</select>
-                                                    <input type="button" class="btn btn-primary p-t-5 p-b-5 " style="vertical-align :middle;" onclick="fncInitTime('1');" value="24시간">
-                                                </td>
-                                            </tr>
-                                            <tr id="eWorkDay_2" style="">
-                                                <td class="border-left-0 width-100" id="eAllDayTime">토요일</td>
-                                                <td class="border-right-0">
-                                                    <label style="">시작</label>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>								</select>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>								</select>
-                                                    <label style="">종료</label>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>								</select>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>								</select>
-                                                    <input type="button" class="btn btn-primary p-t-5 p-b-5 " style="vertical-align :middle;" onclick="fncInitTime('2');" value="24시간">
-                                                </td>
-                                            </tr>
-                                            <tr id="eWorkDay_3" style="">
-                                                <td class="border-left-0 border-top-0 border-bottom-0 width-100" id="eAllDayTime">일요일</td>
-                                                <td class="border-left-0 border-top-0 border-bottom-0 border-right-0 ">
-                                                    <label style="">시작</label>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>								</select>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>								</select>
-                                                    <label style="">종료</label>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>								</select>
-                                                    <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                        <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>								</select>
-                                                    <input type="button" class="btn btn-primary p-t-5 p-b-5 " style="vertical-align :middle;" onclick="fncInitTime('3');" value="24시간">
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td class="text-danger-darker">영업시간을 선택하세요.</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">휴게시간</td>
-                                    <td class="padding-0 ">
-                                        <table style="width:100%;" class="">
-                                            <tbody>
-                                            <tr id="eBreakTime_0">
-                                                <td class="border-left-0 border-top-0 border-bottom-0 border-right-0" colspan="2">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTime" value="0" checked="" onclick="fncBreakTimeChDisplay('0');"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTime" value="1" onclick="fncBreakTimeChDisplay('1');" checked> 설정</label>
-                                                </td>
-                                            </tr>
-                                            <tr id="eBreakTime_1" style="">
-                                                <td class="width-100 border-left-0 border-right-0">일요일</td>
-                                                <td class="border-right-0" style="line-height: 30px;">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeSunday" value="N" checked="" onclick="$('#eSBreakTime_0').hide();"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeSunday" value="Y" onclick="$('#eSBreakTime_0').show();"> 설정</label>
-
-                                                    <span id="eSBreakTime_0" style="display:none;">
-                                                        <label style="padding: 0 10px 0 50px">시작</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        <label style="">종료</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        </span>
-                                                </td>
-                                            </tr>
-                                            <tr id="eBreakTime_2" style="">
-                                                <td class="width-100 border-left-0 border-top-0 border-right-0">월요일</td>
-                                                <td class="border-right-0" style="line-height: 30px;">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeMonday" value="N" checked="" onclick="$('#eSBreakTime_1').hide();"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeMonday" value="Y" onclick="$('#eSBreakTime_1').show();"> 설정</label>
-
-                                                    <span id="eSBreakTime_1" style="display:none;">
-                                                        <label style="padding: 0 10px 0 50px">시작</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        <label style="">종료</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        </span>
-                                                </td>
-                                            </tr>
-                                            <tr id="eBreakTime_3" style="">
-                                                <td class="width-100 border-left-0 border-top-0 border-right-0">화요일</td>
-                                                <td class="border-right-0" style="line-height: 30px;">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeTuesday" value="N" checked="" onclick="$('#eSBreakTime_2').hide();"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeTuesday" value="Y" onclick="$('#eSBreakTime_2').show();"> 설정</label>
-
-                                                    <span id="eSBreakTime_2" style="display:none;">
-                                                        <label style="padding: 0 10px 0 50px">시작</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        <label style="">종료</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        </span>
-                                                </td>
-                                            </tr>
-                                            <tr id="eBreakTime_4" style="">
-                                                <td class="width-100 border-left-0 border-top-0 border-right-0">수요일</td>
-                                                <td class="border-right-0" style="line-height: 30px;">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeWednesday" value="N" checked="" onclick="$('#eSBreakTime_3').hide();"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeWednesday" value="Y" onclick="$('#eSBreakTime_3').show();"> 설정</label>
-
-                                                    <span id="eSBreakTime_3" style="display:none;">
-                                                        <label style="padding: 0 10px 0 50px">시작</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        <label style="">종료</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        </span>
-                                                </td>
-                                            </tr>
-                                            <tr id="eBreakTime_5" style="">
-                                                <td class="width-100 border-left-0 border-top-0 border-right-0">목요일</td>
-                                                <td class="border-right-0" style="line-height: 30px;">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeThursday" value="N" checked="" onclick="$('#eSBreakTime_4').hide();"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeThursday" value="Y" onclick="$('#eSBreakTime_4').show();"> 설정</label>
-
-                                                    <span id="eSBreakTime_4" style="display:none;">
-                                                        <label style="padding: 0 10px 0 50px">시작</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        <label style="">종료</label>
-                                                        <select class="form-control-sm" name="">
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        </span>
-                                                </td>
-                                            </tr>
-                                            <tr id="eBreakTime_6" style="">
-                                                <td class="width-100 border-left-0 border-top-0 border-right-0">금요일</td>
-                                                <td class="border-right-0" style="line-height: 30px;">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeFriday" value="N" checked="" onclick="$('#eSBreakTime_5').hide();"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeFriday" value="Y" onclick="$('#eSBreakTime_5').show();"> 설정</label>
-
-                                                    <span id="eSBreakTime_5" style="display:none;">
-                                                        <label style="padding: 0 10px 0 50px">시작</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        <label style="">종료</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        </span>
-                                                </td>
-                                            </tr>
-                                            <tr id="eBreakTime_7" style="">
-                                                <td class="width-100 border-left-0 border-top-0 border-bottom-0 border-right-0">토요일</td>
-                                                <td class="border-bottom-0 border-right-0" style="line-height: 30px;">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeSaturday" value="N" checked="" onclick="$('#eSBreakTime_6').hide();"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="breakTimeSaturday" value="Y" onclick="$('#eSBreakTime_6').show();"> 설정</label>
-
-                                                    <span id="eSBreakTime_6" style="display:none;">
-                                                        <label style="padding: 0 10px 0 50px">시작</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04">04 시</option><option value="05" selected="">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00" selected="">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        <label style="">종료</label>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 시</option><option value="01">01 시</option><option value="02">02 시</option><option value="03">03 시</option><option value="04" selected="">04 시</option><option value="05">05 시</option><option value="06">06 시</option><option value="07">07 시</option><option value="08">08 시</option><option value="09">09 시</option><option value="10">10 시</option><option value="11">11 시</option><option value="12">12 시</option><option value="13">13 시</option><option value="14">14 시</option><option value="15">15 시</option><option value="16">16 시</option><option value="17">17 시</option><option value="18">18 시</option><option value="19">19 시</option><option value="20">20 시</option><option value="21">21 시</option><option value="22">22 시</option><option value="23">23 시</option>									</select>
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="00">00 분</option><option value="01">01 분</option><option value="02">02 분</option><option value="03">03 분</option><option value="04">04 분</option><option value="05">05 분</option><option value="06">06 분</option><option value="07">07 분</option><option value="08">08 분</option><option value="09">09 분</option><option value="10">10 분</option><option value="11">11 분</option><option value="12">12 분</option><option value="13">13 분</option><option value="14">14 분</option><option value="15">15 분</option><option value="16">16 분</option><option value="17">17 분</option><option value="18">18 분</option><option value="19">19 분</option><option value="20">20 분</option><option value="21">21 분</option><option value="22">22 분</option><option value="23">23 분</option><option value="24">24 분</option><option value="25">25 분</option><option value="26">26 분</option><option value="27">27 분</option><option value="28">28 분</option><option value="29">29 분</option><option value="30">30 분</option><option value="31">31 분</option><option value="32">32 분</option><option value="33">33 분</option><option value="34">34 분</option><option value="35">35 분</option><option value="36">36 분</option><option value="37">37 분</option><option value="38">38 분</option><option value="39">39 분</option><option value="40">40 분</option><option value="41">41 분</option><option value="42">42 분</option><option value="43">43 분</option><option value="44">44 분</option><option value="45">45 분</option><option value="46">46 분</option><option value="47">47 분</option><option value="48">48 분</option><option value="49">49 분</option><option value="50" selected="">50 분</option><option value="51">51 분</option><option value="52">52 분</option><option value="53">53 분</option><option value="54">54 분</option><option value="55">55 분</option><option value="56">56 분</option><option value="57">57 분</option><option value="58">58 분</option><option value="59">59 분</option>									</select>
-                                                        </span>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td class="text-danger-darker">요일별 휴게시간을 설정하세요.</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">휴무일</td>
-                                    <td class="padding-0">
-                                        <table style="width:100%;" id="eHoliday">
-                                            <tbody>
-                                            <tr>
-                                                <td class=" border-left-0 border-top-0 border-bottom-0 border-right-0" colspan="2">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="holiday" value="0" checked="" onclick="fncHolidayChDisplay('0');"> 설정안함</label>
-                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="holiday" value="1" onclick="fncHolidayChDisplay('1');" checked> 설정</label>
-                                                </td>
-                                            </tr>
-                                            <tr id="eHolidayTr" padding: 0 10px 0 50px; min-width:400px;  style="display: table-row;">
-                                                <td class="width-100 border-left-0">정기휴무</td>
-                                                <td class=" border-left-0" >
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="regularHoliday"  value="N"> 설정안함</label>
-                                                    <label ><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="regularHoliday" value="Y" checked=""> 설정</label>
-                                                    <label >
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="1" selected="">매월 첫째주</option><option value="2">매월 둘째주</option><option value="3">매월 셋째주</option><option value="4">매월 넷째주</option><option value="5">매월 다섯째주</option><option value="L">매월 마지막주</option><option value="A">매월 매주</option>									</select>
-                                                    </label>
-                                                    <label >
-                                                        <select class="form-control-sm" padding: 0 10px 0 50px; min-width:400px; >
-                                                            <option value="1" selected="">일요일</option><option value="2">월요일</option><option value="3">화요일</option><option value="4">수요일</option><option value="5">목요일</option><option value="6">금요일</option><option value="7">토요일</option><option value="A">모든요일</option>									</select>
-                                                    </label>
-                                                    <input type="button" class="btn btn-primary p-t-5 p-b-5 " style="vertical-align :middle;" name="eHolidayAdd" onclick="addHolidayRow(this);" value="추가">
-                                                    <input type="button" class="btn btn-primary p-t-5 p-b-5 " style="vertical-align :middle;" name="eHolidayDel" onclick="delHolidayRow(this);" value="삭제">                                               </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <table id="eTmpHoliday" class="border-0">
-                                            <tbody>
-                                            <tr id="eTmpHolidayTr" padding: 0 10px 0 50px; min-width:400px;  style="display: table-row;">
-                                                <td class="width-100 border-bottom-0 border-left-0 border-top-0">임시휴무</td>
-                                                <td class="border-0">
-                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="tempHoliday" value="N"> 설정안함</label>
-                                                    <label ><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="tempHoliday" value="Y" checked=""> 설정</label>
-                                                    <label>
-                                                        <input type="text" class="form-control hasDatepicker" padding: 0 10px 0 50px; min-width:400px;  id="sSWorkDate_0" value="2021-03-12" readonly="">
-                                                    </label>
-                                                    <label >
-                                                        <input type="text" class="form-control hasDatepicker" padding: 0 10px 0 50px; min-width:400px;  id="sEWorkDate_0" value="2021-03-12" readonly="">
-                                                    </label>
-                                                    <input type="button" class="btn btn-primary p-t-5 p-b-5 " style="vertical-align :middle;" name="eTmpHolidayAdd" onclick="addTmpHolidayRow(this);" value="추가">
-                                                    <input type="button" class="btn btn-primary p-t-5 p-b-5 " style="vertical-align :middle;" name="eTmpHolidayDel" onclick="delTmpHolidayRow(this);" value="삭제">
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td class="text-danger-darker">휴무일을 설정하세요.</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div class="m-l-5 m-t-5">
-                                <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> 목록&lt;%&ndash;<spring:message code="merchandise.insert.listbutton" text="default text"/>&ndash;%&gt;&lt;%&ndash;목록&ndash;%&gt;</button>
-                                <button type="button" class="btn btn-primary btn_update float-left m-t-5 m-l-20"><i class="fa fa-check m-r-3"></i>수정&lt;%&ndash;<spring:message code="merchandise.insert.insertbutton" text="default text"/>&ndash;%&gt;&lt;%&ndash;등록&ndash;%&gt;</button>
-                            </div>
-                        </div>
-                    </div>--%>
-                   <%-- <div class="tab-pane fade" id="default-tab-9">--%>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="default-tab-9">
                         <div class="row">
                             <div class="col-xl-12 col-lg-12">
-                               <%-- <form class="multi_form_none" id="multi_form_none" method="post"  >
-                                    <input type="hidden" name="masterChargeYn" value="" class="null_param">
-                                    <input type="hidden" name="masterStoreNo" value="" class="null_param">
-                                    <input type="hidden" name="masterGoodsYn" value="" class="null_param">
-                                    <input type="hidden" name="multiType" value="">
-                                    <input type="hidden" name="storeNo" value="${tbStore.storeNo}">
-                                </form>
-                                    <table class="table table-condensed table-bordered">
+                                <form class="insert_form_dlvy_price" id="insert_form_dlvy_price">
+                                    <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                    <input type="hidden" class="groupNo" name="groupNo" value="${tbStore.storeNo}">
+                                    <input type="hidden" class="dataStatus" name="dataStatus" value="1">
+                                    <table class="table table-bordered">
+                                        <caption></caption>
+                                        <colgroup>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                        </colgroup>
                                         <tbody>
                                         <tr>
-                                            <td class="bg-light width-200">가맹점 구분</td>
+                                            <th colspan="7" class="tabla-custom-title"><spring:message code="list.detail.blockregistrationmodification1" text="거리구간요금 등록/수정"/></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light text-center"><spring:message code="list.detail.dayoftheweek" text="요일"/></th>
+                                            <th class="bg-light"><spring:message code="list.detail.starttimehh" text="시작시간(HH)"/></th>
+                                            <th class="bg-light"><spring:message code="list.detail.endtimehh" text="종료시간(HH)"/></th>
+                                            <th class="bg-light"><spring:message code="list.detail.distancem" text="거리(M)"/></th>
+                                            <th class="bg-light"><spring:message code="list.detail.fee1krw22" text="주문요금"/></th>
+                                            <th class="bg-light"><spring:message code="list.detail.fee2krw22" text="배송요금"/></th>
+                                            <%--<th class="bg-light"><spring:message code="list.detail.status" text="상태"/></th>--%>
+                                            <th class="bg-light"></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light">
+                                                <select class="form-control day" name="day">
+                                                    <option value="0"><spring:message code="list.detail.monday" text="전체"/></option>
+                                                    <option value="1"><spring:message code="list.detail.monday" text="월요일"/></option>
+                                                    <option value="2"><spring:message code="list.detail.tuesday" text="화요일"/></option>
+                                                    <option value="3"><spring:message code="list.detail.wednesday" text="수요일"/></option>
+                                                    <option value="4"><spring:message code="list.detail.thursday" text="목요일"/></option>
+                                                    <option value="5"><spring:message code="list.detail.friday" text="금요일"/></option>
+                                                    <option value="6"><spring:message code="list.detail.saturday" text="토요일"/></option>
+                                                    <option value="7"><spring:message code="list.detail.sunday" text="일요일"/></option>
+                                                </select>
+                                            </th>
                                             <td>
-                                                <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="multiTypeSelect" value="0" <c:if test="${tbStore.multiType.ordinal() == 0}">checked</c:if>> 사용안함</label>
-                                                <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="multiTypeSelect" value="1" <c:if test="${tbStore.multiType.ordinal() == 1}">checked</c:if>> 종속</label>
-                                                <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="multiTypeSelect" value="2" <c:if test="${tbStore.multiType.ordinal() == 2}">checked</c:if>> 마스터</label>
+                                                <select class="form-control width-full startTime" name="startTime" >
+                                                    <c:forEach begin="00" end="24" var="hour">
+                                                        <c:if test="${hour lt 10}"><option value="0${hour}">0${hour}</c:if><spring:message code="list.detail.timestart" text="시 (시작)"/></option>
+                                                        <c:if test="${hour gt 9}"><option value="${hour}">${hour}</c:if><spring:message code="list.detail.timeend" text="시 (시작)"/></option>
+                                                    </c:forEach>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control width-full endTime" name="endTime">
+                                                    <c:forEach begin="00" end="24" var="hour">
+                                                        <c:if test="${hour lt 10}"><option value="0${hour}">0${hour}</c:if><spring:message code="list.detail.timeend" text="시 (종료)"/></option>
+                                                        <c:if test="${hour gt 9}"><option value="${hour}">${hour}</c:if><spring:message code="list.detail.timeend" text="시 (종료)"/></option>
+                                                    </c:forEach>
+                                                </select>
+                                            </td>
+                                            <th>
+                                                <input type="text" class="form-control radius" name="radius" placeholder="<spring:message code="list.detail.distancelessthan" text="거리(미만)"/>" maxlength="7" numberOnly >
+                                            </th>
+                                            <th>
+                                                <input type="text" class="form-control custPrice" name="custPrice" placeholder="<spring:message code="list.detail.fee1krw" text="주문요금 (원)"/>" value="0" maxlength="7" numberOnly>
+                                            </th>
+                                            <th>
+                                                <input type="text" class="form-control dlvyPrice" name="dlvyPrice" placeholder="<spring:message code="list.detail.fee1krw" text="배송요금 (원)"/>" value="0" maxlength="7" numberOnly>
+                                            </th>
+                                            <td>
+                                                <button type="button" onclick="insPrice()" class="btn btn-white color"><spring:message code="list.detail.enrollment" text="등록"/></button>
                                             </td>
                                         </tr>
-                                            <tr class="multi_form_master_tr" style="display: <c:if test="${tbStore.multiType.ordinal() == 0 || tbStore.multiType.ordinal() == 1}">none</c:if><c:if test="${tbStore.multiType.ordinal() == 2}">contents</c:if>">
-                                                <td class="bg-light">가맹점 설정</td>
-                                                <td class="padding-0">
-                                                    <form class="multi_form_master" id="multi_form_master" method="post"  >
-                                                        <table style="width:100%;" id="">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="width-150 border-top-0 border-left-0 border-bottom-0">종속가맹 상품 판매대행 </td></td>
-                                                                    <td class="border-top-0 border-left-0 border-bottom-0 border-right-0" colspan="2">
-                                                                        <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="masterGoodsYn" value="0" <c:if test="${tbStore.masterGoodsYn.ordinal() == 0}">checked</c:if>> 관리안함</label>
-                                                                        <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="masterGoodsYn" value="1"  <c:if test="${tbStore.masterGoodsYn.ordinal() == 1}">checked</c:if>> 판매관리</label>
-                                                                        <input type="hidden" name="masterChargeYn" class="null_param">
-                                                                        <input type="hidden" name="masterStoreNo" class="null_param">
-                                                                        <input type="hidden" name="multiType">
-                                                                        <input type="hidden" name="storeNo" value="${tbStore.storeNo}">
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </form>
-                                                </td>
-                                                </form>
-                                            </tr>
-                                            <tr class="multi_form_slave_tr" style="display:<c:if test="${tbStore.multiType.ordinal() == 0 || tbStore.multiType.ordinal() == 2}">none</c:if><c:if test="${tbStore.multiType.ordinal() == 1}">contents</c:if>">
-                                                    <td class="bg-light">상품관리여부</td>
-                                                    <td class="padding-0">
-                                                        <form class="multi_form_slave" id="multi_form_slave" method="post" >
-                                                            <table style="width:100%;" id="">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td class="width-150 border-top-0 border-left-0 border-bottom-0">마스터 가맹점 선택</td></td>
-                                                                    <td class="border-top-0 border-left-0 border-bottom-0 border-right-0" colspan="2">
-                                                                        <label>
-                                                                            <select class="form-control masterStoreNo" name="masterStoreNo">
-                                                                            </select>
-                                                                        </label>
-                                                                        <input type="hidden" name="masterGoodsYn" value="" class="null_param" >
-                                                                        <input type="hidden" name="multiType">
-                                                                        <input type="hidden" name="storeNo" value="${tbStore.storeNo}">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="width-150border-left-0 border-bottom-0">마스터가맹 정산방식</td></td>
-                                                                    <td class="border-left-0 border-bottom-0 border-right-0" colspan="2">
-                                                                        <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="masterChargeYn" value="0" <c:if test="${tbStore.masterChargeYn.ordinal() == 0}">checked</c:if>=""> 수동정산</label>
-                                                                        <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="masterChargeYn" value="1"  <c:if test="${tbStore.masterChargeYn.ordinal() == 1}">checked</c:if>> 실시간정산</label>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </form>
-                                                    </td>
-                                            </tr>
-
                                         </tbody>
                                     </table>
                                 </form>
+
+                                <div class="block_list_div border " >
+                                    <table class="table table-bordered table-sort block_list_table">
+                                        <thead>
+                                        <colgroup>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                            <col width="10%"/>
+                                        </colgroup>
+                                        </thead>
+                                        <tbody class="addTbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+
                                 <div class="m-l-5 m-t-5">
-                                    <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> 목록&lt;%&ndash;<spring:message code="merchandise.insert.listbutton" text="default text"/>&ndash;%&gt;&lt;%&ndash;목록&ndash;%&gt;</button>
-                                    <button type="button" class="btn btn-primary btn_update_multi float-left m-t-5 m-l-20"><i class="fa fa-check m-r-3"></i> 멀티 가맹점 수정&lt;%&ndash;<spring:message code="merchandise.insert.insertbutton" text="default text"/>&ndash;%&gt;&lt;%&ndash;등록&ndash;%&gt;</button>
-                                </div>--%>
+                                    <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/><%--<spring:message code="merchandise.insert.listbutton" text="default text"/>--%><%--목록--%></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <%--   <div class="tab-pane fade" id="default-tab-9">
+                        <form class="update_form8" id="update_form8" method="post">
+                            <div class="table-responsive" style="overflow: hidden;">
+                                <table class="table table-condensed table-bordered">
+                                    <tr>
+                                        <td class="bg-light height-50 "  colspan="2"><spring:message code="list.detail.accountholder1" text="설정값"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <label class="">
+                                                <input type="radio" name="useYn" class="align-bottom m-r-10 useYn" value="0" <c:if test="${tbStorePrice.useYn == 0}" >checked</c:if>>총판설정 사용
+                                            </label>
+                                            <label class="m-l-10">
+                                                <input type="radio" name="useYn" class="align-bottom m-r-10 useYn" value="1" <c:if test="${tbStorePrice.useYn == 1}" >checked</c:if>>가맹점설정 사용
+                                            </label>
+
+                                           &lt;%&ndash; <select name="useYn" class="form-control width-150">
+                                                <option value="0"<c:if test="${tbStorePrice.useYn == 0}" >selected</c:if>>총판설정 사용</option>
+                                                <option value="1"<c:if test="${tbStorePrice.useYn == 1}" >selected</c:if>>가맹점설정 사용</option>
+                                            </select>&ndash;%&gt;
+                                        </td>
+                                        <td class="text-danger-darker   " style="width: 232px;"><spring:message code="list.description.cannotbemodified" text="가맹점설정 유형을 선택해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>" >
+                                        <td class="bg-light height-50 width-60" colspan="2"><spring:message code="list.detail.accountholder1" text="적용할 요금제"/></td>
+                                        <td colspan="2">
+                                            <label class="">
+                                                <input type="radio" name="meterUseYn" class="align-bottom m-r-10 meterUseYn" value="1" <c:if test="${tbStorePrice.meterUseYn == 1}" >checked</c:if>>기본(미터)요금 사용
+                                            </label>
+                                            <label class="m-l-10">
+                                                <input type="radio" name="meterUseYn" class="align-bottom m-r-10 meterUseYn" value="0" <c:if test="${tbStorePrice.meterUseYn == 0}" >checked</c:if>>거리구간요금 사용
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="거리구간 요금 유형을 선택해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="고객요금"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
+                                        <td class="border-right-0" colspan="1">
+                                            <input type="text"  class="form-control width-200 meterPrice" name="meterPrice" value="${tbStorePrice.meterPrice}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="border-right-0" colspan="">
+                                            <input type="text"  class="form-control width-200 meterBaseDistance" name="meterBaseDistance" value="${tbStorePrice.meterBaseDistance}" numberCommaOnly>  (M 단위)
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="기본요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="추가요금"/></td>
+                                        <td class="border-right-0" colspan="1">
+                                            <input type="text"  class="form-control width-200 meterAddition" name="meterAddition" value="${tbStorePrice.meterAddition}" numberCommaOnly>  원
+                                        </td>
+                                        <td class="border-right-0" colspan="">
+                                            <input type="text"  class="form-control width-200 meterAddDistance" name="meterAddDistance" value="${tbStorePrice.meterAddDistance}" numberCommaOnly> (M 단위)
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="추가요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="최대요금"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <input type="text"  class="form-control width-200 meterMaximum" name="meterMaximum" value="${tbStorePrice.meterMaximum}" numberCommaOnly>  원
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="배송요금"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
+                                        <td class="border-right-0" colspan="">
+                                            <input type="text"  class="form-control width-200 dlvyPrice" name="dlvyPrice" value="${tbStorePrice.dlvyPrice}" numberCommaOnly>  원
+                                        </td>
+                                        <td class="border-right-0" colspan="">
+                                            <input type="text"  class="form-control width-200 dlvyBaseDistance" name="dlvyBaseDistance" value="${tbStorePrice.dlvyBaseDistance}" numberCommaOnly> (M 단위)
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="기본요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="추가요금"/></td>
+                                        <td class="border-right-0" colspan="1">
+                                            <input type="text"  class="form-control width-200 dlvyAddition" name="dlvyAddition" value="${tbStorePrice.dlvyAddition}" numberCommaOnly>  원
+                                        </td>
+                                        <td class="border-right-0" colspan="1">
+                                            <input type="text"  class="form-control width-200 dlvyAddDistance" name="dlvyAddDistance" value="${tbStorePrice.dlvyAddDistance}" numberCommaOnly> (M 단위)
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="추가요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="최대요금"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <input type="text"  class="form-control width-200 dlvyMaximum" name="dlvyMaximum" value="${tbStorePrice.dlvyMaximum}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="8"><spring:message code="list.detail.accountholder1" text="할증요금 "/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증 "/></td>
+                                        <td colspan="2">
+                                            <select name="dayChargeYn" class="form-control width-100">
+                                                <option value="0"<c:if test="${tbStorePrice.dayChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                                <option value="1"<c:if test="${tbStorePrice.dayChargeYn == 1}" >selected</c:if>>사용</option>
+                                            </select>
+                                            <input type="text"  class="form-control width-120 dayCharge" name="dayCharge" value="${tbStorePrice.dayCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
+                                    </tr>
+                                   &lt;%&ndash; <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증 금액"/></td>
+                                        <td class="border-right-0">
+                                            <input type="text"  class="form-control width-200 dayCharge" name="dayCharge" value="${tbStorePrice.dayCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="반납대행 선결제 수수료를 입력해주세요."/></td>
+                                    </tr>&ndash;%&gt;
+                                   &lt;%&ndash; <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="눈비할증 금액"/></td>
+
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 금액을 입력해주세요."/></td>
+                                    </tr>&ndash;%&gt;
+
+                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="1"><spring:message code="list.detail.accountholder1" text="시간할증 "/></td>
+                                        <td colspan="1">
+                                            <select name="timeChargeYn" class="form-control width-100">
+                                                <option value="0"<c:if test="${tbStorePrice.timeChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                                <option value="1"<c:if test="${tbStorePrice.timeChargeYn == 1}" >selected</c:if>>할증사용</option>
+                                            </select>
+                                            <input type="text"  class="form-control width-120 timeCharge" name="timeCharge" value="${tbStorePrice.timeCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td>
+                                            시작시간 : <input type="text" name="timeStart" class="timeStart form-control" value="${tbStorePrice.timeStart}" maxlength="4" numberOnly> ~
+                                            종료시간 : <input type="text" name="timeEnd" class="timeEnd form-control" value="${tbStorePrice.timeEnd}" maxlength="4" numberOnly>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증정보를 입력해주세요"/></td>
+                                    </tr>
+                                   &lt;%&ndash; <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="시간할증 금액"/></td>
+
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증금액을 입력해주세요."/></td>
+                                    </tr>&ndash;%&gt;
+                                    &lt;%&ndash;<tr>
+                                        <td class="border-right-0" colspan="2">
+
+                                           &lt;%&ndash; <label>
+                                                <select class="form-control">
+                                                    <c:forEach begin="0" end="24" varStatus="hour">
+                                                        <c:if test="${hour.index.length < 1}">
+                                                            <option <c:if test="${tbStorePrice.timeStart == '0'+hour.index}">>selected</c:if>> 0${hour.index} </option>
+                                                        </c:if>
+                                                        <c:if test="${hour.index.length >= 1}">
+                                                            <option <c:if test="${tbStorePrice.timeStart ==  hour.index}">>selected</c:if>> ${hour.index} </option>
+                                                        </c:if>
+                                                        ${hour.index}
+                                                    </c:forEach>
+                                                </select>
+                                            </label>
+                                            <label>
+                                                <select class="form-control">
+                                                    <c:forEach begin="0" end="24" varStatus="hour">
+                                                        <c:if test="${hour.index.length < 1}">
+                                                            <option <c:if test="${tbStorePrice.timeStart == '0'+hour.index}">>selected</c:if>> 0${hour.index} </option>
+                                                        </c:if>
+                                                        <c:if test="${hour.index.length >= 1}">
+                                                            <option <c:if test="${tbStorePrice.timeStart ==  hour.index}">>selected</c:if>> ${hour.index} </option>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </select>
+                                            </label>&ndash;%&gt;
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증 시작/종료시간을 입력해주세요."/></td>
+                                        </tr>&ndash;%&gt;
+                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
+                                        <td class="bg-light" rowspan="2"><spring:message code="list.detail.accountholder1" text="눈비할증"/></td>
+                                        <td colspan="1" rowspan="2">
+                                            <select name="weatherChargeYn" class="form-control width-100">
+                                                <option value="0"<c:if test="${tbStorePrice.weatherChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                                <option value="1"<c:if test="${tbStorePrice.weatherChargeYn == 1}" >selected</c:if>>사용</option>
+                                            </select>
+                                            <input type="text"  class="form-control width-120 weatherCharge" name="weatherCharge" value="${tbStorePrice.weatherCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="월" <c:if test="${fn:contains(tbStorePrice.dayFilter, '월')}">checked</c:if>>월</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="화" <c:if test="${fn:contains(tbStorePrice.dayFilter, '화')}">checked</c:if>>화</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="수" <c:if test="${fn:contains(tbStorePrice.dayFilter, '수')}">checked</c:if>>수</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="목" <c:if test="${fn:contains(tbStorePrice.dayFilter, '목')}">checked</c:if>>목</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="금" <c:if test="${fn:contains(tbStorePrice.dayFilter, '금')}">checked</c:if>>금</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="토" <c:if test="${fn:contains(tbStorePrice.dayFilter, '토')}">checked</c:if>>토</label>
+                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="일" <c:if test="${fn:contains(tbStorePrice.dayFilter, '일')}">checked</c:if>>일</label>
+                                            <input type="hidden" name="dayFilter" class="dayFilter" value="${tbStorePrice.dayFilter}">
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 정보를 입력해주세요"/></td>
+                                    </tr>
+                                   &lt;%&ndash; <tr>
+                                       &lt;%&ndash; <td class="bg-light height-50" ><spring:message code="list.detail.accountholder1" text="적용요일"/></td>&ndash;%&gt;
+
+                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="적용요일을 선택해주세요."/></td>
+                                    </tr>&ndash;%&gt;
+                                      &lt;%&ndash;  <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.accountholder1" text="시간할증 종료시간"/></td>
+                                            <td class="border-right-0">
+                                                <label>
+                                                    <select class="form-control">
+                                                        <c:forEach begin="0" end="24" varStatus="hour">
+                                                            <option>${hour.index}시(시작)</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </label>
+                                                <label>
+                                                    <select class="form-control">
+                                                        <c:forEach begin="0" end="24" varStatus="hour">
+                                                            <option>${hour.index}시(종료)</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증 종료시간을 선택해주세요."/></td>
+                                        </tr>&ndash;%&gt;
+                                    </tbody>
+                                </table>
+                                <div class="m-t-10">
+                                    <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                                    <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>--%>
+                    <!-- end tab-pane -->
+                    <!-- begin tab-pane -->
+                   <%-- <div class="tab-pane fade" id="default-tab-9">--%>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
                             </div>
                             <form id="searchSubmitForm" onsubmit="searchPlaces(); return false;" style="display: none;">
                                 키워드 : <input type="text" value="${tbStore.poi}" id="keyword" size="15">
                                 <button id="kakaoSearchBtn" type="submit">검색하기</button>
                             </form>
-                           <%-- <div class="map_wrap">
-                                <div id="drawingMap"></div>
-                                <div id="map"></div>
-                                <p class="modes">
-                                    <button onclick="selectOverlay('MARKER')">마커</button>
-                                    <button onclick="selectOverlay('POLYLINE')">선</button>
-                                    <button onclick="selectOverlay('CIRCLE')">원</button>
-                                    <button onclick="selectOverlay('RECTANGLE')">사각형</button>
-                                    <button onclick="selectOverlay('POLYGON')">다각형</button>
-                                </p>
-                                <p class="getdata">
-                                    <button onclick="getDataFromDrawingMap()">가져오기</button>
-                                </p>
-                            </div>--%>
-                        <%--    <div class="col-xl-6 col-lg-6 height-400">
-                                <div id="tipmap" class="height-full width-full"></div>
-                            </div>--%>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+    <form class="updatePrice" id="updatePrice">
+        <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
+        <input type="hidden" name="radius" class="radius" value="">
+        <input type="hidden" name="day" class="day" value="">
+        <input type="hidden" name="groupNo" class="groupNo" value="">
+        <input type="hidden" name="custPrice" class="custPrice" value="">
+        <input type="hidden" name="dlvyPrice" class="dlvyPrice" value="">
+        <input type="hidden" name="startTime" class="startTime" value="">
+        <input type="hidden" name="endTime" class="endTime" value="">
+        <input type="hidden" name="dataStatus" class="dataStatus" value="">
+        <input type="hidden" name="priceNo" class="priceNo" value="">
+    </form>
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
             class="fa fa-angle-up"></i></a>
@@ -2296,6 +1637,7 @@
         <input type="hidden" name="headNo" value="${tbStore.head.headNo}">
         <input type="hidden" name="branchNo" value="${tbStore.branch.branchNo}">
         <input type="hidden" name="storeNo" value="${tbStore.storeNo}">
+        <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
         <input type="hidden" name="userType" value="UT_STORE">
         <div class="modal-dialog" style="
                     height: 50%;
@@ -2354,6 +1696,7 @@
         <input type="hidden" name="branchNo" value="${tbStore.branch.branchNo}">
         <input type="hidden" name="storeNo" value="${tbStore.storeNo}">
         <input type="hidden" class="userNo upUserNo" name="userNo" value="">
+        <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
         <input type="hidden" name="userType" value="UT_STORE">
         <div class="modal-dialog" style="
                     height: 50%;
@@ -2398,6 +1741,14 @@
                                     <option value="1"><spring:message code="list.detail.normal" text="정상"/></option>
                                     <option value="2"><spring:message code="list.detail.stop" text="정지"/></option>
                                 </select>
+                                <label class="m-l-10 blockTypeCodeSel">
+                                    정지/삭제사유 :
+                                    <select class="upBlockTypeCode" name="blockTypeCode"
+                                    <c:forEach var="item" items="${systemCodeList}" varStatus="status">
+                                        <option value="${item.sysCode}" <c:if test="${tbUserStaff.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
+                                    </c:forEach>
+                                    </select>
+                                </label>
                             </td>
                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourphonenumber" text="사용자 전화번호를 입력해주세요"/></td>
                         </tr>
@@ -2484,6 +1835,10 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services,drawing"></script>
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
+    function percentChk(number){
+        console.log(number)
+        return number.replaceAll(".00","");
+    }
 
     $(document).on("click",".modalUserSave",function(){
 
@@ -2588,7 +1943,7 @@
         let memo = $(this).attr("memo");
         let userNo = $(this).attr("staffNo");
         let dataStatus = $(this).attr("dataStatus");
-
+        let blockTypeCode = $(this).attr("blockTypeCode");
 
         $(".upUserId").val(userId);
         $(".upName").val(name);
@@ -2596,6 +1951,12 @@
         $(".upMemo").val(memo);
         $(".upUserNo").val(userNo);
         $(".upDataStatus").val(dataStatus).attr("selected","selected");
+        if(dataStatus == 1){
+            $(".blockTypeCodeSel").css("display","none");
+        }else {
+            $(".blockTypeCodeSel").css("display","inline");
+            $(".upBlockTypeCode").val(blockTypeCode).attr("selected","selected");
+        }
     });
 
 
@@ -2898,6 +2259,63 @@
     let marker;
     let drawingManager = null;
     $(() => {
+
+        priceList();
+        //총판설정 사용일때 나머지 row none처리
+        $(".useYn").on("click",function(){
+            let meterUseYn= $("input[name='meterUseYn']:checked").val();
+            if($(this).val() == 1) {
+                $(".useYnTr").css("display","");
+                if(meterUseYn == 1) {
+                    $(".meterUseYnTr").css("display","");
+                } else {
+                    $(".meterUseYnTr").css("display","none");
+                }
+            } else {
+                $(".useYnTr").css("display","none");
+            }
+
+
+
+        });
+
+        $(".meterUseYn").on("click",function(){
+            if($(this).val() == 1) {
+                $(".meterUseYnTr").css("display","");
+            } else {
+                $(".meterUseYnTr").css("display","none");
+            }
+        });
+
+
+        $(".pgCharge").val(percentChk($(".pgCharge").val()));
+        $(".takeoverCharge").val(percentChk($(".takeoverCharge").val()));
+        $(".returnCharge").val(percentChk($(".returnCharge").val()));
+        $(".mycarCharge").val(percentChk($(".mycarCharge").val()));
+        $(".olleCharge").val(percentChk($(".olleCharge").val()));
+
+        $("input:text[numberCommaOnly]").on("keyup", function() {
+            $(this).val($(this).val().replace(/[^0-9.]/g,""));
+        });
+
+        $(".pgCharge,.takeoverCharge,.returnCharge,.mycarCharge,.olleCharge").focus(function(){
+            /!*$(this).val('');*!/
+        }).blur(function(){
+            if($(this).val() == ""){
+                $(this).val("0");
+            }
+        });
+
+
+        $(".upDataStatus").on("change", function () {
+            var radioVal = $('.upDataStatus option:selected').val();
+            if (radioVal == 1) {
+                $(".blockTypeCodeSel").css("display", "none");
+            } else {
+                $(".blockTypeCodeSel").css("display", "inline");
+            }
+        });
+
         staffList();
         map.relayout();
         $('.pin-div i').on('click',function(){
@@ -2995,6 +2413,12 @@
                 codeList.push({storeNo : storeNo, catCode : catCode , catLevel : catLevel ,parentCatCode : null, insertDate : null });
             });
 
+            let dayFilter ="";
+            $("input[class=dayFilterChk]:checked").each(function() {
+                dayFilter= dayFilter+$(this).val();
+            });
+            $(".dayFilter").val(dayFilter);
+
             var deleteList = firstCodeList.filter(function(each1) {
                 return codeList.every(function(each2){
                     return each1.catCode != each2.catCode;
@@ -3026,8 +2450,12 @@
             let url = "${path}/api/affilfranch/update/action";
             let _forms = $('.update_form, .update_form5');
             let _forms2 = $('.update_form2');
+            let _forms3 = $('.update_form7');
+            let _forms4 = $('.update_form8');
             let req = convertFormToObj(_forms);
             let req2 = convertFormToObj(_forms2);
+            let req3 = convertFormToObj(_forms3);
+            let req4 = convertFormToObj(_forms4);
 
             let updatemsg = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
             let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
@@ -3035,6 +2463,7 @@
             let cancelmsg = "<spring:message code="list.script.cancel" text="취소"/>";
             let updatconfirm = "<spring:message code="list.script.update" text="수정"/>";
 
+            console.log(req4);
             if (inputDataCheck(req)) {
                 swal({
                     title: updatemsg,
@@ -3050,6 +2479,8 @@
                         formData.append("tbStoreData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
                         formData.append("tbBusinessInfoData",  new Blob([JSON.stringify(req2)], {type:"application/json"}));
                         formData.append("tbStoreCategoryFo",  new Blob([JSON.stringify(codeList)], {type:"application/json"}));
+                        formData.append("tbStoreCharge",  new Blob([JSON.stringify(req3)], {type:"application/json"}));
+                        formData.append("tbStorePrice",  new Blob([JSON.stringify(req4)], {type:"application/json"}));
                         formData.append("deleteList",  new Blob([JSON.stringify(deleteList)], {type:"application/json"}));
                         /*formData.append("imgFile1",_forms.find('#imgFile1')[0]);*/
                         formData.append("imgFile1", $("#imgFile1")[0].files[0]);
@@ -3303,257 +2734,6 @@
         }
     }
 
-    // This example adds a search box to a map, using the Google Place Autocomplete
-    // feature. People can enter geographical searches. The search box will return a
-    // pick list containing a mix of places and predicted search terms.
-    // This example requires the Places library. Include the libraries=places
-    // parameter when you first load the API. For example:
-    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-
-
-
-
-   /*  function initTipMap() {
-
-       });
-   }*/
-
-    /*// Drawing Manager로 도형을 그릴 지도 div
-    var drawingMapContainer = document.getElementById('drawingMap'),
-        drawingMap = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
-        };
-
-    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-    var drawingMap = new kakao.maps.Map(drawingMapContainer, drawingMap);
-
-    var options = { // Drawing Manager를 생성할 때 사용할 옵션입니다
-        map: drawingMap, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
-        drawingMode: [ // Drawing Manager로 제공할 그리기 요소 모드입니다
-            kakao.maps.drawing.OverlayType.MARKER,
-            kakao.maps.drawing.OverlayType.POLYLINE,
-            kakao.maps.drawing.OverlayType.RECTANGLE,
-            kakao.maps.drawing.OverlayType.CIRCLE,
-            kakao.maps.drawing.OverlayType.POLYGON
-        ],
-        // 사용자에게 제공할 그리기 가이드 툴팁입니다
-        // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
-        guideTooltip: ['draw', 'drag', 'edit'],
-        markerOptions: { // 마커 옵션입니다
-            draggable: true, // 마커를 그리고 나서 드래그 가능하게 합니다
-            removable: true // 마커를 삭제 할 수 있도록 x 버튼이 표시됩니다
-        },
-        polylineOptions: { // 선 옵션입니다
-            draggable: true, // 그린 후 드래그가 가능하도록 설정합니다
-            removable: true, // 그린 후 삭제 할 수 있도록 x 버튼이 표시됩니다
-            editable: true, // 그린 후 수정할 수 있도록 설정합니다
-            strokeColor: '#39f', // 선 색
-            hintStrokeStyle: 'dash', // 그리중 마우스를 따라다니는 보조선의 선 스타일
-            hintStrokeOpacity: 0.5  // 그리중 마우스를 따라다니는 보조선의 투명도
-        },
-        rectangleOptions: {
-            draggable: true,
-            removable: true,
-            editable: true,
-            strokeColor: '#39f', // 외곽선 색
-            fillColor: '#39f', // 채우기 색
-            fillOpacity: 0.5 // 채우기색 투명도
-        },
-        circleOptions: {
-            draggable: true,
-            removable: true,
-            editable: true,
-            strokeColor: '#39f',
-            fillColor: '#39f',
-            fillOpacity: 0.5
-        },
-        polygonOptions: {
-            draggable: true,
-            removable: true,
-            editable: true,
-            strokeColor: '#39f',
-            fillColor: '#39f',
-            fillOpacity: 0.5,
-            hintStrokeStyle: 'dash',
-            hintStrokeOpacity: 0.5
-        }
-    };
-
-    // 위에 작성한 옵션으로 Drawing Manager를 생성합니다
-    var manager = new kakao.maps.drawing.DrawingManager(options);
-
-    // 버튼 클릭 시 호출되는 핸들러 입니다
-    function selectOverlay(type) {
-        undo();
-        // 그리기 중이면 그리기를 취소합니다
-        manager.cancel();
-
-        // 클릭한 그리기 요소 타입을 선택합니다
-        manager.select(kakao.maps.drawing.OverlayType[type]);
-    }*/
-
-  /*  // Drawing Manager에서 데이터를 가져와 도형을 표시할 아래쪽 지도 div
-    var mapContainer = document.getElementById('dmap'),
-        mapOptions = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
-        };
-
-    // 지도 div와 지도 옵션으로 지도를 생성합니다
-    var map = new kakao.maps.Map(mapContainer, mapOptions),
-        overlays = []; // 지도에 그려진 도형을 담을 배열
-
-    // 가져오기 버튼을 클릭하면 호출되는 핸들러 함수입니다
-    // Drawing Manager로 그려진 객체 데이터를 가져와 아래 지도에 표시합니다
-    function getDataFromDrawingMap() {
-        // Drawing Manager에서 그려진 데이터 정보를 가져옵니다
-        var data = manager.getData();
-
-        // 아래 지도에 그려진 도형이 있다면 모두 지웁니다
-        removeOverlays();
-
-        // 지도에 가져온 데이터로 도형들을 그립니다
-        drawMarker(data[kakao.maps.drawing.OverlayType.MARKER]);
-        drawPolyline(data[kakao.maps.drawing.OverlayType.POLYLINE]);
-        drawRectangle(data[kakao.maps.drawing.OverlayType.RECTANGLE]);
-        drawCircle(data[kakao.maps.drawing.OverlayType.CIRCLE]);
-        drawPolygon(data[kakao.maps.drawing.OverlayType.POLYGON]);
-    }*/
-
-    // 아래 지도에 그려진 도형이 있다면 모두 지웁니다
-    /*function removeOverlays() {
-        var len = overlays.length, i = 0;
-
-        for (; i < len; i++) {
-            overlays[i].setMap(null);
-        }
-
-        overlays = [];
-    }
-
-    // Drawing Manager에서 가져온 데이터 중 마커를 아래 지도에 표시하는 함수입니다
-    function drawMarker(markers) {
-        var len = markers.length, i = 0;
-
-        for (; i < len; i++) {
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: new kakao.maps.LatLng(markers[i].y, markers[i].x),
-                zIndex: markers[i].zIndex
-            });
-
-            overlays.push(marker);
-        }
-    }
-
-    // Drawing Manager에서 가져온 데이터 중 선을 아래 지도에 표시하는 함수입니다
-    function drawPolyline(lines) {
-        var len = lines.length, i = 0;
-
-        for (; i < len; i++) {
-            var path = pointsToPath(lines[i].points);
-            var style = lines[i].options;
-            var polyline = new kakao.maps.Polyline({
-                map: map,
-                path: path,
-                strokeColor: style.strokeColor,
-                strokeOpacity: style.strokeOpacity,
-                strokeStyle: style.strokeStyle,
-                strokeWeight: style.strokeWeight
-            });
-
-            overlays.push(polyline);
-        }
-    }
-
-    // Drawing Manager에서 가져온 데이터 중 사각형을 아래 지도에 표시하는 함수입니다
-    function drawRectangle(rects) {
-        var len = rects.length, i = 0;
-
-        for (; i < len; i++) {
-            var style = rects[i].options;
-            var rect = new kakao.maps.Rectangle({
-                map: map,
-                bounds: new kakao.maps.LatLngBounds(
-                    new kakao.maps.LatLng(rects[i].sPoint.y, rects[i].sPoint.x),
-                    new kakao.maps.LatLng(rects[i].ePoint.y, rects[i].ePoint.x)
-                ),
-                strokeColor: style.strokeColor,
-                strokeOpacity: style.strokeOpacity,
-                strokeStyle: style.strokeStyle,
-                strokeWeight: style.strokeWeight,
-                fillColor: style.fillColor,
-                fillOpacity: style.fillOpacity
-            });
-
-            overlays.push(rect);
-        }
-    }
-
-    // Drawing Manager에서 가져온 데이터 중 원을 아래 지도에 표시하는 함수입니다
-    function drawCircle(circles) {
-        var len = circles.length, i = 0;
-
-        for (; i < len; i++) {
-            var style = circles[i].options;
-            var circle = new kakao.maps.Circle({
-                map: map,
-                center: new kakao.maps.LatLng(circles[i].center.y, circles[i].center.x),
-                radius: circles[i].radius,
-                strokeColor: style.strokeColor,
-                strokeOpacity: style.strokeOpacity,
-                strokeStyle: style.strokeStyle,
-                strokeWeight: style.strokeWeight,
-                fillColor: style.fillColor,
-                fillOpacity: style.fillOpacity
-            });
-
-            overlays.push(circle);
-        }
-    }
-
-    // Drawing Manager에서 가져온 데이터 중 다각형을 아래 지도에 표시하는 함수입니다
-    function drawPolygon(polygons) {
-        var len = polygons.length, i = 0;
-
-        for (; i < len; i++) {
-            var path = pointsToPath(polygons[i].points);
-            var style = polygons[i].options;
-            var polygon = new kakao.maps.Polygon({
-                map: map,
-                path: path,
-                strokeColor: style.strokeColor,
-                strokeOpacity: style.strokeOpacity,
-                strokeStyle: style.strokeStyle,
-                strokeWeight: style.strokeWeight,
-                fillColor: style.fillColor,
-                fillOpacity: style.fillOpacity
-            });
-
-            overlays.push(polygon);
-        }
-    }
-
-    // Drawing Manager에서 가져온 데이터 중
-    // 선과 다각형의 꼭지점 정보를 kakao.maps.LatLng객체로 생성하고 배열로 반환하는 함수입니다
-    function pointsToPath(points) {
-        var len = points.length,
-            path = [],
-            i = 0;
-
-        for (; i < len; i++) {
-            var latlng = new kakao.maps.LatLng(points[i].y, points[i].x);
-            path.push(latlng);
-        }
-
-        return path;
-    }*/
-
-
-
-
     function inputDataCheck(args) {
         let storemsg = "<spring:message code="list.script.pleaseenterthestorename" text="가맹점명을 입력해주세요."/>";
         let storephonemsg = "<spring:message code="list.script.merchantphonenumbermsg" text="가맹점전화번호를 입력해주세요."/>";
@@ -3562,8 +2742,12 @@
             return alert_focus("storeName",storemsg);
         } else if (isNull(args.storeTel)) {
             return alert_focus("storeTel", storephonemsg);
-        } else if (isNull(args.storeNameInapp)) {
-            return alert_focus("storeNameInapp", storeheadquartermsg);
+        } else if (isNull(args.authTel)) {
+            return alert_focus("authTel", "인증용 휴대전화를 입력해주세요.");
+        } else if (isNull(args.mngrName)) {
+            return alert_focus("mngrName", "영업담당자 이름을 입력해주세요.");
+        } else if (isNull(args.addr1)) {
+            return alert_focus("addr1", "주소를 입력해주세요");
         }
         return true;
     }
@@ -3676,8 +2860,17 @@
                             "   <td class=\"p-0\">"+data.userStaffList[i].memo+"</td>" +
                             "   <td class=\"p-0\">"+dataStatus+"</td>" +
                             "   <td class=\"p-0\"><a href=\"#modal-message-up\" class=\"btn btn-sm btn-primary update_staff\" " +
-                            "data-toggle=\"modal\" userId="+data.userStaffList[i].userId+" name="+data.userStaffList[i].name+" phone="+data.userStaffList[i].phone+" dataStatus="+data.userStaffList[i].dataStatus+" memo="+data.userStaffList[i].memo+" staffNo="+data.userStaffList[i].staffNo+"" +
-                            " >"+userupdate+"</a></td>" +
+                            "data-toggle=\"modal\""+
+                            " userNo="+data.userStaffList[i].staffNo+
+                            " blockTypeCode="+data.userStaffList[i].blockTypeCode+
+                            " userId="+data.userStaffList[i].userId+
+                            " name="+data.userStaffList[i].name+
+                            " phone="+data.userStaffList[i].phone+
+                            " dataStatus="+data.userStaffList[i].dataStatus+
+                            " staffNo="+data.userStaffList[i].staffNo+
+                            " memo="+data.userStaffList[i].memo+
+                            " >"+userupdate+"</a>" +
+                            "</td>" +
                             "</tr>"
                         )
                     }
@@ -3722,6 +2915,348 @@
             document.selection.clear();                          //일부 브라우저 미지원
             return false;
         }
+    }
+
+
+    function priceList() {
+        let allday = "<spring:message code="list.script.monday" text="전체"/>";
+        let monday = "<spring:message code="list.script.monday" text="월요일"/>";
+        let tuesday = "<spring:message code="list.script.tuesday" text="화요일"/>";
+        let wednesday = "<spring:message code="list.script.wednesday" text="수요일"/>";
+        let thursday = "<spring:message code="list.script.thursday" text="목요일"/>";
+        let friday = "<spring:message code="list.script.friday" text="금요일"/>";
+        let saturday = "<spring:message code="list.script.saturday" text="토요일"/>";
+        let sunday = "<spring:message code="list.script.sunday" text="일요일"/>";
+        let end = "<spring:message code="list.script.end" text="종료"/>";
+        let start = "<spring:message code="list.script.start" text="시작"/>";
+        let normal = "<spring:message code="list.script.normal" text="정상"/>";
+        let stop = "<spring:message code="list.script.stop" text="정지"/>";
+        let distancelesthan = "<spring:message code="list.script.distancelesthan" text="거리(미만)"/>";
+        let custPrice = "<spring:message code="list.script.custPrice" text="고객요금"/>";
+        let dlvyPrice = "<spring:message code="list.script.dlvyPrice" text="배송요금"/>";
+        let update = "<spring:message code="list.script.update" text="수정"/>";
+        let nolistmsg = "<spring:message code="list.script.thereisnoregisteredlist" text="등록된 리스트가 없습니다."/>";
+
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliverystreet/dlvyPrice/list",
+            data: {
+                groupNo: "${tbStore.storeNo}"
+            },
+            success: function(data) {
+                console.log(data)
+                let sortList = [];
+                var sortingField = "day";
+
+                if(data.tbDlvyPriceList.length >= 1){
+                    sortList =  data.tbDlvyPriceList.sort(function(a, b) { // 오름차순
+                        return a[sortingField] - b[sortingField];
+                    });
+                } else {
+                    sortList = data.tbDlvyPriceList;
+                }
+
+
+                $(".addTbody").html("");
+                for(var i = 0 ; i < sortList.length ; i++){
+                    let dataStatus = "";
+
+
+                    let dayList = "";
+                    let dayText = [allday,monday,tuesday,wednesday,thursday,friday,saturday,sunday];
+                    let startTime = "";
+                    let endTime = "";
+                    dayList =  "         <select class=\"form-control day upDay\" name=\"day\">\n";
+                    for(let j = 0 ; j < dayText.length ; j ++) {
+                        if (sortList[i].day == j) {
+                            dayList = dayList +"<option value="+j+" selected>"+dayText[j]+"</option>\n";
+                        } else {
+                            dayList = dayList +"<option value="+j+">"+dayText[j]+"</option>\n";
+                        }
+                    }
+                    dayList =  dayList+" </select>\n" ;
+
+
+
+                    startTime ="        <select class=\"form-control width-full startTime\" name=\"startTime\" >\n";
+                    for(let j = 0 ; j <= 24 ; j ++) {
+                        let timeText = "";
+                        if(j < 10){
+                            timeText  = "0"+j;
+                        } else {
+                            timeText  = j;
+                        }
+                        if (sortList[i].startTime == j) {
+
+                            startTime = startTime +"<option value="+j+" selected>"+timeText+" ("+start+")</option>\n";
+                        } else {
+                            startTime = startTime +"<option value="+j+">"+timeText+" ("+start+")</option>\n";
+                        }
+                    }
+                    startTime = startTime +"        </select>\n" ;
+
+                    endTime ="        <select class=\"form-control width-full endTime\" name=\"endTime\" >\n";
+                    for(let j = 0 ; j <= 24 ; j ++) {
+                        let timeText = "";
+                        if(j < 10){
+                            timeText  = "0"+j;
+                        } else {
+                            timeText  = j;
+                        }
+                        if (sortList[i].endTime == j) {
+                            endTime = endTime +"<option value="+j+" selected>"+timeText+" ("+end+")</option>\n";
+                        } else {
+                            endTime = endTime +"<option value="+j+">"+timeText+" ("+end+")</option>\n";
+                        }
+                    }
+                    endTime = endTime +"        </select>\n" ;
+
+
+                    if (sortList[i].dataStatus == 1) {
+                        dataStatus =      "        <select class=\"form-control dataStatus\">\n" +
+                            "            <option value=\"1\" selected>"+normal+"</option>\n" +
+                            "            <option value=\"2\">"+stop+"</option>\n" +
+                            "        </select>\n" ;
+                    }else if(sortList[i].dataStatus == 2){
+                        dataStatus =      "        <select class=\"form-control dataStatus\">\n" +
+                            "            <option value=\"1\" >"+normal+"</option>\n" +
+                            "            <option value=\"2\" selected>"+stop+"</option>\n" +
+                            "        </select>\n" ;
+                    }
+                    let radius ="";
+                    let custPrice ="";
+                    let dlvyPrice ="";
+                    if(sortList[i].radius == "" || sortList[i].radius == null){
+                        radius = "";
+                    }else {
+                        radius = sortList[i].radius;
+                    }
+                    if(sortList[i].custPrice == "" || sortList[i].custPrice == null){
+                        custPrice = "";
+                    }else {
+                        custPrice = sortList[i].custPrice;
+                    }
+                    if(sortList[i].dlvyPrice == "" || sortList[i].dlvyPrice == null){
+                        dlvyPrice = "";
+                    }else {
+                        dlvyPrice = sortList[i].dlvyPrice;
+                    }
+
+                    $(".addTbody").append("<tr class=\"priceTr"+sortList[i].priceNo+" border\">\n" +
+                        "    <th class=\"bg-light\">\n" +
+                        dayList +
+                        "    </th>\n" +
+                        "    <td>\n" +
+                        startTime +
+                        "    </td>\n" +
+                        "    <td>\n" +
+                        endTime +
+                        "    </td>\n" +
+                        "    <th>\n" +
+                        "        <input type=\"text\" class=\"form-control radius\" name=\"radius\" placeholder=\"\" value='"+radius+"' maxlength=\"7\" numberOnly>\n" +
+                        "    </th>\n" +
+                        "    <th>\n" +
+                        "        <input type=\"text\" class=\"form-control custPrice\" name=\"custPrice\" placeholder=\"\" value='"+custPrice+"' maxlength=\"7\" numberOnly>\n" +
+                        "    </th>\n" +
+                        "    <th>\n" +
+                        "        <input type=\"text\" class=\"form-control dlvyPrice\" name=\"dlvyPrice\" placeholder=\"\" value='"+dlvyPrice+"' maxlength=\"7\" numberOnly>\n" +
+                        "    </th>\n" +
+                        "    <td>\n" +
+                        "        <button type=\"button\" onclick=\"upPrice("+sortList[i].priceNo+")\" class=\"btn btn-white color\">"+update+"</button>\n" +
+                        "        <button type=\"button\" onclick=\"delPrice("+sortList[i].priceNo+")\" class=\"btn btn-danger color\">삭제</button>\n" +
+                        "    </td>\n" +
+                        "</tr>")
+                }
+
+                if(data.tbDlvyPriceList.length == 0) {
+                    $(".addTbody").append(
+                        "<tr class=\"\"  >\n" +
+                        "<th class=\"text-center\" colspan=\"9\">"+nolistmsg+"</th>"+
+                        "</tr>"
+                    )
+                }
+            }
+        });
+    }
+
+    function upPrice(priceNo) {
+        let radius = $(".priceTr"+priceNo).find(".radius").val();
+        let day = $(".priceTr"+priceNo).find(".day").val();
+        let custPrice = $(".priceTr"+priceNo).find(".custPrice").val();
+        let dlvyPrice = $(".priceTr"+priceNo).find(".dlvyPrice").val();
+        let startTime = $(".priceTr"+priceNo).find(".startTime").val();
+        let endTime = $(".priceTr"+priceNo).find(".endTime").val();
+        let dataStatus = 1;
+
+        let updatemsg = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
+        let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
+        let updatefailmsg = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
+        let update = "<spring:message code="list.script.update" text="수정"/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+
+        $(".updatePrice").find(".priceNo").val(priceNo);
+        $(".updatePrice").find(".groupNo").val(${tbStore.storeNo});
+        $(".updatePrice").find(".radius").val(radius);
+        $(".updatePrice").find(".day").val(day);
+        $(".updatePrice").find(".custPrice").val(custPrice);
+        $(".updatePrice").find(".dlvyPrice").val(dlvyPrice);
+        $(".updatePrice").find(".startTime").val(startTime);
+        $(".updatePrice").find(".endTime").val(endTime);
+        $(".updatePrice").find(".dataStatus").val(dataStatus);
+
+        let _forms = $('.updatePrice');
+        let req = convertFormToObj(_forms);
+        console.log(req)
+        let url = "${path}/api/deliverystreet/price/update";
+        swal({
+            title: updatemsg,
+            icon: "warning",
+            buttons: [
+                cancel,
+                update
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                var formData = new FormData(document.getElementById('updatePrice'));
+                formData.append("tbDlvyPrice",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.result == 200) {
+                            alert(updatesussmsg);
+                            priceList();
+                        } else {
+                            alert(updatefailmsg);
+                            return;
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function delPrice(priceNo) {
+        let radius = $(".priceTr"+priceNo).find(".radius").val();
+        let day = $(".priceTr"+priceNo).find(".day").val();
+        let custPrice = $(".priceTr"+priceNo).find(".custPrice").val();
+        let dlvyPrice = $(".priceTr"+priceNo).find(".dlvyPrice").val();
+        let startTime = $(".priceTr"+priceNo).find(".startTime").val();
+        let endTime = $(".priceTr"+priceNo).find(".endTime").val();
+        let dataStatus = 0;
+
+        let updatemsg = "<spring:message code="list.script.wouldyouliketoupdate1" text="삭제하시겠습니까?"/>";
+        let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful1" text="삭제에 성공하였습니다."/>";
+        let updatefailmsg = "<spring:message code="list.script.editfailed1" text="삭제에 실패하였습니다."/>";
+        let update = "<spring:message code="list.script.update1" text="삭제"/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+
+        $(".updatePrice").find(".priceNo").val(priceNo);
+        $(".updatePrice").find(".groupNo").val(${tbStore.storeNo});
+        $(".updatePrice").find(".radius").val(radius);
+        $(".updatePrice").find(".day").val(day);
+        $(".updatePrice").find(".custPrice").val(custPrice);
+        $(".updatePrice").find(".dlvyPrice").val(dlvyPrice);
+        $(".updatePrice").find(".startTime").val(startTime);
+        $(".updatePrice").find(".endTime").val(endTime);
+        $(".updatePrice").find(".dataStatus").val(dataStatus);
+
+        let _forms = $('.updatePrice');
+        let req = convertFormToObj(_forms);
+        console.log(req)
+        let url = "${path}/api/deliverystreet/price/update";
+        swal({
+            title: updatemsg,
+            icon: "warning",
+            buttons: [
+                cancel,
+                update
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                var formData = new FormData(document.getElementById('updatePrice'));
+                formData.append("tbDlvyPrice",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.result == 200) {
+                            alert(updatesussmsg);
+                            priceList();
+                        } else {
+                            alert(updatefailmsg);
+                            return;
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function insPrice() {
+        let url = "${path}/api/deliverystreet/price/insert";
+
+        let _forms = $('.insert_form_dlvy_price');
+        let req = convertFormToObj(_forms);
+
+        let registmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
+        let registfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        let enrollment = "<spring:message code="list.script.enrollment" text="등록"/>";
+        if (inputDataCheck4(req)) {
+            swal({
+                title: registmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    enrollment
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    var formData = new FormData(document.getElementById('insert_form_dlvy_price'));
+                    formData.append("tbDlvyPrice",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.result == 200) {
+                                priceList();
+                            } else {
+                                alert(registfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+
+
+    function inputDataCheck4(args) {
+        console.log(args);
+        let distancemsg = "<spring:message code="list.script.pleaseenterthdistance" text="거리를 입력해주세요"/>";
+        let fee1msg = "<spring:message code="list.script.pleaseenterrate1" text="요금1을 입력해주세요"/>";
+        if (isNull(args.custPrice)) {
+            return alert_focus("radius",custPrice);
+        }
+        return true;
     }
 
 </script>

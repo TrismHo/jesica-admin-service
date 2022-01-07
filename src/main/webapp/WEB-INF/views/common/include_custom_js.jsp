@@ -654,11 +654,41 @@
     $(".new-control-btn").on("click",function(){
         windowPopup();
     });
-    function windowPopup() {
+  /*  function windowPopup() {
         var popUrl = "${path}/system/control/view";
-        var popOption = "top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no";
-        window.open(popUrl, '관제', 'width=700px,height=800px,status=no,toolbar=no,scrollbars=no,location=no');
+        window.open(popUrl, '관제', 'status=no,toolbar=no,scrollbars=no,location=no, fullscreen=yes');
+    }*/
+    function windowPopup(Option) {
+
+        var screenSizeWidth,screenSizeHeight;
+        if (self.screen) {
+            screenSizeWidth = screen.width ;
+            screenSizeHeight = screen.height;
+        }
+
+        documentURL = "${path}/system/control/view";    //팝업창에 출력될 페이지 URL
+        windowname = "관제";
+        intWidth = screenSizeWidth;
+        intHeight = screenSizeHeight;
+        intXOffset = 0 ;
+        intYOffset = 0 ;
+        if(Option){
+            obwindow = window.open(documentURL,windowname, "fullscreen=yes, toolbar=no, location=no, directories=no, status=no, menubar=no,scrollbars=no,resizable=no") ;
+        } else {
+            obwindow = window.open(documentURL,windowname, " toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes,resizable=no") ;
+            obwindow.resizeTo(intWidth, intHeight) ;
+            obwindow.moveTo(intXOffset, intYOffset);
+        }
     }
+
+    function phoneNumber(value) {
+        value = value.replace(/[^0-9]/g, "");
+        return value.replace(
+            /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
+            "$1-$2-$3"
+        );
+    }
+
     let checkPageUrl = (function(currentPage, table) {
         currentPage = getPageUrl(currentPage);
         let prePage = getCookie("url");

@@ -14,6 +14,8 @@ public class TbUserStaffData {
     Long userNo;
 
     private String insertUserId;
+    private String updateUserId;
+    private String userOldPwd;
     private String userId;
     private String userPwd;
     private UserType userType;
@@ -36,7 +38,7 @@ public class TbUserStaffData {
                 .userPwd(this.userPwd)
                 .userType(this.userType)
                 .updateDate(this.updateDate)
-                .updateUserId(this.insertUserId)
+                .insertUserId(this.insertUserId)
                 .dataStatus(this.dataStatus)
                 .blockTypeCode(this.blockTypeCode)
                 .headNo(this.headNo)

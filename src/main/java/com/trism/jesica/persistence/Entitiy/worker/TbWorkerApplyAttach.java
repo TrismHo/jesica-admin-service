@@ -1,4 +1,4 @@
-package com.trism.jesica.persistence.Entitiy;
+package com.trism.jesica.persistence.Entitiy.worker;
 
 import com.trism.jesica.persistence.core.entity.BaseEntity;
 

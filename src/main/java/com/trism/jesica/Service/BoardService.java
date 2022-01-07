@@ -6,10 +6,12 @@ import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
+import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.Repository.board.TbNoticeCompanyRepository;
 import com.trism.jesica.persistence.Repository.board.TbNoticePlatformRepository;
+import com.trism.jesica.persistence.Repository.board.TbNoticeReleaseRepository;
 import com.trism.jesica.persistence.Repository.board.TbNoticeWorkerRepository;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,9 @@ public class BoardService {
 
     @Autowired
     private final TbEventRepository tbEventRepository;
+
+    @Autowired
+    private final TbNoticeReleaseRepository tbNoticeReleaseRepository;
 
 
     @Transactional(readOnly = true)
@@ -129,6 +134,19 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
+    public List<TbNoticeRelease> tbReleaseSearch(Map<String,Object> searchValue) {
+        Specification<TbNoticeRelease> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key,(String)value);
+            predicate = (Specification<TbNoticeRelease>) SearchUtil.searchRelese(searchValue);
+        }
+        return searchValue.isEmpty() ? tbNoticeReleaseRepository.findAll(Sort.by(Sort.Direction.DESC, "updateDate"))
+                : tbNoticeReleaseRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "updateDate"));
+    }
+
+    @Transactional(readOnly = true)
     public TbEvent getTbEventDetail(Long eventId) {
         Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findById(eventId);
         if(tbNoticePlatForm.isPresent() == false) {
@@ -136,5 +154,25 @@ public class BoardService {
         }
         return tbNoticePlatForm.get();
     }
+
+    @Transactional(readOnly = true)
+    public TbNoticeRelease getTbReleaseDetail(Long eventId) {
+        Optional<TbNoticeRelease> tbNoticeRelease = tbNoticeReleaseRepository.findById(eventId);
+        if(tbNoticeRelease.isPresent() == false) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+        return tbNoticeRelease.get();
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getUpdateListLimit() {
+        return tbNoticeReleaseRepository.findAllLimit();
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getPlatformListLimit() {
+        return tbNoticePlatformRepository.findAllLimit();
+    }
+
 }
 

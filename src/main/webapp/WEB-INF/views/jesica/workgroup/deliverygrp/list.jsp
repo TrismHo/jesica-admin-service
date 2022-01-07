@@ -138,7 +138,7 @@
                                         <table class="table table-condensed table-bordered">
                                             <tbody>
                                             <tr>
-                                                <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.franchiseselection" text="가맹점 선택"/><%--가맹점선택--%></strong></td>
+                                                <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.1" text="업무그룹"/><%--가맹점선택--%></strong></td>
                                                 <td style="width:30%">
                                                   <%--  <label>
                                                         <input type="text" data-toggle="modal" data-target="#head_search_modal"  name="headNoText"  value="${searchValue.headNoText}" placeholder="<spring:message code="merchandise.search1.option1" text="제휴본사명"/>" class="form-control background-white headName width-100 " >
@@ -328,7 +328,9 @@
                               <span>${item.branch.branchName}</span>
                           </td>
                           <td>
-                              <span class="orangeColor d-block">S${item.store.storeNo}</span>
+                              <c:if test="${item.store.storeNo != '' } ">
+                                  <span class="orangeColor d-block">S${item.store.storeNo}</span>
+                              </c:if>
                               <span>${item.store.storeName}</span>
                           </td>
                           <td>${item.dlvyName}</td>
@@ -634,7 +636,7 @@
 
         $(document).on("click","#selHeadNoBtn",function(){
             $(".headNo").val($(this).attr("headNo"));
-            $(".headName").val($(this).closest("li").find(".head_ㄹtext").text());
+            $(".headName").val($(this).closest("li").find(".head_text").text());
             $(".branchName").attr("data-toggle","modal");
             $(".branchName").val("");
             $(".storeName").val("");

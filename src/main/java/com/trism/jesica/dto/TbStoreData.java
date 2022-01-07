@@ -145,7 +145,7 @@ public class TbStoreData {
     /**
      * 매장_타입 (0: 배달전용, 1: 주문배달, 2: 마트, 3: 전통시장)
      */
-    private StoreType storeType;
+    private ServiceType serviceType;
 
     /**
      * 멀티가맹점_구분 (0: 사용안함, 1: 종속, 2: 마스터)
@@ -287,6 +287,7 @@ public class TbStoreData {
                 .bankAccount(this.bankAccount)
                 .bankOwner(this.bankOwner)
                 .alldayOpenYn(this.alldayOpenYn)
+                .serviceType(this.serviceType)
                 /*.storeType(this.storeType)*/
                 .multiType(this.multiType)
                 .masterChargeYn(this.masterChargeYn)
@@ -340,6 +341,7 @@ public class TbStoreData {
                 .bankAccount(bankAccount)
                 .bankOwner(bankOwner)
                 .alldayOpenYn(this.alldayOpenYn)
+                .serviceType(this.serviceType)
                 /*.storeType(this.storeType)*/
                 .multiType(this.multiType)
                 .masterChargeYn(this.masterChargeYn)

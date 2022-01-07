@@ -1,17 +1,18 @@
 package com.trism.jesica.Service;
 
+import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.ImageUtil;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.Util.Secure.CipherAESUtils;
 import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
-import com.trism.jesica.persistence.Entitiy.TbWorkerApply;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyArea;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaCharge;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaGeo;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
+import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
 import com.trism.jesica.persistence.Entitiy.business.*;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
@@ -25,15 +26,16 @@ import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
-import com.trism.jesica.persistence.Repository.TbWorkerApplyAttachRepository;
-import com.trism.jesica.persistence.Repository.TbWorkerApplyRepository;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaChargeRepository;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaGeoRepository;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaRepository;
 import com.trism.jesica.persistence.Repository.board.TbNoticeCompanyRepository;
 import com.trism.jesica.persistence.Repository.board.TbNoticePlatformRepository;
+import com.trism.jesica.persistence.Repository.board.TbNoticeReleaseRepository;
 import com.trism.jesica.persistence.Repository.board.TbNoticeWorkerRepository;
 import com.trism.jesica.persistence.Repository.business.*;
+import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
 import com.trism.jesica.persistence.Repository.goods.*;
@@ -46,7 +48,11 @@ import com.trism.jesica.persistence.Repository.storedlvy.TbStoreMngChargeReposit
 import com.trism.jesica.persistence.Repository.street.TbDlvyPriceChargeRepository;
 import com.trism.jesica.persistence.Repository.street.TbDlvyPriceRepository;
 import com.trism.jesica.persistence.Repository.system.TbSystemCodeRepository;
+import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyAttachRepository;
+import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyRepository;
+import com.trism.jesica.persistence.Repository.worker.TbWorkerChargeRepository;
 import com.trism.jesica.persistence.type.AttendStatusType;
+import com.trism.jesica.persistence.type.ServiceType;
 import com.trism.jesica.persistence.type.UserType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +62,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -204,6 +209,22 @@ public class ApiService {
 
     @Autowired
     private final TbSafenMappingRepository tbSafenMappingRepository;
+
+    @Autowired
+    private final TbNoticeReleaseRepository tbNoticeReleaseRepository;
+
+    @Autowired
+    private final TbCallAllRepository tbCallAllRepository;
+
+    @Autowired
+    private final TbWorkerChargeRepository tbWorkerChargeRepository;
+
+    @Autowired
+    private final TbStoreChargeRepository tbStoreChargeRepository;
+
+    @Autowired
+    private final TbStorePriceRepository tbStorePriceRepository;
+
 
     @Autowired
     private RestTemplateUtil restTemplateUtil;
@@ -409,8 +430,6 @@ public class ApiService {
 
                 if(tbStoreMngCharge == 1 && tbStoreDlvyCharge == 1){
 
-                    /*tbStoreRepository.saveStoreUrl(tbStore.getStoreNo(),"store.eatsuda.co.kr/"+tbStore.getStoreNo());*/
-
                     tbBusinessInfoData.setGroupNo(Integer.parseInt(tbStore.getStoreNo().toString()));
                     result = tbStoreBusinessInfoRepository.insertTbBusiness(
                             tbBusinessInfoData.getGroupNo(),
@@ -428,13 +447,23 @@ public class ApiService {
                             tbBusinessInfoData.getBizTel(),
                             tbBusinessInfoData.getBizEmail()
                     );
+
+                    //수수료 설정1
+                    TbStoreCharge tbStoreCharge = new TbStoreCharge();
+                    tbStoreCharge.setStoreNo(tbStore.getStoreNo());
+                    tbStoreChargeRepository.save(tbStoreCharge);
+
+                    //요금설정
+                    TbStorePrice tbStorePrice = new TbStorePrice();
+                    tbStorePrice.setStoreNo(tbStore.getStoreNo());
+                    tbStorePriceRepository.save(tbStorePrice);
+
+                    //
                 }else {
                     result = 0;
                 }
-
                 result = 1;
             }
-
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -757,7 +786,14 @@ public class ApiService {
 
 
     @Transactional
-    public int updateTbStore(TbStoreData tbStoreData, TbBusinessInfoData tbBusinessInfoData, List<TbStoreCategoryFoData> tbStoreCategoryFo , List<HashMap<String,Object>> deleteList, MultipartFile imgFile, MultipartFile imgFileSmall) {
+    public int updateTbStore(TbStoreData tbStoreData,
+                             TbBusinessInfoData tbBusinessInfoData,
+                             List<TbStoreCategoryFoData> tbStoreCategoryFo,
+                             TbStoreCharge tbStoreCharge,
+                             TbStorePrice tbStorePrice,
+                             List<HashMap<String,Object>> deleteList,
+                             MultipartFile imgFile,
+                             MultipartFile imgFileSmall) {
         int result = 0;
         try {
             /*basContents.setBcThumbnail(imgFile.getBytes());*/
@@ -856,13 +892,16 @@ public class ApiService {
                         tbBusinessInfoData.getBizTel(),
                         tbBusinessInfoData.getBizEmail());
                 result = 1;
+                //가맹점 수수료
+                tbStoreCharge.setStoreNo(tbStoreData.getStoreNo());
+                tbStoreChargeRepository.save(tbStoreCharge);
+
+                tbStorePrice.setStoreNo(tbStoreData.getStoreNo());
+                tbStorePriceRepository.save(tbStorePrice);
+
             } else {
                 result = 0;
             }
-
-
-
-
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -1102,7 +1141,7 @@ public class ApiService {
     }
 
     @Transactional
-    public int insertTbUserWork(TbUserWorkerData tbUserWorkerData , MultipartFile imgFile, HttpSession session) throws Exception  {
+    public TbUserWorker insertTbUserWork(TbUserWorkerData tbUserWorkerData , MultipartFile imgFile, HttpSession session) throws Exception  {
 
         int result = 0;
         TbUserWorker tbUserWorker = null;
@@ -1136,20 +1175,24 @@ public class ApiService {
             }
 
             if (tbUserWorkerData.getUserNo() != null){
-                ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorkerData.getUserNo(), session);
+               /* ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorkerData.getUserNo(), session);
                 Map<String,Object> codeMap2 = (Map)tokenMap.getBody();//아이디가 있으면 update
                 if("OK".equals(codeMap2.get("serviceStatus"))){
                     log.info("driverStatusOk:::"+tbUserWorkerData.getUserNo());
                     result = 1;
                 } else {
                     log.info("driverStatusError");
-                }
+                }*/
             } else {
-                String pass = tbUserWorkerData.getUserPwd();
+                if("".equals(tbUserWorkerData.getUserPwd())){
+                    tbUserWorkerData.setUserPwd(null);
+                }else {
+                    String pass = tbUserWorkerData.getUserPwd();
 
-                //암호화
-                String encodedPassword = new BCryptPasswordEncoder().encode(pass);
-                tbUserWorkerData.setUserPwd(encodedPassword);
+                    //암호화
+                    String encodedPassword = new BCryptPasswordEncoder().encode(pass);
+                    tbUserWorkerData.setUserPwd(encodedPassword);
+                }
 
                 CipherAESUtils cipherAESUtils = new CipherAESUtils(keyGeneratorConfig.generateSecretKeySpec(),keyGeneratorConfig.generateIvParameterSpec());
                 //계좌번호 암호화
@@ -1162,17 +1205,13 @@ public class ApiService {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 String pinEncrpt = encoder.encode(tbUserWorkerData.insertData().getPinNum());
                 //TbHead tbHead =  tbHeadRepository.save(tbHeadData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
-
                 //tbUserWorkerRepository.save(tbUserWorkerData.insertData());
-                TbUserWorker tbUserWorkerDatas =  tbUserWorkerRepository.save(tbUserWorkerData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
-                ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorkerDatas.getUserNo(), session);
-                Map<String,Object> codeMap2 = (Map)tokenMap.getBody();//아이디가 있으면 update
-                if("OK".equals(codeMap2.get("serviceStatus"))){
-                    log.info("driverStatusOk:::"+tbUserWorkerDatas.getUserNo());
-                    result = 1;
-                } else {
-                    log.info("driverStatusError");
-                }
+                tbUserWorker =  tbUserWorkerRepository.save(tbUserWorkerData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
+
+                //tb_wokrer_charge 세팅
+                TbWorkerChargeData tbWorkerCharge = new TbWorkerChargeData();
+                tbWorkerCharge.setWorkerNo(Integer.parseInt(tbUserWorker.getUserNo().toString()));
+                tbWorkerChargeRepository.save(tbWorkerCharge.insertData());
             }
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("아이디 중복 에러");
@@ -1181,7 +1220,7 @@ public class ApiService {
         } catch (Exception e){
             e.printStackTrace();
         }
-        return result;
+        return tbUserWorker;
     }
 
     @Transactional
@@ -1248,6 +1287,8 @@ public class ApiService {
                         tbUserStaffData.getName(),
                         tbUserStaffData.getPhone(),
                         tbUserStaffData.getMemo(),
+                        tbUserStaffData.getBlockTypeCode(),
+                        tbUserStaffData.getUpdateUserId(),
                         tbUserStaffData.getDataStatus().ordinal()
                         );
                 if(result == 1 && result2 == 1) {
@@ -1302,7 +1343,7 @@ public class ApiService {
     }
 
     @Transactional
-    public int updateTbUser(TbUserWorkerData tbUserWorkerData , MultipartFile imgFile, HttpSession session) {
+    public int updateTbUser(TbUserWorkerData tbUserWorkerData,TbWorkerChargeData tbWorkerChargData , MultipartFile imgFile, HttpSession session) {
 
         int result = 0;
 
@@ -1335,6 +1376,13 @@ public class ApiService {
             } else {
                 /*tbUserWorkerData.setProfileFile(tbUserWorkerData.setProfileFile());*/
             }
+        } catch (DuplicateKeyException e) {
+            log.info("아이디 중복 에러");
+        } catch (FileNotFoundException e){
+            log.info("file not found!!");
+        } catch (IOException e){
+            log.error(e.getMessage());
+        }
 
             if(tbUserWorkerData.getDataStatus().ordinal() == 1){
                 tbUserWorkerData.setBlockTypeCode(null);
@@ -1376,30 +1424,22 @@ public class ApiService {
                         tbUserWorkerData.getLicenseType(),
                         tbUserWorkerData.getLicenseExpDate(),
                         tbUserWorkerData.getLicenseExpYn(),
-                        tbUserWorkerData.getMemo()
+                        tbUserWorkerData.getMemo(),
+                        tbUserWorkerData.getWorkerPayType()
                 );
                 /*tbUserWorkerRepository.save(tbUserWorkerData.insertData());*/
-                ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorkerData.getUserNo(), session);
-                Map<String,Object> codeMap2 = (Map)tokenMap.getBody();//아이디가 있으면 update
-                if("OK".equals(codeMap2.get("serviceStatus"))){
-                    log.info("driverStatusOk:::"+tbUserWorkerData.getUserNo());
-                    result = 1;
-                } else {
-                    log.info("driverStatusError");
-                }
+                //수수료등록
+                tbWorkerChargData.setWorkerNo(Integer.parseInt(tbUserWorkerData.getUserNo().toString()));
+                tbWorkerChargeRepository.save(tbWorkerChargData.insertData());
+                result = 1;
+
 
             } else {
                 //아이디가 없으면 insert
                 result = 0;
             }
 
-        } catch (DuplicateKeyException e) {
-            log.info("아이디 중복 에러");
-        } catch (FileNotFoundException e){
-            log.info("file not found!!");
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+
         return result;
     }
 
@@ -1825,7 +1865,7 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<TbDlvyPrice> tbDlvyPriceList(Long priceChargeNo) {
         List<TbDlvyPrice> result = null;
-        result =  tbDlvyPriceRepository.findByPriceChargeNoOrderByDayAscStartTimeAsc(priceChargeNo);
+        result =  tbDlvyPriceRepository.findByGroupNoAndDataStatusOrderByDayAscStartTimeAscRadiusAsc(priceChargeNo, 1);
         return result;
     }
 
@@ -1836,6 +1876,8 @@ public class ApiService {
         if(tbDlvyPrice.getPriceNo() != null) {
             result = 0;
         } else {
+            LocalDateTime now = LocalDateTime.now();
+            tbDlvyPrice.setInsertDate(now);
             TbDlvyPrice tbDlvyPrice1 = tbDlvyPriceRepository.save(tbDlvyPrice);
             result = 1;
         }
@@ -1849,6 +1891,8 @@ public class ApiService {
 
         int result = 0;
         if(tbDlvyPrice.getPriceNo() != null) {
+            LocalDateTime now = LocalDateTime.now();
+            tbDlvyPrice.setUpdateDate(now);
             TbDlvyPrice tbDlvyPrice1 = tbDlvyPriceRepository.save(tbDlvyPrice);
             result = 1;
         } else {
@@ -2113,6 +2157,45 @@ public class ApiService {
     }
 
     @Transactional
+    public int insertTbNoticeRelease(TbNoticeRelease tbNoticeRelease
+                           ) {
+        int result = 0;
+        if(tbNoticeRelease.getNoticeNo() != null) {
+            result = 0;
+        } else {
+            LocalDateTime now =  LocalDateTime.now();
+            tbNoticeRelease.setInsertDate(now);
+            TbNoticeRelease tbNoticeRelease1 = tbNoticeReleaseRepository.save(tbNoticeRelease);
+            result = 1;
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public int updateTbNoticeRelease(TbNoticeRelease tbNoticeRelease
+    ) {
+        int result = 0;
+        if(tbNoticeRelease.getNoticeNo() != null) {
+            LocalDateTime now =  LocalDateTime.now();
+            tbNoticeRelease.setUpdateDate(now);
+            TbNoticeRelease tbNoticeRelease1 = tbNoticeReleaseRepository.save(tbNoticeRelease);
+            result = 1;
+        } else {
+            result = 0;
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public int noticeReleaseDelete(Long noticeNo ) {
+        int result = 0;
+        result  = tbNoticeReleaseRepository.deleteNotice(noticeNo);
+        return result;
+    }
+
+    @Transactional
     public int noticePlatFormDelete(Long noticeNo ) {
         int result = 0;
         result  = tbNoticePlatformRepository.deleteNotice(noticeNo);
@@ -2243,7 +2326,7 @@ public class ApiService {
                               String uploadFile ,
                               Integer authStatus,
                               Integer applyNo,
-                              Integer updateUserId
+                              String updateUserId
     ) {
 
         int result = 0;
@@ -2331,25 +2414,16 @@ public class ApiService {
                             tbUser.setUserType(userType.UT_DELIVERY);
                             LocalDateTime localDateTime = null;
                             tbUser.setInsertDate(localDateTime.now());
-                            //tbUser.setUserNo(Long.parseLong(tbWorkerApply.getWorkerNo().toString()));
+
                             TbUser tbUser1 = tbUserRepository.save(tbUser.insertData());
                             tbWorkerApply.setWorkerNo(Integer.parseInt(tbUser1.getUserNo().toString()));
-                            //최종승인인시 tb_user_worker 추가
-                          /*  tbUserWorker.setUserNo(Long.parseLong(tbUser1.getUserNo().toString()));
-                            tbUserWorker.setPhone(tbWorkerApply.getPhone());
-                            tbUserWorker.setName(tbWorkerApply.getName());
 
-                            tbUserWorker.setDataStatus(DataStatus.valueOf("OK"));
-                            tbUserWorker.setLicenseFile(tbWorkerApply.getLicenseFile());
-                            tbUserWorker.setLicenseNum(tbWorkerApply.getLicenseNum());
-                            tbUserWorker.setLicenseType(tbWorkerApply.getLicenseType());
-                            tbUserWorker.setLicenseExpDate(tbWorkerApply.getLicenseExpDate());
-                            tbUserWorker.setProfileFile(tbWorkerApply.getProfileFile());
-                            tbUserWorker.setProfileFileSmall(tbWorkerApply.getProfileFileSmall());
-                            tbUserWorker.setHeadNo(1000); //제시카본사 고정
-                            tbUserWorker.setBranchNo(10000);  //제시카 탁송총판
-                            tbUserWorker.setStoreNo(100000); //기사관리*/
-                            /*tbUserWorkerRepository.save(tbUserWorker.insertData());*/
+                            //최종승인시 tb_worker_charge 추가
+                            TbWorkerChargeData tbWorkerCharge = new TbWorkerChargeData();
+                            tbWorkerCharge.setWorkerNo(Integer.parseInt(tbUser1.getUserNo().toString()));
+                            tbWorkerChargeRepository.save(tbWorkerCharge.insertData());
+
+
                             tbUserWorkerRepository.saveUserWorker(
                                     Long.parseLong(tbUser1.getUserNo().toString()),
                                     tbWorkerApply.getName(),
@@ -2361,6 +2435,7 @@ public class ApiService {
                                     tbWorkerApply.getLicenseNum(),
                                     tbWorkerApply.getProfileFile(),
                                     tbWorkerApply.getProfileFileSmall(),
+                                     DateUtil.now_yyyymmdd(),
                                      1000,
                                     10001, //드라이버관리수주[제주]
                                     100034 //드라이버관리[제주]
@@ -2465,6 +2540,35 @@ public class ApiService {
         return result;
     }
 
+
+    @Transactional
+    public int confirmOldPass(TbUserStaffData tbUserStaffData) {
+
+        int result = 0;
+
+        try {
+            if (tbUserStaffData.getUserNo() != null) {
+                String pass = tbUserStaffData.getUserOldPwd();
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                //기존 비밀번호 와 가져온 비밀번호 해쉬한값을 비교
+                if (!StringUtils.isEmpty(pass)) {
+                    Optional<TbUserStaff> optional = tbUserStaffRepository.findById(tbUserStaffData.getUserNo());
+                    if (optional.isPresent()) {
+                        TbUserStaff tbUserStaff = optional.get();
+                        if(encoder.matches(pass, tbUserStaff.getUserPwd())) {
+                            result =1;
+                        }
+                    }
+                } else {
+                    result = 0;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getUserChart() {
         return tbUserRepository.getUserChart();
@@ -2481,6 +2585,28 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getStoreRentChart() {
         return tbStoreRepository.getStoreRentChart();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbStore> getStoreList() {
+        return tbStoreRepository.findByServiceType(ServiceType.RENTCAR);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getCallAllListType2040() {
+        return tbCallAllRepository.getCallAllListType2040();
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getCallAllListType2041() {
+        return tbCallAllRepository.getCallAllListType2041();
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getCallAllListType2140() {
+        return tbCallAllRepository.getCallAllListType2140();
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getCallAllListType2141() {
+        return tbCallAllRepository.getCallAllListType2141();
     }
 }
 

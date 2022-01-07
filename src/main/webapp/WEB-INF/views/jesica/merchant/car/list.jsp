@@ -33,9 +33,9 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.merchantsetting" text="가맹점 설정"/><%--가맹점설정--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.merchantsetting.merchandise" text="렌터카"/><%--상품--%></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.merchantsetting.merchandise1" text="렌터카"/><%--상품--%></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.merchantsetting.merchandise" text="렌터카"/><%--렌터카--%></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.merchantsetting.merchandise1" text="렌터카"/><%--렌터카--%></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
@@ -51,7 +51,7 @@
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.franchiseselection" text="가맹점 선택"/><%--<spring:message code="merchandise.search1" text="default text"/>--%><%--가맹점선택--%></strong></td>
                                             <td style="width:30%">
 
-                                                    <%--<c:if test="${sessionScope.sessionKey.userRole == 0}">--%>
+                                                   <%-- &lt;%&ndash;<c:if test="${sessionScope.sessionKey.userRole == 0}">&ndash;%&gt;
                                                         <label>
                                                             <input type="text" data-toggle="modal" data-target="#head_search_modal"  name="headNoText"  value="${searchValue.headNoText}" placeholder="<spring:message code="list.search.affiliatedheadquarters" text="제휴본사명"/>" class="form-control background-white headName width-100 " >
                                                             <input type="hidden" class="headNo" name="headNo"  value="${searchValue.headNo}">
@@ -66,7 +66,7 @@
                                                         <label>
                                                             <input type="text"  id="testInput"  data-toggle="<c:if test="${searchValue.branchNo != null && searchValue.branchNo !=''}">modal</c:if>" data-target="#store_search_modal" name="storeNoText" value="${searchValue.storeNoText}" placeholder="<spring:message code="list.search.franchiseeheadquarters" text="가맹점명"/>" class="form-control background-white storeName width-100">
                                                         </label>
-                                                    <%--</c:if>--%>
+                                                    &lt;%&ndash;</c:if>&ndash;%&gt;
                                                     <c:if test="${sessionScope.sessionKey.userRole == 1}">
                                                         <label>
                                                             <input type="text" data-toggle="modal" data-target="#head_search_modal"  name="headNoText"  value="${sessionScope.headName}" placeholder="<spring:message code="list.search.affiliatedheadquarters" text="제휴본사명"/>" class="form-control background-white headName width-100 " disabled>
@@ -111,13 +111,18 @@
                                                         <label>
                                                             <input type="text"  id="testInput"  data-toggle="modal" data-target="#store_search_modal" placeholder="<spring:message code="list.search.franchiseeheadquarters" text="가맹점명"/>" name="storeNoText" value="${searchValue.storeNoText}" class="form-control background-white storeName width-100">
                                                         </label>
-                                                    </c:if>
+                                                    </c:if>--%>
 
 
 <%--
                                               <label>
                                                     <input type="text" class="form-control width-250 storeNoText"  name="storeNoText" value="${searchValue.storeNoText}" placeholder="가맹점명을 입력후 엔터키를 입력해주세요" />
                                                 <label>--%>
+                                                <select class="form-control width-150" name="storeNo">
+                                                    <c:forEach var="item"  items="${tbStoreLIst}"  varStatus="status">
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>${item.storeName} [${item.storeNo}]</option>
+                                                    </c:forEach>
+                                                </select>
                                             </td>
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
                                             <td style="width:50%">
@@ -382,7 +387,7 @@
     });
 
     //제휴본사 검색
-    $(".searchHeadBtn").on("click",function(){
+   /* $(".searchHeadBtn").on("click",function(){
         let req = convertFormToObj($('form.head_search_form'));
         let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters" text="등록된 제휴본사가 없습니다."/>";
         let apply = "<spring:message code="list.script.apply" text="적용"/>";
@@ -418,11 +423,11 @@
                 }
             }
         });
-    });
+    });*/
 
 
     //총판 선택
-    $(".searchBranchBtn").on("click",function(){
+  /*  $(".searchBranchBtn").on("click",function(){
         let headNo = $(".headNo").val();
         $(".selHeadNo").val(headNo);
         let req = convertFormToObj($('form.branch_search_form'));
@@ -460,10 +465,10 @@
                 }
             }
         });
-    });
+    });*/
 
     //가맹점 선택
-    $(".searchStoreBtn").on("click",function(){
+    /*$(".searchStoreBtn").on("click",function(){
         let branchNo = $(".branchNo").val();
         $(".selBranchNo").val(branchNo);
         let req = convertFormToObj($('form.store_search_form'));
@@ -502,9 +507,9 @@
                 }
             }
         });
-    });
+    });*/
 
-    $(document).on("click",".branchName",function(){
+   /* $(document).on("click",".branchName",function(){
         let headNo = $(".headNo").val();
         let pleaseselectanaffiliatedheadoffice = "<spring:message code="list.script.pleaseselectanaffiliatedheadoffice" text="제휴본사를 선택해주세요."/>";
         let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
@@ -523,9 +528,9 @@
             $(".searchBranchBtn").click();
         }
 
-    });
+    });*/
 
-    $(document).on("click",".storeName",function(){
+   /* $(document).on("click",".storeName",function(){
         let headNo = $(".headNo").val();
         let branchNo = $(".branchNo").val();
         let pleaseselectanaffiliatedheadoffice = "<spring:message code="list.script.pleaseselectanaffiliatedheadoffice" text="제휴본사를 선택해주세요."/>";
@@ -558,9 +563,9 @@
                 $(".searchStoreBtn").click();
             }
         }
-    });
+    });*/
 
-    $(document).on("click","#selHeadNoBtn",function(){
+    /*$(document).on("click","#selHeadNoBtn",function(){
         $(".headNo").val($(this).attr("headNo"));
         $(".headName").val($(this).closest("li").find(".head_text").text());
         $(".branchName").attr("data-toggle","modal");
@@ -569,23 +574,23 @@
         $(".searchBranchList").html("");
         $(".searchStoreList").html("");
         $(".headModalCloseBtn").click();
-    });
+    });*/
 
-    $(document).on("click","#selBranchNoBtn",function(){
+    /*$(document).on("click","#selBranchNoBtn",function(){
         $(".branchNo").val($(this).attr("branchNo"));
         $(".branchName").val($(this).closest("li").find(".branch_text").text());
         $(".storeName").attr("data-toggle","modal");
         $(".storeName").val("");
         $(".searchStoreList").html("");
         $(".branchModalCloseBtn").click();
-    });
+    });*/
 
-    $(document).on("click","#selStoreNoBtn",function(){
+   /* $(document).on("click","#selStoreNoBtn",function(){
         $(".storeNo").val($(this).attr("storeNo"));
         $(".storeName").val($(this).closest("li").find(".store_text").text());
         $(".searchClick").click();
         $(".storeModalCloseBtn").click();
-    });
+    });*/
 
     $(document).on("click",".detailRow",function() {
         let rentalCarNo = $(this).attr("rentalCarNo");
@@ -593,7 +598,8 @@
     });
 
     function searchFormFunction() {
-        let pleaseselectastore = "<spring:message code="list.script.pleaseselectastore" text="가맹점을 선택해주세요."/>";
+        $("#frmSearch").submit();
+       /* let pleaseselectastore = "<spring:message code="list.script.pleaseselectastore" text="가맹점을 선택해주세요."/>";
         let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
         let confirm = "<spring:message code="list.script.confirm" text="확인"/>";
         if($(".storeNo").val() == "" || $(".storeNo").val() == null) {
@@ -608,7 +614,7 @@
             });
         } else {
             $("#frmSearch").submit();
-        }
+        }*/
     }
 
 </script>

@@ -49,7 +49,7 @@
                                 <table class="table table-condensed table-bordered">
                                     <tbody>
                                     <tr>
-                                        <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.brand" text="브랜드"/><%--<spring:message code="merchandise.search1" text="default text"/>--%><%--가맹점선택--%></strong></td>
+                                        <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.1" text="업무그룹"/><%--<spring:message code="merchandise.search1" text="default text"/>--%><%--가맹점선택--%></strong></td>
                                         <td style="width:30%">
                                            <%-- <label>
                                                 <input type="text" data-toggle="modal" data-target="#head_search_modal"  name="headNoText"  value="${sessionScope.headName}" placeholder="<spring:message code="list.search.affiliatedheadquarterss" text="제휴본사명"/>" class="form-control background-white headName width-100 " disabled>

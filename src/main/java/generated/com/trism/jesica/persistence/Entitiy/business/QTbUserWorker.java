@@ -130,6 +130,8 @@ public class QTbUserWorker extends EntityPathBase<TbUserWorker> {
     //inherited
     public final EnumPath<com.trism.jesica.persistence.type.UserType> userType = _super.userType;
 
+    public final NumberPath<Integer> workerPayType = createNumber("workerPayType", Integer.class);
+
     public QTbUserWorker(String variable) {
         this(TbUserWorker.class, forVariable(variable), INITS);
     }

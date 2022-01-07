@@ -199,14 +199,15 @@
                 <div class="panel-body p-t-20">
                     <table id="testTable" class="display table table-bordered w-100 table-striped ">
                         <thead>
-                        <th class="text-center" style="width: 50px"><spring:message code="list.word.no" text="순번"/></th>
-                        <th class="text-center" style="width: 78px">제출서류구분</th>
-                        <th class="text-center" style="width: 80px">승인상태</th>
-                        <th class="text-center" style="width: 98px">프로필/면허증 이미지</th>
-                        <th class="text-center" style="width: 90px;">승인/반려자</th>
-                        <th class="text-center" style="width: 87px;">승인/반려일시</th>
-                        <th class="text-center" style="width: 98px;">등록일시</th>
-                        <th class="text-center" style="width: 130px;"></th>
+                        <th class="text-center" style="width: 46px"><spring:message code="list.word.no" text="순번"/></th>
+                        <th class="text-center" style="width: 70px">제출서류구분</th>
+                        <th class="text-center" style="width: 48px">승인상태</th>
+                        <th class="text-center" style="width: 90px">프로필/면허증 이미지</th>
+                        <th class="text-center" style="width: 54px;">승인/반려자</th>
+                        <th class="text-center" style="width: 110px;">면허번호/면허종류/만료일</th>
+                        <th class="text-center" style="width: 85px;">승인/반려일시</th>
+                        <th class="text-center" style="width: 84px;">등록일시</th>
+                        <th class="text-center" style="width: 98px;"></th>
                         </thead>
                     </table>
                 </div>

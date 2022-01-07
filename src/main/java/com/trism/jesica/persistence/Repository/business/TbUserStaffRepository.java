@@ -15,7 +15,7 @@ import java.util.List;
 public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>, JpaSpecificationExecutor<TbUserStaff> {
 
     @Query(value = "select " +
-            "a.staff_no as staffNo,  a.name as name , a.phone , a.memo , a.data_status as dataStatus, " +
+            "a.staff_no as staffNo,  a.name as name , a.phone , a.memo , a.data_status as dataStatus, a.block_type_code as blockTypeCode, " +
             "b.user_id as userId " +
             "from tb_user_staff a left outer join tb_user b " +
             "on b.user_no = a.staff_no " +
@@ -26,7 +26,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
     List<TbUserStaffDTO> findByStoreNoAndUserTypeNative(@Param("storeNo") Integer storeNo, @Param("userType") Integer userType);
 
     @Query(value = "select " +
-            "a.staff_no as staffNo,  a.name as name , a.phone , a.memo , a.data_status as dataStatus, " +
+            "a.staff_no as staffNo,  a.name as name , a.phone , a.memo , a.data_status as dataStatus,  a.block_type_code as blockTypeCode ," +
             "b.user_id as userId " +
             "from tb_user_staff a left outer join tb_user b " +
             "on b.user_no = a.staff_no " +
@@ -37,7 +37,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
     List<TbUserStaffDTO> findByBranchNoNoAndUserTypeNative(@Param("branchNo") Integer branchNo, @Param("userType") Integer userType);
 
     @Query(value = "select " +
-            "a.staff_no as staffNo,  a.name as name , a.phone , a.memo , a.data_status as dataStatus, " +
+            "a.staff_no as staffNo,  a.name as name , a.phone , a.memo , a.data_status as dataStatus, a.block_type_code as blockTypeCode, " +
             "b.user_id as userId " +
             "from tb_user_staff a left outer join tb_user b " +
             "on b.user_no = a.staff_no " +
@@ -47,17 +47,76 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             "", nativeQuery = true)
     List<TbUserStaffDTO> findByHeadNoAndUserTypeNative(@Param("headNo") Integer headNo, @Param("userType") Integer userType);
 
+    @Query(value = "select " +
+            "a.staff_no as staffNo, " +
+            " a.name as name " +
+            ", a.phone as phone " +
+            ", a.memo as memo " +
+            ", a.data_status as dataStatus" +
+            ", a.block_type_code as blockTypeCode " +
+            ", b.user_id as userId " +
+            ", b.last_login_dtm as lastLoginDtm " +
+            ", b.insert_date as insertDate " +
+            "from tb_user_staff a left outer join tb_user b " +
+            "on b.user_no = a.staff_no " +
+            "where name like %:name% " +
+            "and b.user_type = 0 " +
+            "and a.data_status != 0" +
+            "", nativeQuery = true)
+    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") String name);
+
+    @Query(value = "select " +
+            "a.staff_no as staffNo, " +
+            " a.name as name " +
+            ", a.phone as phone " +
+            ", a.memo as memo " +
+            ", a.data_status as dataStatus" +
+            ", a.block_type_code as blockTypeCode " +
+            ", b.user_id as userId " +
+            ", b.last_login_dtm as lastLoginDtm " +
+            ", b.insert_date as insertDate " +
+            "from tb_user_staff a left outer join tb_user b " +
+            "on b.user_no = a.staff_no " +
+            "where name like %:name% " +
+            "and b.user_type = 0 " +
+            "and a.data_status = :dataStatus " +
+            "", nativeQuery = true)
+    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") String name, @Param("dataStatus") Integer dataStatus);
+
+    @Query(value = "select " +
+            "a.staff_no as staffNo, " +
+            " a.name as name " +
+            ", a.phone as phone " +
+            ", a.memo as memo " +
+            ", a.block_type_code as blockTypeCode " +
+            ", a.data_status as dataStatus" +
+            ", b.user_id as userId" +
+            ", b.last_login_dtm as lastLoginDtm " +
+            ", b.insert_date as insertDate " +
+            ", b.insert_user_id as insertUserId " +
+            "from tb_user_staff a left outer join tb_user b " +
+            "on b.user_no = a.staff_no " +
+            "where b.user_no = :userNo " +
+            "and b.user_type = 0 " +
+            "and a.data_status != 0" +
+            "", nativeQuery = true)
+    TbUserStaffDTO findByUserStaffNative(@Param("userNo") Long userNo);
+
     @Modifying
     @Query(value = "update tb_user_staff set " +
             "name = :name, " +
             "phone = :phone, " +
             "memo = :memo, " +
+            "block_type_code = :blockTypeCode, " +
+            "update_user_id = :updateUserId, " +
             "data_status = :dataStatus " +
             "where staff_no = :staffNo", nativeQuery = true)
     int updateUserStaff(@Param("staffNo") Long staffNo,
                       @Param("name") String name,
                       @Param("phone") String phone,
                       @Param("memo") String memo,
+                      @Param("blockTypeCode") String blockTypeCode,
+                      @Param("updateUserId") String updateUserId,
                       @Param("dataStatus") Integer dataStatus
     );
 

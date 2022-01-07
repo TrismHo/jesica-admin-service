@@ -3,6 +3,7 @@ package com.trism.jesica.persistence.Repository.business;
 import com.trism.jesica.dto.TbStoreDTO;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Repository.querydsl.business.TbStoreRepositorySupport;
+import com.trism.jesica.persistence.type.ServiceType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -320,5 +321,7 @@ public interface TbStoreRepository extends JpaRepository<TbStore, Long>, JpaSpec
             "order by cnt desc "+
             "", nativeQuery = true)
     List<Map<String,Object>> getStoreRentChart();
+
+    List<TbStore> findByServiceType(@Param("serviceType") ServiceType serviceType);
 
 }

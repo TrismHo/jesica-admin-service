@@ -30,6 +30,7 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             "phone, " +
             "profile_file, " +
             "profile_file_small, " +
+            "join_date, " +
             "store_no, " +
             "worker_no) " +
             "        values" +
@@ -44,6 +45,7 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             ":phone, " +
             ":profileFile, " +
             ":profileFileSmall, " +
+            ":joinDate, " +
             ":storeNo, " +
             ":workerNo); "+
             "", nativeQuery = true)
@@ -58,6 +60,7 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             @Param("licenseNum") String licenseNum,
             @Param("profileFile") String profileFile,
             @Param("profileFileSmall") String profileFileSmall,
+            @Param("joinDate") String joinDate,
             @Param("headNo") Integer headNo,
             @Param("branchNo") Integer branchNo,
             @Param("storeNo") Integer storeNo
@@ -97,7 +100,8 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             " license_type= :licenseType, " +
             " license_exp_date= :licenseExpDate, " +
             " license_exp_yn= :licenseExpYn, " +
-            " memo= :memo " +
+            " memo= :memo, " +
+            " worker_pay_type= :workerPayType " +
             " WHERE worker_no = :workerNo" +
             "", nativeQuery = true)
     int updateUserWorker(
@@ -131,7 +135,8 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             @Param("licenseType") String licenseType,
             @Param("licenseExpDate") String licenseExpDate,
             @Param("licenseExpYn") Integer licenseExpYn,
-            @Param("memo") String memo
+            @Param("memo") String memo,
+            @Param("workerPayType") Integer workerPayType
     );
 
 

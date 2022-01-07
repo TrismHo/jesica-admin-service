@@ -177,7 +177,7 @@
                         <th><spring:message code="merchandise.table.column9" text="default text"/>&lt;%&ndash;매장판매상태&ndash;%&gt;</th>
                         <th><spring:message code="merchandise.table.column10" text="default text"/>&lt;%&ndash;성인인증구분&ndash;%&gt;</th>
                         <th><spring:message code="merchandise.table.column11" text="default text"/>&lt;%&ndash;등록일/수정일&ndash;%&gt;</th>--%>
-                        <th></th>
+                        <%--<th></th>--%>
                         <th class="text-center"><spring:message code="list.word.no" text="순번"/></th>
                         <th class="text-center"><spring:message code="list.word.brand" text="브랜드"/></th>
                         <th class="text-center"><spring:message code="list.word.affiliated" text="제휴본사"/></th>
@@ -195,10 +195,10 @@
                     <tbody>
                         <c:forEach var="item" items="${tbBranch}" varStatus="status">
                             <tr class="detailRow" branchNo="${item.branchNo}">
-                                <td class="select-td checkbox_label" onclick="event.cancelBubble = true">
+                                <%--<td class="select-td checkbox_label" onclick="event.cancelBubble = true">
                                     <input type="checkbox" name="chk" id="select${status.index}" class="checkbox d-none">
                                     <label for="select${status.index}" class="input-label"> <i class="fa fa-square check_all_i"></i></label>
-                                </td>
+                                </td>--%>
                                 <td>${status.index + 1}</td>
                                 <td>${item.head.brand.brandName}</td>
                                 <td>
@@ -270,6 +270,11 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    $(document).on("click",".detailRow", function() {
+        let branchNo = $(this).attr("branchNo");
+        location.href = "${path}/workgroup/distributor/detail?branchNo="+branchNo;
+    });
+
     $(() => {
         //제휴본사 검색
         let allmsg = "<spring:message code="list.script.all" text="전체"/>";
@@ -368,10 +373,7 @@
             location.href = "${path}/workgroup/distributor/insert";
         });
 
-        $(".detailRow").click(function() {
-            let branchNo = $(this).attr("branchNo");
-            location.href = "${path}/workgroup/distributor/detail?branchNo="+branchNo;
-        });
+
 
         let date = new Date();
         let startDate = "${searchValue.startDate}";

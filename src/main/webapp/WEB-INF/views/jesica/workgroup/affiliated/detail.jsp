@@ -354,8 +354,8 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.typeofbusiness/industry" text="업태/업종"/></td>
                                     <td>
-                                        <input type="text" name="bizType" class="form-control width-200 bizItem" value="${tbHead.businessInfo.bizType}" maxlength="80">
-                                        <input type="text" name="bizItem" class="form-control m-r-10 width-200 bizType" value="${tbHead.businessInfo.bizItem}" maxlength="80">
+                                        <input type="text" name="bizType" class="form-control width-200 bizType" value="${tbHead.businessInfo.bizType}" maxlength="80">
+                                        <input type="text" name="bizItem" class="form-control m-r-10 width-200 bizItem" value="${tbHead.businessInfo.bizItem}" maxlength="80">
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.typeofbusinessindustrymessage" text="사업자등록증 상의 업태와 종목을 입력하세요."/></td>
                                 </tr>
@@ -389,6 +389,7 @@
                                                                 <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone" text="사용자 전화번호"/></th>
                                                                 <th class="bg-light" style="width:30%"><spring:message code="list.detail.memo" text="메모"/></th>
                                                                 <th class="bg-light" style="width:10%"><spring:message code="list.detail.status" text="상태"/></th>
+                                                                <th class="bg-light" style="width:10%"><spring:message code="list.detail.status" text="정지코드"/></th>
                                                                 <th class="bg-light" style="width:20%"></th>
                                                             </tr>
                                                             </thead>
@@ -405,7 +406,7 @@
                                 </tbody>
                             </table>
                             <div class="m-t-10">
-                                <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/><%--목록--%><%--<spring:message code="merchandisecont.merchandisedetail.insert.listbutton" text="default text"/>--%><%--목록--%></button>
+                                <button type="button" class="btn btn-primary btn_list"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/><%--목록--%><%--<spring:message code="merchandisecont.merchandisedetail.insert.listbutton" text="default text"/>--%><%--목록--%></button>
                                 <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/><%--수정--%><%--<spring:message code="merchandisecont.merchandisedetail.insert.insertbutton" text="default text"/>--%><%--등록--%></button>
                             </div>
                         </div>
@@ -430,6 +431,7 @@
         <input type="hidden" name="branchNo" value="">
         <input type="hidden" name="storeNo" value="">
         <input type="hidden" name="userType" value="UT_HEAD">
+        <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
             <div class="modal-dialog" style="
     height: 50%;
 ">
@@ -487,6 +489,7 @@ margin-top: 200px;
         <input type="hidden" name="branchNo" value="">
         <input type="hidden" name="storeNo" value="">
         <input type="hidden" class="userNo upUserNo" name="userNo" value="">
+        <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
         <input type="hidden" name="userType" value="UT_HEAD">
         <div class="modal-dialog" style="
                     height: 50%;
@@ -511,17 +514,17 @@ margin-top: 200px;
                         </tr>
                         <tr>
                             <td class="bg-light"><spring:message code="list.detail.newpassword" text="새 패스워드"/></td>
-                            <td><input type="text" class="form-control width-full userPwd upUserPwd" name="userPwd" value="" placeholder="<spring:message code="list.detail.pleaseenteranewpassword" text="새로운 패스워드를 입력해주세요"/>" maxlength="60"></td>
+                            <td><input type="text" class="form-control width-full userPwd upUserPwd" name="userPwd" value="" placeholder="<spring:message code="list.detail.pleaseenteranewpassword1" text="새로운 패스워드를 입력해주세요"/>" maxlength="60"></td>
                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteranewpassword" text="새로운 패스워드를 입력해주세요"/> </td>
                         </tr>
                         <tr>
                             <td class="bg-light"><spring:message code="list.detail.username" text="사용자 이름"/></td>
-                            <td><input type="text" class="form-control width-full name upName" name="name" value="" placeholder="<spring:message code="list.description.pleaseenteryourusername" text="사용자 이름을 입력해주세요"/> " maxlength="20"></td>
+                            <td><input type="text" class="form-control width-full name upName" name="name" value="" placeholder="<spring:message code="list.description.pleaseenteryourusername1" text="사용자 이름을 입력해주세요"/> " maxlength="20"></td>
                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourusername" text="사용자 이름을 입력해주세요"/> </td>
                         </tr>
                         <tr>
                             <td class="bg-light"><spring:message code="list.detail.userphone" text="사용자 전화번호"/></td>
-                            <td><input type="text" class="form-control width-full phone upPhone" name="phone" value="" placeholder="<spring:message code="list.description.pleaseenteryourphonenumber" text="사용자 전화번호를 입력해주세요"/>" maxlength="20"></td>
+                            <td><input type="text" class="form-control width-full phone upPhone" name="phone" value="" placeholder="<spring:message code="list.description.pleaseenteryourphonenumber1" text="사용자 전화번호를 입력해주세요"/>" maxlength="20"></td>
                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourphonenumber" text="사용자 전화번호를 입력해주세요"/> </td>
                         </tr>
                         <tr>
@@ -531,15 +534,24 @@ margin-top: 200px;
                                     <option value="1"><spring:message code="list.detail.normal" text="정상"/></option>
                                     <option value="2"><spring:message code="list.detail.stop" text="정지"/></option>
                                 </select>
+                                <label class="m-l-10 blockTypeCodeSel">
+                                    정지/삭제사유 :
+                                    <select class="upBlockTypeCode" name="blockTypeCode"
+                                    <c:forEach var="item" items="${systemCodeList}" varStatus="status">
+                                        <option value="${item.sysCode}" <c:if test="${tbUserStaff.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
+                                    </c:forEach>
+                                    </select>
+                                </label>
                             </td>
-                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourphonenumber" text="사용자 전화번호를 입력해주세요"/></td>
+                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourphonenumber1" text="상태를 선택해주세요"/></td>
                         </tr>
                         <tr>
                             <td class="bg-light"><spring:message code="list.detail.memo" text="메모"/></td>
                             <td><input type="text" class="form-control width-full memo upMemo" name="memo" value="" placeholder="<spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/>" maxlength="200"></td>
                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/></td>
                         </tr>
-                        </tbody></table>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <a href="javascript:;" class="btn btn-white" data-dismiss="modal"><spring:message code="list.detail.cancel" text="취소"/></a>
@@ -605,6 +617,15 @@ margin-top: 200px;
 
 <script>
     $(() => {
+        $(".upDataStatus").on("change",function (){
+            var radioVal = $('.upDataStatus option:selected').val();
+            if(radioVal == 1){
+                $(".blockTypeCodeSel").css("display","none");
+            } else {
+                $(".blockTypeCodeSel").css("display","inline");
+            }
+        });
+
         staffList();
         $('.pin-div i').on('click',function(){
             $('input').toggleClass('active');
@@ -774,6 +795,7 @@ margin-top: 200px;
             let update = "<spring:message code="list.script.update" text="수정"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
             let modalReq = convertFormToObj($('form.user_update_modal'));
+            console.log(modalReq);
             if (inputDataCheck2(modalReq)) {
                 swal({
                     title: updatemsg,
@@ -820,7 +842,7 @@ margin-top: 200px;
             let memo = $(this).attr("memo");
             let userNo = $(this).attr("staffNo");
             let dataStatus = $(this).attr("dataStatus");
-
+            let blockTypeCode = $(this).attr("blockTypeCode");
 
             $(".upUserId").val(userId);
             $(".upName").val(name);
@@ -828,6 +850,12 @@ margin-top: 200px;
             $(".upMemo").val(memo);
             $(".upUserNo").val(userNo);
             $(".upDataStatus").val(dataStatus).attr("selected","selected");
+            if(dataStatus == 1){
+                $(".blockTypeCodeSel").css("display","none");
+            }else {
+                $(".blockTypeCodeSel").css("display","inline");
+                $(".upBlockTypeCode").val(blockTypeCode).attr("selected","selected");
+            }
         });
     });
     function inputDataCheck(args) {
@@ -835,8 +863,38 @@ margin-top: 200px;
         let headphonemsg = "<spring:message code="list.script.representativenumberheadmsg" text="제휴본사 대표번호를 입력해주세요"/>";
         if (isNull(args.headName)) {
             return alert_focus("headName", headmsg);
+        } else if (isNull(args.authTel)) {
+            return alert_focus("authTel", "인증용 휴대전화를 입력해주세요");
         } else if (isNull(args.headTel)) {
-            return alert_focus("headTel",headphonemsg);
+            return alert_focus("headTel", "제휴본사대표번호를 입력해주세요");
+        } else if (isNull(args.actualAddr)) {
+            return alert_focus("actualAddr", "실제주소를 입력해주세요");
+        } else if (isNull(args.actualOwner)) {
+            return alert_focus("actualOwner", "실제 운영자명을 입력주세요");
+        } else if (isNull(args.actualTel)) {
+            return alert_focus("actualTel", "실제 연락처를 입력해주세요");
+        } else if (isNull(args.bankAccount)) {
+            return alert_focus("bankAccount", "출금계좌번호를 입력해주세요");
+        } else if (isNull(args.bankOwner)) {
+            return alert_focus("bankOwner", "예금주를 입력해주세요");
+        } else if (isNull(args.pinNum)) {
+            return alert_focus("pinNum", "핀번호를 입력해주세요");
+        } else if (isNull(args.bizName)) {
+            return alert_focus("bizName", "상호를 입력해주세요");
+        } else if (isNull(args.bizNum)) {
+            return alert_focus("bizNum", "사업자 등록번호를 입력해주세요");
+        } else if (isNull(args.bizOwner)) {
+            return alert_focus("bizOwner", "대표자명를 입력해주세요");
+        } else if (isNull(args.bizEmail)) {
+            return alert_focus("bizEmail", "이메일를 입력해주세요");
+        } else if (isNull(args.bizTel)) {
+            return alert_focus("bizTel", "사업자 연락처를 입력해주세요");
+        } else if (isNull(args.bizAddr)) {
+            return alert_focus("bizAddr", "사업장주소를 입력해주세요");
+        } else if (isNull(args.bizType)) {
+            return alert_focus("bizType", "업태를 입력해주세요");
+        } else if (isNull(args.bizItem)) {
+            return alert_focus("bizItem", "종목를 입력해주세요");
         }
         return true;
     }
@@ -858,8 +916,10 @@ margin-top: 200px;
         let inputyouphonenum = "<spring:message code="list.script.inputyourphonenumberplease" text="전화번호를 입력해주세요"/>";
         if (isNull(args.userId)) {
             return alert_focus("userId", inputyouidplease);
+        } else if (isNull(args.userPwd)) {
+            return alert_focus("userPwd", "패스워드를 입력해주세요");
         } else if (isNull(args.name)) {
-            return alert_focus("name", inputyounameplease);
+            return alert_focus("name", inputyouphonenum);
         } else if (isNull(args.phone)) {
             return alert_focus("phone", inputyouphonenum);
         }
@@ -901,11 +961,16 @@ margin-top: 200px;
                 } else {
                     for(var i = 0 ; i < data.userStaffList.length ; i++){
                         let dataStatus = "";
+                        let memo = "";
                         if(data.userStaffList[i].dataStatus == 1) {
                             dataStatus = normalmsg;
                         } else if(data.userStaffList[i].dataStatus == 2){
                             dataStatus = stopmsg;
                         }
+
+                       /* if(data.userStaffList[i].memo == null) {
+                            memo = " ";
+                        }*/
 
                         $("#tbUserStaffBody").append(
                             "<tr staffNo="+data.userStaffList[i].staffNo+" >" +
@@ -916,8 +981,17 @@ margin-top: 200px;
                             "   <td class=\"p-0\">"+data.userStaffList[i].memo+"</td>" +
                             "   <td class=\"p-0\">"+dataStatus+"</td>" +
                             "   <td class=\"p-0\"><a href=\"#modal-message-up\" class=\"btn btn-sm btn-primary update_staff\" " +
-                            "data-toggle=\"modal\" userId="+data.userStaffList[i].userId+" name="+data.userStaffList[i].name+" phone="+data.userStaffList[i].phone+" dataStatus="+data.userStaffList[i].dataStatus+" memo="+data.userStaffList[i].memo+" staffNo="+data.userStaffList[i].staffNo+"" +
-                            " >"+userupdate+"</a></td>" +
+                            "data-toggle=\"modal\""+
+                            " userNo="+data.userStaffList[i].staffNo+
+                            " blockTypeCode="+data.userStaffList[i].blockTypeCode+
+                            " userId="+data.userStaffList[i].userId+
+                            " name="+data.userStaffList[i].name+
+                            " phone="+data.userStaffList[i].phone+
+                            " dataStatus="+data.userStaffList[i].dataStatus+
+                            " staffNo="+data.userStaffList[i].staffNo+
+                            " memo="+data.userStaffList[i].memo+
+                            " >"+userupdate+"</a>" +
+                            "</td>" +
                             "</tr>"
                         )
                     }

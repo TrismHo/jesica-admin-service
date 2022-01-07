@@ -1,6 +1,6 @@
-package com.trism.jesica.persistence.Repository;
+package com.trism.jesica.persistence.Repository.worker;
 
-import com.trism.jesica.persistence.Entitiy.TbWorkerApply;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

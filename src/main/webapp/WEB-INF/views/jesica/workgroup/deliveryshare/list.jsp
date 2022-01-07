@@ -1163,9 +1163,7 @@
             location.href = "${path}/merchant/merchandise/insert";
         });
 
-        $(".detailRow").click(function() {
-            location.href = "${path}/merchant/merchandise/detail";
-        });
+
 
         $("#startDate").datepicker({
             calendarWeeks: false,
@@ -1181,6 +1179,10 @@
             format: "yyyy-mm-dd",
             language: "kr"
         });
+    });
+
+    $(document).on("click",".detailRow", function() {
+        location.href = "${path}/merchant/merchandise/detail";
     });
 </script>
 </body>

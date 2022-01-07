@@ -9,7 +9,10 @@ import com.trism.jesica.dto.TbSystemCategoryDTO;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaCharge;
 import com.trism.jesica.persistence.Entitiy.business.*;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.Entitiy.goods.TbStoreCharge;
+import com.trism.jesica.persistence.Entitiy.goods.TbStorePrice;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
+import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +103,9 @@ public class WorkGroupController {
         log.info("@@headNo {}",headNo);
 
         try {
+            List<TbSystemCode> systemCodeList = apiService.systemCodeList("BL");
+            model.addAttribute("systemCodeList",systemCodeList);
+
             //본사 정보상세
             TbHead tbHead = workGroupService.getTbHeadDetail(headNo);
             //브랜드 리스트 조회
@@ -180,6 +186,8 @@ public class WorkGroupController {
         log.info("@@branchNo {}",branchNo);
 
         try {
+            List<TbSystemCode> systemCodeList = apiService.systemCodeList("BL");
+            model.addAttribute("systemCodeList",systemCodeList);
             //본사 정보상세
             TbBranch tbBranch = workGroupService.getTbBranchDetail(branchNo);
             //브랜드 리스트 조회
@@ -269,13 +277,22 @@ public class WorkGroupController {
             List<TbBrand> tbBrandList = workGroupService.tbBrandList();
             //주문 카테고리 조회
             List<TbSystemCategoryDTO> tbSystemCategory = workGroupService.tbSystemCategorySearch("FO",1);
-
             //주문 카테고리 (선택되어있는 카테고리) 조회
             List<TbStoreCategoryFoDTO> tbStoreCategoryFo = workGroupService.tbStoreCategorySearch(storeNo);
+            //거리요금
+        /*    List<TbDlvyPrice> tbDlvyPrice = workGroupService.tbDlvyPriceList(storeNo,3);
+            model.addAttribute("tbDlvyPrice",tbDlvyPrice);*/
 
+            //가맹점 수수료 정보 변경
+            TbStoreCharge tbStoreCharge = workGroupService.tbStoreChargeSearch(storeNo);
+            model.addAttribute("tbStoreCharge",tbStoreCharge);
+            //요금설정
+            TbStorePrice tbStorePrice = workGroupService.tbStorePriceSearch(storeNo);
+            model.addAttribute("tbStorePrice",tbStorePrice);
             //사용자 정보 조회
             /*TbUser tbUser = workGroupService.getTbUser(headNo);*/
-
+            List<TbSystemCode> systemCodeList = apiService.systemCodeList("BL");
+            model.addAttribute("systemCodeList",systemCodeList);
 
 
             model.addAttribute("tbStore", tbStore);
@@ -304,7 +321,6 @@ public class WorkGroupController {
             model.addAttribute("imgFileSmall", url2);
             model.addAttribute("tbBrandList", tbBrandList);
             CipherAESUtils cipherAESUtils = new CipherAESUtils(keyGeneratorConfig.generateSecretKeySpec(),keyGeneratorConfig.generateIvParameterSpec());
-
             model.addAttribute("bankAccount", cipherAESUtils.decryptAES(tbStore.getBankAccount()));
             model.addAttribute("bankOwner", cipherAESUtils.decryptAES(tbStore.getBankOwner()));
             model.addAttribute("tbSystemCategory", tbSystemCategory);

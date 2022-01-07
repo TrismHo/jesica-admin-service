@@ -87,10 +87,16 @@
                         <span class="d-sm-block d-none"><spring:message code="list.detail.basicInformation" text="기본정보"/></span>
                     </a>
                 </li>
+              <%--  <li class="nav-item">
+                    <a href="#default-tab-2" data-toggle="tab" class="nav-link">
+                        <span class="d-sm-none"><spring:message code="list.detail.affiliatedheadquartersdetail1" text="사업자정보"/>/span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.affiliatedheadquartersdetail1" text="사업자정보"/></span>
+                    </a>
+                </li>--%>
                 <li class="nav-item">
                     <a href="#default-tab-2" data-toggle="tab" class="nav-link">
-                        <span class="d-sm-none"><spring:message code="list.detail.affiliatedheadquartersdetail" text="사업자정보"/>/span>
-                        <span class="d-sm-block d-none"><spring:message code="list.detail.affiliatedheadquartersdetail" text="사업자정보"/></span>
+                        <span class="d-sm-none"><spring:message code="list.detail.affiliatedheadquartersdetail1" text="사업자정보"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.affiliatedheadquartersdetail1" text="사업자정보"/></span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -312,7 +318,7 @@
                                        </tr>
                                        <tr>
                                            <td class="bg-light"><spring:message code="list.detail.distributorrepresentativenumber" text="총판 대표번호"/></td>
-                                           <td><input type="text" class="form-control width-200 headTel" name="branchTel" value="${tbBranch.branchTel}" maxlength="20" numberOnly="true"></td>
+                                           <td><input type="text" class="form-control width-200 branchTel" name="branchTel" value="${tbBranch.branchTel}" maxlength="20" numberOnly="true"></td>
                                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourrepresentativenumber" text="대표번호를 입력하세요."/></td>
                                        </tr>
                                        <tr>
@@ -510,8 +516,8 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.typeofbusiness/industry" text="업태/업종"/></td>
                                     <td>
-                                        <input type="text" name="bizType" class="form-control width-200 bizItem" value="${tbBranch.businessInfo.bizType}" maxlength="80">
-                                        <input type="text" name="bizItem" class="form-control m-r-10 width-200 bizType" value="${tbBranch.businessInfo.bizItem}" maxlength="80">
+                                        <input type="text" name="bizType" class="form-control width-200 bizType" value="${tbBranch.businessInfo.bizType}" maxlength="80">
+                                        <input type="text" name="bizItem" class="form-control m-r-10 width-200 bizItem" value="${tbBranch.businessInfo.bizItem}" maxlength="80">
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.enterthebusinessstatusanditemessage" text="사업자등록증 상의 업태와 종목를 입력하세요."/></td>
                                 </tr>
@@ -603,6 +609,7 @@
         <input type="hidden" name="branchNo" value="${tbBranch.branchNo}">
         <input type="hidden" name="storeNo" value="">
         <input type="hidden" name="userType" value="UT_BRANCH">
+        <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
         <div class="modal-dialog" style="
                     height: 50%;
                 ">
@@ -660,6 +667,7 @@
         <input type="hidden" name="branchNo" value="${tbBranch.branchNo}">
         <input type="hidden" name="storeNo" value="">
         <input type="hidden" class="userNo upUserNo" name="userNo" value="">
+        <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
         <input type="hidden" name="userType" value="UT_BRANCH">
         <div class="modal-dialog" style="
                     height: 50%;
@@ -668,7 +676,7 @@
                     margin-top: 200px;
                     width: 120%;
                 ">
-                <div class="modal-header height-30 m-t-40" >
+                <div clasㅇs="modal-header height-30 m-t-40" >
                     <h4 class="modal-title"><spring:message code="list.detail.useredit" text="사용자 수정"/></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
@@ -685,7 +693,10 @@
                         <tr>
                             <td class="bg-light"><spring:message code="list.detail.newpassword" text="새 패스워드"/></td>
                             <td><input type="text" class="form-control width-full userPwd upUserPwd" name="userPwd" value="" placeholder="<spring:message code="list.description.pleaseenteranewpassword" text="새로운 패스워드를 입력해주세요"/>" maxlength="60"></td>
-                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteranewpassword" text="새로운 패스워드를 입력해주세요"/> </td>
+                            <td class="text-danger-darker">
+                                <spring:message code="list.description.pleaseenteranewpassword" text="새로운 패스워드를 입력해주세요"/>
+
+                            </td>
                         </tr>
                         <tr>
                             <td class="bg-light"><spring:message code="list.detail.username" text="사용자 이름"/></td>
@@ -704,6 +715,14 @@
                                     <option value="1"><spring:message code="list.detail.normal" text="정상"/></option>
                                     <option value="2"><spring:message code="list.detail.stop" text="정지"/></option>
                                 </select>
+                                <label class="m-l-10 blockTypeCodeSel">
+                                    정지/삭제사유 :
+                                    <select class="upBlockTypeCode" name="blockTypeCode"
+                                    <c:forEach var="item" items="${systemCodeList}" varStatus="status">
+                                        <option value="${item.sysCode}" <c:if test="${tbUserStaff.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
+                                    </c:forEach>
+                                    </select>
+                                </label>
                             </td>
                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourphonenumber" text="사용자 전화번호를 입력해주세요"/></td>
                         </tr>
@@ -757,6 +776,15 @@
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
     $(() => {
+        $(".upDataStatus").on("change",function (){
+            var radioVal = $('.upDataStatus option:selected').val();
+            if(radioVal == 1){
+                $(".blockTypeCodeSel").css("display","none");
+            } else {
+                $(".blockTypeCodeSel").css("display","inline");
+            }
+        });
+
         staffList()
         $(document).on("click",".modalUserSave",function(){
             let modalReq = convertFormToObj($('form.user_modal'));
@@ -859,7 +887,7 @@
             let memo = $(this).attr("memo");
             let userNo = $(this).attr("staffNo");
             let dataStatus = $(this).attr("dataStatus");
-
+            let blockTypeCode = $(this).attr("blockTypeCode");
 
             $(".upUserId").val(userId);
             $(".upName").val(name);
@@ -867,6 +895,13 @@
             $(".upMemo").val(memo);
             $(".upUserNo").val(userNo);
             $(".upDataStatus").val(dataStatus).attr("selected","selected");
+
+            if(dataStatus == 1){
+                $(".blockTypeCodeSel").css("display","none");
+            }else {
+                $(".blockTypeCodeSel").css("display","inline");
+                $(".upBlockTypeCode").val(blockTypeCode).attr("selected","selected");
+            }
         });
 
         $('.pin-div i').on('click',function(){
@@ -922,7 +957,7 @@
             let _forms2 = $('.update_form2');
             let req = convertFormToObj(_forms);
             let req2 = convertFormToObj(_forms2);
-            if (inputDataCheck(req)) {
+            if (inputDataCheck(req,req2)) {
                 swal({
                     title: updatemsg,
                     icon: "warning",
@@ -1002,10 +1037,35 @@
         });
     });
 
-    function inputDataCheck(args) {
-        let headmsg = "<spring:message code="list.script.enterthenameoftheaffiliatedheadoffice" text="제휴본사명을 입력해주세요"/>";
+    function inputDataCheck(args,args2) {
         if (isNull(args.branchName)) {
-            return alert_focus("branchName", headmsg);
+            return alert_focus("branchName", "총판명을 입력해주세요.");
+        } else if (isNull(args.authTel)) {
+            return alert_focus("authTel", "인증용 휴대전화를 입력해주세요");
+        } else if (isNull(args.branchTel)) {
+            return alert_focus("branchTel", "총판 대표번호를 입력해주세요");
+        } else if (isNull(args.actualAddr)) {
+            return alert_focus("actualAddr", "실제주소를 입력해주세요");
+        } else if (isNull(args.actualOwner)) {
+            return alert_focus("actualOwner", "실제 운영자명을 입력주세요");
+        } else if (isNull(args.actualTel)) {
+            return alert_focus("actualTel", "실제 연락처를 입력해주세요");
+        } else if (isNull(args2.bizName)) {
+            return alert_focus("bizName", "상호를 입력해주세요");
+        } else if (isNull(args2.bizNum)) {
+            return alert_focus("bizNum", "사업자 등록번호를 입력해주세요");
+        } else if (isNull(args2.bizOwner)) {
+            return alert_focus("bizOwner", "대표자명를 입력해주세요");
+        } else if (isNull(args2.bizEmail)) {
+            return alert_focus("bizEmail", "이메일를 입력해주세요");
+        } else if (isNull(args2.bizTel)) {
+            return alert_focus("bizTel", "사업자 연락처를 입력해주세요");
+        } else if (isNull(args2.bizAddr)) {
+            return alert_focus("bizAddr", "사업장주소를 입력해주세요");
+        } else if (isNull(args2.bizType)) {
+            return alert_focus("bizType", "업태를 입력해주세요");
+        } else if (isNull(args2.bizItem)) {
+            return alert_focus("bizItem", "종목를 입력해주세요");
         }
         return true;
     }
@@ -1059,8 +1119,17 @@
                             "   <td class=\"p-0\">"+data.userStaffList[i].memo+"</td>" +
                             "   <td class=\"p-0\">"+dataStatus+"</td>" +
                             "   <td class=\"p-0\"><a href=\"#modal-message-up\" class=\"btn btn-sm btn-primary update_staff\" " +
-                            "data-toggle=\"modal\" userId="+data.userStaffList[i].userId+" name="+data.userStaffList[i].name+" phone="+data.userStaffList[i].phone+" dataStatus="+data.userStaffList[i].dataStatus+" memo="+data.userStaffList[i].memo+" staffNo="+data.userStaffList[i].staffNo+"" +
-                            " >"+userupdate+"</a></td>" +
+                            "data-toggle=\"modal\""+
+                            " userNo="+data.userStaffList[i].staffNo+
+                            " blockTypeCode="+data.userStaffList[i].blockTypeCode+
+                            " userId="+data.userStaffList[i].userId+
+                            " name="+data.userStaffList[i].name+
+                            " phone="+data.userStaffList[i].phone+
+                            " dataStatus="+data.userStaffList[i].dataStatus+
+                            " staffNo="+data.userStaffList[i].staffNo+
+                            " memo="+data.userStaffList[i].memo+
+                            " >"+userupdate+"</a>" +
+                            "</td>" +
                             "</tr>"
                         )
                     }

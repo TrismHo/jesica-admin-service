@@ -234,6 +234,12 @@ public class TbUserWorker implements Serializable {
     @Column(name = "memo")
     private String memo = null;
 
+    /**
+     * 급여방식 1 급여 2 수수료
+     */
+    @Column(name = "worker_pay_type")
+    private Integer workerPayType = null;
+
     @PrePersist
     private void defaultInit() {
         this.dataStatus = DataStatus.OK;
@@ -273,6 +279,7 @@ public class TbUserWorker implements Serializable {
             String licenseExpDate,
             Integer licenseExpYn,
             String memo,
+            Integer workerPayType,
             Long userNo,
             String insertUserId, String userId, String userPwd, UserType userType, Boolean pushOrderYn, Boolean pushNoticeYn, Boolean pushMarketingYn, List<TbUserDevice> userDevices,LocalDateTime lastLoginDtm, Integer pwdFailCount, Integer isFirstLogin, LocalDateTime pwdUpdateDtm
             ) {
@@ -308,6 +315,7 @@ public class TbUserWorker implements Serializable {
                 this.licenseExpDate = licenseExpDate;
                 this.licenseExpYn = licenseExpYn;
                 this.memo = memo;
+                this.workerPayType = workerPayType;
     }
 
 

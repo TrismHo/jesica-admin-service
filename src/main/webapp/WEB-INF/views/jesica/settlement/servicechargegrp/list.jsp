@@ -389,14 +389,14 @@
 
 
 <script>
+
+    $(document).on("click",".detailRow", function() {
+        let chargeNo = $(this).attr("chargeNo");
+        location.href = "${path}/settlement/servicechargegrp/detail?chargeNo="+chargeNo;
+    });
     $(() => {
         $("#testTable").DataTable({
             language : lang_set //or lang_eng
-        });
-
-        $(".detailRow").click(function() {
-            let chargeNo = $(this).attr("chargeNo");
-            location.href = "${path}/settlement/servicechargegrp/detail?chargeNo="+chargeNo;
         });
 
         //제휴본사 검색

@@ -306,6 +306,8 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+
+
     $(() => {
         $("#testTable").dataTable();
         $(".insert_btn").click(function() {

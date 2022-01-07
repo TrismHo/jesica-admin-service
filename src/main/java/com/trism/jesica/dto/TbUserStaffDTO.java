@@ -6,7 +6,8 @@ public interface TbUserStaffDTO {
 
 
     Long getStaffNo();
-    String  getUserId();
+    String getUserId();
+    String getInsertUserId();
 
     Integer getHeadNo();
     Integer getBranchNo();
@@ -20,5 +21,7 @@ public interface TbUserStaffDTO {
     String getMemo();
 
     LocalDateTime getUpdateDate();
+    LocalDateTime getLastLoginDtm();
+    LocalDateTime getInsertDate();
 
 }

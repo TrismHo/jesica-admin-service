@@ -3,6 +3,7 @@ package com.trism.jesica.Controller;
 import com.google.gson.JsonObject;
 import com.mysql.cj.Session;
 import com.trism.jesica.Service.ApiService;
+import com.trism.jesica.Service.BoardService;
 import com.trism.jesica.Service.CipherService;
 import com.trism.jesica.Service.WorkGroupService;
 import com.trism.jesica.Util.GetClientIp;
@@ -58,6 +59,9 @@ public class MainController {
     @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
+    private BoardService boardService;
+
     /**
      * 핑테스트
      */
@@ -98,10 +102,14 @@ public class MainController {
         model.addAttribute("workerApplyChart",apiService.getWorkerApplyChart().get(0).get("cnt"));
         //렌터카 가맹점
         model.addAttribute("storeRentChart",apiService.getStoreRentChart().get(0).get("cnt"));
- /*       //인수대행 변화추이
-        model.addAttribute("orderAllChart",apiService.getStoreRentChart());
-        //반납대행 변화추이
-        model.addAttribute("maxDlvyManChart",apiService.getStoreRentChart());*/
+      /*  //인수대행 변화추이(system_code_type OT= 20)
+        model.addAttribute("getCallAllListType20",apiService.getCallAllListType20());
+        //반납대행 변화추이(system_code_type OT= 21)
+        model.addAttribute("getCallAllListType21",apiService.getCallAllListType21());*/
+
+        //업데이트 내역
+        model.addAttribute("updateList",boardService.getUpdateListLimit());
+        model.addAttribute("updatePlatList",boardService.getPlatformListLimit());
 
 
         return new ModelAndView("main");
@@ -301,7 +309,7 @@ public class MainController {
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             if(StringUtils.isNotEmpty(bmLoginPwd) && ObjectUtils.isNotEmpty(tbUser)) {
-               /* if(encoder.matches(bmLoginPwd, tbUser.getUserPwd())) {
+                /*if(encoder.matches(bmLoginPwd, tbUser.getUserPwd())) {
                     isPwdMatch = true;
                 }*/
 

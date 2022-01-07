@@ -330,7 +330,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.distributorheadquarters" text="총판명"/></td>
-                                        <td colspan="2"><input type="text" colspan="2" class="form-control width-200 headName" name="branchName" value="" maxlength="40"></td>
+                                        <td colspan="2"><input type="text" colspan="2" class="form-control width-200 branchName" name="branchName" value="" maxlength="40"></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.enterthedistributorname" text="총판 이름을 입력하세요."/></td>
                                     </tr>
                                     <tr>
@@ -356,7 +356,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.distributorrepresentativenumber" text="총판 대표번호"/></td>
-                                        <td colspan="2"><input type="text" class="form-control width-200 headTel" name="branchTel" value="" maxlength="20" numberOnly="true"></td>
+                                        <td colspan="2"><input type="text" class="form-control width-200 branchTel" name="branchTel" value="" maxlength="20" numberOnly="true"></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourrepresentativenumber" text="대표번호를 입력하세요."/></td>
                                     </tr>
                                     <tr>
@@ -389,7 +389,7 @@
                                     <input type="hidden" name="cashDefault" value="0" />
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="충전계좌"/></td>
-                                        <td class="width-200"><spring:message code="list.detail.bank" text="은행"/></td>
+                                        <td class="width-200"><spring:message code="list.detail.1" text="가상계좌은행"/></td>
                                         <td class=" border-0">
                                             <select class="form-control width-200 m-r-10 cybankTypeCode"  name="cybankTypeCode">
                                             </select>
@@ -407,22 +407,22 @@
                                         <td class="text-danger-darker" rowspan="5"><spring:message code="list.description.questingawithdrawautomessage" text="출금 요청시 입금받을 사업자의 계좌 정보를 입력하세요."/></td>
                                     </tr>
                                     <tr>
-                                        <td class="border-left-0 width-200 border-top-0"><spring:message code="list.detail.bank" text="은행"/></td>
+                                        <td class="border-left-0 width-200 border-top-0"><spring:message code="list.detail.1" text="인출은행"/></td>
                                         <td class=" border-right-0 border-top-0">
                                             <select class="form-control width-200 m-r-10 bankTypeCode"  name="bankTypeCode">
                                             </select>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="border-left-0"><spring:message code="list.detail.bank" text="은행"/></td>
+                                        <td class="border-left-0"><spring:message code="list.detail.1" text="인출은행 계좌번호"/></td>
                                         <td class="border-right-0"><input type="text" class="form-control width-200 bankAccount" name="bankAccount" value="" maxlength="20" numberOnly="true"></td>
                                     </tr>
                                     <tr>
-                                        <td class="border-left-0"><spring:message code="list.detail.accountnumber" text="예금주"/></td>
+                                        <td class="border-left-0"><spring:message code="list.detail.accountnumber1" text="인출은행 예금주"/></td>
                                         <td><input type="text" class="form-control width-200 bankOwner" name="bankOwner" value="" maxlength="20"></td>
                                     </tr>
                                     <tr>
-                                        <td class="border-left-0 border-bottom-0"><spring:message code="list.detail.pinnumber" text="PIN번호"/></td>
+                                        <td class="border-left-0 border-bottom-0"><spring:message code="list.detail.pinnumber1" text="PIN번호"/></td>
                                         <td class="border-left-0 border-bottom-0 border-right-0">
                                             <div class="pin-div">
                                                 <input  name="pinNum" class="form-control width-200 pinNum" value="" type="password" maxlength="100" numberOnly>
@@ -503,8 +503,8 @@
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.typeofbusiness/industry" text="업태/업종"/></td>
                                         <td>
-                                            <input type="text" name="bizType" class="form-control width-200 bizItem" value="" maxlength="80">
-                                            <input type="text" name="bizItem" class="form-control m-r-10 width-200 bizType" value="" maxlength="80">
+                                            <input type="text" name="bizType" class="form-control m-r-10 width-200 bizType" value="" maxlength="80">
+                                            <input type="text" name="bizItem" class="form-control width-200 bizItem" value="" maxlength="80">
                                         </td>
                                         <td class="text-danger-darker" style="width:25%"><spring:message code="list.description.enterthebusinessstatusanditemessage" text="사업자등록증 상의 업태와 종목를 입력하세요."/></td>
                                     </tr>
@@ -679,7 +679,7 @@
             let enrollment = "<spring:message code="list.script.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
 
-            if (inputDataCheck(req)) {
+            if (inputDataCheck(req, req2)) {
                 swal({
                     title: registermsg,
                     icon: "warning",
@@ -916,10 +916,49 @@
 
    */
 
-    function inputDataCheck(args) {
-        let headnamemsg = "<spring:message code="list.description.enterthenameoftheaffiliatedheadoffice" text="제휴본사명을 입력해주세요."/>";
+  /*  function inputDataCheck(args) {
+
         if (isNull(args.branchName)) {
             return alert_focus("branchName", headnamemsg);
+        }
+        return true;
+    }*/
+
+    function inputDataCheck(args,args2) {
+        if (isNull(args.branchName)) {
+            return alert_focus("branchName", "총판명을 입력해주세요.");
+        } else if (isNull(args.authTel)) {
+            return alert_focus("authTel", "인증용 휴대전화를 입력해주세요");
+        } else if (isNull(args.branchTel)) {
+            return alert_focus("branchTel", "총판 대표번호를 입력해주세요");
+        } else if (isNull(args.actualAddr)) {
+            return alert_focus("actualAddr", "실제주소를 입력해주세요");
+        } else if (isNull(args.actualOwner)) {
+            return alert_focus("actualOwner", "실제 운영자명을 입력주세요");
+        } else if (isNull(args.actualTel)) {
+            return alert_focus("actualTel", "실제 연락처를 입력해주세요");
+        } else if (isNull(args.bankAccount)) {
+            return alert_focus("bankAccount", "출금계좌번호를 입력해주세요");
+        } else if (isNull(args.bankOwner)) {
+            return alert_focus("bankOwner", "예금주를 입력해주세요");
+        } else if (isNull(args.pinNum)) {
+            return alert_focus("pinNum", "핀번호를 입력해주세요");
+        } else if (isNull(args2.bizName)) {
+            return alert_focus("bizName", "상호를 입력해주세요");
+        } else if (isNull(args2.bizNum)) {
+            return alert_focus("bizNum", "사업자 등록번호를 입력해주세요");
+        } else if (isNull(args2.bizOwner)) {
+            return alert_focus("bizOwner", "대표자명를 입력해주세요");
+        } else if (isNull(args2.bizEmail)) {
+            return alert_focus("bizEmail", "이메일를 입력해주세요");
+        } else if (isNull(args2.bizTel)) {
+            return alert_focus("bizTel", "사업자 연락처를 입력해주세요");
+        } else if (isNull(args2.bizAddr)) {
+            return alert_focus("bizAddr", "사업장주소를 입력해주세요");
+        } else if (isNull(args2.bizType)) {
+            return alert_focus("bizType", "업태를 입력해주세요");
+        } else if (isNull(args2.bizItem)) {
+            return alert_focus("bizItem", "종목를 입력해주세요");
         }
         return true;
     }

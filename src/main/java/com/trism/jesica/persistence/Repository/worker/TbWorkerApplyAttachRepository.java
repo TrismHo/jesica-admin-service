@@ -1,7 +1,7 @@
-package com.trism.jesica.persistence.Repository;
+package com.trism.jesica.persistence.Repository.worker;
 
 import com.trism.jesica.dto.TbWorkerApplyAttachDTO;
-import com.trism.jesica.persistence.Entitiy.TbWorkerApplyAttach;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApplyAttach;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,7 +21,7 @@ public interface TbWorkerApplyAttachRepository extends JpaRepository<TbWorkerApp
             "update_date = now() " +
             "where attach_no = :attachNo "+
             "and apply_attach_type = :applyAttachType ", nativeQuery = true)
-    int attachApproval(@Param("attachNo") Long attachNo, @Param("applyAttachType") Integer applyAttachType, @Param("authStatus") Integer authStatus, @Param("updateUserId") Integer updateUserId);
+    int attachApproval(@Param("attachNo") Long attachNo, @Param("applyAttachType") Integer applyAttachType, @Param("authStatus") Integer authStatus, @Param("updateUserId") String updateUserId);
 
 
 }

@@ -195,7 +195,7 @@ public class TbStore extends BaseEntity {
     private Boolean alldayOpenYn;
 
     /**
-     * 서비스타입 (0: 배달전용, 1: 주문배달, 2: 마트, 3: 전통시장)
+     * 서비스타입 (1: 렌터카, 2: 탁송, 3: 맛집, 4: 마트)
      */
     @Column(name = "service_type")
     @Enumerated(EnumType.ORDINAL)

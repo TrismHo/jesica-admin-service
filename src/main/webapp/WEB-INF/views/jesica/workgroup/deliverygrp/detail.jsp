@@ -479,7 +479,6 @@
                 $(".platForm2").show();
                 $(".platForm2").attr("disabled",false);
             }
-
         });
         $(".openTimeStart").timepicker({
             minuteStep: 1,
@@ -497,7 +496,6 @@
                 $(".opentimeTr").css("display","");
             } else {
                 $(".opentimeTr").css("display","none");
-
             }
         });
 

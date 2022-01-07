@@ -1,8 +1,8 @@
 package com.trism.jesica.Service;
 
 import com.trism.jesica.Util.SearchUtil;
-import com.trism.jesica.persistence.Entitiy.TbWorkerApply;
-import com.trism.jesica.persistence.Repository.TbWorkerApplyRepository;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

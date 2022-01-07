@@ -1,9 +1,6 @@
 package com.trism.jesica.Controller;
 
-import com.trism.jesica.Service.MerchanExtraService;
-import com.trism.jesica.Service.MerchanGroupService;
-import com.trism.jesica.Service.MerchandiseService;
-import com.trism.jesica.Service.WorkGroupService;
+import com.trism.jesica.Service.*;
 import com.trism.jesica.dto.TbStoreCategoryDTO;
 import com.trism.jesica.dto.TbStoreGoodsItemDTO;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaCharge;
@@ -45,6 +42,8 @@ public class MerchantController {
     private final MerchanExtraService merchanExtraService;
 
     private final WorkGroupService workGroupService;
+
+    private final ApiService apiService;
 
 
     //상품
@@ -400,10 +399,13 @@ public class MerchantController {
             }
 
             List<TbStoreRentalCar> resultList = null;
+            List<TbStore> tbStoreLIst = apiService.getStoreList();
+
             if (searchValue.containsKey("storeNo")) {
                 resultList = merchandiseService.tbStoreRentalCar(searchValue);
             }
             model.addAttribute("tbStoreRentalCar", resultList);
+            model.addAttribute("tbStoreLIst", tbStoreLIst);
 
         } catch (Exception e) {
             e.printStackTrace();

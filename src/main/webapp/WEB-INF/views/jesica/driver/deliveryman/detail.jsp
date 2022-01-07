@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -58,8 +59,8 @@
                 </li>
                 <li class="nav-item">
                     <a href="#default-tab-2" data-toggle="tab" class="nav-link">
-                        <span class="d-sm-none"><spring:message code="list.detail.deliverymaninformation1" text="드라이버 정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
-                        <span class="d-sm-block d-none"><spring:message code="list.detail.deliverymaninformation1" text="드라이버 정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
+                        <span class="d-sm-none"><spring:message code="list.detail.deliverymaninformation1" text="수수료"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.deliverymaninformation1" text="수수료"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
                     </a>
                 </li>
               <%--  <li class="nav-item">
@@ -87,7 +88,7 @@
 
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade active show" id="default-tab-1">
-                    <div class="main-content" data-scrollbar="true">
+                    <div class="main-content" data-scrollbar="false">
                         <div class="table-responsive">
                             <form id="update_form" name="update_form">
                                 <table class="table table-bordered">
@@ -101,16 +102,142 @@
                                     <input type="hidden" class="storeNo" name="storeNo" value="${tbUserWorker.storeNo}">
 <%--                                    <div class="timeline-header m-t-10 m-b-10">--%>
                                         <tr>
+                                            <td class="bg-light" style="width:15%"><spring:message code="list.detail.image" text="이미지"/></td>
+                                            <td style="width:60%">
+                                                <div class="category_sort">
+                                                    <ul class="sort_list">
+                                                        <li>
+                                                            <div class="sort_body1" id="sort_body1">
+                                                                <img style="width: 150px;" class="imgFile" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <%--                                                        * 권장 이미지 비율 : 984*876<br><br>--%>
+                                                            <div class="deliverymanFileName1"></div>
+                                                            <br>
+                                                            <div class="deliverymanFileSize1"></div>
+                                                        </li>
+                                                    </ul>
+                                                    <label for="imgFile">
+                                                        <div class="button_base b03_skewed_slide_in btn btn-primary">
+                                                            <div><spring:message code="list.detail.selectfile" text="파일선택"/></div>
+                                                        </div>
+                                                    </label>
+                                                    <input type="file" id="imgFile" name="imgFile" value="${tbUserWorker.profileFile}" class="fileBtn d-none">
+                                                    <input type="hidden" name="imgFile" value="${tbUserWorker.profileFile}">
+                                                </div>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.33" text="드라이버 사진을 등록하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="기사 급여방식"/></td>
+                                            <td>
+                                                <label class="">
+                                                    <input type="radio" name="workerPayType" value="1" class="align-bottom workerPayType"   <c:if test="${tbUserWorker.workerPayType == 1}">checked</c:if>> <spring:message code="list.detail.male1" text="급여"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="workerPayType" value="2" class="align-bottom workerPayType"  <c:if test="${tbUserWorker.workerPayType == 2}">checked</c:if>> <spring:message code="list.detail.female1" text="수수료"/>
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.workstatus" text="출근상태"/></td>
+                                            <td>
+                                                <label class="">
+                                                    <input type="radio" name="attendStatus" value="0" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 0}">checked</c:if> > <spring:message code="list.detail.gotowork" text="퇴근"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="attendStatus" value="1" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 1}">checked</c:if>> <spring:message code="list.detail.offwork" text="출근"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="attendStatus" value="2" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 2}">checked</c:if>> <spring:message code="list.detail.rest" text="휴식"/>
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourworkworkstatus" text="출근 / 퇴근 상태를 설정하세요."/></td>
+                                        </tr>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.employeenumber" text="사원번호"/></td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" class="form-control width-200 registNum" name="registNum" value="${tbUserWorker.registNum}" maxlength="15">
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryouremployeenumber" text="사원번호를 입력하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.434" text="드라이버 이름"/></td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" class="form-control width-200" name="name" value="${tbUserWorker.name}" maxlength="15">
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.3" text="드라이버 이름을 입력하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.3" text="드라이버 연락처"/></td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" class="form-control width-200" name="phone" value="${tbUserWorker.phone}" maxlength="15">
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.3" text="드라이버 연락처를 입력하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.3" text="드라이버 성별"/></td>
+                                            <td>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="gender" value="M" class="align-bottom attendStatus" <c:if test="${tbUserWorker.gender == 'M'}">checked</c:if>> <spring:message code="list.detail.male" text="남성"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="gender" value="F" class="align-bottom attendStatus" <c:if test="${tbUserWorker.gender == 'F'}">checked</c:if>> <spring:message code="list.detail.female" text="여성"/>
+                                                </label>
+                                                <label class="">
+                                                    <input type="radio" name="gender" value="N" class="align-bottom attendStatus" <c:if test="${tbUserWorker.gender == 'N'}">checked</c:if> > <spring:message code="list.detail.unknown" text=" 알수없음"/>
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.dateofentry1" text="입사일 / 퇴사일"/></td>
+                                            <td>
+                                                <label>
+                                                    입사일 : <input type="text" class="form-control joinDate background-white"  name="joinDate" value="${tbUserWorker.joinDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>  &nbsp;
+                                                </label>
+                                                <label>
+                                                    퇴사일 : <input type="text" class="form-control retireDate background-white"  name="retireDate" value="${tbUserWorker.retireDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>  &nbsp;
+                                                </label>
+                                            </td>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenterthedateofentry" text="입사일자/퇴사일자를 입력하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.residenceaddress" text="거주지 주소"/></td>
+                                            <td>
+                                                <input type="text" value="${tbUserWorker.addr}" name="addr" class="form-control width-400" maxlength="150">
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourresidentialaddress" text="거주지 주소를 입력하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.memo" text="메모"/></td>
+                                            <td>
+                                                <input type="text" class="form-control width-600" name="memo" value="${tbUserWorker.memo}" maxlength="150">
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.3" text="드라이버 메모"/></td>
+                                        </tr>
+
+                                        <tr>
                                             <td class="bg-light height-50" style="width:15%"><spring:message code="list.detail.3" text="드라이버 상태"/> </td>
                                             <td style="width:60%">
-                                                <label class="">
-                                                    <input type="radio" name="dataStatus" value="0" class="align-bottom dataStatus" <c:if test="${tbUserWorker.dataStatus.ordinal() == 0}" >checked</c:if>> <spring:message code="list.detail.delete" text="삭제"/><%--정상--%>
-                                                </label>
-                                                <label class="m-l-10">
+                                                <label >
                                                     <input type="radio" name="dataStatus" value="1" class="align-bottom dataStatus" <c:if test="${tbUserWorker.dataStatus.ordinal() == 1}" >checked</c:if>> <spring:message code="list.detail.normal" text="정상"/><%--정상--%>
                                                 </label>
                                                 <label class="m-l-10">
                                                     <input type="radio" name="dataStatus" value="2" class="align-bottom dataStatus" <c:if test="${tbUserWorker.dataStatus.ordinal() == 2}" >checked</c:if>> <spring:message code="list.detail.stop" text="정지"/><%--정상--%>
+                                                </label>
+                                                <label class="m-l-10">
+                                                    <input type="radio" name="dataStatus" value="0" class="align-bottom dataStatus" <c:if test="${tbUserWorker.dataStatus.ordinal() == 0}" >checked</c:if>> <spring:message code="list.detail.delete" text="삭제"/><%--정상--%>
                                                 </label>
                                                 <label class="m-l-10 blockTypeCodeSel" style="display: <c:if test="${tbUserWorker.dataStatus.ordinal() == 1}" >none</c:if>">
                                                     정지/삭제사유 :
@@ -124,77 +251,16 @@
                                             <td class="text-danger-darker"><spring:message code="list.description.44" text="드라이버 상태를 설정하세요."/></td>
                                         </tr>
                                         <tr>
-                                            <td class="bg-light"><spring:message code="list.detail.loginid" text="로그인 ID"/></td>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.loginid" text="로그인 ID"/></td>
                                             <td>${tbUserWorker.userId}
                                                 <input type="hidden"  name="userId" class="form-control width-200 userId" value="${tbUserWorker.userId}" readonly>
-                                            </td>
-                                            <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="수정 불가"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-light"><spring:message code="list.detail.loginpwd" text="로그인 PWD"/></td>
-                                            <td>
-                                                <div class="pass-div">
-                                                    <input  name="userPwd" class="form-control width-200 userPwd" value="${tbUserWorker.userPwd}" type="password" readonly>
-                                                    <%--<i class="fa fa-eye fa-lg m-l-5"></i>--%>
-                                                </div>
+                                                <input type="hidden"  name="userPwd" class="form-control width-200 userPwd" value="${tbUserWorker.userPwd}"  readonly>
                                             </td>
                                             <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="수정 불가"/></td>
                                         </tr>
                                         <input type="hidden" name="pushOrderYn" value="${tbUserWorker.pushOrderYn}">
                                         <input type="hidden" name="pushNoticeYn" value="${tbUserWorker.pushNoticeYn}">
                                         <input type="hidden" name="pushMarketingYn" value="${tbUserWorker.pushMarketingYn}">
-                              <%--  <tr>
-                                    <td class="bg-light height-50">출근상태</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" name="attendStatus" value="0" class="align-bottom dataStatus" checked> <spring:message code="merchandise.search1.option4" text="퇴근"/>
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" name="attendStatus" value="1" class="align-bottom dataStatus" > <spring:message code="merchandise.search1.option4" text="출근"/>
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" name="attendStatus" value="2" class="align-bottom dataStatus" > <spring:message code="merchandise.search1.option4" text="휴식"/>
-                                        </label>
-                                    </td>
-                                </tr>--%>
-                                    <%--<tr>
-                                        <td class="bg-light">기사 이름</td>
-                                        <td colspan="3"><input type="text" name="name" value="5555" class="form-control width-200 name"></td>
-                                    </tr>--%>
-                                  <%--  <tr>
-                                        <td class="bg-light">기사 연락처</td>
-                                        <td colspan="3"><input type="text" name="phone" value="6666" class="form-control width-200 phone"></td>
-                                    </tr>--%>
-                                  <%--  <tr>
-                                        <td class="bg-light height-50">기사 성별</td>
-                                        <td>
-                                            <label>
-                                                <input type="radio" name="gender" value="N" class="align-bottom gender" checked> <spring:message code="merchandise.search1.option4" text="알수없음"/>
-                                            </label>
-                                            <label class="">
-                                                <input type="radio" name="gender" value="M" class="align-bottom gender" > <spring:message code="merchandise.search1.option4" text="남성"/>
-                                            </label>
-                                            <label class="m-l-10 ">
-                                                <input type="radio" name="gender" value="F" class="align-bottom gender" > <spring:message code="merchandise.search1.option4" text="여성"/>
-                                            </label>
-                                        </td>
-                                    </tr>--%>
-                                 <%--   <tr>
-                                        <td class="bg-light">입사일</td>
-                                        <td colspan="3">
-                                            <label>
-                                                <input type="text" class="form-control joinDate background-white" name="joinDate" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>
-                                            </label>
-                                        </td>
-                                    </tr>--%>
-                                    <%-- <tr>
-                                         <td class="bg-light">퇴사일</td>
-                                         <td colspan="3">
-                                             <label>
-                                                 <input type="text" class="form-control joinDate background-white" name="retireDate" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>
-                                             </label>
-                                         </td>
-                                     </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.deposit" text="예치금"/></td>
                                         <td><input class="form-control width-200" type="text"  name="deposit" value="${tbUserWorker.deposit}" readonly> <spring:message code="list.detail.won" text="원"/>
@@ -256,130 +322,15 @@
                                                         <input type="hidden"  name="bankOwner" value="${tbUserWorker.bankOwner}" />
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="border-left-0 border-bottom-0 "><spring:message code="list.detail.pinnumber" text="PIN번호"/></td>
-                                                    <td colspan="3" class="border-bottom-0 border-right-0">
-                                                        <div class="pin-div">
-                                                            <input  name="pinNum" class="form-control width-200 pinNum" value="${tbUserWorker.pinNum}" type="password"  maxlength="150" readonly>
+                                                <input  name="pinNum" class="form-control width-200 pinNum" value="${tbUserWorker.pinNum}" type="hidden"  maxlength="150" readonly>
                                                             <%--<i class="fa fa-eye fa-lg m-l-5"></i>--%>
-                                                        </div>
-                                                    </td>
-                                                </tr>
                                             </table>
                                         </td>
                                         <td class="text-danger-darker border-top-0 "><spring:message code="list.description.cannotbemodified" text="수정불가"/></td>
                                     </tr>
-                                 <%--   <tr>
-                                        <td class="bg-light">메모</td>
-                                        <td colspan="3"><textarea type="text" name="memo" class="form-control width-400 height-150">123</textarea> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light">이미지</td>
-                                        <td colspan="3"><textarea type="text" name="imgFile" class="form-control width-400 height-150">123</textarea> </td>
-                                    </tr>--%>
                                 </table>
                             </form>
 
-                            <%--<table class="table table-condensed table-bordered">
-                                <tr>
-                                    <td class="bg-light">기사 상태</td>
-                                    <td>
-                                        <label class="font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom" checked>정상&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom">정지&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom">삭제&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom">퇴사&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom">페이부족&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">로그인ID</td>
-                                    <td>test1</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">로그인PW</td>
-                                    <td>1234</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">인증용 휴대전화</td>
-                                    <td><input type="text" class="form-control" value="01011112222"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">예치금</td>
-                                    <td><input type="text" class="form-control" value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">기사 구분</td>
-                                    <td>
-                                        <label class="font-size-10">
-                                            <input type="radio" name="status2" class="align-bottom" checked>배달&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status2" class="align-bottom">집화/지선&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status2" class="align-bottom">간선&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">충전 계좌</td>
-                                    <td class="p-0 border-0">
-                                        <table class="width-full border-0">
-                                            <tr>
-                                                <td class="border-left-0 border-top-0 width-100">은행</td>
-                                                <td class="border-top-0">우리은행</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">계좌번호</td>
-                                                <td>1234567890</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">출금 계좌</td>
-                                    <td class="p-0 border-0">
-                                        <table class="width-full border-0">
-                                            <tr>
-                                                <td class="border-left-0 border-top-0 width-100">은행</td>
-                                                <td class="border-top-0">우리은행</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">계좌번호</td>
-                                                <td>1234567890</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">예금주</td>
-                                                <td>테스트</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">페이 잔액</td>
-                                                <td>
-                                                    <div class="width-150 d-inline-block">1000000원</div>
-                                                    <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#listPay_modal">내역</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0 border-bottom-0">미차감 잔액</td>
-                                                <td class="border-bottom-0">
-                                                    <span class="width-150 d-inline-block">0원</span>
-                                                    <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#listDeducted_modal" >내역</button>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>--%>
                         </div>
                     </div>
                 </div>
@@ -389,540 +340,70 @@
                             <div class="table-responsive">
                                 <form id="update_form2" name="update_form2">
                                     <table class="table table-condensed table-bordered">
-                                    <tr>
-                                        <td class="bg-light" style="width:15%"><spring:message code="list.detail.image" text="이미지"/></td>
-                                        <td style="width:60%">
-                                            <div class="category_sort">
-                                                <ul class="sort_list">
-                                                    <li>
-                                                        <div class="sort_body1" id="sort_body1">
-                                                            <img style="width: 150px;" class="imgFile" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
-                                                        </div>
-                                                    </li>
-                                                    <li>
-<%--                                                        * 권장 이미지 비율 : 984*876<br><br>--%>
-                                                        <div class="deliverymanFileName1"></div>
-                                                        <br>
-                                                        <div class="deliverymanFileSize1"></div>
-                                                    </li>
-                                                </ul>
-                                                <label for="imgFile">
-                                                    <div class="button_base b03_skewed_slide_in btn btn-primary">
-                                                        <div><spring:message code="list.detail.selectfile" text="파일선택"/></div>
-                                                    </div>
-                                                </label>
-                                                <input type="file" id="imgFile" name="imgFile" value="${tbUserWorker.profileFile}" class="fileBtn d-none">
-                                                <input type="hidden" name="imgFile" value="${tbUserWorker.profileFile}">
-                                            </div>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.33" text="드라이버 사진을 등록하세요."/></td>
-                                    </tr>
+                                        <tr>
+                                            <td class="bg-light width-150" ><spring:message code="list.detail.accountholder1" text="일 관리비(원)"/></td>
+                                            <td class="border-right-0" colspan="2" >
+                                                <input type="text"  class="form-control width-200 dailyCharge" name="dailyCharge" value="${tbWorkerCharge.dailyCharge}"  maxlength="11" numberOnly> 원
+                                            </td>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="일 관리비(원)를 입력해주세요"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.accountholder1" text="월 관리비(원)"/></td>
+                                            <td class="border-right-0" colspan="2">
+                                                <input type="text"  class="form-control width-200 monthlyCharge" name="monthlyCharge" value="${tbWorkerCharge.monthlyCharge}" numberOnly maxlength="11"> 원
+                                            </td>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="월 관리비(원)를 입력해주세요"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light" rowspan="4"><spring:message code="list.detail.accountholder1" text="운행건당 수수료"/></td>
+                                            <td ><spring:message code="list.detail.accountholder1" text="인수대행 수수료"/></td>
+                                            <td class="border-right-0">
+                                                <input type="text"  class="form-control width-200 takeoverCharge" name="takeoverCharge" value="${tbWorkerCharge.takeoverCharge}" numberOnly>
+                                                <select name="takeroverRateType" class="form-control width-60">
+                                                    <option value="1"<c:if test="${tbWorkerCharge.takeroverRateType == 1}" >selected</c:if>>원</option>
+                                                    <option value="2"<c:if test="${tbWorkerCharge.takeroverRateType == 2}" >selected</c:if>>%</option>
+                                                </select>
+                                            </td>
 
-                                  <%--  <tr>
-                                        <td>기사 주민등록증</td>
-                                        <td>
-                                            <div class="category_sort">
-                                                <ul class="sort_list">
-                                                    <li>
-                                                        <div class="sort_body2" id="sort_body2">
-                                                            <img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        * 권장 이미지 비율 : 984*876<br><br>
-                                                        <div class="deliverymanFileName2"></div>
-                                                        <br>
-                                                        <div class="deliverymanFileSize2"></div>
-                                                    </li>
-                                                </ul>
-                                                <label for="deliverymanImgFile2">
-                                                    <div class="button_base b03_skewed_slide_in btn btn-primary">
-                                                        <div>파일선택</div>
-                                                    </div>
-                                                </label>
-                                                <input type="file" id="deliverymanImgFile2" name="deliverymanImgFile2" class="fileBtn d-none">
-                                            </div>
-                                        </td>
-                                    </tr>--%>
-                                   <%-- <tr>
-                                        <td class="bg-light" rowspan="2">평가</td>
-                                        <td>회수</td>
-                                        <td>2건</td>
-                                    </tr>--%>
-                                   <%-- <tr>
-                                        <td>합계</td>
-                                        <td>5.0</td>
-                                    </tr>--%>
-                                    <%--<tr>
-                                        <td class="bg-light">신분증 이름</td>
-                                        <td colspan="2">${tbUserWorker.name}</td>
-                                    </tr>--%>
-                                 <%--   <tr>
-                                        <td class="bg-light">생년월일</td>
-                                        <td colspan="2">1988 년 10 월 12 일</td>
-                                    </tr>--%>
-                                    <%--<tr>
-                                        <td class="bg-light">주민번호</td>
-                                        <td colspan="2">
-                                            <label>
-                                                <input type="text" class="form-control" value="881012">
-                                            </label>
-                                            -
-                                            <label>
-                                                <input type="text" class="form-control" value="*******">
-                                            </label>
-                                        </td>
-                                    </tr>--%>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.workstatus" text="출근상태"/></td>
-                                        <td>
-                                            <label class="">
-                                                <input type="radio" name="attendStatus" value="0" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 0}">checked</c:if> > <spring:message code="list.detail.gotowork" text="퇴근"/>
-                                            </label>
-                                            <label class="m-l-10 ">
-                                                <input type="radio" name="attendStatus" value="1" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 1}">checked</c:if>> <spring:message code="list.detail.offwork" text="출근"/>
-                                            </label>
-                                            <label class="m-l-10 ">
-                                                <input type="radio" name="attendStatus" value="2" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 2}">checked</c:if>> <spring:message code="list.detail.rest" text="휴식"/>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.setyourworkworkstatus" text="출근 / 퇴근 상태를 설정하세요."/></td>
-                                    </tr>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.employeenumber" text="사원번호"/></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control width-200 registNum" name="registNum" value="${tbUserWorker.registNum}" maxlength="15">
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryouremployeenumber" text="사원번호를 입력하세요."/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.434" text="드라이버 이름"/></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control width-200" name="name" value="${tbUserWorker.name}" maxlength="15">
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.3" text="드라이버 이름을 입력하세요."/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.3" text="드라이버 연락처"/></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control width-200" name="phone" value="${tbUserWorker.phone}" maxlength="15">
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.3" text="드라이버 연락처를 입력하세요."/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.3" text="드라이버 성별"/></td>
-                                        <td>
-                                            <label class="m-l-10 ">
-                                                <input type="radio" name="gender" value="M" class="align-bottom attendStatus" <c:if test="${tbUserWorker.gender == 'M'}">checked</c:if>> <spring:message code="list.detail.male" text="남성"/>
-                                            </label>
-                                            <label class="m-l-10 ">
-                                                <input type="radio" name="gender" value="F" class="align-bottom attendStatus" <c:if test="${tbUserWorker.gender == 'F'}">checked</c:if>> <spring:message code="list.detail.female" text="여성"/>
-                                            </label>
-                                            <label class="">
-                                                <input type="radio" name="gender" value="N" class="align-bottom attendStatus" <c:if test="${tbUserWorker.gender == 'N'}">checked</c:if> > <spring:message code="list.detail.unknown" text=" 알수없음"/>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.dateofentry" text="입사일"/></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control joinDate background-white"  name="joinDate" value="${tbUserWorker.joinDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>  &nbsp;
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.pleaseenterthedateofentry" text="입사일자를 입력하세요."/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.resignationdate" text="퇴사일"/></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control retireDate background-white"  name="retireDate" value="${tbUserWorker.retireDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>  &nbsp;
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourresignationdate" text="퇴사일자를 선택하세요."/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.residenceaddress" text="거주지 주소"/></td>
-                                        <td>
-                                            <input type="text" value="${tbUserWorker.addr}" name="addr" class="form-control width-400" maxlength="150">
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourresidentialaddress" text="거주지 주소를 입력하세요."/></td>
-                                    </tr>
-                                   <%-- <tr>
-                                        <td class="bg-light">근무시간</td>
-                                        <td colspan="2">
-                                            <label>
-                                                <select class="form-control width-70">
-                                                    <c:forEach begin="0" end="23" varStatus="idx">
-                                                        <c:choose>
-                                                            <c:when test="${idx.index lt 10}">
-                                                                <option value="0${idx.index}}">0${idx.index}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${idx.index}}">${idx.index}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 수수료를 입력해주세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td ><spring:message code="list.detail.accountholder1" text="반납대행 수수료"/></td>
+                                            <td class="border-right-0">
+                                                <input type="text"  class="form-control width-200 returnCharge" name="returnCharge" value="${tbWorkerCharge.returnCharge}" numberOnly>
+                                                <select name="returnRateType" class="form-control width-60">
+                                                    <option value="1"<c:if test="${tbWorkerCharge.returnRateType == 1}" >selected</c:if>>원</option>
+                                                    <option value="2"<c:if test="${tbWorkerCharge.returnRateType == 2}" >selected</c:if>>%</option>
                                                 </select>
-                                            </label>
-                                            <label>
-                                                <select class="form-control width-70">
-                                                    <c:forEach begin="0" end="59" varStatus="idx">
-                                                        <c:choose>
-                                                            <c:when test="${idx.index lt 10}">
-                                                                <option value="0${idx.index}}">0${idx.index}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${idx.index}}">${idx.index}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
+                                            </td>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="반납대행 수수료를 입력해주세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td ><spring:message code="list.detail.accountholder1" text="마이카탁송 수수료"/></td>
+                                            <td class="border-right-0">
+                                                <input type="text"  class="form-control width-200 mycarCharge" name="mycarCharge" value="${tbWorkerCharge.mycarCharge}" numberOnly>
+                                                <select name="mycarRateType" class="form-control width-60">
+                                                    <option value="1"<c:if test="${tbWorkerCharge.mycarRateType == 1}" >selected</c:if>>원</option>
+                                                    <option value="2"<c:if test="${tbWorkerCharge.mycarRateType == 2}" >selected</c:if>>%</option>
                                                 </select>
-                                            </label>
-                                            ~
-                                            <label>
-                                                <select class="form-control width-70">
-                                                    <c:forEach begin="0" end="23" varStatus="idx">
-                                                        <c:choose>
-                                                            <c:when test="${idx.index lt 10}">
-                                                                <option value="0${idx.index}}">0${idx.index}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${idx.index}}">${idx.index}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
+                                            </td>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="마이카탁송 수수료를 입력해주세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td ><spring:message code="list.detail.accountholder1" text="올레길탁송 수수료"/></td>
+                                            <td class="border-right-0">
+                                                <input type="text"  class="form-control width-200 olleCharge" name="olleCharge" value="${tbWorkerCharge.olleCharge}" numberOnly>
+                                                <select name="olleRateType" class="form-control width-60">
+                                                    <option value="1"<c:if test="${tbWorkerCharge.olleRateType == 1}" >selected</c:if>>원</option>
+                                                    <option value="2"<c:if test="${tbWorkerCharge.olleRateType == 2}" >selected</c:if>>%</option>
                                                 </select>
-                                            </label>
-                                            <label>
-                                                <select class="form-control width-70">
-                                                    <c:forEach begin="0" end="59" varStatus="idx">
-                                                        <c:choose>
-                                                            <c:when test="${idx.index lt 10}">
-                                                                <option value="0${idx.index}}">0${idx.index}</option>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <option value="${idx.index}}">${idx.index}</option>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
-                                                </select>
-                                            </label>
-                                        </td>
-                                    </tr>--%>
-                                   <%-- <tr>
-                                        <td class="bg-light">운송수단</td>
-                                        <td colspan="2">
-                                            <select class="form-control">
-                                                <option>2륜오토바이</option>
-                                                <option>2륜전기오토바이</option>
-                                                <option>2륜전기자전거</option>
-                                                <option>3륜오토바이</option>
-                                                <option>3륜전기오토바이</option>
-                                                <option>3륜전기자전거</option>
-                                            </select>
-                                        </td>
-                                    </tr>--%>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.memo" text="메모"/></td>
-                                        <td>
-                                            <input type="text" class="form-control width-600" name="memo" value="${tbUserWorker.memo}" maxlength="150">
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.3" text="드라이버 메모"/></td>
-                                    </tr>
-                                    <%--<tr>
-                                        <td class="bg-light">기사 차량번호</td>
-                                        <td colspan="2">
-                                            <input type="text" class="form-control">
-                                        </td>
-                                    </tr>--%>
-                                   <%-- <tr>
-                                        <td class="bg-light">기사 원천세 차감여부</td>
-                                        <td colspan="2">
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status5" class="align-bottom" checked>사용&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <label class="m-l-10 font-size-10">
-                                                <input type="radio" name="status5" class="align-bottom">미사용&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </td>
-                                    </tr>--%>
-                                </table>
+                                            </td>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="올레길탁송 수수료를 입력해주세요."/></td>
+                                        </tr>
+                                    </table>
                                 </form>
                             </div>
                     </div>
-                <!-- end tab-pane -->
-                <!-- begin tab-pane -->
-                <%--<div class="tab-pane fade" id="default-tab-3">
-                        <div class="table-responsive">
-                            <table class="table table-condensed table-bordered">
-                                <tr>
-                                    <td class="bg-light" rowspan="6">공유설정</td>
-                                    <td>공유 유무</td>
-                                    <td colspan="3">
-                                        <label class="font-size-10">
-                                            <input type="radio" name="status6" class="align-bottom" checked>공유&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status6" class="align-bottom">공유안함&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>동시배차 가능건수</td>
-                                    <td colspan="3"><input type="text" class="form-control">건</td>
-                                </tr>
-                                <tr>
-                                    <td>미 공유 시간</td>
-                                    <td colspan="3">
-                                        <label>
-                                            <select class="form-control width-70">
-                                                <c:forEach begin="0" end="23" varStatus="idx">
-                                                    <c:choose>
-                                                        <c:when test="${idx.index lt 10}">
-                                                            <option value="0${idx.index}}">0${idx.index}</option>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <option value="${idx.index}}">${idx.index}</option>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                        <label>
-                                            <select class="form-control width-70">
-                                                <c:forEach begin="0" end="59" varStatus="idx">
-                                                    <c:choose>
-                                                        <c:when test="${idx.index lt 10}">
-                                                            <option value="0${idx.index}}">0${idx.index}</option>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <option value="${idx.index}}">${idx.index}</option>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                        ~
-                                        <label>
-                                            <select class="form-control width-70">
-                                                <c:forEach begin="0" end="23" varStatus="idx">
-                                                    <c:choose>
-                                                        <c:when test="${idx.index lt 10}">
-                                                            <option value="0${idx.index}}">0${idx.index}</option>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <option value="${idx.index}}">${idx.index}</option>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                        <label>
-                                            <select class="form-control width-70">
-                                                <c:forEach begin="0" end="59" varStatus="idx">
-                                                    <c:choose>
-                                                        <c:when test="${idx.index lt 10}">
-                                                            <option value="0${idx.index}}">0${idx.index}</option>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <option value="${idx.index}}">${idx.index}</option>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>출발후 완료 가능 시간</td>
-                                    <td colspan="3">
-                                        <label>
-                                            <select class="form-control">
-                                                <option value="-1">적용안함</option>
-                                                <c:forEach begin="1" end="30" varStatus="idx">
-                                                    <option>${idx.index}분</option>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>검색 최소 반경(기사-가맹점)</td>
-                                    <td colspan="3">
-                                        <label>
-                                            <select class="form-control">
-                                                <option value="-1">적용안함</option>
-                                                <c:forEach begin="1" end="15" varStatus="idx">
-                                                    <option>${idx.index}km</option>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>검색 최소 반경(가맹점-고객)</td>
-                                    <td colspan="3">
-                                        <label>
-                                            <select class="form-control">
-                                                <option value="-1">적용안함</option>
-                                                <c:forEach begin="1" end="15" varStatus="idx">
-                                                    <option>${idx.index}km</option>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                </div>--%>
-                <!-- end tab-pane -->
-                <!-- begin tab-pane -->
-               <%-- <div class="tab-pane fade" id="default-tab-4">
-                        <div class="table-responsive">
-                            <table class="table table-condensed table-bordered">
-                                <tr>
-                                    <td class="bg-light">정액(원) / 정률(%) 선택</td>
-                                    <td>
-                                        <div class="d-table">
-                                            <label class="d-table-cell">
-                                                <input type="text" class="form-control width-200">
-                                            </label>
-                                            <label class="p-l-5 font-size-10 d-table-cell">
-                                                <input type="radio" name="status6" class="align-bottom" checked>원&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <label class="p-l-5 font-size-10 d-table-cell">
-                                                <input type="radio" name="status6" class="align-bottom">%&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-table">
-                                            <label class="d-table-cell">
-                                                <input type="text" class="form-control width-200">
-                                            </label>
-                                            <label class="p-l-5 font-size-10 d-table-cell">
-                                                <input type="radio" name="status7" class="align-bottom" checked>원&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <label class="p-l-5 font-size-10 d-table-cell">
-                                                <input type="radio" name="status7" class="align-bottom">%&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-table">
-                                            <label class="d-table-cell">
-                                                <input type="text" class="form-control width-200">
-                                            </label>
-                                            <label class="p-l-5 font-size-10 d-table-cell">
-                                                <input type="radio" name="status8" class="align-bottom" checked>원&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <label class="p-l-5 font-size-10 d-table-cell">
-                                                <input type="radio" name="status8" class="align-bottom">%&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-table">
-                                            <label class="d-table-cell">
-                                                <input type="text" class="form-control width-200">
-                                            </label>
-                                            <label class="p-l-5 font-size-10 d-table-cell">
-                                                <input type="radio" name="status9" class="align-bottom" checked>원&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <label class="p-l-5 font-size-10 d-table-cell">
-                                                <input type="radio" name="status9" class="align-bottom">%&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">관리자CS 차감그룹수수료, 합산여부</td>
-                                    <td>
-                                        <label>
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status10" class="align-bottom" checked>차감그룹 수수료에 추가 합산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <br>
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status10" class="align-bottom">차감그룹 수수료만 정산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label>
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status11" class="align-bottom" checked>차감그룹 수수료에 추가 합산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <br>
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status11" class="align-bottom">차감그룹 수수료만 정산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label>
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status12" class="align-bottom" checked>차감그룹 수수료에 추가 합산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <br>
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status12" class="align-bottom">차감그룹 수수료만 정산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label>
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status13" class="align-bottom" checked>차감그룹 수수료에 추가 합산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                            <br>
-                                            <label class="font-size-10">
-                                                <input type="radio" name="status13" class="align-bottom">차감그룹 수수료만 정산&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                            </label>
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                </div>--%>
-                <!-- end tab-pane -->
-                <!-- begin tab-pane -->
-                <%--<div class="tab-pane fade" id="default-tab-5">
-                    <div class="table-responsive">
-                        <div class="m-b-10 float-right">
-                            <button type="button" class="btn btn-primary btn_add" data-toggle="modal" data-target="#insertRental_modal"><i class="fa fa-plus m-r-3"></i> 렌탈 등록</button>
-                        </div>
-                        <table id="testTable" class="table table-bordered">
-                            <tr>
-                                <td class="bg-light">순번</td>
-                                <td class="bg-light">종류</td>
-                                <td class="bg-light">일비 차감 시점</td>
-                                <td class="bg-light">기간</td>
-                                <td class="bg-light">금액</td>
-                                <td class="bg-light">삭제</td>
-                            </tr>
-                            <c:forEach begin="1" end="3" varStatus="idx">
-                                <tr class="rentalDetailRow border-bottom" data-toggle="modal" data-target="#updateRental_modal">
-                                    <td>${idx.index}</td>
-                                    <td>리스비</td>
-                                    <td>출근시</td>
-                                    <td>2020.10.29 ~ 2020.10.29</td>
-                                    <td>10000원</td>
-                                    <td onclick="event.cancelBubble=true"><button type="button" class="btn-box-r remove_btn background-white">삭제</button></td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </div>
-                </div>--%>
                 <!-- end tab-pane -->
                 <div class="m-t-10">
                     <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
@@ -1016,9 +497,32 @@
 <![endif]-->
 <script src="${path}/assets/js/demo/form-multiple-upload.demo.js"></script>
 <link href="${path}/assets/plugins/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
-
 <script>
+
+    function percentChk(number){
+        console.log(number)
+        return number.replaceAll(".00","");
+    }
     $(() => {
+
+        $(".takeoverCharge").val(percentChk($(".takeoverCharge").val()));
+        $(".returnCharge").val(percentChk($(".returnCharge").val()));
+        $(".mycarCharge").val(percentChk($(".mycarCharge").val()));
+        $(".olleCharge").val(percentChk($(".olleCharge").val()));
+
+        $("input:text[numberOnly]").on("keyup", function() {
+            $(this).val($(this).val().replace(/[^0-9.]/g,""));
+        });
+
+       $(".dailyCharge,.monthlyCharge,.takeroverRateType,.returnCharge,.mycarCharge,.olleCharge").focus(function(){
+            /!*$(this).val('');*!/
+        }).blur(function(){
+            if($(this).val() == ""){
+                $(this).val("0");
+            }
+        });
+
+
         let url = "${path}/api/img/fileLoad?filePath="+encodeURI("${imgFile}");
         $(".imgFile").attr("src",url);
 
@@ -1053,23 +557,8 @@
             } else {
                 $(".blockTypeCodeSel").css("display","inline");
             }
-        })
-
-     /*   $(".startDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
         });
 
-        $(".endDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });*/
 
         $(".list_btn").click(function () {
             location.href = "${path}/driver/deliveryman/list";
@@ -1220,10 +709,12 @@
             let retireDate = replaceAll($(".retireDate").val(),"-","");
             $(".retireDate").val(retireDate);
 
-            let _forms = $('#update_form, #update_form2');
+            let _forms = $('#update_form');
+            let _forms2 = $('#update_form2');
             let req = convertFormToObj(_forms);
+            let req2 = convertFormToObj(_forms2);
             /*let req2 = convertFormToObj(_forms2);*/
-            if (inputDataCheck(req)) {
+            if (inputDataCheck(req,req2)) {
                 swal({
                     title: updatemsg,
                     icon: "warning",
@@ -1236,6 +727,7 @@
                     if (isConfirm) {
                         var formData = new FormData(document.getElementById('update_form'));
                         formData.append("tbUserWorkerData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                        formData.append("tbWorkerChargeData",  new Blob([JSON.stringify(req2)], {type:"application/json"}));
                         formData.append("imgFile", $("#imgFile")[0].files[0]);
                         /*formData.append("tbUserWorker",  new Blob([JSON.stringify(req2)], {type:"application/json"}));*/
                         $.ajax({
@@ -1284,23 +776,21 @@
         });
     });
 
-    function inputDataCheck(args) {
+    function inputDataCheck(args,args2) {
         let pwCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/.test(args.bmLoginPwd);
         let regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@#$%&\\\=\(\'\"]/gi;
 
-        /* if(regExp.test(args.LoginId)){
-             return alert_focus("LoginId", "로그인ID에는 특수문자를 사용할수없습니다.");
-             s        }
-
-         if (isNull(args.bmLoginId)) {
-             return alert_focus("LoginId", "로그인ID를 입력해주세요.");
-         } else if (isNull(args.LoginPwd)) {
-             return alert_focus("LoginPwd", "비밀번호를 입력해주세요");
-         } else if (isNull(args.Name)) {
-             return alert_focus("Name", "이름을 입력해주세요");
-         } else if(!pwCheck) {
-             return alert_focus("LoginPwd", "비밀번호는 8자리 이상, 영문+숫자+특수문자로 조합하여 설정해주세요.");
-         }*/
+        if (isNull(args.registNum)) {
+            return alert_focus("registNum", " 사원번호를 입력해주세요");
+        } else if (isNull(args.name)) {
+            return alert_focus("name", "드라이버 이름을 입력해주세요");
+        } else if (isNull(args.phone)) {
+            return alert_focus("phone", "드라이버 연락처를 입력해주세요");
+        } else if (isNull(args.addr)) {
+            return alert_focus("addr", "거주지 주소를 입력해주세요");
+        } else if (isNull(args.addr)) {
+            return alert_focus("addr", "거주지 주소를 입력해주세요");
+        }
         return true;
     }
 
@@ -1329,6 +819,8 @@
             return false;
         }
     }
+
+
 </script>
 </body>
 </html>

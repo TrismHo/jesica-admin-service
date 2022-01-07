@@ -21,8 +21,7 @@ public class TbUserWorkerData {
     private Boolean pushOrderYn;
     private Boolean pushNoticeYn;
     private Boolean pushMarketingYn;
-
-
+    private Integer workerPayType;
 
     private Integer headNo;
     private Integer branchNo;
@@ -91,6 +90,7 @@ public class TbUserWorkerData {
                 .licenseExpDate(licenseExpDate)
                 .licenseExpYn(licenseExpYn)
                 .memo(this.memo)
+                .workerPayType(this.workerPayType)
                 .build();
     }
    /* public TbUserWorker insertData() {
@@ -166,6 +166,7 @@ public class TbUserWorkerData {
                 .bankOwner(bankOwner)
                 .profileFile(this.profileFile)
                 .memo(this.memo)
+                .workerPayType(this.workerPayType)
                 .build();
     }
 }

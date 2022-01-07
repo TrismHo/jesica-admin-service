@@ -3,6 +3,7 @@ package com.trism.jesica.persistence.Repository.business;
 import com.trism.jesica.persistence.Entitiy.business.TbUser;
 import com.trism.jesica.persistence.Repository.querydsl.business.TbUserRepositorySupport;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Map;
 
-public interface TbUserRepository extends JpaRepository<TbUser, Long>, TbUserRepositorySupport {
+public interface TbUserRepository extends JpaRepository<TbUser, Long>, JpaSpecificationExecutor<TbUser>,  TbUserRepositorySupport {
 
 
     @Modifying

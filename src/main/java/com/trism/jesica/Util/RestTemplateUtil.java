@@ -1,5 +1,6 @@
 package com.trism.jesica.Util;
 
+import com.trism.jesica.dto.TbRentalInfoData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -110,6 +111,35 @@ public class RestTemplateUtil {
 		headers.add("code", code);
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
 		String url = "http://101.55.126.138:13000/api/v1/auth/login";
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}
+	//차량 대여정보 등록
+	public ResponseEntity<Map> insertCarRent(TbRentalInfoData tbRentalInfo, HttpSession session) {
+		Map<String,String> requestDto = new HashMap<>();
+
+		String rentApiKey = "adminApi";
+
+		requestDto.put("reservNum",tbRentalInfo.getReservNum());
+		requestDto.put("storeName",tbRentalInfo.getStoreName());
+		requestDto.put("carNum",tbRentalInfo.getCarNum());
+		requestDto.put("custTel",null);
+		requestDto.put("driverTel",tbRentalInfo.getCustDriverTel1().replaceAll("-",""));
+
+		requestDto.put("startDtm",tbRentalInfo.getReservStartDate());
+		requestDto.put("endDtm",tbRentalInfo.getReservEndDate());
+
+		String authorization = "";
+		if (session.getAttribute("accessToken") != null ){
+			authorization ="Bearer "+session.getAttribute("accessToken").toString();
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		headers.add(HttpHeaders.AUTHORIZATION, authorization);
+		headers.add("Content-Type", "application/json; charset=utf-8");
+		/*headers.add("RentApiKey", rentApiKey);*/
+		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
+		String url = "http://101.55.126.138:13000/api/v1/rents/reserv";
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
 

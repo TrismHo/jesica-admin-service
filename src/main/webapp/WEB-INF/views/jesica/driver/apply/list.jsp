@@ -627,6 +627,10 @@
                            var updateTime = "";
                            var insertTime = "";
                            var userId = "";
+                           var param1 = "";
+                           var param2 = "";
+                           var param3 = "";
+
                            if(tbWorkerApplyAttchList[i].updateDate != null){
                                updateTime = (tbWorkerApplyAttchList[i].updateDate).substring(0,10)+" "+(tbWorkerApplyAttchList[i].updateDate).substring(11,19)
                            }
@@ -636,6 +640,15 @@
                            if(tbWorkerApplyAttchList[i].updateUserId != null){
                                userId = tbWorkerApplyAttchList[i].updateUserId
                            }
+                           if(tbWorkerApplyAttchList[i].param1 != null){
+                               param1 = "면허번호 : <span class='text-green'>"+ tbWorkerApplyAttchList[i].param1+"</span>"
+                           }
+                           if(tbWorkerApplyAttchList[i].param2 != null){
+                               param2 = "면허종류 : "+ tbWorkerApplyAttchList[i].param2
+                           }
+                           if(tbWorkerApplyAttchList[i].param3 != null){
+                               param3 = "만료일 : &nbsp;&nbsp;&nbsp;"+ tbWorkerApplyAttchList[i].param3
+                           }
 
                            let imgPath = "/api/img/fileLoad?filePath="+tbWorkerApplyAttchList[i].uploadFile;
                            $(".attachList").append(
@@ -644,14 +657,15 @@
                                "         <table id=\"testTable\" class=\"display table table-bordered w-100 table-striped \">"+
                                "            <tbody>"+
                                "             <tr class=\"\" attachNo="+tbWorkerApplyAttchList[i].attachNo+" "+statusColor+">" +
-                               "                <td style=\"width:64px;\">"+(i+1)+"</td>" +
-                               "                <td style=\"width:113px;\">"+applyAttachType+"</td>" +
-                               "                <td style=\"width:115px;\">"+authStatusTxt+"</td>" +
-                               "                <td style=\"width:138px;\"><img style=\"width: 100px;\" class=\"systemImg\" src="+imgPath+" onerror=\"this.src='${path}/assets/img/logo/logo-noimg.gif'\"></td>" +
-                               "                <td style=\"width:128px;\">"+userId+"</td>" +
-                               "                <td style=\"width:126px;\">"+updateTime+"</td>" +
-                               "                <td style=\"width:140px;\">"+insertTime+"</td>" +
-                               "                <td class=\"text-center\">" +
+                               "                <td style=\"width:60px;\">"+(i+1)+"</td>" +
+                               "                <td style=\"width:101px;\">"+applyAttachType+"</td>" +
+                               "                <td style=\"width:67px;\">"+authStatusTxt+"</td>" +
+                               "                <td style=\"width:129px;\"><img style=\"width: 100px;height :53px;\" class=\"systemImg\" src="+imgPath+" onerror=\"this.src='${path}/assets/img/logo/logo-noimg.gif'\"></td>" +
+                               "                <td style=\"width:78px;\">"+userId+"</td>" +
+                               "                <td style=\"width:160px;\">"+param1+" <br>"+param2+"<br>"+param3+"</td>" +
+                               "                <td style=\"width:120px;\">"+updateTime+"</td>" +
+                               "                <td style=\"width:120px;\">"+insertTime+"</td>" +
+                               "                <td style=\"width:120px;\" class=\"text-center\">" +
                                inputBtn+
                                "                </td>" +
                                "             </tr>" +
@@ -686,7 +700,7 @@
             let applyNo = $(this).attr("applyNo");
             let uploadFile = $(this).attr("uploadFile");
             let authStatus = 2;
-            let updateUserId = 1;
+            let updateUserId = "${sessionScope.sessionKey.userLoginId}";
 
             swal({
                 title: "승인 하시겠습니까",

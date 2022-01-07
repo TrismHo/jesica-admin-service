@@ -166,6 +166,12 @@ public class SearchUtil {
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
+    public static Specification<?> searchRelese(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchRelese(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
     public static Specification<?> searchServiceChargeGroup(Map<String, Object> searchKeyword) {
         return (Specification<?>) ((root, query, builder) -> {
             List<Predicate> predicate = searchServiceChargeGroup(searchKeyword, root, builder);
@@ -194,6 +200,18 @@ public class SearchUtil {
     public static Specification<?> searchPaymenthistoryList(Map<String, Object> searchKeyword) {
         return (Specification<?>) ((root, query, builder) -> {
             List<Predicate> predicate = searchPaymenthistoryList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+    public static Specification<?> getRentalInfo(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchRentalInfoList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+    public static Specification<?> searchUserList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchUserList(searchKeyword, root, builder);
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
@@ -974,6 +992,44 @@ public class SearchUtil {
         }
         return predicate;
     }
+    private static List<Predicate>  searchRelese(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                if ("dataStatus".equals(key)) {
+                    DataStatus dataStatus = null;
+                    DataStatus delDataStatus = null;
+                    if("".equals(value) || value == null) {
+                        delDataStatus = DataStatus.valueOf("DELETE");
+                        predicate.add(builder.notEqual(root.get(key),delDataStatus));
+                    } else {
+                        dataStatus = DataStatus.valueOf(value.toString());
+                        delDataStatus = DataStatus.valueOf("DELETE");
+                        predicate.add(builder.equal(root.get(key),dataStatus));
+                        predicate.add(builder.notEqual(root.get(key),delDataStatus));
+                    }
+                } else if ("title".equals(key)  && value != "") {
+                   predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                }  else if ("endDate".equals(key) && value != "") {
+                   String string = value.toString() + " 23:59:59";
+                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                   endDate = LocalDateTime.parse(string, formatter);
+               } else if ("startDate".equals(key) && value != "") {
+                   String string = value.toString() + " 00:00:00";
+                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                   startDate = LocalDateTime.parse(string, formatter);
+
+                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+               }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
     private static List<Predicate>  searchServiceChargeGroup(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
         LocalDateTime startDate = null;
@@ -1544,6 +1600,64 @@ public class SearchUtil {
                     }
 
                 } else if ("name".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else
+                if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
+
+    private static List<Predicate>  searchRentalInfoList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                if ("storeName".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else
+                if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
+
+    private static List<Predicate>  searchUserList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                if ("name".equals(key) && value != ""){
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
                 } else
                 if ("endDate".equals(key) && value != "") {

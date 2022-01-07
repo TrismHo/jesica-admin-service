@@ -157,12 +157,12 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.franchiseeheadquarters" text="가맹점명"/></td>
-                                        <td><input type="text" class="form-control width-200" name="storeName" value="${tbStore.storeName}" maxlength="30"></td>
+                                        <td><input type="text" class="form-control width-200 storeName" name="storeName" value="${tbStore.storeName}" maxlength="30"></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname" text="가맹점 이름을 입력하세요."/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.externalmerchantcode" text="외부 가맹점 코드"/></td>
-                                        <td><input type="text" class="form-control width-200" name="exStoreCd" value="" placeholder="<spring:message code="list.description.pleaseentertheexternalmerchantcode" text="외부 가맹점 코드를 입력해주세요"/>" maxlength="10"></td>
+                                        <td><input type="text" class="form-control width-200 exStoreCd" name="exStoreCd" value="" placeholder="<spring:message code="list.description.pleaseentertheexternalmerchantcode" text="외부 가맹점 코드를 입력해주세요"/>" maxlength="10"></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseentertheexternalmerchantcode" text="외부 가맹점 코드를 입력해주세요"/></td>
                                     </tr>
                                     <tr>
@@ -205,16 +205,16 @@
                                         <td class="bg-light height-50"><spring:message code="list.detail.1" text="서비스타입"/></td>
                                         <td>
                                             <label class="">
-                                                <input type="radio" name="serviceType" value="1" class="align-bottom storeType"> <spring:message code="list.detail.1" text="렌터카"/>
+                                                <input type="radio" name="serviceType" value="RENTCAR" class="align-bottom serviceType"> <spring:message code="list.detail.1" text="렌터카"/>
                                             </label>
                                             <label class="m-l-10 ">
-                                                <input type="radio" name="serviceType" value="2" class="align-bottom storeType" checked> <spring:message code="list.detail.1" text="탁송"/>
+                                                <input type="radio" name="serviceType" value="CONSIGNMENT" class="align-bottom serviceType" checked> <spring:message code="list.detail.1" text="탁송"/>
                                             </label>
                                             <label class="m-l-10 ">
-                                                <input type="radio" name="serviceType" value="3" class="align-bottom storeType" > <spring:message code="list.detail.1" text="맛집"/>
+                                                <input type="radio" name="serviceType" value="RESTAURANT" class="align-bottom serviceType" > <spring:message code="list.detail.1" text="맛집"/>
                                             </label>
                                             <label class="m-l-10 ">
-                                                <input type="radio" name="serviceType" value="4" class="align-bottom storeType" > <spring:message code="list.detail.1" text="마트"/>
+                                                <input type="radio" name="serviceType" value="MART" class="align-bottom serviceType" > <spring:message code="list.detail.1" text="마트"/>
                                             </label>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseselectastoretype" text="매장타입을 선택하세요."/></td>
@@ -344,17 +344,17 @@
                                       </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.storerepresentativenumber" text="가맹점 대표번호"/></td>
-                                        <td><input type="text" class="form-control width-200" name="storeTel" value="${tbStore.storeTel}" maxlength="20" numberOnly></td>
+                                        <td><input type="text" class="form-control width-200 storeTel" name="storeTel" value="${tbStore.storeTel}" maxlength="20" numberOnly></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourrepresentativenumber" text="대표번호를 입력하세요."/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.mobilephoneforauthentication" text="인증용 휴대전화"/></td>
-                                        <td><input type="text" class="form-control width-200" name="authTel" value="${tbStore.authTel}"  maxlength="20" numberOnly></td>
+                                        <td><input type="text" class="form-control width-200 authTel" name="authTel" value="${tbStore.authTel}"  maxlength="20" numberOnly></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.enterthemobilephonenumbertobeusedforauthentication" text="인증시 사용할 휴대전화번호를 입력하세요."/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.salesrepresentativename" text="영업담당자 이름"/></td>
-                                        <td><input type="text" class="form-control width-200" name="mngrName" value="${tbStore.mngrName}"  maxlength="40" ></td>
+                                        <td><input type="text" class="form-control width-200 mngrName" name="mngrName" value="${tbStore.mngrName}"  maxlength="40" ></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseenterthenameofyoursalesrepresentative" text="영업 담당자 이름을 입력하세요."/></td>
                                     </tr>
                                     <tr>
@@ -551,8 +551,8 @@
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.typeofbusiness/industry" text="업태/업종"/></td>
                                             <td>
-                                                <input type="text" name="bizType" class="form-control width-200 bizItem" value="" maxlength="80">
-                                                <input type="text" name="bizItem" class="form-control m-r-10 width-200 bizType" value="" maxlength="80">
+                                                <input type="text" name="bizType" class="form-control width-200 bizType" value="" maxlength="80">
+                                                <input type="text" name="bizItem" class="form-control m-r-10 width-200 bizItem" value="" maxlength="80">
                                             </td>
                                             <td class="text-danger-darker" style="width:25%"><spring:message code="list.description.typeofbusinessindustrymessage" text="사업자등록증 상의 업태와 종목를 입력하세요."/></td>
                                         </tr>
@@ -1107,7 +1107,7 @@
             let registerfailmsg = "<spring:message code="list.detail.registrationfailed" text="등록에 실패하였습니다."/>";
             let enrollment = "<spring:message code="list.detail.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.detail.cancel" text="취소"/>";
-            if (inputDataCheck(req)) {
+            if (inputDataCheck(req,req2)) {
                 swal({
                     title: registermsg,
                     icon: "warning",
@@ -1333,47 +1333,51 @@
     }*/
 
 
-    function inputDataCheck(args) {
+    function inputDataCheck(args,args2) {
         let msg2 = "<spring:message code="list.script.pleasesearchfortheaddress" text="주소를 검색해주세요."/>";
-        let msg3 = "<spring:message code="list.script.pleaseselectanaffiliatedheadoffice" text="제휴본사를을 선택해주세요."/>";
+        let msg3 = "<spring:message code="list.script.pleaseselectanaffiliatedheadoffice1" text="가멩잠명을 선택해주세요."/>";
         let msg4 = "<spring:message code="list.script.pleaseselectadistributor" text="총판을 선택해주세요"/>";
         let msg5 = "<spring:message code="list.script.pleaseenterthestorename" text="가맹점명을 입력해주세요."/>";
         if (isNull(args.headNo)) {
-            return alert_focus("headNo", msg3);
-        } else if (isNull(args.addr1)) {
-            return alert_focus("addr1", msg2);
+            return alert_focus("headNoText", "제휴본사를 선택해주세요.");
         } else if (isNull(args.branchNo)) {
-            return alert_focus("branchNo", msg4);
+            return alert_focus("branchNoText", "총판명을 선택해주세요.");
         } else if (isNull(args.storeName)) {
-            return alert_focus("storeName", msg5);
-/*
-        } else if (isNull(args.storeTel)) {
+            return alert_focus("storeName", "가맹점명을 입력해주세요.");
+        }
+       /* else if (isNull(args.exStoreCd)) {
+            return alert_focus("exStoreCd", "외부 가맹점 코드를 입력해주세요.");
+        } */
+        else if (isNull(args.storeTel)) {
             return alert_focus("storeTel", "가맹점전화번호를 입력해주세요");
-        } else if (isNull(args.storeNameInapp)) {
-            return alert_focus("storeNameInapp", "고객앱 가맹점명을 입력해주세요");
-        } else if (isNull(args.mngrName)) {
-            return alert_focus("mngrName", "영업담당자명을 입력해주세요");
         } else if (isNull(args.authTel)) {
-            return alert_focus("authTel", "인증용 휴대전화를 입력해주세요");
-        } else if (isNull(args.deposit)) {
-            return alert_focus("deposit", "예치금을 입력해주세요");
-        } else if (isNull(args.cash)) {
-            return alert_focus("cash", "캐쉬를 입력해주세요");
-        } else if (isNull(args.cashDefault)) {
-            return alert_focus("cashDefault", "캐쉬 체납금을 입력해주세요");
-        }  else if (isNull(args.cybankTypeCode)) {
-            return alert_focus("cybankTypeCode", "가상계좌 은행구분 코드를 입력해주세요");
-        } else if (isNull(args.cybankAccount)) {
-            return alert_focus("cybankAccount", "가상계좌 번호을 입력해주세요");
-        } else if (isNull(args.bankTypeCode)) {
-            return alert_focus("bankTypeCode", "인출은행 구분 코드을 입력해주세요");
+            return alert_focus("authTel", "인증용 휴대전화번호를 입력해주세요");
+        } else if (isNull(args.mngrName)) {
+            return alert_focus("mngrName", "영업담당자 이름을 입력해주세요");
+        } else if (isNull(args.addr1)) {
+            return alert_focus("addr1", "주소를 입력해주세요");
         } else if (isNull(args.bankAccount)) {
             return alert_focus("bankAccount", "인출은행 계좌번호를 입력해주세요");
         } else if (isNull(args.bankOwner)) {
             return alert_focus("bankOwner", "인출은행 예금주를 입력해주세요");
         } else if (isNull(args.pinNum)) {
             return alert_focus("pinNum", "PIN번호를 입력해주세요");
-*/
+        } else if (isNull(args2.bizName)) {
+            return alert_focus("bizName", "상호를 입력해주세요");
+        } else if (isNull(args2.bizNum)) {
+            return alert_focus("bizNum", "사업자 등록번호를 입력해주세요");
+        } else if (isNull(args2.bizOwner)) {
+            return alert_focus("bizOwner", "대표자명를 입력해주세요");
+        } else if (isNull(args2.bizEmail)) {
+            return alert_focus("bizEmail", "이메일를 입력해주세요");
+        } else if (isNull(args2.bizTel)) {
+            return alert_focus("bizTel", "사업자 연락처를 입력해주세요");
+        } else if (isNull(args2.bizAddr)) {
+            return alert_focus("bizAddr", "사업장주소를 입력해주세요");
+        } else if (isNull(args2.bizType)) {
+            return alert_focus("bizType", "업태를 입력해주세요");
+        } else if (isNull(args2.bizItem)) {
+            return alert_focus("bizItem", "종목를 입력해주세요");
         }
         return true;
     }
