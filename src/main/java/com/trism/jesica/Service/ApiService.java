@@ -8,7 +8,6 @@ import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyArea;
-import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaCharge;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaGeo;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
@@ -24,10 +23,8 @@ import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
-import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
-import com.trism.jesica.persistence.Repository.block.TbDlvyAreaChargeRepository;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaGeoRepository;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaRepository;
 import com.trism.jesica.persistence.Repository.board.TbNoticeCompanyRepository;
@@ -144,8 +141,6 @@ public class ApiService {
     @Autowired
     private final TbDeliveryShareRepository tbDeliveryShareRepository;
 
-    @Autowired
-    private final TbDlvyAreaChargeRepository tbDlvyAreaChargeRepository;
 
     @Autowired
     private final TbDlvyAreaRepository tbDlvyAreaRepository;
@@ -224,6 +219,9 @@ public class ApiService {
 
     @Autowired
     private final TbStorePriceRepository tbStorePriceRepository;
+
+    @Autowired
+    private final TbBranchPriceRepository tbBranchPriceRepository;
 
 
     @Autowired
@@ -355,7 +353,13 @@ public class ApiService {
                         tbBusinessInfoData.getBizTel(),
                         tbBusinessInfoData.getBizEmail()
                 );
+
+                TbBranchPrice tbBranchPrice = new TbBranchPrice();
+                tbBranchPrice.setBranchNo(tbBranch.getBranchNo());
+                tbBranchPriceRepository.save(tbBranchPrice);
+
                 result = 1;
+
             }
 
         } catch (Exception e){
@@ -365,7 +369,7 @@ public class ApiService {
     }
 
     @Transactional
-    public int updateTbBranch(TbBranchData tbBranchData, TbBusinessInfoData tbBusinessInfoData) {
+    public int updateTbBranch(TbBranchData tbBranchData, TbBusinessInfoData tbBusinessInfoData,TbBranchPrice tbBranchPrice) {
         int result = 0;
         try{
             if(tbBranchData.getBranchNo() != null) {
@@ -389,6 +393,10 @@ public class ApiService {
                             tbBusinessInfoData.getBizTel(),
                             tbBusinessInfoData.getBizEmail()
                     );
+
+                    tbBranchPrice.setBranchNo(tbBranchData.getBranchNo());
+                    tbBranchPriceRepository.save(tbBranchPrice);
+
                     result = 1;
                 } else {
                     //아이디가 없으면 insert
@@ -1541,30 +1549,31 @@ public class ApiService {
         return 1;
     }
 
-    @Transactional
-    public int insertTbDlvyAreaCharge(TbDlvyAreaChargeData tbDlvyAreaChargeData ) {
+    /*@Transactional
+    public int insertTbDlvyArea(TbDlvyArea tbDlvyArea ) {
 
         int result = 0;
-        if(tbDlvyAreaChargeData.getAreaChargeNo() != null) {
+        if(tbDlvyArea.getAreaNo() != null) {
             result = 0;
         } else {
-            TbDlvyAreaCharge tbDlvyAreaCharge1 = tbDlvyAreaChargeRepository.save(tbDlvyAreaChargeData.insertData());
+            TbDlvyArea tbDlvyAreaCharge1 = tbDlvyAreaRepository.save(tbDlvyArea);
             result = 1;
         }
         return result;
-    }
-    @Transactional
-    public int insertTbDlvyPriceCharge(TbDlvyPriceChargeData tbDlvyPriceChargeData) {
+    }*/
+
+   /* @Transactional
+    public int insertTbDlvyPriceCharge(TbDlvyPriceData tbDlvyPriceData) {
 
         int result = 0;
-        if(tbDlvyPriceChargeData.getPriceChargeNo() != null) {
+        if(tbDlvyPriceData.() != null) {
             result = 0;
         } else {
             TbDlvyPriceCharge tbDlvyAreaCharge1 = tbDlvyPriceChargeRepository.save(tbDlvyPriceChargeData.insertData());
             result = 1;
         }
         return result;
-    }
+    }*/
 
     @Transactional
     public int insertTbDlvyArea(TbDlvyArea tbDlvyArea, List<Map<String,Object>> tbDlvyAreaList ) {
@@ -1573,11 +1582,13 @@ public class ApiService {
         if(tbDlvyArea.getAreaNo() != null) {
             result = 0;
         } else {
-            Long areaChargeNo = tbDlvyArea.getAreaChargeNo();
-            int viewOrder = tbDlvyAreaRepository.getMaxViewOrder(areaChargeNo);
+            Long gruopNo = tbDlvyArea.getGroupNo();
+            int viewOrder = tbDlvyAreaRepository.getMaxViewOrder(gruopNo);
 
             tbDlvyArea.setViewOrder(viewOrder+1);
+            tbDlvyArea.setUpdateUserId(null);
             TbDlvyArea tbDlvyAreaResult = tbDlvyAreaRepository.save(tbDlvyArea);
+
             int i = 1;
             for(Map<String,Object> tbDlvyAreaGeoPoint : tbDlvyAreaList ){
                 TbDlvyAreaGeo tbDlvyAreaGeo = new TbDlvyAreaGeo();
@@ -1595,20 +1606,83 @@ public class ApiService {
         }
         return result;
     }
+    @Transactional
+    public int updateTbDlvyArea(TbDlvyArea tbDlvyArea, List<Map<String,Object>> tbDlvyAreaList ) {
+
+        int result = 0;
+        if(tbDlvyArea.getAreaNo() != null) {
+/*            Long gruopNo = tbDlvyArea.getGroupNo();
+            int viewOrder = tbDlvyAreaRepository.getMaxViewOrder(gruopNo);
+
+            tbDlvyArea.setViewOrder(viewOrder+1);*/
+            TbDlvyArea tbDlvyAreaResult = tbDlvyAreaRepository.save(tbDlvyArea);
+            int i = 1;
+
+            //원래 좌표제거
+            tbDlvyAreaGeoRepository.deleteByAreaNo(tbDlvyArea.getAreaNo());
+            for(Map<String,Object> tbDlvyAreaGeoPoint : tbDlvyAreaList ){
+                TbDlvyAreaGeo tbDlvyAreaGeo = new TbDlvyAreaGeo();
+                tbDlvyAreaGeo.setAreaNo(tbDlvyAreaResult.getAreaNo());
+                tbDlvyAreaGeo.setGeoIdx(i);
+                tbDlvyAreaGeo.setLat(Float.parseFloat(tbDlvyAreaGeoPoint.get("y").toString()));
+                tbDlvyAreaGeo.setLng(Float.parseFloat(tbDlvyAreaGeoPoint.get("x").toString()));
+
+                TbDlvyAreaGeo tbDlvyAreaGeo1 = tbDlvyAreaGeoRepository.save(tbDlvyAreaGeo);
+
+                i++;
+            }
+
+
+            result = 1;
+        } else {
+            result = 0;
+        }
+        return result;
+    }
+
+    @Transactional
+    public int deleteTbDlvyArea(Long areaNo) {
+
+        int result = 0;
+        if(areaNo != null) {
+            //블록요금제거
+            tbDlvyAreaRepository.deleteById(areaNo);
+            //좌표제거
+            tbDlvyAreaGeoRepository.deleteByAreaNo(areaNo);
+            result = 1;
+        } else {
+            result = 0;
+        }
+        return result;
+    }
 
     @Transactional(readOnly = true)
-    public List<TbDlvyArea> tbDlvyAreaList(Long areaChargeNo) {
+    public List<TbDlvyArea> tbDlvyAreaList(Long groupNo , Integer groupType) {
         List<TbDlvyArea> result = null;
-        result =  tbDlvyAreaRepository.findByAreaChargeNo(areaChargeNo);
+        result =  tbDlvyAreaRepository.findByGroupNoAndGroupType(groupNo,groupType);
         return result;
     }
     @Transactional(readOnly = true)
-    public List tbDlvyAreaGeoList(Long areaChargeNo) {
+    public List tbDlvyAreaGeoList(Long groupNo , Integer groupType) {
+        List<TbDlvyArea> tbDlvyAreas = tbDlvyAreaRepository.findByGroupNoAndGroupType(groupNo,groupType);
         List result = new ArrayList();
-        List<TbDlvyArea> tbDlvyAreas =  tbDlvyAreaRepository.findByAreaChargeNo(areaChargeNo);
-        for (TbDlvyArea tbDlvyArea : tbDlvyAreas) {
-            log.info("areaNo :: {}", tbDlvyArea.getAreaNo());
-            result.add(tbDlvyAreaGeoRepository.findByAreaNo(tbDlvyArea.getAreaNo()));
+        if(tbDlvyAreas.size() > 0 ){
+            for (TbDlvyArea tbDlvyArea : tbDlvyAreas) {
+                log.info("areaNo :: {}", tbDlvyArea.getAreaNo());
+                result.add(tbDlvyAreaGeoRepository.findByAreaNo(tbDlvyArea.getAreaNo()));
+            }
+        }
+        return result;
+    }
+    @Transactional(readOnly = true)
+    public List tbDlvyAreaGeoDetail(Long groupNo , Integer groupType, Long areaNo) {
+        List<TbDlvyArea> tbDlvyAreas = tbDlvyAreaRepository.findByAreaNoAndGroupNoAndGroupType(areaNo,groupNo,groupType);
+        List result = new ArrayList();
+        if(tbDlvyAreas.size() > 0 ){
+            for (TbDlvyArea tbDlvyArea : tbDlvyAreas) {
+                log.info("areaNo :: {}", tbDlvyArea.getAreaNo());
+                result.add(tbDlvyAreaGeoRepository.findByAreaNo(tbDlvyArea.getAreaNo()));
+            }
         }
         return result;
     }
@@ -1620,10 +1694,11 @@ public class ApiService {
         for (Map<String,Object> map : deliveryBlockSort) {
             log.info("areaNo :: {}", map.get("areaNo"));
             Long areaNo = Long.parseLong(map.get("areaNo").toString());
-            Long areaChargeNo = Long.parseLong(map.get("areaChargeNo").toString());
+            Long groupNo = Long.parseLong(map.get("groupNo").toString());
+            Integer groupType = Integer.parseInt(map.get("groupType").toString());
             Integer viewOrder = Integer.parseInt(map.get("viewOrder").toString());
             Integer newViewOrder = Integer.parseInt(map.get("newViewOrder").toString());
-            resultList.add(tbDlvyAreaRepository.deliveryBlockSort(areaNo,areaChargeNo,viewOrder,newViewOrder));
+            resultList.add(tbDlvyAreaRepository.deliveryBlockSort(areaNo,groupNo,groupType,viewOrder,newViewOrder));
         }
 
         if (resultList.contains(0)) {
@@ -1863,9 +1938,9 @@ public class ApiService {
 
 
     @Transactional(readOnly = true)
-    public List<TbDlvyPrice> tbDlvyPriceList(Long priceChargeNo) {
+    public List<TbDlvyPrice> tbDlvyPriceList(Long groupNo,Integer groupType) {
         List<TbDlvyPrice> result = null;
-        result =  tbDlvyPriceRepository.findByGroupNoAndDataStatusOrderByDayAscStartTimeAscRadiusAsc(priceChargeNo, 1);
+        result =  tbDlvyPriceRepository.findByGroupNoAndGroupTypeAndDataStatusOrderByDayAscStartTimeAscRadiusAsc(groupNo,groupType, 1);
         return result;
     }
 

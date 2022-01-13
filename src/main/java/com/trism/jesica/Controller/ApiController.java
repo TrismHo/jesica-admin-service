@@ -18,10 +18,7 @@ import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
 import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
-import com.trism.jesica.persistence.Entitiy.goods.TbStoreCharge;
-import com.trism.jesica.persistence.Entitiy.goods.TbStoreGoods;
-import com.trism.jesica.persistence.Entitiy.goods.TbStoreOption;
-import com.trism.jesica.persistence.Entitiy.goods.TbStorePrice;
+import com.trism.jesica.persistence.Entitiy.goods.*;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -366,10 +363,11 @@ public class ApiController {
     public ResponseEntity<?> distributorUpdateAction(
             @RequestPart(value="tbBranchData" ,required = true) TbBranchData tbBranchData
             ,@RequestPart(value="tbBusinessInfoData" ,required = false) TbBusinessInfoData tbBusinessInfoData
+            ,@RequestPart(value="tbBranchPrice" ,required = false) TbBranchPrice tbBranchPrice
     ) {
         log.info("tbBranchNo::{}", tbBranchData.getBranchNo());
         /*log.info("tbBusinessInfoData::{}", tbBusinessInfoData);*/
-        int result =  apiService.updateTbBranch(tbBranchData,tbBusinessInfoData);
+        int result =  apiService.updateTbBranch(tbBranchData,tbBusinessInfoData,tbBranchPrice);
         Map<String,Object> map = new HashMap<>();
         if(result > 0) {
             map.put("result","200");
@@ -1359,14 +1357,14 @@ public class ApiController {
     }
 
     //배송블럭요금제 등록
-   @ResponseBody
+  /* @ResponseBody
     @PostMapping(value="/deliveryblock/insert/action" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> deliveryblockInsertAction(
-            @RequestPart(value="tbDlvyAreaCharge" ,required = true) TbDlvyAreaChargeData tbDlvyAreaChargeData
+            @RequestPart(value="tbDlvyAreaCharge" ,required = true) TbDlvyAreaData tbDlvyAreaData
     ) {
-        log.info("TbDlvyAreaChargeData tbDlvyAreaChargeData::{}", tbDlvyAreaChargeData);
-        /*log.info("TbUser tbUserWorker::{}", tbUserWorker);*/
-        int result =  apiService.insertTbDlvyAreaCharge(tbDlvyAreaChargeData);
+        log.info("TbDlvyAreaData tbDlvyAreaData::{}", tbDlvyAreaData);
+        *//*log.info("TbUser tbUserWorker::{}", tbUserWorker);*//*
+        int result =  apiService.insertTbDlvyArea(tbDlvyAreaData);
         Map<String,Object> map = new HashMap<>();
         if(result > 0 ) {
             map.put("result","200");
@@ -1376,7 +1374,7 @@ public class ApiController {
             map.put("message", "등록에 실패하였습니다.");
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
-    }
+    }*/
 
     //배송블럭 등록
     @ResponseBody
@@ -1400,14 +1398,56 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    //배송블럭 수정
+    @ResponseBody
+    @PostMapping(value="/deliveryblock/block/update" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> deliveryblockUp(
+            @RequestPart(value="tbDlvyArea" ,required = true) TbDlvyArea tbDlvyArea,
+            @RequestPart(value="tbDlvyAreaList" ,required = true) List tbDlvyAreaList
+    ) {
+        log.info("TbDlvyArea tbDlvyArea::{}", tbDlvyArea);
+        log.info("TbDlvyAreaList tbDlvyAreaList::{}", tbDlvyAreaList);
+
+        int result =  apiService.updateTbDlvyArea(tbDlvyArea, tbDlvyAreaList);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0 ) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //배송블럭 삭제
+    @ResponseBody
+    @PostMapping(value="/deliveryblock/block/delete")
+    public ResponseEntity<?> deliveryblockDel(
+            @RequestParam("areaNo") String areaNo
+    ) {
+        log.info("areaNo::{}", areaNo);
+
+        int result =  apiService.deleteTbDlvyArea(Long.parseLong(areaNo));
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0 ) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
 
     //블록 등록 리스트
     @ResponseBody
     @PostMapping("/deliveryblock/dlvyArea/list")
-    public ResponseEntity<?> deliveryblockAreaList(@RequestParam("areaChargeNo") String areaChargeNo) {
-        log.info("areaChargeNo::{}", areaChargeNo);
+    public ResponseEntity<?> deliveryblockAreaList(@RequestParam("groupNo") String groupNo,@RequestParam("groupType") String groupType) {
+        log.info("groupNo::{}", groupNo);
         Map<String,Object> map = new HashMap<>();
-        List<TbDlvyArea> tbDlvyAreaList = apiService.tbDlvyAreaList(Long.parseLong(areaChargeNo));
+        List<TbDlvyArea> tbDlvyAreaList = apiService.tbDlvyAreaList(Long.parseLong(groupNo),Integer.parseInt(groupType));
 
         map.put("tbDlvyAreaList",  tbDlvyAreaList);
         return new ResponseEntity<>(map,HttpStatus.OK);
@@ -1416,10 +1456,25 @@ public class ApiController {
     //블록 등록 좌표 리스트
     @ResponseBody
     @PostMapping("/deliveryblock/dlvyAreaGeo/list")
-    public ResponseEntity<?> deliveryblockAreaGeoList(@RequestParam("areaChargeNo") String areaChargeNo) {
-        log.info("areaChargeNo::{}", areaChargeNo);
+    public ResponseEntity<?> deliveryblockAreaGeoList(@RequestParam("groupNo") String groupNo,
+                                                      @RequestParam("groupType") String groupType) {
+        log.info("groupNo::{}", groupNo);
         Map<String,Object> map = new HashMap<>();
-        List tbDlvyAreaGeoList = apiService.tbDlvyAreaGeoList(Long.parseLong(areaChargeNo));
+        List tbDlvyAreaGeoList = apiService.tbDlvyAreaGeoList(Long.parseLong(groupNo),Integer.parseInt(groupType));
+
+        map.put("tbDlvyAreaGeoList",  tbDlvyAreaGeoList);
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //블록 등록 좌표 단일조회
+    @ResponseBody
+    @PostMapping("/deliveryblock/dlvyAreaGeo/detail")
+    public ResponseEntity<?> deliveryblockAreaGeoDetail(@RequestParam("groupNo") String groupNo,
+                                                      @RequestParam("groupType") String groupType,
+                                                      @RequestParam("areaNo") String areaNo) {
+        log.info("groupNo::{}", groupNo);
+        Map<String,Object> map = new HashMap<>();
+        List tbDlvyAreaGeoList = apiService.tbDlvyAreaGeoDetail(Long.parseLong(groupNo),Integer.parseInt(groupType),Long.parseLong(areaNo));
 
         map.put("tbDlvyAreaGeoList",  tbDlvyAreaGeoList);
         return new ResponseEntity<>(map,HttpStatus.OK);
@@ -1497,14 +1552,14 @@ public class ApiController {
 
 
     //배송거리요금 등록
-    @ResponseBody
+   /* @ResponseBody
     @PostMapping(value="/deliverystreet/insert/action" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> deliverystreetAdd(
-            @RequestPart(value="tbDlvyPriceCharge" ,required = true) TbDlvyPriceChargeData tbDlvyPriceChargeData
+            @RequestPart(value="tbDlvyPriceCharge" ,required = true) TbDlvyPrice tbDlvyPriceData
     ) {
-        log.info("TbDlvyPriceChargeData tbDlvyPriceChargeData::{}", tbDlvyPriceChargeData);
+        log.info("TbDlvyPriceData tbDlvyPriceData::{}", tbDlvyPriceData);
 
-        int result =  apiService.insertTbDlvyPriceCharge(tbDlvyPriceChargeData);
+        int result =  apiService.insertTbDlvyPrice(tbDlvyPriceData);
         Map<String,Object> map = new HashMap<>();
         if(result > 0 ) {
             map.put("result","200");
@@ -1514,15 +1569,15 @@ public class ApiController {
             map.put("message", "등록에 실패하였습니다.");
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
-    }
+    }*/
 
     //블록 등록 리스트
     @ResponseBody
     @PostMapping("/deliverystreet/dlvyPrice/list")
-    public ResponseEntity<?> deliveryPriceList(@RequestParam("groupNo") String groupNo) {
+    public ResponseEntity<?> deliveryPriceList(@RequestParam("groupNo") String groupNo,@RequestParam("groupType") String groupType) {
         log.info("groupNo::{}", groupNo);
         Map<String,Object> map = new HashMap<>();
-        List<TbDlvyPrice> tbDlvyPriceList = apiService.tbDlvyPriceList(Long.parseLong(groupNo));
+        List<TbDlvyPrice> tbDlvyPriceList = apiService.tbDlvyPriceList(Long.parseLong(groupNo),Integer.parseInt(groupType));
 
         map.put("tbDlvyPriceList",  tbDlvyPriceList);
         return new ResponseEntity<>(map,HttpStatus.OK);

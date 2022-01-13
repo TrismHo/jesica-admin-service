@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface TbDlvyAreaGeoRepository extends JpaRepository<TbDlvyAreaGeo, Long>, JpaSpecificationExecutor<TbDlvyAreaGeo> {
     List<TbDlvyAreaGeo> findByAreaNo(@Param("areaNo") Long areaNo);
-
+    void deleteByAreaNo(@Param("areaNo") Long areaNo);
 }

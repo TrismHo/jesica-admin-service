@@ -217,28 +217,17 @@
                                                 <input type="button" class="show_btn block_show_hide btn btn-white p-5" onclick="showBlock()" value="<spring:message code="list.detail.viewallblocks" text="모든 블록 보기"/>">
                                                 <input type="button" class="hide_btn block_show_hide btn btn-primary  p-5" onclick="hideBlock()" value="<spring:message code="list.detail.closeallblocks" text="모든 블록 닫기"/>">
                                             </p>
-                                            <%--
-                                                                                            <p class="modes">
-                                                                                                <input type="button" onclick="selectOverlay('MARKER')" value="마커">
-                                                                                                <input type="button" onclick="selectOverlay('POLYLINE')" value="선">
-                                                                                                <input type="button" onclick="selectOverlay('CIRCLE')" value="원">
-                                                                                                <input type="button" onclick="selectOverlay('RECTANGLE')" value="사각형">
-                                                                                                <input type="button" onclick="selectOverlay('POLYGON')" value="다각형">
-                                                                                            </p>
-                                            --%>
                                         </div>
 
                                     </td>
                                 </tr>
 
                                 </tbody></table>
-                            <%-- <div id="tipmap" class="height-full width-full"></div>--%>
 
                         </div>
 
                         <div class="m-l-5 m-t-5">
                             <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
-                            <%--<button type="button" class="btn btn-primary btn_update float-left m-t-5 m-l-20"><i class="fa fa-check m-r-3"></i> 수정&lt;%&ndash;<spring:message code="merchandise.insert.insertbutton" text="default text"/>&ndash;%&gt;&lt;%&ndash;등록&ndash;%&gt;</button>--%>
                         </div>
                     </div>
                 </div>
@@ -341,17 +330,6 @@
 
                 for(var i = 0 ; i < sortList.length ; i++){
                     let dataStatus = "";
-                    /*if (sortList[i].dataStatus == 1) {
-                        dataStatus =      "        <select class=\"form-control-width-custom\">\n" +
-                            "            <option value=\"1\" selected>정상</option>\n" +
-                            "            <option value=\"2\">정지</option>\n" +
-                            "        </select>\n" ;
-                    }else if(sortList[i].dataStatus == 2){
-                        dataStatus =      "        <select class=\"form-control-width-custom\">\n" +
-                            "            <option value=\"1\" selected>정상</option>\n" +
-                            "            <option value=\"2\">정지</option>\n" +
-                            "        </select>\n" ;
-                    }*/
                     if (sortList[i].dataStatus == 1) {
                         dataStatus =      stopmsg;
                     }else if(sortList[i].dataStatus == 2){

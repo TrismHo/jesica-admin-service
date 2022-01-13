@@ -5,8 +5,8 @@ import com.trism.jesica.dto.TbStoreCategoryFoDTO;
 import com.trism.jesica.dto.TbSystemCategoryDTO;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
-import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaCharge;
 import com.trism.jesica.persistence.Entitiy.business.*;
+import com.trism.jesica.persistence.Entitiy.goods.TbBranchPrice;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCharge;
 import com.trism.jesica.persistence.Entitiy.goods.TbStorePrice;
 import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
@@ -17,13 +17,9 @@ import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerCharge;
-import com.trism.jesica.persistence.Repository.block.TbDlvyAreaChargeRepository;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaRepository;
 import com.trism.jesica.persistence.Repository.business.*;
-import com.trism.jesica.persistence.Repository.goods.TbStoreCategoryFoRepository;
-import com.trism.jesica.persistence.Repository.goods.TbStoreChargeRepository;
-import com.trism.jesica.persistence.Repository.goods.TbStorePriceRepository;
-import com.trism.jesica.persistence.Repository.goods.TbSystemCategoryRepository;
+import com.trism.jesica.persistence.Repository.goods.*;
 import com.trism.jesica.persistence.Repository.service.TbServiceChargeGroupRepository;
 import com.trism.jesica.persistence.Repository.service.TbServiceChargeRepository;
 import com.trism.jesica.persistence.Repository.service.TbStoreServiceChargeRepository;
@@ -33,7 +29,6 @@ import com.trism.jesica.persistence.Repository.street.TbDlvyPriceChargeRepositor
 import com.trism.jesica.persistence.Repository.street.TbDlvyPriceRepository;
 import com.trism.jesica.persistence.Repository.system.TbSystemCodeRepository;
 import com.trism.jesica.persistence.Repository.worker.TbWorkerChargeRepository;
-import com.trism.jesica.persistence.type.DataStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,8 +79,6 @@ public class WorkGroupService {
     @Autowired
     private final TbDlvyAreaRepository tbDlvyAreaRepository;
 
-    @Autowired
-    private final TbDlvyAreaChargeRepository tbDlvyAreaChargeRepository;
 
     @Autowired
     private final TbDlvyPriceChargeRepository tbDlvyPriceChargeRepository;
@@ -116,6 +109,9 @@ public class WorkGroupService {
 
     @Autowired
     private final TbDlvyPriceRepository tbDlvyPriceRepository;
+
+    @Autowired
+    private final TbBranchPriceRepository tbBranchPriceRepository;
 
 
  /*   public static Specification<?> equalsKey(String key ,String value) {
@@ -285,6 +281,15 @@ public class WorkGroupService {
     }
 
     @Transactional(readOnly = true)
+    public TbBranchPrice tbBranchPriceSearch(Long branchNo) {
+        Optional<TbBranchPrice> tbBranchPrice = tbBranchPriceRepository.findById(branchNo);
+        if(tbBranchPrice.isPresent() == false) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+        return tbBranchPrice.get();
+    }
+
+    @Transactional(readOnly = true)
     public TbWorkerCharge getTbWorkerCharge(Long userNo) {
         Optional<TbWorkerCharge> tbWorkerCharge = tbWorkerChargeRepository.findById(Integer.parseInt(userNo.toString()));
         if(tbWorkerCharge.isPresent() == false) {
@@ -308,7 +313,7 @@ public class WorkGroupService {
     }
 
 
-    @Transactional(readOnly = true)
+   /* @Transactional(readOnly = true)
     public List<TbDlvyAreaCharge> tbDlvyAreaChargeList(Map<String,Object> searchValue) {
         Specification<TbDlvyAreaCharge> predicate = null;
         for (String key : searchValue.keySet()) {
@@ -318,7 +323,7 @@ public class WorkGroupService {
         }
         return searchValue.isEmpty() ? tbDlvyAreaChargeRepository.findAll(Sort.by(Sort.Direction.DESC, "insertDate"))
                 : tbDlvyAreaChargeRepository.findAll(predicate,  Sort.by(Sort.Direction.DESC, "insertDate"));
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public List<TbDlvyPriceCharge> tbDlvyStreetChargeList(Map<String,Object> searchValue) {
@@ -332,14 +337,14 @@ public class WorkGroupService {
                 : tbDlvyPriceChargeRepository.findAll(predicate,  Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    @Transactional(readOnly = true)
+  /*  @Transactional(readOnly = true)
     public TbDlvyAreaCharge getTbDeliveryBlock(Long areaChargeNo) {
         Optional<TbDlvyAreaCharge> tbDlvyAreaCharge = tbDlvyAreaChargeRepository.findById(areaChargeNo);
         if(tbDlvyAreaCharge.isPresent() == false) {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
         return tbDlvyAreaCharge.get();
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public TbDlvyPriceCharge getTbDeliveryPrice(Long priceChargeNo) {
@@ -372,10 +377,10 @@ public class WorkGroupService {
         return tbStoreServiceChargeRepository.findByStoreNoAndPlatformType(storeNo, platform);
     }
 
-    @Transactional(readOnly = true)
+  /*  @Transactional(readOnly = true)
     public List<TbDlvyAreaCharge> getTbDlvyAreaChargeList(Long branchNo) {
         return  tbDlvyAreaChargeRepository.findByBranchNo(branchNo);
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public List<TbDlvyPriceCharge> getTbDlvyPriceChargeList(Long branchNo) {
@@ -387,10 +392,10 @@ public class WorkGroupService {
         return  tbDlvyPriceRepository.findByGroupNoAndGroupType(groupNo,groupType);
     }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public List<TbDlvyAreaCharge> getTbDlvyAreaChargeListAll() {
         return  tbDlvyAreaChargeRepository.findByDataStatus(DataStatus.OK);
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public List<TbDlvyPriceCharge> getTbDlvyPriceChargeListAll() {

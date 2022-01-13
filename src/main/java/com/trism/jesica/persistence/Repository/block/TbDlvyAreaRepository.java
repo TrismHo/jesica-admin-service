@@ -10,26 +10,30 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TbDlvyAreaRepository extends JpaRepository<TbDlvyArea, Long>, JpaSpecificationExecutor<TbDlvyArea> {
-    List<TbDlvyArea> findByAreaChargeNo(@Param("areaChargeNo") Long areaChargeNo);
+    List<TbDlvyArea> findByGroupNoAndGroupType(@Param("groupNo") Long groupNo, @Param("groupType") Integer groupType);
+    List<TbDlvyArea> findByAreaNoAndGroupNoAndGroupType(@Param("areaNo") Long areaNo,@Param("groupNo") Long groupNo, @Param("groupType") Integer groupType);
+    /*List<TbDlvyArea> findByAreaNo(@Param("areaNo") Long groupNo, @Param("groupType") Integer groupType);*/
 
     @Query(value = "select " +
             "ifnull(MAX(view_order),0) as viewOrder " +
             "from tb_dlvy_area " +
-            "where area_charge_no = :areaChargeNo " +
+            "where group_no = :groupNo " +
             "", nativeQuery = true)
-    int getMaxViewOrder(@Param("areaChargeNo") Long areaChargeNo);
+    int getMaxViewOrder(@Param("groupNo") Long groupNo);
 
 
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE tb_dlvy_area SET " +
             "view_order = :newViewOrder " +
             "where "+
-            "area_charge_no = :areaChargeNo " +
+            "group_no = :groupNo " +
             "and area_no = :areaNo "+
+            "and group_type = :groupType "+
             "and view_order = :viewOrder "+
             "", nativeQuery = true)
     int deliveryBlockSort(@Param("areaNo") Long areaNo ,
-                          @Param("areaChargeNo") Long areaChargeNo,
+                          @Param("groupNo") Long groupNo,
+                          @Param("groupType") Integer groupType,
                           @Param("viewOrder") Integer viewOrder,
                           @Param("newViewOrder") Integer newViewOrder
     );

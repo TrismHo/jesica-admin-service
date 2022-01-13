@@ -1277,3 +1277,7 @@ panel-heading {
     display: block;
     text-decoration: none;
 }
+
+.header.navbar-default .navbar-toggle .icon-bar {
+    background: #fff;
+}

@@ -16,10 +16,10 @@
         background: #e4e7ea;
         color: #2d353c;
     }
-    .content {
+  /*  .content {
         margin-left: 220px;
         padding: 5px 30px;
-    }
+    }*/
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -40,7 +40,7 @@
     <!-- begin #content -->
 </div>
 <!-- end page container -->
-    </div>--%>
+    </div>
     <div id="content" class="content" style="background-color: #eee;">
         <!-- begin breadcrumb -->
         <ol class="breadcrumb float-xl-right">

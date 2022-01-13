@@ -1,16 +1,29 @@
 package com.trism.jesica.persistence.Entitiy.block;
 
 import com.trism.jesica.persistence.core.entity.BaseEntity;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 /**
  * 배송_블록설정
  */
-@Table(name = "tb_dlvy_area")
-@Data
+
 @Entity
+@Table(name = "tb_dlvy_area")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Accessors(chain = true)
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
+@ToString(callSuper = true, exclude = {})
+@EqualsAndHashCode(callSuper = true)
+@DynamicInsert
+@DynamicUpdate
 public class TbDlvyArea extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -25,16 +38,20 @@ public class TbDlvyArea extends BaseEntity {
     /**
      * 입력_사용자ID
      */
-    @Column(name = "area_charge_no")
-    private Long areaChargeNo;
+    @Column(name = "group_no")
+    private Long groupNo;
 
+    /**
+     * 업무그룹 구분
+     */
+    @Column(name = "group_type")
+    private Integer groupType;
 
     /**
      * 입력_사용자ID
      */
-    @Column(name = "insert_user_id")
+    @Column(name = "insert_user_id",updatable =  false)
     private String insertUserId = null;
-
 
     /**
      * 수정_사용자ID
@@ -55,10 +72,22 @@ public class TbDlvyArea extends BaseEntity {
     private String areaName = null;
 
     /**
+     * 블럭요금 구분(0: 서비스 지역 , 1:고정요금 , 2:추가요금)
+     */
+    @Column(name = "area_charge_type")
+    private Integer areaChargeType;
+
+    /**
      * 블럭_요금
      */
-    @Column(name = "area_price", nullable = false)
-    private Integer areaPrice = 0;
+    @Column(name = "cust_price", nullable = false)
+    private Integer custPrice = 0;
+
+    /**
+     * 블럭_요금
+     */
+    @Column(name = "dlvy_price", nullable = false)
+    private Integer dlvyPrice = 0;
 
     /**
      * 적용_순서
@@ -66,5 +95,18 @@ public class TbDlvyArea extends BaseEntity {
     @Column(name = "view_order")
     private Integer viewOrder = null;
 
+    public TbDlvyArea insertData() {
+        return TbDlvyArea.builder()
+                .areaNo(this.areaNo)
+                .groupNo(this.groupNo)
+                .groupType(this.groupType)
+                .insertUserId(this.insertUserId)
+                .dataStatus(this.dataStatus)
+                .areaName(this.areaName)
+                .areaChargeType(this.areaChargeType)
+                .custPrice(this.custPrice)
+                .dlvyPrice(this.dlvyPrice)
+                .build();
+    }
     
 }

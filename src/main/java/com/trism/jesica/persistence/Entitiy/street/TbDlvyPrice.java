@@ -32,14 +32,6 @@ public class TbDlvyPrice extends CreatedDateEntity {
     private Long priceNo;
 
     /**
-     * 구간요금제_번호
-     */
-/*
-    @Column(name = "price_charge_no", nullable = false)
-    private Long priceChargeNo;
-*/
-
-    /**
      * 그룹 일련번호
      */
     @Column(name = "group_no", nullable = false)
@@ -116,5 +108,24 @@ public class TbDlvyPrice extends CreatedDateEntity {
     @Column(name = "dlvy_price")
     private Integer dlvyPrice = null;
 
+    /*public TbDlvyPrice insertData() {
+        return TbDlvyPrice.builder()
+                .priceNo(this.priceNo)
+                .groupNo(this.groupNo)
+                .groupType(this.groupType)
+                .day(this.day)
+                .startTime(this.startTime)
+                .endTime(this.endTime)
+                .insertDate(this.insertDate)
+                .insertUserId(this.insertUserId)
+                .updateDate(this.updateDate)
+                .updateUserId(this.updateUserId)
+                .dataStatus(this.dataStatus)
+                .radius(this.radius)
+                .custPrice(this.custPrice)
+                .dlvyPrice(this.dlvyPrice)
+                .build();
+    }
+*/
     
 }

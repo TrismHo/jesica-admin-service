@@ -338,16 +338,16 @@
                             </td>
                             <td class="text-center">
                                 <c:if test="${item.attendStatus == 'OFF_WORK'}">
-                                    <spring:message code="list.word.offwork" text="퇴근"/>
+                                    <spring:message code="list.word.offwork1" text="퇴근"/>
                                 </c:if>
                                 <c:if test="${item.attendStatus == 'GO_TO_WORK'}">
-                                    <spring:message code="list.word.gotowork" text="출근"/>
+                                    <spring:message code="list.word.gotowork1" text="출근"/>
                                 </c:if>
                                 <c:if test="${item.attendStatus == 'REST'}">
-                                    <spring:message code="list.word.rest" text="휴식"/>
+                                    <spring:message code="list.word.rest1" text="휴식"/>
                                 </c:if>
                                 <c:if test="${item.attendStatus == 'RUNNING'}">
-                                    <spring:message code="list.word.rest" text="운행"/>
+                                    <spring:message code="list.word.rest1" text="운행"/>
                                 </c:if>
                             </td>
                             <td class="text-center">${item.deposit} <spring:message code="list.word.won" text="원"/></td>

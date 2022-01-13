@@ -39,6 +39,19 @@
     .modal-content {
         width: 60%;
     }
+
+    .map_wrap {width: 100%;position: relative;}
+    .modes {position: absolute;top: 10px;left: 10px;z-index: 1;}
+    .getdata{position: absolute;top: 370px;left: 10px;z-index: 1;}
+    #drawingMap, #map {width: 100%;height: 648px;}
+    #map {margin-top: 10px;}
+    .priceText{
+        text-align: right;
+    }
+    .alignCenter{
+        text-align: center;
+    }
+
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -103,6 +116,24 @@
                     <a href="#default-tab-3" data-toggle="tab" class="nav-link">
                         <span class="d-sm-none"><spring:message code="list.detail.user" text="사용자"/></span>
                         <span class="d-sm-block d-none"><spring:message code="list.detail.user" text="사용자"/></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#default-tab-8"  data-toggle="tab" class="nav-link">
+                        <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="요금설정"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="요금설정"/></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#default-tab-9"  data-toggle="tab" class="nav-link">
+                        <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#default-tab-10"  data-toggle="tab" class="nav-link">
+                        <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="블록요금"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="블록요금"/></span>
                     </a>
                 </li>
             </ul>
@@ -573,6 +604,376 @@
                         </div>
                     </form>
                 </div>
+                <div class="tab-pane fade" id="default-tab-8">
+                    <form class="update_form8" id="update_form8" method="post">
+                        <div class="table-responsive" style="overflow: hidden;">
+                            <table class="table table-condensed table-bordered">
+                             <%--   <tr>
+                                    <td class="bg-light height-50 "  colspan="2"><spring:message code="list.detail.accountholder1" text="설정값"/></td>
+                                    <td class="border-right-0" colspan="2">
+                                        <label class="">
+                                            <input type="radio" name="useYn" class="align-bottom m-r-10 useYn" value="0" <c:if test="${tbBranchPrice.useYn == 0}" >checked</c:if>>총판설정 사용
+                                        </label>
+                                        <label class="m-l-10">
+                                            <input type="radio" name="useYn" class="align-bottom m-r-10 useYn" value="1" <c:if test="${tbBranchPrice.useYn == 1}" >checked</c:if>>가맹점설정 사용
+                                        </label>
+                                    </td>
+                                    <td class="text-danger-darker   " style="width: 232px;"><spring:message code="list.description.cannotbemodified" text="가맹점설정 유형을 선택해주세요."/></td>
+                                </tr>--%>
+                                <tr>
+                                    <td class="bg-light height-50 width-60" colspan="2"><spring:message code="list.detail.accountholder1" text="적용할 요금제"/></td>
+                                    <td colspan="2">
+                                        <label class="">
+                                            <input type="radio" name="meterUseYn" class="align-bottom m-r-10 meterUseYn" value="1" <c:if test="${tbBranchPrice.meterUseYn == 1}" >checked</c:if>>기본(미터)요금 사용
+                                        </label>
+                                        <label class="m-l-10">
+                                            <input type="radio" name="meterUseYn" class="align-bottom m-r-10 meterUseYn" value="0" <c:if test="${tbBranchPrice.meterUseYn == 0}" >checked</c:if>>거리구간요금 사용
+                                        </label>
+                                    </td>
+                                    <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="거리구간 요금 유형을 선택해주세요."/></td>
+                                </tr>
+                                <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbBranchPrice.meterUseYn == 0}" >none</c:if>">
+                                    <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="주문요금"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
+                                    <td class="border-right-0" colspan="1">
+                                        <input type="text"  class="form-control width-200 meterPrice" name="meterPrice" value="${tbBranchPrice.meterPrice}" numberCommaOnly> 원
+                                    </td>
+                                    <td class="border-right-0" colspan="">
+                                        <input type="text"  class="form-control width-200 meterBaseDistance" name="meterBaseDistance" value="${tbBranchPrice.meterBaseDistance}" numberCommaOnly>  (M 단위)
+                                    </td>
+                                    <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="기본요금을 입력해주세요."/></td>
+                                </tr>
+                                <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbBranchPrice.meterUseYn == 0}" >none</c:if>">
+                                    <td class="bg-light"><spring:message code="list.detail.accountholder1" text="추가요금"/></td>
+                                    <td class="border-right-0" colspan="1">
+                                        <input type="text"  class="form-control width-200 meterAddition" name="meterAddition" value="${tbBranchPrice.meterAddition}" numberCommaOnly>  원
+                                    </td>
+                                    <td class="border-right-0" colspan="">
+                                        <input type="text"  class="form-control width-200 meterAddDistance" name="meterAddDistance" value="${tbBranchPrice.meterAddDistance}" numberCommaOnly> (M 단위)
+                                    </td>
+                                    <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="추가요금을 입력해주세요."/></td>
+                                </tr>
+                                <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbBranchPrice.meterUseYn == 0}" >none</c:if>">
+                                    <td class="bg-light"><spring:message code="list.detail.accountholder1" text="최대요금"/></td>
+                                    <td class="border-right-0" colspan="2">
+                                        <input type="text"  class="form-control width-200 meterMaximum" name="meterMaximum" value="${tbBranchPrice.meterMaximum}" numberCommaOnly>  원
+                                    </td>
+                                    <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
+                                </tr>
+                                <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbBranchPrice.meterUseYn == 0}" >none</c:if>">
+                                    <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="배송요금"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
+                                    <td class="border-right-0" colspan="">
+                                        <input type="text"  class="form-control width-200 dlvyPrice" name="dlvyPrice" value="${tbBranchPrice.dlvyPrice}" numberCommaOnly>  원
+                                    </td>
+                                    <td class="border-right-0" colspan="">
+                                        <input type="text"  class="form-control width-200 dlvyBaseDistance" name="dlvyBaseDistance" value="${tbBranchPrice.dlvyBaseDistance}" numberCommaOnly> (M 단위)
+                                    </td>
+                                    <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="기본요금을 입력해주세요."/></td>
+                                </tr>
+                                <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbBranchPrice.meterUseYn == 0}" >none</c:if>">
+                                    <td class="bg-light"><spring:message code="list.detail.accountholder1" text="추가요금"/></td>
+                                    <td class="border-right-0" colspan="1">
+                                        <input type="text"  class="form-control width-200 dlvyAddition" name="dlvyAddition" value="${tbBranchPrice.dlvyAddition}" numberCommaOnly>  원
+                                    </td>
+                                    <td class="border-right-0" colspan="1">
+                                        <input type="text"  class="form-control width-200 dlvyAddDistance" name="dlvyAddDistance" value="${tbBranchPrice.dlvyAddDistance}" numberCommaOnly> (M 단위)
+                                    </td>
+                                    <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="추가요금을 입력해주세요."/></td>
+                                </tr>
+                                <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbBranchPrice.meterUseYn == 0}" >none</c:if>">
+                                    <td class="bg-light"><spring:message code="list.detail.accountholder1" text="최대요금"/></td>
+                                    <td class="border-right-0" colspan="2">
+                                        <input type="text"  class="form-control width-200 dlvyMaximum" name="dlvyMaximum" value="${tbBranchPrice.dlvyMaximum}" numberCommaOnly> 원
+                                    </td>
+                                    <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
+                                </tr>
+                                <tr class="useYnTr">
+                                    <td class="bg-light" rowspan="8"><spring:message code="list.detail.accountholder1" text="할증요금 "/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증 "/></td>
+                                    <td colspan="2">
+                                        <select name="dayChargeYn" class="form-control width-100">
+                                            <option value="0"<c:if test="${tbBranchPrice.dayChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                            <option value="1"<c:if test="${tbBranchPrice.dayChargeYn == 1}" >selected</c:if>>사용</option>
+                                        </select>
+                                        <input type="text"  class="form-control width-120 dayCharge" name="dayCharge" value="${tbBranchPrice.dayCharge}" numberCommaOnly> 원
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
+                                </tr>
+
+                                <tr class="useYnTr" >
+                                    <td class="bg-light" rowspan="1"><spring:message code="list.detail.accountholder1" text="시간할증 "/></td>
+                                    <td colspan="1">
+                                        <select name="timeChargeYn" class="form-control width-100">
+                                            <option value="0"<c:if test="${tbBranchPrice.timeChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                            <option value="1"<c:if test="${tbBranchPrice.timeChargeYn == 1}" >selected</c:if>>할증사용</option>
+                                        </select>
+                                        <input type="text"  class="form-control width-120 timeCharge" name="timeCharge" value="${tbBranchPrice.timeCharge}" numberCommaOnly> 원
+                                    </td>
+                                    <td>
+                                        시작시간 : <input type="text" name="timeStart" class="timeStart form-control" value="${tbBranchPrice.timeStart}" maxlength="4" numberOnly> ~
+                                        종료시간 : <input type="text" name="timeEnd" class="timeEnd form-control" value="${tbBranchPrice.timeEnd}" maxlength="4" numberOnly>
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증정보를 입력해주세요"/></td>
+                                </tr>
+                                <tr class="useYnTr" >
+                                    <td class="bg-light" rowspan="2"><spring:message code="list.detail.accountholder1" text="눈비할증"/></td>
+                                    <td colspan="1" rowspan="2">
+                                        <select name="weatherChargeYn" class="form-control width-100">
+                                            <option value="0"<c:if test="${tbBranchPrice.weatherChargeYn == 0}" >selected</c:if>>사용안함</option>
+                                            <option value="1"<c:if test="${tbBranchPrice.weatherChargeYn == 1}" >selected</c:if>>사용</option>
+                                        </select>
+                                        <input type="text"  class="form-control width-120 weatherCharge" name="weatherCharge" value="${tbBranchPrice.weatherCharge}" numberCommaOnly> 원
+                                    </td>
+                                    <td>
+                                        <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="월" <c:if test="${fn:contains(tbBranchPrice.dayFilter, '월')}">checked</c:if>>월</label>
+                                        <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="화" <c:if test="${fn:contains(tbBranchPrice.dayFilter, '화')}">checked</c:if>>화</label>
+                                        <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="수" <c:if test="${fn:contains(tbBranchPrice.dayFilter, '수')}">checked</c:if>>수</label>
+                                        <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="목" <c:if test="${fn:contains(tbBranchPrice.dayFilter, '목')}">checked</c:if>>목</label>
+                                        <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="금" <c:if test="${fn:contains(tbBranchPrice.dayFilter, '금')}">checked</c:if>>금</label>
+                                        <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="토" <c:if test="${fn:contains(tbBranchPrice.dayFilter, '토')}">checked</c:if>>토</label>
+                                        <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="일" <c:if test="${fn:contains(tbBranchPrice.dayFilter, '일')}">checked</c:if>>일</label>
+                                        <input type="hidden" name="dayFilter" class="dayFilter" value="${tbBranchPrice.dayFilter}">
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 정보를 입력해주세요"/></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="m-t-10">
+                                <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                                <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="default-tab-9">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <form class="insert_form_dlvy_price" id="insert_form_dlvy_price">
+                                <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                <input type="hidden" class="groupNo" name="groupNo" value="${tbBranch.branchNo}">
+                                <input type="hidden" class="groupType" name="groupType" value="2">
+                                <input type="hidden" class="dataStatus" name="dataStatus" value="1">
+                                <table class="table table-bordered">
+                                    <caption></caption>
+                                    <colgroup>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <th colspan="7" class="tabla-custom-title"><spring:message code="list.detail.blockregistrationmodification1" text="거리구간요금 등록/수정"/></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.dayoftheweek" text="요일"/></th>
+                                        <th class="bg-light"><spring:message code="list.detail.starttimehh" text="시작시간(HH)"/></th>
+                                        <th class="bg-light"><spring:message code="list.detail.endtimehh" text="종료시간(HH)"/></th>
+                                        <th class="bg-light"><spring:message code="list.detail.distancem" text="거리(M)"/></th>
+                                        <th class="bg-light"><spring:message code="list.detail.fee1krw22" text="주문요금"/></th>
+                                        <th class="bg-light"><spring:message code="list.detail.fee2krw22" text="배송요금"/></th>
+                                        <%--<th class="bg-light"><spring:message code="list.detail.status" text="상태"/></th>--%>
+                                        <th class="bg-light"></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">
+                                            <select class="form-control day" name="day">
+                                                <option value="0"><spring:message code="list.detail.monday" text="전체"/></option>
+                                                <option value="1"><spring:message code="list.detail.monday" text="월요일"/></option>
+                                                <option value="2"><spring:message code="list.detail.tuesday" text="화요일"/></option>
+                                                <option value="3"><spring:message code="list.detail.wednesday" text="수요일"/></option>
+                                                <option value="4"><spring:message code="list.detail.thursday" text="목요일"/></option>
+                                                <option value="5"><spring:message code="list.detail.friday" text="금요일"/></option>
+                                                <option value="6"><spring:message code="list.detail.saturday" text="토요일"/></option>
+                                                <option value="7"><spring:message code="list.detail.sunday" text="일요일"/></option>
+                                            </select>
+                                        </th>
+                                        <td>
+                                            <select class="form-control width-full startTime" name="startTime" >
+                                                <c:forEach begin="00" end="24" var="hour">
+                                                    <c:if test="${hour lt 10}"><option value="0${hour}">0${hour}</c:if><spring:message code="list.detail.timestart" text="시 (시작)"/></option>
+                                                    <c:if test="${hour gt 9}"><option value="${hour}">${hour}</c:if><spring:message code="list.detail.timeend" text="시 (시작)"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control width-full endTime" name="endTime">
+                                                <c:forEach begin="00" end="24" var="hour">
+                                                    <c:if test="${hour lt 10}"><option value="0${hour}">0${hour}</c:if><spring:message code="list.detail.timeend" text="시 (종료)"/></option>
+                                                    <c:if test="${hour gt 9}"><option value="${hour}">${hour}</c:if><spring:message code="list.detail.timeend" text="시 (종료)"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </td>
+                                        <th>
+                                            <input type="text" class="form-control radius" name="radius" placeholder="<spring:message code="list.detail.distancelessthan" text="거리(미만)"/>" maxlength="7" numberOnly >
+                                        </th>
+                                        <th>
+                                            <input type="text" class="form-control custPrice" name="custPrice" placeholder="<spring:message code="list.detail.fee1krw" text="주문요금 (원)"/>" value="0" maxlength="7" numberOnly>
+                                        </th>
+                                        <th>
+                                            <input type="text" class="form-control dlvyPrice" name="dlvyPrice" placeholder="<spring:message code="list.detail.fee1krw" text="배송요금 (원)"/>" value="0" maxlength="7" numberOnly>
+                                        </th>
+                                        <td>
+                                            <button type="button" onclick="insPrice()" class="btn btn-white color"><spring:message code="list.detail.enrollment" text="등록"/></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+
+                            <div class="block_list_div border " >
+                                <table class="table table-bordered table-sort block_list_table">
+                                    <thead>
+                                    <colgroup>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                    </colgroup>
+                                    </thead>
+                                    <tbody class="addTbody">
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="m-l-5 m-t-5">
+                                <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/><%--<spring:message code="merchandise.insert.listbutton" text="default text"/>--%><%--목록--%></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="default-tab-10">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6">
+                            <form class="insert_form_block" id="insert_form_block">
+                                <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                <input type="hidden" class="groupNo" name="groupNo" value="${tbBranch.branchNo}">
+                                <input type="hidden" class="groupType" name="groupType" value="2">
+                                <input type="hidden" class="dataStatus" name="dataStatus" value="1">
+                                <input type="hidden" class="areaNo" name="areaNo">
+                                <input type="hidden" class="viewOrder" name="viewOrder">
+                                <table class="table table-bordered">
+                                    <caption></caption>
+                                    <colgroup>
+                                        <col width="35%"/>
+                                        <col width="15%"/>
+                                        <col width="15%"/>
+                                        <col width="15%"/>
+                                        <col width="20%"/>
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <th colspan="5" class="tabla-custom-title"><spring:message code="list.detail.blockregistrationmodification" text="블록 등록/수정"/></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.blockname" text="블록명"/></th>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.price1" text="고객요금"/></th>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.price1" text="배송요금"/></th>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.status1" text="블럭요금 구분"/></th>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.sort" text="초기화"/></th>
+                                    </tr>
+                                    <tr>
+                                        <%-- <th class="bg-light"></th>--%>
+                                        <td><input type="text" class="form-control-width-custom areaName text-center" name="areaName" maxlength="80"></td>
+                                        <th>
+                                            <input type="text" class="form-control-width-custom custPrice text-center" name="custPrice" value="0" maxlength="7" numberOnly>
+                                        </th>
+                                        <th>
+                                            <input type="text" class="form-control-width-custom dlvyPrice text-center" name="dlvyPrice" value="0" maxlength="7" numberOnly>
+                                        </th>
+                                        <th>
+                                            <select class="form-control-width-custom areaChargeType" name="areaChargeType">
+                                                <%--<option value="0"><spring:message code="list.detail.normal1" text="서비스지역"/></option>--%>
+                                                <option value="1"><spring:message code="list.detail.stop1" text="고정요금"/></option>
+                                                <option value="2"><spring:message code="list.detail.stop1" text="추가요금"/></option>
+                                            </select>
+                                        </th>
+                                        <td>
+                                            <button type="button" class="btn btn-purple resetBtn"><i class="fa fa-cog"></i> <spring:message code="list.detail.reset" text="초기화"/>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="float-right m-b-20">
+                                    <button type="button" onclick="insBlock()" class="btn btn-primary border-right-0 color insBlockTxt m-r-5"><spring:message code="list.detail.enrollment" text="등록"/></button>
+                                    <button type="button" onclick="delBlock()" style="display: none;" class="btn btn-danger border-right-0 color delBlockTxt m-r-5"><spring:message code="list.detail." text="삭제"/></button>
+                                    <button type="button" onclick="selectOverlay('POLYGON')" class="btn btn-info btn-draw m-r-5"><spring:message code="list.detail.drawing" text="그리기"/></button>
+                                    <button type="button" class="btn btn-white btn-draw-hide d-none"><spring:message code="list.detail.hide" text="숨기기"/></button>
+                            </div>
+                            <table class="table table-bordered table-sort table table-bordered w-100 ">
+                                <thead>
+                                <%-- <tr>
+                                     <th colspan="6" class="tabla-custom-title">등록 리스트</th>
+                                 </tr>--%>
+                                <colgroup>
+                                    <col width="35%" class="text-center"/>
+                                    <col width="15%" class="text-center"/>
+                                    <col width="15%" class="text-center"/>
+                                    <col width="15%" class="text-center"/>
+                                    <col width="20%" class="text-center"/>
+                                </colgroup>
+                                <tr>
+                                    <th colspan="6" class="tabla-custom-title"><spring:message code="list.detail.registrationlist" text="등록 리스트"/></th>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light text-center"><spring:message code="list.detail.blockname" text="블록명"/></th>
+                                    <th class="bg-light text-center"><spring:message code="list.detail.price1" text="고객요금"/></th>
+                                    <th class="bg-light text-center"><spring:message code="list.detail.price1" text="배송요금"/></th>
+                                    <th class="bg-light text-center"><spring:message code="list.detail.price1" text="블럭요금 구분"/></th>
+                                    <th class="bg-light text-center"><spring:message code="list.detail.sort" text="정렬"/></th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div class="block_list_div border" >
+                                <table class="table table-bordered table-sort block_list_table table-hover">
+                                    <thead>
+                                    <colgroup>
+                                        <col width="35%" class="text-center"/>
+                                        <col width="15%" class="text-center"/>
+                                        <col width="15%" class="text-center"/>
+                                        <col width="15%" class="text-center"/>
+                                        <col width="20%" class="text-center"/>
+                                    </colgroup>
+                                    </thead>
+                                    <tbody class="addBlockTbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <input type="button" class=" btn btn-white p-5 float-right m-t-10" onclick="sortSave()" value="<spring:message code="list.detail.savesort" text="정렬 저장"/>">
+                        </div>
+                        <div class="col-xl-6 col-lg-6 height-full">
+                            <table class="table table-condensed table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="map_wrap mapRefreshBtn" style="height: 650px;">
+                                            <div id="drawingMap"></div>
+                                            <p class="modes">
+                                                <input type="button" class="show_btn block_show_hide btn btn-white p-5" onclick="showBlock()" value="<spring:message code="list.detail.viewallblocks" text="모든 블록 보기"/>">
+                                                <input type="button" class="hide_btn block_show_hide btn btn-primary  p-5" onclick="hideBlock()" value="<spring:message code="list.detail.closeallblocks" text="모든 블록 닫기"/>">
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="m-l-5 m-t-5">
+                            <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -741,6 +1142,20 @@
         </div>
     </div>
 </form>
+
+<form class="updatePrice" id="updatePrice">
+    <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
+    <input type="hidden" name="radius" class="radius" value="">
+    <input type="hidden" name="groupType" class="groupType" value="2">
+    <input type="hidden" name="day" class="day" value="">
+    <input type="hidden" name="groupNo" class="groupNo" value="">
+    <input type="hidden" name="custPrice" class="custPrice" value="">
+    <input type="hidden" name="dlvyPrice" class="dlvyPrice" value="">
+    <input type="hidden" name="startTime" class="startTime" value="">
+    <input type="hidden" name="endTime" class="endTime" value="">
+    <input type="hidden" name="dataStatus" class="dataStatus" value="">
+    <input type="hidden" name="priceNo" class="priceNo" value="">
+</form>
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="../../../common/include_common_js.jsp" %>
 <!-- ================== END BASE JS ================== -->
@@ -773,9 +1188,120 @@
 <![endif]-->
 <script src="${path}/assets/js/demo/form-multiple-upload.demo.js"></script>
 <link href="${path}/assets/plugins/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services,drawing"></script>
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
+
+
+    let tipMap;
+    let marker;
+    let drawingManager = null;
+    let lng2 = "";
+    let lat2 = "";
+
+    //최초 표시
+    $.ajax({
+        type: "POST",
+        url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
+        async:false,
+        data: {
+            groupNo: "${tbBranch.branchNo}"
+            ,groupType : "2"
+        },
+        success: function(data) {
+            let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+            console.log(tbDlvyAreaGeoList.length)
+            if(tbDlvyAreaGeoList.length > 0 ){
+                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                        if(tbDlvyAreaGeoList[0][0] != null){
+                            lng2 = tbDlvyAreaGeoList[0][0].lng;
+                            lat2 = tbDlvyAreaGeoList[0][0].lat;
+                        } else {
+                            lat2 = 37.5116707;
+                            lng2 = 126.874092;
+                        }
+                    }
+                }
+            } else {
+                lat2 = 37.5116707;
+                lng2 = 126.874092;
+            }
+        }
+    });
+
+    // Drawing Manager로 도형을 그릴 지도 div
+    var drawingMapContainer = document.getElementById('drawingMap'),
+        drawingMapOption = {
+            center: new kakao.maps.LatLng(lat2,lng2), // 지도의 중심좌표
+            level: 5 // 지도의 확대 레벨
+        };
+
+    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    var drawingMap = new kakao.maps.Map(drawingMapContainer, drawingMapOption);
+    var overlays = []; // 지도에 그려진 도형을 담을 배열
+    var options = { // Drawing Manager를 생성할 때 사용할 옵션입니다
+        map: drawingMap, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+        drawingMode: [ // Drawing Manager로 제공할 그리기 요소 모드입니다
+            kakao.maps.drawing.OverlayType.MARKER,
+            kakao.maps.drawing.OverlayType.POLYLINE,
+            kakao.maps.drawing.OverlayType.RECTANGLE,
+            kakao.maps.drawing.OverlayType.CIRCLE,
+            kakao.maps.drawing.OverlayType.POLYGON
+        ],
+        // 사용자에게 제공할 그리기 가이드 툴팁입니다
+        // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
+        guideTooltip: ['draw', 'drag', 'edit'],
+        markerOptions: { // 마커 옵션입니다
+            draggable: true, // 마커를 그리고 나서 드래그 가능하게 합니다
+            removable: true // 마커를 삭제 할 수 있도록 x 버튼이 표시됩니다
+        },
+        polylineOptions: { // 선 옵션입니다
+            draggable: true, // 그린 후 드래그가 가능하도록 설정합니다
+            removable: true, // 그린 후 삭제 할 수 있도록 x 버튼이 표시됩니다
+            editable: true, // 그린 후 수정할 수 있도록 설정합니다
+            strokeColor: '#39f', // 선 색
+            hintStrokeStyle: 'dash', // 그리중 마우스를 따라다니는 보조선의 선 스타일
+            hintStrokeOpacity: 0.5  // 그리중 마우스를 따라다니는 보조선의 투명도
+        },
+        rectangleOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f', // 외곽선 색
+            fillColor: '#39f', // 채우기 색
+            fillOpacity: 0.5 // 채우기색 투명도
+        },
+        circleOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f',
+            fillColor: '#39f',
+            fillOpacity: 0.5
+        },
+        polygonOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f',
+            fillColor: '#39f',
+            fillOpacity: 0.5,
+            hintStrokeStyle: 'dash',
+            hintStrokeOpacity: 0.5
+        }
+    };
+
+    // 위에 작성한 옵션으로 Drawing Manager를 생성합니다
+    var manager = new kakao.maps.drawing.DrawingManager(options);
+
+
+
     $(() => {
+        drawingMap.relayout();
+        blockList();
+        priceList();
+        staffList();
         $(".upDataStatus").on("change",function (){
             var radioVal = $('.upDataStatus option:selected').val();
             if(radioVal == 1){
@@ -785,7 +1311,99 @@
             }
         });
 
-        staffList()
+        $(document).on("click",".resetBtn",function(){
+            $(".insBlockTxt").text("등록");
+            $(".delBlockTxt").css("display","none");
+
+            $(".selectBlockRadio").prop("checked",false);
+            $(".areaName").val("");
+            $(".areaNo").val("");
+            $(".custPrice").val("0");
+            $(".dlvyPrice").val("0");
+            hideBlock();
+        });
+
+
+        $(".custPrice, .dlvyPrice").focus(function(){
+            /!*$(this).val('');*!/
+        }).blur(function(){
+            if($(this).val() == ""){
+                $(this).val("0");
+            }
+        });
+
+        $(".meterUseYn").on("click",function(){
+            if($(this).val() == 1) {
+                $(".meterUseYnTr").css("display","");
+            } else {
+                $(".meterUseYnTr").css("display","none");
+            }
+        });
+
+        $(document).on("click",".addBlockTbody tr",function(){
+            $(".insBlockTxt").text("수정");
+            $(".delBlockTxt").css("display","inline");
+
+            hideBlock();
+            $(this).find(".selectBlockRadio").prop('checked', true);
+
+            let upAreaNo = $(this).attr("areaNo");
+            let upAreaName = $(this).attr("areaName");
+            let upCustPrice = $(this).attr("custPrice");
+            let upDlvyPrice = $(this).attr("dlvyPrice");
+            let upViewOrder = $(this).attr("viewOrder");
+            let upAreaChargeType = $(this).attr("areaChargeType");
+            let upGroupNo = "${tbBranch.branchNo}";
+            let upGroupType = 2;
+
+            $(".areaName").val(upAreaName);
+            $(".custPrice").val(upCustPrice);
+            $(".dlvyPrice").val(upDlvyPrice);
+            $(".viewOrder").val(upViewOrder);
+            $(".areaChargeType").val(upAreaChargeType);
+            $(".areaNo").val(upAreaNo);
+
+
+            //selectOverlay('POLYGON');
+
+            //해당블록 보이기.
+            $.ajax({
+                type: "POST",
+                url: "${path}/api/deliveryblock/dlvyAreaGeo/detail",
+                data: {
+                    groupNo: "${tbBranch.branchNo}",
+                    groupType: 2,
+                    areaNo : upAreaNo
+                },
+                success: function(data) {
+                    let polygons = [];
+                    let points = [];
+                    // 좌표 배열
+                    var sPath = [];
+                    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                    var bounds = new daum.maps.LatLngBounds();
+
+                    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                    var bounds = new daum.maps.LatLngBounds();
+
+                    let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+
+                    for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                        points = [];
+                        for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                            points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
+                            sPath.push(new kakao.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+                            bounds.extend(new daum.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+                        }
+                        manager.put(kakao.maps.drawing.OverlayType.POLYGON, sPath);
+                        drawingMap.setBounds(bounds);
+                    }
+
+                }
+            });
+        });
+
+
         $(document).on("click",".modalUserSave",function(){
             let modalReq = convertFormToObj($('form.user_modal'));
             let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
@@ -953,10 +1571,21 @@
             let update = "<spring:message code="list.script.update" text="수정"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
             let url = "${path}/api/distributor/update/action";
+
+            let dayFilter ="";
+            $("input[class=dayFilterChk]:checked").each(function() {
+                dayFilter= dayFilter+$(this).val();
+            });
+            $(".dayFilter").val(dayFilter);
+
             let _forms = $('.update_form');
             let _forms2 = $('.update_form2');
+            /*let _forms3 = $('.update_form7');*/
+            let _forms4 = $('.update_form8');
             let req = convertFormToObj(_forms);
             let req2 = convertFormToObj(_forms2);
+            /*let req3 = convertFormToObj(_forms3);*/
+            let req4 = convertFormToObj(_forms4);
             if (inputDataCheck(req,req2)) {
                 swal({
                     title: updatemsg,
@@ -992,6 +1621,7 @@
                         var formData = new FormData(document.getElementById('update_form'));
                         formData.append("tbBranchData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
                         formData.append("tbBusinessInfoData",  new Blob([JSON.stringify(req2)], {type:"application/json"}));
+                        formData.append("tbBranchPrice",  new Blob([JSON.stringify(req4)], {type:"application/json"}));
                         $.ajax({
                             type: "POST",
                             url: url,
@@ -1138,6 +1768,753 @@
         });
     }
 
+    function priceList() {
+        let allday = "<spring:message code="list.script.monday" text="전체"/>";
+        let monday = "<spring:message code="list.script.monday" text="월요일"/>";
+        let tuesday = "<spring:message code="list.script.tuesday" text="화요일"/>";
+        let wednesday = "<spring:message code="list.script.wednesday" text="수요일"/>";
+        let thursday = "<spring:message code="list.script.thursday" text="목요일"/>";
+        let friday = "<spring:message code="list.script.friday" text="금요일"/>";
+        let saturday = "<spring:message code="list.script.saturday" text="토요일"/>";
+        let sunday = "<spring:message code="list.script.sunday" text="일요일"/>";
+        let end = "<spring:message code="list.script.end" text="종료"/>";
+        let start = "<spring:message code="list.script.start" text="시작"/>";
+        let normal = "<spring:message code="list.script.normal" text="정상"/>";
+        let stop = "<spring:message code="list.script.stop" text="정지"/>";
+        let distancelesthan = "<spring:message code="list.script.distancelesthan" text="거리(미만)"/>";
+        let custPrice = "<spring:message code="list.script.custPrice" text="고객요금"/>";
+        let dlvyPrice = "<spring:message code="list.script.dlvyPrice" text="배송요금"/>";
+        let update = "<spring:message code="list.script.update" text="수정"/>";
+        let nolistmsg = "<spring:message code="list.script.thereisnoregisteredlist" text="등록된 리스트가 없습니다."/>";
+
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliverystreet/dlvyPrice/list",
+            data: {
+                groupNo: "${tbBranch.branchNo}",
+                groupType:"2"
+            },
+            success: function(data) {
+                console.log(data)
+                let sortList = [];
+                var sortingField = "day";
+
+                if(data.tbDlvyPriceList.length >= 1){
+                    sortList =  data.tbDlvyPriceList.sort(function(a, b) { // 오름차순
+                        return a[sortingField] - b[sortingField];
+                    });
+                } else {
+                    sortList = data.tbDlvyPriceList;
+                }
+
+
+                $(".addTbody").html("");
+                for(var i = 0 ; i < sortList.length ; i++){
+                    let dataStatus = "";
+
+
+                    let dayList = "";
+                    let dayText = [allday,monday,tuesday,wednesday,thursday,friday,saturday,sunday];
+                    let startTime = "";
+                    let endTime = "";
+                    dayList =  "         <select class=\"form-control day upDay\" name=\"day\">\n";
+                    for(let j = 0 ; j < dayText.length ; j ++) {
+                        if (sortList[i].day == j) {
+                            dayList = dayList +"<option value="+j+" selected>"+dayText[j]+"</option>\n";
+                        } else {
+                            dayList = dayList +"<option value="+j+">"+dayText[j]+"</option>\n";
+                        }
+                    }
+                    dayList =  dayList+" </select>\n" ;
+
+
+
+                    startTime ="        <select class=\"form-control width-full startTime\" name=\"startTime\" >\n";
+                    for(let j = 0 ; j <= 24 ; j ++) {
+                        let timeText = "";
+                        if(j < 10){
+                            timeText  = "0"+j;
+                        } else {
+                            timeText  = j;
+                        }
+                        if (sortList[i].startTime == j) {
+
+                            startTime = startTime +"<option value="+j+" selected>"+timeText+" ("+start+")</option>\n";
+                        } else {
+                            startTime = startTime +"<option value="+j+">"+timeText+" ("+start+")</option>\n";
+                        }
+                    }
+                    startTime = startTime +"        </select>\n" ;
+
+                    endTime ="        <select class=\"form-control width-full endTime\" name=\"endTime\" >\n";
+                    for(let j = 0 ; j <= 24 ; j ++) {
+                        let timeText = "";
+                        if(j < 10){
+                            timeText  = "0"+j;
+                        } else {
+                            timeText  = j;
+                        }
+                        if (sortList[i].endTime == j) {
+                            endTime = endTime +"<option value="+j+" selected>"+timeText+" ("+end+")</option>\n";
+                        } else {
+                            endTime = endTime +"<option value="+j+">"+timeText+" ("+end+")</option>\n";
+                        }
+                    }
+                    endTime = endTime +"        </select>\n" ;
+
+
+                    if (sortList[i].dataStatus == 1) {
+                        dataStatus =      "        <select class=\"form-control dataStatus\">\n" +
+                            "            <option value=\"1\" selected>"+normal+"</option>\n" +
+                            "            <option value=\"2\">"+stop+"</option>\n" +
+                            "        </select>\n" ;
+                    }else if(sortList[i].dataStatus == 2){
+                        dataStatus =      "        <select class=\"form-control dataStatus\">\n" +
+                            "            <option value=\"1\" >"+normal+"</option>\n" +
+                            "            <option value=\"2\" selected>"+stop+"</option>\n" +
+                            "        </select>\n" ;
+                    }
+                    let radius ="";
+                    let custPrice ="";
+                    let dlvyPrice ="";
+                    if(sortList[i].radius == "" || sortList[i].radius == null){
+                        radius = "";
+                    }else {
+                        radius = sortList[i].radius;
+                    }
+                    if(sortList[i].custPrice == "" || sortList[i].custPrice == null){
+                        custPrice = "";
+                    }else {
+                        custPrice = sortList[i].custPrice;
+                    }
+                    if(sortList[i].dlvyPrice == "" || sortList[i].dlvyPrice == null){
+                        dlvyPrice = "";
+                    }else {
+                        dlvyPrice = sortList[i].dlvyPrice;
+                    }
+
+                    $(".addTbody").append("<tr class=\"priceTr"+sortList[i].priceNo+" border\">\n" +
+                        "    <th class=\"bg-light\">\n" +
+                        dayList +
+                        "    </th>\n" +
+                        "    <td>\n" +
+                        startTime +
+                        "    </td>\n" +
+                        "    <td>\n" +
+                        endTime +
+                        "    </td>\n" +
+                        "    <th>\n" +
+                        "        <input type=\"text\" class=\"form-control radius\" name=\"radius\" placeholder=\"\" value='"+radius+"' maxlength=\"7\" numberOnly>\n" +
+                        "    </th>\n" +
+                        "    <th>\n" +
+                        "        <input type=\"text\" class=\"form-control custPrice\" name=\"custPrice\" placeholder=\"\" value='"+custPrice+"' maxlength=\"7\" numberOnly>\n" +
+                        "    </th>\n" +
+                        "    <th>\n" +
+                        "        <input type=\"text\" class=\"form-control dlvyPrice\" name=\"dlvyPrice\" placeholder=\"\" value='"+dlvyPrice+"' maxlength=\"7\" numberOnly>\n" +
+                        "    </th>\n" +
+                        "    <td>\n" +
+                        "        <button type=\"button\" onclick=\"upPrice("+sortList[i].priceNo+")\" class=\"btn btn-white color\">"+update+"</button>\n" +
+                        "        <button type=\"button\" onclick=\"delPrice("+sortList[i].priceNo+")\" class=\"btn btn-danger color\">삭제</button>\n" +
+                        "    </td>\n" +
+                        "</tr>")
+                }
+
+                if(data.tbDlvyPriceList.length == 0) {
+                    $(".addTbody").append(
+                        "<tr class=\"\"  >\n" +
+                        "<th class=\"text-center\" colspan=\"9\">"+nolistmsg+"</th>"+
+                        "</tr>"
+                    )
+                }
+            }
+        });
+    }
+
+    function upPrice(priceNo) {
+        let radius = $(".priceTr"+priceNo).find(".radius").val();
+        let day = $(".priceTr"+priceNo).find(".day").val();
+        let custPrice = $(".priceTr"+priceNo).find(".custPrice").val();
+        let dlvyPrice = $(".priceTr"+priceNo).find(".dlvyPrice").val();
+        let startTime = $(".priceTr"+priceNo).find(".startTime").val();
+        let endTime = $(".priceTr"+priceNo).find(".endTime").val();
+        let dataStatus = 1;
+
+        let updatemsg = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
+        let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
+        let updatefailmsg = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
+        let update = "<spring:message code="list.script.update" text="수정"/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+
+        $(".updatePrice").find(".priceNo").val(priceNo);
+        $(".updatePrice").find(".groupNo").val(${tbBranch.branchNo});
+        $(".updatePrice").find(".radius").val(radius);
+        $(".updatePrice").find(".day").val(day);
+        $(".updatePrice").find(".custPrice").val(custPrice);
+        $(".updatePrice").find(".dlvyPrice").val(dlvyPrice);
+        $(".updatePrice").find(".startTime").val(startTime);
+        $(".updatePrice").find(".endTime").val(endTime);
+        $(".updatePrice").find(".dataStatus").val(dataStatus);
+
+        let _forms = $('.updatePrice');
+        let req = convertFormToObj(_forms);
+        console.log(req)
+        let url = "${path}/api/deliverystreet/price/update";
+        swal({
+            title: updatemsg,
+            icon: "warning",
+            buttons: [
+                cancel,
+                update
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                var formData = new FormData(document.getElementById('updatePrice'));
+                formData.append("tbDlvyPrice",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.result == 200) {
+                            alert(updatesussmsg);
+                            priceList();
+                        } else {
+                            alert(updatefailmsg);
+                            return;
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function delPrice(priceNo) {
+        let radius = $(".priceTr"+priceNo).find(".radius").val();
+        let day = $(".priceTr"+priceNo).find(".day").val();
+        let custPrice = $(".priceTr"+priceNo).find(".custPrice").val();
+        let dlvyPrice = $(".priceTr"+priceNo).find(".dlvyPrice").val();
+        let startTime = $(".priceTr"+priceNo).find(".startTime").val();
+        let endTime = $(".priceTr"+priceNo).find(".endTime").val();
+        let dataStatus = 0;
+
+        let updatemsg = "<spring:message code="list.script.wouldyouliketoupdate1" text="삭제하시겠습니까?"/>";
+        let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful1" text="삭제에 성공하였습니다."/>";
+        let updatefailmsg = "<spring:message code="list.script.editfailed1" text="삭제에 실패하였습니다."/>";
+        let update = "<spring:message code="list.script.update1" text="삭제"/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+
+        $(".updatePrice").find(".priceNo").val(priceNo);
+        $(".updatePrice").find(".groupNo").val(${tbBranch.branchNo});
+        $(".updatePrice").find(".radius").val(radius);
+        $(".updatePrice").find(".day").val(day);
+        $(".updatePrice").find(".custPrice").val(custPrice);
+        $(".updatePrice").find(".dlvyPrice").val(dlvyPrice);
+        $(".updatePrice").find(".startTime").val(startTime);
+        $(".updatePrice").find(".endTime").val(endTime);
+        $(".updatePrice").find(".dataStatus").val(dataStatus);
+
+        let _forms = $('.updatePrice');
+        let req = convertFormToObj(_forms);
+        console.log(req)
+        let url = "${path}/api/deliverystreet/price/update";
+        swal({
+            title: updatemsg,
+            icon: "warning",
+            buttons: [
+                cancel,
+                update
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                var formData = new FormData(document.getElementById('updatePrice'));
+                formData.append("tbDlvyPrice",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.result == 200) {
+                            alert(updatesussmsg);
+                            priceList();
+                        } else {
+                            alert(updatefailmsg);
+                            return;
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function insPrice() {
+        let url = "${path}/api/deliverystreet/price/insert";
+
+        let _forms = $('.insert_form_dlvy_price');
+        let req = convertFormToObj(_forms);
+
+        let registmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
+        let registfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        let enrollment = "<spring:message code="list.script.enrollment" text="등록"/>";
+        if (inputDataCheck4(req)) {
+            swal({
+                title: registmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    enrollment
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    var formData = new FormData(document.getElementById('insert_form_dlvy_price'));
+                    formData.append("tbDlvyPrice",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.result == 200) {
+                                priceList();
+                            } else {
+                                alert(registfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+
+
+    //블록요금
+    function blockList() {
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyArea/list",
+            data: {
+                groupNo: "${tbBranch.branchNo}",
+                groupType: "2"
+            },
+            success: function(data) {
+                let sortList = [];
+                let wonmsg = "<spring:message code="list.script.won" text="원"/>";
+                let stopmsg = "<spring:message code="list.script.stop" text="정지"/>";
+                let normalmsg = "<spring:message code="list.script.normal" text="정상"/>";
+                let noregisteredlist = "<spring:message code="list.script.thereisnoregisteredlist" text="등록된 리스트가 없습니다."/>";
+                var sortingField = "viewOrder";
+                let areaChargeTypeTxt = "서비스";
+                let custPriceComma = 0;
+                let dlvyPriceComma = 0;
+
+                if(data.tbDlvyAreaList.length >= 1){
+                    sortList =  data.tbDlvyAreaList.sort(function(a, b) { // 오름차순
+                        return a[sortingField] - b[sortingField];
+                    });
+                } else {
+                    sortList = data.tbDlvyAreaList;
+                }
+
+                $(".addBlockTbody").html("");
+
+
+
+                for(var i = 0 ; i < sortList.length ; i++){
+                    if(sortList[i].areaChargeType == 0) {
+                        areaChargeTypeTxt = "";
+                    } else if(sortList[i].areaChargeType == 1) {
+                        areaChargeTypeTxt = "고정요금";
+                    } else if(sortList[i].areaChargeType == 2) {
+                        areaChargeTypeTxt = "추가요금";
+                    } else {
+                        areaChargeTypeTxt="";
+                    }
+                    custPriceComma = numberWithCommas(sortList[i].custPrice);
+                    dlvyPriceComma = numberWithCommas(sortList[i].dlvyPrice);
+
+                    $(".addBlockTbody").append(
+                        "<tr class=\"\" areaNo="+sortList[i].areaNo+"  areaChargeType="+sortList[i].areaChargeType+" dlvyPrice="+sortList[i].dlvyPrice+" custPrice="+sortList[i].custPrice+" areaName="+data.tbDlvyAreaList[i].areaName+" areaNo="+sortList[i].areaNo+" viewOrder="+sortList[i].viewOrder+" groupNo="+sortList[i].groupNo+" groupType='2' >\n" +
+                        "    <th class=''><input type=\"radio\" class='selectBlockRadio width-10' name='selectBlockRadio'>&nbsp;&nbsp; \n" +
+                        "    "+data.tbDlvyAreaList[i].areaName+" </th>\n" +
+                        "    <td class='priceText'>\n " + custPriceComma +" "+ wonmsg + "    </td>\n" +
+                        "    <td class='priceText'>\n " +dlvyPriceComma+" "+ wonmsg + "    </td>\n" +
+                        "    <td class='alignCenter'>\n" +areaChargeTypeTxt + "    </td>\n" +
+                        "    <td>\n" +
+                        "        <div class=\"d-table m-auto\">\n" +
+                        "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\" onclick=\"moveTop(this)\">\n" +
+                        "                <span class=\"fa fa-angle-double-up align-sub\"></span>\n" +
+                        "            </a>&nbsp; \n" +
+                        "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\"  onclick=\"moveUp(this)\">\n" +
+                        "                <span class=\"fa fa-angle-up align-sub\"></span>" +
+                        "           </a>&nbsp; \n" +
+                        "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\"  onclick=\"moveDown(this)\">\n" +
+                        "                <span class=\"fa fa-angle-down align-sub\"></span>\n" +
+                        "            </a>&nbsp; \n" +
+                        "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\" onclick=\"moveBottom(this)\">\n" +
+                        "                <span class=\"fa fa-angle-double-down align-sub\"></span>\n" +
+                        "            </a>\n" +
+                        "        </div>\n" +
+                        "    </td>\n" +
+                        "</tr>"
+                    )
+                }
+
+                if(data.tbDlvyAreaList.length == 0) {
+                    $(".addTbody").append(
+                        "<tr class=\"\"  >\n" +
+                        "<th class=\"text-center\" colspan=\"5\">"+noregisteredlist+"</th>"+
+                        "</tr>"
+                    )
+                }
+            }
+        });
+    }
+
+
+
+
+    // This example adds a search box to a map, using the Google Place Autocomplete
+    // feature. People can enter geographical searches. The search box will return a
+    // pick list containing a mix of places and predicted search terms.
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+
+
+    // 버튼 클릭 시 호출되는 핸들러 입니다
+    function selectOverlay(type) {
+        /*undo();*/
+        hideBlock();
+        // 그리기 중이면 그리기를 취소합니다
+        manager.cancel();
+
+        // 클릭한 그리기 요소 타입을 선택합니다
+        manager.select(kakao.maps.drawing.OverlayType[type]);
+    }
+    // 아래 지도에 그려진 도형이 있다면 모두 지웁니다
+    function removeOverlays() {
+        var len = overlays.length, i = 0;
+
+        for (; i < len; i++) {
+            overlays[i].setMap(null);
+        }
+
+        overlays = [];
+    }
+
+    // Drawing Manager에서 가져온 데이터 중 다각형을 아래 지도에 표시하는 함수입니다
+    function drawPolygon(polygons) {
+        var len = polygons.length, i = 0;
+
+        for (; i < len; i++) {
+            var path = pointsToPath(polygons[i].points);
+            var style = polygons[i].options;
+            var polygon = new kakao.maps.Polygon({
+                map: drawingMap,
+                path: path,
+                strokeColor: style.strokeColor,
+                strokeOpacity: style.strokeOpacity,
+                strokeStyle: style.strokeStyle,
+                strokeWeight: style.strokeWeight,
+                fillColor: style.fillColor,
+                fillOpacity: style.fillOpacity
+            });
+
+            overlays.push(polygon);
+        }
+    }
+
+    // Drawing Manager에서 가져온 데이터 중
+    // 선과 다각형의 꼭지점 정보를 kakao.maps.LatLng객체로 생성하고 배열로 반환하는 함수입니다
+    function pointsToPath(points) {
+        var len = points.length,
+            path = [],
+            i = 0;
+
+        for (; i < len; i++) {
+            var latlng = new kakao.maps.LatLng(points[i].y, points[i].x);
+            path.push(latlng);
+        }
+
+        return path;
+    }
+
+
+
+
+    function inputDataCheck5(args) {
+        if (isNull(args.areaName)) {
+            return alert_focus("storeName", "블록명을 입력해주세요");
+        } else if (isNull(args.custPrice)) {
+            return alert_focus("storeTel", "고객금액을 입력해주세요");
+        } else if (isNull(args.dlvyPrice)) {
+            return alert_focus("dlvyPrice", "배송요금을 입력해주세요");
+        }
+        return true;
+    }
+
+    function delBlock(){
+        let url = "${path}/api/deliveryblock/block/delete";
+        let _forms = $('.insert_form_block');
+        let req = convertFormToObj(_forms);
+        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="삭제 하시겠습니까?"/>";
+        let confirm = "<spring:message code="list.script.enrollment1" text="삭제"/>";
+        let succsessMsg = "<spring:message code="list.script.enrollment1" text="삭제되었습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+
+        if (inputDataCheck5(req)) {
+            swal({
+                title: confirmmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            areaNo: req.areaNo
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(succsessMsg)
+                                removeOverlays();
+                                blockList();
+                                $(".resetBtn").click();
+                            } else {
+                                alert(confirmfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function insBlock() {
+        //1 : 생성 , 2 : 수정
+        let insType = 1;
+        var data = manager.getData();
+        let url = "${path}/api/deliveryblock/block/insert";
+
+        let _forms = $('.insert_form_block');
+        let req = convertFormToObj(_forms);
+        let confirmfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
+        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
+        let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
+        let succsessMsg = "<spring:message code="list.script.enrollment1" text="등록되었습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+
+        if(req.areaNo.length > 0) {
+            url = "${path}/api/deliveryblock/block/update";
+            confirmfailmsg = "<spring:message code="list.script.registrationfailed1" text="수정에 실패하였습니다."/>";
+            confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="수정 하시겠습니까?"/>";
+            confirm = "<spring:message code="list.script.enrollment1" text="수정"/>";
+            succsessMsg = "<spring:message code="list.script.enrollment1" text="수정되었습니다."/>";
+        }else {
+            if(data.polygon[0] == null){
+                alert("블록을 지정해주세요.");
+                return;
+            }else {
+                url = "${path}/api/deliveryblock/block/insert";
+            }
+        }
+        if (inputDataCheck5(req)) {
+            swal({
+                title: confirmmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    var formData = new FormData(document.getElementById('insert_form_block'));
+                    formData.append("tbDlvyArea",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                    formData.append("tbDlvyAreaList",  new Blob([JSON.stringify(data.polygon[0].points)], {type:"application/json"}));
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(succsessMsg)
+                                removeOverlays();
+                                blockList();
+                            } else {
+                                alert(confirmfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function showBlock() {
+        removeOverlays();
+        hideBlock();
+        $(".show_btn").removeClass("btn-white");
+        $(".show_btn").addClass("btn-primary");
+        $(".hide_btn").addClass("btn-white");
+        $(".hide_btn").removeClass("btn-primary");
+
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
+            data: {
+                groupNo: "${tbBranch.branchNo}",
+                groupType: 2
+            },
+            success: function(data) {
+                let polygons = [];
+                let points = [];
+                // 좌표 배열
+                var sPath = [];
+                // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                var bounds = new daum.maps.LatLngBounds();
+
+                let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+
+                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                    points = [];
+                    sPath= [];
+                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                        console.log(tbDlvyAreaGeoList[j][i])
+                        points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
+                        sPath.push(new kakao.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+                        bounds.extend(new daum.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+
+                    }
+                    manager.put(kakao.maps.drawing.OverlayType.POLYGON, sPath);
+                    drawingMap.setBounds(bounds);
+                }
+            }
+        });
+    }
+
+    //블록 초기화
+    function hideBlock(){
+        $(".show_btn").removeClass("btn-primary");
+        $(".show_btn").addClass("btn-white");
+        $(".hide_btn").addClass("btn-primary");
+        $(".hide_btn").removeClass("btn-white");
+        // 그리기 중이면 그리기를 취소
+        manager.cancel();
+
+        objPolygon = manager.getOverlays();
+
+        if (objPolygon.polygon.length > 0){
+            var iPolygonLength = objPolygon.polygon.length-1;
+            var iCol = iPolygonLength;
+            for (var i=0; i <= iPolygonLength; i++){
+
+                if (iCol >= 0){
+                    manager.remove(objPolygon.polygon[iCol]);
+                }
+
+                iCol = iCol-1;
+            }
+        }
+    }
+
+    $(document).on("click",".mapRefreshBtn",function(){
+        drawingMap.relayout();
+    });
+
+    $(document).on("click",".nav-link",function(){
+        drawingMap.relayout();
+    });
+
+    // 메뉴가 선택되어 active가 된 후 이벤트
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        e.target // 현재 설정된 tab
+        e.relatedTarget // 이전에 설정된 탭
+        //map.relayout();
+        drawingMap.relayout();
+    });
+
+    function moveUp(el){
+        var $tr = $(el).closest('tr');
+        $tr.prev().before($tr);
+    }
+
+    function moveTop(el){
+        var $tr = $(el).closest('tr');
+        $tr.closest('table').find('tr:first').before($tr);
+        // $tr.closest('table') - 클릭한 요소의 부모 table 요소
+        // .find('tr:first').before($tr) - 첫번째 tr 찾아서 그 앞에 클릭한 tr 요소 넣기(이동)
+    }
+
+    function moveDown(el){
+        var $tr = $(el).closest('tr');
+        $tr.next().after($tr);
+    }
+
+    function moveBottom(el){
+        var $tr = $(el).closest('tr');
+        $tr.closest('table').find('tr:last').after($tr);
+    }
+
+    function sortSave(){
+        let sortList = [];
+
+        let savemsg = "<spring:message code="list.script.saved" text="저장되었습니다."/>";
+        let savefailmsg = "<spring:message code="list.script.savefailed" text="저장에 실패하였습니다."/>";
+
+        $('.addBlockTbody tr').each(function (index, item) {
+            sortList.push({areaNo:Number($(this).attr("areaNo")),viewOrder:Number($(this).attr("viewOrder")),groupNo:Number($(this).attr("groupNo")),newViewOrder:Number((index+1)),groupType:2})
+        });
+
+        var formData = new FormData(document.getElementById('insert_form_block'));
+        formData.append("sortList",  new Blob([JSON.stringify(sortList)], {type:"application/json"}));
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyArea/resort",
+            data: formData,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.result == 200) {
+                    alert(savemsg);
+                    removeOverlays();
+                    blockList();
+                } else {
+                    alert(savefailmsg);
+                    return;
+                }
+            }
+        });
+    }
+
+
+
     function inputDataCheck2(args) {
         let inputyounameplease = "<spring:message code="list.script.inputyounameplease" text="이름을 입력해주세요"/>";
         let inputyouphonenum = "<spring:message code="list.script.inputyourphonenumberplease" text="전화번호를 입력해주세요"/>";
@@ -1159,6 +2536,16 @@
             return alert_focus("name", inputyounameplease);
         } else if (isNull(args.phone)) {
             return alert_focus("phone", inputyouphonenum);
+        }
+        return true;
+    }
+
+    function inputDataCheck4(args) {
+        console.log(args);
+        let distancemsg = "<spring:message code="list.script.pleaseenterthdistance" text="거리를 입력해주세요"/>";
+        let fee1msg = "<spring:message code="list.script.pleaseenterrate1" text="요금1을 입력해주세요"/>";
+        if (isNull(args.custPrice)) {
+            return alert_focus("radius",custPrice);
         }
         return true;
     }

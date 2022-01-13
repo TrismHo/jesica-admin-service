@@ -3,7 +3,6 @@ package com.trism.jesica.Controller;
 import com.trism.jesica.Service.*;
 import com.trism.jesica.dto.TbStoreCategoryDTO;
 import com.trism.jesica.dto.TbStoreGoodsItemDTO;
-import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaCharge;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory;
@@ -238,7 +237,7 @@ public class MerchantController {
         log.info("@@@@ storeNo {}", storeNo);
         try {
             TbStore tbStore = workGroupService.getTbStoreDetail(storeNo);
-            List<TbDlvyAreaCharge> tbDlvyAreaChargeList = workGroupService.getTbDlvyAreaChargeListAll();
+            /*List<TbDlvyAreaCharge> tbDlvyAreaChargeList = workGroupService.getTbDlvyAreaChargeListAll()*/;
             TbStoreMngCharge tbStoreMngCharge = workGroupService.getTbStoreMngCharge(storeNo);
             List<TbDlvyPriceCharge> tbDlvyPriceChargeList = workGroupService.getTbDlvyPriceChargeListAll();
             List<TbServiceChargeGroup> tbServiceChargeGroup = workGroupService.getTbServiceChargeGroup();
@@ -247,7 +246,7 @@ public class MerchantController {
 
             model.addAttribute("tbStore",tbStore);
             model.addAttribute("tbStoreMngCharge",tbStoreMngCharge);
-            model.addAttribute("tbDlvyAreaChargeList",tbDlvyAreaChargeList);
+            /*model.addAttribute("tbDlvyAreaChargeList",tbDlvyAreaChargeList);*/
             model.addAttribute("tbDlvyPriceChargeList",tbDlvyPriceChargeList);
             model.addAttribute("tbServiceChargeGroup",tbServiceChargeGroup);
             model.addAttribute("tbStoreServiceCharge0",tbStoreServiceCharge0);
@@ -292,12 +291,12 @@ public class MerchantController {
         try {
             TbStore tbStore = workGroupService.getTbStoreDetail(storeNo);
             TbStoreDlvyCharge tbStoreDlvyCharge = workGroupService.getTbStoreDlvyCharge(storeNo);
-            List<TbDlvyAreaCharge> tbDlvyAreaChargeList = workGroupService.getTbDlvyAreaChargeListAll();
+            /*List<TbDlvyAreaCharge> tbDlvyAreaChargeList = workGroupService.getTbDlvyAreaChargeListAll();*/
             List<TbDlvyPriceCharge> tbDlvyPriceChargeList = workGroupService.getTbDlvyPriceChargeListAll();
 
             model.addAttribute("tbStore",tbStore);
             model.addAttribute("tbStoreDlvyCharge",tbStoreDlvyCharge);
-            model.addAttribute("tbDlvyAreaChargeList",tbDlvyAreaChargeList);
+            /*model.addAttribute("tbDlvyAreaChargeList",tbDlvyAreaChargeList);*/
             model.addAttribute("tbDlvyPriceChargeList",tbDlvyPriceChargeList);
         } catch (Exception e) {
             e.printStackTrace();

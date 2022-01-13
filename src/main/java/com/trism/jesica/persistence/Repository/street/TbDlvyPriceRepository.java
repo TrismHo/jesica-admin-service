@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TbDlvyPriceRepository extends JpaRepository<TbDlvyPrice, Long>, JpaSpecificationExecutor<TbDlvyPrice> {
-    List<TbDlvyPrice> findByGroupNoAndDataStatusOrderByDayAscStartTimeAscRadiusAsc(@Param("groupNo") Long groupNo,@Param("dataStatus") Integer dataStatus);
+    List<TbDlvyPrice> findByGroupNoAndGroupTypeAndDataStatusOrderByDayAscStartTimeAscRadiusAsc(@Param("groupNo") Long groupNo,@Param("groupType") Integer groupType,@Param("dataStatus") Integer dataStatus);
     List<TbDlvyPrice> findByGroupNoAndGroupType(@Param("groupNo") Long groupNo,@Param("groupType") Integer groupType);
 
 }

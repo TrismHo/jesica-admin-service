@@ -6,9 +6,9 @@ import com.trism.jesica.Util.Secure.CipherAESUtils;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.TbStoreCategoryFoDTO;
 import com.trism.jesica.dto.TbSystemCategoryDTO;
-import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaCharge;
 import com.trism.jesica.persistence.Entitiy.business.*;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.Entitiy.goods.TbBranchPrice;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCharge;
 import com.trism.jesica.persistence.Entitiy.goods.TbStorePrice;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
@@ -192,6 +192,10 @@ public class WorkGroupController {
             TbBranch tbBranch = workGroupService.getTbBranchDetail(branchNo);
             //브랜드 리스트 조회
             List<TbBrand> tbBrandList = workGroupService.tbBrandList();
+
+            //요금설정
+            TbBranchPrice tbBranchPrice = workGroupService.tbBranchPriceSearch(branchNo);
+            model.addAttribute("tbBranchPrice",tbBranchPrice);
             //사용자 정보 조회
             /*TbUser tbUser = workGroupService.getTbUser(headNo);*/
 
@@ -570,9 +574,9 @@ public class WorkGroupController {
                 searchValue.put("branchNo",0);
             }
 
-            List<TbDlvyAreaCharge> resultList = null;
+/*            List<TbDlvyAreaCharge> resultList = null;
             resultList =  workGroupService.tbDlvyAreaChargeList(searchValue);
-            model.addAttribute("tbDlvyAreaChargeList", resultList);
+            model.addAttribute("tbDlvyAreaChargeList", resultList);*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -599,9 +603,9 @@ public class WorkGroupController {
     public ModelAndView detailDeliveryBlock(@RequestParam("areaChargeNo") Long areaChargeNo , Model model) {
         log.info("areaChargeNo :: {}",areaChargeNo);
         try {
-            TbDlvyAreaCharge tbDlvyAreaCharge = workGroupService.getTbDeliveryBlock(areaChargeNo);
+           /* TbDlvyAreaCharge tbDlvyAreaCharge = workGroupService.getTbDeliveryBlock(areaChargeNo);
 
-            model.addAttribute("tbDlvyAreaCharge", tbDlvyAreaCharge);
+            model.addAttribute("tbDlvyAreaCharge", tbDlvyAreaCharge);*/
         } catch (Exception e){
             e.printStackTrace();
         }

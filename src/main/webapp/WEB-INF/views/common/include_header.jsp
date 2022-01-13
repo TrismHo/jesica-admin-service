@@ -9,7 +9,7 @@
             </a>--%>
             <a href="${path}/main" class="navbar-brand" > <%--<b>PetView</b>--%>
                 <small>
-                    <img class="m-l-30 m-r-20 " style="width: 120px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/140x35.png"/>">
+                    <img class="m-l-20 m-r-20 " style="width: 120px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/140x35.png"/>">
                    <%-- <spring:message code="main.logo1" text="default text"/>,
                     <span style="font-size:20px;color:#ffa200;"><spring:message code="main.logo2" text="default text"/></span>
                     <spring:message code="main.logo3" text="default text"/>
