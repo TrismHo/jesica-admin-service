@@ -171,8 +171,8 @@
 <script src="${path}/assets/js/demo/form-multiple-upload.demo.js"></script>
 <link href="${path}/assets/plugins/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
 <%--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=db9263cde5ebca76e7e4ead94532f163&libraries=services"></script>--%>
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services"></script>
+<%@include file="../../../common/include_kakao_map_js.jsp" %>
+<%--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services"></script>--%>
 
 
 <%@include file="../../../common/include_number_only_js.jsp" %>

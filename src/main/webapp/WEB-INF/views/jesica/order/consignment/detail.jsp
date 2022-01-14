@@ -104,8 +104,6 @@
                     </a>
                 </li>
             </ul>
-
-
             <div class="tab-content">
 
                 <div class="tab-pane fade active show" id="default-tab-1">
@@ -446,13 +444,13 @@
                                             </tr>
                                             <tr>
                                                 <td rowspan="6" class="bg-light"><spring:message code="list.detail.deliveryagencyinformation" text="배달대행정보"/></td>
+                                                <td rowspan="1"><spring:message code="list.detail.numberofdeliveryagencies" text="배달 총금액"/></td>
+                                                <td rowspan="1" ><fmt:formatNumber value="${callDetail.dlvyTotalAmt}" pattern="#,###" />  <spring:message code="list.detail.won" text="원"/></td>
+                                            </tr>
+                                            <tr>
                                                 <td rowspan="1" ><spring:message code="list.detail.deliveryagentamount" text="배달대행금액"/></td>
                                                 <td rowspan="1"><fmt:formatNumber value="${callDetail.dlvyAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
                                             </tr>
-                                            <%--<tr>
-                                                <td rowspan="1"><spring:message code="list.detail.numberofdeliveryagencies" text="배달대행건수"/></td>
-                                                <td rowspan="1" >${callDetail.dlvyCnt} <spring:message code="list.detail.case" text="건"/></td>
-                                            </tr>--%>
                                             <tr>
                                                 <td rowspan="1"><spring:message code="list.detail.deliveryagentsurcharge" text="배달대행 할증요금"/></td>
                                                 <td rowspan="1" ><fmt:formatNumber value="${callDetail.dlvyExtraCharge}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
@@ -603,7 +601,7 @@
                 </div>
                 <div class="tab-pane fade " id="default-tab-3">
                     <div class="table-responsive">
-                        <div class="col-xl-12">
+                        <div class="col-xl-12 height-600">
                             <!-- begin panel -->
                             <div class="panel panel-inverse">
                                 <!-- begin table-responsive -->

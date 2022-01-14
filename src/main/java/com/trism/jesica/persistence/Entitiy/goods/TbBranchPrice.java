@@ -144,5 +144,11 @@ public class TbBranchPrice implements Serializable {
     @Column(name = "weather_charge")
     private Integer weatherCharge = 0;
 
+    /**
+     * 서비스지역 블럭설정 사용여부
+     */
+    @Column(name = "service_area_yn")
+    private Integer serviceAreaYn = 0;
+
     
 }

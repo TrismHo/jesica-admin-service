@@ -1208,7 +1208,6 @@ public class ApiController {
             log.error("error :"+e.getMessage());
         }
 
-
         if(result == 1){
             ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorkerData.getUserNo(), session);
             Map<String,Object> codeMap2 = (Map)tokenMap.getBody();//아이디가 있으면 update

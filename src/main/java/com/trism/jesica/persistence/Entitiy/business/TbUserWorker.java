@@ -240,6 +240,13 @@ public class TbUserWorker implements Serializable {
     @Column(name = "worker_pay_type")
     private Integer workerPayType = null;
 
+    /**
+     * 동시배차 건수
+     */
+    @Column(name = "dlvy_limit")
+    private Integer dlvyLimit = null;
+
+
     @PrePersist
     private void defaultInit() {
         this.dataStatus = DataStatus.OK;
@@ -280,6 +287,7 @@ public class TbUserWorker implements Serializable {
             Integer licenseExpYn,
             String memo,
             Integer workerPayType,
+            Integer dlvyLimit,
             Long userNo,
             String insertUserId, String userId, String userPwd, UserType userType, Boolean pushOrderYn, Boolean pushNoticeYn, Boolean pushMarketingYn, List<TbUserDevice> userDevices,LocalDateTime lastLoginDtm, Integer pwdFailCount, Integer isFirstLogin, LocalDateTime pwdUpdateDtm
             ) {
@@ -316,6 +324,7 @@ public class TbUserWorker implements Serializable {
                 this.licenseExpYn = licenseExpYn;
                 this.memo = memo;
                 this.workerPayType = workerPayType;
+                this.dlvyLimit = dlvyLimit;
     }
 
 

@@ -101,7 +101,8 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             " license_exp_date= :licenseExpDate, " +
             " license_exp_yn= :licenseExpYn, " +
             " memo= :memo, " +
-            " worker_pay_type= :workerPayType " +
+            " worker_pay_type= :workerPayType, " +
+            " dlvy_limit= :dlvyLimit " +
             " WHERE worker_no = :workerNo" +
             "", nativeQuery = true)
     int updateUserWorker(
@@ -136,7 +137,8 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             @Param("licenseExpDate") String licenseExpDate,
             @Param("licenseExpYn") Integer licenseExpYn,
             @Param("memo") String memo,
-            @Param("workerPayType") Integer workerPayType
+            @Param("workerPayType") Integer workerPayType,
+            @Param("dlvyLimit") Integer dlvyLimit
     );
 
 

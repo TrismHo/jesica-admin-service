@@ -22,6 +22,7 @@ public class TbUserWorkerData {
     private Boolean pushNoticeYn;
     private Boolean pushMarketingYn;
     private Integer workerPayType;
+    private Integer dlvyLimit;
 
     private Integer headNo;
     private Integer branchNo;
@@ -91,6 +92,7 @@ public class TbUserWorkerData {
                 .licenseExpYn(licenseExpYn)
                 .memo(this.memo)
                 .workerPayType(this.workerPayType)
+                .dlvyLimit(this.dlvyLimit)
                 .build();
     }
    /* public TbUserWorker insertData() {

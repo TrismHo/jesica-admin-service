@@ -315,6 +315,12 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
     @Column(name = "is_mask")
     private Integer isMask;
 
+    /**
+     * 30일 경과 사용자 정보 마스킹 여부
+     */
+    @Column(name = "dlvy_total_amt")
+    private Integer dlvyTotalAmt;
+
 
 
     @PrePersist

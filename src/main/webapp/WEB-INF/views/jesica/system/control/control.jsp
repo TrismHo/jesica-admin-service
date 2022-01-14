@@ -270,12 +270,12 @@
 						</div>
 					</a>
 					<ul class="nav nav-inbox m-l-20" >
-						<li class="active active-li"><a class="control-1" style="cursor: pointer;"><i class="fas fa-lg fa-fw me-10px fa-car "></i>  <spring:message code="list.controll.driver1" text="드라이버관제"/>
+						<li class="active active-li"><a class="control-1" style="cursor: pointer;"><i class="fas fa-lg fa-fw me-10px fa-car "></i>  <spring:message code="list.controll.driver1" text="드라이버 관제"/>
 							<%--<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer"><spring:message code="list.controll.displaying" text="표시중"/></span>--%>
 						</a></li>
 					</ul>
 					<ul class="nav nav-inbox">
-						<li class="active-li"><a class="control-2" style="cursor: pointer;" ><i class="fas fa-lg fa-fw me-10px fa-user"></i>  <spring:message code="list.controll.consignment1" text="차량배달현황"/>
+						<li class="active-li"><a class="control-2" style="cursor: pointer;" ><i class="fas fa-lg fa-fw me-10px fa-user"></i>  <spring:message code="list.controll.consignment1" text="차량배달 현황"/>
 							<%--<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span>--%>
 						</a></li>
 					</ul>
@@ -380,7 +380,8 @@
 </body>
 <!-- services 라이브러리 불러오기 -->
 <!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services,clusterer,drawing"></script>
+<%@include file="../../../common/include_kakao_map_js.jsp" %>
+<%--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services,clusterer,drawing"></script>--%>
 <script type="text/javascript">
 
 	let waiting = [];
@@ -415,7 +416,6 @@
 							waiting.push(push)
 						}
 					}
-					console.log(data);
 				} else {
 					alert(data.body.data.desc);
 					return;
@@ -448,7 +448,6 @@
 							running.push(push);
 						}
 					}
-					console.log(data);
 
 				} else {
 					alert(data.body.data.desc);

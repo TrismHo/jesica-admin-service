@@ -1433,7 +1433,8 @@ public class ApiService {
                         tbUserWorkerData.getLicenseExpDate(),
                         tbUserWorkerData.getLicenseExpYn(),
                         tbUserWorkerData.getMemo(),
-                        tbUserWorkerData.getWorkerPayType()
+                        tbUserWorkerData.getWorkerPayType(),
+                        tbUserWorkerData.getDlvyLimit()
                 );
                 /*tbUserWorkerRepository.save(tbUserWorkerData.insertData());*/
                 //수수료등록

@@ -526,9 +526,7 @@
                },
                dataType: "json",
                success: function(data) {
-                   console.log(data)
                    var tbWorkerApplyAttchList = data.tbWorkerApplyAttchList;
-
                    if(authStatus == 0) {
                        removeClass();
                        $(".enrollment_1").addClass("active");
@@ -795,8 +793,6 @@
         let startDate = "${searchValue.startDate}";
         let endDate = "${searchValue.endDate}";
 
-        console.log(startDate);
-        console.log(endDate);
         $(".startDate").datepicker({
             calendarWeeks: false,
             todayHighlight: true,

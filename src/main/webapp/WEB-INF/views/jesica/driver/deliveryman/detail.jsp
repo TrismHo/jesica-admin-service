@@ -1,4 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+`<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -142,6 +142,13 @@
                                             <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
                                         </tr>
                                         <tr>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="동시배차건수"/></td>
+                                            <td>
+                                                <input type="text" class="form-control dlvyLimit" name="dlvyLimit" value="${tbUserWorker.dlvyLimit}" maxlength="7" numberOnly>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender1" text="동시배차건수를 입력해주세요"/></td>
+                                        </tr>
+                                        <tr>
                                             <td class="bg-light height-50"><spring:message code="list.detail.workstatus" text="출근상태"/></td>
                                             <td>
                                                 <label class="">
@@ -152,6 +159,9 @@
                                                 </label>
                                                 <label class="m-l-10 ">
                                                     <input type="radio" name="attendStatus" value="2" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 2}">checked</c:if>> <spring:message code="list.detail.rest" text="휴식"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="attendStatus" value="3" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 3}">checked</c:if>> <spring:message code="list.detail.rest1" text="운행"/>
                                                 </label>
                                             </td>
                                             <td class="text-danger-darker"><spring:message code="list.description.setyourworkworkstatus" text="출근 / 퇴근 상태를 설정하세요."/></td>
@@ -500,7 +510,6 @@
 <script>
 
     function percentChk(number){
-        console.log(number)
         return number.replaceAll(".00","");
     }
     $(() => {
@@ -514,7 +523,7 @@
             $(this).val($(this).val().replace(/[^0-9.]/g,""));
         });
 
-       $(".dailyCharge,.monthlyCharge,.takeroverRateType,.returnCharge,.mycarCharge,.olleCharge").focus(function(){
+       $(".dlvyLimit, .dailyCharge,.monthlyCharge,.takeroverRateType,.returnCharge,.mycarCharge,.olleCharge").focus(function(){
             /!*$(this).val('');*!/
         }).blur(function(){
             if($(this).val() == ""){
@@ -550,8 +559,6 @@
         $(".dataStatus").on("change",function (){
             var radioVal = $(':radio[name="dataStatus"]:checked').val();
 
-
-            console.log(radioVal);
             if(radioVal == 1){
                 $(".blockTypeCodeSel").css("display","none");
             } else {

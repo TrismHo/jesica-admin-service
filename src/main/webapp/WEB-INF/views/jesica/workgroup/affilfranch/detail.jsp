@@ -112,7 +112,7 @@
                     <ol class="breadcrumb float-xl-right p-r-10">
                         <li class="breadcrumb-item"><spring:message code="sidemenu.workgroupmanagement" text="업무그룹"/></li>
                         <li class="breadcrumb-item"><a href="${path}/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="가맹점"/></a></li>
-                        <li class="breadcrumb-item active"><<spring:message code="list.detail.franchiseedetails" text="가맹점 상세"/></li>
+                        <li class="breadcrumb-item active"><spring:message code="list.detail.franchiseedetails" text="가맹점 상세"/></li>
                     </ol>
                     <h3 class="rix-title p-b-5"><spring:message code="list.detail.franchiseedetails" text="가맹점 상세"/></h3>
                 </div>
@@ -1150,7 +1150,7 @@
                                         <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
                                     </tr>
                                     <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
-                                        <td class="bg-light" rowspan="8"><spring:message code="list.detail.accountholder1" text="할증요금 "/></td>
+                                        <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="할증요금 "/></td>
                                         <td class="bg-light"><spring:message code="list.detail.accountholder1" text="눈비할증"/></td>
                                         <td colspan="2">
                                             <select name="weatherChargeYn" class="form-control width-100">
@@ -1161,7 +1161,6 @@
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 정보를 입력해주세요"/></td>
                                     </tr>
-
                                     <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.accountholder1" text="시간할증 "/></td>
                                         <td colspan="1">
@@ -1178,25 +1177,49 @@
                                         <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증정보를 입력해주세요"/></td>
                                     </tr>
                                     <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
-                                        <td class="bg-light" rowspan="2"><spring:message code="list.detail.accountholder1" text="요일할증"/></td>
-                                        <td colspan="1" rowspan="2">
+                                        <td class="bg-light" rowspan="1"><spring:message code="list.detail.accountholder1" text="요일할증"/></td>
+                                        <td colspan="1" rowspan="1">
                                             <select name="dayChargeYn" class="form-control width-100">
                                                 <option value="0"<c:if test="${tbStorePrice.dayChargeYn == 0}" >selected</c:if>>사용안함</option>
                                                 <option value="1"<c:if test="${tbStorePrice.dayChargeYn == 1}" >selected</c:if>>사용</option>
                                             </select>
                                             <input type="text"  class="form-control width-120 dayCharge" name="dayCharge" value="${tbStorePrice.dayCharge}" numberCommaOnly> 원
                                         </td>
-                                        <td>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(0,1) == 1}">checked</c:if>>월</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(1,2) == 1}">checked</c:if>>화</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(2,3) == 1}">checked</c:if>>수</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(3,4) == 1}">checked</c:if>>목</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(4,5) == 1}">checked</c:if>>금</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(5,6) == 1}">checked</c:if>>토</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(6,7) == 1}">checked</c:if>>일</label>
-                                            <input type="hidden" name="dayFilter" class="dayFilter" value="${tbStorePrice.dayFilter}">
+                                        <td rowspan="1">
+                                            <c:if test="${tbStorePrice.dayFilter != ''}">
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(0,1) == 1}">checked</c:if>>월</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(1,2) == 1}">checked</c:if>>화</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(2,3) == 1}">checked</c:if>>수</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(3,4) == 1}">checked</c:if>>목</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(4,5) == 1}">checked</c:if>>금</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(5,6) == 1}">checked</c:if>>토</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  <c:if test="${tbStorePrice.dayFilter.substring(6,7) == 1}">checked</c:if>>일</label>
+                                                <input type="hidden" name="dayFilter" class="dayFilter" value="${tbStorePrice.dayFilter}">
+                                            </c:if>
+                                            <c:if test="${tbStorePrice.dayFilter == ''}">
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  >월</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  >화</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  >수</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  >목</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  >금</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  >토</label>
+                                                <label class="m-l-10 "><input type="checkbox" class="dayFilterChk"  >일</label>
+                                                <input type="hidden" name="dayFilter" class="dayFilter" value="">
+                                            </c:if>
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
+                                        <td class="text-danger-darker" rowspan="1"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
+                                    </tr>
+                                    <tr  class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
+                                        <td class="bg-light height-50 " colspan="2"><spring:message code="list.detail.accountholder1" text="서비스지역 블럭설정 사용여부"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <label class="">
+                                                <input type="radio" name="serviceAreaYn" class="align-bottom m-r-10 serviceAreaYn" value="0" <c:if test="${tbStorePrice.serviceAreaYn == 0}" >checked</c:if>>미사용
+                                            </label>
+                                            <label class="m-l-10">
+                                                <input type="radio" name="serviceAreaYn" class="align-bottom m-r-10 serviceAreaYn" value="1" <c:if test="${tbStorePrice.serviceAreaYn == 1}" >checked</c:if>> 사용
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker" style="width: 232px;"><spring:message code="list.description.cannotbemodified" text="서비스지역 블럭설정 사용여부를 선택해주세요."/></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -1897,7 +1920,8 @@
 <![endif]-->
 <script src="${path}/assets/js/demo/form-multiple-upload.demo.js"></script>
 <link href="${path}/assets/plugins/dropzone/dist/min/dropzone.min.css" rel="stylesheet"/>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services,drawing"></script>
+<%--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services,drawing"></script>--%>
+<%@include file="../../../common/include_kakao_map_js.jsp" %>
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
     function percentChk(number){
@@ -3409,6 +3433,7 @@
                     custPriceComma = numberWithCommas(sortList[i].custPrice);
                     dlvyPriceComma = numberWithCommas(sortList[i].dlvyPrice);
                     $(".addBlockTbody").append(
+                        "<tr class=\"\" areaNo="+sortList[i].areaNo+"  areaChargeType="+sortList[i].areaChargeType+" dlvyPrice="+sortList[i].dlvyPrice+" custPrice="+sortList[i].custPrice+" areaName="+data.tbDlvyAreaList[i].areaName+" areaNo="+sortList[i].areaNo+" viewOrder="+sortList[i].viewOrder+" groupNo="+sortList[i].groupNo+" groupType='2' >\n" +
                         "    <th class=''><input type=\"radio\" class='selectBlockRadio width-10' name='selectBlockRadio'>&nbsp;&nbsp; \n" +
                         "    "+data.tbDlvyAreaList[i].areaName+" </th>\n" +
                         "    <td class='priceText'>\n " + custPriceComma +" "+ wonmsg + "    </td>\n" +
@@ -3773,7 +3798,6 @@
                     points = [];
                     sPath= [];
                     for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
-                        console.log(tbDlvyAreaGeoList[j][i])
                         points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
                         sPath.push(new kakao.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
                         bounds.extend(new daum.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
