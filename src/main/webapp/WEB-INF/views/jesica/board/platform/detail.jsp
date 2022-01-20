@@ -147,7 +147,6 @@
 <%@include file="../../../common/include_common_js.jsp" %>
 <!-- ================== END BASE JS ================== -->
 <%-- Custom JS Start--%>
-<%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 
 <script>

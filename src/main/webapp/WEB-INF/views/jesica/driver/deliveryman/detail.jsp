@@ -1,4 +1,4 @@
-`<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -85,7 +85,6 @@
             <!-- end nav-tabs -->
             <!-- begin tab-content -->
             <div class="tab-content">
-
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade active show" id="default-tab-1">
                     <div class="main-content" data-scrollbar="false">
@@ -130,7 +129,7 @@
                                             <td class="text-danger-darker"><spring:message code="list.description.33" text="드라이버 사진을 등록하세요."/></td>
                                         </tr>
                                         <tr>
-                                            <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="기사 급여방식"/></td>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="드라이버 급여방식"/></td>
                                             <td>
                                                 <label class="">
                                                     <input type="radio" name="workerPayType" value="1" class="align-bottom workerPayType"   <c:if test="${tbUserWorker.workerPayType == 1}">checked</c:if>> <spring:message code="list.detail.male1" text="급여"/>
@@ -139,7 +138,7 @@
                                                     <input type="radio" name="workerPayType" value="2" class="align-bottom workerPayType"  <c:if test="${tbUserWorker.workerPayType == 2}">checked</c:if>> <spring:message code="list.detail.female1" text="수수료"/>
                                                 </label>
                                             </td>
-                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="드라이버 급여방식을 선택해주세요."/></td>
                                         </tr>
                                         <tr>
                                             <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="동시배차건수"/></td>
@@ -164,7 +163,7 @@
                                                     <input type="radio" name="attendStatus" value="3" class="align-bottom attendStatus" <c:if test="${tbUserWorker.attendStatus.ordinal() == 3}">checked</c:if>> <spring:message code="list.detail.rest1" text="운행"/>
                                                 </label>
                                             </td>
-                                            <td class="text-danger-darker"><spring:message code="list.description.setyourworkworkstatus" text="출근 / 퇴근 상태를 설정하세요."/></td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourworkworkstatus" text="드라이버의 상태를 선택해주세요."/></td>
                                         </tr>
                                         </tr>
                                         <tr>
@@ -207,7 +206,7 @@
                                                     <input type="radio" name="gender" value="N" class="align-bottom attendStatus" <c:if test="${tbUserWorker.gender == 'N'}">checked</c:if> > <spring:message code="list.detail.unknown" text=" 알수없음"/>
                                                 </label>
                                             </td>
-                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="드라이버 성별을 설정하세요."/></td>
                                         </tr>
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.dateofentry1" text="입사일 / 퇴사일"/></td>
@@ -478,35 +477,33 @@
 <%@include file="../../../common/include_common_js.jsp" %>
 <%--<%@include file="../../../common/include_datatables.jsp" %>--%>
 <!-- ================== END BASE JS ================== -->
-<%-- Custom JS Start--%>
-<%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <%--<link href="${path}/assets/plugins/blueimp-gallery/css/blueimp-gallery.min.css" rel="stylesheet" />--%>
-<link href="${path}/assets/plugins/blueimp-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
-<link href="${path}/assets/plugins/blueimp-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />
+<%--<link href="${path}/assets/plugins/blueimp-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
+<link href="${path}/assets/plugins/blueimp-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />--%>
 <!-- ================== END PAGE LEVEL CSS STYLE ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-<script src="${path}/assets/plugins/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<%--<script src="${path}/assets/plugins/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>--%>
 <%--<script src="${path}/assets/plugins/blueimp-tmpl/js/tmpl.js"></script>--%>
-<script src="${path}/assets/plugins/blueimp-load-image/js/load-image.all.min.js"></script>
+<%--<script src="${path}/assets/plugins/blueimp-load-image/js/load-image.all.min.js"></script>
 <script src="${path}/assets/plugins/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
-<script src="${path}/assets/plugins/blueimp-gallery/js/jquery.blueimp-gallery.min.js"></script>
-<script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="${path}/assets/plugins/blueimp-gallery/js/jquery.blueimp-gallery.min.js"></script>--%>
+<%--<script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
 <script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.fileupload.js"></script>
 <script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.fileupload-process.js"></script>
 <script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.fileupload-image.js"></script>
 <script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.fileupload-audio.js"></script>
 <script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.fileupload-video.js"></script>
 <script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
-<script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.fileupload-ui.js"></script>
-<script src="${path}/assets/plugins/dropzone/dist/min/dropzone.min.js"></script>
+<script src="${path}/assets/plugins/blueimp-file-upload/js/jquery.fileupload-ui.js"></script>--%>
+<%--<script src="${path}/assets/plugins/dropzone/dist/min/dropzone.min.js"></script>
 <script src="${path}/assets/plugins/highlight.js/highlight.min.js"></script>
-<script src="${path}/assets/js/demo/render.highlight.js"></script>
+<script src="${path}/assets/js/demo/render.highlight.js"></script>--%>
 <!--[if (gte IE 8)&(lt IE 10)]>
 <script src="${path}/assets/plugins/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
 <script src="${path}/assets/js/demo/form-multiple-upload.demo.js"></script>
-<link href="${path}/assets/plugins/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
+<%--<link href="${path}/assets/plugins/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />--%>
 <script>
 
     function percentChk(number){
