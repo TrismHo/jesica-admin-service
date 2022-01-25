@@ -1,8 +1,8 @@
 package com.trism.jesica.Service;
 
 import com.trism.jesica.Util.SearchUtil;
-import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
 import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
 import com.trism.jesica.persistence.type.DataStatus;

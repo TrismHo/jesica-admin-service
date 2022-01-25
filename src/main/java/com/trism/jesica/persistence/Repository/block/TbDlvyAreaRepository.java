@@ -10,16 +10,18 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TbDlvyAreaRepository extends JpaRepository<TbDlvyArea, Long>, JpaSpecificationExecutor<TbDlvyArea> {
-    List<TbDlvyArea> findByGroupNoAndGroupType(@Param("groupNo") Long groupNo, @Param("groupType") Integer groupType);
-    List<TbDlvyArea> findByAreaNoAndGroupNoAndGroupType(@Param("areaNo") Long areaNo,@Param("groupNo") Long groupNo, @Param("groupType") Integer groupType);
+    List<TbDlvyArea> findByGroupNoAndGroupTypeAndAreaChargeTypeNot(@Param("groupNo") Long groupNo, @Param("groupType") Integer groupType, @Param("areaChargeType") Integer areaChargeType);
+    List<TbDlvyArea> findByGroupNoAndGroupTypeAndAreaChargeType(@Param("groupNo") Long groupNo, @Param("groupType") Integer groupType, @Param("areaChargeType") Integer areaChargeType);
+    List<TbDlvyArea> findByAreaNoAndGroupNoAndGroupTypeAndAreaChargeTypeNot(@Param("areaNo") Long areaNo,@Param("groupNo") Long groupNo, @Param("groupType") Integer groupType, @Param("areaChargeType") Integer areaChargeType);
+    List<TbDlvyArea> findByAreaNoAndGroupNoAndGroupTypeAndAreaChargeType(@Param("areaNo") Long areaNo,@Param("groupNo") Long groupNo, @Param("groupType") Integer groupType, @Param("areaChargeType") Integer areaChargeType);
     /*List<TbDlvyArea> findByAreaNo(@Param("areaNo") Long groupNo, @Param("groupType") Integer groupType);*/
 
     @Query(value = "select " +
             "ifnull(MAX(view_order),0) as viewOrder " +
             "from tb_dlvy_area " +
             "where group_no = :groupNo " +
-            "", nativeQuery = true)
-    int getMaxViewOrder(@Param("groupNo") Long groupNo);
+            "and area_charge_type != :areaChargeType ", nativeQuery = true)
+    int getMaxViewOrder(@Param("groupNo") Long groupNo,@Param("areaChargeType") Integer areaChargeType);
 
 
     @Modifying(clearAutomatically = true)

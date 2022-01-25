@@ -90,6 +90,7 @@
                                 <form class="dlvy_search_form"></form>
                                 <form class="insert_form" id="insert_form">
                                 <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
+
                                 <table class="table table-bordered">
                                     <tr>
                                         <td class="bg-light height-50" style="width:15%"><spring:message code="list.detail.serviceclassification" text="서비스 구분"/></td>
@@ -218,6 +219,42 @@
                                             </label>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseselectastoretype" text="매장타입을 선택하세요."/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light height-50">기본주문상태</td>
+                                        <td>
+                                            <label class="">
+                                                <input type="radio" name="orderStatusCode" value="10" class="align-bottom orderStatusCode" checked> 접수
+                                            </label>
+                                            <label class="m-l-10 ">
+                                                <input type="radio" name="orderStatusCode" value="30" class="align-bottom orderStatusCode"> 요청
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage1" text="기본주문상태를 선택해주세요."/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light height-50">인수대행가능여부</td>
+                                        <td>
+                                            <label class="">
+                                                <input type="radio" name="takeoverUseYn" value="0" class="align-bottom takeroverUseYn" checked> 불가능
+                                            </label>
+                                            <label class="m-l-10 ">
+                                                <input type="radio" name="takeoverUseYn" value="1" class="align-bottom takeroverUseYn"> 가능
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage1" text="인수대행여부를 선택해주세요."/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light height-50">반납대행가능여부</td>
+                                        <td>
+                                            <label class="">
+                                                <input type="radio" name="returnUseYn" value="0" class="align-bottom returnUseYn" checked> 불가능
+                                            </label>
+                                            <label class="m-l-10 ">
+                                                <input type="radio" name="returnUseYn" value="1" class="align-bottom returnUseYn"> 가능
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage1" text="반납대행여부를 선택해주세요."/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.storeoperation/delivery" text="매장운영/배달"/></td>
@@ -1344,19 +1381,20 @@
             return alert_focus("branchNoText", "총판명을 선택해주세요.");
         } else if (isNull(args.storeName)) {
             return alert_focus("storeName", "가맹점명을 입력해주세요.");
+        } else if (isNull(args.addr1)) {
+            return alert_focus("addr1", "주소를 입력해주세요");
         }
        /* else if (isNull(args.exStoreCd)) {
             return alert_focus("exStoreCd", "외부 가맹점 코드를 입력해주세요.");
         } */
-        else if (isNull(args.storeTel)) {
+        /*else if (isNull(args.storeTel)) {
             return alert_focus("storeTel", "가맹점전화번호를 입력해주세요");
         } else if (isNull(args.authTel)) {
             return alert_focus("authTel", "인증용 휴대전화번호를 입력해주세요");
         } else if (isNull(args.mngrName)) {
             return alert_focus("mngrName", "영업담당자 이름을 입력해주세요");
-        } else if (isNull(args.addr1)) {
-            return alert_focus("addr1", "주소를 입력해주세요");
-        } else if (isNull(args.bankAccount)) {
+        }
+        else if (isNull(args.bankAccount)) {
             return alert_focus("bankAccount", "인출은행 계좌번호를 입력해주세요");
         } else if (isNull(args.bankOwner)) {
             return alert_focus("bankOwner", "인출은행 예금주를 입력해주세요");
@@ -1378,7 +1416,7 @@
             return alert_focus("bizType", "업태를 입력해주세요");
         } else if (isNull(args2.bizItem)) {
             return alert_focus("bizItem", "종목를 입력해주세요");
-        }
+        }*/
         return true;
     }
 </script>

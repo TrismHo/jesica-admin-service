@@ -50,7 +50,7 @@
     .map_wrap {width: 100%;position: relative;}
     .modes {position: absolute;top: 10px;left: 10px;z-index: 1;}
     .getdata{position: absolute;top: 370px;left: 10px;z-index: 1;}
-    #drawingMap, #map {width: 100%;height: 648px;}
+    #drawingMap,#drawingMapType , #map {width: 100%;height: 648px;}
     #map {margin-top: 10px;}
 
     .modal.modal-message .modal-body, .modal.modal-message .modal-footer, .modal.modal-message .modal-header {
@@ -144,24 +144,6 @@
                               <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="사업자 정보"/></span>
                           </a>
                     </li>
-                    <%-- <li class="nav-item">
-                         <a href="#default-tab-3" data-toggle="tab" class="nav-link">
-                             <span class="d-sm-none">플랫폼 사용료&lt;%&ndash;<spring:message code="merchandise.detail.tab1" text="default text"/>&ndash;%&gt;&lt;%&ndash;기본 정보&ndash;%&gt;</span>
-                             <span class="d-sm-block d-none">플랫폼 사용료&lt;%&ndash;<spring:message code="merchandise.detail.tab1" text="default text"/>&ndash;%&gt;&lt;%&ndash;기본 정보&ndash;%&gt;</span>
-                         </a>
-                     </li>--%>
-                    <%--  <li class="nav-item">
-                          <a href="#default-tab-4" data-toggle="tab" class="nav-link">
-                              <span class="d-sm-none">배달대행 설정&lt;%&ndash;<spring:message code="merchandise.detail.tab2" text="default text"/>&ndash;%&gt;&lt;%&ndash;가격 정보&ndash;%&gt;</span>
-                              <span class="d-sm-block d-none">배달대행 설정&lt;%&ndash;<spring:message code="merchandise.detail.tab2" text="default text"/>&ndash;%&gt;&lt;%&ndash;가격 정보&ndash;%&gt;</span>
-                          </a>
-                      </li>--%>
-                  <%--  <li class="nav-item">
-                        <a href="#default-tab-5" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none"><spring:message code="list.detail.onlineplatformsettings" text="온라인 플랫폼 설정"/>&lt;%&ndash;<spring:message code="merchandise.detail.tab3" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품 그룹&ndash;%&gt;</span>
-                            <span class="d-sm-block d-none"><spring:message code="list.detail.onlineplatformsettings" text="온라인 플랫폼 설정"/>&lt;%&ndash;<spring:message code="merchandise.detail.tab3" text="default text"/>&ndash;%&gt;&lt;%&ndash;가격 정보&ndash;%&gt;</span>
-                        </a>
-                    </li>--%>
                     <li class="nav-item">
                         <a href="#default-tab-6" data-toggle="tab" class="nav-link">
                             <span class="d-sm-none"><spring:message code="list.detail.user" text="사용자"/></span>
@@ -181,29 +163,23 @@
                           </a>
                       </li>
                      <li class="nav-item">
-                          <a href="#default-tab-9"  data-toggle="tab" class="nav-link">
-                              <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
-                              <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
-                          </a>
-                      </li>
-                     <li class="nav-item">
                           <a href="#default-tab-10"  data-toggle="tab" class="nav-link">
                               <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="블록요금"/></span>
                               <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="블록요금"/></span>
                           </a>
                       </li>
-                    <%--<li class="nav-item">
-                        <a href="#default-tab-7" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none">특정지명 배달팁 설정&lt;%&ndash;<spring:message code="merchandise.detail.tab4" text="default text"/>&ndash;%&gt;&lt;%&ndash;옵션&ndash;%&gt;</span>
-                            <span class="d-sm-block d-none">특정지명 배달팁 설정&lt;%&ndash;<spring:message code="merchandise.detail.tab4" text="default text"/>&ndash;%&gt;&lt;%&ndash;옵션&ndash;%&gt;</span>
+                    <li class="nav-item">
+                        <a href="#default-tab-9"  data-toggle="tab" class="nav-link">
+                            <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
+                            <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
                         </a>
-                    </li>--%>
-                   <%-- <li class="nav-item">
-                        <a href="#default-tab-9" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="멀티가맹점 설정"/></span>
-                            <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="멀티가맹점 설정"/></span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#default-tab-11"  data-toggle="tab" class="nav-link">
+                            <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="서비스지역설정"/></span>
+                            <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="서비스지역설정"/></span>
                         </a>
-                    </li>--%>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <!-- begin tab-pane -->
@@ -275,19 +251,48 @@
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage" text="사업자 인증 완료 후 정상으로 설정하세요."/></td>
                                 </tr>
-                                <%--<tr>
-                                    <td class="bg-light height-50">직영가맹점 여부</td>
+                                <tr>
+                                    <td class="bg-light height-50">기본주문상태</td>
                                     <td>
                                         <label class="">
-                                            <input type="radio" name="masterYn" value="0" class="align-bottom masterYn"
-                                                   <c:if test="${tbStore.masterGoodsYn == 'NO_MANAGEMENT'}">checked</c:if>> 일반가맹점
+                                            <input type="radio" name="orderStatusCode" value="10" class="align-bottom orderStatusCode"
+                                                   <c:if test="${tbStore.orderStatusCode == '10'}">checked</c:if>> 접수
                                         </label>
                                         <label class="m-l-10 ">
-                                            <input type="radio" name="masterYn" value="1" class="align-bottom masterYn"
-                                                   <c:if test="${tbStore.masterGoodsYn == 'SALES_MANAGEMENT'}">checked</c:if>> 직영가맹점
+                                            <input type="radio" name="orderStatusCode" value="30" class="align-bottom orderStatusCode"
+                                                   <c:if test="${tbStore.orderStatusCode == '30'}">checked</c:if>> 요청
                                         </label>
                                     </td>
-                                </tr>--%>
+                                    <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage1" text="기본주문상태를 선택해주세요."/></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light height-50">인수대행가능여부</td>
+                                    <td>
+                                        <label class="">
+                                            <input type="radio" name="takeoverUseYn" value="0" class="align-bottom takeroverUseYn"
+                                                   <c:if test="${tbStore.takeoverUseYn == '0'}">checked</c:if>> 불가능
+                                        </label>
+                                        <label class="m-l-10 ">
+                                            <input type="radio" name="takeoverUseYn" value="1" class="align-bottom takeroverUseYn"
+                                                   <c:if test="${tbStore.takeoverUseYn == '1'}">checked</c:if>> 가능
+                                        </label>
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage1" text="인수대행여부를 선택해주세요."/></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light height-50">반납대행가능여부</td>
+                                    <td>
+                                        <label class="">
+                                            <input type="radio" name="returnUseYn" value="0" class="align-bottom returnUseYn"
+                                                   <c:if test="${tbStore.returnUseYn == '0'}">checked</c:if>> 불가능
+                                        </label>
+                                        <label class="m-l-10 ">
+                                            <input type="radio" name="returnUseYn" value="1" class="align-bottom returnUseYn"
+                                                   <c:if test="${tbStore.returnUseYn == '1'}">checked</c:if>> 가능
+                                        </label>
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage1" text="반납대행여부를 선택해주세요."/></td>
+                                </tr>
                                 <tr>
                                     <td class="bg-light height-50"><spring:message code="list.detail.24houroperation" text="24시간운영 여부"/></td>
                                     <td>
@@ -336,21 +341,6 @@
  
                                     <td class="text-danger-darker"><spring:message code="list.description.1e" text="서비스타입을 선택하세요."/></td>
                                 </tr>
-                               <%-- <tr>
-                                    <td class="bg-light height-50">매장운영상태</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" name="openStatus" value="0" class="align-bottom openStatus" <c:if test="${tbStore.openStatus == 0}">checked</c:if>> <spring:message code="merchandise.search1.option4" text="영업종료"/>
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" name="openStatus" value="1" class="align-bottom openStatus" <c:if test="${tbStore.openStatus == 1}">checked</c:if>> <spring:message code="merchandise.search1.option4" text="영업"/>
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" name="openStatus" value="2" class="align-bottom openStatus" <c:if test="${tbStore.openStatus == 2}">checked</c:if>> <spring:message code="merchandise.search1.option4" text="휴식"/>
-                                        </label>
-                                    </td>
-                                    <td class="text-danger-darker">매장 운영 상태를 선택하세요.</td>
-                                </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.storeoperation/delivery" text="매장운영/배달"/></td>
                                         <td class="p-0 ">
@@ -400,30 +390,6 @@
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.chooseacookingtime" text="조리시간을 선택하세요."/></td>
                                 </tr>
-                               <%-- <tr>
-                                    <td class="bg-light height-50">배달주문 가능여부</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" name="dlvyYn" value="0" class="align-bottom dlvyYn" <c:if test="${tbStore.dlvyYn == 0}">checked</c:if>> <spring:message code="merchandise.search1.option4" text="불가능"/>
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" name="dlvyYn" value="1" class="align-bottom dlvyYn" <c:if test="${tbStore.dlvyYn == 1}">checked</c:if>> <spring:message code="merchandise.search1.option4" text="가능"/>
-                                        </label>
-                                    </td>
-                                    <td class="text-danger-darker">배달주문 가능여부를 선택하세요.</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light height-50">포장주문 가능여부</td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" name="takeoutYn" value="0" class="align-bottom takeoutYn" <c:if test="${tbStore.takeoutYn == 0}">checked</c:if>> <spring:message code="merchandise.search1.option4" text="불가능"/>
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" name="takeoutYn" value="1" class="align-bottom takeoutYn" <c:if test="${tbStore.takeoutYn == 1}">checked</c:if>> <spring:message code="merchandise.search1.option4" text="가능"/>
-                                        </label>
-                                    </td>
-                                    <td class="text-danger-darker">포장주문 가능여부를 선택하세요.</td>
-                                </tr>--%>
                                 <tr>
                                     <td class="bg-light height-50"><spring:message code="list.detail.minimumamountfordelivery" text="배달가능 최소금액"/></td>
                                     <td>
@@ -449,22 +415,6 @@
                                                value="${tbStore.storeTel}"  maxlength="20" numberOnly></td>
                                     <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourrepresentativenumber" text="대표번호를 입력하세요."/></td>
                                 </tr>
-                                <%-- <tr>
-                                     <td>기본 배송그룹</td>
-                                     <td>
-                                         <label>
-                                             <input type="text" data-toggle="modal" data-target="#search_modal" placeholder="배송그룹선택&lt;%&ndash;<spring:message code="merchandise.search1.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;제휴본사 선택&ndash;%&gt;" class="form-control background-white" readonly>
-                                         </label>
-                                     </td>
-                                 </tr>--%>
-                                <%--  <tr>
-                                      <td>로그인ID</td>
-                                      <td><input type="text" class="form-control width-200"></td>
-                                  </tr>
-                                  <tr>
-                                      <td>로그인PW</td>
-                                      <td><input type="text" class="form-control width-200"></td>
-                                  </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.mobilephoneforauthentication" text="인증용 휴대전화"/></td>
                                     <td><input type="text" class="form-control width-200 authTel" name="authTel"
@@ -495,7 +445,6 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.map" text="지도"/></td>
                                     <td>
-                                        <%--<div id="map" class="height-300 width-full"></div><br>--%>
                                             <div class="map_wrap mapRefreshBtn">
                                                 <div id="map"  class="height-300 width-full" ></div>
 
@@ -569,69 +518,7 @@
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseselectthemultimerchantsetting" text="멀티가맹점 설정을 선택해주세요."/></td>
                                     </tr>
-                                    <tr>
-
-                                   <%-- <tr>
-                                        <td class="bg-light">가맹점설정</td>
-                                        <td>
-                                            <table class="table table-condensed table-bordered">
-                                                <tbody>
-                                                <tr>
-                                                    <td class="bg-light width-200">가맹점 구분</td>
-                                                    <td>
-                                                        <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="multiType" value="0" <c:if test="${tbStore.multiType.ordinal() == 0}">checked</c:if>> 사용안함</label>
-                                                        <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="multiType" value="1" <c:if test="${tbStore.multiType.ordinal() == 1}">checked</c:if>> 종속</label>
-                                                        <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; name="multiType" value="2" <c:if test="${tbStore.multiType.ordinal() == 2}">checked</c:if>> 마스터</label>
-                                                    </td>
-                                                </tr>
-                                                <tr class="multi_form_master_tr" style="display: <c:if test="${tbStore.multiType.ordinal() == 0 || tbStore.multiType.ordinal() == 1}">none</c:if><c:if test="${tbStore.multiType.ordinal() == 2}">contents</c:if>">
-                                                    <td class="bg-light">가맹점 설정</td>
-                                                    <td class="padding-0">
-                                                        <table style="width:100%;" id="">
-                                                            <tbody>
-                                                            <tr>
-                                                                <td class="width-150 border-top-0 border-left-0 border-bottom-0">종속가맹 상품 판매대행 </td></td>
-                                                                <td class="border-top-0 border-left-0 border-bottom-0 border-right-0" colspan="2">
-                                                                    <label><input type="radio" padding: 0 10px 0 50px; min-width:400px;  class="masterGoodsYnChk" name="masterGoodsYnChk" value="0" <c:if test="${tbStore.masterGoodsYn.ordinal() == 0}">checked</c:if>> 관리안함</label>
-                                                                    <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; class="masterGoodsYnChk" name="masterGoodsYnChk" value="1"  <c:if test="${tbStore.masterGoodsYn.ordinal() == 1}">checked</c:if>> 판매관리</label>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                                <tr class="multi_form_slave_tr" style="display:<c:if test="${tbStore.multiType.ordinal() == 0 || tbStore.multiType.ordinal() == 2}">none</c:if><c:if test="${tbStore.multiType.ordinal() == 1}">contents</c:if>">
-                                                    <td class="bg-light">상품관리여부</td>
-                                                    <td class="padding-0">
-                                                        <form class="multi_form_slave" id="multi_form_slave" method="post" >
-                                                            <table style="width:100%;" id="">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td class="width-150 border-top-0 border-left-0 border-bottom-0">마스터 가맹점 선택</td></td>
-                                                                    <td class="border-top-0 border-left-0 border-bottom-0 border-right-0" colspan="2">
-                                                                        <label>
-                                                                            <select class="form-control masterStoreNo" name="masterStoreNoSelect">
-                                                                            </select>
-                                                                        </label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="width-150border-left-0 border-bottom-0">마스터가맹 정산방식</td></td>
-                                                                    <td class="border-left-0 border-bottom-0 border-right-0" colspan="2">
-                                                                        <label><input type="radio" padding: 0 10px 0 50px; min-width:400px; class="masterChargeYnChk" name="masterChargeYnChk" value="0" <c:if test="${tbStore.masterChargeYn.ordinal() == 0}">checked</c:if>=""> 수동정산</label>
-                                                                        <label style="padding-left: 10px;"><input type="radio" padding: 0 10px 0 50px; min-width:400px; class="masterChargeYnChk" name="masterChargeYnChk" value="1"  <c:if test="${tbStore.masterChargeYn.ordinal() == 1}">checked</c:if>> 실시간정산</label>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>--%>
-                                    <tr>
+                                <tr>
                                     <td class="bg-light"><spring:message code="list.detail.deposit" text="예치금"/></td>
                                     <td><input type="texy" class="form-control width-200 deposit" name="deposit"
                                                value="${tbStore.deposit}" numberOnly readonly></td>
@@ -755,16 +642,6 @@
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.youcanusetheserviceafterbusinessverification" text="사업자 인증후 서비스 이용이 가능합니다."/></td>
                                     </tr>
-                                    <%--                           <tr>
-                                                                   <td class="bg-light">사업자 등록증</td>
-                                                                   <td>
-                                                                       <label for="saupja" class="width-100 height-30 text-center line-height-30" style="background: #a0a0a0;">파일업로드</label>
-                                                                       <input type="file" class="d-none" id="saupja">
-                                                                       <div class="width-200 height-30 border overflow-hidden m-t-10 line-height-25 white-space-nowrap text-overflow-ellipsis">
-                                                                           <span class="fileName"></span>
-                                                                       </div>
-                                                                   </td>
-                                                               </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.representativename" text="대표자명"/></td>
                                         <td><input type="text" name="bizOwner" class="form-control width-200 bizOwner" value="${tbStore.businessInfo.bizOwner}" maxlength="30"></td>
@@ -1122,7 +999,7 @@
                                         <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
                                     </tr>
                                     <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
-                                        <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="배송요금"/></td>
+                                        <td class="bg-light" rowspan="6"><spring:message code="list.detail.accountholder1" text="배송요금"/></td>
                                         <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
                                         <td class="border-right-0" colspan="">
                                             <input type="text"  class="form-control width-200 dlvyPrice" name="dlvyPrice" value="${tbStorePrice.dlvyPrice}" numberCommaOnly>  원
@@ -1148,6 +1025,27 @@
                                             <input type="text"  class="form-control width-200 dlvyMaximum" name="dlvyMaximum" value="${tbStorePrice.dlvyMaximum}" numberCommaOnly> 원
                                         </td>
                                         <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증금액"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <input type="text"  class="form-control width-200 dayDlvyCharge" name="dayDlvyCharge" value="${tbStorePrice.dayDlvyCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="요일할증금액 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="시간할증금액"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <input type="text"  class="form-control width-200 timeDlvyCharge" name="timeDlvyCharge" value="${tbStorePrice.timeDlvyCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="시간할증금액 입력해주세요."/></td>
+                                    </tr>
+                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="눈비할증금액"/></td>
+                                        <td class="border-right-0" colspan="2">
+                                            <input type="text"  class="form-control width-200 weatherDlvyCharge" name="weatherDlvyCharge" value="${tbStorePrice.weatherDlvyCharge}" numberCommaOnly> 원
+                                        </td>
+                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="눈비할증금액을 입력해주세요."/></td>
                                     </tr>
                                     <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
                                         <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="할증요금 "/></td>
@@ -1208,18 +1106,6 @@
                                             </c:if>
                                         </td>
                                         <td class="text-danger-darker" rowspan="1"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
-                                    </tr>
-                                    <tr  class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
-                                        <td class="bg-light height-50 " colspan="2"><spring:message code="list.detail.accountholder1" text="서비스지역 블럭설정 사용여부"/></td>
-                                        <td class="border-right-0" colspan="2">
-                                            <label class="">
-                                                <input type="radio" name="serviceAreaYn" class="align-bottom m-r-10 serviceAreaYn" value="0" <c:if test="${tbStorePrice.serviceAreaYn == 0}" >checked</c:if>>미사용
-                                            </label>
-                                            <label class="m-l-10">
-                                                <input type="radio" name="serviceAreaYn" class="align-bottom m-r-10 serviceAreaYn" value="1" <c:if test="${tbStorePrice.serviceAreaYn == 1}" >checked</c:if>> 사용
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width: 232px;"><spring:message code="list.description.cannotbemodified" text="서비스지역 블럭설정 사용여부를 선택해주세요."/></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -1460,230 +1346,105 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                 <%--   <div class="tab-pane fade" id="default-tab-9">
-                        <form class="update_form8" id="update_form8" method="post">
-                            <div class="table-responsive" style="overflow: hidden;">
-                                <table class="table table-condensed table-bordered">
+                    <div class="tab-pane fade" id="default-tab-11">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6">
+                                <form class="insert_form_block_type" id="insert_form_block_type">
+                                    <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                    <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                    <input type="hidden" class="groupNo" name="groupNo" value="${tbStore.storeNo}">
+                                    <input type="hidden" class="groupType" name="groupType" value="3">
+                                    <input type="hidden" class="dataStatus" name="dataStatus" value="1">
+                                    <input type="hidden" class="areaNoFormType" name="areaNo">
+                                    <input type="hidden" class="viewOrder" name="viewOrder" value="0">
+                                    <input type="hidden" class="form-control-width-custom custPrice text-center" name="custPrice" value="0" maxlength="7" numberOnly>
+                                    <input type="hidden" class="form-control-width-custom dlvyPrice text-center" name="dlvyPrice" value="0" maxlength="7" numberOnly>
+                                    <input type="hidden" class="form-control-width-custom areaChargeType text-center" name="areaChargeType" value="0" numberOnly>
+                                    <table class="table table-bordered">
+                                        <caption></caption>
+                                        <colgroup>
+                                            <%--<col width="10%"/>--%>
+                                            <col width="80%"/>
+                                            <col width="20%"/>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <th colspan="6" class="tabla-custom-title"><spring:message code="list.detail.blockregistrationmodification" text="블록 등록/수정"/></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="bg-light text-center"><spring:message code="list.detail.blockname1" text="서비스지역명"/></th>
+                                            <th class="bg-light text-center"><spring:message code="list.detail.sort" text="초기화"/></th>
+                                        </tr>
+                                        <tr>
+                                            <%-- <th class="bg-light"></th>--%>
+                                            <td><input type="text" class="form-control-width-custom areaNameType text-center" name="areaName" maxlength="80">
+                                            </td>
+                                            <td >
+                                                <button type="button" class="btn btn-info resetBtnType"><spring:message code="list.detail.reset1" text="선택 초기화"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                                <div class="float-right m-b-20">
+                                    <button type="button" onclick="insBlockType()" class="btn btn-primary border-right-0 color insBlockTxtType m-r-5"><spring:message code="list.detail.enrollment" text="등록"/></button>
+                                    <button type="button" onclick="delBlockType()" style="display: none;" class="btn btn-danger border-right-0 color delBlockTxtType m-r-5"><spring:message code="list.detail." text="삭제"/></button>
+                                    <button type="button" onclick="selectOverlayType('POLYGON')" class="btn btn-info btn-draw m-r-5"><spring:message code="list.detail.drawing" text="그리기"/></button>
+                                    <button type="button" class="btn btn-white btn-draw-hide d-none"><spring:message code="list.detail.hide" text="숨기기"/></button>
+                                </div>
+                                <table class="table table-bordered table-sort table table-bordered w-100 ">
+                                    <thead>
+                                    <%-- <tr>
+                                         <th colspan="6" class="tabla-custom-title">등록 리스트</th>
+                                     </tr>--%>
+                                    <colgroup>
+                                        <col width="100%" class="text-center"/>
+                                    </colgroup>
                                     <tr>
-                                        <td class="bg-light height-50 "  colspan="2"><spring:message code="list.detail.accountholder1" text="설정값"/></td>
-                                        <td class="border-right-0" colspan="2">
-                                            <label class="">
-                                                <input type="radio" name="useYn" class="align-bottom m-r-10 useYn" value="0" <c:if test="${tbStorePrice.useYn == 0}" >checked</c:if>>총판설정 사용
-                                            </label>
-                                            <label class="m-l-10">
-                                                <input type="radio" name="useYn" class="align-bottom m-r-10 useYn" value="1" <c:if test="${tbStorePrice.useYn == 1}" >checked</c:if>>가맹점설정 사용
-                                            </label>
-
-                                           &lt;%&ndash; <select name="useYn" class="form-control width-150">
-                                                <option value="0"<c:if test="${tbStorePrice.useYn == 0}" >selected</c:if>>총판설정 사용</option>
-                                                <option value="1"<c:if test="${tbStorePrice.useYn == 1}" >selected</c:if>>가맹점설정 사용</option>
-                                            </select>&ndash;%&gt;
-                                        </td>
-                                        <td class="text-danger-darker   " style="width: 232px;"><spring:message code="list.description.cannotbemodified" text="가맹점설정 유형을 선택해주세요."/></td>
+                                        <th colspan="6" class="tabla-custom-title"><spring:message code="list.detail.registrationlist" text="등록 리스트"/></th>
                                     </tr>
-                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>" >
-                                        <td class="bg-light height-50 width-60" colspan="2"><spring:message code="list.detail.accountholder1" text="적용할 요금제"/></td>
-                                        <td colspan="2">
-                                            <label class="">
-                                                <input type="radio" name="meterUseYn" class="align-bottom m-r-10 meterUseYn" value="1" <c:if test="${tbStorePrice.meterUseYn == 1}" >checked</c:if>>기본(미터)요금 사용
-                                            </label>
-                                            <label class="m-l-10">
-                                                <input type="radio" name="meterUseYn" class="align-bottom m-r-10 meterUseYn" value="0" <c:if test="${tbStorePrice.meterUseYn == 0}" >checked</c:if>>거리구간요금 사용
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="거리구간 요금 유형을 선택해주세요."/></td>
+                                    <tr>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.blockname1" text="서비스지역명"/></th>
                                     </tr>
-                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
-                                        <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="고객요금"/></td>
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
-                                        <td class="border-right-0" colspan="1">
-                                            <input type="text"  class="form-control width-200 meterPrice" name="meterPrice" value="${tbStorePrice.meterPrice}" numberCommaOnly> 원
-                                        </td>
-                                        <td class="border-right-0" colspan="">
-                                            <input type="text"  class="form-control width-200 meterBaseDistance" name="meterBaseDistance" value="${tbStorePrice.meterBaseDistance}" numberCommaOnly>  (M 단위)
-                                        </td>
-                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="기본요금을 입력해주세요."/></td>
-                                    </tr>
-                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="추가요금"/></td>
-                                        <td class="border-right-0" colspan="1">
-                                            <input type="text"  class="form-control width-200 meterAddition" name="meterAddition" value="${tbStorePrice.meterAddition}" numberCommaOnly>  원
-                                        </td>
-                                        <td class="border-right-0" colspan="">
-                                            <input type="text"  class="form-control width-200 meterAddDistance" name="meterAddDistance" value="${tbStorePrice.meterAddDistance}" numberCommaOnly> (M 단위)
-                                        </td>
-                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="추가요금을 입력해주세요."/></td>
-                                    </tr>
-                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="최대요금"/></td>
-                                        <td class="border-right-0" colspan="2">
-                                            <input type="text"  class="form-control width-200 meterMaximum" name="meterMaximum" value="${tbStorePrice.meterMaximum}" numberCommaOnly>  원
-                                        </td>
-                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
-                                    </tr>
-                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
-                                        <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="배송요금"/></td>
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
-                                        <td class="border-right-0" colspan="">
-                                            <input type="text"  class="form-control width-200 dlvyPrice" name="dlvyPrice" value="${tbStorePrice.dlvyPrice}" numberCommaOnly>  원
-                                        </td>
-                                        <td class="border-right-0" colspan="">
-                                            <input type="text"  class="form-control width-200 dlvyBaseDistance" name="dlvyBaseDistance" value="${tbStorePrice.dlvyBaseDistance}" numberCommaOnly> (M 단위)
-                                        </td>
-                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="기본요금을 입력해주세요."/></td>
-                                    </tr>
-                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="추가요금"/></td>
-                                        <td class="border-right-0" colspan="1">
-                                            <input type="text"  class="form-control width-200 dlvyAddition" name="dlvyAddition" value="${tbStorePrice.dlvyAddition}" numberCommaOnly>  원
-                                        </td>
-                                        <td class="border-right-0" colspan="1">
-                                            <input type="text"  class="form-control width-200 dlvyAddDistance" name="dlvyAddDistance" value="${tbStorePrice.dlvyAddDistance}" numberCommaOnly> (M 단위)
-                                        </td>
-                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="추가요금을 입력해주세요."/></td>
-                                    </tr>
-                                    <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="최대요금"/></td>
-                                        <td class="border-right-0" colspan="2">
-                                            <input type="text"  class="form-control width-200 dlvyMaximum" name="dlvyMaximum" value="${tbStorePrice.dlvyMaximum}" numberCommaOnly> 원
-                                        </td>
-                                        <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
-                                    </tr>
-                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
-                                        <td class="bg-light" rowspan="8"><spring:message code="list.detail.accountholder1" text="할증요금 "/></td>
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증 "/></td>
-                                        <td colspan="2">
-                                            <select name="dayChargeYn" class="form-control width-100">
-                                                <option value="0"<c:if test="${tbStorePrice.dayChargeYn == 0}" >selected</c:if>>사용안함</option>
-                                                <option value="1"<c:if test="${tbStorePrice.dayChargeYn == 1}" >selected</c:if>>사용</option>
-                                            </select>
-                                            <input type="text"  class="form-control width-120 dayCharge" name="dayCharge" value="${tbStorePrice.dayCharge}" numberCommaOnly> 원
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
-                                    </tr>
-                                   &lt;%&ndash; <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증 금액"/></td>
-                                        <td class="border-right-0">
-                                            <input type="text"  class="form-control width-200 dayCharge" name="dayCharge" value="${tbStorePrice.dayCharge}" numberCommaOnly> 원
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="반납대행 선결제 수수료를 입력해주세요."/></td>
-                                    </tr>&ndash;%&gt;
-                                   &lt;%&ndash; <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="눈비할증 금액"/></td>
-
-                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 금액을 입력해주세요."/></td>
-                                    </tr>&ndash;%&gt;
-
-                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
-                                        <td class="bg-light" rowspan="1"><spring:message code="list.detail.accountholder1" text="시간할증 "/></td>
-                                        <td colspan="1">
-                                            <select name="timeChargeYn" class="form-control width-100">
-                                                <option value="0"<c:if test="${tbStorePrice.timeChargeYn == 0}" >selected</c:if>>사용안함</option>
-                                                <option value="1"<c:if test="${tbStorePrice.timeChargeYn == 1}" >selected</c:if>>할증사용</option>
-                                            </select>
-                                            <input type="text"  class="form-control width-120 timeCharge" name="timeCharge" value="${tbStorePrice.timeCharge}" numberCommaOnly> 원
-                                        </td>
+                                    </thead>
+                                </table>
+                                <div class="block_list_div border" >
+                                    <table class="table table-bordered table-sort block_list_table table-hover">
+                                        <thead>
+                                        <colgroup>
+                                            <col width="100%"/>
+                                        </colgroup>
+                                        </thead>
+                                        <tbody class="addBlockTbodyType">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <%--<input type="button" class=" btn btn-white p-5 float-right m-t-10" onclick="sortSave()" value="<spring:message code="list.detail.savesort" text="정렬 저장"/>">--%>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 height-full">
+                                <table class="table table-condensed table-bordered">
+                                    <tbody>
+                                    <tr>
                                         <td>
-                                            시작시간 : <input type="text" name="timeStart" class="timeStart form-control" value="${tbStorePrice.timeStart}" maxlength="4" numberOnly> ~
-                                            종료시간 : <input type="text" name="timeEnd" class="timeEnd form-control" value="${tbStorePrice.timeEnd}" maxlength="4" numberOnly>
+                                            <div class="map_wrap mapRefreshBtn" style="height: 650px;">
+                                                <div id="drawingMapType"></div>
+                                                <p class="modes">
+                                                    <input type="button" class="show_btn_type block_show_hide_type btn btn-white p-5" onclick="showBlockType()" value="<spring:message code="list.detail.viewallblocks" text="모든 블록 보기"/>">
+                                                    <input type="button" class="hide_btn_type block_show_hide_type btn btn-primary p-5" onclick="hideBlockType()" value="<spring:message code="list.detail.closeallblocks" text="모든 블록 닫기"/>">
+                                                </p>
+                                            </div>
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증정보를 입력해주세요"/></td>
                                     </tr>
-                                   &lt;%&ndash; <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.accountholder1" text="시간할증 금액"/></td>
-
-                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증금액을 입력해주세요."/></td>
-                                    </tr>&ndash;%&gt;
-                                    &lt;%&ndash;<tr>
-                                        <td class="border-right-0" colspan="2">
-
-                                           &lt;%&ndash; <label>
-                                                <select class="form-control">
-                                                    <c:forEach begin="0" end="24" varStatus="hour">
-                                                        <c:if test="${hour.index.length < 1}">
-                                                            <option <c:if test="${tbStorePrice.timeStart == '0'+hour.index}">>selected</c:if>> 0${hour.index} </option>
-                                                        </c:if>
-                                                        <c:if test="${hour.index.length >= 1}">
-                                                            <option <c:if test="${tbStorePrice.timeStart ==  hour.index}">>selected</c:if>> ${hour.index} </option>
-                                                        </c:if>
-                                                        ${hour.index}
-                                                    </c:forEach>
-                                                </select>
-                                            </label>
-                                            <label>
-                                                <select class="form-control">
-                                                    <c:forEach begin="0" end="24" varStatus="hour">
-                                                        <c:if test="${hour.index.length < 1}">
-                                                            <option <c:if test="${tbStorePrice.timeStart == '0'+hour.index}">>selected</c:if>> 0${hour.index} </option>
-                                                        </c:if>
-                                                        <c:if test="${hour.index.length >= 1}">
-                                                            <option <c:if test="${tbStorePrice.timeStart ==  hour.index}">>selected</c:if>> ${hour.index} </option>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </select>
-                                            </label>&ndash;%&gt;
-                                            </td>
-                                            <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증 시작/종료시간을 입력해주세요."/></td>
-                                        </tr>&ndash;%&gt;
-                                    <tr class="useYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0}" >none</c:if>">
-                                        <td class="bg-light" rowspan="2"><spring:message code="list.detail.accountholder1" text="눈비할증"/></td>
-                                        <td colspan="1" rowspan="2">
-                                            <select name="weatherChargeYn" class="form-control width-100">
-                                                <option value="0"<c:if test="${tbStorePrice.weatherChargeYn == 0}" >selected</c:if>>사용안함</option>
-                                                <option value="1"<c:if test="${tbStorePrice.weatherChargeYn == 1}" >selected</c:if>>사용</option>
-                                            </select>
-                                            <input type="text"  class="form-control width-120 weatherCharge" name="weatherCharge" value="${tbStorePrice.weatherCharge}" numberCommaOnly> 원
-                                        </td>
-                                        <td>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="월" <c:if test="${fn:contains(tbStorePrice.dayFilter, '월')}">checked</c:if>>월</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="화" <c:if test="${fn:contains(tbStorePrice.dayFilter, '화')}">checked</c:if>>화</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="수" <c:if test="${fn:contains(tbStorePrice.dayFilter, '수')}">checked</c:if>>수</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="목" <c:if test="${fn:contains(tbStorePrice.dayFilter, '목')}">checked</c:if>>목</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="금" <c:if test="${fn:contains(tbStorePrice.dayFilter, '금')}">checked</c:if>>금</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="토" <c:if test="${fn:contains(tbStorePrice.dayFilter, '토')}">checked</c:if>>토</label>
-                                            <label class="m-l-10 "><input type="checkbox" class="dayFilterChk" value="일" <c:if test="${fn:contains(tbStorePrice.dayFilter, '일')}">checked</c:if>>일</label>
-                                            <input type="hidden" name="dayFilter" class="dayFilter" value="${tbStorePrice.dayFilter}">
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 정보를 입력해주세요"/></td>
-                                    </tr>
-                                   &lt;%&ndash; <tr>
-                                       &lt;%&ndash; <td class="bg-light height-50" ><spring:message code="list.detail.accountholder1" text="적용요일"/></td>&ndash;%&gt;
-
-                                        <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="적용요일을 선택해주세요."/></td>
-                                    </tr>&ndash;%&gt;
-                                      &lt;%&ndash;  <tr>
-                                            <td class="bg-light"><spring:message code="list.detail.accountholder1" text="시간할증 종료시간"/></td>
-                                            <td class="border-right-0">
-                                                <label>
-                                                    <select class="form-control">
-                                                        <c:forEach begin="0" end="24" varStatus="hour">
-                                                            <option>${hour.index}시(시작)</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </label>
-                                                <label>
-                                                    <select class="form-control">
-                                                        <c:forEach begin="0" end="24" varStatus="hour">
-                                                            <option>${hour.index}시(종료)</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </label>
-                                            </td>
-                                            <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="시간할증 종료시간을 선택해주세요."/></td>
-                                        </tr>&ndash;%&gt;
                                     </tbody>
                                 </table>
-                                <div class="m-t-10">
-                                    <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
-                                    <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
-                                </div>
                             </div>
-                        </form>
-                    </div>--%>
-                    <!-- end tab-pane -->
-                    <!-- begin tab-pane -->
-                   <%-- <div class="tab-pane fade" id="default-tab-9">--%>
+                            <div class="m-l-5 m-t-5">
+                                <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                         <div class="row">
                             <div class="col-xl-12 col-lg-12">
                             </div>
@@ -2347,9 +2108,10 @@
     let marker;
     let drawingManager = null;
     $(() => {
-
+        mapType.relayout();
         drawingMap.relayout();
         blockList();
+        blockListType()
         priceList();
         staffList();
         /*$(".block_list_table tbody").sortable();*/
@@ -2399,6 +2161,7 @@
                 data: {
                     groupNo: "${tbStore.storeNo}",
                     groupType: 3,
+                    areaChargeType : upAreaChargeType,
                     areaNo : upAreaNo
                 },
                 success: function(data) {
@@ -3022,7 +2785,7 @@
         });
     }
 
-    $(document).on("click",".mapRefreshBtn",function(){
+   /* $(document).on("click",".mapRefreshBtn",function(){
         map.relayout();
     });
 
@@ -3035,7 +2798,7 @@
         e.target // 현재 설정된 tab
         e.relatedTarget // 이전에 설정된 탭
         map.relayout();
-    });
+    });*/
 
     function chk_file_type(obj) {
 
@@ -3396,7 +3159,9 @@
             url: "${path}/api/deliveryblock/dlvyArea/list",
             data: {
                 groupNo: "${tbStore.storeNo}",
-                groupType: "3"
+                groupType: "3",
+                areaChargeType: "12"
+
             },
             success: function(data) {
                 let sortList = [];
@@ -3432,31 +3197,32 @@
 
                     custPriceComma = numberWithCommas(sortList[i].custPrice);
                     dlvyPriceComma = numberWithCommas(sortList[i].dlvyPrice);
-                    $(".addBlockTbody").append(
-                        "<tr class=\"\" areaNo="+sortList[i].areaNo+"  areaChargeType="+sortList[i].areaChargeType+" dlvyPrice="+sortList[i].dlvyPrice+" custPrice="+sortList[i].custPrice+" areaName="+data.tbDlvyAreaList[i].areaName+" areaNo="+sortList[i].areaNo+" viewOrder="+sortList[i].viewOrder+" groupNo="+sortList[i].groupNo+" groupType='2' >\n" +
-                        "    <th class=''><input type=\"radio\" class='selectBlockRadio width-10' name='selectBlockRadio'>&nbsp;&nbsp; \n" +
-                        "    "+data.tbDlvyAreaList[i].areaName+" </th>\n" +
-                        "    <td class='priceText'>\n " + custPriceComma +" "+ wonmsg + "    </td>\n" +
-                        "    <td class='priceText'>\n " +dlvyPriceComma+" "+ wonmsg + "    </td>\n" +
-                        "    <td class='alignCenter'>\n" +areaChargeTypeTxt + "    </td>\n" +
-                        "    <td>\n" +
-                        "        <div class=\"d-table m-auto\">\n" +
-                        "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\" onclick=\"moveTop(this)\">\n" +
-                        "                <span class=\"fa fa-angle-double-up align-sub\"></span>\n" +
-                        "            </a>&nbsp; \n" +
-                        "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\"  onclick=\"moveUp(this)\">\n" +
-                        "                <span class=\"fa fa-angle-up align-sub\"></span>" +
-                        "          </a>&nbsp; \n" +
-                        "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\"  onclick=\"moveDown(this)\">\n" +
-                        "                <span class=\"fa fa-angle-down align-sub\"></span> \n" +
-                        "            </a>&nbsp;\n" +
-                        "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\" onclick=\"moveBottom(this)\">\n" +
-                        "                <span class=\"fa fa-angle-double-down align-sub\"></span>\n" +
-                        "            </a>\n" +
-                        "        </div>\n" +
-                        "    </td>\n" +
-                        "</tr>"
-                    )
+
+                        $(".addBlockTbody").append(
+                            "<tr class=\"\" areaNo="+sortList[i].areaNo+"  areaChargeType="+sortList[i].areaChargeType+" dlvyPrice="+sortList[i].dlvyPrice+" custPrice="+sortList[i].custPrice+" areaName="+data.tbDlvyAreaList[i].areaName+" areaNo="+sortList[i].areaNo+" viewOrder="+sortList[i].viewOrder+" groupNo="+sortList[i].groupNo+" groupType='2' >\n" +
+                            "    <th class=''><input type=\"radio\" class='selectBlockRadio width-10' name='selectBlockRadio'>&nbsp;&nbsp; \n" +
+                            "    "+data.tbDlvyAreaList[i].areaName+" </th>\n" +
+                            "    <td class='priceText'>\n " + custPriceComma +" "+ wonmsg + "    </td>\n" +
+                            "    <td class='priceText'>\n " +dlvyPriceComma+" "+ wonmsg + "    </td>\n" +
+                            "    <td class='alignCenter'>\n" +areaChargeTypeTxt + "    </td>\n" +
+                            "    <td>\n" +
+                            "        <div class=\"d-table m-auto\">\n" +
+                            "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\" onclick=\"moveTop(this)\">\n" +
+                            "                <span class=\"fa fa-angle-double-up align-sub\"></span>\n" +
+                            "            </a>&nbsp; \n" +
+                            "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\"  onclick=\"moveUp(this)\">\n" +
+                            "                <span class=\"fa fa-angle-up align-sub\"></span>" +
+                            "          </a>&nbsp; \n" +
+                            "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\"  onclick=\"moveDown(this)\">\n" +
+                            "                <span class=\"fa fa-angle-down align-sub\"></span> \n" +
+                            "            </a>&nbsp;\n" +
+                            "            <a class=\"btn btn-out width-30 height-25 cursor-pointer d-table-cell\" onclick=\"moveBottom(this)\">\n" +
+                            "                <span class=\"fa fa-angle-double-down align-sub\"></span>\n" +
+                            "            </a>\n" +
+                            "        </div>\n" +
+                            "    </td>\n" +
+                            "</tr>"
+                        )
                 }
 
                 if(data.tbDlvyAreaList.length == 0) {
@@ -3483,6 +3249,8 @@
 
     let lng2 = "";
     let lat2 = "";
+    let lng2Type = "";
+    let lat2Type = "";
     //최초 표시
     $.ajax({
         type: "POST",
@@ -3491,6 +3259,7 @@
         data: {
             groupNo: "${tbStore.storeNo}"
             ,groupType : "3"
+            ,areaChargeType : "12"
         },
         success: function(data) {
             let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
@@ -3510,6 +3279,37 @@
             } else {
                 lat2 = 37.5116707;
                 lng2 = 126.874092;
+            }
+        }
+    });
+    //최초 표시
+    $.ajax({
+        type: "POST",
+        url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
+        async:false,
+        data: {
+            groupNo: "${tbStore.storeNo}"
+            ,groupType : "3"
+            ,areaChargeType : "0"
+        },
+        success: function(data) {
+            let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+
+            if(tbDlvyAreaGeoList.length > 0 ){
+                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                        if(tbDlvyAreaGeoList[0][0] != null){
+                            lng2Type = tbDlvyAreaGeoList[0][0].lng;
+                            lat2Type = tbDlvyAreaGeoList[0][0].lat;
+                        } else {
+                            lat2Type = 37.5116707;
+                            lng2Type = 126.874092;
+                        }
+                    }
+                }
+            } else {
+                lat2Type = 37.5116707;
+                lng2Type = 126.874092;
             }
         }
     });
@@ -3782,7 +3582,8 @@
             url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
             data: {
                 groupNo: "${tbStore.storeNo}",
-                groupType: 3
+                groupType: 3,
+                areaChargeType: "12"
             },
             success: function(data) {
                 let polygons = [];
@@ -3878,10 +3679,14 @@
 
     $(document).on("click",".mapRefreshBtn",function(){
         drawingMap.relayout();
+        map.relayout();
+        mapType.relayout();
     });
 
     $(document).on("click",".nav-link",function(){
         drawingMap.relayout();
+        map.relayout();
+        mapType.relayout();
     });
 
     // 메뉴가 선택되어 active가 된 후 이벤트
@@ -3890,6 +3695,7 @@
         e.relatedTarget // 이전에 설정된 탭
         map.relayout();
         drawingMap.relayout();
+        mapType.relayout();
     });
 
     function moveUp(el){
@@ -3945,22 +3751,7 @@
             }
         });
 
-        /* $.ajax({
-             type: "POST",
-             url: "${path}/api/deliveryblock/dlvyArea/resort",
-            data: {
-                sortList: sortList
-            },
-            success: function(data) {
-            }
-        });*/
     }
-
-
-
-
-
-
 
     function inputDataCheck4(args) {
         let distancemsg = "<spring:message code="list.script.pleaseenterthdistance" text="거리를 입력해주세요"/>";
@@ -3970,6 +3761,660 @@
         }
         return true;
     }
+
+
+    // Drawing Manager로 도형을 그릴 지도 div
+    var drawingMapContainerType = document.getElementById('drawingMapType'),
+        drawingMapType = {
+            center: new kakao.maps.LatLng(lat2Type,lng2Type), // 지도의 중심좌표
+            level: 5 // 지도의 확대 레벨
+        };
+
+    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    var mapType = new kakao.maps.Map(drawingMapContainerType, drawingMapType);
+    overlaysType = []; // 지도에 그려진 도형을 담을 배열
+    var optionsType = { // Drawing Manager를 생성할 때 사용할 옵션입니다
+        map: mapType, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+        drawingMode: [ // Drawing Manager로 제공할 그리기 요소 모드입니다
+            kakao.maps.drawing.OverlayType.MARKER,
+            kakao.maps.drawing.OverlayType.POLYLINE,
+            kakao.maps.drawing.OverlayType.RECTANGLE,
+            kakao.maps.drawing.OverlayType.CIRCLE,
+            kakao.maps.drawing.OverlayType.POLYGON
+        ],
+        // 사용자에게 제공할 그리기 가이드 툴팁입니다
+        // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
+        guideTooltip: ['draw', 'drag', 'edit'],
+        markerOptions: { // 마커 옵션입니다
+            draggable: true, // 마커를 그리고 나서 드래그 가능하게 합니다
+            removable: true // 마커를 삭제 할 수 있도록 x 버튼이 표시됩니다
+        },
+        polylineOptions: { // 선 옵션입니다
+            draggable: true, // 그린 후 드래그가 가능하도록 설정합니다
+            removable: true, // 그린 후 삭제 할 수 있도록 x 버튼이 표시됩니다
+            editable: true, // 그린 후 수정할 수 있도록 설정합니다
+            strokeColor: '#39f', // 선 색
+            hintStrokeStyle: 'dash', // 그리중 마우스를 따라다니는 보조선의 선 스타일
+            hintStrokeOpacity: 0.5  // 그리중 마우스를 따라다니는 보조선의 투명도
+        },
+        rectangleOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f', // 외곽선 색
+            fillColor: '#39f', // 채우기 색
+            fillOpacity: 0.5 // 채우기색 투명도
+        },
+        circleOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f',
+            fillColor: '#39f',
+            fillOpacity: 0.5
+        },
+        polygonOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f',
+            fillColor: '#39f',
+            fillOpacity: 0.5,
+            hintStrokeStyle: 'dash',
+            hintStrokeOpacity: 0.5
+        }
+    };
+
+    // 위에 작성한 옵션으로 Drawing Manager를 생성합니다
+    var managerType = new kakao.maps.drawing.DrawingManager(optionsType);
+
+
+    // 버튼 클릭 시 호출되는 핸들러 입니다
+   function selectOverlayType(type) {
+       hideBlockType();
+       // 그리기 중이면 그리기를 취소합니다
+       managerType.cancel();
+
+       // 클릭한 그리기 요소 타입을 선택합니다
+       managerType.select(kakao.maps.drawing.OverlayType[type]);
+   }
+
+    function showBlockType() {
+        removeOverlaysType();
+        hideBlockType();
+        $(".show_btn_type").removeClass("btn-white");
+        $(".show_btn_type").addClass("btn-primary");
+        $(".hide_btn_type").addClass("btn-white");
+        $(".hide_btn_type").removeClass("btn-primary");
+
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
+            data: {
+                groupNo: "${tbStore.storeNo}",
+                groupType: 3,
+                areaChargeType: "0"
+            },
+            success: function(data) {
+                console.log(data)
+                let polygonsType = [];
+                let pointsType = [];
+                // 좌표 배열
+                var sPathType = [];
+                // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                var boundsType = new daum.maps.LatLngBounds();
+
+                let tbDlvyAreaGeoListType = data.tbDlvyAreaGeoList;
+
+                for (var j = 0 ; j < tbDlvyAreaGeoListType.length ; j ++) {
+                    pointsType = [];
+                    sPathType = [];
+                    for (var i = 0 ; i < tbDlvyAreaGeoListType[j].length ; i ++) {
+                        pointsType.push({x: tbDlvyAreaGeoListType[j][i].lng, y: tbDlvyAreaGeoListType[j][i].lat})
+                        sPathType.push(new kakao.maps.LatLng(tbDlvyAreaGeoListType[j][i].lat, tbDlvyAreaGeoListType[j][i].lng));
+                        boundsType.extend(new daum.maps.LatLng(tbDlvyAreaGeoListType[j][i].lat, tbDlvyAreaGeoListType[j][i].lng));
+
+                    }
+                    managerType.put(kakao.maps.drawing.OverlayType.POLYGON, sPathType);
+                    mapType.setBounds(boundsType);
+                    // polygons.push({points :points});
+                }
+            }
+        });
+    }
+
+    //블록 초기화
+    function hideBlockType(){
+        $(".show_btn_type").removeClass("btn-primary");
+        $(".show_btn_type").addClass("btn-white");
+        $(".hide_btn_type").addClass("btn-primary");
+        $(".hide_btn_type").removeClass("btn-white");
+        // 그리기 중이면 그리기를 취소
+        managerType.cancel();
+
+        objPolygonType = managerType.getOverlays();
+
+        if (objPolygonType.polygon.length > 0){
+            var iPolygonLength = objPolygonType.polygon.length-1;
+            var iCol = iPolygonLength;
+            for (var i=0; i <= iPolygonLength; i++){
+
+                if (iCol >= 0){
+                    managerType.remove(objPolygonType.polygon[iCol]);
+                }
+
+                iCol = iCol-1;
+            }
+        }
+    }
+
+    function removeOverlaysType() {
+        var len = overlaysType.length, i = 0;
+
+        for (; i < len; i++) {
+            overlaysType[i].setMap(null);
+        }
+
+        overlaysType = [];
+    }
+
+    function insBlockType() {
+        //1 : 생성 , 2 : 수정
+        let insType = 1
+        var data = managerType.getData();
+        let url = "${path}/api/deliveryblock/block/insert";
+
+        let _forms = $('.insert_form_block_type');
+        let req = convertFormToObj(_forms);
+        let confirmfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
+        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
+        let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
+        let succsessMsg = "<spring:message code="list.script.enrollment1" text="등록되었습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+console.log(req)
+        if(req.areaNo.length > 0) {
+            url = "${path}/api/deliveryblock/block/update";
+            insType = 2;
+            confirmfailmsg = "<spring:message code="list.script.registrationfailed1" text="수정에 실패하였습니다."/>";
+            confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="수정 하시겠습니까?"/>";
+            confirm = "<spring:message code="list.script.enrollment1" text="수정"/>";
+            succsessMsg = "<spring:message code="list.script.enrollment1" text="수정되었습니다."/>";
+        }else {
+            if(data.polygon[0] == null){
+                alert("블록을 지정해주세요.");
+                return;
+            }else {
+                url = "${path}/api/deliveryblock/block/insert";
+            }
+        }
+        if (inputDataCheck5(req)) {
+            swal({
+                title: confirmmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    var formData = new FormData(document.getElementById('insert_form_block'));
+                    formData.append("tbDlvyArea",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                    formData.append("tbDlvyAreaList",  new Blob([JSON.stringify(data.polygon[0].points)], {type:"application/json"}));
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(succsessMsg)
+                                removeOverlaysType();
+                                blockListType();
+                            } else {
+                                alert(confirmfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function blockListType() {
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyArea/list",
+            data: {
+                groupNo: "${tbStore.storeNo}",
+                groupType: "3",
+                areaChargeType: "0"
+
+            },
+            success: function(data) {
+                let sortList = [];
+                let wonmsg = "<spring:message code="list.script.won" text="원"/>";
+                let stopmsg = "<spring:message code="list.script.stop" text="정지"/>";
+                let normalmsg = "<spring:message code="list.script.normal" text="정상"/>";
+                let noregisteredlist = "<spring:message code="list.script.thereisnoregisteredlist" text="등록된 리스트가 없습니다."/>";
+                var sortingField = "viewOrder";
+                let areaChargeTypeTxt = "서비스";
+                let custPriceComma = 0;
+                let dlvyPriceComma = 0;
+
+                if(data.tbDlvyAreaList.length >= 1){
+                    sortList =  data.tbDlvyAreaList.sort(function(a, b) { // 오름차순
+                        return a[sortingField] - b[sortingField];
+                    });
+                } else {
+                    sortList = data.tbDlvyAreaList;
+                }
+
+                $(".addBlockTbodyType").html("");
+
+                for(var i = 0 ; i < sortList.length ; i++){
+                    if(sortList[i].areaChargeType == 0) {
+                        areaChargeTypeTxt = "";
+                    } else if(sortList[i].areaChargeType == 1) {
+                        areaChargeTypeTxt = "고정요금";
+                    } else if(sortList[i].areaChargeType == 2) {
+                        areaChargeTypeTxt = "추가요금";
+                    } else {
+                        areaChargeTypeTxt="";
+                    }
+
+                    custPriceComma = numberWithCommas(sortList[i].custPrice);
+                    dlvyPriceComma = numberWithCommas(sortList[i].dlvyPrice);
+                    $(".addBlockTbodyType").append(
+                        "<tr class=\"\" areaNoType="+sortList[i].areaNo+"  areaChargeTypeType="+sortList[i].areaChargeType+" dlvyPriceType="+sortList[i].dlvyPrice+" custPriceType="+sortList[i].custPrice+" areaNameType="+data.tbDlvyAreaList[i].areaName+" areaNoType="+sortList[i].areaNo+" viewOrderType="+sortList[i].viewOrder+" groupNoType="+sortList[i].groupNo+" groupType='2' >\n" +
+                        "    <th class=''><input type=\"radio\" class='selectBlockRadioType width-10' name='selectBlockRadioType'>&nbsp;&nbsp; \n" +
+                        "    "+data.tbDlvyAreaList[i].areaName+" </th>\n" +
+                        "</tr>"
+                    )
+                }
+
+                if(data.tbDlvyAreaList.length == 0) {
+                    $(".addTbody").append(
+                        "<tr class=\"\"  >\n" +
+                        "<th class=\"text-center\" colspan=\"5\">"+noregisteredlist+"</th>"+
+                        "</tr>"
+                    )
+                }
+            }
+        });
+    }
+
+    $(document).on("click",".addBlockTbodyType tr",function(){
+        $(".insBlockTxtType").text("수정");
+        $(".delBlockTxtType").css("display","inline");
+
+        hideBlockType();
+        $(this).find(".selectBlockRadioType").prop('checked', true);
+
+        let upAreaNo = $(this).attr("areaNoType");
+        let upAreaName = $(this).attr("areaNameType");
+        let upCustPrice = $(this).attr("custPriceType");
+        let upDlvyPrice = $(this).attr("dlvyPriceType");
+        let upViewOrder = $(this).attr("viewOrderType");
+        let upAreaChargeType = $(this).attr("areaChargeTypeType");
+        let upGroupNo = "${tbStore.storeNo}";
+        let upGroupType = 3;
+
+        $(".areaNameType").val(upAreaName);
+        $(".custPriceType").val(0);
+        $(".dlvyPriceType").val(0);
+        $(".viewOrderType").val(0);
+        $(".areaChargeTypeType").val(0);
+        $(".areaNoFormType").val(upAreaNo);
+
+
+        //selectOverlay('POLYGON');
+
+        //해당블록 보이기.
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyAreaGeo/detail",
+            data: {
+                groupNo: "${tbStore.storeNo}",
+                groupType: 3,
+                areaChargeType : upAreaChargeType,
+                areaNo : upAreaNo
+            },
+            success: function(data) {
+                let polygons = [];
+                let points = [];
+                // 좌표 배열
+                var sPath = [];
+                // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                var bounds = new daum.maps.LatLngBounds();
+
+                let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+
+                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                    points = [];
+                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                        points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
+                        sPath.push(new kakao.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+                        bounds.extend(new daum.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+                    }
+                    managerType.put(kakao.maps.drawing.OverlayType.POLYGON, sPath);
+                    mapType.setBounds(bounds);
+                }
+
+
+            }
+        });
+    });
+
+    $(document).on("click",".resetBtnType",function(){
+        $(".insBlockTxtType").text("등록");
+        $(".delBlockTxtType").css("display","none");
+
+        $(".selectBlockRadioType").prop("checked",false);
+        $(".areaNameType").val("");
+        $(".areaNoType").val("");
+        $(".custPriceType").val("0");
+        $(".dlvyPriceType").val("0");
+        hideBlockType();
+    });
+
+    function delBlockType(){
+        let url = "${path}/api/deliveryblock/block/delete";
+        let _forms = $('.insert_form_block_type');
+        let req = convertFormToObj(_forms);
+        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="삭제 하시겠습니까?"/>";
+        let confirm = "<spring:message code="list.script.enrollment1" text="삭제"/>";
+        let succsessMsg = "<spring:message code="list.script.enrollment1" text="삭제되었습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        console.log(req)
+        if (inputDataCheck5(req)) {
+            swal({
+                title: confirmmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            areaNo: req.areaNo
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(succsessMsg)
+                                removeOverlaysType();
+                                blockListType();
+                                $(".resetBtnType").click();
+                            } else {
+                                alert(confirmfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+   // 아래 지도에 그려진 도형이 있다면 모두 지웁니다
+   /*function removeOverlaysType() {
+       var len = overlaysType.length, i = 0;
+
+       for (; i < len; i++) {
+           overlaysType[i].setMap(null);
+       }
+
+       overlaysType = [];
+   }
+
+   // Drawing Manager에서 가져온 데이터 중 다각형을 아래 지도에 표시하는 함수입니다
+    function drawPolygonType(polygons) {
+       var len = polygons.length, i = 0;
+
+       for (; i < len; i++) {
+           var path = pointsToPath(polygons[i].points);
+           var style = polygons[i].options;
+           var polygon = new kakao.maps.Polygon({
+               map: drawingMapType,
+               path: path,
+               strokeColor: style.strokeColor,
+               strokeOpacity: style.strokeOpacity,
+               strokeStyle: style.strokeStyle,
+               strokeWeight: style.strokeWeight,
+               fillColor: style.fillColor,
+               fillOpacity: style.fillOpacity
+           });
+
+           overlaysType.push(polygon);
+       }
+   }
+
+
+
+   function undoType() {
+       // 그리기 요소를 이전 상태로 되돌립니다
+       managerType.undo();
+   }
+
+
+    function delBlock(){
+        let url = "${path}/api/deliveryblock/block/delete";
+        let _forms = $('.insert_form_block_type');
+        let req = convertFormToObj(_forms);
+        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="삭제 하시겠습니까?"/>";
+        let confirm = "<spring:message code="list.script.enrollment1" text="삭제"/>";
+        let succsessMsg = "<spring:message code="list.script.enrollment1" text="삭제되었습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+
+        if (inputDataCheck5(req)) {
+            swal({
+                title: confirmmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            areaNo: req.areaNo
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(succsessMsg)
+                                removeOverlaysType();
+                                blockListType();
+                                $(".resetBtn").click();
+                            } else {
+                                alert(confirmfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function insBlockType() {
+        //1 : 생성 , 2 : 수정
+        let insType = 1
+        var data = managerType.getData();
+        let url = "${path}/api/deliveryblock/block/insert";
+
+        let _forms = $('.insert_form_block_type');
+        let req = convertFormToObj(_forms);
+        let confirmfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
+        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
+        let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
+        let succsessMsg = "<spring:message code="list.script.enrollment1" text="등록되었습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+
+        if(req.areaNo.length > 0) {
+            url = "${path}/api/deliveryblock/block/update";
+            insType = 2;
+            confirmfailmsg = "<spring:message code="list.script.registrationfailed1" text="수정에 실패하였습니다."/>";
+            confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="수정 하시겠습니까?"/>";
+            confirm = "<spring:message code="list.script.enrollment1" text="수정"/>";
+            succsessMsg = "<spring:message code="list.script.enrollment1" text="수정되었습니다."/>";
+        }else {
+            if(data.polygon[0] == null){
+                alert("블록을 지정해주세요.");
+                return;
+            }else {
+                url = "${path}/api/deliveryblock/block/insert";
+            }
+        }
+        if (inputDataCheck5(req)) {
+            swal({
+                title: confirmmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    var formData = new FormData(document.getElementById('insert_form_block'));
+                    formData.append("tbDlvyArea",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                    formData.append("tbDlvyAreaList",  new Blob([JSON.stringify(data.polygon[0].points)], {type:"application/json"}));
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(succsessMsg)
+                                removeOverlaysType();
+                                blockListType();
+                            } else {
+                                alert(confirmfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function showBlockType() {
+        removeOverlaysType();
+        hideBlockType();
+        $(".show_btn").removeClass("btn-white");
+        $(".show_btn").addClass("btn-primary");
+        $(".hide_btn").addClass("btn-white");
+        $(".hide_btn").removeClass("btn-primary");
+
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
+            data: {
+                groupNo: "${tbStore.storeNo}",
+                groupType: 3,
+                areaChargeType: "0"
+            },
+            success: function(data) {
+                let polygons = [];
+                let points = [];
+                // 좌표 배열
+                var sPath = [];
+                // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                var bounds = new daum.maps.LatLngBounds();
+
+                let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+
+                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                    points = [];
+                    sPath= [];
+                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                        points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
+                        sPath.push(new kakao.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+                        bounds.extend(new daum.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+
+                    }
+                    manager.put(kakao.maps.drawing.OverlayType.POLYGON, sPath);
+                    drawingMap.setBounds(bounds);
+                    // polygons.push({points :points});
+                }
+                let polygons = [];
+                let points = [];
+                let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+
+                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                    points = [];
+                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                        points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
+                    }
+                    polygons.push({points :points });
+                }
+
+                var len = tbDlvyAreaGeoList.length, i = 0;
+
+                for (; i < len; i++) {
+                    polygons.push({x: tbDlvyAreaGeoList[i].lat , y : tbDlvyAreaGeoList[i].lng})
+                    var path = pointsToPath(polygons[i].points);
+                    var polygon = new kakao.maps.Polygon({
+                        map: drawingMap,
+                        path: path,
+                        fillColor: "#39f",
+                        fillOpacity: 0.5,
+                        strokeColor: "#39f",
+                        strokeOpacity: 1,
+                        strokeStyle: "solid",
+                        strokeWeight: 3,
+
+                    });
+                    overlays.push(polygon);
+                }
+            }
+        });
+    }
+
+    //블록 초기화
+    function hideBlockType(){
+        $(".show_btn").removeClass("btn-primary");
+        $(".show_btn").addClass("btn-white");
+        $(".hide_btn").addClass("btn-primary");
+        $(".hide_btn").removeClass("btn-white");
+        // 그리기 중이면 그리기를 취소
+        managerType.cancel();
+
+        objPolygonType = managerType.getOverlays();
+
+        if (objPolygonType.polygon.length > 0){
+            var iPolygonLength = objPolygonType.polygon.length-1;
+            var iCol = iPolygonLength;
+            for (var i=0; i <= iPolygonLength; i++){
+
+                if (iCol >= 0){
+                    managerType.remove(objPolygonType.polygon[iCol]);
+                }
+
+                iCol = iCol-1;
+            }
+        }
+    }*/
+
+
 
 </script>
 </body>

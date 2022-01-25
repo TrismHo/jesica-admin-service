@@ -150,5 +150,24 @@ public class TbBranchPrice implements Serializable {
     @Column(name = "service_area_yn")
     private Integer serviceAreaYn = 0;
 
+    /**
+     * [배송요금]요일할증금액
+     */
+    @Column(name = "day_dlvy_charge")
+    private Integer dayDlvyCharge = 0;
+
+
+    /**
+     * [배송요금]요일할증금액
+     */
+    @Column(name = "time_dlvy_charge")
+    private Integer timeDlvyCharge = 0;
+
+    /**
+     * [배송요금]요일할증금액
+     */
+    @Column(name = "weather_dlvy_charge")
+    private Integer weatherDlvyCharge = 0;
+
     
 }

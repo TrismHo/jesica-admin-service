@@ -8,6 +8,11 @@ server:
   #port: 9000
   #port: 8892
 
+  servlet:
+    jsp:
+      init-parameters:
+        mappedfile: false
+
 
   error:
     path: /error
@@ -31,7 +36,8 @@ logging:
     com.woorien.mobile: info
   file:
     #test
-     path: /home/rnd/jesicaAdmin/log
+     path: /Users/home/rnd/jesicaAdmin/log
+     #path: /home/rnd/jesicaAdmin/log
     #real
     #$path: /data/jesica/logs/
     #path: /data/jesica/logs/

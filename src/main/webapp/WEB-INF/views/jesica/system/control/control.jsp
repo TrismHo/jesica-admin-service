@@ -1027,7 +1027,6 @@
 			$("#menu_wrap2").css("display","none");
 		} else if (thisClass == 'control-2') {
 			$(".frame").css("display","block");
-			//$(".frame").attr("src","http://192.168.0.90:22201/orders?accessToken=${sessionScope.accessToken}");
 			$("#menu_wrap2").css("display","none");
 		}
 

@@ -112,7 +112,7 @@ public class TbStorePrice implements Serializable {
      * 적용요일(일월화수목금토)
      */
     @Column(name = "day_filter")
-    private String dayFilter = "'0000000'";
+    private String dayFilter = "0000000";
 
     /**
      * 시간할증_사용여부(0:사용안함, 1:할증사용)
@@ -130,13 +130,13 @@ public class TbStorePrice implements Serializable {
      * 시간할증_시작시간(HHMM)
      */
     @Column(name = "time_start")
-    private String timeStart = "'0000'";
+    private String timeStart = "0000";
 
     /**
      * 시간할증_종료시간(HHMM)
      */
     @Column(name = "time_end")
-    private String timeEnd = "'0000'";
+    private String timeEnd = "0000";
 
     /**
      * 눈비할증_사용여부(0:사용안함, 1:할증사용)
@@ -156,5 +156,27 @@ public class TbStorePrice implements Serializable {
     @Column(name = "service_area_yn")
     private Integer serviceAreaYn = 0;
 
-    
+    /**
+     * [배송요금]요일할증금액
+     */
+    @Column(name = "day_dlvy_charge")
+    private Integer dayDlvyCharge = 0;
+
+
+    /**
+     * [배송요금]요일할증금액
+     */
+    @Column(name = "time_dlvy_charge")
+    private Integer timeDlvyCharge = 0;
+
+    /**
+     * [배송요금]요일할증금액
+     */
+    @Column(name = "weather_dlvy_charge")
+    private Integer weatherDlvyCharge = 0;
+
+
+
+
+
 }

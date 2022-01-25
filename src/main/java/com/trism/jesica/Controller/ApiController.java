@@ -1443,10 +1443,12 @@ public class ApiController {
     //블록 등록 리스트
     @ResponseBody
     @PostMapping("/deliveryblock/dlvyArea/list")
-    public ResponseEntity<?> deliveryblockAreaList(@RequestParam("groupNo") String groupNo,@RequestParam("groupType") String groupType) {
+    public ResponseEntity<?> deliveryblockAreaList(@RequestParam("groupNo") String groupNo,
+                                                   @RequestParam("groupType") String groupType,
+                                                   @RequestParam("areaChargeType") String areaChargeType) {
         log.info("groupNo::{}", groupNo);
         Map<String,Object> map = new HashMap<>();
-        List<TbDlvyArea> tbDlvyAreaList = apiService.tbDlvyAreaList(Long.parseLong(groupNo),Integer.parseInt(groupType));
+        List<TbDlvyArea> tbDlvyAreaList = apiService.tbDlvyAreaList(Long.parseLong(groupNo),Integer.parseInt(groupType),Integer.parseInt(areaChargeType));
 
         map.put("tbDlvyAreaList",  tbDlvyAreaList);
         return new ResponseEntity<>(map,HttpStatus.OK);
@@ -1456,10 +1458,12 @@ public class ApiController {
     @ResponseBody
     @PostMapping("/deliveryblock/dlvyAreaGeo/list")
     public ResponseEntity<?> deliveryblockAreaGeoList(@RequestParam("groupNo") String groupNo,
-                                                      @RequestParam("groupType") String groupType) {
+                                                      @RequestParam("groupType") String groupType,
+                                                      @RequestParam("areaChargeType") String areaChargeType
+    ) {
         log.info("groupNo::{}", groupNo);
         Map<String,Object> map = new HashMap<>();
-        List tbDlvyAreaGeoList = apiService.tbDlvyAreaGeoList(Long.parseLong(groupNo),Integer.parseInt(groupType));
+        List tbDlvyAreaGeoList = apiService.tbDlvyAreaGeoList(Long.parseLong(groupNo),Integer.parseInt(groupType),Integer.parseInt(areaChargeType));
 
         map.put("tbDlvyAreaGeoList",  tbDlvyAreaGeoList);
         return new ResponseEntity<>(map,HttpStatus.OK);
@@ -1470,10 +1474,11 @@ public class ApiController {
     @PostMapping("/deliveryblock/dlvyAreaGeo/detail")
     public ResponseEntity<?> deliveryblockAreaGeoDetail(@RequestParam("groupNo") String groupNo,
                                                       @RequestParam("groupType") String groupType,
+                                                      @RequestParam("areaChargeType") String areaChargeType,
                                                       @RequestParam("areaNo") String areaNo) {
         log.info("groupNo::{}", groupNo);
         Map<String,Object> map = new HashMap<>();
-        List tbDlvyAreaGeoList = apiService.tbDlvyAreaGeoDetail(Long.parseLong(groupNo),Integer.parseInt(groupType),Long.parseLong(areaNo));
+        List tbDlvyAreaGeoList = apiService.tbDlvyAreaGeoDetail(Long.parseLong(groupNo),Integer.parseInt(groupType),Long.parseLong(areaNo),Integer.parseInt(areaChargeType));
 
         map.put("tbDlvyAreaGeoList",  tbDlvyAreaGeoList);
         return new ResponseEntity<>(map,HttpStatus.OK);

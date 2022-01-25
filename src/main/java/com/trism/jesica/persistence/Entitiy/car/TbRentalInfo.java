@@ -107,5 +107,16 @@ public class TbRentalInfo implements Serializable {
     @Column(name = "return_order_no")
     private Long returnOrderNo = null;
 
-    
+    /**
+     * 안심번호 매핑번호 추가
+     */
+    @Column(name = "mapping_num")
+    private String mappingNum = null;
+
+    /**
+     * 안심번호 매핑번호 count
+     */
+    @Column(name = "mapping_count")
+    private Integer mappingCount = null;
+
 }

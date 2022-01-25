@@ -2,6 +2,7 @@ package com.trism.jesica.persistence.Entitiy.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.Entitiy.cust.TbCustFavorite;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategoryFo;
@@ -68,13 +69,15 @@ public class TbStore extends BaseEntity {
     /**
      * 입력 사용자 ID
      */
-    @Column(name = "insert_user_id", length = 20)
+    @Convert(converter = EmptyStringToNullConverter.class)
+    @Column(name = "insert_user_id", length = 20 ,updatable = false)
     private String insertUserId;
 
     /**
      * 수정 사용자 ID
      */
     @Column(name = "update_user_id", length = 20)
+    @Convert(converter = EmptyStringToNullConverter.class)
     private String updateUserId;
 
     /**
@@ -87,6 +90,7 @@ public class TbStore extends BaseEntity {
     /**
      * 정지_사유_코드 (SYS_TYPE = BL)
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "block_type_code")
     private String blockTypeCode;
 
@@ -107,18 +111,21 @@ public class TbStore extends BaseEntity {
     /**
      * 가맹점 이름 앱 표시명(고객 앱 가맹점명)
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "store_name_inapp", length = 40)
     private String storeNameInapp;
 
     /**
      * 가맹점 대표번호
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "store_tel", length = 20)
     private String storeTel;
 
     /**
      * 인증 전화번호
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "auth_tel", length = 20)
     private String authTel;
 
@@ -143,6 +150,7 @@ public class TbStore extends BaseEntity {
     /**
      * 영업 담당자 이름
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "mngr_name", length = 40)
     private String mngrName;
 
@@ -155,30 +163,35 @@ public class TbStore extends BaseEntity {
     /**
      * 가상계좌_구분_코드 (SYS_TYPE = CBT)
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "cybank_type_code", length = 4)
     private String cybankTypeCode;
 
     /**
      * 가상계좌 번호
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "cybank_account", length = 20)
     private String cybankAccount;
 
     /**
      * PIN_번호 (출금비밀번호)
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "pin_num", length = 100)
     private String pinNum;
 
     /**
      * 인출은행_구분_코드 (SYS_TYPE = BT)
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "bank_type_code", length = 4)
     private String bankTypeCode;
 
     /**
      * 인출은행 계좌번호
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "bank_account", length = 20)
     private String bankAccount;
 
@@ -255,6 +268,7 @@ public class TbStore extends BaseEntity {
     /**
      * 주소_1 (레벨1) - 지도API
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "addr_1", length = 30)
     private String addr1;
     /**
@@ -344,6 +358,24 @@ public class TbStore extends BaseEntity {
     @Column(name = "store_url")
     private String storeUrl;
 
+    /**
+     * 기본주문상태 (10 주문 , 30 요청)
+     */
+    @Column(name = "order_status_code")
+    private String orderStatusCode;
+
+    /**
+     * 인수대행 가능여부
+     */
+    @Column(name = "takeover_use_yn")
+    private int takeoverUseYn;
+
+    /**
+     * 반납대행 가능여부
+     */
+    @Column(name = "return_use_yn")
+    private int returnUseYn;
+
 
     /**
      * 사업자 정보
@@ -397,7 +429,8 @@ public class TbStore extends BaseEntity {
                    BigDecimal lng, String addr1, String addr2, String addr3, String addr4,
                    String addr5, String storeIntro, String imgFileSmall, String imgFile1,
                    TbStoreBusinessInfo businessInfo, Integer cookingTime, Integer openStatus,
-    Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn, String exStoreCd, String storeUrl) {
+    Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn, String exStoreCd, String storeUrl
+    ,String orderStatusCode, int takeoverUseYn, int returnUseYn) {
         this.storeNo = storeNo;
         this.headNo = headNo;
         this.branchNo = branchNo;
@@ -446,6 +479,9 @@ public class TbStore extends BaseEntity {
         this.dlvyAreaYn = dlvyAreaYn;
         this.exStoreCd = exStoreCd;
         this.storeUrl = storeUrl;
+        this.orderStatusCode = orderStatusCode;
+        this.takeoverUseYn = takeoverUseYn;
+        this.returnUseYn = returnUseYn;
         if (ObjectUtils.isNotEmpty(businessInfo)) {
             this.businessInfo = businessInfo;
             this.businessInfo.setStore(this);

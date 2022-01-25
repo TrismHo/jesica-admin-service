@@ -181,6 +181,9 @@
                                                         <c:when test="${orderDetail.orderStatusCode == 21}">
                                                             <span class="text-green d-block"><spring:message code="list.detail.packingcomplete" text="포장완료"/></span>
                                                         </c:when>
+                                                        <c:when test="${orderDetail.orderStatusCode == 30}">
+                                                            <span class="text-green d-block"><spring:message code="list.detail.packingcomplete" text="요청"/></span>
+                                                        </c:when>
                                                         <c:when test="${orderDetail.orderStatusCode == 31}">
                                                             <span class="text-green d-block"><spring:message code="list.detail.deliveryrequest" text="배송요청"/></span>
                                                         </c:when>

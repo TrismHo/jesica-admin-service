@@ -475,6 +475,7 @@
 
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="../../../common/include_common_js.jsp" %>
+<%@include file="../../../common/include_custom_js.jsp" %>
 <%--<%@include file="../../../common/include_datatables.jsp" %>--%>
 <!-- ================== END BASE JS ================== -->
 <%-- Custom JS End--%>

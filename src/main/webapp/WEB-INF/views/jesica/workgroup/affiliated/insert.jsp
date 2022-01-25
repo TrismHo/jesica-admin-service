@@ -520,13 +520,14 @@
         let headnamemsg = "<spring:message code="list.description.enterthenameoftheaffiliatedheadoffice" text="제휴본사명을 입력해주세요."/>";
         if (isNull(args.headName)) {
             return alert_focus("headName", headnamemsg);
-        } else if (isNull(args.authTel)) {
+        } /*else if (isNull(args.authTel)) {
             return alert_focus("authTel", "인증용 휴대전화를 입력해주세요");
-        } else if (isNull(args.headTel)) {
+        } */else if (isNull(args.headTel)) {
             return alert_focus("headTel", "제휴본사대표번호를 입력해주세요");
         } else if (isNull(args.actualAddr)) {
             return alert_focus("actualAddr", "실제주소를 입력해주세요");
-        } else if (isNull(args.actualOwner)) {
+        }
+        /*else if (isNull(args.actualOwner)) {
             return alert_focus("actualOwner", "실제 운영자명을 입력주세요");
         } else if (isNull(args.actualTel)) {
             return alert_focus("actualTel", "실제 연락처를 입력해주세요");
@@ -552,7 +553,7 @@
             return alert_focus("bizType", "업태를 입력해주세요");
         } else if (isNull(args2.bizItem)) {
             return alert_focus("bizItem", "종목를 입력해주세요");
-        }
+        }*/
         return true;
     }
 </script>

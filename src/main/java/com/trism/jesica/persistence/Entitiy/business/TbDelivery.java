@@ -1,6 +1,7 @@
 package com.trism.jesica.persistence.Entitiy.business;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.core.entity.BaseEntity;
 import com.trism.jesica.persistence.type.DataStatus;
 import lombok.*;
@@ -70,12 +71,14 @@ public class TbDelivery extends BaseEntity {
     /**
      * 입력 사용자 고유 ID
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "insert_user_id", length = 20)
     private String insertUserId;
 
     /**
      * 수정 사용자 고유 ID
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "update_user_id", length = 20)
     private String updateUserId;
 
@@ -89,6 +92,7 @@ public class TbDelivery extends BaseEntity {
     /**
      * 배달대행 이름
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "dlvy_name", length = 40, nullable = false)
     private String dlvyName;
 
@@ -113,12 +117,14 @@ public class TbDelivery extends BaseEntity {
     /**
      * 운영 시작시간
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "open_time_start")
     private String openTimeStart;
 
     /**
      * 운영 종료시간
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "open_time_end")
     private String openTimeEnd;
 

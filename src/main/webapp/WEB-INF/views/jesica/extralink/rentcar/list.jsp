@@ -148,12 +148,13 @@
                     <th><spring:message code="merchandise.table.column9" text="default text"/>&lt;%&ndash;매장판매상태&ndash;%&gt;</th>
                     <th><spring:message code="merchandise.table.column10" text="default text"/>&lt;%&ndash;성인인증구분&ndash;%&gt;</th>
                     <th><spring:message code="merchandise.table.column11" text="default text"/>&lt;%&ndash;등록일/수정일&ndash;%&gt;</th>--%>
-                    <th class="text-center"><spring:message code="list.word.no" text="순번"/></th>
+                    <th class="text-center"><spring:message code="list.word.no" text="번호"/></th>
                     <th class="text-center"><spring:message code="list.word.affiliated1" text="예약번호"/></th>
                     <th class="text-center"><spring:message code="list.word.distributor1" text="업체명"/></th>
                     <th class="text-center"><spring:message code="list.word.franchisee1" text="차량번호"/></th>
                     <th class="text-center"><spring:message code="list.word.serviceclassification1" text="운전자전화번호"/></th>
                     <th class="text-center"><spring:message code="list.word.multimerchantstore1" text="안심번호"/></th>
+                    <th class="text-center"><spring:message code="list.word.multimerchantstore1" text="매핑전화번호"/></th>
                     <th class="text-center"><spring:message code="list.word.deposit1" text="인수일"/></th>
                     <th class="text-center"><spring:message code="list.word.cash1" text="반납일 "/></th>
                     <th class="text-center"><spring:message code="list.word.registrationdate1" text="등록일"/></th>
@@ -168,6 +169,7 @@
                             <%--<td class="text-center custTel" >${item.custTel}</td>--%>
                             <td class="text-center custDriverTel1">${item.custDriverTel1}</td>
                             <td class="text-center">${item.safenNum}</td>
+                            <td class="text-center">${item.mappingNum}</td>
                             <td class="text-center"><javatime:format value="${item.reservStartDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center"><javatime:format value="${item.reservEndDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

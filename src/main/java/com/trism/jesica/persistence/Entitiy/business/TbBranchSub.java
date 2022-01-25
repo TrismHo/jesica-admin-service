@@ -1,6 +1,7 @@
 package com.trism.jesica.persistence.Entitiy.business;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.core.entity.BaseEntity;
 import com.trism.jesica.persistence.type.DataStatus;
 import com.trism.jesica.persistence.type.ServiceYn;
@@ -57,6 +58,7 @@ public class TbBranchSub extends BaseEntity {
     /**
      * 수정 사용자 고유 ID
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "update_user_id", length = 20)
     private String updateUserId;
 
@@ -83,18 +85,21 @@ public class TbBranchSub extends BaseEntity {
     /**
      * 총판 이름
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "branch_name", length = 40, nullable = false)
     private String branchName;
 
     /**
      * 총판 대표번호
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "branch_tel", length = 20)
     private String branchTel;
 
     /**
      * 인증 전화번호
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "auth_tel", length = 20)
     private String authTel;
 
@@ -119,36 +124,42 @@ public class TbBranchSub extends BaseEntity {
     /**
      * 메모 주요업종
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "memo_service", length = 200)
     private String memoService;
 
     /**
      * 메모 주요 지역
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "memo_area", length = 200)
     private String memoArea;
 
     /**
      * 메모 기타
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "memo_etc", length = 200)
     private String memoEtc;
 
     /**
      * 가상계좌_은행구분_코드 (SYS_TYPE = CBT)
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "cybank_type_code", length = 4)
     private String cybankTypeCode;
 
     /**
      * 가상계좌_번호
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "cybank_account", length = 20)
     private String cybankAccount;
 
     /**
      * PIN_번호 (출금비밀번호)
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "pin_num", length = 100)
     private String pinNum;
 
@@ -161,30 +172,35 @@ public class TbBranchSub extends BaseEntity {
     /**
      * 인출은행 계좌번호
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "bank_account", length = 20)
     private String bankAccount;
 
     /**
      * 인출은행 예금주
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "bank_owner", length = 40)
     private String bankOwner;
 
     /**
      * 실제 운영자
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "actual_owner", length = 40)
     private String actualOwner;
 
     /**
      * 실제 주소
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "actual_addr", length = 200)
     private String actualAddr;
 
     /**
      * 실제 연락처
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "actual_tel", length = 20)
     private String actualTel;
 

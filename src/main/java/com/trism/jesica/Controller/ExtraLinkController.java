@@ -2,8 +2,8 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.ExtraLinkService;
-import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;

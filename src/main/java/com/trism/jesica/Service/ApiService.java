@@ -1584,7 +1584,12 @@ public class ApiService {
             result = 0;
         } else {
             Long gruopNo = tbDlvyArea.getGroupNo();
-            int viewOrder = tbDlvyAreaRepository.getMaxViewOrder(gruopNo);
+            int viewOrder = 0;
+            if(tbDlvyArea.getAreaChargeType() == 0){
+                viewOrder = 0;
+            } else {
+                viewOrder = tbDlvyAreaRepository.getMaxViewOrder(gruopNo,0);
+            }
 
             tbDlvyArea.setViewOrder(viewOrder+1);
             tbDlvyArea.setUpdateUserId(null);
@@ -1658,14 +1663,25 @@ public class ApiService {
     }
 
     @Transactional(readOnly = true)
-    public List<TbDlvyArea> tbDlvyAreaList(Long groupNo , Integer groupType) {
+    public List<TbDlvyArea> tbDlvyAreaList(Long groupNo , Integer groupType, Integer areaChargeType) {
         List<TbDlvyArea> result = null;
-        result =  tbDlvyAreaRepository.findByGroupNoAndGroupType(groupNo,groupType);
+        if(areaChargeType == 0 ){
+            result =  tbDlvyAreaRepository.findByGroupNoAndGroupTypeAndAreaChargeType(groupNo,groupType, 0);
+        } else {
+            result =  tbDlvyAreaRepository.findByGroupNoAndGroupTypeAndAreaChargeTypeNot(groupNo,groupType, 0);
+        }
+
         return result;
     }
     @Transactional(readOnly = true)
-    public List tbDlvyAreaGeoList(Long groupNo , Integer groupType) {
-        List<TbDlvyArea> tbDlvyAreas = tbDlvyAreaRepository.findByGroupNoAndGroupType(groupNo,groupType);
+    public List tbDlvyAreaGeoList(Long groupNo , Integer groupType, Integer areaChargeType) {
+        List<TbDlvyArea> tbDlvyAreas = null;
+        if(areaChargeType == 0 ){
+            tbDlvyAreas = tbDlvyAreaRepository.findByGroupNoAndGroupTypeAndAreaChargeType(groupNo,groupType,0);
+        } else {
+            tbDlvyAreas = tbDlvyAreaRepository.findByGroupNoAndGroupTypeAndAreaChargeTypeNot(groupNo,groupType,0);
+        }
+
         List result = new ArrayList();
         if(tbDlvyAreas.size() > 0 ){
             for (TbDlvyArea tbDlvyArea : tbDlvyAreas) {
@@ -1676,8 +1692,14 @@ public class ApiService {
         return result;
     }
     @Transactional(readOnly = true)
-    public List tbDlvyAreaGeoDetail(Long groupNo , Integer groupType, Long areaNo) {
-        List<TbDlvyArea> tbDlvyAreas = tbDlvyAreaRepository.findByAreaNoAndGroupNoAndGroupType(areaNo,groupNo,groupType);
+    public List tbDlvyAreaGeoDetail(Long groupNo , Integer groupType, Long areaNo,Integer areaChargeType) {
+        List<TbDlvyArea> tbDlvyAreas = null;
+        if(areaChargeType == 0 ){
+            tbDlvyAreas = tbDlvyAreaRepository.findByAreaNoAndGroupNoAndGroupTypeAndAreaChargeType(areaNo,groupNo,groupType,0);
+        } else {
+            tbDlvyAreas = tbDlvyAreaRepository.findByAreaNoAndGroupNoAndGroupTypeAndAreaChargeTypeNot(areaNo,groupNo,groupType,0);
+        }
+
         List result = new ArrayList();
         if(tbDlvyAreas.size() > 0 ){
             for (TbDlvyArea tbDlvyArea : tbDlvyAreas) {

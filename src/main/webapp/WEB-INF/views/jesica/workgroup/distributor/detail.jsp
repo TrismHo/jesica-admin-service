@@ -125,15 +125,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#default-tab-9"  data-toggle="tab" class="nav-link">
-                        <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
-                        <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="#default-tab-10"  data-toggle="tab" class="nav-link">
                         <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="블록요금"/></span>
                         <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="블록요금"/></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#default-tab-9"  data-toggle="tab" class="nav-link">
+                        <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
                     </a>
                 </li>
             </ul>
@@ -661,7 +661,7 @@
                                     <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
                                 </tr>
                                 <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbBranchPrice.meterUseYn == 0}" >none</c:if>">
-                                    <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="배송요금"/></td>
+                                    <td class="bg-light" rowspan="6"><spring:message code="list.detail.accountholder1" text="배송요금"/></td>
                                     <td class="bg-light"><spring:message code="list.detail.accountholder1" text="기본요금"/></td>
                                     <td class="border-right-0" colspan="">
                                         <input type="text"  class="form-control width-200 dlvyPrice" name="dlvyPrice" value="${tbBranchPrice.dlvyPrice}" numberCommaOnly>  원
@@ -688,6 +688,27 @@
                                     </td>
                                     <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="최대요금을 입력해주세요."/></td>
                                 </tr>
+                                 <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                     <td class="bg-light"><spring:message code="list.detail.accountholder1" text="요일할증금액"/></td>
+                                     <td class="border-right-0" colspan="2">
+                                         <input type="text"  class="form-control width-200 dayDlvyCharge" name="dayDlvyCharge" value="${tbBranchPrice.dayDlvyCharge}" numberCommaOnly> 원
+                                     </td>
+                                     <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="요일할증금액 입력해주세요."/></td>
+                                 </tr>
+                                 <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                     <td class="bg-light"><spring:message code="list.detail.accountholder1" text="시간할증금액"/></td>
+                                     <td class="border-right-0" colspan="2">
+                                         <input type="text"  class="form-control width-200 timeDlvyCharge" name="timeDlvyCharge" value="${tbBranchPrice.timeDlvyCharge}" numberCommaOnly> 원
+                                     </td>
+                                     <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="시간할증금액 입력해주세요."/></td>
+                                 </tr>
+                                 <tr class="useYnTr meterUseYnTr" style="display: <c:if test="${tbStorePrice.useYn == 0 || tbStorePrice.meterUseYn == 0}" >none</c:if>">
+                                     <td class="bg-light"><spring:message code="list.detail.accountholder1" text="눈비할증금액"/></td>
+                                     <td class="border-right-0" colspan="2">
+                                         <input type="text"  class="form-control width-200 weatherDlvyCharge" name="weatherDlvyCharge" value="${tbBranchPrice.weatherDlvyCharge}" numberCommaOnly> 원
+                                     </td>
+                                     <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="눈비할증금액을 입력해주세요."/></td>
+                                 </tr>
                                 <tr class="useYnTr">
                                     <td class="bg-light" rowspan="3"><spring:message code="list.detail.accountholder1" text="할증요금 "/></td>
                                     <td class="bg-light"><spring:message code="list.detail.accountholder1" text="눈비할증 "/></td>
@@ -749,7 +770,7 @@
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 정보를 입력해주세요"/></td>
                                 </tr>
-                                 <tr  class="useYnTr">
+                               <%--  <tr  class="useYnTr">
                                      <td class="bg-light height-50 " colspan="2"><spring:message code="list.detail.accountholder1" text="서비스지역 블럭설정 사용여부"/></td>
                                      <td class="border-right-0" colspan="2">
                                          <label class="">
@@ -760,7 +781,7 @@
                                          </label>
                                      </td>
                                      <td class="text-danger-darker" style="width: 232px;"><spring:message code="list.description.cannotbemodified" text="서비스지역 블럭설정 사용여부를 선택해주세요."/></td>
-                                 </tr>
+                                 </tr>--%>
                                 </tbody>
                             </table>
                             <div class="m-t-10">
@@ -1700,11 +1721,11 @@
             return alert_focus("branchName", "총판명을 입력해주세요.");
         } else if (isNull(args.authTel)) {
             return alert_focus("authTel", "인증용 휴대전화를 입력해주세요");
-        } else if (isNull(args.branchTel)) {
+        } /*else if (isNull(args.branchTel)) {
             return alert_focus("branchTel", "총판 대표번호를 입력해주세요");
-        } else if (isNull(args.actualAddr)) {
+        } */else if (isNull(args.actualAddr)) {
             return alert_focus("actualAddr", "실제주소를 입력해주세요");
-        } else if (isNull(args.actualOwner)) {
+        } /*else if (isNull(args.actualOwner)) {
             return alert_focus("actualOwner", "실제 운영자명을 입력주세요");
         } else if (isNull(args.actualTel)) {
             return alert_focus("actualTel", "실제 연락처를 입력해주세요");
@@ -1724,7 +1745,7 @@
             return alert_focus("bizType", "업태를 입력해주세요");
         } else if (isNull(args2.bizItem)) {
             return alert_focus("bizItem", "종목를 입력해주세요");
-        }
+        }*/
         return true;
     }
 

@@ -1,6 +1,7 @@
 package com.trism.jesica.persistence.Entitiy.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.core.entity.BaseEntity;
 import com.trism.jesica.persistence.type.DataStatus;
 import lombok.*;
@@ -38,12 +39,14 @@ public class TbBrand extends BaseEntity {
     /**
      * 입력 사용자 고유 ID
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "insert_user_id", length = 20)
     private String insertUserId;
 
     /**
      * 수정 사용자 고유 ID
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "update_user_id", length = 20)
     private String updateUserId;
 
@@ -62,6 +65,7 @@ public class TbBrand extends BaseEntity {
     /**
      * 메모
      */
+    @Convert(converter = EmptyStringToNullConverter.class)
     @Column(name = "memo", length = 200)
     private String memo;
 

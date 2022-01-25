@@ -4,7 +4,6 @@ import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.type.*;
 import lombok.Data;
 
-import javax.persistence.Column;
 import java.math.BigDecimal;
 
 @Data
@@ -242,10 +241,6 @@ public class TbStoreData {
      */
     private Integer dlvyMinAmt;
 
-    /**
-     * 포장주문가능여부(0:불가, 1:가능)
-     */
-    private Integer dlvyAreaYn;
 
     /**
      * 외부가맹점코드
@@ -256,10 +251,27 @@ public class TbStoreData {
      * 온라인매장주소
      */
     private String storeUrl;
+
     /**
      * 배달가능지역 설정여부( 블록요금 설정시에만 효력발생)
      */
-    @Column(name = "dlvy_area_yn", length = 100)
+    private Integer dlvyAreaYn;
+
+    /**
+     * 기본주문상태 (10 주문 , 30 요청)
+     */
+    private String orderStatusCode;
+
+    /**
+     * 인수대행 가능여부
+     */
+    private int takeoverUseYn;
+
+    /**
+     * 반납대행 가능여부
+     */
+    private int returnUseYn;
+
 
     public TbStore insertData() {
         return TbStore.builder()
@@ -312,6 +324,9 @@ public class TbStoreData {
                 .dlvyAreaYn(this.dlvyAreaYn)
                 .exStoreCd(this.exStoreCd)
                 .storeUrl(this.storeUrl)
+                .orderStatusCode(this.orderStatusCode)
+                .takeoverUseYn(this.takeoverUseYn)
+                .returnUseYn(this.returnUseYn)
                 .build();
     }
 
@@ -366,6 +381,9 @@ public class TbStoreData {
                 .dlvyAreaYn(this.dlvyAreaYn)
                 .exStoreCd(this.exStoreCd)
                 .storeUrl(this.storeUrl)
+                .orderStatusCode(this.orderStatusCode)
+                .takeoverUseYn(this.takeoverUseYn)
+                .returnUseYn(this.returnUseYn)
                 .build();
     }
 
