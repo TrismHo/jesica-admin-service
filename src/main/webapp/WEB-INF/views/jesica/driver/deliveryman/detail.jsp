@@ -368,9 +368,9 @@
                                             <td ><spring:message code="list.detail.accountholder1" text="인수대행 수수료"/></td>
                                             <td class="border-right-0">
                                                 <input type="text"  class="form-control width-200 takeoverCharge" name="takeoverCharge" value="${tbWorkerCharge.takeoverCharge}" numberOnly>
-                                                <select name="takeroverRateType" class="form-control width-60">
-                                                    <option value="1"<c:if test="${tbWorkerCharge.takeroverRateType == 1}" >selected</c:if>>원</option>
-                                                    <option value="2"<c:if test="${tbWorkerCharge.takeroverRateType == 2}" >selected</c:if>>%</option>
+                                                <select name="takeoverRateType" class="form-control width-60">
+                                                    <option value="1"<c:if test="${tbWorkerCharge.takeoverRateType == 1}" >selected</c:if>>원</option>
+                                                    <option value="2"<c:if test="${tbWorkerCharge.takeoverRateType == 2}" >selected</c:if>>%</option>
                                                 </select>
                                             </td>
 
@@ -521,7 +521,7 @@
             $(this).val($(this).val().replace(/[^0-9.]/g,""));
         });
 
-       $(".dlvyLimit, .dailyCharge,.monthlyCharge,.takeroverRateType,.returnCharge,.mycarCharge,.olleCharge").focus(function(){
+       $(".dlvyLimit, .dailyCharge,.monthlyCharge,.takeoverRateType,.returnCharge,.mycarCharge,.olleCharge").focus(function(){
             /!*$(this).val('');*!/
         }).blur(function(){
             if($(this).val() == ""){

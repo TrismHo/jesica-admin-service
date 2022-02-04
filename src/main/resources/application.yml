@@ -35,12 +35,13 @@ logging:
   level:
     com.woorien.mobile: info
   file:
+    #local
+    path: Users/home/rnd/jesicaAdmin/log
     #test
-     path: /Users/home/rnd/jesicaAdmin/log
-     #path: /home/rnd/jesicaAdmin/log
+    #path: /home/rnd/jesicaAdmin/log
     #real
-    #$path: /data/jesica/logs/
-    #path: /data/jesica/logs/
+    #path: /data/jesicar/logs/
+
 ---
 
 spring:
@@ -54,6 +55,10 @@ spring:
       username: jesicar01
       password: wptlzk2021
 
+      #real
+      #jdbc-url: jdbc:mysql://trism-db-01.cdq6jmam0fnm.ap-northeast-2.rds.amazonaws.com:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+      #username: jesicar01
+      #password: wptlzk2021
       #real
       driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
   jpa:
@@ -139,10 +144,16 @@ spring:
 
 file:
   #기본 이미지 경로
+
   baseImgPath:
-    path: /home/rnd
+    #real
+    #path: /data/jesicar/images
+    #local
+    path: Users/home/rnd
+    #101 server
+    #path: /home/rnd
   servicePath:
-    path: /jesica_data/driver
+    path: /driver
   imgPath:
     path: /img
   profilePath:
@@ -157,7 +168,13 @@ file:
     #test
     path: /home/rnd/jesicaAdmin/messages/message
     #real
-    #path: /data/jesica/messages/message
+    #path: /data/jesicar/messages/message
+  apiServer:
+    #test
+    server: http://101.55.126.138:13000/api
+
+    #real
+    #server: https://api.jesicar.co.kr/api
 
 spring:
   profiles:
@@ -174,10 +191,17 @@ spring:
 ## accessToken 만료시간 1-day
 ## refreshToken 만료시간 30-day
 security:
+  #test
   cert-key-path: keys/jesica-aes-dev.pem
   iv: SmVzaWNhQVBJUHJvZDIwMjEhQCM=
+  #real
+  #cert-key-path: keysReal/jesica-aes-prod.pem
+  #iv: SmVzaWNhX2RsdnlfcHJvZF8yMDIxIQ==
   jwt:
+    #test
     cert-key-path: keys/jesica-jwt-dev.pem
+    #real
+    #cert-key-path: keysReal/jesica-jwt-prod.pem
     access-expiration-hour: 24
     refresh-expiration-hour: 336
 trism:
@@ -185,7 +209,11 @@ trism:
     key:
       enc: mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=
       plain: TrismDevAdmin2021
-
+      #trism:
+      #admin:
+      #key:
+      #enc: 0T+QQSe2RklYb94k8hvQI2hV5AXZFYkqeBLGL3c2Dko=
+      #plain: TrismProdAdmin2021
 
 
 ########################################

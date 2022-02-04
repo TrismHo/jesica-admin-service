@@ -552,13 +552,16 @@
                                                     <spring:message code="list.detail.fixedrate" text="정률"/>
                                                 </c:if>--%>
                                             </td>
-                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeplatformcompany" text="배달관리비 플랫폼사"/></td>
-                                            <td>${callCharge.mngRatePlatform} (<spring:message code="list.detail.won" text="원"/> / %)  </td>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeplatformcompany" text="선결제 입금액"/></td>
+                                            <td>${callCharge.pgIncome} (<spring:message code="list.detail.won" text="원"/> / %)  </td>
+                                            <%--<td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeplatformcompany" text="배달관리비 플랫폼사"/></td>
+                                            <td>${callCharge.mngRatePlatform} (<spring:message code="list.detail.won" text="원"/> / %)  </td>--%>
                                         </tr>
                                         <tr>
-                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeorderinggroup" text="배달관리비 발주그룹"/></td>
-                                            <td>${callCharge.mngRateGive} <spring:message code="list.detail.won" text="원"/></td>
-                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeordergroup" text="배달관리비 수주그룹"/></td>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeorderinggroup" text="PG_수수료"/></td>
+                                            <td>${callCharge.pgCharge} <spring:message code="list.detail.won" text="원"/></td>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeordergroup" text="배달관리
+                                            비 수주그룹"/></td>
                                             <td>${callCharge.mngRateAccept} <spring:message code="list.detail.won" text="원"/></td>
                                         </tr>
                                         <tr>

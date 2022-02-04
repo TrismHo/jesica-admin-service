@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.CipherService;
 import com.trism.jesica.Service.LangService;
+import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.GetClientIp;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.JesicaProperties;
@@ -2178,7 +2179,8 @@ public class ApiController {
                                             @RequestParam("param3") String param3,
                                             @RequestParam("uploadFile") String uploadFile,
                                             @RequestParam("applyNo") String applyNo,
-                                            @RequestParam("updateUserId") String updateUserId
+                                            @RequestParam("updateUserId") String updateUserId,
+                                            @RequestParam("rejectMemo") String rejectMemo
     )  {
         log.info("attachNo attachNo::{}", attachNo);
         Map<String,Object> map = new HashMap<>();
@@ -2192,7 +2194,8 @@ public class ApiController {
                     uploadFile,
                     Integer.parseInt(authStatus),
                     Integer.parseInt(applyNo),
-                    updateUserId);
+                    updateUserId,
+                    rejectMemo);
             map.put("result" , result);
         } catch (Exception e) {
             map.put("result" , 0);
@@ -2269,10 +2272,10 @@ public class ApiController {
     ) {
         Map<String,Object> map = new HashMap<>();
 
-        String random = numberGen(40,1);
+        String random = numberGen(7,1);
         try {
             TbRentalInfoData tbRentalInfoData = new TbRentalInfoData();
-            tbRentalInfoData.setReservNum(random);
+            tbRentalInfoData.setReservNum(DateUtil.now_yyyymmdd() +"-"+ random);
             tbRentalInfoData.setStoreName(storeName);
             tbRentalInfoData.setCarNum(carNum);
             tbRentalInfoData.setCustTel(null);

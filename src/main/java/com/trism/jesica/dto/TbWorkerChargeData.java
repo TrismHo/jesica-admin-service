@@ -13,7 +13,7 @@ public class TbWorkerChargeData {
     Integer dailyCharge;
     Integer monthlyCharge;
     BigDecimal takeoverCharge ;
-    Integer takeroverRateType;
+    Integer takeoverRateType;
     BigDecimal returnCharge;
     Integer returnRateType;
     BigDecimal mycarCharge;
@@ -28,7 +28,7 @@ public class TbWorkerChargeData {
                 .dailyCharge(this.dailyCharge)
                 .monthlyCharge(this.monthlyCharge)
                 .takeoverCharge(this.takeoverCharge)
-                .takeroverRateType(this.takeroverRateType)
+                .takeoverRateType(this.takeoverRateType)
                 .returnCharge(this.returnCharge)
                 .returnRateType(this.returnRateType)
                 .mycarCharge(this.mycarCharge)

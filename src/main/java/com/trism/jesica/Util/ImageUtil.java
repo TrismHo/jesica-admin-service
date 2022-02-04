@@ -95,7 +95,8 @@ public class ImageUtil {
         }
 
         // 썸네일을 저장합니다. 이미지 이름 앞에 "THUMB_" 를 붙여 표시했습니다.
-        Path thumbFullPath = Paths.get(uploadFile.toString(), "thumb_"+fileName);
+        //Path thumbFullPath = Paths.get(uploadFile.toString(), "thumb_"+fileName);
+        Path thumbFullPath = Paths.get(uploadFile.toString(), fileName);
         // Path thumbPath2 = Paths.get( fileName +"_thumb_"+ random+"."+fileExt);
         File thumbFile = new File(thumbFullPath.toString());
         ImageIO.write(destImg, fileExt.toUpperCase(), thumbFile);

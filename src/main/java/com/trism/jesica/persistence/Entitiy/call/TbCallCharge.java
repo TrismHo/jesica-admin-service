@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * 탁송_정산
@@ -29,7 +29,7 @@ public class TbCallCharge implements Serializable {
      * 입력_일시
      */
     @Column(name = "insert_date")
-    private Timestamp insertDate;
+    private LocalDateTime insertDate;
 
     /**
      * 취소정산_여부(0:정상, 1:취소)
@@ -164,28 +164,46 @@ public class TbCallCharge implements Serializable {
     private Integer mngRateType = null;
 
     /**
+     * 선결제_입금액
+     */
+    @Column(name = "pg_income")
+    private Integer pgIncome = null;
+
+    /**
+     * PG_수수료
+     */
+    @Column(name = "pg_charge")
+    private Integer pgCharge = null;
+
+    /**
+     * 중계_수수료
+     */
+    @Column(name = "call_charge")
+    private Integer callCharge = null;
+
+    /**
      * 배달관리비_플랫폼사(원/%)
      */
-    @Column(name = "mng_rate_platform")
-    private Integer mngRatePlatform = null;
+   /* @Column(name = "mng_rate_platform")
+    private Integer mngRatePlatform = null;*/
 
     /**
      * 배달관리비_발주그룹(총판)
      */
-    @Column(name = "mng_rate_give")
-    private Integer mngRateGive = null;
+    /*@Column(name = "mng_rate_give")
+    private Integer mngRateGive = null;*/
 
     /**
      * 배달관리비_수주그룹(총판)
      */
-    @Column(name = "mng_rate_accept")
-    private Integer mngRateAccept = null;
+   /* @Column(name = "mng_rate_accept")
+    private Integer mngRateAccept = null;*/
 
     /**
      * 배달_공유_구분 (1:미공유, 2:공유)
      */
-    @Column(name = "dlvy_share_type")
-    private Integer dlvyShareType = null;
+   /* @Column(name = "dlvy_share_type")
+    private Integer dlvyShareType = null;*/
 
     
 }

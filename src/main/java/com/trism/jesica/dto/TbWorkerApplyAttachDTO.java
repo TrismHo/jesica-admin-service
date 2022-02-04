@@ -23,6 +23,8 @@ public interface TbWorkerApplyAttachDTO {
 
      String getParam3();
 
+     String rejectMemo();
+
      LocalDateTime getInsertDate();
      LocalDateTime getUpdateDate();
 }

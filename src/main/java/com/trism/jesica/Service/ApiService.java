@@ -1155,9 +1155,24 @@ public class ApiService {
         TbUserWorker tbUserWorker = null;
         try {
             OutputStream os = null;
+
+            SimpleDateFormat format = new SimpleDateFormat ( "yyyy");
+            SimpleDateFormat format2 = new SimpleDateFormat ( "MM");
+            Date time = new Date();
+            String yyyy = format.format(time);
+            String mm = format2.format(time);
+
             if (imgFile != null && !imgFile.isEmpty()) {
-                String fileName = RandomStringUtils.random(8,33,125,true,true);
-                Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(), tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker");
+                //String fileName = RandomStringUtils.random(8,33,125,true,true);
+                String fileName =DateUtil.now_yyyymmdd().substring(6,8) +"_"+ DateUtil.now_hhmmss()+ "_" + RandomStringUtils.random(4,33,125,true,true);
+                /*Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        tbUserWorkerData.getHeadNo().toString(),
+                        tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker");*/
+                Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getPath(),
+                        yyyy,
+                        mm);
                 PrintWriter pw = null;
 
                 byte[] bytes = imgFile.getBytes();
@@ -1169,14 +1184,26 @@ public class ApiService {
 
                 int pos = imgFile.getOriginalFilename().lastIndexOf( "." );
                 String ext = imgFile.getOriginalFilename().substring( pos + 1 );
+                Path upoladFullPath = Paths.get(
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + ext);
 
-                Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker",fileName + "." + ext);
 
-                Path fileNamePath = Paths.get("/"+tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker", fileName + "." + ext);
-                /*tbUserWorkerData.getProfileFile(fileNamePath.toFile().getPath());*/
-                os = new FileOutputStream(new File(upoladFullPath.toFile().getPath()));
+                Path fileNamePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + ext);
+
+
+                os = new FileOutputStream(new File(fileNamePath.toFile().getPath()));
                 os.write(bytes);
                 os.close();
+                tbUserWorkerData.setProfileFile(upoladFullPath.toFile().getPath());
                 log.debug("upoladFullPath={}", upoladFullPath);
             } else {
                 tbUserWorkerData.setProfileFile(tbUserWorkerData.getProfileFile());
@@ -1358,9 +1385,26 @@ public class ApiService {
         TbUserWorker tbUserWorker = null;
         try {
             OutputStream os = null;
+
+            SimpleDateFormat format = new SimpleDateFormat ( "yyyy");
+            SimpleDateFormat format2 = new SimpleDateFormat ( "MM");
+            Date time = new Date();
+            String yyyy = format.format(time);
+            String mm = format2.format(time);
+
+
             if (imgFile != null && !imgFile.isEmpty()) {
-                String fileName = RandomStringUtils.random(8,33,125,true,true);
-                Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker");
+
+                String fileName =DateUtil.now_yyyymmdd().substring(6,8) +"_"+ DateUtil.now_hhmmss()+ "_" + RandomStringUtils.random(4,33,125,true,true);
+                //String fileName = RandomStringUtils.random(8,33,125,true,true);
+                /*Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                    tbUserWorkerData.getHeadNo().toString(),
+                    tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker");*/
+                Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getPath(),
+                        yyyy,
+                        mm);
                 PrintWriter pw = null;
 
                 byte[] bytes = imgFile.getBytes();
@@ -1370,12 +1414,23 @@ public class ApiService {
                     uploadFile.mkdirs();
                 }
 
+
                 int pos = imgFile.getOriginalFilename().lastIndexOf( "." );
                 String ext = imgFile.getOriginalFilename().substring( pos + 1 );
 
-                Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker",fileName + "." + ext);
+                Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + ext);
+                //Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker",fileName + "." + ext);
 
-                Path fileNamePath = Paths.get("/"+tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker", fileName + "." + ext);
+                Path fileNamePath = Paths.get(
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getPath(),
+                        yyyy,
+                        mm, fileName + "." + ext);
                 tbUserWorkerData.setProfileFile(fileNamePath.toFile().getPath());
                 os = new FileOutputStream(new File(upoladFullPath.toFile().getPath()));
                 os.write(bytes);
@@ -2424,12 +2479,14 @@ public class ApiService {
                               String uploadFile ,
                               Integer authStatus,
                               Integer applyNo,
-                              String updateUserId
+                              String updateUserId,
+                              String rejcectMemo
+
     ) {
 
         int result = 0;
         try {
-            Integer resultCode = tbWorkerApplyAttachRepository.attachApproval(attachNo,applyAttachType,authStatus,updateUserId);
+            Integer resultCode = tbWorkerApplyAttachRepository.attachApproval(attachNo,applyAttachType,authStatus,updateUserId,rejcectMemo);
 
             //상태가 승인일경우 - 프로필/면허증 승인이 둘다 승인일경우 최종승인
             if(authStatus == 2) {
@@ -2457,7 +2514,6 @@ public class ApiService {
                         Path fullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(), URLDecoder.decode(uploadFile,"UTF-8"));
                         Path thumbPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
                                 jesicaProperties.getServicePath().getPath(),
-                                jesicaProperties.getImgPath().getPath(),
                                 jesicaProperties.getProfilePath().getThumbPath(),
                                 yyyy,
                                 mm);
@@ -2467,10 +2523,9 @@ public class ApiService {
                             String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
                             ImageUtil.makeThumbnail(fullPath.toString(),thumbPath.toFile().getPath(),fileName,ext);
                             Path profileFileSmallPath =Paths.get( jesicaProperties.getServicePath().getPath(),
-                                    jesicaProperties.getImgPath().getPath(),
                                     jesicaProperties.getProfilePath().getThumbPath(),
                                     yyyy,
-                                    mm,"thumb_"+fileName);
+                                    mm,fileName);
                             tbWorkerApply.setProfileFileSmall(profileFileSmallPath.toString());
                         } catch (IOException e){
                             System.out.println(e);
@@ -2579,8 +2634,6 @@ public class ApiService {
                         tbWorkerApply.setCareerAuthStatus(3);
                     }*/
                     tbWorkerApplyRepository.save(tbWorkerApply);
-
-
                 }
                 //경력확인서일경우
             } else if (authStatus == 3 && applyAttachType == 3){

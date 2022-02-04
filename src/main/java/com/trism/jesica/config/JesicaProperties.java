@@ -18,6 +18,7 @@ public class JesicaProperties {
     private LicensePath licensePath;
     private CareerPath careerPath;
     private ServicePath servicePath;
+    private ApiServer apiServer;
 
     @Data
     public static class BaseImgPath {
@@ -62,5 +63,9 @@ public class JesicaProperties {
     @Data
     public static class CareerPath {
         private String path;
+    }
+    @Data
+    public static class ApiServer {
+        private String server;
     }
 }

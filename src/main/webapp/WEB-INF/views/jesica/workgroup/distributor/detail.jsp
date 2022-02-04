@@ -43,7 +43,7 @@
     .map_wrap {width: 100%;position: relative;}
     .modes {position: absolute;top: 10px;left: 10px;z-index: 1;}
     .getdata{position: absolute;top: 370px;left: 10px;z-index: 1;}
-    #drawingMap, #map {width: 100%;height: 648px;}
+    #drawingMap,#drawingMapType, #map {width: 100%;height: 648px;}
     #map {margin-top: 10px;}
     .priceText{
         text-align: right;
@@ -136,164 +136,19 @@
                         <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="거리구간요금"/></span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#default-tab-11"  data-toggle="tab" class="nav-link">
+                        <span class="d-sm-none"><spring:message code="merchandise.detail.tab4" text="서비스지역설정"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="merchandise.detail.tab4" text="서비스지역설정"/></span>
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade active show" id="default-tab-1">
                     <div class="main-content" data-scrollbar="true">
                         <div class="table-responsive">
-                            <%--<table class="table table-condensed table-bordered">--%>
-                               <%-- <tr>
-                                    <td class="bg-light">총판명</td>
-                                    <td>
-                                        <label>
-                                            <input type="text" class="form-control width-200" value="K_제휴본사_총판">
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">관리센터</td>
-                                    <td>
-                                        <select class="form-control">
-                                            <option>만나(기본값)</option>
-                                            <option>공유다</option>
-                                            <option>Run</option>
-                                            <option>이어드림</option>
-                                            <option>날라가</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">총판 직영 구분</td>
-                                    <td>
-                                        <label>
-                                            <input type="text" data-toggle="modal" data-target="#search_modal" placeholder="가맹점을 선택하세요.&lt;%&ndash;<spring:message code="merchandise.search1.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;제휴본사 선택&ndash;%&gt;" class="form-control background-white width-170" value="K_제휴본사_가맹점" readonly>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">기본 배송그룹</td>
-                                    <td>
-                                        <label>
-                                            <input type="text" data-toggle="modal" data-target="#search_modal" placeholder="배송그룹을 선택하세요.&lt;%&ndash;<spring:message code="merchandise.search1.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;제휴본사 선택&ndash;%&gt;" class="form-control background-white width-170" value="K_제휴본사_테스트" readonly>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">총판 상태</td>
-                                    <td>
-                                        <label class="font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom" checked>정상&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom">정지&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom">삭제&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="radio" name="status1" class="align-bottom">페이부족&lt;%&ndash;<spring:message code="merchandise.search1.option4" text="default text"/>&ndash;%&gt;&lt;%&ndash;소속&ndash;%&gt;
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">로그인ID</td>
-                                    <td>test1</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">로그인PW</td>
-                                    <td>1234</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">인증용 휴대전화</td>
-                                    <td><input type="text" class="form-control width-200" value="01011112222"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">예치금</td>
-                                    <td><input type="text" class="form-control width-200" value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">총판 구분</td>
-                                    <td>
-                                        <label class="font-size-10">
-                                            <input type="checkbox" class="align-bottom" name="status2" checked>일반
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="checkbox" class="align-bottom" name="status2">간선총판
-                                        </label>
-                                        <label class="m-l-10 font-size-10">
-                                            <input type="checkbox" class="align-bottom" name="status2">지선총판
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">계약자/담당자 정보</td>
-                                    <td class="p-0 border-none">
-                                        <table class="width-full border-none">
-                                            <tr>
-                                                <td class="border-left-0 border-top-0 width-100">계약자</td>
-                                                <td class="border-top-0"><input type="text" class="form-control width-200" value="A타입"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">담당자</td>
-                                                <td><input type="text" class="form-control width-200"></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">충전 계좌</td>
-                                    <td class="p-0 border-none">
-                                        <table class="width-full border-none">
-                                            <tr>
-                                                <td class="border-left-0 border-top-0 width-100">은행</td>
-                                                <td class="border-top-0">우리은행</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">계좌번호</td>
-                                                <td>1234567890</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light">출금 계좌</td>
-                                    <td class="p-0 border-none">
-                                        <table class="width-full border-none">
-                                            <tr>
-                                                <td class="border-left-0 border-top-0 width-100">은행</td>
-                                                <td class="border-top-0">우리은행</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">계좌번호</td>
-                                                <td>1234567890</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">예금주</td>
-                                                <td>테스트</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">페이 잔액</td>
-                                                <td>
-                                                    <div class="width-150 d-inline-block">1000000원</div>
-                                                    <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#listPay_modal">내역</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">미차감 잔액</td>
-                                                <td>
-                                                    <span class="width-150 d-inline-block">0원</span>
-                                                    <button type="button" class="btn btn-gray" data-toggle="modal" data-target="#listDeducted_modal" >내역</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="border-left-0">PIN번호</td>
-                                                <td>****</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>--%>
+
                                 <form class="dlvy_search_form"></form>
                                <form name="update_form" id="update_form" class="update_form">
                                    <input type="hidden" class="insertUserId" name="insertUserId" value="${tbBranch.insertUserId}">
@@ -942,7 +797,7 @@
                                             </select>
                                         </th>
                                         <td>
-                                            <button type="button" class="btn btn-purple resetBtn"><i class="fa fa-cog"></i> <spring:message code="list.detail.reset" text="초기화"/>
+                                            <button type="button" class="btn btn-purple resetBtn"><i class="fa fa-cog"></i> <spring:message code="list.detail.reset1" text="선택 초기화"/>
                                             </button>
                                         </td>
                                     </tr>
@@ -1014,6 +869,104 @@
                             </table>
                         </div>
 
+                        <div class="m-l-5 m-t-5">
+                            <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="default-tab-11">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6">
+                            <form class="insert_form_block_type" id="insert_form_block_type">
+                                <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                <input type="hidden" class="groupNo" name="groupNo" value="${tbBranch.branchNo}">
+                                <input type="hidden" class="groupType" name="groupType" value="2">
+                                <input type="hidden" class="dataStatus" name="dataStatus" value="1">
+                                <input type="hidden" class="areaNoFormType" name="areaNo">
+                                <input type="hidden" class="viewOrder" name="viewOrder" value="0">
+                                <input type="hidden" class="form-control-width-custom custPrice text-center" name="custPrice" value="0" maxlength="7" numberOnly>
+                                <input type="hidden" class="form-control-width-custom dlvyPrice text-center" name="dlvyPrice" value="0" maxlength="7" numberOnly>
+                                <input type="hidden" class="form-control-width-custom areaChargeType text-center" name="areaChargeType" value="0" numberOnly>
+                                <table class="table table-bordered">
+                                    <caption></caption>
+                                    <colgroup>
+                                        <%--<col width="10%"/>--%>
+                                        <col width="80%"/>
+                                        <col width="20%"/>
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <th colspan="6" class="tabla-custom-title"><spring:message code="list.detail.blockregistrationmodification" text="블록 등록/수정"/></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.blockname1" text="서비스지역명"/></th>
+                                        <th class="bg-light text-center"><spring:message code="list.detail.sort" text="초기화"/></th>
+                                    </tr>
+                                    <tr>
+                                        <%-- <th class="bg-light"></th>--%>
+                                        <td><input type="text" class="form-control-width-custom areaNameType text-left" name="areaName" maxlength="80">
+                                        </td>
+                                        <td >
+                                            <button type="button" class="btn btn-info resetBtnType"><spring:message code="list.detail.reset1" text="선택 초기화"/>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="float-right m-b-20">
+                                <button type="button" onclick="insBlockType()" class="btn btn-primary border-right-0 color insBlockTxtType m-r-5"><spring:message code="list.detail.enrollment" text="등록"/></button>
+                                <button type="button" onclick="delBlockType()" style="display: none;" class="btn btn-danger border-right-0 color delBlockTxtType m-r-5"><spring:message code="list.detail." text="삭제"/></button>
+                                <button type="button" onclick="selectOverlayType('POLYGON')" class="btn btn-info btn-draw m-r-5"><spring:message code="list.detail.drawing" text="그리기"/></button>
+                                <button type="button" class="btn btn-white btn-draw-hide d-none"><spring:message code="list.detail.hide" text="숨기기"/></button>
+                            </div>
+                            <table class="table table-bordered table-sort table table-bordered w-100 ">
+                                <thead>
+                                <%-- <tr>
+                                     <th colspan="6" class="tabla-custom-title">등록 리스트</th>
+                                 </tr>--%>
+                                <colgroup>
+                                    <col width="100%" class="text-center"/>
+                                </colgroup>
+                                <tr>
+                                    <th colspan="6" class="tabla-custom-title"><spring:message code="list.detail.registrationlist" text="등록 리스트"/></th>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light text-center"><spring:message code="list.detail.blockname1" text="서비스지역명"/></th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div class="block_list_div border" >
+                                <table class="table table-bordered table-sort block_list_table table-hover">
+                                    <thead>
+                                    <colgroup>
+                                        <col width="100%"/>
+                                    </colgroup>
+                                    </thead>
+                                    <tbody class="addBlockTbodyType">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <%--<input type="button" class=" btn btn-white p-5 float-right m-t-10" onclick="sortSave()" value="<spring:message code="list.detail.savesort" text="정렬 저장"/>">--%>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 height-full">
+                            <table class="table table-condensed table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="map_wrap mapRefreshBtn" style="height: 650px;">
+                                            <div id="drawingMapType"></div>
+                                            <p class="modes">
+                                                <input type="button" class="show_btn_type block_show_hide_type btn btn-white p-5" onclick="showBlockType()" value="<spring:message code="list.detail.viewallblocks" text="모든 블록 보기"/>">
+                                                <input type="button" class="hide_btn_type block_show_hide_type btn btn-primary p-5" onclick="hideBlockType()" value="<spring:message code="list.detail.closeallblocks" text="모든 블록 닫기"/>">
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="m-l-5 m-t-5">
                             <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
                         </div>
@@ -1243,6 +1196,8 @@
     let drawingManager = null;
     let lng2 = "";
     let lat2 = "";
+    let lng2Type = "";
+    let lat2Type = "";
 
     //최초 표시
     $.ajax({
@@ -1251,7 +1206,8 @@
         async:false,
         data: {
             groupNo: "${tbBranch.branchNo}"
-            ,groupType : "2"
+            ,groupType : "2",
+            areaChargeType:"12"
         },
         success: function(data) {
             let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
@@ -1271,6 +1227,38 @@
             } else {
                 lat2 = 37.5116707;
                 lng2 = 126.874092;
+            }
+        }
+    });
+
+    //최초 표시
+    $.ajax({
+        type: "POST",
+        url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
+        async:false,
+        data: {
+            groupNo: "${tbBranch.branchNo}"
+            ,groupType : "2"
+            ,areaChargeType : "0"
+        },
+        success: function(data) {
+            let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+
+            if(tbDlvyAreaGeoList.length > 0 ){
+                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                        if(tbDlvyAreaGeoList[0][0] != null){
+                            lng2Type = tbDlvyAreaGeoList[0][0].lng;
+                            lat2Type = tbDlvyAreaGeoList[0][0].lat;
+                        } else {
+                            lat2Type = 37.5116707;
+                            lng2Type = 126.874092;
+                        }
+                    }
+                }
+            } else {
+                lat2Type = 37.5116707;
+                lng2Type = 126.874092;
             }
         }
     });
@@ -1344,7 +1332,9 @@
 
     $(() => {
         drawingMap.relayout();
+        mapType.relayout();
         blockList();
+        blockListType();
         priceList();
         staffList();
         $(".upDataStatus").on("change",function (){
@@ -1408,7 +1398,6 @@
             $(".areaChargeType").val(upAreaChargeType);
             $(".areaNo").val(upAreaNo);
 
-
             //selectOverlay('POLYGON');
 
             //해당블록 보이기.
@@ -1418,6 +1407,7 @@
                 data: {
                     groupNo: "${tbBranch.branchNo}",
                     groupType: 2,
+                    areaChargeType: "12",
                     areaNo : upAreaNo
                 },
                 success: function(data) {
@@ -1425,8 +1415,6 @@
                     let points = [];
                     // 좌표 배열
                     var sPath = [];
-                    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
-                    var bounds = new daum.maps.LatLngBounds();
 
                     // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
                     var bounds = new daum.maps.LatLngBounds();
@@ -1587,7 +1575,6 @@
             contentType: "application/json;",
             dataType: "json",
             success: function(data) {
-                console.log(data);
                 /*  $(".searchDlvyList").append(
                       "<option value=\"\">없음</option>"
                   )*/
@@ -2156,7 +2143,8 @@
             url: "${path}/api/deliveryblock/dlvyArea/list",
             data: {
                 groupNo: "${tbBranch.branchNo}",
-                groupType: "2"
+                groupType: "2",
+                areaChargeType: "12"
             },
             success: function(data) {
                 let sortList = [];
@@ -2438,7 +2426,8 @@
             url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
             data: {
                 groupNo: "${tbBranch.branchNo}",
-                groupType: 2
+                groupType: 2,
+                areaChargeType:"12"
             },
             success: function(data) {
                 let polygons = [];
@@ -2494,18 +2483,20 @@
 
     $(document).on("click",".mapRefreshBtn",function(){
         drawingMap.relayout();
+        mapType.relayout();
     });
 
     $(document).on("click",".nav-link",function(){
         drawingMap.relayout();
+        mapType.relayout();
     });
 
     // 메뉴가 선택되어 active가 된 후 이벤트
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         e.target // 현재 설정된 tab
         e.relatedTarget // 이전에 설정된 탭
-        //map.relayout();
         drawingMap.relayout();
+        mapType.relayout();
     });
 
     function moveUp(el){
@@ -2597,6 +2588,413 @@
             return alert_focus("radius",custPrice);
         }
         return true;
+    }
+
+
+    // Drawing Manager로 도형을 그릴 지도 div
+    var drawingMapContainerType = document.getElementById('drawingMapType'),
+        drawingMapType = {
+            center: new kakao.maps.LatLng(lat2Type,lng2Type), // 지도의 중심좌표
+            level: 5 // 지도의 확대 레벨
+        };
+
+    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    var mapType = new kakao.maps.Map(drawingMapContainerType, drawingMapType);
+
+
+    overlaysType = []; // 지도에 그려진 도형을 담을 배열
+    var optionsType = { // Drawing Manager를 생성할 때 사용할 옵션입니다
+        map: mapType, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+        drawingMode: [ // Drawing Manager로 제공할 그리기 요소 모드입니다
+            kakao.maps.drawing.OverlayType.MARKER,
+            kakao.maps.drawing.OverlayType.POLYLINE,
+            kakao.maps.drawing.OverlayType.RECTANGLE,
+            kakao.maps.drawing.OverlayType.CIRCLE,
+            kakao.maps.drawing.OverlayType.POLYGON
+        ],
+        // 사용자에게 제공할 그리기 가이드 툴팁입니다
+        // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
+        guideTooltip: ['draw', 'drag', 'edit'],
+        markerOptions: { // 마커 옵션입니다
+            draggable: true, // 마커를 그리고 나서 드래그 가능하게 합니다
+            removable: true // 마커를 삭제 할 수 있도록 x 버튼이 표시됩니다
+        },
+        polylineOptions: { // 선 옵션입니다
+            draggable: true, // 그린 후 드래그가 가능하도록 설정합니다
+            removable: true, // 그린 후 삭제 할 수 있도록 x 버튼이 표시됩니다
+            editable: true, // 그린 후 수정할 수 있도록 설정합니다
+            strokeColor: '#39f', // 선 색
+            hintStrokeStyle: 'dash', // 그리중 마우스를 따라다니는 보조선의 선 스타일
+            hintStrokeOpacity: 0.5  // 그리중 마우스를 따라다니는 보조선의 투명도
+        },
+        rectangleOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f', // 외곽선 색
+            fillColor: '#39f', // 채우기 색
+            fillOpacity: 0.5 // 채우기색 투명도
+        },
+        circleOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f',
+            fillColor: '#39f',
+            fillOpacity: 0.5
+        },
+        polygonOptions: {
+            draggable: true,
+            removable: true,
+            editable: true,
+            strokeColor: '#39f',
+            fillColor: '#39f',
+            fillOpacity: 0.5,
+            hintStrokeStyle: 'dash',
+            hintStrokeOpacity: 0.5
+        }
+    };
+
+    // 위에 작성한 옵션으로 Drawing Manager를 생성합니다
+    var managerType = new kakao.maps.drawing.DrawingManager(optionsType);
+
+
+    // 버튼 클릭 시 호출되는 핸들러 입니다
+    function selectOverlayType(type) {
+        hideBlockType();
+        // 그리기 중이면 그리기를 취소합니다
+        managerType.cancel();
+
+        // 클릭한 그리기 요소 타입을 선택합니다
+        managerType.select(kakao.maps.drawing.OverlayType[type]);
+    }
+
+    function showBlockType() {
+        removeOverlaysType();
+        hideBlockType();
+        $(".show_btn_type").removeClass("btn-white");
+        $(".show_btn_type").addClass("btn-primary");
+        $(".hide_btn_type").addClass("btn-white");
+        $(".hide_btn_type").removeClass("btn-primary");
+
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
+            data: {
+                groupNo: "${tbBranch.branchNo}",
+                groupType: 2,
+                areaChargeType: "0"
+            },
+            success: function(data) {
+                console.log(data)
+                let polygonsType = [];
+                let pointsType = [];
+                // 좌표 배열
+                var sPathType = [];
+                // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                var boundsType = new daum.maps.LatLngBounds();
+
+                let tbDlvyAreaGeoListType = data.tbDlvyAreaGeoList;
+
+                for (var j = 0 ; j < tbDlvyAreaGeoListType.length ; j ++) {
+                    pointsType = [];
+                    sPathType = [];
+                    for (var i = 0 ; i < tbDlvyAreaGeoListType[j].length ; i ++) {
+                        pointsType.push({x: tbDlvyAreaGeoListType[j][i].lng, y: tbDlvyAreaGeoListType[j][i].lat})
+                        sPathType.push(new kakao.maps.LatLng(tbDlvyAreaGeoListType[j][i].lat, tbDlvyAreaGeoListType[j][i].lng));
+                        boundsType.extend(new daum.maps.LatLng(tbDlvyAreaGeoListType[j][i].lat, tbDlvyAreaGeoListType[j][i].lng));
+
+                    }
+                    managerType.put(kakao.maps.drawing.OverlayType.POLYGON, sPathType);
+                    mapType.setBounds(boundsType);
+                    // polygons.push({points :points});
+                }
+            }
+        });
+    }
+
+    //블록 초기화
+    function hideBlockType(){
+        $(".show_btn_type").removeClass("btn-primary");
+        $(".show_btn_type").addClass("btn-white");
+        $(".hide_btn_type").addClass("btn-primary");
+        $(".hide_btn_type").removeClass("btn-white");
+        // 그리기 중이면 그리기를 취소
+        managerType.cancel();
+
+        objPolygonType = managerType.getOverlays();
+
+        if (objPolygonType.polygon.length > 0){
+            var iPolygonLength = objPolygonType.polygon.length-1;
+            var iCol = iPolygonLength;
+            for (var i=0; i <= iPolygonLength; i++){
+
+                if (iCol >= 0){
+                    managerType.remove(objPolygonType.polygon[iCol]);
+                }
+
+                iCol = iCol-1;
+            }
+        }
+    }
+
+    function removeOverlaysType() {
+        var len = overlaysType.length, i = 0;
+
+        for (; i < len; i++) {
+            overlaysType[i].setMap(null);
+        }
+
+        overlaysType = [];
+    }
+
+    function insBlockType() {
+        //1 : 생성 , 2 : 수정
+        let insType = 1
+        var data = managerType.getData();
+        let url = "${path}/api/deliveryblock/block/insert";
+
+        let _forms = $('.insert_form_block_type');
+        let req = convertFormToObj(_forms);
+        let confirmfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
+        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
+        let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
+        let succsessMsg = "<spring:message code="list.script.enrollment1" text="등록되었습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        console.log(req)
+        if(req.areaNo.length > 0) {
+            url = "${path}/api/deliveryblock/block/update";
+            insType = 2;
+            confirmfailmsg = "<spring:message code="list.script.registrationfailed1" text="수정에 실패하였습니다."/>";
+            confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="수정 하시겠습니까?"/>";
+            confirm = "<spring:message code="list.script.enrollment1" text="수정"/>";
+            succsessMsg = "<spring:message code="list.script.enrollment1" text="수정되었습니다."/>";
+        }else {
+            if(data.polygon[0] == null){
+                alert("블록을 지정해주세요.");
+                return;
+            }else {
+                url = "${path}/api/deliveryblock/block/insert";
+            }
+        }
+        if (inputDataCheck5(req)) {
+            swal({
+                title: confirmmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    var formData = new FormData(document.getElementById('insert_form_block'));
+                    formData.append("tbDlvyArea",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                    formData.append("tbDlvyAreaList",  new Blob([JSON.stringify(data.polygon[0].points)], {type:"application/json"}));
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(succsessMsg)
+                                removeOverlaysType();
+                                blockListType();
+                            } else {
+                                alert(confirmfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function blockListType() {
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyArea/list",
+            data: {
+                groupNo: "${tbBranch.branchNo}",
+                groupType: "2",
+                areaChargeType: "0"
+
+            },
+            success: function(data) {
+                let sortList = [];
+                let wonmsg = "<spring:message code="list.script.won" text="원"/>";
+                let stopmsg = "<spring:message code="list.script.stop" text="정지"/>";
+                let normalmsg = "<spring:message code="list.script.normal" text="정상"/>";
+                let noregisteredlist = "<spring:message code="list.script.thereisnoregisteredlist" text="등록된 리스트가 없습니다."/>";
+                var sortingField = "viewOrder";
+                let areaChargeTypeTxt = "서비스";
+                let custPriceComma = 0;
+                let dlvyPriceComma = 0;
+
+                if(data.tbDlvyAreaList.length >= 1){
+                    sortList =  data.tbDlvyAreaList.sort(function(a, b) { // 오름차순
+                        return a[sortingField] - b[sortingField];
+                    });
+                } else {
+                    sortList = data.tbDlvyAreaList;
+                }
+
+                $(".addBlockTbodyType").html("");
+
+                for(var i = 0 ; i < sortList.length ; i++){
+                    if(sortList[i].areaChargeType == 0) {
+                        areaChargeTypeTxt = "";
+                    } else if(sortList[i].areaChargeType == 1) {
+                        areaChargeTypeTxt = "고정요금";
+                    } else if(sortList[i].areaChargeType == 2) {
+                        areaChargeTypeTxt = "추가요금";
+                    } else {
+                        areaChargeTypeTxt="";
+                    }
+
+                    custPriceComma = numberWithCommas(sortList[i].custPrice);
+                    dlvyPriceComma = numberWithCommas(sortList[i].dlvyPrice);
+                    $(".addBlockTbodyType").append(
+                        "<tr class=\"\" areaNoType="+sortList[i].areaNo+"  areaChargeTypeType="+sortList[i].areaChargeType+" dlvyPriceType="+sortList[i].dlvyPrice+" custPriceType="+sortList[i].custPrice+" areaNameType="+data.tbDlvyAreaList[i].areaName+" areaNoType="+sortList[i].areaNo+" viewOrderType="+sortList[i].viewOrder+" groupNoType="+sortList[i].groupNo+" groupType='2' >\n" +
+                        "    <th class=''><input type=\"radio\" class='selectBlockRadioType width-10' name='selectBlockRadioType'>&nbsp;&nbsp; \n" +
+                        "    "+data.tbDlvyAreaList[i].areaName+" </th>\n" +
+                        "</tr>"
+                    )
+                }
+
+                if(data.tbDlvyAreaList.length == 0) {
+                    $(".addTbody").append(
+                        "<tr class=\"\"  >\n" +
+                        "<th class=\"text-center\" colspan=\"5\">"+noregisteredlist+"</th>"+
+                        "</tr>"
+                    )
+                }
+            }
+        });
+    }
+
+    $(document).on("click",".addBlockTbodyType tr",function(){
+        $(".insBlockTxtType").text("수정");
+        $(".delBlockTxtType").css("display","inline");
+
+        hideBlockType();
+        $(this).find(".selectBlockRadioType").prop('checked', true);
+
+        let upAreaNo = $(this).attr("areaNoType");
+        let upAreaName = $(this).attr("areaNameType");
+        let upCustPrice = $(this).attr("custPriceType");
+        let upDlvyPrice = $(this).attr("dlvyPriceType");
+        let upViewOrder = $(this).attr("viewOrderType");
+        let upAreaChargeType = $(this).attr("areaChargeTypeType");
+        let upGroupNo = "${tbBranch.branchNo}";
+        let upGroupType = 2;
+
+        $(".areaNameType").val(upAreaName);
+        $(".custPriceType").val(0);
+        $(".dlvyPriceType").val(0);
+        $(".viewOrderType").val(0);
+        $(".areaChargeTypeType").val(0);
+        $(".areaNoFormType").val(upAreaNo);
+
+
+        //selectOverlay('POLYGON');
+
+        //해당블록 보이기.
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/deliveryblock/dlvyAreaGeo/detail",
+            data: {
+                groupNo: "${tbBranch.branchNo}",
+                groupType: 2,
+                areaChargeType : upAreaChargeType,
+                areaNo : upAreaNo
+            },
+            success: function(data) {
+                let polygons = [];
+                let points = [];
+                // 좌표 배열
+                var sPath = [];
+                // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                var bounds = new daum.maps.LatLngBounds();
+
+                let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
+
+                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
+                    points = [];
+                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
+                        points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
+                        sPath.push(new kakao.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+                        bounds.extend(new daum.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
+                    }
+                    managerType.put(kakao.maps.drawing.OverlayType.POLYGON, sPath);
+                    mapType.setBounds(bounds);
+                }
+
+
+            }
+        });
+    });
+
+    $(document).on("click",".resetBtnType",function(){
+        $(".insBlockTxtType").text("등록");
+        $(".delBlockTxtType").css("display","none");
+
+        $(".selectBlockRadioType").prop("checked",false);
+        $(".areaNameType").val("");
+        $(".areaNoType").val("");
+        $(".custPriceType").val("0");
+        $(".dlvyPriceType").val("0");
+        $(".areaNoFormType").removeAttr("value");
+        /*$(".areaNoFormType").val("");*/
+        hideBlockType();
+    });
+
+    function delBlockType(){
+        let url = "${path}/api/deliveryblock/block/delete";
+        let _forms = $('.insert_form_block_type');
+        let req = convertFormToObj(_forms);
+        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="삭제 하시겠습니까?"/>";
+        let confirm = "<spring:message code="list.script.enrollment1" text="삭제"/>";
+        let succsessMsg = "<spring:message code="list.script.enrollment1" text="삭제되었습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        console.log(req)
+        if (inputDataCheck5(req)) {
+            swal({
+                title: confirmmsg,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            areaNo: req.areaNo
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(succsessMsg)
+                                removeOverlaysType();
+                                blockListType();
+                                $(".resetBtnType").click();
+                            } else {
+                                alert(confirmfailmsg);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 </script>
 </body>

@@ -69,5 +69,11 @@ public class TbWorkerApplyAttach extends BaseEntity {
     @Column(name = "param_3")
     private String param3 = null;
 
+    /**
+     * 입력값_3
+     */
+    @Column(name = "reject_memo")
+    private String rejectMemo = null;
+
     
 }

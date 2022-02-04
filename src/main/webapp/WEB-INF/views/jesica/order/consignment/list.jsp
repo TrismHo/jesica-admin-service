@@ -741,6 +741,214 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+
+
+    //제휴본사 검색
+    $(document).on("click",".searchHeadBtn", function () {
+        let req = convertFormToObj($('form.head_search_form'));
+        let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters" text="등록된 제휴본사가 없습니다."/>";
+        let apply = "<spring:message code="list.script.apply" text="적용"/>";
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/search/head/list",
+            data: JSON.stringify(req),
+            contentType: "application/json;",
+            dataType: "json",
+            success: function (data) {
+                $(".searchHeadList").html("");
+                if (data.searchHeadList.length == 0 || data.searchHeadList == null) {
+                    $(".searchHeadList").append(
+                        " <li >" +
+                        "     <label class=\"store_text\">\n" +
+                        noregisteredaffiliateheadquarters +
+                        "     </label>\n" +
+                        "     <div class=\"float-right \"></div>\n" +
+                        " </li>"
+                    )
+                } else {
+                    for (var i = 0; i < data.searchHeadList.length; i++) {
+                        $(".searchHeadList").append(
+                            " <li >" +
+                            "     <label class=\"head_text\">\n" +
+                            "" + data.searchHeadList[i].headName + "" +
+                            "<small style=\"color: green;\">[" + data.searchHeadList[i].headNo + "]</small>\n" +
+                            "     </label>\n" +
+                            "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selHeadNoBtn\" headName=" + data.searchHeadList[i].headName + " style=\"height: 25px; line-height: 0px;margin-top: -5px;\" headNo=" + data.searchHeadList[i].headNo + " value='" + apply + "'></div>\n" +
+                            " </li>"
+                        )
+                    }
+                }
+            }
+        });
+    });
+
+
+    //총판 선택
+    $(document).on("click",".searchBranchBtn", function () {
+        let headNo = $(".headNo").val();
+        $(".selHeadNo").val(headNo);
+        let req = convertFormToObj($('form.branch_search_form'));
+        let noregistereddistributors = "<spring:message code="list.script.noregistereddistributors" text="등록된 총판이 없습니다."/>";
+        let apply = "<spring:message code="list.script.apply" text="적용"/>";
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/search/branch/list",
+            data: JSON.stringify(req),
+            contentType: "application/json;",
+            dataType: "json",
+            success: function (data) {
+                $(".searchBranchList").html("");
+                if (data.searchBranchList.length == 0 || data.searchBranchList == null) {
+                    $(".searchBranchList").append(
+                        " <li >" +
+                        "     <label class=\"store_text\">\n" +
+                        noregistereddistributors +
+                        "     </label>\n" +
+                        "     <div class=\"float-right \"></div>\n" +
+                        " </li>"
+                    )
+                } else {
+                    for (var i = 0; i < data.searchBranchList.length; i++) {
+                        $(".searchBranchList").append(
+                            " <li >" +
+                            "     <label class=\"branch_text\">\n" +
+                            "" + data.searchBranchList[i].branchName + "" +
+                            "<small style=\"color: green;\">[" + data.searchBranchList[i].branchNo + "]</small>\n" +
+                            "     </label>\n" +
+                            "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selBranchNoBtn\" branchName=" + data.searchBranchList[i].branchName + " style=\"height: 25px; line-height: 0px;margin-top: -5px;\"  branchNo=" + data.searchBranchList[i].branchNo + " value='" + apply + "'></div>\n" +
+                            " </li>"
+                        )
+                    }
+                }
+            }
+        });
+    });
+
+    //가맹점 선택
+    $(document).on("click",".searchStoreBtn", function () {
+        let branchNo = $(".branchNo").val();
+        $(".selBranchNo").val(branchNo);
+        let req = convertFormToObj($('form.store_search_form'));
+        let therearenoregisteredmerchants = "<spring:message code="list.script.therearenoregisteredmerchants" text="등록된 가맹점이 없습니다."/>";
+        let apply = "<spring:message code="list.script.apply" text="적용"/>";
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/search/store/list",
+            data: JSON.stringify(req),
+            contentType: "application/json;",
+            dataType: "json",
+            success: function (data) {
+                $(".searchStoreList").html("");
+                if (data.searchStoreList.length == 0 || data.searchStoreList == null) {
+                    $(".searchStoreList").append(
+                        " <li >" +
+                        "     <label class=\"store_text\">\n" +
+                        therearenoregisteredmerchants +
+                        "     </label>\n" +
+                        "     <div class=\"float-right \"></div>\n" +
+                        " </li>"
+                    )
+                } else {
+
+                    for (var i = 0; i < data.searchStoreList.length; i++) {
+                        $(".searchStoreList").append(
+                            " <li >" +
+                            "     <label class=\"store_text\">\n" +
+                            "" + data.searchStoreList[i].storeName + "" +
+                            "<small style=\"color: green;\">[" + data.searchStoreList[i].storeNo + "]</small>\n" +
+                            "     </label>\n" +
+                            "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selStoreNoBtn\" storeName=" + data.searchStoreList[i].storeName + " style=\"height: 25px; line-height: 0px;margin-top: -5px;\"  storeNo=" + data.searchStoreList[i].storeNo + " value='" + apply + "'></div>\n" +
+                            " </li>"
+                        )
+                    }
+                }
+            }
+        });
+    });
+
+    $(document).on("click", ".branchName", function () {
+        let headNo = $(".headNo").val();
+        let pleaseselectanaffiliatedheadoffice = "<spring:message code="list.script.pleaseselectanaffiliatedheadoffice" text="제휴본사를 선택해주세요."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        let confirm = "<spring:message code="list.script.confirm" text="확인"/>";
+        if (headNo == null || headNo == '') {
+            swal({
+                title: pleaseselectanaffiliatedheadoffice,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            });
+        } else {
+            $(".searchBranchBtn").click();
+        }
+
+    });
+
+    $(document).on("click", ".storeName", function () {
+        let headNo = $(".headNo").val();
+        let branchNo = $(".branchNo").val();
+        let pleaseselectanaffiliatedheadoffice = "<spring:message code="list.script.pleaseselectanaffiliatedheadoffice" text="제휴본사를 선택해주세요."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        let confirm = "<spring:message code="list.script.confirm" text="확인"/>";
+        let pleaseselectadistributor = "<spring:message code="list.script.pleaseselectadistributor" text="총판을 선택해주세요"/>";
+
+        if (headNo == null || headNo == '') {
+            swal({
+                title: pleaseselectanaffiliatedheadoffice,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    confirm
+                ],
+                dangerMode: true,
+            });
+        } else {
+            if (branchNo == null || branchNo == '') {
+                swal({
+                    title: pleaseselectadistributor,
+                    icon: "warning",
+                    buttons: [
+                        cancel,
+                        confirm
+                    ],
+                    dangerMode: true,
+                });
+            } else {
+                $(".searchStoreBtn").click();
+            }
+        }
+    });
+
+    $(document).on("click", "#selHeadNoBtn", function () {
+        $(".headNo").val($(this).attr("headNo"));
+        $(".headName").val($(this).closest("li").find(".head_text").text());
+        $(".branchName").attr("data-toggle", "modal");
+        $(".branchName").val("");
+        $(".storeName").val("");
+        $(".searchBranchList").html("");
+        $(".searchStoreList").html("");
+        $(".headModalCloseBtn").click();
+    });
+
+    $(document).on("click", "#selBranchNoBtn", function () {
+        $(".branchNo").val($(this).attr("branchNo"));
+        $(".branchName").val($(this).closest("li").find(".branch_text").text());
+        $(".storeName").attr("data-toggle", "modal");
+        $(".storeName").val("");
+        $(".searchStoreList").html("");
+        $(".branchModalCloseBtn").click();
+    });
+
+    $(document).on("click", "#selStoreNoBtn", function () {
+        $(".storeNo").val($(this).attr("storeNo"));
+        $(".storeName").val($(this).closest("li").find(".store_text").text());
+        $(".searchClick").click();
+        $(".storeModalCloseBtn").click();
+    });
+
     $(() => {
         $("#testTable").DataTable({
             language: lang_set, //or lang_eng
@@ -752,211 +960,9 @@
             location.href = "${path}/order/consignment/detail?orderNo=" + orderNo;
         });
 
-        //제휴본사 검색
-        $(".searchHeadBtn").on("click", function () {
-            let req = convertFormToObj($('form.head_search_form'));
-            let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters" text="등록된 제휴본사가 없습니다."/>";
-            let apply = "<spring:message code="list.script.apply" text="적용"/>";
-            $.ajax({
-                type: "POST",
-                url: "${path}/api/search/head/list",
-                data: JSON.stringify(req),
-                contentType: "application/json;",
-                dataType: "json",
-                success: function (data) {
-                    $(".searchHeadList").html("");
-                    if (data.searchHeadList.length == 0 || data.searchHeadList == null) {
-                        $(".searchHeadList").append(
-                            " <li >" +
-                            "     <label class=\"store_text\">\n" +
-                            noregisteredaffiliateheadquarters +
-                            "     </label>\n" +
-                            "     <div class=\"float-right \"></div>\n" +
-                            " </li>"
-                        )
-                    } else {
-                        for (var i = 0; i < data.searchHeadList.length; i++) {
-                            $(".searchHeadList").append(
-                                " <li >" +
-                                "     <label class=\"head_text\">\n" +
-                                "" + data.searchHeadList[i].headName + "" +
-                                "<small style=\"color: green;\">[" + data.searchHeadList[i].headNo + "]</small>\n" +
-                                "     </label>\n" +
-                                "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selHeadNoBtn\" headName=" + data.searchHeadList[i].headName + " style=\"height: 25px; line-height: 0px;margin-top: -5px;\" headNo=" + data.searchHeadList[i].headNo + " value='" + apply + "'></div>\n" +
-                                " </li>"
-                            )
-                        }
-                    }
-                }
-            });
-        });
 
 
-        //총판 선택
-        $(".searchBranchBtn").on("click", function () {
-            let headNo = $(".headNo").val();
-            $(".selHeadNo").val(headNo);
-            let req = convertFormToObj($('form.branch_search_form'));
-            let noregistereddistributors = "<spring:message code="list.script.noregistereddistributors" text="등록된 총판이 없습니다."/>";
-            let apply = "<spring:message code="list.script.apply" text="적용"/>";
-            $.ajax({
-                type: "POST",
-                url: "${path}/api/search/branch/list",
-                data: JSON.stringify(req),
-                contentType: "application/json;",
-                dataType: "json",
-                success: function (data) {
-                    $(".searchBranchList").html("");
-                    if (data.searchBranchList.length == 0 || data.searchBranchList == null) {
-                        $(".searchBranchList").append(
-                            " <li >" +
-                            "     <label class=\"store_text\">\n" +
-                            noregistereddistributors +
-                            "     </label>\n" +
-                            "     <div class=\"float-right \"></div>\n" +
-                            " </li>"
-                        )
-                    } else {
-                        for (var i = 0; i < data.searchBranchList.length; i++) {
-                            $(".searchBranchList").append(
-                                " <li >" +
-                                "     <label class=\"branch_text\">\n" +
-                                "" + data.searchBranchList[i].branchName + "" +
-                                "<small style=\"color: green;\">[" + data.searchBranchList[i].branchNo + "]</small>\n" +
-                                "     </label>\n" +
-                                "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selBranchNoBtn\" branchName=" + data.searchBranchList[i].branchName + " style=\"height: 25px; line-height: 0px;margin-top: -5px;\"  branchNo=" + data.searchBranchList[i].branchNo + " value='" + apply + "'></div>\n" +
-                                " </li>"
-                            )
-                        }
-                    }
-                }
-            });
-        });
 
-        //가맹점 선택
-        $(".searchStoreBtn").on("click", function () {
-            let branchNo = $(".branchNo").val();
-            $(".selBranchNo").val(branchNo);
-            let req = convertFormToObj($('form.store_search_form'));
-            let therearenoregisteredmerchants = "<spring:message code="list.script.therearenoregisteredmerchants" text="등록된 가맹점이 없습니다."/>";
-            let apply = "<spring:message code="list.script.apply" text="적용"/>";
-            $.ajax({
-                type: "POST",
-                url: "${path}/api/search/store/list",
-                data: JSON.stringify(req),
-                contentType: "application/json;",
-                dataType: "json",
-                success: function (data) {
-                    $(".searchStoreList").html("");
-                    if (data.searchStoreList.length == 0 || data.searchStoreList == null) {
-                        $(".searchStoreList").append(
-                            " <li >" +
-                            "     <label class=\"store_text\">\n" +
-                            therearenoregisteredmerchants +
-                            "     </label>\n" +
-                            "     <div class=\"float-right \"></div>\n" +
-                            " </li>"
-                        )
-                    } else {
-
-                        for (var i = 0; i < data.searchStoreList.length; i++) {
-                            $(".searchStoreList").append(
-                                " <li >" +
-                                "     <label class=\"store_text\">\n" +
-                                "" + data.searchStoreList[i].storeName + "" +
-                                "<small style=\"color: green;\">[" + data.searchStoreList[i].storeNo + "]</small>\n" +
-                                "     </label>\n" +
-                                "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selStoreNoBtn\" storeName=" + data.searchStoreList[i].storeName + " style=\"height: 25px; line-height: 0px;margin-top: -5px;\"  storeNo=" + data.searchStoreList[i].storeNo + " value='" + apply + "'></div>\n" +
-                                " </li>"
-                            )
-                        }
-                    }
-                }
-            });
-        });
-
-        $(document).on("click", ".branchName", function () {
-            let headNo = $(".headNo").val();
-            let pleaseselectanaffiliatedheadoffice = "<spring:message code="list.script.pleaseselectanaffiliatedheadoffice" text="제휴본사를 선택해주세요."/>";
-            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-            let confirm = "<spring:message code="list.script.confirm" text="확인"/>";
-            if (headNo == null || headNo == '') {
-                swal({
-                    title: pleaseselectanaffiliatedheadoffice,
-                    icon: "warning",
-                    buttons: [
-                        cancel,
-                        confirm
-                    ],
-                    dangerMode: true,
-                });
-            } else {
-                $(".searchBranchBtn").click();
-            }
-
-        });
-
-        $(document).on("click", ".storeName", function () {
-            let headNo = $(".headNo").val();
-            let branchNo = $(".branchNo").val();
-            let pleaseselectanaffiliatedheadoffice = "<spring:message code="list.script.pleaseselectanaffiliatedheadoffice" text="제휴본사를 선택해주세요."/>";
-            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-            let confirm = "<spring:message code="list.script.confirm" text="확인"/>";
-            let pleaseselectadistributor = "<spring:message code="list.script.pleaseselectadistributor" text="총판을 선택해주세요"/>";
-
-            if (headNo == null || headNo == '') {
-                swal({
-                    title: pleaseselectanaffiliatedheadoffice,
-                    icon: "warning",
-                    buttons: [
-                        cancel,
-                        confirm
-                    ],
-                    dangerMode: true,
-                });
-            } else {
-                if (branchNo == null || branchNo == '') {
-                    swal({
-                        title: pleaseselectadistributor,
-                        icon: "warning",
-                        buttons: [
-                            cancel,
-                            confirm
-                        ],
-                        dangerMode: true,
-                    });
-                } else {
-                    $(".searchStoreBtn").click();
-                }
-            }
-        });
-
-        $(document).on("click", "#selHeadNoBtn", function () {
-            $(".headNo").val($(this).attr("headNo"));
-            $(".headName").val($(this).closest("li").find(".head_text").text());
-            $(".branchName").attr("data-toggle", "modal");
-            $(".branchName").val("");
-            $(".storeName").val("");
-            $(".searchBranchList").html("");
-            $(".searchStoreList").html("");
-            $(".headModalCloseBtn").click();
-        });
-
-        $(document).on("click", "#selBranchNoBtn", function () {
-            $(".branchNo").val($(this).attr("branchNo"));
-            $(".branchName").val($(this).closest("li").find(".branch_text").text());
-            $(".storeName").attr("data-toggle", "modal");
-            $(".storeName").val("");
-            $(".searchStoreList").html("");
-            $(".branchModalCloseBtn").click();
-        });
-
-        $(document).on("click", "#selStoreNoBtn", function () {
-            $(".storeNo").val($(this).attr("storeNo"));
-            $(".storeName").val($(this).closest("li").find(".store_text").text());
-            $(".searchClick").click();
-            $(".storeModalCloseBtn").click();
-        });
 
 
         $("#testTable").dataTable();

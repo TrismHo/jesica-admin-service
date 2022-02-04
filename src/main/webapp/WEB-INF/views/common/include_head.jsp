@@ -11,11 +11,11 @@
 <c:set var="date" value="<%=new java.util.Date()%>" />
 <c:set var="now"><fmt:formatDate value="${date}" pattern="yyyy-MM-dd" /></c:set>
     <%--GoogleMapTestKey--%>
-
+<c:set var="imgUrlPath" value="https://jesicar.co.kr/" />
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANWaKymkYvONhGDsRjCd7pwNHO_ygW3Og&libraries=drawing,places&v=weekly"defer></script>--%>
 
 <!--kakaoMapTestKey-->
-<c:set var="appkey" value="94f23e0f25ea704e6e4a26359fb10b86&libraries=services"/>
+<%--<c:set var="appkey" value="94f23e0f25ea704e6e4a26359fb10b86&libraries=services"/>--%>
 <%--<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=94f23e0f25ea704e6e4a26359fb10b86&libraries=services"></script>--%>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANWaKymkYvONhGDsRjCd7pwNHO_ygW3Og&callback=initMap&libraries=drawing&v=weekly"defer></script>--%>
 

@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
+	<%--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">--%>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<%@include file="../../../common/include_head.jsp" %>
@@ -44,7 +45,13 @@
 		.map_wrap {position:relative;width:100%;height:100%;}
 		#mapwrap{position:relative;overflow:hidden;}
 		.category, .category *{margin:0;padding:0;color:#000;}
-		.category_sub {position:absolute;overflow:hidden;top:70px;right:10px;width:100px;height:30px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+		.category_sub {
+			top: 10px;
+			right: 10px;
+			border-radius: 5px;
+			box-shadow: 0 1px 1px rgb(0 0 0 / 40%);
+			overflow: hidden;
+			position:absolute;overflow:hidden;top:70px;right:10px;width:102px;height:50px;z-index:10;border:1px solid #909090;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
 		.category {position:absolute;overflow:hidden;top:10px;right:10px;width:102px;height:55px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
 		.category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;}
 		.category li{list-style:none;float:left;width:50px;height:55px;padding-top:5px;cursor:pointer;}
@@ -132,7 +139,7 @@
 			left : 0px;
 		}
 		#category {position:absolute;top:10px;right:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
-		#category li {float:left;list-style: none;width:50px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
+		#category li {float:left;list-style: none;width:50px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
 		#category li.on {background: #eee;}
 		#category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
 		#category li:last-child{margin-right:0;border-right:0;}
@@ -236,7 +243,7 @@
 					<div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(-36px, 12px);">
 						<ul class="nav nav-inbox">
 							<li class="active active-li"><a class="control-1" style="cursor: pointer;"><i class="fas fa-lg fa-fw me-10px fa-car "></i> <spring:message code="list.controll.rent" text="렌트"/> <span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
-							<li class="active-li"><a class="control-2" style="cursor: pointer;" url="http://admin.jesicar.co.kr:22201/orders?accessToken=${sessionScope.accessToken}"><i class="fas fa-lg fa-fw me-10px fa-user"></i> <spring:message code="list.controll.consignment" text="탁송"/> <span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>
+							<%--<li class="active-li"><a class="control-2" style="cursor: pointer;" url="https://ctl-d.jesicar.co.kr/orders?accessToken=${sessionScope.accessToken}"><i class="fas fa-lg fa-fw me-10px fa-user"></i> <spring:message code="list.controll.consignment" text="탁송"/> <span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span></a></li>--%>
 						</ul>
 					</div>
 				</div>
@@ -299,11 +306,11 @@
 		</div>
 		<div class="mailbox-content-body"><i class="fas fa-lg fa-fw me-10px fa-arrow-rotate-left"></i>
 			<div data-scrollbar="true" data-height="100%" data-skip-mobile="true" class="ps" data-init="true" style="height: 100%;">
-				<iframe class="frame" style="display:none;"  src="http://admin.jesicar.co.kr:22201/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">
+				<%@include file="../../../common/include_iframe_setting.jsp" %>
+				<%--<iframe class="frame" style="display:none;"  src="https://ctl.jesicar.co.kr/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">--%>
+				<%--<iframe class="frame" style="display:none;"  src="http://ctl-d.jesicar.co.kr:15000/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">--%>
 				<%--<iframe class="frame" style="display:none;"  src="http://192.168.0.90:22201/orders?accessToken=${sessionScope.accessToken}" width="100%;" height="100%;" style="border: 1px solid #ddd; float: left;">--%>
-
-				</iframe>
-
+				<%--</iframe>--%>
 				<div class="map_wrap" >
 					<div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 					<ul id="category" class="category">
@@ -315,8 +322,63 @@
 							<span class="category_bg mart"></span>
 							운행중
 						</li>
+						<%--<li id="test1" class="" status="test1" data-order="2">
+							<span class="category_bg oil"></span>
+							테스트1
+						</li>
+						<li id="test2" class="" status="test2" data-order="3">
+							<span class="category_bg cafe"></span>
+							테스트2
+						</li>--%>
 					</ul>
-					<div class="category_sub" >
+					<div class="category_sub" style="top: 72px; height: 34px;" >
+						<div class="btn-group me-2" style="width: 100%;height: 34px;">
+							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selelctSex active" value="all" style="width: 33%;height: 34px; border-top: 0px;padding-top: 7px;" >
+								 전체</a>
+							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selelctSex" value="male" style="width: 33%;border-top: 0px;height: 34px;padding-top: 10px;">
+								<i class="fas fa-lg fa-fw fa-male" style="font-size: 20px;color: #6b6bff;"></i>
+							</a>
+							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selelctSex" value="female" style="width: 33%;border-top: 0px;height: 34px;padding-top: 10px;">
+								<i class="fas fa-lg fa-fw fa-female" style="font-size: 20px;color: #f56363;"></i>
+							</a>
+						</div>
+					</div>
+					<div class="category_sub" style="top: 114px; height: 34px;" >
+						<div class="btn-group me-2" style="width: 100%;height: 34px;">
+							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selectSalary active" value="all" style="width: 33%;height: 34px; border-top: 0px;padding-top: 7px;" >
+								 전체</a>
+							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selectSalary" value="month" style="width: 33%;border-top: 0px;height: 34px;padding-top: 11px;">
+								<i class="fas fa-lg fa-fw fa-user-tie" style="font-size: 17px;"></i></a>
+							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selectSalary" value="day" style="width: 33%;border-top: 0px;height: 34px;padding-top: 11px;">
+								<i class="fas fa-lg fa-fw fa-user-ninja" style="font-size: 17px;"></i></a>
+						</div>
+					</div>
+					<%--<div class="category_sub" style="top: 125px; height: 40px;" >
+						<div class="btn-group me-2" style="width: 100%;">
+							<a href="javascript:;" onclick="openFullScreenMode();" class="btn btn-sm btn-white active" style="width: 33%;border-left:0px;border-top: 0px;">
+								 전체</a>
+							<a href="javascript:;" onclick="closeFullScreenMode();" class="btn btn-sm btn-white " style="width: 33%;border-top: 0px;">
+								 급여</a>
+							<a href="javascript:;" onclick="closeFullScreenMode();" class="btn btn-sm btn-white " style="width: 33%;border-right:0px;border-top: 0px;">
+								 수수료</a>
+						</div>
+
+
+
+						&lt;%&ndash;<ul>
+							<li>
+								<a href="javascript:;"  class="btn btn-sm btn-white side_menu ">
+									<spring:message code="list.controll.driverllist" text="리스트"/> <span class="onOff" style="color: #009900;">on</span>
+								</a>
+							</li>
+						</ul>&ndash;%&gt;
+					</div>--%>
+					<div class="category_sub refresh" style="top: 156px; cursor: pointer;height: 30px;">
+						<div style="margin-top:5px;font-weight:600">
+							<spring:message code="list.controll.driverllist" text="새로고침"/> <i class="fa fa-rotate-left" style="color: #009900;transform: scaleX(-1);"></i></i></i>
+						</div>
+					</div>
+				<%--	<div class="category_sub refresh" style="top: 130px; cursor: pointer;">
 						<ul>
 							<li>
 								<a href="javascript:;"  class="btn btn-sm btn-white side_menu ">
@@ -324,16 +386,7 @@
 								</a>
 							</li>
 						</ul>
-					</div>
-					<div class="category_sub" style="top: 100px;">
-						<ul>
-							<li>
-								<a href="javascript:;"  class="btn btn-sm btn-white refresh" style="padding: 4px 18.9px;">
-									<spring:message code="list.controll.driverllist" text="새로고침"/> <i class="fa fa-rotate-left" style="color: #009900;transform: scaleX(-1);"></i></i></i>
-								</a>
-							</li>
-						</ul>
-					</div>
+					</div>--%>
 
 					<div id="menu_wrap1" class="bg_white " style="height: 41px;overflow-y: hidden;">
 						<div class="option">
@@ -386,6 +439,10 @@
 
 	let waiting = [];
 	let running = [];
+	let gender = "all";
+	let workerPayType = "all";
+/*	let add_test3 = [];
+	let add_test4 = [];*/
 
 	function reload() {
 		$.ajax({
@@ -402,7 +459,6 @@
 				waiting =[];
 				if(data.body.serviceStatus == "OK") {
 					for(var i = 0 ; i < list.length ; i++){
-
 						let push = {
 							distance: "",
 							userNo: list[i].userNo,
@@ -410,10 +466,52 @@
 							name: list[i].name,
 							branchName : list[i].branchName,
 							x: list[i].lng,
-							y: list[i].lat
+							y: list[i].lat,
+							gender: list[i].gender, // N 모름 ,M 남자, F 여자
+							workerPayType: list[i].workerPayType // 1 급여 ,2 수수료
 						}
 						if(list[i].lng != null){
-							waiting.push(push)
+							if(gender == "all"){
+								if(workerPayType == "all"){
+									waiting.push(push);
+								} else if(workerPayType == "month") {
+									if(push.workerPayType == 1){
+										waiting.push(push);
+									}
+								} else if(workerPayType == "day") {
+									if(push.workerPayType == 2){
+										waiting.push(push);
+									}
+								}
+							} else if(gender == "male") {
+								if(workerPayType == "all"){
+									if(push.gender == "M"){
+										waiting.push(push);
+									}
+								} else if(workerPayType == "month") {
+									if(push.workerPayType == 1 && push.gender == "M" ){
+										waiting.push(push);
+									}
+								} else if(workerPayType == "day") {
+									if(push.workerPayType == 2 && push.gender == "M"){
+										waiting.push(push);
+									}
+								}
+							} else if(gender == "female") {
+								if(workerPayType == "all"){
+									if(push.gender == "F"){
+										waiting.push(push);
+									}
+								} else if(workerPayType == "month") {
+									if(push.workerPayType == 1 && push.gender == "F" ){
+										waiting.push(push);
+									}
+								} else if(workerPayType == "day") {
+									if(push.workerPayType == 2 && push.gender == "F"){
+										waiting.push(push);
+									}
+								}
+							}
 						}
 					}
 				} else {
@@ -434,6 +532,8 @@
 			success: function (data) {
 				let list = data.body.data;
 				running =[];
+				console.log(gender);
+				console.log(workerPayType);
 				if(data.body.serviceStatus == "OK") {
 					for(var i = 0 ; i < list.length ; i++){
 						let push = {
@@ -442,10 +542,52 @@
 							name: list[i].name,
 							branchName : data.body.data.branchName,
 							x: list[i].lng,
-							y: list[i].lat
+							y: list[i].lat,
+							gender: list[i].gender, // N 모름 ,M 남자, F 여자
+							workerPayType: list[i].workerPayType // 1 급여 ,2 수수료
 						}
 						if(list[i].lng != null){
-							running.push(push);
+							if(gender == "all"){
+								if(workerPayType == "all"){
+									running.push(push);
+								} else if(workerPayType == "month") {
+									if(push.workerPayType == 1){
+										running.push(push);
+									}
+								} else if(workerPayType == "day") {
+									if(push.workerPayType == 2){
+										running.push(push);
+									}
+								}
+							} else if(gender == "male") {
+								if(workerPayType == "all"){
+									if(push.gender == "M"){
+										running.push(push);
+									}
+								} else if(workerPayType == "month") {
+									if(push.workerPayType == 1 && push.gender == "M" ){
+										running.push(push);
+									}
+								} else if(workerPayType == "day") {
+									if(push.workerPayType == 2 && push.gender == "M"){
+										running.push(push);
+									}
+								}
+							} else if(gender == "female") {
+								if(workerPayType == "all"){
+									if(push.gender == "F"){
+										running.push(push);
+									}
+								} else if(workerPayType == "month") {
+									if(push.workerPayType == 1 && push.gender == "F" ){
+										running.push(push);
+									}
+								} else if(workerPayType == "day") {
+									if(push.workerPayType == 2 && push.gender == "F"){
+										running.push(push);
+									}
+								}
+							}
 						}
 					}
 
@@ -455,12 +597,10 @@
 				}
 			}
 		});
-
 	}
 
 	$(document).ready(function(){
 		//
-
 		reload();
 		$(".first_search").click();
 		/*searchPlaces2();
@@ -468,12 +608,31 @@
 		placesSearchCB();*/
 		$(".refresh").on("click",function(){
 
-
+			/*openFullScreenMode();*/
 			searchPlaces2();
 			$("#menu_wrap2").css("display","none");
 		});
 	});
 
+	$(document).on("click",".selelctSex",function(){
+		$(".selelctSex").removeClass("active");
+		$(this).addClass("active");
+		gender = $(this).attr("value");
+		reload();
+		searchPlaces();
+		/*searchPlaces2();*/
+		$("#menu_wrap2").css("display","none");
+	});
+
+	$(document).on("click",".selectSalary",function(){
+		$(".selectSalary").removeClass("active");
+		$(this).addClass("active");
+		workerPayType = $(this).attr("value");
+		reload();
+		searchPlaces();
+		/*searchPlaces2();*/
+		$("#menu_wrap2").css("display","none");
+	});
 
 	var markers = [];
 
@@ -557,12 +716,17 @@
 
 	// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 	function placesSearchCB(data){
+
 		let list = waiting;
 		if($("#waiting").hasClass("on")){
 			list = waiting;
-		}else {
+		} else if($("#driving").hasClass("on")){
 			list = running;
-		}
+		} /*else if($("#test1").hasClass("on")){
+			list = add_test3;
+		} else if($("#test2").hasClass("on")){
+			list = add_test4;
+		}*/
 
 		var bounds = new kakao.maps.LatLngBounds();
 		displayPlaces(list);
@@ -773,11 +937,33 @@
 
 	// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
 	function displayPlaceInfo (place) {
+		let branchName ="";
+		if(place.branchName == null) {
+			branchName = "없음";
+		}
+		var gender = "";
+		var workerPayType = "";
+
+		if(place.gender == "M") {
+			 gender = "fa-male"
+		} else if (place.gender == "F"){
+			 gender = "fa-female"
+		} else if (place.gender == "N"){
+			 gender = ""
+		}
+
+		if(place.workerPayType == 1) {
+			workerPayType = "fa-user-tie"
+		} else if (place.workerPayType == 2){
+			workerPayType = "fa-user-ninja"
+		}
+
+
 		var content = '<div class="placeinfo">' +
-				'   <div class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +"이름 : "+ place.name + '</div>';
+				'   <div class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +"이름 : "+ place.name + ' (<i class="fas fa-lg fa-fw '+gender+'" style="font-size: 15px;"></i> / <i class="fas fa-lg fa-fw '+workerPayType+'" style="font-size: 13px;"></i>)</div>';
 
 		content += '    <span title="' + place.road_address_name + '">' +"연락처 : "+ phoneNumber(place.phone) + '</span>' +
-				'  <span class="jibun" title="' + place.address_name + '">(소속 : ' + place.branchName + ')</span>';
+				'  <span class="jibun" title="' + place.address_name + '">(소속 : ' + branchName + ')</span>';
 
 		content +=
 				'</div>' +
@@ -849,9 +1035,9 @@
 
 	// 각 카테고리에 클릭 이벤트를 등록합니다
 	function addCategoryClickEvent() {
+
 		var category = document.getElementById('category'),
 				children = category.children;
-
 		for (var i=0; i<children.length; i++) {
 			children[i].onclick = onClickCategory;
 		}
@@ -861,7 +1047,6 @@
 	function onClickCategory() {
 		var id = this.id,
 				className = this.className;
-
 		placeOverlay.setMap(null);
 
 		if (className === 'on') {

@@ -1249,7 +1249,7 @@
                                             <th class="bg-light text-center"><spring:message code="list.detail.price1" text="고객요금"/></th>
                                             <th class="bg-light text-center"><spring:message code="list.detail.price1" text="배송요금"/></th>
                                             <th class="bg-light text-center"><spring:message code="list.detail.status1" text="블럭요금 구분"/></th>
-                                            <th class="bg-light text-center"><spring:message code="list.detail.sort" text="초기화"/></th>
+                                            <th class="bg-light text-center"><spring:message code="list.detail.sort1" text="초기화"/></th>
                                         </tr>
                                         <tr>
                                             <%-- <th class="bg-light"></th>--%>
@@ -1377,7 +1377,7 @@
                                         </tr>
                                         <tr>
                                             <%-- <th class="bg-light"></th>--%>
-                                            <td><input type="text" class="form-control-width-custom areaNameType text-center" name="areaName" maxlength="80">
+                                            <td><input type="text" class="form-control-width-custom areaNameType text-left" name="areaName" maxlength="80">
                                             </td>
                                             <td >
                                                 <button type="button" class="btn btn-info resetBtnType"><spring:message code="list.detail.reset1" text="선택 초기화"/>
@@ -3199,7 +3199,7 @@
                     dlvyPriceComma = numberWithCommas(sortList[i].dlvyPrice);
 
                         $(".addBlockTbody").append(
-                            "<tr class=\"\" areaNo="+sortList[i].areaNo+"  areaChargeType="+sortList[i].areaChargeType+" dlvyPrice="+sortList[i].dlvyPrice+" custPrice="+sortList[i].custPrice+" areaName="+data.tbDlvyAreaList[i].areaName+" areaNo="+sortList[i].areaNo+" viewOrder="+sortList[i].viewOrder+" groupNo="+sortList[i].groupNo+" groupType='2' >\n" +
+                            "<tr class=\"\" areaNo="+sortList[i].areaNo+"  areaChargeType="+sortList[i].areaChargeType+" dlvyPrice="+sortList[i].dlvyPrice+" custPrice="+sortList[i].custPrice+" areaName="+data.tbDlvyAreaList[i].areaName+" areaNo="+sortList[i].areaNo+" viewOrder="+sortList[i].viewOrder+" groupNo="+sortList[i].groupNo+" groupType='3' >\n" +
                             "    <th class=''><input type=\"radio\" class='selectBlockRadio width-10' name='selectBlockRadio'>&nbsp;&nbsp; \n" +
                             "    "+data.tbDlvyAreaList[i].areaName+" </th>\n" +
                             "    <td class='priceText'>\n " + custPriceComma +" "+ wonmsg + "    </td>\n" +
@@ -3931,7 +3931,7 @@
         let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
         let succsessMsg = "<spring:message code="list.script.enrollment1" text="등록되었습니다."/>";
         let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-console.log(req)
+        console.log(req)
         if(req.areaNo.length > 0) {
             url = "${path}/api/deliveryblock/block/update";
             insType = 2;
@@ -4029,7 +4029,7 @@ console.log(req)
                     custPriceComma = numberWithCommas(sortList[i].custPrice);
                     dlvyPriceComma = numberWithCommas(sortList[i].dlvyPrice);
                     $(".addBlockTbodyType").append(
-                        "<tr class=\"\" areaNoType="+sortList[i].areaNo+"  areaChargeTypeType="+sortList[i].areaChargeType+" dlvyPriceType="+sortList[i].dlvyPrice+" custPriceType="+sortList[i].custPrice+" areaNameType="+data.tbDlvyAreaList[i].areaName+" areaNoType="+sortList[i].areaNo+" viewOrderType="+sortList[i].viewOrder+" groupNoType="+sortList[i].groupNo+" groupType='2' >\n" +
+                        "<tr class=\"\" areaNoType="+sortList[i].areaNo+"  areaChargeTypeType="+sortList[i].areaChargeType+" dlvyPriceType="+sortList[i].dlvyPrice+" custPriceType="+sortList[i].custPrice+" areaNameType="+data.tbDlvyAreaList[i].areaName+" areaNoType="+sortList[i].areaNo+" viewOrderType="+sortList[i].viewOrder+" groupNoType="+sortList[i].groupNo+" groupType='3' >\n" +
                         "    <th class=''><input type=\"radio\" class='selectBlockRadioType width-10' name='selectBlockRadioType'>&nbsp;&nbsp; \n" +
                         "    "+data.tbDlvyAreaList[i].areaName+" </th>\n" +
                         "</tr>"
@@ -4118,6 +4118,7 @@ console.log(req)
         $(".areaNoType").val("");
         $(".custPriceType").val("0");
         $(".dlvyPriceType").val("0");
+        $(".areaNoFormType").removeAttr("value");
         hideBlockType();
     });
 
@@ -4164,258 +4165,6 @@ console.log(req)
             });
         }
     }
-
-   // 아래 지도에 그려진 도형이 있다면 모두 지웁니다
-   /*function removeOverlaysType() {
-       var len = overlaysType.length, i = 0;
-
-       for (; i < len; i++) {
-           overlaysType[i].setMap(null);
-       }
-
-       overlaysType = [];
-   }
-
-   // Drawing Manager에서 가져온 데이터 중 다각형을 아래 지도에 표시하는 함수입니다
-    function drawPolygonType(polygons) {
-       var len = polygons.length, i = 0;
-
-       for (; i < len; i++) {
-           var path = pointsToPath(polygons[i].points);
-           var style = polygons[i].options;
-           var polygon = new kakao.maps.Polygon({
-               map: drawingMapType,
-               path: path,
-               strokeColor: style.strokeColor,
-               strokeOpacity: style.strokeOpacity,
-               strokeStyle: style.strokeStyle,
-               strokeWeight: style.strokeWeight,
-               fillColor: style.fillColor,
-               fillOpacity: style.fillOpacity
-           });
-
-           overlaysType.push(polygon);
-       }
-   }
-
-
-
-   function undoType() {
-       // 그리기 요소를 이전 상태로 되돌립니다
-       managerType.undo();
-   }
-
-
-    function delBlock(){
-        let url = "${path}/api/deliveryblock/block/delete";
-        let _forms = $('.insert_form_block_type');
-        let req = convertFormToObj(_forms);
-        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="삭제 하시겠습니까?"/>";
-        let confirm = "<spring:message code="list.script.enrollment1" text="삭제"/>";
-        let succsessMsg = "<spring:message code="list.script.enrollment1" text="삭제되었습니다."/>";
-        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-
-        if (inputDataCheck5(req)) {
-            swal({
-                title: confirmmsg,
-                icon: "warning",
-                buttons: [
-                    cancel,
-                    confirm
-                ],
-                dangerMode: true,
-            }).then(function (isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: {
-                            areaNo: req.areaNo
-                        },
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.result == 200) {
-                                alert(succsessMsg)
-                                removeOverlaysType();
-                                blockListType();
-                                $(".resetBtn").click();
-                            } else {
-                                alert(confirmfailmsg);
-                                return;
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    function insBlockType() {
-        //1 : 생성 , 2 : 수정
-        let insType = 1
-        var data = managerType.getData();
-        let url = "${path}/api/deliveryblock/block/insert";
-
-        let _forms = $('.insert_form_block_type');
-        let req = convertFormToObj(_forms);
-        let confirmfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
-        let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
-        let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
-        let succsessMsg = "<spring:message code="list.script.enrollment1" text="등록되었습니다."/>";
-        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-
-        if(req.areaNo.length > 0) {
-            url = "${path}/api/deliveryblock/block/update";
-            insType = 2;
-            confirmfailmsg = "<spring:message code="list.script.registrationfailed1" text="수정에 실패하였습니다."/>";
-            confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="수정 하시겠습니까?"/>";
-            confirm = "<spring:message code="list.script.enrollment1" text="수정"/>";
-            succsessMsg = "<spring:message code="list.script.enrollment1" text="수정되었습니다."/>";
-        }else {
-            if(data.polygon[0] == null){
-                alert("블록을 지정해주세요.");
-                return;
-            }else {
-                url = "${path}/api/deliveryblock/block/insert";
-            }
-        }
-        if (inputDataCheck5(req)) {
-            swal({
-                title: confirmmsg,
-                icon: "warning",
-                buttons: [
-                    cancel,
-                    confirm
-                ],
-                dangerMode: true,
-            }).then(function (isConfirm) {
-                if (isConfirm) {
-                    var formData = new FormData(document.getElementById('insert_form_block'));
-                    formData.append("tbDlvyArea",  new Blob([JSON.stringify(req)], {type:"application/json"}));
-                    formData.append("tbDlvyAreaList",  new Blob([JSON.stringify(data.polygon[0].points)], {type:"application/json"}));
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: formData,
-                        dataType: "json",
-                        processData: false,
-                        contentType: false,
-                        success: function (data) {
-                            if (data.result == 200) {
-                                alert(succsessMsg)
-                                removeOverlaysType();
-                                blockListType();
-                            } else {
-                                alert(confirmfailmsg);
-                                return;
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    function showBlockType() {
-        removeOverlaysType();
-        hideBlockType();
-        $(".show_btn").removeClass("btn-white");
-        $(".show_btn").addClass("btn-primary");
-        $(".hide_btn").addClass("btn-white");
-        $(".hide_btn").removeClass("btn-primary");
-
-        $.ajax({
-            type: "POST",
-            url: "${path}/api/deliveryblock/dlvyAreaGeo/list",
-            data: {
-                groupNo: "${tbStore.storeNo}",
-                groupType: 3,
-                areaChargeType: "0"
-            },
-            success: function(data) {
-                let polygons = [];
-                let points = [];
-                // 좌표 배열
-                var sPath = [];
-                // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
-                var bounds = new daum.maps.LatLngBounds();
-
-                let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
-
-                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
-                    points = [];
-                    sPath= [];
-                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
-                        points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
-                        sPath.push(new kakao.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
-                        bounds.extend(new daum.maps.LatLng(tbDlvyAreaGeoList[j][i].lat, tbDlvyAreaGeoList[j][i].lng));
-
-                    }
-                    manager.put(kakao.maps.drawing.OverlayType.POLYGON, sPath);
-                    drawingMap.setBounds(bounds);
-                    // polygons.push({points :points});
-                }
-                let polygons = [];
-                let points = [];
-                let tbDlvyAreaGeoList = data.tbDlvyAreaGeoList;
-
-                for (var j = 0 ; j < tbDlvyAreaGeoList.length ; j ++) {
-                    points = [];
-                    for (var i = 0 ; i < tbDlvyAreaGeoList[j].length ; i ++) {
-                        points.push({x: tbDlvyAreaGeoList[j][i].lng, y: tbDlvyAreaGeoList[j][i].lat})
-                    }
-                    polygons.push({points :points });
-                }
-
-                var len = tbDlvyAreaGeoList.length, i = 0;
-
-                for (; i < len; i++) {
-                    polygons.push({x: tbDlvyAreaGeoList[i].lat , y : tbDlvyAreaGeoList[i].lng})
-                    var path = pointsToPath(polygons[i].points);
-                    var polygon = new kakao.maps.Polygon({
-                        map: drawingMap,
-                        path: path,
-                        fillColor: "#39f",
-                        fillOpacity: 0.5,
-                        strokeColor: "#39f",
-                        strokeOpacity: 1,
-                        strokeStyle: "solid",
-                        strokeWeight: 3,
-
-                    });
-                    overlays.push(polygon);
-                }
-            }
-        });
-    }
-
-    //블록 초기화
-    function hideBlockType(){
-        $(".show_btn").removeClass("btn-primary");
-        $(".show_btn").addClass("btn-white");
-        $(".hide_btn").addClass("btn-primary");
-        $(".hide_btn").removeClass("btn-white");
-        // 그리기 중이면 그리기를 취소
-        managerType.cancel();
-
-        objPolygonType = managerType.getOverlays();
-
-        if (objPolygonType.polygon.length > 0){
-            var iPolygonLength = objPolygonType.polygon.length-1;
-            var iCol = iPolygonLength;
-            for (var i=0; i <= iPolygonLength; i++){
-
-                if (iCol >= 0){
-                    managerType.remove(objPolygonType.polygon[iCol]);
-                }
-
-                iCol = iCol-1;
-            }
-        }
-    }*/
-
-
-
 </script>
 </body>
 </html>

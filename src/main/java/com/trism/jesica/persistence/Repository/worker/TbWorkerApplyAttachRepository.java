@@ -18,10 +18,11 @@ public interface TbWorkerApplyAttachRepository extends JpaRepository<TbWorkerApp
     @Query(value = "update tb_worker_apply_attach set " +
             "auth_status = :authStatus ," +
             "update_user_id = :updateUserId, " +
+            "reject_memo = :rejcectMemo, " +
             "update_date = now() " +
             "where attach_no = :attachNo "+
             "and apply_attach_type = :applyAttachType ", nativeQuery = true)
-    int attachApproval(@Param("attachNo") Long attachNo, @Param("applyAttachType") Integer applyAttachType, @Param("authStatus") Integer authStatus, @Param("updateUserId") String updateUserId);
+    int attachApproval(@Param("attachNo") Long attachNo, @Param("applyAttachType") Integer applyAttachType, @Param("authStatus") Integer authStatus, @Param("updateUserId") String updateUserId, @Param("rejcectMemo") String rejcectMemo);
 
 
 }

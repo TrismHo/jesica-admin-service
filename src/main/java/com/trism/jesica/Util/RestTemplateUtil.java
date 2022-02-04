@@ -1,5 +1,6 @@
 package com.trism.jesica.Util;
 
+import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.dto.TbRentalInfoData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,15 @@ public class RestTemplateUtil {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	@Autowired
+	private JesicaProperties jesicaProperties;
+
 	//클리이언트 정보/코드 획득
 	public ResponseEntity<Map> authorizeToken() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		String url = "http://101.55.126.138:13000/api/v1/token/authorize";
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/token/authorize";
+		/*String url = "http://101.55.126.138:13000/api/v1/token/authorize";*/
 		return restTemplate.getForEntity(url, Map.class);
 	}
 
@@ -37,7 +42,8 @@ public class RestTemplateUtil {
 		}
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
-		String url = "http://101.55.126.138:13300/api/v1/dlvy/workers/locations?type="+type;
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/dlvy/workers/locations?type="+type;
+		/*String url = "http://101.55.126.138:13300/api/v1/dlvy/workers/locations?type="+type;*/
 		Map<String,Object> requestDto = new HashMap<>();
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
 		return restTemplate.exchange(url, HttpMethod.GET,entity,Map.class);
@@ -60,7 +66,8 @@ public class RestTemplateUtil {
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
-		String url = "http://101.55.126.138:13000/api/v1/token";
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/token";
+		/*String url = "http://101.55.126.138:13000/api/v1/token";*/
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
 
@@ -78,7 +85,8 @@ public class RestTemplateUtil {
 		headers.add("Access-Control-Allow-Origin", "*");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
-		String url = "http://101.55.126.138:13000/api/v1/token";
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/token";
+		/*String url = "http://101.55.126.138:13000/api/v1/token";*/
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
 
@@ -89,7 +97,8 @@ public class RestTemplateUtil {
 		log.info("authorization+"+authorization);
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
-		String url = "http://101.55.126.138:13000/api/v1/token/info";
+		/*String url = "http://101.55.126.138:13000/api/v1/token/info";*/
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/token/info";
 		Map<String,Object> requestDto = new HashMap<>();
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
 		return restTemplate.exchange(url, HttpMethod.GET,entity,Map.class);
@@ -110,14 +119,16 @@ public class RestTemplateUtil {
 		headers.add("clientId", clientId);
 		headers.add("code", code);
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
-		String url = "http://101.55.126.138:13000/api/v1/auth/login";
+		/*String url = "http://101.55.126.138:13000/api/v1/auth/login";*/
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/auth/login";
+		System.out.println(url);
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
 	//차량 대여정보 등록
 	public ResponseEntity<Map> insertCarRent(TbRentalInfoData tbRentalInfo, HttpSession session) {
 		Map<String,String> requestDto = new HashMap<>();
 
-		String rentApiKey = "adminApi";
+		/*String rentApiKey = "mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=";*/
 
 		requestDto.put("reservNum",tbRentalInfo.getReservNum());
 		requestDto.put("storeName",tbRentalInfo.getStoreName());
@@ -139,7 +150,8 @@ public class RestTemplateUtil {
 		headers.add("Content-Type", "application/json; charset=utf-8");
 		/*headers.add("RentApiKey", rentApiKey);*/
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
-		String url = "http://101.55.126.138:13000/api/v1/rents/reserv";
+		/*String url = "http://101.55.126.138:13000/api/v1/rents/reserv";*/
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/rents/reserv";
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
 
@@ -158,7 +170,8 @@ public class RestTemplateUtil {
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		HttpEntity<Map<String,Integer>> entity = new HttpEntity<>(requestDto, headers);
-		String url = "http://101.55.126.138:13000/api/v1/dlvy/workers/sync/"+workerNo;
+		/*String url = "http://101.55.126.138:13000/api/v1/dlvy/workers/sync/"+workerNo;*/
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/dlvy/workers/sync/"+workerNo;
 		return restTemplate.exchange(url, HttpMethod.PUT,entity,Map.class);
 	}
 

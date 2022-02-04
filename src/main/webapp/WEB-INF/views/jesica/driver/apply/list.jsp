@@ -200,6 +200,7 @@
                             <td class="text-center">${status.index + 1}</td>
                             <td class="text-center">
                                 <img style="width: 100px;" class="storeImg" src="/api/img/fileLoad?filePath=${item.profileFileSmall}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >
+                                <%--<img style="width: 100px;" class="storeImg" src="jesicar.co.kr/${item.profileFileSmall}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >--%>
                             </td>
                             <td class="text-center">${item.name}</td>
                             <td class="text-center">
@@ -308,6 +309,7 @@
 <div class="modal fade" id="attach_list" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="../../search/attachList.jsp" %>
 </div>
+
 <%--modal add end--%>
 <%--modal add start--%>
 <%--modal add end--%>
@@ -737,12 +739,13 @@
                             applyNo : applyNo,
                             uploadFile : uploadFile,
                             applyAttachType : applyAttachType,
-                            updateUserId : updateUserId
+                            updateUserId : updateUserId,
+                            rejectMemo : null
                         },
                         dataType: "json",
                         success: function (data) {
                             if (data.result == 1) {
-                                alert("승인되었습니다.");
+                                swal(`승인되었습니다.`);
                                 location.reload();
                             } else {
                                 alert("승인에 실패하였습니다.");
@@ -762,16 +765,20 @@
             let uploadFile = $(this).attr("uploadFile");
             let applyNo = $(this).attr("applyNo");
             let authStatus = 3;
-            let updateUserId = 1;
-            swal({
-                title: "반려 하시겠습니까",
+            let updateUserId = "${sessionScope.sessionKey.userLoginId}";
+
+            fixBootstrapModal();
+            swal("반려사유를 입력해주세요:",{
+                content: "input",
+                title: "반려 하시겠습니까?",
                 icon: "warning",
                 buttons: [
                     '취소',
                     '반려'
                 ],
-                dangerMode: true,
+                dangerMode: true
             }).then(function (isConfirm) {
+                var rejectMemoText = $(".swal-content__input").val()
                 if (isConfirm) {
                     $.ajax({
                         type: "POST",
@@ -785,13 +792,15 @@
                             applyAttachType : applyAttachType,
                             uploadFile : uploadFile,
                             applyNo : applyNo,
-                            updateUserId : updateUserId
+                            updateUserId : updateUserId,
+                            rejectMemo : rejectMemoText
                         },
                         /*contentType: "application/json;",*/
                         dataType: "json",
                         success: function (data) {
                             if (data.result == 1) {
-                                alert("반려되었습니다.");
+                                swal(`반려되었습니다.`);
+                                restoreBootstrapModal();
                                 location.reload();
                             } else {
                                 alert("반려에 실패하였습니다.");
@@ -801,8 +810,34 @@
                     });
                 }
             });
-        });
 
+
+           /* swal("Write something here:", {
+                content: "input",
+
+            })
+            .then((value) => {
+                swal(`You typed: ${value}`);
+
+            });*/
+        });
+// call this before showing SweetAlert:
+        function fixBootstrapModal() {
+            var modalNode = document.querySelector('.modal[tabindex="-1"]');
+            if (!modalNode) return;
+
+            modalNode.removeAttribute('tabindex');
+            modalNode.classList.add('js-swal-fixed');
+        }
+
+// call this before hiding SweetAlert (inside done callback):
+        function restoreBootstrapModal() {
+            var modalNode = document.querySelector('.modal.js-swal-fixed');
+            if (!modalNode) return;
+
+            modalNode.setAttribute('tabindex', '-1');
+            modalNode.classList.remove('js-swal-fixed');
+        }
 
         let date = new Date();
         let startDate = "${searchValue.startDate}";

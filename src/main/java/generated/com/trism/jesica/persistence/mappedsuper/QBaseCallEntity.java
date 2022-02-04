@@ -64,6 +64,8 @@ public class QBaseCallEntity extends EntityPathBase<BaseCallEntity> {
 
     public final DateTimePath<java.time.LocalDateTime> dlvyReqDate = createDateTime("dlvyReqDate", java.time.LocalDateTime.class);
 
+    public final NumberPath<Integer> dlvyTotalAmt = createNumber("dlvyTotalAmt", Integer.class);
+
     public final DateTimePath<java.time.LocalDateTime> finishDate = createDateTime("finishDate", java.time.LocalDateTime.class);
 
     public final StringPath goodsName = createString("goodsName");
