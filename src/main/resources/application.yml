@@ -36,11 +36,11 @@ logging:
     com.woorien.mobile: info
   file:
     #local
-    #path: Users/home/rnd/jesicaAdmin/log
+    path: Users/home/rnd/jesicaAdmin/log
     #test
     #path: /home/rnd/jesicaAdmin/log
     #real
-    path: /data/jesicar/logs/
+    #ath: /data/jesicar/logs/
 
 ---
 
@@ -51,14 +51,14 @@ spring:
   datasource:
     hikari:
       #test
-      #jdbc-url: jdbc:mysql://101.55.126.138/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
-      #username: jesicar01
-      #password: wptlzk2021
-
-      #real
-      jdbc-url: jdbc:mysql://trism-db-01.cdq6jmam0fnm.ap-northeast-2.rds.amazonaws.com:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+      jdbc-url: jdbc:mysql://101.55.126.138/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
       username: jesicar01
       password: wptlzk2021
+
+      #real
+      #jdbc-url: jdbc:mysql://trism-db-01.cdq6jmam0fnm.ap-northeast-2.rds.amazonaws.com:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+      #username: jesicar01
+      #password: wptlzk2021
       #real
       driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
   jpa:
@@ -147,9 +147,9 @@ file:
 
   baseImgPath:
     #real
-    path: /data/jesicar
+    #path: /data/jesicar
     #local
-    #path: Users/home/rnd
+    path: Users/home/rnd
     #101 server
     #path: /home/rnd
   servicePath:
@@ -171,15 +171,15 @@ file:
 
   messageFile:
     #test
-    #path: /home/rnd/jesicaAdmin/messages/message
+    path: /home/rnd/jesicaAdmin/messages/message
     #real
-    path: /data/jesicar/messages/message
+    #path: /data/jesicar/messages/message
   apiServer:
     #test
-    #server: http://101.55.126.138:13000/api
+    server: http://101.55.126.138:13000/api
 
     #real
-    server: https://api.jesicar.co.kr/api
+    #server: https://api.jesicar.co.kr/api
 
 spring:
   profiles:
@@ -197,28 +197,28 @@ spring:
 ## refreshToken 만료시간 30-day
 security:
   #test
-  #cert-key-path: keys/jesica-aes-dev.pem
-  #iv: SmVzaWNhQVBJUHJvZDIwMjEhQCM=
+  cert-key-path: keys/jesica-aes-dev.pem
+  iv: SmVzaWNhQVBJUHJvZDIwMjEhQCM=
   #real
-  cert-key-path: keysReal/jesica-aes-prod.pem
-  iv: SmVzaWNhX2RsdnlfcHJvZF8yMDIxIQ==
+  #cert-key-path: keysReal/jesica-aes-prod.pem
+  #iv: SmVzaWNhX2RsdnlfcHJvZF8yMDIxIQ==
   jwt:
     #test
-    #cert-key-path: keys/jesica-jwt-dev.pem
+    cert-key-path: keys/jesica-jwt-dev.pem
     #real
-    cert-key-path: keysReal/jesica-jwt-prod.pem
+    #cert-key-path: keysReal/jesica-jwt-prod.pem
     access-expiration-hour: 24
     refresh-expiration-hour: 336
-#trism:
-  #admin:
-    #key:
-      #enc: mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=
-      #plain: TrismDevAdmin2021
 trism:
   admin:
     key:
-      enc: 0T+QQSe2RklYb94k8hvQI2hV5AXZFYkqeBLGL3c2Dko=
-      plain: TrismProdAdmin2021
+      enc: mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=
+      plain: TrismDevAdmin2021
+#trism:
+  #admin:
+    #key:
+      #enc: 0T+QQSe2RklYb94k8hvQI2hV5AXZFYkqeBLGL3c2Dko=
+      #plain: TrismProdAdmin2021
 
 
 ########################################
