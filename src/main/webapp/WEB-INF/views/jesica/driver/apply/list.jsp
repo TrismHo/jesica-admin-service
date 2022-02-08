@@ -453,6 +453,8 @@
           let careerFile = $(this).attr("careerFile");
           let insertDate = $(this).attr("insertDate");
           let authDate = $(this).attr("authDate");
+
+
            if(serviceType == 1){
                serviceType = "렌터카";
            } else if(serviceType == 2) {
@@ -639,6 +641,7 @@
                                authStatusTxt = "반려";
                                statusColor = "style='background-color:#c6c6c6'"
                            }
+
                            var updateTime = "";
                            var insertTime = "";
                            var userId = "";
@@ -659,7 +662,30 @@
                                param1 = "면허번호 : <span class='text-green'>"+ tbWorkerApplyAttchList[i].param1+"</span>"
                            }
                            if(tbWorkerApplyAttchList[i].param2 != null){
-                               param2 = "면허종류 : "+ tbWorkerApplyAttchList[i].param2
+                               /*param2 = "면허종류 : "+ tbWorkerApplyAttchList[i].param2*/
+                               if(tbWorkerApplyAttchList[i].param2 == "11"){
+                                   param2 = "면허종류 : "+ "1종 대형";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "12") {
+                                   param2 = "면허종류 : "+ "1종 보통";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "13") {
+                                   param2 = "면허종류 : "+ "1종 소형";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "14") {
+                                   param2 = "면허종류 : "+ "1종대형견인";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "15") {
+                                   param2 = "면허종류 : "+ "1종 구난";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "16") {
+                                   param2 = "면허종류 : "+ "1종 소형견인";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "32") {
+                                   param2 = "면허종류 : "+ "2종 보통";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "33") {
+                                   param2 = "면허종류 : "+ "2종 소형";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "34") {
+                                   param2 = "면허종류 : "+ "2종 특수";
+                               } else if(tbWorkerApplyAttchList[i].param2 == "38") {
+                                   param2 = "면허종류 : "+ "2종 원자";
+                               } else {
+                                   param2 = "면허종류 : 알수없음";
+                               }
                            }
                            if(tbWorkerApplyAttchList[i].param3 != null){
                                param3 = "만료일 : &nbsp;&nbsp;&nbsp;"+ tbWorkerApplyAttchList[i].param3

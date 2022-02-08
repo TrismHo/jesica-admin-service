@@ -19,33 +19,24 @@ public class QTbEvent extends EntityPathBase<TbEvent> {
 
     public static final QTbEvent tbEvent = new QTbEvent("tbEvent");
 
-    public final com.trism.jesica.persistence.core.entity.QBaseEntity _super = new com.trism.jesica.persistence.core.entity.QBaseEntity(this);
+    public final com.trism.jesica.persistence.core.entity.QCreatedDateEntity _super = new com.trism.jesica.persistence.core.entity.QCreatedDateEntity(this);
 
     public final StringPath body = createString("body");
 
     public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);
 
-    public final DateTimePath<java.sql.Timestamp> endDate = createDateTime("endDate", java.sql.Timestamp.class);
+    public final DateTimePath<java.time.LocalDateTime> endDate = createDateTime("endDate", java.time.LocalDateTime.class);
 
-    public final NumberPath<Long> eventId = createNumber("eventId", Long.class);
-
-    public final StringPath imgFileSmall = createString("imgFileSmall");
+    public final NumberPath<Long> eventNo = createNumber("eventNo", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> insertDate = _super.insertDate;
 
     public final StringPath insertUserId = createString("insertUserId");
 
-    public final DateTimePath<java.sql.Timestamp> startDate = createDateTime("startDate", java.sql.Timestamp.class);
+    public final DateTimePath<java.time.LocalDateTime> startDate = createDateTime("startDate", java.time.LocalDateTime.class);
 
     public final StringPath title = createString("title");
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updateDate = _super.updateDate;
-
-    public final StringPath updateUserId = createString("updateUserId");
-
-    public final NumberPath<Integer> viewServiceType = createNumber("viewServiceType", Integer.class);
 
     public final NumberPath<Integer> viewYn = createNumber("viewYn", Integer.class);
 

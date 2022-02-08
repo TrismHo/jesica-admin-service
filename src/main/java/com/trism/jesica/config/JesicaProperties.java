@@ -20,6 +20,11 @@ public class JesicaProperties {
     private ServicePath servicePath;
     private ApiServer apiServer;
 
+    private BoardPath boardPath;
+    private EventPath eventPath;
+
+
+
     @Data
     public static class BaseImgPath {
         private String path;
@@ -67,5 +72,13 @@ public class JesicaProperties {
     @Data
     public static class ApiServer {
         private String server;
+    }
+    @Data
+    public static class BoardPath {
+        private String path;
+    }
+    @Data
+    public static class EventPath {
+        private String path;
     }
 }

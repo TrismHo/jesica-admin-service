@@ -216,6 +216,10 @@ public class DriverApplyController {
             if (tbUserWorker.getProfileFile() != null) {
                 url = URLEncoder.encode(tbUserWorker.getProfileFile(), "UTF-8");
             }
+            String url2 = "";
+            if (tbUserWorker.getProfileFile() != null) {
+                url2 = URLEncoder.encode(tbUserWorker.getLicenseFile(), "UTF-8");
+            }
 
             CipherAESUtils cipherAESUtils = new CipherAESUtils(keyGeneratorConfig.generateSecretKeySpec(),keyGeneratorConfig.generateIvParameterSpec());
 
@@ -224,6 +228,7 @@ public class DriverApplyController {
             model.addAttribute("tbUserWorker", tbUserWorker);
             model.addAttribute("tbWorkerCharge", tbWorkerCharge);
             model.addAttribute("imgFile", url);
+            model.addAttribute("imgFile2", url2);
         } catch (Exception e){
             e.printStackTrace();
         }

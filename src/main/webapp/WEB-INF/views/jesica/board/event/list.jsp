@@ -51,11 +51,12 @@
                                         <td colspan="3">
                                             <div class="row">
                                             </div>
+                                            <input type="hidden" name="dateStatus" value="OK">
                                             <label>
-                                                <select class="form-control dataStatus" name="dataStatus">
-                                                    <option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                    <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal" text="정상"/></option>
-                                                    <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop" text="정지"/></option>
+                                                <select class="form-control viewYn" name="viewYn">
+                                                    <option value="" <c:if test="${searchValue.viewYn == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
+                                                    <option value="1" <c:if test="${searchValue.viewYn == '1'}">selected</c:if>><spring:message code="list.search.normal" text="노출"/></option>
+                                                    <option value="0" <c:if test="${searchValue.viewYn == '0'}">selected</c:if>><spring:message code="list.search.stop" text="숨김"/></option>
                                                 </select>
                                             </label>
                                         </td>
@@ -103,22 +104,20 @@
                     <thead>
                         <tr class="text-center">
                             <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                            <th width="10%"><spring:message code="list.word.thumbnail" text="썸네일"/></th>
                             <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
                             <th width=""><spring:message code="list.word.contents" text="내용"/></th>
                             <th width="10%"><spring:message code="list.word.status" text="상태"/></th>
                             <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
-                            <th width="10%"><spring:message code="list.word.modifieddate" text="수정일"/></th>
                         </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="item"  items="${tbEventList}"  varStatus="status">
-                        <tr class="detailRow" eventId="${item.eventId}">
+                        <tr class="detailRow" eventNo="${item.eventNo}">
                             <td class="text-center">${status.index + 1}</td>
-                            <td>
+                           <%-- <td>
                                 <c:url var="url" value=""><c:param name="output" value="${item.imgFileSmall}" /></c:url>
                                 <c:set var="url" value="${fn:substringAfter(url, '=')}" />
-                                <img style="width: 80px;" class="storeImg" src="/api/img/fileLoad?filePath=${url}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" ></td>
+                                <img style="width: 80px;" class="storeImg" src="/api/img/fileLoad?filePath=${url}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" ></td>--%>
                             <td class="text-center">${item.title}</td>
                             <td class="text-center">
                                 <div style="overflow: hidden;
@@ -134,7 +133,6 @@
                                 <c:if test="${item.viewYn == 1}"><spring:message code="list.word.exposure" text="노출"/></c:if>
                             </td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
-                            <td class="text-center"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd" /></td>
                         </tr>
                     </c:forEach>
 
@@ -177,8 +175,8 @@
         });
 
         $(".detailRow").click(function() {
-            let eventId = $(this).attr("eventId")
-            location.href = "${path}/board/event/detail?eventId="+eventId;
+            let eventNo = $(this).attr("eventNo")
+            location.href = "${path}/board/event/detail?eventNo="+eventNo;
         });
 
 

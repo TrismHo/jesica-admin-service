@@ -101,7 +101,7 @@
                                     <input type="hidden" class="storeNo" name="storeNo" value="${tbUserWorker.storeNo}">
 <%--                                    <div class="timeline-header m-t-10 m-b-10">--%>
                                         <tr>
-                                            <td class="bg-light" style="width:15%"><spring:message code="list.detail.image" text="이미지"/></td>
+                                            <td class="bg-light" style="width:15%"><spring:message code="list.detail.image1" text="프로필 사진"/></td>
                                             <td style="width:60%">
                                                 <div class="category_sort">
                                                     <ul class="sort_list">
@@ -124,9 +124,103 @@
                                                     </label>
                                                     <input type="file" id="imgFile" name="imgFile" value="${tbUserWorker.profileFile}" class="fileBtn d-none">
                                                     <input type="hidden" name="imgFile" value="${tbUserWorker.profileFile}">
+                                                    <input type="hidden" name="profileFile" value="${tbUserWorker.profileFile}">
+                                                    <input type="hidden" name="profileFileSmall" value="${tbUserWorker.profileFileSmall}">
                                                 </div>
                                             </td>
-                                            <td class="text-danger-darker"><spring:message code="list.description.33" text="드라이버 사진을 등록하세요."/></td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.33" text="프로필 사진을 등록하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light" style="width:15%"><spring:message code="list.detail.image1" text="면허증 사진"/></td>
+                                            <td style="width:60%">
+                                                <div class="category_sort">
+                                                    <ul class="sort_list">
+                                                        <li>
+                                                            <div class="sort_body2" id="sort_body2">
+                                                                <img style="width: 150px;" class="imgFile2" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <%--                                                        * 권장 이미지 비율 : 984*876<br><br>--%>
+                                                            <div class="deliverymanFileName2"></div>
+                                                            <br>
+                                                            <div class="deliverymanFileSize2"></div>
+                                                        </li>
+                                                    </ul>
+                                                    <label for="imgFile2">
+                                                        <div class="button_base b03_skewed_slide_in btn btn-primary">
+                                                            <div><spring:message code="list.detail.selectfile" text="파일선택"/></div>
+                                                        </div>
+                                                    </label>
+                                                    <input type="file" id="imgFile2" name="imgFile2" value="${tbUserWorker.licenseFile}" class="fileBtn2 d-none">
+                                                    <input type="hidden" name="imgFile2" value="${tbUserWorker.licenseFile}">
+                                                    <input type="hidden" name="licenseFile" value="${tbUserWorker.licenseFile}">
+                                                </div>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.33" text="면허증 사진을 등록하세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="면허번호"/></td>
+                                            <td>
+                                                <input type="text" class="form-control width-200 licenseNum" name="licenseNum" value="${tbUserWorker.licenseNum}" maxlength="7" numberOnly>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender1" text="면허번호를 입력해주세요"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="면허종류"/></td>
+                                            <td>
+                                               <%-- <input type="text" class="form-control width-200 licenseType" name="licenseType" value="${tbUserWorker.licenseType}">--%>
+                                               <label class="">
+                                                    <input type="radio" name="licenseType" value="11" class="align-bottom licenseType"   <c:if test="${tbUserWorker.licenseType == '11'}">checked</c:if>> <spring:message code="list.detail.male1" text="1종대형"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="licenseType" value="12" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType == '12'}">checked</c:if>> <spring:message code="list.detail.female1" text="1종보통"/>
+                                                </label>
+                                                <%--<label class="m-l-10 ">
+                                                    <input type="radio" name="licenseType" value="13" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType == 13}">checked</c:if>> <spring:message code="list.detail.female1" text="1종소형"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="licenseType" value="14" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType == 14}">checked</c:if>> <spring:message code="list.detail.female1" text="1종대형견인"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="licenseType" value="15" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType == 15}">checked</c:if>> <spring:message code="list.detail.female1" text="1종구난"/>
+                                                </label><br><br>--%><%--
+                                                <label class="">
+                                                    <input type="radio" name="licenseType" value="16" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType == 16}">checked</c:if>> <spring:message code="list.detail.female1" text="1종소형견인"/>
+                                                </label>--%>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="licenseType" value="32" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType == '32'}">checked</c:if>> <spring:message code="list.detail.female1" text="2종보통"/>
+                                                </label>
+                                                <%--<label class="m-l-10 ">
+                                                    <input type="radio" name="licenseType" value="33" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType ==33}">checked</c:if>> <spring:message code="list.detail.female1" text="2종소형"/>
+                                                </label>--%>
+                                                <%--<label class="m-l-10 ">
+                                                    <input type="radio" name="licenseType" value="34" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType == 34}">checked</c:if>> <spring:message code="list.detail.female1" text="2종특수"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="licenseType" value="38" class="align-bottom licenseType"  <c:if test="${tbUserWorker.licenseType == 38}">checked</c:if>> <spring:message code="list.detail.female1" text="2종원자"/>
+                                                </label>--%>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="면허종류를 선택해주세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="면허갱신마감일"/></td>
+                                            <td>
+                                                <input type="text" class="form-control licenseExpDate" name="licenseExpDate" value="${tbUserWorker.licenseExpDate}" maxlength="8" numberOnly placeholder="YYYYMMDD">
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender1" text="면허갱신마감일을 입력해주세요(년월일)"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="면허 만료여부"/></td>
+                                            <td>
+                                                <label class="">
+                                                    <input type="radio" name="licenseExpYn" value="0" class="align-bottom licenseExpYn"   <c:if test="${tbUserWorker.licenseExpYn == 0}">checked</c:if>> <spring:message code="list.detail.male1" text="유효"/>
+                                                </label>
+                                                <label class="m-l-10 ">
+                                                    <input type="radio" name="licenseExpYn" value="1" class="align-bottom licenseExpYn"  <c:if test="${tbUserWorker.licenseExpYn == 1}">checked</c:if>> <spring:message code="list.detail.female1" text="만료"/>
+                                                </label>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="면허 만료여부를 선택해주세요."/></td>
                                         </tr>
                                         <tr>
                                             <td class="bg-light height-50"><spring:message code="list.detail.deliverymangender1" text="드라이버 급여방식"/></td>
@@ -512,6 +606,16 @@
     }
     $(() => {
 
+        $(".licenseExpDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyymmdd",
+            language: "kr"
+        });
+
+
+
         $(".takeoverCharge").val(percentChk($(".takeoverCharge").val()));
         $(".returnCharge").val(percentChk($(".returnCharge").val()));
         $(".mycarCharge").val(percentChk($(".mycarCharge").val()));
@@ -532,6 +636,8 @@
 
         let url = "${path}/api/img/fileLoad?filePath="+encodeURI("${imgFile}");
         $(".imgFile").attr("src",url);
+        let url2 = "${path}/api/img/fileLoad?filePath="+encodeURI("${imgFile2}");
+        $(".imgFile2").attr("src",url2);
 
         $('.pass-div i').on('click',function(){
             $('input').toggleClass('active');
@@ -570,7 +676,7 @@
         });
 
         //사업자등록증
-        $(document).on("change", "#saupja", function (e) {
+     /*   $(document).on("change", "#saupja", function (e) {
             e.preventDefault();
 
             let file = $("#saupja")[0].files[0],
@@ -588,10 +694,10 @@
             $('.fileName1').text(filename);
 
             return false;
-        });
+        });*/
 
         //참고이미지
-        $(document).on("change", "#image", function (e) {
+     /*   $(document).on("change", "#image", function (e) {
             e.preventDefault();
 
             let file = $("#image")[0].files[0],
@@ -609,7 +715,7 @@
             $('.fileName2').text(filename);
 
             return false;
-        });
+        });*/
 
         //imgFile
         $(document).on("change", "#imgFile", function (e) {
@@ -649,8 +755,49 @@
             return false;
         });
 
+
+
+        //imgFile2
+        $(document).on("change", "#imgFile2", function (e) {
+            e.preventDefault();
+            chk_file_type(this);
+            let imagetochange = "<spring:message code="list.script.imagetochange" text="변경할 이미지"/>";
+            let sizemsg = "<spring:message code="list.script.size" text="용량"/>";
+
+            var file2 = $("#imgFile2")[0].files[0],
+                reader = new FileReader();
+            /*파일 읽기를 시작*/
+            reader.onload = function (event) {
+                var img2 = new Image();
+                img2.src = event.target.result;
+                /*읽기가 끝나고 난후에*/
+                reader.onloadend = function (e) {
+                    if (img2.width > 200) {
+                        // note: no onload required since we've got the dataurl...I think! :)
+                        img2.width = 200;
+                    }
+                    sort_body2.innerHTML = '';
+                    sort_body2.appendChild(img2);
+                }
+            };
+            reader.readAsDataURL(file2);
+            //파일명 삽입
+            if (window.FileReader) {
+                // modern browser
+                var filename2 = file.name;
+            } else {
+                // old IE
+                var filename2 = $("#imgFile2").val().split('/').pop().split('\\').pop();
+            } // 추출한 파일명 삽입
+            $('.deliverymanFileName2').text(imagetochange +" :" + filename2);
+            $('.deliverymanFileSize2').text(sizemsg +" :" + file.size + " Byte");
+
+            return false;
+        });
+
+
         //deliverymanImgFile2
-        $(document).on("change", "#deliverymanImgFile2", function (e) {
+     /*   $(document).on("change", "#deliverymanImgFile2", function (e) {
             e.preventDefault();
             chk_file_type(this);
             let imagetochange = "<spring:message code="list.script.imagetochange" text="변경할 이미지"/>";
@@ -658,11 +805,11 @@
 
             var file = $("#deliverymanImgFile2")[0].files[0],
                 reader = new FileReader();
-            /*파일 읽기를 시작*/
+            /!*파일 읽기를 시작*!/
             reader.onload = function (event) {
                 var img = new Image();
                 img.src = event.target.result;
-                /*읽기가 끝나고 난후에*/
+                /!*읽기가 끝나고 난후에*!/
                 reader.onloadend = function (e) {
                     if (img.width > 200) {
                         // note: no onload required since we've got the dataurl...I think! :)
@@ -685,7 +832,7 @@
             $('.deliverymanFileSize2').text(sizemsg +" :" + file.size + " Byte");
 
             return false;
-        });
+        });*/
 
         $(".drawing-btn").click(function() {
             showDrawingManager();
@@ -707,7 +854,6 @@
             let update = "<spring:message code="list.script.update" text="수정"/>";
             let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
             let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
-
             let joinDate = replaceAll($(".joinDate").val(),"-","");
             $(".joinDate").val(joinDate);
 
@@ -734,6 +880,7 @@
                         formData.append("tbUserWorkerData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
                         formData.append("tbWorkerChargeData",  new Blob([JSON.stringify(req2)], {type:"application/json"}));
                         formData.append("imgFile", $("#imgFile")[0].files[0]);
+                        formData.append("imgFile2", $("#imgFile2")[0].files[0]);
                         /*formData.append("tbUserWorker",  new Blob([JSON.stringify(req2)], {type:"application/json"}));*/
                         $.ajax({
                             type: "POST",
@@ -785,17 +932,17 @@
         let pwCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/.test(args.bmLoginPwd);
         let regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@#$%&\\\=\(\'\"]/gi;
 
-        if (isNull(args.registNum)) {
+        /*if (isNull(args.registNum)) {
             return alert_focus("registNum", " 사원번호를 입력해주세요");
-        } else if (isNull(args.name)) {
+        } else*/ if (isNull(args.name)) {
             return alert_focus("name", "드라이버 이름을 입력해주세요");
         } else if (isNull(args.phone)) {
             return alert_focus("phone", "드라이버 연락처를 입력해주세요");
-        } else if (isNull(args.addr)) {
+        } /*else if (isNull(args.addr)) {
             return alert_focus("addr", "거주지 주소를 입력해주세요");
         } else if (isNull(args.addr)) {
             return alert_focus("addr", "거주지 주소를 입력해주세요");
-        }
+        }*/
         return true;
     }
 

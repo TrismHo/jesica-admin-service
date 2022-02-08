@@ -87,6 +87,9 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
     public final DateTimePath<java.time.LocalDateTime> dlvyReqDate;
 
     //inherited
+    public final NumberPath<Integer> dlvyTotalAmt;
+
+    //inherited
     public final DateTimePath<java.time.LocalDateTime> finishDate;
 
     //inherited
@@ -192,6 +195,7 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
         this.dlvyNo = _super.dlvyNo;
         this.dlvyPenaltyAmt = _super.dlvyPenaltyAmt;
         this.dlvyReqDate = _super.dlvyReqDate;
+        this.dlvyTotalAmt = _super.dlvyTotalAmt;
         this.finishDate = _super.finishDate;
         this.goodsName = _super.goodsName;
         this.insertDate = _super.insertDate;

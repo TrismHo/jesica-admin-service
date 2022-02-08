@@ -50,6 +50,8 @@ public class QTbUserWorker extends EntityPathBase<TbUserWorker> {
 
     public final NumberPath<Integer> deposit = createNumber("deposit", Integer.class);
 
+    public final NumberPath<Integer> dlvyLimit = createNumber("dlvyLimit", Integer.class);
+
     public final StringPath gender = createString("gender");
 
     public final NumberPath<Integer> headNo = createNumber("headNo", Integer.class);

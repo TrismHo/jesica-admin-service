@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8"/>
-    <title>Jesicar | 업데이트 관리</title>
+    <title>Jesicar | 업데이트 내역</title>
     <%@include file="../../../common/include_head.jsp" %>
 </head>
 <body>
@@ -29,16 +29,16 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5" text="게시판관리"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5.sub1" text="업데이트 관리 등록"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5.sub1" text="업데이트 내역 등록"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active">등록<%--<spring:message code="merchandise.insert.title" text="default text"/>--%><%--상품등록--%></li>
                 </ol>
-                <h3 class="rix-title p-b-5">업데이트 관리 등록<%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
+                <h3 class="rix-title p-b-5">업데이트 내역 등록<%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
                     <div class="table-responsive m-l-5">
                         <form name="insert_form" id="insert_form" class="insert_form">
-                            <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userStaffNo}">
+                            <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
                             <input type="hidden" class="insertUserName" name="insertUserName" value="${sessionScope.sessionKey.userStaffName}">
                             <input type="hidden" name="noticeNo" value="">
                             <input type="hidden" name="dataStatus" value="1">
@@ -85,11 +85,11 @@
         let basicList = "${sessionScope.sessionKey.userRole}";
 
         $(".btn_list").click(function() {
-            location.href = "${path}/board/release/list";
+            location.href = "${path}/system/release/list";
         });
 
         $(document).on("click",".btn_add",function() {
-            let url = "${path}/api/board/release/insert";
+            let url = "${path}/api/system/release/insert";
             let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
             let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
@@ -122,7 +122,7 @@
                             success: function (data) {
                                 if (data.result == 200) {
                                     alert(registrationwassuccessful);
-                                    location.href="${path}/board/release/list?dataStatus=OK"
+                                    location.href="${path}/system/release/list?dataStatus=OK"
                                 } else {
                                     alert(confirmfailmsg);
                                     return;

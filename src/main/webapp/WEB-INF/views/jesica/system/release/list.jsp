@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<head>리
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
@@ -28,11 +28,10 @@
     <div id="content" class="content p-0">
         <!-- begin panel -->
         <div class="panel panel-inverse m-t-1">
-
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="시스템 설정"/></a></li>
                     <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 관리"/></li>
                 </ol>
                 <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 관리"/><%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
@@ -169,7 +168,7 @@
         });
 
         $(".insert_btn").click(function() {
-            location.href = '${path}/board/release/insert';
+            location.href = '${path}/system/release/insert';
         });
 
 
@@ -210,7 +209,7 @@
     });
     $(document).on("click",".detailRow",function(){
         let noticeNo = $(this).attr("noticeNo");
-        location.href = "${path}/board/release/detail?noticeNo="+noticeNo;
+        location.href = "${path}/system/release/detail?noticeNo="+noticeNo;
     });
 </script>
 </body>

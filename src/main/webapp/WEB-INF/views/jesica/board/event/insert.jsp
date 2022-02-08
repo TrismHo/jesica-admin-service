@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko">록
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 공지등록"/></title>
+    <title>Jesicar | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 관리등록"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -28,11 +28,11 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.eventnoticeregistration" text="이벤트 공지등록"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="이벤트 관리"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.eventnotice1" text="이벤트 관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.eventnoticeregistration" text="이벤트 관리등록"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.eventnoticeregistration" text="이벤트 공지등록"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.eventnoticeregistration" text="이벤트 관리등록"/></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
@@ -54,7 +54,7 @@
                                         </label>
                                     </td>
                                 </tr>
-                                <tr>
+                                <%--<tr>
                                     <td class="bg-light"><spring:message code="list.detail.attachments" text="첨부파일"/></td>
                                     <td>
                                         <div class="category_sort">
@@ -79,7 +79,7 @@
                                             <input type="file" id="imgFileSmall" name="imgFileSmall" class="fileBtn d-none">
                                         </div>
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
                                     <td><input type="text" name="title" value="${tbNoticePlatform.title}" class="form-control width-full title" maxlength="150"></td>
@@ -87,7 +87,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
                                     <td>
-                                        <textarea name="body"  class="form-control width-full body" rows="10">${tbNoticePlatform.body}</textarea>
+                                        <textarea name="body" id="body"  class="form-control width-full body" rows="10">${tbNoticePlatform.body}</textarea>
                                     </td>
                                 </tr>
 
@@ -133,6 +133,14 @@
 <%-- Custom JS End--%>
 
 <script>
+
+  /*  CKEDITOR.replace('body', { filebrowserUploadUrl: '${path}/api/file/upload',
+        font_names: '맑은 고딕/Malgun Gothic;굴림/Gulim;돋움/Dotum;바탕/Batang;궁서/Gungsuh;Arial/Arial;Comic Sans MS/Comic Sans MS;Courier New/Courier New;Georgia/Georgia;Lucida Sans Unicode/Lucida Sans Unicode;Tahoma/Tahoma;Times New Roman/Times New Roman;MS Mincho/MS Mincho;Trebuchet MS/Trebuchet MS;Verdana/Verdana',
+        font_defaultLabel: '맑은 고딕/Malgun Gothic',
+        fontSize_defaultLabel: '12',
+        language: 'ko', });*/
+
+
     $(() => {
         $(".btn_list").click(function() {
             location.href = "${path}/board/event/list";
@@ -163,7 +171,7 @@
                     if (isConfirm) {
                         var formData = new FormData(document.getElementById('insert_form'));
                         formData.append("tbEvent",  new Blob([JSON.stringify(req)], {type:"application/json"}));
-                        formData.append("imgFileSmall",_forms.find('#imgFileSmall')[0]);
+                        /*formData.append("imgFileSmall",_forms.find('#imgFileSmall')[0]);*/
                         $.ajax({
                             type: "POST",
                             url: url,

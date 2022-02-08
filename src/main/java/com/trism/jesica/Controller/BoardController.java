@@ -4,7 +4,6 @@ import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.BoardService;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -190,10 +188,10 @@ public class BoardController {
     }
 
     @GetMapping("/event/detail")
-    public ModelAndView detailEvent(@RequestParam("eventId") Long eventId , Model model) {
-        log.info("eventNo :: {}",eventId);
-        try {
-            TbEvent tbEvent = boardService.getTbEventDetail(eventId);
+    public ModelAndView detailEvent(@RequestParam("eventNo") Long eventNo , Model model) {
+        log.info("eventNo :: {}",eventNo);
+      /*  try {
+
             model.addAttribute("tbEvent", tbEvent);
             if(tbEvent.getImgFileSmall() != null){
                 model.addAttribute("imgFileSmall", URLEncoder.encode(tbEvent.getImgFileSmall(),"UTF-8"));
@@ -202,15 +200,12 @@ public class BoardController {
             }
         } catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
+
+        TbEvent tbEvent = boardService.getTbEventDetail(eventNo);
+        model.addAttribute("tbEvent", tbEvent);
         return new ModelAndView("jesica/board/event/detail");
     }
-
-
-
-
-
-
 
     @GetMapping("/platforminquiry/list")
     public ModelAndView listPlatformInquiry() {
@@ -240,44 +235,6 @@ public class BoardController {
     public ModelAndView detailBursimCustomerNotice() {
 
         return new ModelAndView("jesica/board/bursimcust/detail");
-    }
-
-    @GetMapping("/release/list")
-    public ModelAndView releaseList(@RequestParam Map<String,Object> searchValue,
-                                  Model model, HttpSession session) {
-        log.info("@@searchValue {}",searchValue);
-        try {
-            if (!searchValue.isEmpty()) {
-                putSearchOption(session, searchValue);
-            } else {
-                searchValue = getSearchOption(session);
-            }
-
-            List<TbNoticeRelease> resultList =  boardService.tbReleaseSearch(searchValue);
-            model.addAttribute("tbNoticeReleaseList", resultList);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        model.addAttribute("searchValue", searchValue);
-        return new ModelAndView("jesica/board/release/list");
-    }
-
-    @GetMapping("/release/detail")
-    public ModelAndView detailRelease(@RequestParam("noticeNo") Long noticeNo , Model model) {
-        log.info("noticeNo :: {}",noticeNo);
-        try {
-            TbNoticeRelease tbNoticeRelease = boardService.getTbReleaseDetail(noticeNo);
-            model.addAttribute("tbNoticeRelease", tbNoticeRelease);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return new ModelAndView("jesica/board/release/detail");
-    }
-
-    @GetMapping("/release/insert")
-    public ModelAndView insertRelese() {
-        return new ModelAndView("jesica/board/release/insert");
     }
 
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {

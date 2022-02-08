@@ -23,6 +23,7 @@ import com.trism.jesica.persistence.Entitiy.goods.*;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -1012,7 +1013,8 @@ public class ApiController {
     @PostMapping(value="/deliveryman/insert/action" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> deliverymanInsertAction(
             @RequestPart(value="tbUserWorkerData" ,required = true) TbUserWorkerData tbUserWorkerData
-            ,@RequestPart(value="imgFile" ,required = false) MultipartFile imgFile,
+            ,@RequestPart(value="imgFile" ,required = false) MultipartFile imgFile
+            ,@RequestPart(value="imgFile2" ,required = false) MultipartFile imgFile2,
             HttpSession session, HttpServletRequest request
     ) {
         log.info("TbUserWorker storeNo::{}", tbUserWorkerData.getStoreNo());
@@ -1042,7 +1044,29 @@ public class ApiController {
             if("".equals(tbUserWorkerData.getBankAccount())){
                 tbUserWorkerData.setBankAccount(null);
             }
-            tbUserWorker =  apiService.insertTbUserWork(tbUserWorkerData, imgFile, session);
+            if("".equals(tbUserWorkerData.getProfileFile())){
+                tbUserWorkerData.setProfileFile(null);
+            }
+            if("".equals(tbUserWorkerData.getProfileFileSmall())){
+                tbUserWorkerData.setProfileFileSmall(null);
+            }
+            if("".equals(tbUserWorkerData.getLicenseFile())){
+                tbUserWorkerData.setLicenseFile(null);
+            }
+            if("".equals(tbUserWorkerData.getLicenseNum())){
+                tbUserWorkerData.setLicenseNum(null);
+            }
+            if("".equals(tbUserWorkerData.getLicenseType())){
+                tbUserWorkerData.setLicenseType(null);
+            }
+            if("".equals(tbUserWorkerData.getLicenseExpDate())){
+                tbUserWorkerData.setLicenseExpDate(null);
+            }
+            if("".equals(tbUserWorkerData.getBlockTypeCode())){
+                tbUserWorkerData.setBlockTypeCode(null);
+            }
+
+            tbUserWorker =  apiService.insertTbUserWork(tbUserWorkerData, imgFile,imgFile2, session);
             if (tbUserWorker != null) {
                 if(tbUserWorker.getUserNo() != null){
                     ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorker.getUserNo(), session);
@@ -1176,6 +1200,7 @@ public class ApiController {
             @RequestPart(value="tbUserWorkerData" ,required = true) TbUserWorkerData tbUserWorkerData,
             @RequestPart(value="tbWorkerChargeData" ,required = true) TbWorkerChargeData tbWorkerChargeData
             ,@RequestPart(value="imgFile" ,required = false) MultipartFile imgFile
+            ,@RequestPart(value="imgFile2" ,required = false) MultipartFile imgFile2
             ,HttpSession session
     ) {
         log.info("TbUserWorker headNo::{}", tbUserWorkerData.getHeadNo());
@@ -1202,9 +1227,31 @@ public class ApiController {
         if("".equals(tbUserWorkerData.getBankAccount())){
             tbUserWorkerData.setBankAccount(null);
         }
+        if("".equals(tbUserWorkerData.getProfileFile())){
+            tbUserWorkerData.setProfileFile(null);
+        }
+        if("".equals(tbUserWorkerData.getProfileFileSmall())){
+            tbUserWorkerData.setProfileFileSmall(null);
+        }
+        if("".equals(tbUserWorkerData.getLicenseFile())){
+            tbUserWorkerData.setLicenseFile(null);
+        }
+        if("".equals(tbUserWorkerData.getLicenseNum())){
+            tbUserWorkerData.setLicenseNum(null);
+        }
+        if("".equals(tbUserWorkerData.getLicenseType())){
+            tbUserWorkerData.setLicenseType(null);
+        }
+        if("".equals(tbUserWorkerData.getLicenseExpDate())){
+            tbUserWorkerData.setLicenseExpDate(null);
+        }
+        if("".equals(tbUserWorkerData.getBlockTypeCode())){
+            tbUserWorkerData.setBlockTypeCode(null);
+        }
+
         int result = 0;
         try {
-            result =  apiService.updateTbUser(tbUserWorkerData,tbWorkerChargeData, imgFile, session);
+            result =  apiService.updateTbUser(tbUserWorkerData,tbWorkerChargeData, imgFile, imgFile2, session);
         } catch (Exception e){
             log.error("error :"+e.getMessage());
         }
@@ -1682,6 +1729,60 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    @ResponseBody
+    @PostMapping("/file/upload")
+    public ResponseEntity<?> eventUpdate(
+            @RequestPart(value="body" ,required = false) MultipartFile imgFile
+            ,HttpServletResponse response
+    ) {
+        PrintWriter pw = null;
+        log.info("uploadStart");
+        try {
+            log.info("upload1");
+            OutputStream os = null;
+            /*if (imgFile != null && !imgFile.isEmpty()) {*/
+                String fileName = RandomStringUtils.random(8, 33, 125, true, true);
+
+                Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getEventPath().getPath()
+                );
+                log.info("upload1");
+                byte[] bytes = imgFile.getBytes();
+
+                File uploadFile = new File(filePath.toFile().getPath());
+                if (!uploadFile.exists()) {
+                    uploadFile.mkdirs();
+                }
+                log.info("upload2");
+                int pos = imgFile.getOriginalFilename().lastIndexOf(".");
+                String ext = imgFile.getOriginalFilename().substring(pos + 1);
+                log.info("upload3");
+                Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getEventPath().getPath()
+                        , fileName + "." + ext);
+
+                os = new FileOutputStream(new File(upoladFullPath.toFile().getPath()));
+                os.write(bytes);
+                os.close();
+                log.info("upload4");
+                log.debug("upoladFullPath={}", upoladFullPath);
+                JsonObject json = new JsonObject();
+                json.addProperty("uploaded", 1);
+                json.addProperty("fileName", fileName);
+                json.addProperty("url", upoladFullPath.toString());
+                log.info("fileName:"+fileName);
+                log.info("upoladFullPath:"+upoladFullPath.toString());
+                pw.println(json);
+
+            /*}*/
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(pw,HttpStatus.OK);
+    }
+
 
     //공유 그룹 검색
     @GetMapping("/userStaff/list")
@@ -1819,11 +1920,11 @@ public class ApiController {
     @ResponseBody
     @PostMapping("/board/event/insert")
     public ResponseEntity<?> eventInsert(@RequestPart TbEvent tbEvent
-            ,@RequestPart(value="imgFileSmall" ,required = false) MultipartFile imgFileSmall
+            /*,@RequestPart(value="imgFileSmall" ,required = false) MultipartFile imgFileSmall*/
     ) {
         log.info("tbEvent::{}", tbEvent);
-        log.info("imgFileSmall::{}", imgFileSmall);
-        int result =  apiService.insertEvent(tbEvent, imgFileSmall);
+        /*log.info("imgFileSmall::{}", imgFileSmall);*/
+        int result =  apiService.insertEvent(tbEvent);
         Map<String,Object> map = new HashMap<>();
         if(result > 0 ) {
             map.put("result","200");
@@ -1840,11 +1941,11 @@ public class ApiController {
     @ResponseBody
     @PostMapping("/board/event/update")
     public ResponseEntity<?> eventUpdate(@RequestPart TbEvent tbEvent
-            ,@RequestPart(value="imgFileSmallFile" ,required = false) MultipartFile imgFileSmallFile
+            /*,@RequestPart(value="imgFileSmallFile" ,required = false) MultipartFile imgFileSmallFile*/
     ) {
         log.info("tbEvent::{}", tbEvent);
-        log.info("imgFileSmallFile::{}", imgFileSmallFile);
-        int result =  apiService.updateEvent(tbEvent, imgFileSmallFile);
+        /*log.info("imgFileSmallFile::{}", imgFileSmallFile);*/
+        int result =  apiService.updateEvent(tbEvent);
         Map<String,Object> map = new HashMap<>();
         if(result > 0 ) {
             map.put("result","200");
@@ -1856,9 +1957,29 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    //이벤트 삭제
+    @ResponseBody
+    @PostMapping("/board/event/delete")
+    public ResponseEntity<?> eventDelete(@RequestParam("eventNo") Long eventNo
+    ) {
+        log.info("eventNo::{}", eventNo);
+
+        int result =  apiService.eventDelete(eventNo);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0) {
+            map.put("result","200");
+            map.put("message", "삭제 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "삭제에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+
     //릴리즈내역 공지 등록
     @ResponseBody
-    @PostMapping(value="/board/release/insert" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(value="/system/release/insert" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> tbNoticeReleseInsertAction(
             @RequestPart(value="tbNoticeRelease" ,required = true) TbNoticeRelease tbNoticeRelease
     ) {
@@ -1877,7 +1998,7 @@ public class ApiController {
 
     //릴리즈내역 공지 수정
     @ResponseBody
-    @PostMapping(value="/board/release/update" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(value="/system/release/update" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> tbNoticeReleseUpdateAction(
             @RequestPart(value="tbNoticeRelease" ,required = true) TbNoticeRelease tbNoticeRelease
     ) {
@@ -1893,14 +2014,16 @@ public class ApiController {
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
+
+
     //플랫폼 공지삭제
     @ResponseBody
-    @PostMapping("/board/release/delete")
+    @PostMapping("/system/release/delete")
     public ResponseEntity<?> noticeReleaseDelete(@RequestParam("noticeNo") Long noticeNo
     ) {
-        log.info("noticeNo::{}", noticeNo);
+      log.info("noticeNo::{}", noticeNo);
 
-        int result =  apiService.noticeReleaseDelete(noticeNo);
+          int result =  apiService.noticeReleaseDelete(noticeNo);
         Map<String,Object> map = new HashMap<>();
         if(result > 0) {
             map.put("result","200");

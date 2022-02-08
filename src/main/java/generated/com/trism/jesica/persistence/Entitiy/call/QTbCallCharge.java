@@ -27,11 +27,11 @@ public class QTbCallCharge extends EntityPathBase<TbCallCharge> {
 
     public final NumberPath<Integer> acceptStoreNo = createNumber("acceptStoreNo", Integer.class);
 
+    public final NumberPath<Integer> callCharge = createNumber("callCharge", Integer.class);
+
     public final NumberPath<Integer> cancelYn = createNumber("cancelYn", Integer.class);
 
     public final NumberPath<Integer> discountAmt = createNumber("discountAmt", Integer.class);
-
-    public final NumberPath<Integer> dlvyShareType = createNumber("dlvyShareType", Integer.class);
 
     public final NumberPath<Integer> dlvyTotalAmt = createNumber("dlvyTotalAmt", Integer.class);
 
@@ -43,15 +43,9 @@ public class QTbCallCharge extends EntityPathBase<TbCallCharge> {
 
     public final NumberPath<Integer> giveStoreNo = createNumber("giveStoreNo", Integer.class);
 
-    public final DateTimePath<java.sql.Timestamp> insertDate = createDateTime("insertDate", java.sql.Timestamp.class);
+    public final DateTimePath<java.time.LocalDateTime> insertDate = createDateTime("insertDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Integer> mngPrice = createNumber("mngPrice", Integer.class);
-
-    public final NumberPath<Integer> mngRateAccept = createNumber("mngRateAccept", Integer.class);
-
-    public final NumberPath<Integer> mngRateGive = createNumber("mngRateGive", Integer.class);
-
-    public final NumberPath<Integer> mngRatePlatform = createNumber("mngRatePlatform", Integer.class);
 
     public final NumberPath<Integer> mngRateType = createNumber("mngRateType", Integer.class);
 
@@ -64,6 +58,10 @@ public class QTbCallCharge extends EntityPathBase<TbCallCharge> {
     public final NumberPath<Integer> payAmtCc = createNumber("payAmtCc", Integer.class);
 
     public final NumberPath<Integer> payAmtPt = createNumber("payAmtPt", Integer.class);
+
+    public final NumberPath<Integer> pgCharge = createNumber("pgCharge", Integer.class);
+
+    public final NumberPath<Integer> pgIncome = createNumber("pgIncome", Integer.class);
 
     public final NumberPath<Integer> serviceAmt = createNumber("serviceAmt", Integer.class);
 

@@ -147,8 +147,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public TbEvent getTbEventDetail(Long eventId) {
-        Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findById(eventId);
+    public TbEvent getTbEventDetail(Long eventNo) {
+        Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findById(eventNo);
         if(tbNoticePlatForm.isPresent() == false) {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
@@ -156,8 +156,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public TbNoticeRelease getTbReleaseDetail(Long eventId) {
-        Optional<TbNoticeRelease> tbNoticeRelease = tbNoticeReleaseRepository.findById(eventId);
+    public TbNoticeRelease getTbReleaseDetail(Long noticeId) {
+        Optional<TbNoticeRelease> tbNoticeRelease = tbNoticeReleaseRepository.findById(noticeId);
         if(tbNoticeRelease.isPresent() == false) {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }

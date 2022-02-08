@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.eventnoticedetails" text="이벤트 공지상세"/></title>
+    <title>Jesicar | <spring:message code="list.detail.eventnoticedetails" text="이벤트 관리상세"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -30,17 +30,17 @@
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/><%--가맹점 설정--%></a></li>
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.eventnoticedetails" text="이벤트 공지상세"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.eventnoticedetails" text="이벤트 관리상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.eventnoticedetails" text="이벤트 공지상세"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.eventnoticedetails" text="이벤트 관리상세"/></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
                     <div class="table-responsive m-l-5">
                         <form name="update_form" id="update_form" class="update_form">
-                            <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
+                            <%--<input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">--%>
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${tbEvent.insertUserId}">
-                            <input type="hidden" name="eventId" value="${tbEvent.eventId}">
+                            <input type="hidden" name="eventNo" value="${tbEvent.eventNo}">
                             <input type="hidden" name="dataStatus" value="${tbEvent.dataStatus}">
                             <table class="table table-bordered">
                                 <tbody>
@@ -62,10 +62,10 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
                                     <td>
-                                        <textarea name="body"  class="form-control width-full body" rows="10">${tbEvent.body}</textarea>
+                                        <textarea  name="body"  class="form-control width-full body " rows="10">${tbEvent.body}</textarea>
                                     </td>
                                 </tr>
-                                <tr>
+                               <%-- <tr>
                                     <td class="bg-light"><spring:message code="list.detail.attachments" text="첨부파일"/></td>
                                     <td>
                                         <div class="category_sort">
@@ -73,7 +73,7 @@
                                                 <li>
                                                     <div class="sort_body" id="sort_body">
                                                         <img style="width: 150px;" class="storeImg4" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
-                                                        <%--<img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">--%>
+                                                        &lt;%&ndash;<img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">&ndash;%&gt;
                                                     </div>
                                                 </li>
                                                 <li>
@@ -92,14 +92,14 @@
                                             <input type="hidden" name="imgFileSmall" value="${tbEvent.imgFileSmall}">
                                         </div>
                                     </td>
-                                </tr>
+                                </tr>--%>
 
                                 </tbody>
                             </table>
                         </form>
                     </div>
                     <div class="m-l-5">
-                        <button type="button" class="btn btn-danger btn_remove float-right m-t-5 m-b-5 m-r-5"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
+                        <button type="button" class="btn btn-danger btn_remove float-right m-t-5 m-b-5 m-r-5" eventNo="${tbEvent.eventNo}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
                         <button type="button" class="btn btn-primary btn_up float-right m-t-5 m-b-5 m-r-5"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
                         <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
                     </div>
@@ -146,6 +146,47 @@
             location.href = "${path}/board/event/list";
         })
 
+        $(".btn_remove").click(function() {
+            let url = "${path}/api/board/event/delete";
+            let eventNo = $(this).attr("eventNo");
+            let doyouwanttodelete = "<spring:message code="list.script.doyouwanttodelete" text="삭제 하시겠습니까?"/>";
+            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+            let deletemsg = "<spring:message code="list.script.deletemsg" text="삭제"/>";
+            let deletionfailed = "<spring:message code="list.script.deletionfailed" text="삭제에 실패하였습니다."/>";
+            let deleted = "<spring:message code="list.script.deleted" text="삭제되었습니다."/>";
+
+            swal({
+                title: doyouwanttodelete,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    deletemsg
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            eventNo : eventNo
+                        },
+                        /*contentType: "application/json;",*/
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(deleted);
+                                location.href="${path}/board/event/list?dataStatus=OK";
+                            } else {
+                                alert(deletionfailed);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        })
+
 
         $(document).on("click",".btn_up",function() {
             let url = "${path}/api/board/event/update";
@@ -172,7 +213,7 @@
                     if (isConfirm) {
                         var formData = new FormData(document.getElementById('update_form'));
                         formData.append("tbEvent", new Blob([JSON.stringify(req)], {type: "application/json"}));
-                        formData.append("imgFileSmall", _forms.find('#imgFileSmallFile')[0]);
+                        /*formData.append("imgFileSmall", _forms.find('#imgFileSmallFile')[0]);*/
                         $.ajax({
                             type: "POST",
                             url: url,

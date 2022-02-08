@@ -1149,7 +1149,7 @@ public class ApiService {
     }
 
     @Transactional
-    public TbUserWorker insertTbUserWork(TbUserWorkerData tbUserWorkerData , MultipartFile imgFile, HttpSession session) throws Exception  {
+    public TbUserWorker insertTbUserWork(TbUserWorkerData tbUserWorkerData , MultipartFile imgFile, MultipartFile imgFile2, HttpSession session) throws Exception  {
 
         int result = 0;
         TbUserWorker tbUserWorker = null;
@@ -1163,11 +1163,7 @@ public class ApiService {
             String mm = format2.format(time);
 
             if (imgFile != null && !imgFile.isEmpty()) {
-                //String fileName = RandomStringUtils.random(8,33,125,true,true);
                 String fileName =DateUtil.now_yyyymmdd().substring(6,8) +"_"+ DateUtil.now_hhmmss()+ "_" + RandomStringUtils.random(4,33,125,true,true);
-                /*Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
-                        tbUserWorkerData.getHeadNo().toString(),
-                        tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker");*/
                 Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
                         jesicaProperties.getServicePath().getPath(),
                         jesicaProperties.getProfilePath().getPath(),
@@ -1191,7 +1187,6 @@ public class ApiService {
                         mm,
                         fileName + "." + ext);
 
-
                 Path fileNamePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
                         jesicaProperties.getServicePath().getPath(),
                         jesicaProperties.getProfilePath().getPath(),
@@ -1208,6 +1203,88 @@ public class ApiService {
             } else {
                 tbUserWorkerData.setProfileFile(tbUserWorkerData.getProfileFile());
             }
+
+
+            if (imgFile != null && !imgFile.isEmpty()) {
+                OutputStream os2 = null;
+                String fileName =DateUtil.now_yyyymmdd().substring(6,8) +"_"+ DateUtil.now_hhmmss()+ "_" + RandomStringUtils.random(4,33,125,true,true);
+                int posThumb = imgFile.getOriginalFilename().lastIndexOf( "." );
+                String extThumb = imgFile.getOriginalFilename().substring( posThumb + 1 );
+                //썸네일 - 프로필사진 썸네일
+                Path fileThumbPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getThumbPath(),
+                        yyyy,
+                        mm);
+                byte[] thumbBytes = imgFile.getBytes();
+                File uploadThumbFile = new File(fileThumbPath.toFile().getPath());
+                byte[] thumbImg =  ImageUtil.generatelmage(thumbBytes,"W", 200);
+
+                if (!uploadThumbFile.exists()) {
+                    uploadThumbFile.mkdirs();
+                }
+                Path upoladThumbFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getThumbPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + extThumb);
+                Path fileThumbNamePath = Paths.get(
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getThumbPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + extThumb);
+                tbUserWorkerData.setProfileFileSmall(fileThumbNamePath.toFile().getPath());
+                os2 = new FileOutputStream(new File(upoladThumbFullPath.toFile().getPath()));
+                os2.write(thumbImg);
+                os2.close();
+                log.debug("upoladThumbFullPath={}", upoladThumbFullPath);
+            } else {
+                /*tbUserWorkerData.setProfileFile(tbUserWorkerData.getProfileFile());*/
+            }
+            if (imgFile2 != null && !imgFile2.isEmpty()) {
+                OutputStream os3 = null;
+                String fileName2 =DateUtil.now_yyyymmdd().substring(6,8) +"_"+ DateUtil.now_hhmmss()+ "_" + RandomStringUtils.random(4,33,125,true,true);
+                //String fileName = RandomStringUtils.random(8,33,125,true,true);
+                /*Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                    tbUserWorkerData.getHeadNo().toString(),
+                    tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker");*/
+                Path filePath2 = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getLicensePath().getPath(),
+                        yyyy,
+                        mm);
+                PrintWriter pw = null;
+                byte[] bytes = imgFile2.getBytes();
+
+                File uploadFile2 = new File(filePath2.toFile().getPath());
+                if (!uploadFile2.exists()) {
+                    uploadFile2.mkdirs();
+                }
+                int pos2 = imgFile.getOriginalFilename().lastIndexOf( "." );
+                String ext2 = imgFile.getOriginalFilename().substring( pos2 + 1 );
+                Path upoladFullPath2 = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getLicensePath().getPath(),
+                        yyyy,
+                        mm,
+                        fileName2 + "." + ext2);
+                //Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker",fileName + "." + ext);
+                Path fileNamePath2 = Paths.get(
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getLicensePath().getPath(),
+                        yyyy,
+                        mm, fileName2 + "." + ext2);
+                tbUserWorkerData.setLicenseFile(fileNamePath2.toFile().getPath());
+                os3 = new FileOutputStream(new File(upoladFullPath2.toFile().getPath()));
+                os3.write(bytes);
+                os3.close();
+                log.debug("upoladFullPath2={}", upoladFullPath2);
+            } else {
+                /*tbUserWorkerData.setProfileFile(tbUserWorkerData.getProfileFile());*/
+            }
+
 
             if (tbUserWorkerData.getUserNo() != null){
                /* ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorkerData.getUserNo(), session);
@@ -1378,13 +1455,17 @@ public class ApiService {
     }
 
     @Transactional
-    public int updateTbUser(TbUserWorkerData tbUserWorkerData,TbWorkerChargeData tbWorkerChargData , MultipartFile imgFile, HttpSession session) {
+    public int updateTbUser(TbUserWorkerData tbUserWorkerData,
+                            TbWorkerChargeData tbWorkerChargData ,
+                            MultipartFile imgFile,
+                            MultipartFile imgFile2,
+                            HttpSession session) {
 
         int result = 0;
 
         TbUserWorker tbUserWorker = null;
         try {
-            OutputStream os = null;
+
 
             SimpleDateFormat format = new SimpleDateFormat ( "yyyy");
             SimpleDateFormat format2 = new SimpleDateFormat ( "MM");
@@ -1394,7 +1475,7 @@ public class ApiService {
 
 
             if (imgFile != null && !imgFile.isEmpty()) {
-
+                OutputStream os = null;
                 String fileName =DateUtil.now_yyyymmdd().substring(6,8) +"_"+ DateUtil.now_hhmmss()+ "_" + RandomStringUtils.random(4,33,125,true,true);
                 //String fileName = RandomStringUtils.random(8,33,125,true,true);
                 /*Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
@@ -1413,8 +1494,6 @@ public class ApiService {
                 if (!uploadFile.exists()) {
                     uploadFile.mkdirs();
                 }
-
-
                 int pos = imgFile.getOriginalFilename().lastIndexOf( "." );
                 String ext = imgFile.getOriginalFilename().substring( pos + 1 );
 
@@ -1437,7 +1516,86 @@ public class ApiService {
                 os.close();
                 log.debug("upoladFullPath={}", upoladFullPath);
             } else {
-                /*tbUserWorkerData.setProfileFile(tbUserWorkerData.setProfileFile());*/
+                /*tbUserWorkerData.setProfileFile(tbUserWorkerData.getProfileFile());*/
+            }
+            if (imgFile != null && !imgFile.isEmpty()) {
+                OutputStream os2 = null;
+                String fileName =DateUtil.now_yyyymmdd().substring(6,8) +"_"+ DateUtil.now_hhmmss()+ "_" + RandomStringUtils.random(4,33,125,true,true);
+                int posThumb = imgFile.getOriginalFilename().lastIndexOf( "." );
+                String extThumb = imgFile.getOriginalFilename().substring( posThumb + 1 );
+                //썸네일 - 프로필사진 썸네일
+                Path fileThumbPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getThumbPath(),
+                        yyyy,
+                        mm);
+                byte[] thumbBytes = imgFile.getBytes();
+                File uploadThumbFile = new File(fileThumbPath.toFile().getPath());
+                byte[] thumbImg =  ImageUtil.generatelmage(thumbBytes,"W", 200);
+
+                if (!uploadThumbFile.exists()) {
+                    uploadThumbFile.mkdirs();
+                }
+                Path upoladThumbFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getThumbPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + extThumb);
+                Path fileThumbNamePath = Paths.get(
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getProfilePath().getThumbPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + extThumb);
+                tbUserWorkerData.setProfileFileSmall(fileThumbNamePath.toFile().getPath());
+                os2 = new FileOutputStream(new File(upoladThumbFullPath.toFile().getPath()));
+                os2.write(thumbImg);
+                os2.close();
+                log.debug("upoladThumbFullPath={}", upoladThumbFullPath);
+            } else {
+                /*tbUserWorkerData.setProfileFile(tbUserWorkerData.getProfileFile());*/
+            }
+            if (imgFile2 != null && !imgFile2.isEmpty()) {
+                OutputStream os3 = null;
+                String fileName2 =DateUtil.now_yyyymmdd().substring(6,8) +"_"+ DateUtil.now_hhmmss()+ "_" + RandomStringUtils.random(4,33,125,true,true);
+                //String fileName = RandomStringUtils.random(8,33,125,true,true);
+                /*Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                    tbUserWorkerData.getHeadNo().toString(),
+                    tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker");*/
+                Path filePath2 = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getLicensePath().getPath(),
+                        yyyy,
+                        mm);
+                PrintWriter pw = null;
+                byte[] bytes = imgFile2.getBytes();
+
+                File uploadFile2 = new File(filePath2.toFile().getPath());
+                if (!uploadFile2.exists()) {
+                    uploadFile2.mkdirs();
+                }
+                int pos2 = imgFile2.getOriginalFilename().lastIndexOf( "." );
+                String ext2 = imgFile2.getOriginalFilename().substring( pos2 + 1 );
+                Path upoladFullPath2 = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getLicensePath().getPath(),
+                        yyyy,
+                        mm,
+                        fileName2 + "." + ext2);
+                //Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),tbUserWorkerData.getHeadNo().toString(),tbUserWorkerData.getBranchNo().toString(),tbUserWorkerData.getStoreNo().toString(),"worker",fileName + "." + ext);
+                Path fileNamePath2 = Paths.get(
+                        jesicaProperties.getServicePath().getPath(),
+                        jesicaProperties.getLicensePath().getPath(),
+                        yyyy,
+                        mm, fileName2 + "." + ext2);
+                tbUserWorkerData.setLicenseFile(fileNamePath2.toFile().getPath());
+                os3 = new FileOutputStream(new File(upoladFullPath2.toFile().getPath()));
+                os3.write(bytes);
+                os3.close();
+                log.debug("upoladFullPath2={}", upoladFullPath2);
+            } else {
+                /*tbUserWorkerData.setProfileFile(tbUserWorkerData.getProfileFile());*/
             }
         } catch (DuplicateKeyException e) {
             log.info("아이디 중복 에러");
@@ -1450,11 +1608,9 @@ public class ApiService {
             if(tbUserWorkerData.getDataStatus().ordinal() == 1){
                 tbUserWorkerData.setBlockTypeCode(null);
             }
-
             if(tbUserWorkerData.getDataStatus().ordinal() == 2){
                 tbUserWorkerData.setAttendStatus(AttendStatusType.OFF_WORK);
             }
-
             if(tbUserWorkerRepository.existsById(tbUserWorkerData.getUserNo())){
                 tbUserWorkerRepository.updateUserWorker(
                         tbUserWorkerData.getUserNo(),
@@ -1497,13 +1653,10 @@ public class ApiService {
                 tbWorkerChargeRepository.save(tbWorkerChargData.insertData());
                 result = 1;
 
-
             } else {
                 //아이디가 없으면 insert
                 result = 0;
             }
-
-
         return result;
     }
 
@@ -2207,65 +2360,26 @@ public class ApiService {
 
 
     @Transactional
-    public int insertEvent(TbEvent tbEvent,
-                           MultipartFile imgFileSmall) {
+    public int insertEvent(TbEvent tbEvent
+                           /*MultipartFile imgFileSmall*/) {
         int result = 0;
-        try {
-            OutputStream os = null;
 
-            //썸네일 -
-            if (imgFileSmall != null && !imgFileSmall.isEmpty()) {
-                String fileName = RandomStringUtils.random(8,33,125,true,true);
-
-                Path fileThumbPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(), "event");
-                byte[] thumbBytes = imgFileSmall.getBytes();
-                File uploadThumbFile = new File(fileThumbPath.toFile().getPath());
-                byte[] thumbImg =  ImageUtil.generatelmage(thumbBytes,"W", 200);
-
-                if (!uploadThumbFile.exists()) {
-                    uploadThumbFile.mkdirs();
-                }
-
-                int pos = imgFileSmall.getOriginalFilename().lastIndexOf( "." );
-                String ext = imgFileSmall.getOriginalFilename().substring( pos + 1 );
-
-                Path upoladThumbFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(), "event",fileName + "_thumb." + ext);
-                Path fileThumbNamePath = Paths.get("/event", fileName + "_thumb." + ext);
-                tbEvent.setImgFileSmall(fileThumbNamePath.toFile().getPath());
-                os = new FileOutputStream(new File(upoladThumbFullPath.toFile().getPath()));
-                os.write(thumbImg);
-                os.close();
-
-                log.debug("upoladThumbFullPath={}", upoladThumbFullPath);
-
-            } else {
-                tbEvent.setImgFileSmall(null);
-            }
-
-            if(tbEvent.getEventId() != null) {
-                /*TbSystemGoods tbSystemGoods = tbSystemGoodsRepository.save(tbSystemGoodsData.updateData());*/
-
+            if(tbEvent.getEventNo() != null) {
                 result = 0;
             } else {
                 TbEvent tbEvent1 = tbEventRepository.save(tbEvent);
                 result = 1;
             }
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
         return result;
     }
 
     @Transactional
-    public int updateEvent(TbEvent tbEvent,
-                           MultipartFile imgFileSmallFile) {
+    public int updateEvent(TbEvent tbEvent
+                           /*MultipartFile imgFileSmallFile*/) {
         int result = 0;
-        try {
-            OutputStream os = null;
 
-            //썸네일 -
+          /*  //썸네일 -
             if (imgFileSmallFile != null && !imgFileSmallFile.isEmpty()) {
                 String fileName = RandomStringUtils.random(8,33,125,true,true);
 
@@ -2292,20 +2406,15 @@ public class ApiService {
 
             } else {
                 tbEvent.setImgFileSmall(tbEvent.getImgFileSmall());
-            }
+            }*/
 
-            if(tbEvent.getEventId() != null) {
+            if(tbEvent.getEventNo() != null) {
                 /*TbSystemGoods tbSystemGoods = tbSystemGoodsRepository.save(tbSystemGoodsData.updateData());*/
                 TbEvent tbEvent1 = tbEventRepository.save(tbEvent);
                 result = 1;
             } else {
                 result = 0;
             }
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
         return result;
     }
 
@@ -2338,6 +2447,13 @@ public class ApiService {
             result = 0;
         }
 
+        return result;
+    }
+
+    @Transactional
+    public int eventDelete(Long eventNo ) {
+        int result = 0;
+        result  = tbEventRepository.deleteEvent(eventNo);
         return result;
     }
 

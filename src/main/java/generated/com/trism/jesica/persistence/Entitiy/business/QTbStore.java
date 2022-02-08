@@ -109,9 +109,13 @@ public class QTbStore extends EntityPathBase<TbStore> {
 
     public final NumberPath<Integer> openStatus = createNumber("openStatus", Integer.class);
 
+    public final StringPath orderStatusCode = createString("orderStatusCode");
+
     public final StringPath pinNum = createString("pinNum");
 
     public final StringPath poi = createString("poi");
+
+    public final NumberPath<Integer> returnUseYn = createNumber("returnUseYn", Integer.class);
 
     public final EnumPath<com.trism.jesica.persistence.type.ServiceType> serviceType = createEnum("serviceType", com.trism.jesica.persistence.type.ServiceType.class);
 
@@ -134,6 +138,8 @@ public class QTbStore extends EntityPathBase<TbStore> {
     public final StringPath storeUrl = createString("storeUrl");
 
     public final NumberPath<Integer> takeoutYn = createNumber("takeoutYn", Integer.class);
+
+    public final NumberPath<Integer> takeoverUseYn = createNumber("takeoverUseYn", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updateDate = _super.updateDate;

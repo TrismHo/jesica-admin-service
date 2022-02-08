@@ -1,15 +1,12 @@
 package com.trism.jesica.persistence.Entitiy.street;
 
-import com.querydsl.core.types.Path;
+import static com.querydsl.core.types.PathMetadataFactory.*;
+
+import com.querydsl.core.types.dsl.*;
+
 import com.querydsl.core.types.PathMetadata;
-import com.querydsl.core.types.dsl.DateTimePath;
-import com.querydsl.core.types.dsl.EntityPathBase;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.StringPath;
-
 import javax.annotation.Generated;
-
-import static com.querydsl.core.types.PathMetadataFactory.forVariable;
+import com.querydsl.core.types.Path;
 
 
 /**
@@ -24,24 +21,23 @@ public class QTbDlvyPrice extends EntityPathBase<TbDlvyPrice> {
 
     public final com.trism.jesica.persistence.core.entity.QCreatedDateEntity _super = new com.trism.jesica.persistence.core.entity.QCreatedDateEntity(this);
 
+    public final NumberPath<Integer> custPrice = createNumber("custPrice", Integer.class);
+
     public final NumberPath<Integer> dataStatus = createNumber("dataStatus", Integer.class);
 
     public final NumberPath<Integer> day = createNumber("day", Integer.class);
 
+    public final NumberPath<Integer> dlvyPrice = createNumber("dlvyPrice", Integer.class);
+
     public final NumberPath<Integer> endTime = createNumber("endTime", Integer.class);
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> insertDate = _super.insertDate;
+    public final NumberPath<Long> groupNo = createNumber("groupNo", Long.class);
+
+    public final NumberPath<Integer> groupType = createNumber("groupType", Integer.class);
+
+    public final DateTimePath<java.time.LocalDateTime> insertDate = createDateTime("insertDate", java.time.LocalDateTime.class);
 
     public final StringPath insertUserId = createString("insertUserId");
-
-    public final NumberPath<Integer> price1 = createNumber("price1", Integer.class);
-
-    public final NumberPath<Integer> price2 = createNumber("price2", Integer.class);
-
-    public final NumberPath<Integer> price3 = createNumber("price3", Integer.class);
-
-    public final NumberPath<Long> priceChargeNo = createNumber("priceChargeNo", Long.class);
 
     public final NumberPath<Long> priceNo = createNumber("priceNo", Long.class);
 
@@ -49,7 +45,7 @@ public class QTbDlvyPrice extends EntityPathBase<TbDlvyPrice> {
 
     public final NumberPath<Integer> startTime = createNumber("startTime", Integer.class);
 
-    public final DateTimePath<java.sql.Timestamp> updateDate = createDateTime("updateDate", java.sql.Timestamp.class);
+    public final DateTimePath<java.time.LocalDateTime> updateDate = createDateTime("updateDate", java.time.LocalDateTime.class);
 
     public final StringPath updateUserId = createString("updateUserId");
 

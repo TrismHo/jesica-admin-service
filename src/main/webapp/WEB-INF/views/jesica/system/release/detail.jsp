@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko">역
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.1" text="업데이트 관리"/></title>
+    <title>Jesicar | <spring:message code="list.detail.1" text="업데이트 내역"/></title>
 
 </head>
 <body>
@@ -30,10 +30,10 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main51" text="게시판 관리"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5.sub41" text="업데이트 관리"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.shippernoticedetails1" text="업데이트 관리상세"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5.sub41" text="업데이트 내역"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.shippernoticedetails1" text="업데이트 내역상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.shippernoticedetails1" text="업데이트 관리상세"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.shippernoticedetails1" text="업데이트 내역상세"/></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
@@ -92,11 +92,11 @@
 <script>
     $(() => {
         $(".btn_list").click(function() {
-            location.href = "${path}/board/release/list";
+            location.href = "${path}/system/release/list";
         });
 
         $(".btn_remove").click(function() {
-            let url = "${path}/api/board/release/delete";
+            let url = "${path}/api/system/release/delete";
             let noticeNo = $(this).attr("noticeNo");
             let doyouwanttodelete = "<spring:message code="list.script.doyouwanttodelete" text="삭제 하시겠습니까?"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
@@ -125,7 +125,7 @@
                         success: function (data) {
                             if (data.result == 200) {
                                 alert(deleted);
-                                location.href="${path}/board/release/list?dataStatus=OK";
+                                location.href="${path}/system/release/list?dataStatus=OK";
                             } else {
                                 alert(deletionfailed);
                                 return;
@@ -139,7 +139,7 @@
 
 
         $(document).on("click",".btn_up",function() {
-            let url = "${path}/api/board/release/update";
+            let url = "${path}/api/system/release/update";
             let _forms = $('#update_form');
             let req = convertFormToObj(_forms);
 
@@ -173,7 +173,7 @@
                             success: function (data) {
                                 if (data.result == 200) {
                                     alert(updatesussmsg);
-                                    location.href="${path}/board/release/list?dataStatus=OK"
+                                    location.href="${path}/system/release/list?dataStatus=OK"
                                 } else {
                                     alert(editfailed);
                                     return;

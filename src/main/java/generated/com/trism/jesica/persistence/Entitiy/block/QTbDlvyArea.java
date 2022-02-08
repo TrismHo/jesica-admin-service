@@ -21,15 +21,21 @@ public class QTbDlvyArea extends EntityPathBase<TbDlvyArea> {
 
     public final com.trism.jesica.persistence.core.entity.QBaseEntity _super = new com.trism.jesica.persistence.core.entity.QBaseEntity(this);
 
-    public final NumberPath<Long> areaChargeNo = createNumber("areaChargeNo", Long.class);
+    public final NumberPath<Integer> areaChargeType = createNumber("areaChargeType", Integer.class);
 
     public final StringPath areaName = createString("areaName");
 
     public final NumberPath<Long> areaNo = createNumber("areaNo", Long.class);
 
-    public final NumberPath<Integer> areaPrice = createNumber("areaPrice", Integer.class);
+    public final NumberPath<Integer> custPrice = createNumber("custPrice", Integer.class);
 
     public final NumberPath<Integer> dataStatus = createNumber("dataStatus", Integer.class);
+
+    public final NumberPath<Integer> dlvyPrice = createNumber("dlvyPrice", Integer.class);
+
+    public final NumberPath<Long> groupNo = createNumber("groupNo", Long.class);
+
+    public final NumberPath<Integer> groupType = createNumber("groupType", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> insertDate = _super.insertDate;

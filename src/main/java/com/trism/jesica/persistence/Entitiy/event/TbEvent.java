@@ -1,11 +1,11 @@
 package com.trism.jesica.persistence.Entitiy.event;
 
-import com.trism.jesica.persistence.core.entity.BaseEntity;
+import com.trism.jesica.persistence.core.entity.CreatedDateEntity;
 import com.trism.jesica.persistence.type.DataStatus;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * 이벤트
@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "tb_event")
 @Data
-public class TbEvent extends BaseEntity {
+public class TbEvent extends CreatedDateEntity {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -21,8 +21,8 @@ public class TbEvent extends BaseEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id", insertable = false, nullable = false)
-    private Long eventId;
+    @Column(name = "event_no", insertable = false, nullable = false)
+    private Long eventNo;
 
     /**
      * 데이터_상태 (0: 삭제, 1: 정상)
@@ -37,40 +37,22 @@ public class TbEvent extends BaseEntity {
     private Integer viewYn = 1;
 
     /**
-     * 노출여부(0:숨김, 1:노출)
-     */
-    @Column(name = "view_service_type", nullable = false)
-    private Integer viewServiceType = 1;
-
-    /**
      * 등록_사용자
      */
     @Column(name = "insert_user_id")
     private String insertUserId = null;
 
     /**
-     * 수정_사용자
-     */
-    @Column(name = "update_user_id")
-    private String updateUserId = null;
-
-    /**
      * 시작일
      */
     @Column(name = "start_date")
-    private Timestamp startDate;
+    private LocalDateTime startDate;
 
     /**
      * 종료일
      */
     @Column(name = "end_date")
-    private Timestamp endDate;
-
-    /**
-     * 썸네일_파일_경로
-     */
-    @Column(name = "img_file_small")
-    private String imgFileSmall = null;
+    private LocalDateTime endDate;
 
     /**
      * 제목

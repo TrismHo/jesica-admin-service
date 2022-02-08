@@ -295,7 +295,6 @@
                             <th class="text-center"><spring:message code="list.word.affiliated" text="제휴본사"/></th>
                             <th class="text-center"><spring:message code="list.word.distributor" text="총판"/></th>
                             <th class="text-center"><spring:message code="list.word.franchisee" text="가맹점"/></th>
-                            <th class="text-center"><spring:message code="list.word.pressureofbusiness" text="사번"/></th>
                             <th class="text-center"><spring:message code="list.word.name" text="이름"/></th>
                             <th class="text-center"><spring:message code="list.word.usestatus" text="사용상태"/></th>
                             <th class="text-center"><spring:message code="list.word.workstatus" text="출근상태"/></th>
@@ -323,10 +322,10 @@
                                 <span class="orangeColor d-block">S${item.store.storeNo}</span>
                                 <span>${item.store.storeName}</span>
                             </td>
-                            <td>
+                           <%-- <td>
                                 <span class="orangeColor d-block">S${item.userNo}</span>
                                 <span>${item.registNum}</span>
-                            </td>
+                            </td>--%>
                             <td>${item.name}</td>
                             <td class="text-center <c:if test="${item.dataStatus == 'STOP'}">text-red</c:if>">
                                 <c:if test="${item.dataStatus == 'OK'}">

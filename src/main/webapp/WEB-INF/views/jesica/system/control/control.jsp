@@ -219,6 +219,86 @@
 			cursor: default;
 			text-align: center;
 		}
+		.all_sex_btn {
+			width: 33%;
+			height: 34px;
+			border-top: 0px;
+			padding-top: 7px;
+			background: url(../../assets/img/control/all_btn_white.png) no-repeat;
+		}
+		.male_btn {
+			width: 33%;
+			height: 34px;
+			border-top: 0px;
+			padding-top: 7px;
+			background: url(../../assets/img/control/male_btn_white.png) no-repeat;
+		}
+		.female_btn {
+			width: 33%;
+			height: 34px;
+			border: 0px;
+			padding-top: 7px;
+			background: url(../../assets/img/control/female_btn_white.png) no-repeat;
+		}
+		.salary_all {
+			width: 33%;
+			height: 34px;
+			border: 0px;
+			padding-top: 7px;
+			background: url(../../assets/img/control/all_btn_white.png) no-repeat;
+		}
+		.salary_month {
+			width: 33%;
+			height: 34px;
+			border-top: 0px;
+			padding-top: 7px;
+			background: url(../../assets/img/control/month_btn_white.png) no-repeat;
+		}
+		.salary_day {
+			width: 33%;
+			height: 34px;
+			border-top: 0px;
+			border-left: 0px;
+			padding-top: 7px;
+			background: url(../../assets/img/control/day_btn_white.png) no-repeat;
+		}
+		.btn-white:not(:disabled):not(.disabled).active, .btn-white:not(:disabled):not(.disabled):active, .show>.btn-white.dropdown-toggle {
+			color: #43505A;
+			background-color: #43505A;
+			border-color: #43505A;
+		}
+
+		.bg_all_white {
+			background: url(../../assets/img/control/all_btn_black.png) no-repeat;
+		}
+		.bg_all_black {
+			background: url(../../assets/img/control/all_btn_white.png) no-repeat;
+		}
+		.bg_male_white {
+			background: url(../../assets/img/control/male_btn_white.png) no-repeat;
+		}
+		.bg_female_white {
+			background: url(../../assets/img/control/female_btn_white.png) no-repeat;
+		}
+		.bg_male_black{
+			background: url(../../assets/img/control/male_btn_black.png) no-repeat;
+		}
+		.bg_female_black {
+			background: url(../../assets/img/control/female_btn_black.png) no-repeat;
+		}
+		.bg_day_white {
+			background: url(../../assets/img/control/day_btn_white.png) no-repeat;
+		}
+		.bg_month_white {
+			background: url(../../assets/img/control/month_btn_white.png) no-repeat;
+		}
+		.bg_day_black {
+			background: url(../../assets/img/control/day_btn_black.png) no-repeat;
+		}
+		.bg_month_black{
+			background: url(../../assets/img/control/month_btn_black.png) no-repeat;
+		}
+
 
 	</style>
 </head>
@@ -333,24 +413,24 @@
 					</ul>
 					<div class="category_sub" style="top: 72px; height: 34px;" >
 						<div class="btn-group me-2" style="width: 100%;height: 34px;">
-							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selelctSex active" value="all" style="width: 33%;height: 34px; border-top: 0px;padding-top: 7px;" >
-								 전체</a>
-							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selelctSex" value="male" style="width: 33%;border-top: 0px;height: 34px;padding-top: 10px;">
-								<i class="fas fa-lg fa-fw fa-male" style="font-size: 20px;color: #6b6bff;"></i>
+							<a href="javascript:;" onclick="" class="btn btn-sm all_sex_btn btn-white selelctSex active"  value="all" >
 							</a>
-							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selelctSex" value="female" style="width: 33%;border-top: 0px;height: 34px;padding-top: 10px;">
-								<i class="fas fa-lg fa-fw fa-female" style="font-size: 20px;color: #f56363;"></i>
+							<a href="javascript:;" onclick="" class="btn btn-sm male_btn btn-white selelctSex" value="male" >
+								<%--<i class="fas fa-lg fa-fw fa-male" style="font-size: 20px;color: #6b6bff;"></i>--%>
+							</a>
+							<a href="javascript:;" onclick="" class="btn btn-sm female_btn btn-white selelctSex" value="female" >
+								<%--<i class="fas fa-lg fa-fw fa-female" style="font-size: 20px;color: #f56363;"></i>--%>
 							</a>
 						</div>
 					</div>
 					<div class="category_sub" style="top: 114px; height: 34px;" >
 						<div class="btn-group me-2" style="width: 100%;height: 34px;">
-							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selectSalary active" value="all" style="width: 33%;height: 34px; border-top: 0px;padding-top: 7px;" >
-								 전체</a>
-							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selectSalary" value="month" style="width: 33%;border-top: 0px;height: 34px;padding-top: 11px;">
-								<i class="fas fa-lg fa-fw fa-user-tie" style="font-size: 17px;"></i></a>
-							<a href="javascript:;" onclick="" class="btn btn-sm btn-white selectSalary" value="day" style="width: 33%;border-top: 0px;height: 34px;padding-top: 11px;">
-								<i class="fas fa-lg fa-fw fa-user-ninja" style="font-size: 17px;"></i></a>
+							<a href="javascript:;" onclick="" class="btn btn-sm salary_all btn-white selectSalary active" value="all"  >
+								 </a>
+							<a href="javascript:;" onclick="" class="btn btn-sm salary_month btn-white selectSalary" value="month" >
+								<%--<i class="fas fa-lg fa-fw fa-user-tie" style="font-size: 17px;"></i>--%></a>
+							<a href="javascript:;" onclick="" class="btn btn-sm salary_day btn-white selectSalary" value="day" >
+								<%--<i class="fas fa-lg fa-fw fa-user-ninja" style="font-size: 17px;"></i>--%></a>
 						</div>
 					</div>
 					<%--<div class="category_sub" style="top: 125px; height: 40px;" >
@@ -532,8 +612,6 @@
 			success: function (data) {
 				let list = data.body.data;
 				running =[];
-				console.log(gender);
-				console.log(workerPayType);
 				if(data.body.serviceStatus == "OK") {
 					for(var i = 0 ; i < list.length ; i++){
 						let push = {
@@ -615,6 +693,22 @@
 	});
 
 	$(document).on("click",".selelctSex",function(){
+
+		let value = $(this).attr("value");
+		if(value == 'all') {
+			$('.all_sex_btn').removeClass('bg_all_white').addClass('bg_all_black');
+			$('.male_btn').removeClass('bg_male_black').addClass('bg_male_white');
+			$('.female_btn').removeClass('bg_female_black').addClass('bg_female_white');
+		} else if (value == 'male') {
+			$('.all_sex_btn').removeClass('bg_all_black').addClass('bg_all_white');
+			$('.male_btn').removeClass('bg_male_white').addClass('bg_male_black');
+			$('.female_btn').removeClass('bg_female_black').addClass('bg_female_white');
+		} else if (value == 'female') {
+			$('.all_sex_btn').removeClass('bg_all_black').addClass('bg_all_white');
+			$('.male_btn').removeClass('bg_male_black').addClass('bg_male_white');
+			$('.female_btn').removeClass('bg_female_white').addClass('bg_female_black');
+		}
+
 		$(".selelctSex").removeClass("active");
 		$(this).addClass("active");
 		gender = $(this).attr("value");
@@ -625,6 +719,22 @@
 	});
 
 	$(document).on("click",".selectSalary",function(){
+		let value = $(this).attr("value");
+		if(value == 'all') {
+			$('.salary_all').removeClass('bg_all_white').addClass('bg_all_black');
+			$('.salary_month').removeClass('bg_month_black').addClass('bg_month_white');
+			$('.salary_day').removeClass('bg_day_black').addClass('bg_day_white');
+		} else if (value == 'day') {
+			$('.salary_all').removeClass('bg_all_black').addClass('bg_all_white');
+			$('.salary_month').removeClass('bg_month_black').addClass('bg_month_white');
+			$('.salary_day').removeClass('bg_day_white').addClass('bg_day_black');
+		} else if (value == 'month') {
+			$('.salary_all').removeClass('bg_all_black').addClass('bg_all_white');
+			$('.salary_month').removeClass('bg_month_white').addClass('bg_month_black');
+			$('.salary_day').removeClass('bg_day_black').addClass('bg_day_white');
+		}
+		//건당 / 급여 / 전체
+
 		$(".selectSalary").removeClass("active");
 		$(this).addClass("active");
 		workerPayType = $(this).attr("value");
@@ -940,28 +1050,30 @@
 		let branchName ="";
 		if(place.branchName == null) {
 			branchName = "없음";
+		} else {
+			branchName = place.branchName;
 		}
 		var gender = "";
 		var workerPayType = "";
 
 		if(place.gender == "M") {
-			 gender = "fa-male"
+			 gender = "남"
 		} else if (place.gender == "F"){
-			 gender = "fa-female"
+			 gender = "여"
 		} else if (place.gender == "N"){
-			 gender = ""
+			 gender = "알수없음"
 		}
 
 		if(place.workerPayType == 1) {
-			workerPayType = "fa-user-tie"
+			workerPayType = "급여"
 		} else if (place.workerPayType == 2){
-			workerPayType = "fa-user-ninja"
+			workerPayType = "수수료"
 		}
 
 
 		var content = '<div class="placeinfo">' +
-				'   <div class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +"이름 : "+ place.name + ' (<i class="fas fa-lg fa-fw '+gender+'" style="font-size: 15px;"></i> / <i class="fas fa-lg fa-fw '+workerPayType+'" style="font-size: 13px;"></i>)</div>';
-
+				'   <div class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +""+ place.name +""+'</div>';
+		content +='<span  title="' + place.address_name + '">('+workerPayType+' / ' + gender + ')</span>'
 		content += '    <span title="' + place.road_address_name + '">' +"연락처 : "+ phoneNumber(place.phone) + '</span>' +
 				'  <span class="jibun" title="' + place.address_name + '">(소속 : ' + branchName + ')</span>';
 
