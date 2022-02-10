@@ -2441,6 +2441,72 @@ public class ApiController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    //쿠폰 등록
+    @ResponseBody
+    @PostMapping("/coupon/management/insert")
+    public ResponseEntity<?> couponInsert(@RequestBody TbCouponData tbCouponData) {
+        log.info("tbStoreCategoryData::{}", tbCouponData);
+
+        int result =  apiService.insertTbCoupon(tbCouponData);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //쿠폰 수정
+    @ResponseBody
+    @PutMapping("/coupon/management/update")
+    public ResponseEntity<?> updateTbCoupon(@RequestBody TbCouponData tbCouponData) {
+        log.info("tbCouponData::{}", tbCouponData);
+
+        Map<String,Object> map = new HashMap<>();
+        try {
+            int result = apiService.updateTbCoupon(tbCouponData);
+
+            if(result == 1) {
+                map.put("result","200");
+                map.put("message", "수정 되었습니다.");
+            } else {
+                map.put("result","400");
+                map.put("message", "수정에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //쿠폰 삭제
+    @ResponseBody
+    @DeleteMapping("/coupon/management/delete")
+    public ResponseEntity<?> updateTbCoupon(@RequestParam Long couponNo) {
+        log.info("couponNo::{}", couponNo);
+
+        Map<String,Object> map = new HashMap<>();
+        try {
+            int result = apiService.deleteTbCoupon(couponNo);
+
+            if(result == 1) {
+                map.put("result","200");
+                map.put("message", "삭제 되었습니다.");
+            } else {
+                map.put("result","400");
+                map.put("message", "삭제에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
     /**
      * 전달된 파라미터에 맞게 난수를 생성한다
      * @param len : 생성할 난수의 길이

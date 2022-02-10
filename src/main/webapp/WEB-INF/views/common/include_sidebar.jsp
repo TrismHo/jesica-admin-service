@@ -273,6 +273,16 @@
                 </ul>
             </li>--%>
             <c:if test="${sessionScope.sessionKey.userRole == 0}">
+            <li class="has-sub <c:if test="${fn:contains(servletPath,'coupon') }">active</c:if>">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fa fa-ticket-alt"></i>
+                    <span><spring:message code="sidemenu.couponmanagement" text="쿠폰 관리"/></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class=<c:if test="${fn:contains(servletPath,'coupon/management/list') || fn:contains(servletPath,'coupon/management/detail') || fn:contains(servletPath,'coupon/management/insert') }">"active"</c:if>><a href="${path}/coupon/management/list??dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="><spring:message code="sidemenu.couponmanagement.coupon" text="쿠폰관리"/></a></li>
+                </ul>
+            </li>
             <li class="has-sub <c:if test="${fn:contains(servletPath,'system' ) || fn:contains(servletPath,'extralink') || fn:contains(servletPath,'release') }">active</c:if>">
                 <a href="javascript:;">
                     <b class="caret"></b>

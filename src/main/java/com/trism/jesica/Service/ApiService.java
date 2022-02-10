@@ -15,6 +15,7 @@ import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
 import com.trism.jesica.persistence.Entitiy.business.*;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.Entitiy.goods.*;
 import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
@@ -34,6 +35,7 @@ import com.trism.jesica.persistence.Repository.board.TbNoticeWorkerRepository;
 import com.trism.jesica.persistence.Repository.business.*;
 import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
+import com.trism.jesica.persistence.Repository.coupon.TbCouponRepository;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
 import com.trism.jesica.persistence.Repository.goods.*;
 import com.trism.jesica.persistence.Repository.safe.TbSafenMappingRepository;
@@ -223,9 +225,11 @@ public class ApiService {
     @Autowired
     private final TbBranchPriceRepository tbBranchPriceRepository;
 
-
     @Autowired
     private RestTemplateUtil restTemplateUtil;
+
+    @Autowired
+    private final TbCouponRepository tbCouponRepository;
 
     @Transactional
     public int insertTbHead(TbHeadData tbHeadData, TbBusinessInfoData tbBusinessInfoData) {
@@ -2805,6 +2809,51 @@ public class ApiService {
             result = 0;
         }
         return result;
+    }
+
+    @Transactional
+    public int insertTbCoupon(TbCouponData tbCouponData) {
+        int result = 0;
+
+        if (tbCouponData.getCouponNo() != null) {
+            //아이디가 있으면 update
+            result = 0;
+        } else {
+            //아이디가 없으면 insert
+            TbCoupon tbCoupon = tbCouponRepository.save(tbCouponData.insertData());
+            result = 1;
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public int updateTbCoupon(TbCouponData tbCouponData) {
+        int result = 0;
+
+        if (tbCouponData.getCouponNo() != null) {
+            //아이디가 있으면 update
+            TbCoupon tbCoupon = tbCouponRepository.save(tbCouponData.updateData());
+            result = 1;
+        } else {
+            //아이디가 없으면 insert
+            result = 0;
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public int deleteTbCoupon(Long couponNo) {
+        Optional<TbCoupon> tbCoupon = tbCouponRepository.findById(couponNo);
+
+        if (tbCoupon.isPresent()) {
+            TbCoupon coupon = tbCoupon.get();
+            coupon.updateDisabledTbCoupon();
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
 
