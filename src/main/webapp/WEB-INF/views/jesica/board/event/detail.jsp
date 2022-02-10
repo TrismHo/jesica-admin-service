@@ -56,6 +56,19 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.checkexposure1" text="시작일/종료일"/></td>
+                                    <td>
+
+                                        <label >
+                                            <input type="text" name="startDate" value="${tbEvent.startDate}" class="form-control align-bottom startDate" >
+                                        </label>
+                                        ~
+                                        <label >
+                                            <input type="text" name="endDate" value="${tbEvent.endDate}" class="form-control align-bottom endDate" >
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
                                     <td><input type="text" name="title" value="${tbEvent.title}" class="form-control width-full title" maxlength="150"></td>
                                 </tr>
@@ -279,7 +292,7 @@
         if (isNull(args.title)) {
             return alert_focus("title", pleaseenterantitle);
         } else if (isNull(args.body)) {
-            return alert_focus("goodsPrice", pleaseenteransubject);
+            return alert_focus("body", pleaseenteransubject);
         }
         return true;
     }

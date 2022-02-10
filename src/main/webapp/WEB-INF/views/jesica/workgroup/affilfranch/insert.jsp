@@ -467,7 +467,7 @@
                                     <input type="hidden" name="deposit" value="0" />
                                     <input type="hidden" name="cash" value="0" />
                                     <input type="hidden" name="cashDefault" value="0" />
-                                    <tr>
+                                    <%--<tr>
                                         <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="충전 계좌"/></td>
                                         <td class="p-0 border-0">
                                             <table class="width-full border-0">
@@ -510,7 +510,7 @@
                                                             <i class="fa fa-eye fa-lg m-l-5"></i>
                                                         </div>
                                                     </td>
-                                                </tr>
+                                                </tr>--%>
                                             </table>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.questingawithdrawautomessage" text="출금 요청시 입금받을 사업자의 계좌 정보를 입력하세요."/></td>

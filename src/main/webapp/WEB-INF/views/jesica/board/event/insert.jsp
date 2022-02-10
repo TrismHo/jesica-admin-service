@@ -54,6 +54,19 @@
                                         </label>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.checkexposure1" text="시작일/종료일"/></td>
+                                    <td>
+
+                                        <label >
+                                            <input type="text"  value="0" class="form-control align-bottom startDate" >
+                                        </label>
+                                         ~
+                                        <label >
+                                            <input type="text"  value="0" class="form-control align-bottom endDate" >
+                                        </label>
+                                    </td>
+                                </tr>
                                 <%--<tr>
                                     <td class="bg-light"><spring:message code="list.detail.attachments" text="첨부파일"/></td>
                                     <td>
@@ -87,7 +100,8 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
                                     <td>
-                                        <textarea name="body" id="body"  class="form-control width-full body" rows="10">${tbNoticePlatform.body}</textarea>
+                                        <textarea  id="body"  class="form-control width-full  ckeditor" rows="10"></textarea>
+                                        <input type="hidden" name="body" class="body" value="">
                                     </td>
                                 </tr>
 
@@ -134,14 +148,46 @@
 
 <script>
 
-  /*  CKEDITOR.replace('body', { filebrowserUploadUrl: '${path}/api/file/upload',
+    CKEDITOR.replace('body', { filebrowserUploadUrl: '${path}/api/file/upload',
         font_names: '맑은 고딕/Malgun Gothic;굴림/Gulim;돋움/Dotum;바탕/Batang;궁서/Gungsuh;Arial/Arial;Comic Sans MS/Comic Sans MS;Courier New/Courier New;Georgia/Georgia;Lucida Sans Unicode/Lucida Sans Unicode;Tahoma/Tahoma;Times New Roman/Times New Roman;MS Mincho/MS Mincho;Trebuchet MS/Trebuchet MS;Verdana/Verdana',
         font_defaultLabel: '맑은 고딕/Malgun Gothic',
         fontSize_defaultLabel: '12',
-        language: 'ko', });*/
+        language: 'ko', });
 
 
     $(() => {
+        let date = new Date();
+        let startDate = "${searchValue.startDate}";
+        let endDate = "${searchValue.endDate}";
+
+        $(".startDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
+
+        if(startDate == ""){
+            $(".startDate").datepicker('setDate', '2020-01-01');
+        } else {
+            $(".startDate").datepicker('setDate', startDate);
+        }
+
+        /*date.setMonth(date.getMonth() + 1, 1);*/
+        $(".endDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
+        if(endDate == ""){
+            $(".endDate").datepicker('setDate', date);
+        } else {
+            $(".endDate").datepicker('setDate', endDate);
+        }
+
         $(".btn_list").click(function() {
             location.href = "${path}/board/event/list";
         })
@@ -149,8 +195,15 @@
 
         $(document).on("click",".btn_add",function() {
             let url = "${path}/api/board/event/insert";
+            var value = CKEDITOR.instances['body'].getData();
+            $(".body").val(value);
+            let startDate = $(".startDate").val();
+            let endDate = $(".endDate").val();
+            $(".startDate").val(startDate);
+            $(".endDate").val(endDate);
             let _forms = $('#insert_form');
             let req = convertFormToObj(_forms);
+
 
             let confirmfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
             let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
@@ -171,6 +224,8 @@
                     if (isConfirm) {
                         var formData = new FormData(document.getElementById('insert_form'));
                         formData.append("tbEvent",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                        formData.append("startDate", JSON.stringify(startDate));
+                        formData.append("endDate",  JSON.stringify(endDate));
                         /*formData.append("imgFileSmall",_forms.find('#imgFileSmall')[0]);*/
                         $.ajax({
                             type: "POST",

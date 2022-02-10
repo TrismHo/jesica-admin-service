@@ -1,8 +1,12 @@
 package com.trism.jesica.persistence.Entitiy.event;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.trism.jesica.persistence.core.entity.CreatedDateEntity;
 import com.trism.jesica.persistence.type.DataStatus;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +17,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tb_event")
 @Data
+@Getter
+@Setter
 public class TbEvent extends CreatedDateEntity {
     private static final long serialVersionUID = 1L;
 
@@ -45,12 +51,14 @@ public class TbEvent extends CreatedDateEntity {
     /**
      * 시작일
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
     /**
      * 종료일
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(name = "end_date")
     private LocalDateTime endDate;
 

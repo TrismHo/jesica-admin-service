@@ -4037,7 +4037,7 @@
                 }
 
                 if(data.tbDlvyAreaList.length == 0) {
-                    $(".addTbody").append(
+                    $(".addBlockTbodyType").append(
                         "<tr class=\"\"  >\n" +
                         "<th class=\"text-center\" colspan=\"5\">"+noregisteredlist+"</th>"+
                         "</tr>"

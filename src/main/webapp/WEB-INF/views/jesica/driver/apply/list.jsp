@@ -507,6 +507,34 @@
               signYn = "생성";
           }
 
+
+           if(licenseType != null){
+               /*param2 = "면허종류 : "+ tbWorkerApplyAttchList[i].param2*/
+               if(licenseType == "11"){
+                   licenseType = "1종 대형";
+               } else if(licenseType == "12") {
+                   licenseType = "1종 보통";
+               } else if(licenseType == "13") {
+                   licenseType = "1종 소형";
+               } else if(licenseType == "14") {
+                   licenseType = "1종대형견인";
+               } else if(licenseType == "15") {
+                   licenseType = "1종 구난";
+               } else if(licenseType == "16") {
+                   licenseType = "1종 소형견인";
+               } else if(licenseType == "32") {
+                   licenseType = "2종 보통";
+               } else if(licenseType == "33") {
+                   licenseType = "2종 소형";
+               } else if(licenseType == "34") {
+                   licenseType = "2종 특수";
+               } else if(licenseType == "38") {
+                   licenseType = "2종 원자";
+               } else {
+                   licenseType = " 알수없음";
+               }
+           }
+
            let img = "/api/img/fileLoad?filePath="+encodeURI(profileFileSmall);
            let img2 = "/api/img/fileLoad?filePath="+encodeURI(licenseFile);
             $(".profileImg").attr("src",img);
@@ -527,7 +555,7 @@
            $(".profileFileSmall").text(profileFileSmall);
            $(".licenseAuthStatus").text(licenseAuthStatus);
            $(".licenseNum").text(licenseNum);
-           $(".licenseType").text(licenseType);
+           $(".licenseType").text(licenseType+"");
            $(".licenseExpDate").text(licenseExpDate);
            $(".careerAuthStatus").text(careerAuthStatus);
            $(".insertDate").text(insertDate);

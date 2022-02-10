@@ -335,9 +335,11 @@ public class ApiService {
                 String ownerEncrpt = cipherAESUtils.encryptAES(tbBranchData.insertData().getBankOwner());
 
                 //PIN번호 암호화
-                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                String pinEncrpt = encoder.encode(tbBranchData.insertData().getPinNum());
-
+             /*   BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                String pinEncrpt = encoder.encode(tbBranchData.insertData().getPinNum());*/
+                String pinEncrpt = null;
+                bankEncrpt = null;
+                ownerEncrpt = null;
                 TbBranch tbBranch =  tbBranchRepository.save(tbBranchData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
 
                 tbBusinessInfoData.setGroupNo(Integer.parseInt(tbBranch.getBranchNo().toString()));
@@ -432,9 +434,11 @@ public class ApiService {
                 String ownerEncrpt = cipherAESUtils.encryptAES(tbStoreData.insertData().getBankOwner());
 
                 //PIN번호 암호화
-                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                String pinEncrpt = encoder.encode(tbStoreData.insertData().getPinNum());
-
+               /* BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                String pinEncrpt = encoder.encode(tbStoreData.insertData().getPinNum());*/
+                String pinEncrpt = null;
+                bankEncrpt = null;
+                ownerEncrpt = null;
                 TbStore tbStore =  tbStoreRepository.save(tbStoreData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
 
                 int tbStoreMngCharge = tbStoreMngChargeRepository.saveDefault(tbStore.getStoreNo());

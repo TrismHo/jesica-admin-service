@@ -57,11 +57,15 @@ public class CouponController {
         log.info("couponNo:: ", couponNo);
 
         try {
+            //쿠폰정보
             Map detailCouponMap = couponService.getCouponDetail(couponNo);
             TbCoupon tbCoupon = (TbCoupon)detailCouponMap.get("tbCoupon");
-            List<Map<String, Object>> tbCouponPublishes = (List<Map<String, Object>>)detailCouponMap.get("tbCouponPublishes");
             model.addAttribute("tbCoupon", tbCoupon);
+
+            //쿠폰 개별정보
+            List<Map<String, Object>> tbCouponPublishes = (List<Map<String, Object>>)detailCouponMap.get("tbCouponPublishes");
             model.addAttribute("tbCouponPublishes", tbCouponPublishes);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

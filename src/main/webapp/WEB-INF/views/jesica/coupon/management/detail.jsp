@@ -281,7 +281,7 @@
                                               text-overflow: ellipsis;
                                               white-space: nowrap;
                                               width: 250px;
-                                              display: block;">
+                                              display: block;">${item.loginId}
                                                                             </div>
                                                                         </td>
                                                                         <td class="text-center">
@@ -290,7 +290,7 @@
                                               text-overflow: ellipsis;
                                               white-space: nowrap;
                                               width: 250px;
-                                              display: block;"> <%--${item.custName}--%>
+                                              display: block;"> ${item.custName}
                                                                             </div>
                                                                         </td>
                                                                         <td class="text-center" style="">

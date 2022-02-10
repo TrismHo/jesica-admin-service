@@ -387,7 +387,7 @@
                                     <input type="hidden" name="deposit" value="0" />
                                     <input type="hidden" name="cash" value="0" />
                                     <input type="hidden" name="cashDefault" value="0" />
-                                    <tr>
+                                   <%-- <tr>
                                         <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="충전계좌"/></td>
                                         <td class="width-200"><spring:message code="list.detail.1" text="가상계좌은행"/></td>
                                         <td class=" border-0">
@@ -399,8 +399,8 @@
 
                                             <spring:message code="list.description.accountautomessage" text="  캐시 충전시 입금할 은행을 선택하면 계좌번호가 자동 생성됩니다."/>
                                         </td>
-                                    </tr>
-                                    <tr>
+                                    </tr>--%>
+                                   <%-- <tr>
                                         <td class="bg-light" rowspan="5"><spring:message code="list.detail.withdrawalaccount" text="출금계좌"/></td>
                                         <td class="p-0 border-0" colspan="2">
                                         </td>
@@ -429,7 +429,7 @@
                                                 <i class="fa fa-eye fa-lg m-l-5"></i>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.memo" text="메모"/></td>
                                         <td colspan="2"><input type="text" class="form-control width-600 memoEtc" name="memoEtc" value="" maxlength="200"></td>

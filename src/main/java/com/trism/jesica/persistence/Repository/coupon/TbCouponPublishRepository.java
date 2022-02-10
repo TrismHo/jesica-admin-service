@@ -11,7 +11,14 @@ import java.util.Map;
 
 public interface TbCouponPublishRepository extends JpaRepository<TbCouponPublish, Long>, JpaSpecificationExecutor<TbCouponPublish> {
 
-    @Query(value = "select * " +
+    @Query(value = "select  " +
+            "tc.cust_no as custNo, " +
+            "tc.cust_name as custName, " +
+            "tc.login_id as loginId, " +
+            "tc.cust_tel as custTel, " +
+            "tcp.insert_date as insertDate, " +
+            "tcp.expire_date as expireDate, " +
+            "tcp.use_date as useDate " +
             "from tb_coupon_publish as tcp " +
             "inner join tb_cust as tc " +
             "where tcp.cust_no = tc.cust_no and tcp.coupon_no = :couponNo " +

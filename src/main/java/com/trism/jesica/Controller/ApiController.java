@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -1731,11 +1732,12 @@ public class ApiController {
 
     @ResponseBody
     @PostMapping("/file/upload")
-    public ResponseEntity<?> eventUpdate(
-            @RequestPart(value="body" ,required = false) MultipartFile imgFile
+    public String eventUpdate(
+            MultipartHttpServletRequest multipartRequest
             ,HttpServletResponse response
     ) {
-        PrintWriter pw = null;
+        PrintWriter printWriter = null;
+
         log.info("uploadStart");
         try {
             log.info("upload1");
@@ -1748,17 +1750,21 @@ public class ApiController {
                         jesicaProperties.getEventPath().getPath()
                 );
                 log.info("upload1");
-                byte[] bytes = imgFile.getBytes();
 
+                byte[] bytes = multipartRequest.getFile("upload").getBytes();
                 File uploadFile = new File(filePath.toFile().getPath());
                 if (!uploadFile.exists()) {
                     uploadFile.mkdirs();
                 }
                 log.info("upload2");
-                int pos = imgFile.getOriginalFilename().lastIndexOf(".");
-                String ext = imgFile.getOriginalFilename().substring(pos + 1);
+                int pos = multipartRequest.getFile("upload").getOriginalFilename().lastIndexOf(".");
+                String ext = multipartRequest.getFile("upload").getOriginalFilename().substring(pos + 1);
                 log.info("upload3");
                 Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getEventPath().getPath()
+                        , fileName + "." + ext);
+                Path upoladFileNamePath = Paths.get(
                         jesicaProperties.getBoardPath().getPath(),
                         jesicaProperties.getEventPath().getPath()
                         , fileName + "." + ext);
@@ -1768,19 +1774,18 @@ public class ApiController {
                 os.close();
                 log.info("upload4");
                 log.debug("upoladFullPath={}", upoladFullPath);
-                JsonObject json = new JsonObject();
-                json.addProperty("uploaded", 1);
-                json.addProperty("fileName", fileName);
-                json.addProperty("url", upoladFullPath.toString());
+                String fileUrl = jesicaProperties.getImgHttp().getPath()+upoladFileNamePath;
+                printWriter = response.getWriter(); // 서버로 파일 전송 후 이미지 정보 확인을 위해 filename, uploaded, fileUrl 정보를 response 해주어야 함
+                printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
+                printWriter.flush();
                 log.info("fileName:"+fileName);
                 log.info("upoladFullPath:"+upoladFullPath.toString());
-                pw.println(json);
 
             /*}*/
         }catch (Exception e){
             e.printStackTrace();
         }
-        return new ResponseEntity<>(pw,HttpStatus.OK);
+        return null;
     }
 
 
@@ -1919,10 +1924,19 @@ public class ApiController {
     //이벤트 페이지 insert
     @ResponseBody
     @PostMapping("/board/event/insert")
-    public ResponseEntity<?> eventInsert(@RequestPart TbEvent tbEvent
+    public ResponseEntity<?> eventInsert(@RequestPart TbEvent tbEvent,
+            @RequestPart String startDate,
+            @RequestPart String endDate
+
             /*,@RequestPart(value="imgFileSmall" ,required = false) MultipartFile imgFileSmall*/
     ) {
         log.info("tbEvent::{}", tbEvent);
+        log.info("startDate::{}", startDate);
+        log.info("endDate::{}", endDate);
+
+      /*  LocalDateTime startDate = LocalDateTime.parse(startDate + " 00:00:00",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));*/
+
         /*log.info("imgFileSmall::{}", imgFileSmall);*/
         int result =  apiService.insertEvent(tbEvent);
         Map<String,Object> map = new HashMap<>();

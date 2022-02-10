@@ -327,7 +327,7 @@ public class MainController {
                         //로그인 중복 방지
                         session.setAttribute(LoginSession.KEY, loginSession);
                         //세션 30분유지
-                        session.setMaxInactiveInterval(60*30);
+                        session.setMaxInactiveInterval(60*60);
                         sessionConfig.newSession(bmLoginId, session);
                         // 성공이면 실패카운트 0으로 + 로그인 시간 등록
                         apiService.setSuccessLoginSet(tbUser.getUserNo());
@@ -383,7 +383,7 @@ public class MainController {
                             LoginSession loginSession = LoginSession.from(bm);
                             session.setAttribute(LoginSession.KEY, loginSession);
                             //세션 30분유지
-                            session.setMaxInactiveInterval(60*30);
+                            session.setMaxInactiveInterval(60*60);
                             if(tbUser.getUserType().ordinal() == 1 ){
                                 session.setAttribute("headName",tbHead.getHeadName());
                             }
@@ -394,7 +394,7 @@ public class MainController {
 
                             session.setAttribute(LoginSession.KEY, loginSession);
                             //세션 30분유지
-                            session.setMaxInactiveInterval(60*30);
+                            session.setMaxInactiveInterval(60*60);
                             sessionConfig.newSession(bmLoginId, session);
 
                             // 성공이면 실패카운트 0으로 + 로그인 시간 등록

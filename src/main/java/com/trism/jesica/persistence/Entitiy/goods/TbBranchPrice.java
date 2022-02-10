@@ -106,7 +106,7 @@ public class TbBranchPrice implements Serializable {
      * 적용요일(월화수목금토일)
      */
     @Column(name = "day_filter")
-    private String dayFilter = "'0000000'";
+    private String dayFilter = "0000000";
 
     /**
      * 시간할증_사용여부(0:사용안함, 1:할증사용)
@@ -124,13 +124,13 @@ public class TbBranchPrice implements Serializable {
      * 시간할증_시작시간(HHMM)
      */
     @Column(name = "time_start")
-    private String timeStart = "'0000'";
+    private String timeStart = "0000";
 
     /**
      * 시간할증_종료시간(HHMM)
      */
     @Column(name = "time_end")
-    private String timeEnd = "'0000'";
+    private String timeEnd = "0000";
 
     /**
      * 눈비할증_사용여부(0:사용안함, 1:할증사용)

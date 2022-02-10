@@ -180,6 +180,13 @@ file:
 
     #real
     #server: https://api.jesicar.co.kr/api
+  imgHttp:
+    #local
+    path : http://localhost:9002/api/img/fileLoad?filePath=
+    #test
+    #path: http://101.55.126.138:9002/api/img/fileLoad?filePath=
+    #real
+    #path: http://admin.jesicar.co.kr/api/img/fileLoad?filePath=
 
 spring:
   profiles:
