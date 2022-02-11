@@ -195,10 +195,6 @@
             location.href = '${path}/board/banner/insert';
         });
 
-
-
-
-
         let date = new Date();
         let startDate = "${searchValue.startDate}";
         let endDate = "${searchValue.endDate}";
