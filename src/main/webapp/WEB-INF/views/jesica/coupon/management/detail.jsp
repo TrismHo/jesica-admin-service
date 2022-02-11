@@ -59,7 +59,7 @@
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="서비스"/></td>
+                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="서비스"/></td>
                                     <td>
                                         <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                             <input type="radio" name="serviceType" value="2" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 2}">checked</c:if>>
@@ -150,7 +150,7 @@
                                                 </label>
                                             </span>
                                             <span>
-                                                <input type="text" class="form-control dcAmt text-right" name="dcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.dcAmt}">
+                                                <input type="text" class="form-control dcAmt" name="dcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.dcAmt}">
                                                 <span id="amt-form" <c:if test="${tbCoupon.dcRateType == 2}">style="display: none"</c:if>>원</span>
                                                 <span id="rate-form" <c:if test="${tbCoupon.dcRateType == 1}">style="display: none"</c:if>>%</span>
                                             </span>
@@ -163,7 +163,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title" text="최대할인금액"/></td>
                                     <td>
-                                        <input type="text" name="maxDcAmt" class="form-control maxDcAmt text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxDcAmt}">
+                                        <input type="text" name="maxDcAmt" class="form-control maxDcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxDcAmt}">
                                         <span>원</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -173,7 +173,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title" text="최소결제금액"/></td>
                                     <td>
-                                        <input type="text" name="minPayAmt" class="form-control minPayAmt text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.minPayAmt}">
+                                        <input type="text" name="minPayAmt" class="form-control minPayAmt"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.minPayAmt}">
                                         <span>원</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -183,7 +183,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title" text="최대발급개수"/></td>
                                     <td>
-                                        <input type="text" name="maxPublishCount" class="form-control maxPublishCount text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxPublishCount}">
+                                        <input type="text" name="maxPublishCount" class="form-control maxPublishCount"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxPublishCount}">
                                         <span>개</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -193,7 +193,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title" text="동일고객 중복발급가능개수"/></td>
                                     <td>
-                                        <input type="text" name="multiPublishCount" class="form-control multiPublishCount text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.multiPublishCount}">
+                                        <input type="text" name="multiPublishCount" class="form-control multiPublishCount"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.multiPublishCount}">
                                         <span>개</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -435,9 +435,15 @@
             let req = convertFormToObj(_forms);
 
             if (inputDataCheck(req)) {
-                req.expireDate += 'T23:59:59';
                 req.publishStartDate += 'T00:00:00';
                 req.publishEndDate += 'T23:59:59';
+                if (req.validityType == 2) {
+                    //유효기간 방식이 발급일 기준이면 만료일자 null로 입력
+                    req.expireDate = null;
+                } else {
+                    //만료일자 기준이면
+                    req.expireDate += 'T23:59:59';
+                }
                 swal({
                     title: wouldyouliketoupdate,
                     icon: "warning",

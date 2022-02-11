@@ -38,13 +38,13 @@
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
                     <div class="table-responsive m-l-5">
-                        <form name="insert_form" id="insert_form" class="insert_form">
+                        <form name="insert_form" id="insert_form">
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
                             <input type="hidden" name="dataStatus" value="1">
                             <table class="table table-bordered">
                             <tbody>
                             <tr>
-                                <td class="bg-light"><spring:message code="list.detail.postclassification" text="서비스"/></td>
+                                <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="서비스"/></td>
                                 <td>
                                     <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                         <input type="radio" name="serviceType" value="2" style="margin-right: 5px" checked>
@@ -136,7 +136,7 @@
                                         </span>
 
                                         <span>
-                                            <input type="text" class="form-control dcAmt text-right" name="dcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                            <input type="text" class="form-control dcAmt" name="dcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                             <span id="amt-form">원</span>
                                             <span id="rate-form" style="display: none">%</span>
                                         </span>
@@ -149,7 +149,7 @@
                             <tr>
                                 <td class="bg-light"><spring:message code="list.detail.title" text="최대할인금액"/></td>
                                 <td>
-                                    <input type="text" name="maxDcAmt" class="form-control maxDcAmt text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <input type="text" name="maxDcAmt" class="form-control maxDcAmt" style="overflow: visible" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                     <span>원</span>
                                 </td>
                                 <td class="text-danger-darker" style="width:25%">
@@ -159,7 +159,7 @@
                             <tr>
                                 <td class="bg-light"><spring:message code="list.detail.title" text="최소결제금액"/></td>
                                 <td>
-                                    <input type="text" name="minPayAmt" class="form-control minPayAmt text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <input type="text" name="minPayAmt" class="form-control minPayAmt"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                     <span>원</span>
                                 </td>
                                 <td class="text-danger-darker" style="width:25%">
@@ -169,7 +169,7 @@
                             <tr>
                                 <td class="bg-light"><spring:message code="list.detail.title" text="최대발급개수"/></td>
                                 <td>
-                                    <input type="text" name="maxPublishCount" class="form-control maxPublishCount text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <input type="text" name="maxPublishCount" class="form-control maxPublishCount"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                     <span>개</span>
                                 </td>
                                 <td class="text-danger-darker" style="width:25%">
@@ -179,7 +179,7 @@
                             <tr>
                                 <td class="bg-light"><spring:message code="list.detail.title" text="동일고객 중복발급가능개수"/></td>
                                 <td>
-                                    <input type="text" name="multiPublishCount" class="form-control multiPublishCount text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <input type="text" name="multiPublishCount" class="form-control multiPublishCount"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                     <span>개</span>
                                 </td>
                                 <td class="text-danger-darker" style="width:25%">

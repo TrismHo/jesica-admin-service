@@ -2,6 +2,7 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.BoardService;
+import com.trism.jesica.persistence.Entitiy.board.TbAppBanner;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -235,6 +238,44 @@ public class BoardController {
     public ModelAndView detailBursimCustomerNotice() {
 
         return new ModelAndView("jesica/board/bursimcust/detail");
+    }
+
+    @GetMapping("/banner/list")
+    public ModelAndView listAppBanner(@RequestParam Map<String,Object> searchValue,
+                                          Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        try {
+            if (!searchValue.isEmpty()) {
+                putSearchOption(session, searchValue);
+                List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
+                List<TbAppBanner> tbAppBannerListNew = new ArrayList<>();
+
+                for (TbAppBanner tbAppBanner : tbAppBannerList) {
+                    String url = "";
+
+                    if (tbAppBanner.getBannerFile() != null) {
+                        url = URLEncoder.encode(tbAppBanner.getBannerFile(), "UTF-8");
+                    }
+                    tbAppBanner.setBannerFile(url);
+                    tbAppBannerListNew.add(tbAppBanner);
+                }
+                model.addAttribute("bannerList", tbAppBannerListNew);
+            } else {
+                searchValue = getSearchOption(session);
+                model.addAttribute("bannerList", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("jesica/board/banner/list");
+    }
+
+    @GetMapping("/banner/insert")
+    public ModelAndView insertAppBanner() {
+
+        return new ModelAndView("jesica/board/banner/insert");
     }
 
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {

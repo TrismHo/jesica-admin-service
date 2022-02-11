@@ -5,12 +5,16 @@
       <artifact name="Gradle : com.trism : manna-admin-service.war (exploded)" />
     </artifacts-to-build>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="aec4658e-3865-438b-b5ed-63b312674a3c" name="Default Changelist" comment="최초커밋" />
-    <ignored path="$PROJECT_DIR$/out/" />
-    <ignored path="$PROJECT_DIR$/.gradle/" />
-    <ignored path="$PROJECT_DIR$/build/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="aec4658e-3865-438b-b5ed-63b312674a3c" name="Default Changelist" comment="최초커밋">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/admin/login/login-info-2022-02-11.0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/admin/login/login-info-2022-02-11.0.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/manna.log" beforeDir="false" afterPath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/manna.log" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,11 +81,6 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
-                <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
@@ -102,133 +101,6 @@
         </projects_view>
       </state>
     </system>
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/workgroup/affilfranch/detail.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-54587">
-              <caret line="287" column="81" selection-start-line="287" selection-start-column="81" selection-end-line="287" selection-end-column="81" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/control.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="596">
-              <caret line="297" column="66" lean-forward="true" selection-start-line="297" selection-start-column="66" selection-end-line="297" selection-end-column="66" />
-              <folding>
-                <element signature="n#style#0;n#iframe#0;n#div#0;n#div#1;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#1;n#iframe#0;n#div#0;n#div#1;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h5#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#h5#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/workgroup/affilfranch/insert.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="1335" column="27" selection-start-line="1335" selection-start-column="13" selection-end-line="1335" selection-end-column="27" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#small#0;n#label#0;n#li#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#small#0;n#label#0;n#li#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/deliveryman/insert.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-444">
-              <caret line="1150" selection-start-line="1150" selection-end-line="1150" />
-              <folding>
-                <element signature="n#style#0;n#small#0;n#label#0;n#li#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#small#0;n#label#0;n#li#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#small#0;n#label#0;n#li#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="42" column="37" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="145" column="2" selection-start-line="145" selection-end-line="146" selection-end-column="77" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/trism/jesica/config/LoginInterceptor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2034">
-              <caret line="129" selection-start-line="129" selection-end-line="129" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="949" column="2" selection-start-line="949" selection-start-column="2" selection-end-line="949" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_custom_js.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="590">
-              <caret line="673" column="38" selection-start-line="673" selection-start-column="38" selection-end-line="673" selection-end-column="38" />
-              <folding>
-                <element signature="e#162#168#1" expanded="true" />
-                <element signature="e#171#177#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_common_js.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7504" />
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -341,6 +213,14 @@
     <option name="ROOT_SYNC" value="SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -404,6 +284,9 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="MavenProjectNavigator">
     <treeState>
       <expand />
@@ -416,6 +299,7 @@
     <option name="width" value="1096" />
     <option name="height" value="1179" />
   </component>
+  <component name="ProjectId" id="24wZwJSw16VOuQjdj8kVDBw49js" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
   </component>
@@ -439,7 +323,12 @@
       </pane>
     </panes>
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
@@ -481,17 +370,27 @@
     <property name="com.ifengxue.com.ifengxue.plugin.jps-support.repository_directory" value="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/safe" />
     <property name="com.ifengxue.com.ifengxue.plugin.jps-support.repository_package" value="com.trism.jesica.persistence.Repository.safe" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner" />
+      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\cache" />
+      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\static\assets\img\logo" />
+      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\static\assets\img\control" />
+      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\java\com\trism\jesica\Service" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources" />
       <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\webapp\WEB-INF\views\jesica\safe\number" />
@@ -499,32 +398,16 @@
       <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\webapp\WEB-INF\views\jesica" />
       <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\static\assets\img\logo" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.trism.jesica.persistence.Entitiy.board" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.trism.jesica.persistence.Entitiy.board" />
+      <recent name="com.trism.jesica.persistence.Repository.board" />
       <recent name="com.trism.jesica.config" />
       <recent name="com.trism.jesica.dto" />
       <recent name="com.trism.jesica.Util" />
-      <recent name="com.trism.jesica.Service" />
-      <recent name="com.trism.jesica.Controller" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\cache" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\static\assets\img\logo" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\static\assets\img\control" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\java\com\trism\jesica\Service" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\java\com\trism\jesica\Controller" />
-    </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Spring Boot.JesicaApplication">
     <configuration name="manna-admin-service [bootWar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -543,7 +426,9 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <configuration name="manna-admin-service [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -562,7 +447,9 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <configuration name="manna-admin-service [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -581,7 +468,9 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <configuration name="manna-admin-service [initQuerydslSourcesDir]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -600,7 +489,9 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <configuration name="manna-admin-service [querydslClasses]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -619,7 +510,9 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <configuration name="JesicaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -640,14 +533,15 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.manna-admin-service [build]" />
+        <item itemvalue="Gradle.manna-admin-service [clean]" />
         <item itemvalue="Gradle.manna-admin-service [bootWar]" />
         <item itemvalue="Gradle.manna-admin-service [initQuerydslSourcesDir]" />
-        <item itemvalue="Gradle.manna-admin-service [clean]" />
-        <item itemvalue="Gradle.manna-admin-service [build]" />
         <item itemvalue="Gradle.manna-admin-service [querydslClasses]" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration" cleanupOnStartRun="true">
     <configuration>C:\Users\HongJungho\AppData\Roaming\Subversion</configuration>
     <supportedVersion>125</supportedVersion>
@@ -745,6 +639,8 @@
       <workItem from="1639937974590" duration="40625000" />
       <workItem from="1640079070963" duration="66701000" />
       <workItem from="1640568876097" duration="58826000" />
+      <workItem from="1644543853465" duration="2800000" />
+      <workItem from="1644546769271" duration="11779000" />
     </task>
     <task id="LOCAL-00077" summary="commit333">
       <created>1617784131756</created>
@@ -1193,7 +1089,18 @@
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
@@ -1215,37 +1122,31 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/TbSiteLangRepository.java</url>
           <line>41</line>
-          <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/goods/TbStoreOptionRepository.java</url>
           <line>40</line>
-          <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main.jsp</url>
           <line>25</line>
-          <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Entitiy/goods/TbStoreGoods.java</url>
           <line>36</line>
-          <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Entitiy/goods/TbSystemGoods.java</url>
           <line>116</line>
-          <properties />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/trism/jesica/Util/RestTemplateUtil.java</url>
           <line>27</line>
-          <properties />
           <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>

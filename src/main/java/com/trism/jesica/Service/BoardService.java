@@ -4,15 +4,9 @@ import com.trism.jesica.Util.SearchUtil;
 import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
+import com.trism.jesica.persistence.Entitiy.board.*;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
-import com.trism.jesica.persistence.Repository.board.TbNoticeCompanyRepository;
-import com.trism.jesica.persistence.Repository.board.TbNoticePlatformRepository;
-import com.trism.jesica.persistence.Repository.board.TbNoticeReleaseRepository;
-import com.trism.jesica.persistence.Repository.board.TbNoticeWorkerRepository;
+import com.trism.jesica.persistence.Repository.board.*;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +41,8 @@ public class BoardService {
 
     @Autowired
     private final TbNoticeReleaseRepository tbNoticeReleaseRepository;
+
+    private final TbAppBannerRepository tbAppBannerRepository;
 
 
     @Transactional(readOnly = true)
@@ -162,6 +158,19 @@ public class BoardService {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
         return tbNoticeRelease.get();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbAppBanner> tbAppBannerSearch(Map<String,Object> searchValue) {
+        Specification<TbAppBanner> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key,(String)value);
+            predicate = (Specification<TbAppBanner>) SearchUtil.searchAppBanner(searchValue);
+        }
+        return searchValue.isEmpty() ? null
+                : tbAppBannerRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
 
