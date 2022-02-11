@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8"/>
-    <title>PetView | 가맹점 상품등록</title>
+    <title>Jesicar | 가맹점 상품등록</title>
     <%@include file="../../../common/include_head.jsp" %>
     <style>
         h1 {

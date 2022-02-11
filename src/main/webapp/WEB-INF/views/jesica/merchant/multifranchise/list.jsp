@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>PetView | 멀티가맹점</title>
+    <title>Jesicar | 멀티가맹점</title>
     <%@include file="../../../common/include_head.jsp" %>
 </head>
 <body>

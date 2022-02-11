@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement" text="쿠폰 관리"/></title>
+    <title>Jesicar | <spring:message code="sidemenu.couponmanagement.couponmanagement" text="쿠폰 관리"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -31,10 +31,10 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="쿠폰 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="쿠폰 관리"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="쿠폰 관리"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="쿠폰 관리"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="쿠폰 관리"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="쿠폰 관리"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
@@ -47,7 +47,7 @@
                                     <table class="table table-condensed table-bordered">
                                     <tbody>
                                     <tr >
-                                        <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="서비스 타입"/></strong></td>
+                                        <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="서비스 타입"/></strong></td>
                                         <td >
                                             <label>
                                                 <select class="form-control" name="serviceType">
@@ -59,7 +59,7 @@
                                                 </select>
                                             </label>
                                         </td>
-                                        <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
+                                        <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="사용상태"/></strong></td>
                                         <td>
                                             <div class="row">
                                             </div>
@@ -114,39 +114,32 @@
                 <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
                     <thead>
                         <tr class="text-center">
-                            <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                            <th width="20%"><spring:message code="list.detail.title" text="쿠폰명"/></th>
-                            <th width=""><spring:message code="list.word.contents" text="할인금액/할인율"/></th>
-                            <th width="10%"><spring:message code="list.word.serviceclassification" text="서비스타입"/></th>
-                            <th width="10%"><spring:message code="list.word.status" text="상태"/></th>
-                            <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
-                            <th width="10%"><spring:message code="list.word.modifieddate" text="수정일"/></th>
+                            <th><spring:message code="list.word.no" text="번호"/></th>
+                            <th><spring:message code="list.detail.title" text="쿠폰명"/></th>
+                            <th><spring:message code="list.detail.title" text="쿠폰코드"/></th>
+                            <th><spring:message code="list.detail.title" text="최대발급가능"/></th>
+                            <th><spring:message code="list.detail.title" text="현재발급개수"/></th>
+                            <th><spring:message code="list.word.contents" text="할인금액/할인율"/></th>
+                            <th><spring:message code="list.word.serviceclassification" text="서비스타입"/></th>
+                            <th><spring:message code="list.word.status" text="발급가능시작일"/></th>
+                            <th><spring:message code="list.word.status" text="발급가능종료일"/></th>
+                            <th><spring:message code="list.word.status" text="상태"/></th>
+                            <th><spring:message code="list.word.registrationdate" text="등록일"/></th>
+                            <th><spring:message code="list.word.modifieddate" text="수정일"/></th>
                         </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="item"  items="${tbCouponList}"  varStatus="status">
                         <tr class="detailRow" couponNo="${item.couponNo}">
                             <td class="text-center">${status.index + 1}</td>
+                            <td class="text-center">${item.title}</td>
+                            <td class="text-center">${item.couponCode}</td>
+                            <td class="text-center">${item.maxPublishCount}개</td>
+                            <td class="text-center">${item.publishCount}개</td>
                             <td class="text-center">
-                                <div style="overflow: hidden;
-                                          margin: auto;
-                                          text-overflow: ellipsis;
-                                          white-space: nowrap;
-                                          width: 250px;
-                                          display: block;">  ${item.title}
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <div style="overflow: hidden;
-                                          margin: auto;
-                                          text-overflow: ellipsis;
-                                          white-space: nowrap;
-                                          width: 250px;
-                                          display: block;">
-                                    ${item.dcAmt}
-                                    <c:if test="${item.dcRateType == 1}">원</c:if>
-                                    <c:if test="${item.dcRateType == 2}">%</c:if>
-                                </div>
+                                ${item.dcAmt}
+                                <c:if test="${item.dcRateType == 1}">원</c:if>
+                                <c:if test="${item.dcRateType == 2}">%</c:if>
                             </td>
                             <td class="text-center" style="">
                                 <c:if test="${item.serviceType == 2}">
@@ -162,10 +155,12 @@
                                     <spring:message code="list.word.franchisee" text="맛집예약"/>
                                 </c:if>
                             </td>
+                            <td class="text-center"><javatime:format value="${item.publishStartDate}" pattern="yyyy-MM-dd" /></td>
+                            <td class="text-center"><javatime:format value="${item.publishEndDate}" pattern="yyyy-MM-dd" /></td>
                             <td class="text-center">
                                 <c:if test="${item.dataStatus == 0}"><span class="text-red"><spring:message code="list.word.hide" text="삭제"/></span></c:if>
                                 <c:if test="${item.dataStatus == 1}"><spring:message code="list.word.exposure" text="정상"/></c:if>
-                                <c:if test="${item.dataStatus == 2}"><spring:message code="list.word.exposure" text="정자"/></c:if>
+                                <c:if test="${item.dataStatus == 2}"><spring:message code="list.word.exposure" text="정지"/></c:if>
                             </td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
                             <td class="text-center"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd" /></td>
