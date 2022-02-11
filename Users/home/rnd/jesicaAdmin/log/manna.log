@@ -6699,3 +6699,184 @@ org.apache.jasper.JasperException: /WEB-INF/views/jesica/board/banner/insert.jsp
 11-02-2022 15:35:50.037 [scheduling-1] INFO  com.trism.jesica.JesicaScheduler.reloadProperties - @@@ reloadProperties 2021-11-11T18:15:38
 11-02-2022 15:38:50.053 [scheduling-1] INFO  com.trism.jesica.JesicaScheduler.reloadProperties - @@@ reloadProperties 2021-11-11T18:15:38
 11-02-2022 15:41:50.066 [scheduling-1] INFO  com.trism.jesica.JesicaScheduler.reloadProperties - @@@ reloadProperties 2021-11-11T18:15:38
+11-02-2022 15:44:50.085 [scheduling-1] INFO  com.trism.jesica.JesicaScheduler.reloadProperties - @@@ reloadProperties 2021-11-11T18:15:38
+11-02-2022 15:47:50.105 [scheduling-1] INFO  com.trism.jesica.JesicaScheduler.reloadProperties - @@@ reloadProperties 2021-11-11T18:15:38
+11-02-2022 15:48:02.084 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskScheduler.shutdown - Shutting down ExecutorService 'taskScheduler'
+11-02-2022 15:48:02.085 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
+11-02-2022 15:48:02.092 [SpringContextShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+11-02-2022 15:48:02.093 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - manna-hikari-cp - Shutdown initiated...
+11-02-2022 15:48:02.102 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - manna-hikari-cp - Shutdown completed.
+11-02-2022 15:48:03.966 [restartedMain] INFO  com.trism.jesica.JesicaApplication.logStarting - Starting JesicaApplication on anjun-ui-MacBookPro.local with PID 4889 (/Users/anjun/Documents/Trism Project/Jesica/jesica-admin/build/classes/java/main started by anjun in /Users/anjun/Documents/Trism Project/Jesica/jesica-admin)
+11-02-2022 15:48:03.969 [restartedMain] INFO  com.trism.jesica.JesicaApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+11-02-2022 15:48:03.989 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+11-02-2022 15:48:03.989 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+11-02-2022 15:48:04.288 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+11-02-2022 15:48:04.627 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 332ms. Found 75 JPA repository interfaces.
+11-02-2022 15:48:04.633 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+11-02-2022 15:48:04.745 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 111ms. Found 75 JPA repository interfaces.
+11-02-2022 15:48:05.338 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 9002 (http)
+11-02-2022 15:48:05.344 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-9002"]
+11-02-2022 15:48:05.345 [restartedMain] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+11-02-2022 15:48:05.345 [restartedMain] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/9.0.37]
+11-02-2022 15:48:05.463 [restartedMain] INFO  org.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+11-02-2022 15:48:05.465 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+11-02-2022 15:48:05.465 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 1476 ms
+11-02-2022 15:48:05.502 [restartedMain] INFO  o.s.b.web.servlet.RegistrationBean.register - Filter xssEscapeServletFilter was not registered (possibly already registered?)
+11-02-2022 15:48:05.580 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+11-02-2022 15:48:05.597 [restartedMain] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 5.4.18.Final
+11-02-2022 15:48:05.642 [restartedMain] INFO  o.h.annotations.common.Version.<clinit> - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+11-02-2022 15:48:05.677 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig.validateNumerics - manna-hikari-cp - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11-02-2022 15:48:05.677 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - manna-hikari-cp - Starting...
+11-02-2022 15:48:05.768 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - manna-hikari-cp - Start completed.
+11-02-2022 15:48:05.774 [restartedMain] INFO  org.hibernate.dialect.Dialect.<init> - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+11-02-2022 15:48:06.001 [restartedMain] WARN  org.hibernate.mapping.RootClass.checkCompositeIdentifier - HHH000038: Composite-id class does not override equals(): com.trism.jesica.persistence.id.TbDeliveryShareID
+11-02-2022 15:48:06.001 [restartedMain] WARN  org.hibernate.mapping.RootClass.checkCompositeIdentifier - HHH000039: Composite-id class does not override hashCode(): com.trism.jesica.persistence.id.TbDeliveryShareID
+11-02-2022 15:48:06.685 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+11-02-2022 15:48:06.688 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+11-02-2022 15:48:08.567 [restartedMain] INFO  c.t.j.U.S.token.AuthTokenProvider.<init> - @@ Init AuthTokenProvider
+11-02-2022 15:48:08.659 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor.initialize - Initializing ExecutorService 'applicationTaskExecutor'
+11-02-2022 15:48:08.776 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskScheduler.initialize - Initializing ExecutorService 'taskScheduler'
+11-02-2022 15:48:08.785 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer.startServer - LiveReload server is running on port 35729
+11-02-2022 15:48:08.813 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-9002"]
+11-02-2022 15:48:08.827 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 9002 (http) with context path ''
+11-02-2022 15:48:08.828 [restartedMain] INFO  com.trism.jesica.JesicaApplication.logStarted - Started JesicaApplication in 5.118 seconds (JVM running for 5.517)
+11-02-2022 15:48:08.829 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run - 
+
+=========================================================
+Using cache manager: org.springframework.cache.concurrent.ConcurrentMapCacheManager
+=========================================================
+
+
+11-02-2022 15:48:09.815 [scheduling-1] INFO  com.trism.jesica.JesicaScheduler.reloadProperties - @@@ reloadProperties null
+11-02-2022 15:48:09.991 [scheduling-1] ERROR com.trism.jesica.JesicaScheduler.reloadProperties - 언어팩 수정 실패 ko
+11-02-2022 15:48:10.013 [scheduling-1] ERROR com.trism.jesica.JesicaScheduler.reloadProperties - 언어팩 수정 실패 kh
+11-02-2022 15:48:10.031 [scheduling-1] ERROR com.trism.jesica.JesicaScheduler.reloadProperties - 언어팩 수정 실패 en
+11-02-2022 15:48:16.611 [http-nio-9002-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+11-02-2022 15:48:16.612 [http-nio-9002-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+11-02-2022 15:48:16.616 [http-nio-9002-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 4 ms
+11-02-2022 15:48:16.625 [http-nio-9002-exec-1] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:16.625 [http-nio-9002-exec-1] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:16.625 [http-nio-9002-exec-1] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /driver/deliveryman/insert
+11-02-2022 15:48:16.625 [http-nio-9002-exec-1] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /driver/deliveryman/insert
+11-02-2022 15:48:18.939 [http-nio-9002-exec-3] INFO  c.t.jesica.Controller.MainController.loginCheck - clientId_first::fbiOPaV2lxFBs3Hq
+11-02-2022 15:48:18.939 [http-nio-9002-exec-3] INFO  c.t.jesica.Controller.MainController.loginCheck - code_first::6d2546b7704241bd92f1aef54e0cf020
+11-02-2022 15:48:18.939 [http-nio-9002-exec-3] INFO  c.t.jesica.Controller.MainController.loginCheck - deviceId_first::f46d6c87-b54a-4666-b64c-90c85ff316f7
+11-02-2022 15:48:18.940 [http-nio-9002-exec-3] INFO  c.t.jesica.Controller.MainController.loginCheck - refreshTokenEnd_first::+2UQDyNvYSgPLhdF6kBOV1tE44jlkh6QU6Ts6sJytR/ZDWR8QCVtNiT6mQowG6j3XyqLTpKvnPg0wB2Iu2gyKYXXG6LIIRbiHAKunXuFUFhp8ABbBqzRrNnwDmshGdYAL8EDSOM0H9ZujgjnlLF+6tGv1Fb8di0z2f1mebPY931SP1sHRU8/kV6B9BKiFn2lZMCozG4lZIm2tRA9uPN80xyDUP+EVALCRggahKNXmGEPW8wl4FcBEjzAiSpGSXZJE3WuQQmUFPFOQwiEFWnpYotgvPBvbGlIB2QEd5zBWBxtI8/DCUiVLa8rY3iY74w9/2CTxXIuE+o01ygWhrsL6o/7rhSPoE50O3afN9SOW+mXo41gQZci5b5pHeMIA262BUUy1Kij8b7zLOLsexmoJJiGWjPcZ/L3m7t8PPz8EOh63ds1OnTCFlkZZ+HBLmCb
+11-02-2022 15:48:18.940 [http-nio-9002-exec-3] INFO  c.t.jesica.Controller.MainController.loginCheck - --------------auth/login------------------
+11-02-2022 15:48:19.332 [http-nio-9002-exec-3] INFO  c.t.jesica.Controller.MainController.loginCheck - -----------------------------------------
+11-02-2022 15:48:19.355 [http-nio-9002-exec-3] INFO  com.trism.jesica.Util.GetClientIp.getClientIP - > X-FORWARDED-FOR : null
+11-02-2022 15:48:19.355 [http-nio-9002-exec-3] INFO  com.trism.jesica.Util.GetClientIp.getClientIP - > Proxy-Client-IP : null
+11-02-2022 15:48:19.355 [http-nio-9002-exec-3] INFO  com.trism.jesica.Util.GetClientIp.getClientIP - >  WL-Proxy-Client-IP : null
+11-02-2022 15:48:19.355 [http-nio-9002-exec-3] INFO  com.trism.jesica.Util.GetClientIp.getClientIP - > HTTP_CLIENT_IP : null
+11-02-2022 15:48:19.355 [http-nio-9002-exec-3] INFO  com.trism.jesica.Util.GetClientIp.getClientIP - > HTTP_X_FORWARDED_FOR : null
+11-02-2022 15:48:19.355 [http-nio-9002-exec-3] INFO  com.trism.jesica.Util.GetClientIp.getClientIP - > getRemoteAddr : 0:0:0:0:0:0:0:1
+11-02-2022 15:48:19.355 [http-nio-9002-exec-3] INFO  com.trism.jesica.Util.GetClientIp.getClientIP - > Result : IP Address : 0:0:0:0:0:0:0:1
+11-02-2022 15:48:19.355 [http-nio-9002-exec-3] INFO  c.t.jesica.Controller.MainController.loginCheck - Login_user : ip = 0:0:0:0:0:0:0:1 / ID = admin / result = 200: 로그인 성공
+11-02-2022 15:48:19.378 [http-nio-9002-exec-4] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:19.378 [http-nio-9002-exec-4] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:19.379 [http-nio-9002-exec-4] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /main
+11-02-2022 15:48:19.379 [http-nio-9002-exec-4] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /main
+11-02-2022 15:48:19.795 [http-nio-9002-exec-5] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:19.796 [http-nio-9002-exec-5] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:19.796 [http-nio-9002-exec-5] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /api/main/chart/list
+11-02-2022 15:48:19.796 [http-nio-9002-exec-5] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /api/main/chart/list
+11-02-2022 15:48:24.311 [http-nio-9002-exec-6] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:24.312 [http-nio-9002-exec-6] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:24.313 [http-nio-9002-exec-6] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /coupon/management/list
+11-02-2022 15:48:24.313 [http-nio-9002-exec-6] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /coupon/management/list
+11-02-2022 15:48:24.325 [http-nio-9002-exec-6] INFO  c.t.j.Controller.CouponController.listCoupon - @@searchValue {serviceType=, endDate=2022-02-11, dataStatus=, title=, startDate=2020-01-01}
+11-02-2022 15:48:24.339 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:serviceType, [value]:
+11-02-2022 15:48:24.342 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:24.343 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:endDate, [value]:2022-02-11
+11-02-2022 15:48:24.343 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:24.343 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:dataStatus, [value]:
+11-02-2022 15:48:24.343 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:24.344 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:title, [value]:
+11-02-2022 15:48:24.344 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:24.344 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:startDate, [value]:2020-01-01
+11-02-2022 15:48:24.344 [http-nio-9002-exec-6] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:25.471 [http-nio-9002-exec-7] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:25.472 [http-nio-9002-exec-7] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:25.472 [http-nio-9002-exec-7] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /coupon/management/detail
+11-02-2022 15:48:25.472 [http-nio-9002-exec-7] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /coupon/management/detail
+11-02-2022 15:48:25.479 [http-nio-9002-exec-7] INFO  c.t.j.Controller.CouponController.detailCoupon - couponNo:: 
+11-02-2022 15:48:32.710 [http-nio-9002-exec-8] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:32.713 [http-nio-9002-exec-8] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:32.714 [http-nio-9002-exec-8] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /coupon/management/detail
+11-02-2022 15:48:32.714 [http-nio-9002-exec-8] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /coupon/management/detail
+11-02-2022 15:48:32.721 [http-nio-9002-exec-8] INFO  c.t.j.Controller.CouponController.detailCoupon - couponNo:: 
+11-02-2022 15:48:46.853 [http-nio-9002-exec-9] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:46.854 [http-nio-9002-exec-9] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:46.855 [http-nio-9002-exec-9] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /api/coupon/management/update
+11-02-2022 15:48:46.855 [http-nio-9002-exec-9] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /api/coupon/management/update
+11-02-2022 15:48:46.896 [http-nio-9002-exec-9] INFO  c.t.jesica.Controller.ApiController.updateTbCoupon - tbCouponData::TbCouponData(couponNo=1, insertUserId=null, updateUserId=admin, serviceType=2, validityType=2, expireDate=null, validDay=30, publishStartDate=2022-02-09T00:00, publishEndDate=2022-02-28T23:59:59, dcRateType=1, dcAmt=5000, maxDcAmt=5000, minPayAmt=10000, maxPublishCount=100, multiPublishCount=5, couponCode=testcoupon1234, title=테스트쿠폰, body=테스트쿠폰입니다.)
+11-02-2022 15:48:47.994 [http-nio-9002-exec-10] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:47.996 [http-nio-9002-exec-10] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:47.996 [http-nio-9002-exec-10] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /coupon/management/list
+11-02-2022 15:48:47.997 [http-nio-9002-exec-10] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /coupon/management/list
+11-02-2022 15:48:48.009 [http-nio-9002-exec-10] INFO  c.t.j.Controller.CouponController.listCoupon - @@searchValue {endDate=2022-02-11, dataStatus=OK, title=, startDate=2020-01-01}
+11-02-2022 15:48:48.025 [http-nio-9002-exec-10] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:endDate, [value]:2022-02-11
+11-02-2022 15:48:48.026 [http-nio-9002-exec-10] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:48.026 [http-nio-9002-exec-10] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:dataStatus, [value]:OK
+11-02-2022 15:48:48.026 [http-nio-9002-exec-10] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:48.027 [http-nio-9002-exec-10] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:title, [value]:
+11-02-2022 15:48:48.027 [http-nio-9002-exec-10] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:48.027 [http-nio-9002-exec-10] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:startDate, [value]:2020-01-01
+11-02-2022 15:48:48.027 [http-nio-9002-exec-10] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:48:58.303 [http-nio-9002-exec-1] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:48:58.304 [http-nio-9002-exec-1] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:48:58.304 [http-nio-9002-exec-1] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /coupon/management/detail
+11-02-2022 15:48:58.304 [http-nio-9002-exec-1] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /coupon/management/detail
+11-02-2022 15:48:58.312 [http-nio-9002-exec-1] INFO  c.t.j.Controller.CouponController.detailCoupon - couponNo:: 
+11-02-2022 15:49:11.357 [http-nio-9002-exec-2] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:49:11.359 [http-nio-9002-exec-2] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:49:11.359 [http-nio-9002-exec-2] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /coupon/management/list
+11-02-2022 15:49:11.359 [http-nio-9002-exec-2] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /coupon/management/list
+11-02-2022 15:49:11.369 [http-nio-9002-exec-2] INFO  c.t.j.Controller.CouponController.listCoupon - @@searchValue {serviceType=, endDate=2022-02-11, dataStatus=, title=, startDate=2020-01-01}
+11-02-2022 15:49:11.376 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:serviceType, [value]:
+11-02-2022 15:49:11.376 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:49:11.376 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:endDate, [value]:2022-02-11
+11-02-2022 15:49:11.377 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:49:11.377 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:dataStatus, [value]:
+11-02-2022 15:49:11.377 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:49:11.377 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:title, [value]:
+11-02-2022 15:49:11.378 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:49:11.382 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@ key, value = [key]:startDate, [value]:2020-01-01
+11-02-2022 15:49:11.382 [http-nio-9002-exec-2] INFO  c.trism.jesica.Service.CouponService.tbCouponSearch - @@Coupon predicate::[]
+11-02-2022 15:49:48.077 [http-nio-9002-exec-4] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:49:48.078 [http-nio-9002-exec-4] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:49:48.079 [http-nio-9002-exec-4] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /driver/deliveryman/list
+11-02-2022 15:49:48.079 [http-nio-9002-exec-4] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /driver/deliveryman/list
+11-02-2022 15:49:48.099 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:?headNoText, [value]:
+11-02-2022 15:49:48.101 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:storeNo, [value]:
+11-02-2022 15:49:48.101 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:headNo, [value]:
+11-02-2022 15:49:48.101 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:endDate, [value]:2022-02-11
+11-02-2022 15:49:48.101 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:storeNoText, [value]:
+11-02-2022 15:49:48.101 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:name, [value]:
+11-02-2022 15:49:48.101 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:dataStatus, [value]:OK
+11-02-2022 15:49:48.101 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:headNoText, [value]:
+11-02-2022 15:49:48.102 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:branchNoText, [value]:
+11-02-2022 15:49:48.102 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:startDate, [value]:2020-01-01
+11-02-2022 15:49:48.102 [http-nio-9002-exec-4] INFO  c.t.jesica.Service.WorkGroupService.tbUserWorkSerch - @@ key,value = [key]:branchNo, [value]:
+11-02-2022 15:49:49.640 [http-nio-9002-exec-5] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:49:49.641 [http-nio-9002-exec-5] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:49:49.642 [http-nio-9002-exec-5] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /driver/deliveryman/detail
+11-02-2022 15:49:49.642 [http-nio-9002-exec-5] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /driver/deliveryman/detail
+11-02-2022 15:49:50.070 [http-nio-9002-exec-7] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:49:50.070 [http-nio-9002-exec-8] INFO  c.t.jesica.config.LoginInterceptor.preHandle - ============================== START ==============================
+11-02-2022 15:49:50.070 [http-nio-9002-exec-7] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:49:50.070 [http-nio-9002-exec-8] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Class       	:  class org.springframework.web.method.HandlerMethod
+11-02-2022 15:49:50.070 [http-nio-9002-exec-7] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /api/img/fileLoad
+11-02-2022 15:49:50.070 [http-nio-9002-exec-8] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Request URI 	:  /api/img/fileLoad
+11-02-2022 15:49:50.070 [http-nio-9002-exec-7] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /api/img/fileLoad
+11-02-2022 15:49:50.070 [http-nio-9002-exec-8] INFO  c.t.jesica.config.LoginInterceptor.preHandle -  Servlet URI 	:  /api/img/fileLoad
+11-02-2022 15:49:50.073 [http-nio-9002-exec-7] INFO  c.t.jesica.Controller.ApiController.fileLoad - %2Fimages%2Fdriver%2Fprofile%2F2022%2F02%2F10_122046zhhd.png
+11-02-2022 15:49:50.073 [http-nio-9002-exec-8] INFO  c.t.jesica.Controller.ApiController.fileLoad - %2Fimages%2Fdriver%2Flicense%2F2022%2F02%2F10_122159turr.jpg
+11-02-2022 15:49:50.073 [http-nio-9002-exec-7] INFO  c.t.jesica.Controller.ApiController.fileLoad - file not found!!
+11-02-2022 15:49:50.073 [http-nio-9002-exec-8] INFO  c.t.jesica.Controller.ApiController.fileLoad - file not found!!
+11-02-2022 15:51:10.039 [scheduling-1] INFO  com.trism.jesica.JesicaScheduler.reloadProperties - @@@ reloadProperties 2021-11-11T18:15:38
+11-02-2022 15:51:57.839 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskScheduler.shutdown - Shutting down ExecutorService 'taskScheduler'
+11-02-2022 15:51:57.841 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor.shutdown - Shutting down ExecutorService 'applicationTaskExecutor'
+11-02-2022 15:51:57.849 [SpringContextShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+11-02-2022 15:51:57.850 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - manna-hikari-cp - Shutdown initiated...
+11-02-2022 15:51:57.897 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - manna-hikari-cp - Shutdown completed.

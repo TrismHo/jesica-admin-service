@@ -68,3 +68,6 @@ build/
 target/
 
 /bin
+*.log
+*.xml
+*.txt
