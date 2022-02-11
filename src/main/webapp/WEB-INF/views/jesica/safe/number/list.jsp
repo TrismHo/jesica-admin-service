@@ -74,77 +74,77 @@
                 <div class="search-box">
                     <div class="inner-search-box p-15">
                         <div class="row">
-                                <style>
-                                    .form-control-test {
-                                        width: 100%;
-                                        height: 30px;
-                                        font-size: 11px;
-                                        display: inline;
-                                        border-radius: 0px;
-                                        border: 1px solid #d5dbe0;;
-                                    }
-                                </style>
-                                <div class="col-xl-12 col-md-12">
-                                    <form class="brand_search_form"></form>
-                                        <table class="table table-condensed table-bordered">
-                                            <tbody>
-                                            <tr>
-                                               <%-- <td class="bg-light" style="width:10%">
-                                                    <strong><spring:message code="list.search.brand" text="브랜드"/>&lt;%&ndash;가맹점선택&ndash;%&gt;</strong>
-                                                </td>
-                                                <td style="width:30%">
+                            <style>
+                                .form-control-test {
+                                    width: 100%;
+                                    height: 30px;
+                                    font-size: 11px;
+                                    display: inline;
+                                    border-radius: 0px;
+                                    border: 1px solid #d5dbe0;;
+                                }
+                            </style>
+                            <div class="col-xl-12 col-md-12">
+                                <form class="brand_search_form"></form>
+                                <table class="table table-condensed table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <%-- <td class="bg-light" style="width:10%">
+                                             <strong><spring:message code="list.search.brand" text="브랜드"/>&lt;%&ndash;가맹점선택&ndash;%&gt;</strong>
+                                         </td>
+                                         <td style="width:30%">
 
-                                                </td>--%>
-                                                <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
-                                                <td style="width:90%;" colspan="3">
-                                                    <label>
-                                                        <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                                    </label>
-                                                    <label>
-                                                        <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="bg-light" style="width:20%;"><strong>승인상태</strong></td>
-                                                <td style="width:30%;">
-                                                    <div class="row">
-                                                    </div>
-                                                    <label>
-                                                        <select class="form-control dataStatus" name="dataStatus">
-                                                            <option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                            <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal" text="정상"/></option>
-                                                            <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop" text="정지"/></option>
-                                                        </select>
-                                                    </label>
-                                                </td>
-                                                <td class="bg-light" ><strong><spring:message code="list.search.searchword" text="검색어"/><%--검색어 입력--%></strong></td>
-                                                <td>
-                                                    <label>
-                                                        <select class="form-control">
-                                                            <option>안심번호</option>
-                                                        </select>
-                                                    </label>
-                                                    <label>
-                                                        <input type="text" name="safenNum" value="${searchValue.safenNum}" class="form-control width-150" maxlength="50">
-                                                    </label>
-                                                    <label>
+                                         </td>--%>
+                                        <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
+                                        <td style="width:90%;" colspan="3">
+                                            <label>
+                                                <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
+                                            </label>
+                                            <label>
+                                                <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light" style="width:20%;"><strong>승인상태</strong></td>
+                                        <td style="width:30%;">
+                                            <div class="row">
+                                            </div>
+                                            <label>
+                                                <select class="form-control dataStatus" name="dataStatus">
+                                                    <option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
+                                                    <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal" text="정상"/></option>
+                                                    <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop" text="정지"/></option>
+                                                </select>
+                                            </label>
+                                        </td>
+                                        <td class="bg-light" ><strong><spring:message code="list.search.searchword" text="검색어"/><%--검색어 입력--%></strong></td>
+                                        <td>
+                                            <label>
+                                                <select class="form-control">
+                                                    <option>안심번호</option>
+                                                </select>
+                                            </label>
+                                            <label>
+                                                <input type="text" name="safenNum" value="${searchValue.safenNum}" class="form-control width-150" maxlength="50">
+                                            </label>
+                                            <label>
                                                         <span class="btn-group  bg-black-transparent-2 rounded">
                                                             <a href="/driver/apply/list?dataStatus=&startDate=2021-01-01&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
                                                                 <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message code="list.search.searchreset" text="검색 초기화"/>
                                                             </a>
                                                         </span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                     </div>
-                                    <div class="col-xl-12 col-md-12 m-t-10">
-                                        <div class="">
-                                            <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
-                                        </div>
-                                    </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xl-12 col-md-12 m-t-10">
+                                <div class="">
+                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -152,19 +152,15 @@
             <div class="panel-body p-15">
                 <table id="testTable" class="display table table-bordered w-100 table-striped ">
                     <thead>
-                      <%--  <th class="text-center" width="3%;">
-                            <input type="checkbox" name="checked_all" id="select0" class="d-none">
-                            <label for="select0" class="input-label "> <i class="fa fa-square check_all_i"></i></label>
-                        </th>--%>
-                        <th class="text-center" width="3%;"><spring:message code="list.word.no" text="순번"/></th>
-                        <th class="text-center" width="6%;">안심번호</th>
-                        <th class="text-center" width="5%;">상태</th>
-                        <th class="text-center" width="5%;">렌터카일련번호</th>
-                        <th class="text-center" width="8%;">매핑여부</th>
-                        <th class="text-center" width="10%;">매핑전화번호</th>
-                        <th class="text-center" width="10%;">매핑 시작일</th>
-                        <th class="text-center" width="10%;">매핑 종료일</th>
-                        <th class="text-center" width="8%;">등록일</th>
+                    <%--  <th class="text-center" width="3%;">
+                          <input type="checkbox" name="checked_all" id="select0" class="d-none">
+                          <label for="select0" class="input-label "> <i class="fa fa-square check_all_i"></i></label>
+                      </th>--%>
+                    <th class="text-center" width="3%;"><spring:message code="list.word.no" text="순번"/></th>
+                    <th class="text-center" width="6%;">안심번호</th>
+                    <th class="text-center" width="5%;">상태</th>
+                    <th class="text-center" width="5%;">렌터카일련번호</th>
+                    <th class="text-center" width="8%;">등록일</th>
                     </thead>
                     <tbody>
                     <c:forEach var="item" items="${tbSafenMapping}" varStatus="status">
@@ -179,10 +175,6 @@
                                 <c:if test="${item.dataStatus == 'DELETE'}"><spring:message code="list.word.3" text="삭제"/></c:if>
                             </td>
                             <td class="text-center">${item.rentalCarNo}</td>
-                            <td class="text-center">${item.mappingYn}</td>
-                            <td class="text-center">${item.mappingNum}</td>
-                            <td class="text-center"><javatime:format value="${item.startDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                            <td class="text-center"><javatime:format value="${item.endDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                         </tr>
                     </c:forEach>
@@ -214,8 +206,8 @@
             language : lang_set //or lang_eng
         });
 
-       $(document).on("click",".detailRow",function(){
-          let safenNum = $(this).attr("safenNum");
+        $(document).on("click",".detailRow",function(){
+            let safenNum = $(this).attr("safenNum");
             location.href="${path}/safe/number/detail?safenNum="+safenNum;
         });
 

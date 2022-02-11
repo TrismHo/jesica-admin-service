@@ -45,53 +45,53 @@
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
                                     <table class="table table-condensed table-bordered">
-                                    <tbody>
-                                    <tr >
-                                        <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="게시물 구분"/></strong></td>
-                                        <td >
-                                            <label>
-                                                <select class="form-control" name="groupType">
-                                                    <option value="" <c:if test="${searchValue.groupType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                    <option value="8" <c:if test="${searchValue.groupType == '8'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters" text="제휴본사명"/></option>
-                                                    <option value="4" <c:if test="${searchValue.groupType == '4'}">selected</c:if>><spring:message code="list.search.deliverymanname" text="배송원명"/></option>
-                                                </select>
-                                            </label>
-                                        </td>
-                                        <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
-                                        <td>
-                                            <div class="row">
-                                            </div>
-                                            <label>
-                                                <select class="form-control dataStatus" name="dataStatus">
-                                                    <option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                    <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal" text="정상"/></option>
-                                                    <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop" text="정지"/></option>
-                                                </select>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                            </label>
-                                            <label>
-                                                <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                            </label>
-                                        </td>
-                                        <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어 입력"/><%--검색어 입력--%></strong></td>
-                                        <td>
-                                            <label>
-                                                <select class="form-control">
-                                                    <option><spring:message code="list.search.title" text="제목"/></option>
-                                                </select>
-                                                <input type="text" class="form-control width-150" name="title" value="${searchValue.title}" maxlength="150">
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                        <tbody>
+                                        <tr >
+                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="게시물 구분"/></strong></td>
+                                            <td >
+                                                <label>
+                                                    <select class="form-control" name="groupType">
+                                                        <option value="" <c:if test="${searchValue.groupType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
+                                                        <option value="4" <c:if test="${searchValue.groupType == '4'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="드라이버"/></option>
+                                                        <option value="5" <c:if test="${searchValue.groupType == '5'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="고객"/></option>
+                                                    </select>
+                                                </label>
+                                            </td>
+                                            <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="노출상태"/></strong></td>
+                                            <td>
+                                                <div class="row">
+                                                </div>
+                                                <label>
+                                                    <select class="form-control viewYn" name="viewYn">
+                                                        <option value="" <c:if test="${searchValue.viewYn == ''  || searchValue.viewYn == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
+                                                        <option value="0" <c:if test="${searchValue.viewYn == '0'}">selected</c:if>><spring:message code="list.search.normal1" text="숨김"/></option>
+                                                        <option value="1" <c:if test="${searchValue.viewYn == '1'}">selected</c:if>><spring:message code="list.search.stop1" text="노출"/></option>
+                                                    </select>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
+                                                </label>
+                                                <label>
+                                                    <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
+                                                </label>
+                                            </td>
+                                            <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어 입력"/><%--검색어 입력--%></strong></td>
+                                            <td>
+                                                <label>
+                                                    <select class="form-control">
+                                                        <option><spring:message code="list.search.title" text="제목"/></option>
+                                                    </select>
+                                                    <input type="text" class="form-control width-150" name="title" value="${searchValue.title}" maxlength="150">
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </form>
                             </div>
                             <div class="col-xl-12 col-md-12 m-t-10">
@@ -111,15 +111,17 @@
             <div class="panel-body">
                 <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
                     <thead>
-                        <tr class="text-center">
-                            <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                            <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
-                            <th width=""><spring:message code="list.word.contents" text="내용"/></th>
-                            <th width="10%"><spring:message code="list.word.serviceclassification" text="서비스구분"/></th>
-                            <th width="10%"><spring:message code="list.word.status" text="상태"/></th>
-                            <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
-                            <th width="10%"><spring:message code="list.word.modifieddate" text="수정일"/></th>
-                        </tr>
+                    <tr class="text-center">
+                        <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
+                        <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
+                        <%--<th width=""><spring:message code="list.word.contents" text="내용"/></th>--%>
+                        <th width="10%"><spring:message code="list.word.serviceclassification" text="게시물구분"/></th>
+                        <th width="10%"><spring:message code="list.word.status" text="상태"/></th>
+                        <th width="10%"><spring:message code="list.word.status1" text="등록 시용자"/></th>
+                        <th width="10%"><spring:message code="list.word.status1" text="수정 사용자"/></th>
+                        <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
+                        <th width="10%"><spring:message code="list.word.modifieddate" text="수정일"/></th>
+                    </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="item"  items="${tbNoticePlatformList}"  varStatus="status">
@@ -134,22 +136,24 @@
                                           display: block;">  ${item.title}
                                 </div>
                             </td>
-                            <td class="text-center">
-                                <div style="overflow: hidden;
-                                          margin: auto;
-                                          text-overflow: ellipsis;
-                                          white-space: nowrap;
-                                          width: 250px;
-                                          display: block;">  ${item.body}
-                                </div>
-                            </td>
+                                <%--<td class="text-center">
+                                    <div style="overflow: hidden;
+                                              margin: auto;
+                                              text-overflow: ellipsis;
+                                              white-space: nowrap;
+                                              width: 250px;
+                                              display: block;">  ${item.body}
+                                    </div>
+                                </td>--%>
                             <td class="text-center" style=""><c:if test="${item.groupType == 0}"><spring:message code="list.search.all" text="전체"/>
-                            </c:if><c:if test="${item.groupType == 4}"><spring:message code="list.word.franchisee" text="가맹점"/>
-                            </c:if><c:if test="${item.groupType == 8}"><spring:message code="list.word.deliverygroup" text="배송그룹"/></c:if></td>
+                            </c:if><c:if test="${item.groupType == 4}"><spring:message code="list.word.franchisee1" text="드라이버"/>
+                            </c:if><c:if test="${item.groupType == 5}"><spring:message code="list.word.deliverygroup1" text="고객"/></c:if></td>
                             <td class="text-center">
                                 <c:if test="${item.viewYn == 0}"><span class="text-red"><spring:message code="list.word.hide" text="숨김"/></span></c:if>
                                 <c:if test="${item.viewYn == 1}"><spring:message code="list.word.exposure" text="노출"/></c:if>
                             </td>
+                            <td class="text-center">${item.insertUserId}</td>
+                            <td class="text-center">${item.updateUserId}</td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
                             <td class="text-center"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd" /></td>
                         </tr>
@@ -188,7 +192,7 @@
         });
 
         $(".insert_btn").click(function() {
-           location.href = '${path}/board/platform/insert';
+            location.href = '${path}/board/platform/insert';
         });
 
         $(".detailRow").click(function() {

@@ -58,13 +58,12 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.checkexposure1" text="시작일/종료일"/></td>
                                     <td>
-
                                         <label >
-                                            <input type="text" name="startDate" value="${tbEvent.startDate}" class="form-control align-bottom startDate" >
+                                            <input type="text" value="<javatime:format value="${tbEvent.startDate}" pattern="yyyy-MM-dd " />" class="form-control align-bottom startDate" >
                                         </label>
                                         ~
                                         <label >
-                                            <input type="text" name="endDate" value="${tbEvent.endDate}" class="form-control align-bottom endDate" >
+                                            <input type="text" value="<javatime:format value="${tbEvent.endDate}" pattern="yyyy-MM-dd " />" class="form-control align-bottom endDate" >
                                         </label>
                                     </td>
                                 </tr>
@@ -75,37 +74,46 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
                                     <td>
-                                        <textarea  name="body"  class="form-control width-full body " rows="10">${tbEvent.body}</textarea>
+                                        <textarea  id="body"  class="form-control width-full ckeditor" rows="20">${tbEvent.body}</textarea>
+                                        <textarea style="display: none;"  name="body"  class="body" rows="10">${tbEvent.body}</textarea>
                                     </td>
                                 </tr>
-                               <%-- <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.attachments" text="첨부파일"/></td>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="등록 사용자(등록일)"/></td>
                                     <td>
-                                        <div class="category_sort">
-                                            <ul class="sort_list">
-                                                <li>
-                                                    <div class="sort_body" id="sort_body">
-                                                        <img style="width: 150px;" class="storeImg4" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
-                                                        &lt;%&ndash;<img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">&ndash;%&gt;
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    * <spring:message code="list.detail.recommendedimageratio" text="권장 이미지 비율"/> : 984*876<br><br>
-                                                    <div class="fileName"></div>
-                                                    <br>
-                                                    <div class="fileSize"></div>
-                                                </li>
-                                            </ul>
-                                            <label for="imgFileSmallFile">
-                                                <div id="button_base" class="button_base b03_skewed_slide_in btn btn-primary">
-                                                    <div><spring:message code="list.detail.selectfile" text="파일선택"/></div>
-                                                </div>
-                                            </label>
-                                            <input type="file" id="imgFileSmallFile" name="imgFileSmallFile" value="${tbEvent.imgFileSmall}" class="fileBtn d-none">
-                                            <input type="hidden" name="imgFileSmall" value="${tbEvent.imgFileSmall}">
-                                        </div>
+                                        <label class="m-r-10 ">
+                                            ${tbEvent.insertUserId} (<javatime:format value="${tbEvent.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
+                                        </label>
                                     </td>
-                                </tr>--%>
+                                </tr>
+                                <%-- <tr>
+                                     <td class="bg-light"><spring:message code="list.detail.attachments" text="첨부파일"/></td>
+                                     <td>
+                                         <div class="category_sort">
+                                             <ul class="sort_list">
+                                                 <li>
+                                                     <div class="sort_body" id="sort_body">
+                                                         <img style="width: 150px;" class="storeImg4" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
+                                                         &lt;%&ndash;<img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">&ndash;%&gt;
+                                                     </div>
+                                                 </li>
+                                                 <li>
+                                                     * <spring:message code="list.detail.recommendedimageratio" text="권장 이미지 비율"/> : 984*876<br><br>
+                                                     <div class="fileName"></div>
+                                                     <br>
+                                                     <div class="fileSize"></div>
+                                                 </li>
+                                             </ul>
+                                             <label for="imgFileSmallFile">
+                                                 <div id="button_base" class="button_base b03_skewed_slide_in btn btn-primary">
+                                                     <div><spring:message code="list.detail.selectfile" text="파일선택"/></div>
+                                                 </div>
+                                             </label>
+                                             <input type="file" id="imgFileSmallFile" name="imgFileSmallFile" value="${tbEvent.imgFileSmall}" class="fileBtn d-none">
+                                             <input type="hidden" name="imgFileSmall" value="${tbEvent.imgFileSmall}">
+                                         </div>
+                                     </td>
+                                 </tr>--%>
 
                                 </tbody>
                             </table>
@@ -152,6 +160,12 @@
 <script>
     let url4 = "${path}/api/img/fileLoad?filePath="+encodeURI("${imgFileSmall}");
 
+    CKEDITOR.replace('body', { filebrowserUploadUrl: '${path}/api/file/upload',
+        font_names: '맑은 고딕/Malgun Gothic;굴림/Gulim;돋움/Dotum;바탕/Batang;궁서/Gungsuh;Arial/Arial;Comic Sans MS/Comic Sans MS;Courier New/Courier New;Georgia/Georgia;Lucida Sans Unicode/Lucida Sans Unicode;Tahoma/Tahoma;Times New Roman/Times New Roman;MS Mincho/MS Mincho;Trebuchet MS/Trebuchet MS;Verdana/Verdana',
+        font_defaultLabel: '맑은 고딕/Malgun Gothic',
+        fontSize_defaultLabel: '12',
+        language: 'ko', });
+
     $(".storeImg4").attr("src",url4);
 
     $(() => {
@@ -159,6 +173,20 @@
             location.href = "${path}/board/event/list";
         })
 
+        $(".startDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
+        $(".endDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
         $(".btn_remove").click(function() {
             let url = "${path}/api/board/event/delete";
             let eventNo = $(this).attr("eventNo");
@@ -203,6 +231,12 @@
 
         $(document).on("click",".btn_up",function() {
             let url = "${path}/api/board/event/update";
+            var value = CKEDITOR.instances['body'].getData();
+            $(".body").text(value);
+            let startDate = $(".startDate").val();
+            let endDate = $(".endDate").val();
+            $(".startDate").val(startDate);
+            $(".endDate").val(endDate);
             let _forms = $('#update_form');
             let req = convertFormToObj(_forms);
 
@@ -211,7 +245,10 @@
             let update = "<spring:message code="list.script.update" text="수정"/>";
             let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
             let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
-
+            if($(".startDate").val() == "" || $(".endDate").val() == ""){
+                alert("시작일/종료일을 입력해주세요.");
+                return;
+            }
 
             if (inputDataCheck(req)) {
                 swal({
@@ -226,6 +263,8 @@
                     if (isConfirm) {
                         var formData = new FormData(document.getElementById('update_form'));
                         formData.append("tbEvent", new Blob([JSON.stringify(req)], {type: "application/json"}));
+                        formData.append("startDate", startDate);
+                        formData.append("endDate",  endDate);
                         /*formData.append("imgFileSmall", _forms.find('#imgFileSmallFile')[0]);*/
                         $.ajax({
                             type: "POST",

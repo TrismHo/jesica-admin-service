@@ -36,11 +36,11 @@ logging:
     com.woorien.mobile: info
   file:
     #local
-    #path: Users/home/rnd/jesicaAdmin/log
-    #101 server
-    path: /home/rnd/jesicaAdmin/log
+    path: Users/home/rnd/jesicaAdmin/log
+    #test
+    #path: /home/rnd/jesicaAdmin/log
     #real
-    #path: /data/jesicar/logs/
+    #ath: /data/jesicar/logs/
 
 ---
 
@@ -147,13 +147,13 @@ file:
 
   baseImgPath:
     #real
-    #path: /data/jesicar/images
+    #path: /data/jesicar
     #local
-    #path: Users/home/rnd
+    path: Users/home/rnd
     #101 server
-    path: /home/rnd
+    #path: /home/rnd
   servicePath:
-    path: /driver
+    path: /images/driver
   imgPath:
     path: /img
   profilePath:
@@ -164,10 +164,13 @@ file:
   careerPath:
     path: /career
 
+  boardPath:
+    path: /images/board
+  eventPath:
+    path: /event
+
   messageFile:
     #test
-    #path: Users/home/rnd/jesicaAdmin/messages/message
-    #101 server
     path: /home/rnd/jesicaAdmin/messages/message
     #real
     #path: /data/jesicar/messages/message
@@ -177,6 +180,13 @@ file:
 
     #real
     #server: https://api.jesicar.co.kr/api
+  imgHttp:
+    #local
+    path : http://localhost:9002/api/img/fileLoad?filePath=
+    #test
+    #path: http://101.55.126.138:9002/api/img/fileLoad?filePath=
+    #real
+    #path: http://admin.jesicar.co.kr/api/img/fileLoad?filePath=
 
 spring:
   profiles:
@@ -206,11 +216,13 @@ security:
     #cert-key-path: keysReal/jesica-jwt-prod.pem
     access-expiration-hour: 24
     refresh-expiration-hour: 336
+#test
 trism:
   admin:
     key:
       enc: mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=
       plain: TrismDevAdmin2021
+#real
 #trism:
   #admin:
     #key:

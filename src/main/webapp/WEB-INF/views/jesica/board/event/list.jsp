@@ -45,46 +45,46 @@
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
                                     <table class="table table-condensed table-bordered">
-                                    <tbody>
-                                    <tr >
-                                        <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
-                                        <td colspan="3">
-                                            <div class="row">
-                                            </div>
-                                            <input type="hidden" name="dateStatus" value="OK">
-                                            <label>
-                                                <select class="form-control viewYn" name="viewYn">
-                                                    <option value="" <c:if test="${searchValue.viewYn == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                    <option value="1" <c:if test="${searchValue.viewYn == '1'}">selected</c:if>><spring:message code="list.search.normal" text="노출"/></option>
-                                                    <option value="0" <c:if test="${searchValue.viewYn == '0'}">selected</c:if>><spring:message code="list.search.stop" text="숨김"/></option>
-                                                </select>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                            </label>
-                                            <label>
-                                                <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                            </label>
-                                        </td>
-                                        <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어"/><%--검색어 입력--%></strong></td>
-                                        <td>
-                                            <label>
-                                                <select class="form-control">
-                                                    <%--<option>선택&lt;%&ndash;<spring:message code="merchandise.search9.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</option>--%>
-                                                    <option><spring:message code="list.search.title" text="제목"/><%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
-                                                    <%--<option>내용&lt;%&ndash;<spring:message code="merchandise.search9.option2" text="default text"/>&ndash;%&gt;&lt;%&ndash;바코드&ndash;%&gt;</option>--%>
-                                                </select>
-                                                <input type="text" class="form-control width-150" name="title" value="${searchValue.title}" maxlength="150">
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                        <tbody>
+                                        <tr >
+                                            <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
+                                            <td colspan="3">
+                                                <div class="row">
+                                                </div>
+                                                <input type="hidden" name="dateStatus" value="OK">
+                                                <label>
+                                                    <select class="form-control viewYn" name="viewYn">
+                                                        <option value="" <c:if test="${searchValue.viewYn == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
+                                                        <option value="1" <c:if test="${searchValue.viewYn == '1'}">selected</c:if>><spring:message code="list.search.normal" text="노출"/></option>
+                                                        <option value="0" <c:if test="${searchValue.viewYn == '0'}">selected</c:if>><spring:message code="list.search.stop" text="숨김"/></option>
+                                                    </select>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
+                                                </label>
+                                                <label>
+                                                    <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
+                                                </label>
+                                            </td>
+                                            <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어"/><%--검색어 입력--%></strong></td>
+                                            <td>
+                                                <label>
+                                                    <select class="form-control">
+                                                        <%--<option>선택&lt;%&ndash;<spring:message code="merchandise.search9.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</option>--%>
+                                                        <option><spring:message code="list.search.title" text="제목"/><%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
+                                                        <%--<option>내용&lt;%&ndash;<spring:message code="merchandise.search9.option2" text="default text"/>&ndash;%&gt;&lt;%&ndash;바코드&ndash;%&gt;</option>--%>
+                                                    </select>
+                                                    <input type="text" class="form-control width-150" name="title" value="${searchValue.title}" maxlength="150">
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </form>
                             </div>
                             <div class="col-xl-12 col-md-12 m-t-10">
@@ -102,38 +102,41 @@
             <div class="panel-body">
                 <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
                     <thead>
-                        <tr class="text-center">
-                            <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                            <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
-                            <th width=""><spring:message code="list.word.contents" text="내용"/></th>
-                            <th width="10%"><spring:message code="list.word.status" text="상태"/></th>
-
-
-
-                            <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
-                        </tr>
+                    <tr class="text-center">
+                        <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
+                        <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
+                        <th width="5%"><spring:message code="list.word.status" text="상태"/></th>
+                        <th width=""><spring:message code="list.word.contents1" text="시작일/종료일"/></th>
+                        <th width="10%"><spring:message code="list.word.status" text="등록 사용자"/></th>
+                        <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
+                    </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="item"  items="${tbEventList}"  varStatus="status">
                         <tr class="detailRow" eventNo="${item.eventNo}">
                             <td class="text-center">${status.index + 1}</td>
-                           <%-- <td>
-                                <c:url var="url" value=""><c:param name="output" value="${item.imgFileSmall}" /></c:url>
-                                <c:set var="url" value="${fn:substringAfter(url, '=')}" />
-                                <img style="width: 80px;" class="storeImg" src="/api/img/fileLoad?filePath=${url}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" ></td>--%>
+                                <%-- <td>
+                                     <c:url var="url" value=""><c:param name="output" value="${item.imgFileSmall}" /></c:url>
+                                     <c:set var="url" value="${fn:substringAfter(url, '=')}" />
+                                     <img style="width: 80px;" class="storeImg" src="/api/img/fileLoad?filePath=${url}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" ></td>--%>
                             <td class="text-center">${item.title}</td>
+                            <td class="text-center">
+                                <c:if test="${item.viewYn == 0}"><span class="text-red"><spring:message code="list.word.hide" text="숨김"/></span></c:if>
+                                <c:if test="${item.viewYn == 1}"><spring:message code="list.word.exposure" text="노출"/></c:if>
+                            </td>
+                            <td class="text-center">
+                                <javatime:format value="${item.startDate}" pattern="yyyy-MM-dd " />
+                                ~ <javatime:format value="${item.endDate}" pattern="yyyy-MM-dd " />
+                            </td>
+
                             <td class="text-center">
                                 <div style="overflow: hidden;
                                           margin: auto;
                                           text-overflow: ellipsis;
                                           white-space: nowrap;
                                           width: 250px;
-                                          display: block;">  ${item.body}
+                                          display: block;">  ${item.insertUserId}
                                 </div>
-                            </td>
-                            <td class="text-center">
-                                <c:if test="${item.viewYn == 0}"><span class="text-red"><spring:message code="list.word.hide" text="숨김"/></span></c:if>
-                                <c:if test="${item.viewYn == 1}"><spring:message code="list.word.exposure" text="노출"/></c:if>
                             </td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
                         </tr>
@@ -174,7 +177,7 @@
         });
 
         $(".insert_btn").click(function() {
-           location.href = '${path}/board/event/insert';
+            location.href = '${path}/board/event/insert';
         });
 
         $(".detailRow").click(function() {

@@ -43,64 +43,64 @@
                             <input type="hidden" name="viewYn" value="1">
                             <input type="hidden" name="dataStatus" value="OK">
                             <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시물 구분"/></td>
-                                <td>
-                                    <label class="m-r-10 ">
-                                        <input type="radio" name="groupType" value="0" class="align-bottom" checked><spring:message code="list.detail.tothewhole" text="전체에게"/>
-                                    </label>
-                                    <label class="m-r-10 ">
-                                        <input type="radio" name="groupType" value="8" class="align-bottom"><spring:message code="list.detail.affiliate" text="제휴사"/>
-                                    </label>
-                                    <label class="">
-                                        <input type="radio" name="groupType" value="4" class="align-bottom"><spring:message code="list.detail.deliveryman1" text="드라이버"/>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
-                                <td><input type="text" name="title" class="form-control width-full title" maxlength="150"></td>
-                            </tr>
-                            <tr>
-                                <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
-                                <td>
-                                    <textarea name="body" class="form-control width-full body" rows="10"></textarea>
-                                </td>
-                            </tr>
-                           <%-- <tr>
-                                <td class="bg-light">첨부파일&lt;%&ndash;<spring:message code="merchandise.insert.storesalestatus" text="default text"/>&ndash;%&gt;&lt;%&ndash;매장 판매상태&ndash;%&gt;</td>
-                                <td>
-                                    <div class="category_sort">
-                                        <ul class="sort_list">
-                                            <li>
-                                                <div class="sort_body" id="sort_body">
-                                                    <img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
-                                                </div>
-                                            </li>
-                                            <li>
-                                                * 권장 이미지 비율 : 984*876<br><br>
-                                                <div class="fileName"></div>
-                                                <br>
-                                                <div class="fileSize"></div>
-                                            </li>
-                                        </ul>
-                                        <label for="imgFile">
-                                            <div id="button_base" class="button_base b03_skewed_slide_in btn btn-primary">
-                                                <div>파일선택</div>
-                                            </div>
+                                <tbody>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시물 구분"/></td>
+                                    <td>
+                                        <%-- <label class="m-r-10 ">
+                                             <input type="radio" name="groupType" value="0" class="align-bottom" 객><spring:message code="list.detail.tothewhole" text="전체에게"/>
+                                         </label>--%>
+                                        <label class="m-r-10 ">
+                                            <input type="radio" name="groupType" value="5" class="align-bottom" checked><spring:message code="list.detail.affiliate1" text="고객"/>
                                         </label>
-                                        <input type="file" id="imgFile" name="imgFile" class="fileBtn d-none">
-                                    </div>
-                                </td>
-                            </tr>--%>
-                            </tbody>
-                        </table>
+                                        <label class="">
+                                            <input type="radio" name="groupType" value="4" class="align-bottom"><spring:message code="list.detail.deliveryman1" text="드라이버"/>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
+                                    <td><input type="text" name="title" class="form-control width-full title" maxlength="150"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
+                                    <td>
+                                        <textarea name="body" class="form-control width-full body" rows="10"></textarea>
+                                    </td>
+                                </tr>
+                                <%-- <tr>
+                                     <td class="bg-light">첨부파일&lt;%&ndash;<spring:message code="merchandise.insert.storesalestatus" text="default text"/>&ndash;%&gt;&lt;%&ndash;매장 판매상태&ndash;%&gt;</td>
+                                     <td>
+                                         <div class="category_sort">
+                                             <ul class="sort_list">
+                                                 <li>
+                                                     <div class="sort_body" id="sort_body">
+                                                         <img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
+                                                     </div>
+                                                 </li>
+                                                 <li>
+                                                     * 권장 이미지 비율 : 984*876<br><br>
+                                                     <div class="fileName"></div>
+                                                     <br>
+                                                     <div class="fileSize"></div>
+                                                 </li>
+                                             </ul>
+                                             <label for="imgFile">
+                                                 <div id="button_base" class="button_base b03_skewed_slide_in btn btn-primary">
+                                                     <div>파일선택</div>
+                                                 </div>
+                                             </label>
+                                             <input type="file" id="imgFile" name="imgFile" class="fileBtn d-none">
+                                         </div>
+                                     </td>
+                                 </tr>--%>
+                                </tbody>
+                            </table>
                         </form>
                     </div>
                     <div class="m-l-5">
                         <c:if test="${sessionScope.sessionKey.userRole == 0}">
-                         <button type="button" class="btn btn-primary btn_add float-right m-t-5 m-r--5"><i class="fa fa-plus m-r-3"></i> <spring:message code="list.detail.enrollment" text="등록"/></button>
+                            <button type="button" class="btn btn-primary btn_add float-right m-t-5 m-r--5"><i class="fa fa-plus m-r-3"></i> <spring:message code="list.detail.enrollment" text="등록"/></button>
                         </c:if>
                         <button type="button" class="btn btn-primary btn_list float-left m-t-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
                     </div>
@@ -140,12 +140,12 @@
 <script>
     $(() => {
         $(".btn_list").click(function() {
-            location.href = "${path}/board/platform/list";
+            location.href = "${path}/board/platform/list?groupType=&dataStatus=OK&title=&startDate=2020-01-01&endDate=${now}";
         })
 
 
         $(document).on("click",".btn_add",function() {
-            let confirmfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
+            let confirmfailmsg = "<spring:message code="list.script.registrationfailed11" text="등록에 실패하였습니다."/>";
             let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
             let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
@@ -179,7 +179,7 @@
                             success: function (data) {
                                 if (data.result == 200) {
                                     alert(registrationwassuccessful);
-                                    location.href="${path}/board/platform/list"
+                                    location.href = "${path}/board/platform/list?groupType=&dataStatus=OK&title=&startDate=2020-01-01&endDate=${now}";
                                 } else {
                                     alert(confirmfailmsg);
                                     return;

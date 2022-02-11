@@ -48,11 +48,11 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시물 구분"/></td>
                                     <td>
+                                        <%-- <label class="m-r-10 ">
+                                             <input type="radio" name="groupType" value="0" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 0}">checked</c:if>> <spring:message code="list.detail.tothewhole" text="전체에게"/>
+                                         </label>--%>
                                         <label class="m-r-10 ">
-                                            <input type="radio" name="groupType" value="0" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 0}">checked</c:if>> <spring:message code="list.detail.tothewhole" text="전체에게"/>
-                                        </label>
-                                        <label class="m-r-10 ">
-                                            <input type="radio" name="groupType" value="8" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 8}">checked</c:if>> <spring:message code="list.detail.affiliate" text="제휴사"/>
+                                            <input type="radio" name="groupType" value="8" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
                                         </label>
                                         <label class="">
                                             <input type="radio" name="groupType" value="4" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 4}">checked</c:if>> <spring:message code="list.detail.deliveryman1" text="드라이버"/>
@@ -80,6 +80,24 @@
                                         <textarea name="body"  class="form-control width-full body" rows="10">${tbNoticePlatform.body}</textarea>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="등록 사용자(등록일)"/></td>
+                                    <td>
+                                        <label class="m-r-10 ">
+                                            ${tbNoticePlatform.insertUserId} (<javatime:format value="${tbNoticePlatform.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
+                                        </label>
+                                    </td>
+                                </tr>
+                                <c:if test="${tbNoticePlatform.updateDate != null && tbNoticePlatform.updateDate != '' }">
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="수정 사용자(수정일)"/></td>
+                                        <td>
+                                            <label class="m-r-10 ">
+                                                    ${tbNoticePlatform.updateUserId} (<javatime:format value="${tbNoticePlatform.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </c:if>
                                 <%-- <tr>
                                      <td class="bg-light">첨부파일&lt;%&ndash;<spring:message code="merchandise.insert.storesalestatus" text="default text"/>&ndash;%&gt;&lt;%&ndash;매장 판매상태&ndash;%&gt;</td>
                                      <td>
@@ -152,7 +170,7 @@
 <script>
     $(() => {
         $(".btn_list").click(function() {
-            location.href = "${path}/board/platform/list";
+            location.href = "${path}/board/platform/list?groupType=&dataStatus=OK&title=&startDate=2020-01-01&endDate=${now}";
         })
         $(".btn_remove").click(function() {
             let url = "${path}/api/board/platform/delete";
@@ -163,42 +181,43 @@
             let deletionfailed = "<spring:message code="list.script.deletionfailed" text="삭제에 실패하였습니다."/>";
             let deleted = "<spring:message code="list.script.deleted" text="삭제되었습니다."/>";
 
-                swal({
-                    title: doyouwanttodelete,
-                    icon: "warning",
-                    buttons: [
-                        cancel,
-                        deletemsg
-                    ],
-                    dangerMode: true,
-                }).then(function (isConfirm) {
-                    if (isConfirm) {
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: {
-                                noticeNo : noticeNo
-                            },
-                            /*contentType: "application/json;",*/
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.result == 200) {
-                                    alert(deleted);
-                                    location.href="${path}/board/platform/list";
-                                } else {
-                                    alert(deletionfailed);
-                                    return;
-                                }
+            swal({
+                title: doyouwanttodelete,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    deletemsg
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            noticeNo : noticeNo
+                        },
+                        /*contentType: "application/json;",*/
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(deleted);
+                                location.href="${path}/board/platform/list";
+                            } else {
+                                alert(deletionfailed);
+                                return;
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                }
+            });
         })
 
 
         $(document).on("click",".btn_up",function() {
             let url = "${path}/api/board/platform/update";
             let _forms = $('#update_form');
+            console.log(_forms)
             let req = convertFormToObj(_forms);
 
             let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정 하시겠습니까?"/>";
@@ -253,6 +272,23 @@
             return alert_focus("goodsPrice",pleaseenteransubject);
         }
         return true;
+    }
+
+    function convertFormToObj(_forms) {
+
+        let resultObj = {};
+        //console.log("_forms::{})", _forms);
+        $.each(_forms.serializeArray(), function (idx, item) {
+            /*console.log("resultObj[item.name]::{}", idx);
+            console.log("item.value[" + idx + "]::{}", item.value);*/
+            resultObj[item.name] = item.value;
+        });
+        // console.log("resultObj::{}", resultObj);
+        return resultObj;
+    }
+
+    function isNull(v) {
+        return v === undefined || v === null || v === "";
     }
 </script>
 </body>
