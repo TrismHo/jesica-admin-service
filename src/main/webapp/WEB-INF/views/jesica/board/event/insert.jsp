@@ -67,6 +67,10 @@
                                         </label>
                                     </td>
                                 </tr>
+
+
+
+
                                 <%--<tr>
                                     <td class="bg-light"><spring:message code="list.detail.attachments" text="첨부파일"/></td>
                                     <td>
