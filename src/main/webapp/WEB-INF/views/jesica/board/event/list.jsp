@@ -107,6 +107,9 @@
                             <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
                             <th width=""><spring:message code="list.word.contents" text="내용"/></th>
                             <th width="10%"><spring:message code="list.word.status" text="상태"/></th>
+
+
+
                             <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
                         </tr>
                     </thead>
