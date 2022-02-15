@@ -52,7 +52,7 @@
                                              <input type="radio" name="groupType" value="0" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 0}">checked</c:if>> <spring:message code="list.detail.tothewhole" text="전체에게"/>
                                          </label>--%>
                                         <label class="m-r-10 ">
-                                            <input type="radio" name="groupType" value="8" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
+                                            <input type="radio" name="groupType" value="5" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
                                         </label>
                                         <label class="">
                                             <input type="radio" name="groupType" value="4" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 4}">checked</c:if>> <spring:message code="list.detail.deliveryman1" text="드라이버"/>

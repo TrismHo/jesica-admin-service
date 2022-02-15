@@ -85,7 +85,7 @@
                                             <%--<input type="text" class="form-control width-200 storeName" name="storeName" value="" maxlength="30">--%>
                                             <select class="form-control width-200 storeNo" name="storeNo">
                                                 <c:forEach var="item"  items="${tbStoreList}"  varStatus="status">
-                                                    <option value="${item.storeNo}">${item.storeName} [${item.storeNo}]</option>
+                                                    <option value="${item.storeNo}" storeName="${item.storeName}">${item.storeName} [${item.storeNo}]</option>
                                                 </c:forEach>
                                             </select>
                                         </td>
@@ -299,7 +299,7 @@
                     $(".carNum").html("");
                     if (carList.length == 0 || carList == null) {
                         $(".carNum").append(
-                            "<option>데이터가 없습니다</option>"
+                            "<option value=''>데이터가 없습니다</option>"
                         )
                     } else {
                         for (var i = 0; i < carList.length; i++) {
@@ -335,7 +335,8 @@
                     dangerMode: true,
                 }).then(function (isConfirm) {
                     if (isConfirm) {
-                        let storeName = $(".storeName").val();
+
+                        let storeName = $(".storeNo option:selected").attr("storeName");
                         let carNum = $(".carNum").val();
                         let custDriverTel1 = $(".custDriverTel1").val();
                         let reservStartDate =  $(".startDtm").val().replaceAll("-","").replaceAll("-","") + $(".startDtmHH").val() + $(".startDtmMM").val() ;
@@ -376,9 +377,14 @@
 
 
     function inputDataCheck(args) {
-        if (isNull(args.storeName)) {
+        console.log($(".carNum").val());
+        if($(".carNum").val() == ""){
+            return alert_focus("carNum","차량을 선택해주세요.");
+        }
+
+       /* if (isNull(args.storeName)) {
             return alert_focus("storeName", "렌터카 업체명을 입력해주세요");
-        } else if (isNull(args.custDriverTel1)) {
+        } else*/ if (isNull(args.custDriverTel1)) {
             return alert_focus("custDriverTel1", "운전자휴대폰번호를 입력해주세요.");
         }
         return true;
