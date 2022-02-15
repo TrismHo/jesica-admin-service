@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.franchiseeregistration1" text="API 테스트"/></title>
+    <title>Jesicar | <spring:message code="list.detail.franchiseeregistration1" text="안심번호 할당"/></title>
 </head>
 <style>
     .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -56,10 +56,10 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement1" text="외부연동"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="렌터카 API"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration1" text="API 테스트"/><%--상품등록--%></li>
+                    <li class="breadcrumb-item"><a href="/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="안심번호 할당"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration1" text="안심번호 할당"/><%--상품등록--%></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.search.franchiseeregistration1" text="API 테스트"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.search.franchiseeregistration1" text="안심번호 할당"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
             </div>
 
 <%--            <div class="tab-content">--%>
@@ -81,7 +81,14 @@
                                 <table class="table table-bordered">
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.franchiseeheadquarters1" text="렌터카 업체명"/></td>
-                                        <td><input type="text" class="form-control width-200 storeName" name="storeName" value="" maxlength="30"></td>
+                                        <td>
+                                            <%--<input type="text" class="form-control width-200 storeName" name="storeName" value="" maxlength="30">--%>
+                                            <select class="form-control width-200 storeNo" name="storeNo">
+                                                <c:forEach var="item"  items="${tbStoreList}"  varStatus="status">
+                                                    <option value="${item.storeNo}">${item.storeName} [${item.storeNo}]</option>
+                                                </c:forEach>
+                                            </select>
+                                        </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname1" text="렌터카 업체명을 입력해주세요."/></td>
                                     </tr>
                                     <tr>
@@ -243,7 +250,6 @@
 <%@include file="../../../common/include_kakao_map_js.jsp" %>
 <%--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c1a125dbfc0b31fb5f601512a4e58d0&libraries=services"></script>--%>
 
-
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
 
@@ -268,8 +274,6 @@
     });
     $(".endDtm").datepicker('setDate', date);
 
-
-
     $("input[name=dlvyMinAmt]").focus(function(){
     }).blur(function(){
         if($(this).val() == ""){
@@ -277,9 +281,36 @@
         }
     });
 
-
-
     $(() => {
+        //렌터가 업체정보 리스트
+        //가맹점 선택
+        $(document).on("change",".storeNo", function () {
+            let storeNo = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "${path}/api/rentcar/getCarList",
+                data: {
+                    storeNo :storeNo
+                },
+                /*contentType: "application/json;",*/
+                dataType: "json",
+                success: function (data) {
+                    let carList = data.resultList;
+                    $(".carNum").html("");
+                    if (carList.length == 0 || carList == null) {
+                        $(".carNum").append(
+                            "<option>데이터가 없습니다</option>"
+                        )
+                    } else {
+                        for (var i = 0; i < carList.length; i++) {
+                            $(".carNum").append(
+                                "<option value="+carList[i].carNum+">"+carList[i].carModel+"("+carList[i].carNum+")</option>"
+                            )
+                        }
+                    }
+                }
+            });
+        });
 
         $(".btn_list").click(function() {
             location.href = "/extralink/rentcar/list";

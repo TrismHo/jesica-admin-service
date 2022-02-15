@@ -3,14 +3,16 @@ package com.trism.jesica.persistence.Entitiy.car;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.type.DataStatus;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -25,7 +27,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 @Inheritance(strategy = InheritanceType.JOINED)
-public class TbStoreRentalCar implements Serializable {
+public class TbStoreRentalCar {
     private static final long serialVersionUID = 1L;
 
     /**

@@ -17,7 +17,6 @@ public class TbStoreRentalCarData {
     private DataStatus dataStatus;
     private String safeChk;
     private String carNum;
-
     private String carModel;
     private String safenNum;
 

@@ -5,6 +5,7 @@ package com.trism.jesica.Controller;
 import com.google.gson.JsonObject;
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.CipherService;
+import com.trism.jesica.Service.ExtraLinkService;
 import com.trism.jesica.Service.LangService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.GetClientIp;
@@ -49,6 +50,7 @@ import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RequestMapping("/api")
@@ -69,6 +71,9 @@ public class ApiController {
 
     @Autowired
     private RestTemplateUtil restTemplateUtil;
+
+    @Autowired
+    private ExtraLinkService extraLinkService;
 
     @Autowired
     private CacheManager cacheManager;
@@ -1934,8 +1939,16 @@ public class ApiController {
         log.info("startDate::{}", startDate);
         log.info("endDate::{}", endDate);
 
-      /*  LocalDateTime startDate = LocalDateTime.parse(startDate + " 00:00:00",
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));*/
+        startDate = startDate.trim()+ " 00:00:00";
+        endDate = endDate.trim()+ " 23:59:59";
+
+        LocalDateTime startDateText = LocalDateTime.parse(startDate,
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endDateText = LocalDateTime.parse(endDate,
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        tbEvent.setStartDate(startDateText);
+        tbEvent.setEndDate(endDateText);
 
         /*log.info("imgFileSmall::{}", imgFileSmall);*/
         int result =  apiService.insertEvent(tbEvent);
@@ -1954,10 +1967,25 @@ public class ApiController {
     //이벤트 페이지 update
     @ResponseBody
     @PostMapping("/board/event/update")
-    public ResponseEntity<?> eventUpdate(@RequestPart TbEvent tbEvent
+    public ResponseEntity<?> eventUpdate(@RequestPart TbEvent tbEvent,
+            @RequestPart String startDate,
+            @RequestPart String endDate
             /*,@RequestPart(value="imgFileSmallFile" ,required = false) MultipartFile imgFileSmallFile*/
     ) {
         log.info("tbEvent::{}", tbEvent);
+        log.info("startDate::{}", startDate);
+        log.info("endDate::{}", endDate);
+
+        startDate = startDate.trim()+ " 00:00:00";
+        endDate = endDate.trim()+ " 23:59:59";
+
+        LocalDateTime startDateText = LocalDateTime.parse(startDate,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endDateText = LocalDateTime.parse(endDate,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        tbEvent.setStartDate(startDateText);
+        tbEvent.setEndDate(endDateText);
         /*log.info("imgFileSmallFile::{}", imgFileSmallFile);*/
         int result =  apiService.updateEvent(tbEvent);
         Map<String,Object> map = new HashMap<>();
@@ -2514,6 +2542,25 @@ public class ApiController {
                 map.put("result","400");
                 map.put("message", "삭제에 실패하였습니다.");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //렌트카 리스트
+    @ResponseBody
+    @PostMapping("/rentcar/getCarList")
+    public ResponseEntity<?> getCarList(@RequestParam("storeNo") String storeNo
+                                        ) {
+        log.info("storeNo::{}", storeNo);
+
+        Map<String,Object> map = new HashMap<>();
+        List<TbStoreRentalCarDTO> resultList = null;
+        try {
+            resultList = extraLinkService.getCarList(Long.parseLong(storeNo));
+            map.put("resultList",resultList);
         } catch (Exception e) {
             e.printStackTrace();
         }
