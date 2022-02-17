@@ -99,12 +99,27 @@
                                 </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
-                                    <td><input type="text" name="title" value="${tbNoticePlatform.title}" class="form-control width-full title" maxlength="150"></td>
+                                    <td>
+                                        <input type="text" name="title" value="${tbNoticePlatform.title}" class="form-control width-200 title" maxlength="150">
+                                        <button type="button" class="btn btn-primary insert_coupon float-right "> 이벤트 이미지 템플릿등록</button>
+                                        <input type="text"  value="" class="form-control width-80 couponNoCode float-right" numberonly placeholder="쿠폰코드/No">
+                                        <select class="form-control width-70 sType float-right">
+                                            <option value="2">탁송</option>
+                                            <option value="3">맛집</option>
+                                            <option value="4">마트</option>
+                                            <option value="5">맛집예약</option>
+                                        </select>
+                                        <select class="form-control width-90 couponSelect float-right">
+                                            <option value="code">쿠폰코드</option>
+                                            <option value="no">쿠폰No</option>
+                                        </select>
+
+                                    </td>
                                 </tr>
-                                <tr>
+                                <tr >
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
                                     <td>
-                                        <textarea  id="body"  class="form-control width-full  ckeditor" rows="10"></textarea>
+                                        <textarea  id="body"  class="form-control width-full  ckeditor" rows="40" style="height: 500px"></textarea>
                                         <input type="hidden" name="body" class="body" value="">
                                     </td>
                                 </tr>
@@ -152,11 +167,13 @@
 
 <script>
 
-    CKEDITOR.replace('body', { filebrowserUploadUrl: '${path}/api/file/upload',
+    CKEDITOR.replace('body', { filebrowserUploadUrl: '${path}/api/file/upload/event',
         font_names: '맑은 고딕/Malgun Gothic;굴림/Gulim;돋움/Dotum;바탕/Batang;궁서/Gungsuh;Arial/Arial;Comic Sans MS/Comic Sans MS;Courier New/Courier New;Georgia/Georgia;Lucida Sans Unicode/Lucida Sans Unicode;Tahoma/Tahoma;Times New Roman/Times New Roman;MS Mincho/MS Mincho;Trebuchet MS/Trebuchet MS;Verdana/Verdana',
         font_defaultLabel: '맑은 고딕/Malgun Gothic',
         fontSize_defaultLabel: '12',
-        language: 'ko', });
+        allowedContent : true,
+        language: 'ko',
+    });
 
 
     $(() => {
@@ -196,6 +213,22 @@
             location.href = "${path}/board/event/list";
         })
 
+        $(".insert_coupon").click(function(){
+            let couponNoCode = $(".couponNoCode").val(); //쿠폰번호/코드
+            let sType = $(".sType").val();
+            let coupon = "";
+            let couponSelect = $(".couponSelect").val();
+
+            if(couponSelect == "no") {
+                coupon = "coupon("+couponNoCode+","+sType+")";
+            } else if (couponSelect == "code") {
+                coupon = "couponCode("+couponNoCode+","+sType+")";
+            }
+
+            let couponList  = "<p><img alt='' onclick="+coupon+" src='' style='width:100%;' /></p>";
+            CKEDITOR.instances["body"].setData(couponList);
+
+        })
 
         $(document).on("click",".btn_add",function() {
             let url = "${path}/api/board/event/insert";

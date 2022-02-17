@@ -3,9 +3,7 @@ package com.trism.jesica.Controller;
 /*import com.trism.manna.Service.LangService;*/
 
 import com.google.gson.JsonObject;
-import com.trism.jesica.Service.ApiService;
-import com.trism.jesica.Service.CipherService;
-import com.trism.jesica.Service.LangService;
+import com.trism.jesica.Service.*;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.GetClientIp;
 import com.trism.jesica.Util.RestTemplateUtil;
@@ -21,6 +19,7 @@ import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.Entitiy.goods.*;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -36,6 +35,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -46,9 +46,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RequestMapping("/api")
@@ -71,7 +73,14 @@ public class ApiController {
     private RestTemplateUtil restTemplateUtil;
 
     @Autowired
+    private ExtraLinkService extraLinkService;
+
+    @Autowired
     private CacheManager cacheManager;
+
+    @Autowired
+    private WorkerApplyService workerApplyService;
+
 
     //테스트용 API
     @ResponseBody
@@ -1731,16 +1740,14 @@ public class ApiController {
     }
 
     @ResponseBody
-    @PostMapping("/file/upload")
+    @PostMapping("/file/upload/event")
     public String eventUpdate(
             MultipartHttpServletRequest multipartRequest
             ,HttpServletResponse response
     ) {
         PrintWriter printWriter = null;
 
-        log.info("uploadStart");
         try {
-            log.info("upload1");
             OutputStream os = null;
             /*if (imgFile != null && !imgFile.isEmpty()) {*/
                 String fileName = RandomStringUtils.random(8, 33, 125, true, true);
@@ -1749,17 +1756,14 @@ public class ApiController {
                         jesicaProperties.getBoardPath().getPath(),
                         jesicaProperties.getEventPath().getPath()
                 );
-                log.info("upload1");
 
                 byte[] bytes = multipartRequest.getFile("upload").getBytes();
                 File uploadFile = new File(filePath.toFile().getPath());
                 if (!uploadFile.exists()) {
                     uploadFile.mkdirs();
                 }
-                log.info("upload2");
                 int pos = multipartRequest.getFile("upload").getOriginalFilename().lastIndexOf(".");
                 String ext = multipartRequest.getFile("upload").getOriginalFilename().substring(pos + 1);
-                log.info("upload3");
                 Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
                         jesicaProperties.getBoardPath().getPath(),
                         jesicaProperties.getEventPath().getPath()
@@ -1772,14 +1776,59 @@ public class ApiController {
                 os = new FileOutputStream(new File(upoladFullPath.toFile().getPath()));
                 os.write(bytes);
                 os.close();
-                log.info("upload4");
-                log.debug("upoladFullPath={}", upoladFullPath);
                 String fileUrl = jesicaProperties.getImgHttp().getPath()+upoladFileNamePath;
                 printWriter = response.getWriter(); // 서버로 파일 전송 후 이미지 정보 확인을 위해 filename, uploaded, fileUrl 정보를 response 해주어야 함
                 printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
                 printWriter.flush();
-                log.info("fileName:"+fileName);
-                log.info("upoladFullPath:"+upoladFullPath.toString());
+
+            /*}*/
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @ResponseBody
+    @PostMapping("/file/upload/platform")
+    public String platFormUpdate(
+            MultipartHttpServletRequest multipartRequest
+            ,HttpServletResponse response
+    ) {
+        PrintWriter printWriter = null;
+
+        try {
+            OutputStream os = null;
+            /*if (imgFile != null && !imgFile.isEmpty()) {*/
+                String fileName = RandomStringUtils.random(8, 33, 125, true, true);
+
+                Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getPlatFormPath().getPath()
+                );
+
+                byte[] bytes = multipartRequest.getFile("upload").getBytes();
+                File uploadFile = new File(filePath.toFile().getPath());
+                if (!uploadFile.exists()) {
+                    uploadFile.mkdirs();
+                }
+                int pos = multipartRequest.getFile("upload").getOriginalFilename().lastIndexOf(".");
+                String ext = multipartRequest.getFile("upload").getOriginalFilename().substring(pos + 1);
+                Path upoladFullPath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getPlatFormPath().getPath()
+                        , fileName + "." + ext);
+                Path upoladFileNamePath = Paths.get(
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getPlatFormPath().getPath()
+                        , fileName + "." + ext);
+
+                os = new FileOutputStream(new File(upoladFullPath.toFile().getPath()));
+                os.write(bytes);
+                os.close();
+                String fileUrl = jesicaProperties.getImgHttp().getPath()+upoladFileNamePath;
+                printWriter = response.getWriter(); // 서버로 파일 전송 후 이미지 정보 확인을 위해 filename, uploaded, fileUrl 정보를 response 해주어야 함
+                printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
+                printWriter.flush();
 
             /*}*/
         }catch (Exception e){
@@ -1934,8 +1983,16 @@ public class ApiController {
         log.info("startDate::{}", startDate);
         log.info("endDate::{}", endDate);
 
-      /*  LocalDateTime startDate = LocalDateTime.parse(startDate + " 00:00:00",
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));*/
+        startDate = startDate.trim()+ " 00:00:00";
+        endDate = endDate.trim()+ " 23:59:59";
+
+        LocalDateTime startDateText = LocalDateTime.parse(startDate,
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endDateText = LocalDateTime.parse(endDate,
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        tbEvent.setStartDate(startDateText);
+        tbEvent.setEndDate(endDateText);
 
         /*log.info("imgFileSmall::{}", imgFileSmall);*/
         int result =  apiService.insertEvent(tbEvent);
@@ -1954,10 +2011,25 @@ public class ApiController {
     //이벤트 페이지 update
     @ResponseBody
     @PostMapping("/board/event/update")
-    public ResponseEntity<?> eventUpdate(@RequestPart TbEvent tbEvent
+    public ResponseEntity<?> eventUpdate(@RequestPart TbEvent tbEvent,
+            @RequestPart String startDate,
+            @RequestPart String endDate
             /*,@RequestPart(value="imgFileSmallFile" ,required = false) MultipartFile imgFileSmallFile*/
     ) {
         log.info("tbEvent::{}", tbEvent);
+        log.info("startDate::{}", startDate);
+        log.info("endDate::{}", endDate);
+
+        startDate = startDate.trim()+ " 00:00:00";
+        endDate = endDate.trim()+ " 23:59:59";
+
+        LocalDateTime startDateText = LocalDateTime.parse(startDate,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endDateText = LocalDateTime.parse(endDate,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        tbEvent.setStartDate(startDateText);
+        tbEvent.setEndDate(endDateText);
         /*log.info("imgFileSmallFile::{}", imgFileSmallFile);*/
         int result =  apiService.updateEvent(tbEvent);
         Map<String,Object> map = new HashMap<>();
@@ -2284,6 +2356,51 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }*/
 
+    /**
+     * 기사가입신청내역 리스트
+     */
+    @GetMapping("/driver/apply/list")
+    public ResponseEntity<?> listAffiliated(Locale locale, HttpServletRequest request, HttpSession session,
+                                       @RequestParam Map<String,Object> searchValue,
+                                       Model model) {
+        log.info("@@searchValue {}",searchValue);
+        Map<String,Object> map = new HashMap<>();
+        try {
+            if (!searchValue.isEmpty()) {
+
+                putSearchOption(session, searchValue);
+
+                List<TbWorkerApply> tbWorkerApplyList =  workerApplyService.getWorkList(searchValue);
+                List<TbWorkerApply> tbWorkerApplyListNew = new ArrayList<TbWorkerApply>();
+                for (TbWorkerApply tbWorkerApply : tbWorkerApplyList) {
+                    String url = "";
+                    String url2 = "";
+                    String url3 = "";
+                    if (tbWorkerApply.getProfileFileSmall() != null) {
+                        url = URLEncoder.encode(tbWorkerApply.getProfileFileSmall(), "UTF-8");
+                    }
+                    if (tbWorkerApply.getProfileFile() != null) {
+                        url2 = URLEncoder.encode(tbWorkerApply.getProfileFile(), "UTF-8");
+                    }
+                    if (tbWorkerApply.getCareerFile() != null) {
+                        url3 = URLEncoder.encode(tbWorkerApply.getCareerFile(), "UTF-8");
+                    }
+                    tbWorkerApply.setProfileFileSmall(url);
+                    tbWorkerApply.setProfileFile(url2);
+                    tbWorkerApply.setCareerFile(url3);
+                    tbWorkerApplyListNew.add(tbWorkerApply);
+                }
+                map.put("data", tbWorkerApplyListNew);
+            } else {
+                searchValue = getSearchOption(session);
+                map.put("data", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
 
     //기사가입신청내역
     @ResponseBody
@@ -2317,7 +2434,9 @@ public class ApiController {
                                             @RequestParam("uploadFile") String uploadFile,
                                             @RequestParam("applyNo") String applyNo,
                                             @RequestParam("updateUserId") String updateUserId,
-                                            @RequestParam("rejectMemo") String rejectMemo
+                                            @RequestParam("rejectMemo") String rejectMemo,
+                                            @RequestParam("pushKey") String pushKey,
+                                            HttpSession session
     )  {
         log.info("attachNo attachNo::{}", attachNo);
         Map<String,Object> map = new HashMap<>();
@@ -2332,7 +2451,9 @@ public class ApiController {
                     Integer.parseInt(authStatus),
                     Integer.parseInt(applyNo),
                     updateUserId,
-                    rejectMemo);
+                    rejectMemo,
+                    pushKey,
+                    session);
             map.put("result" , result);
         } catch (Exception e) {
             map.put("result" , 0);
@@ -2500,7 +2621,7 @@ public class ApiController {
     //쿠폰 삭제
     @ResponseBody
     @DeleteMapping("/coupon/management/delete")
-    public ResponseEntity<?> deleteTbCoupon(@RequestParam Long couponNo) {
+    public ResponseEntity<?> updateTbCoupon(@RequestParam Long couponNo) {
         log.info("couponNo::{}", couponNo);
 
         Map<String,Object> map = new HashMap<>();
@@ -2521,135 +2642,18 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
-    //배너 순서변경 리스트
+    //렌트카 리스트
     @ResponseBody
-    @GetMapping("/banner/sortList")
-    public ResponseEntity<?> getSortList() {
-
-        Map<String, Object> map = new HashMap();
-        try {
-            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList();
-
-            map.put("listBannerSort", listBannerSort);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @GetMapping("/banner/update/viewOrder")
-    public ResponseEntity<?> updateViewOrder(@RequestParam("bannerNos") String bannerNos) {
-        log.info("bannerNos::{}", bannerNos);
+    @PostMapping("/rentcar/getCarList")
+    public ResponseEntity<?> getCarList(@RequestParam("storeNo") String storeNo
+                                        ) {
+        log.info("storeNo::{}", storeNo);
 
         Map<String,Object> map = new HashMap<>();
+        List<TbStoreRentalCarDTO> resultList = null;
         try {
-            int result = apiService.updateViewOrder(bannerNos);
-
-            if(result == 1) {
-                map.put("result","200");
-                map.put("message", "변경 되었습니다.");
-            } else {
-                map.put("result","400");
-                map.put("message", "변경에 실패하였습니다.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(map,HttpStatus.OK);
-    }
-
-    //배너 등록 - 게시글 검색
-    @ResponseBody
-    @GetMapping("/board/search")
-    public ResponseEntity<?> searchBoardList(@RequestParam Integer boardType, @RequestParam(required = false) Long boardNo, @RequestParam(required = false) String keyword) {
-        log.info("boardType:: ", boardType);
-        log.info("boardNo:: ", boardNo);
-        log.info("keyword:: ", keyword);
-
-        Map<String, Object> map = new HashMap<>();
-        List<?> boardList;
-
-        try {
-            boardList = apiService.searchBoard(boardType, boardNo, keyword);
-            map.put("boardList", boardList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    //배너 등록
-    @ResponseBody
-    @PostMapping("/banner/insert")
-    public ResponseEntity<?> insertAppBanner(@RequestPart TbAppBannerData tbAppBannerData
-            ,@RequestPart(value="imgFile", required = false) MultipartFile imgFile) {
-        log.info("TbAppBannerData tbAppBannerData::{}", tbAppBannerData);
-        log.info("imgFile imgFile::{}", imgFile);
-
-        Map<String,Object> map = new HashMap<>();
-        try {
-            int result = apiService.insertTbAppBanner(tbAppBannerData, imgFile);
-
-            if(result == 1) {
-                map.put("result", "200");
-                map.put("message", "등록 되었습니다.");
-            } else {
-                map.put("result", "400");
-                map.put("message", "등록에 실패하였습니다.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    //배너 수정
-    @ResponseBody
-    @PutMapping("/banner/update")
-    public ResponseEntity<?> updateAppBanner(@RequestPart TbAppBannerData tbAppBannerData
-            ,@RequestPart(value="imgFile", required = false) MultipartFile imgFile) {
-        log.info("tbAppBannerData::{}", tbAppBannerData);
-        Map<String,Object> map = new HashMap<>();
-
-        try {
-            int result = apiService.updateTbAppBanner(tbAppBannerData, imgFile);
-
-            if(result == 1) {
-                map.put("result", "200");
-                map.put("message", "수정 되었습니다.");
-            } else {
-                map.put("result", "400");
-                map.put("message", "수정에 실패하였습니다.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    //배너삭제
-    @ResponseBody
-    @DeleteMapping("/banner/delete")
-    public ResponseEntity<?> deleteAppBanner(@RequestParam Long bannerNo) {
-        log.info("bannerNo::{}", bannerNo);
-
-        Map<String,Object> map = new HashMap<>();
-        try {
-            int result = apiService.deleteTbAppBanner(bannerNo);
-
-            if(result == 1) {
-                map.put("result","200");
-                map.put("message", "삭제 되었습니다.");
-            } else {
-                map.put("result","400");
-                map.put("message", "삭제에 실패하였습니다.");
-            }
+            resultList = extraLinkService.getCarList(Long.parseLong(storeNo));
+            map.put("resultList",resultList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2687,6 +2691,39 @@ public class ApiController {
             }
         }
         return numStr;
+    }
+
+    private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {
+        session.setAttribute("headNo", searchValue.get("headNo"));
+        session.setAttribute("headNoText", searchValue.get("headNoText"));
+        session.setAttribute("branchNo", searchValue.get("branchNo"));
+        session.setAttribute("branchNoText", searchValue.get("branchNoText"));
+        session.setAttribute("storeNo", searchValue.get("storeNo"));
+        session.setAttribute("storeNoText", searchValue.get("storeNoText"));
+    }
+
+    private Map<String,Object> getSearchOption(HttpSession session) {
+        Map<String,Object> searchValue = new HashMap<>();
+        if (session == null) return searchValue;
+
+        String headNo = (String) session.getAttribute("headNo");
+        if (headNo != null) {
+            String headNoText = (String) session.getAttribute("headNoText");
+            String branchNo = (String) session.getAttribute("branchNo");
+            String branchNoText = (String) session.getAttribute("branchNoText");
+            String storeNo = (String) session.getAttribute("storeNo");
+            String storeNoText = (String) session.getAttribute("storeNoText");
+
+            searchValue.put("headNo", headNo);
+            searchValue.put("headNoText", headNoText);
+            searchValue.put("branchNo", branchNo);
+            searchValue.put("branchNoText", branchNoText);
+            searchValue.put("storeNo", storeNo);
+            searchValue.put("storeNoText", storeNoText);
+            searchValue.put("dataStatus", null);
+        }
+
+        return searchValue;
     }
 }
 

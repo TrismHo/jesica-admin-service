@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="렌터카 API"/></title>
+    <title>Jesicar | <spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="안심번호 할당정보"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -33,9 +33,9 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item"><spring:message code="sidemenu.workgroupmanagement1" text="외부연동"/></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="렌터카 API"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="안심번호 할당정보"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="렌터카 API"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="안심번호 할당정보"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
@@ -107,7 +107,7 @@
                             <div class="col-xl-12 col-md-12  m-t-10">
                                 <div class="">
                                     <button type="button" class="insert_btn btn btn-primary float-left m-b-10">
-                                        <spring:message code="list.search.franchiseeregistration1" text="API 테스트"/></span>
+                                        <spring:message code="list.search.franchiseeregistration1" text="안심번호 할당"/></span>
                                     </button>
                                     <%--<div id="detailOptionBtn" class="arrow-down "></div>--%>
                                     <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick"  onclick="searchFormBranchFunction()" ><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/> </button>

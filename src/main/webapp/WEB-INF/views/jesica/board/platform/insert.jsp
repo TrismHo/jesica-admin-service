@@ -65,7 +65,8 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
                                     <td>
-                                        <textarea name="body" class="form-control width-full body" rows="10"></textarea>
+                                        <textarea  id="body"  class="form-control width-full  ckeditor" rows="40" style="height: 500px"></textarea>
+                                        <input type="hidden" name="body" class="body" value="">
                                     </td>
                                 </tr>
                                 <%-- <tr>
@@ -138,6 +139,13 @@
 <%-- Custom JS End--%>
 
 <script>
+    CKEDITOR.replace('body', { filebrowserUploadUrl: '${path}/api/file/upload/platform',
+        font_names: '맑은 고딕/Malgun Gothic;굴림/Gulim;돋움/Dotum;바탕/Batang;궁서/Gungsuh;Arial/Arial;Comic Sans MS/Comic Sans MS;Courier New/Courier New;Georgia/Georgia;Lucida Sans Unicode/Lucida Sans Unicode;Tahoma/Tahoma;Times New Roman/Times New Roman;MS Mincho/MS Mincho;Trebuchet MS/Trebuchet MS;Verdana/Verdana',
+        font_defaultLabel: '맑은 고딕/Malgun Gothic',
+        fontSize_defaultLabel: '12',
+        allowedContent : true,
+        language: 'ko',
+    });
     $(() => {
         $(".btn_list").click(function() {
             location.href = "${path}/board/platform/list?groupType=&dataStatus=OK&title=&startDate=2020-01-01&endDate=${now}";

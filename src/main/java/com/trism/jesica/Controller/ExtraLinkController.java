@@ -2,8 +2,10 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.ExtraLinkService;
-import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.dto.TbStoreRentalCarDTO;
+import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
+import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -48,7 +50,16 @@ public class ExtraLinkController {
     @GetMapping("/rentcar/insert")
     public ModelAndView insertformPlatformNotice( Model model) {
         try {
-            List<TbStoreRentalCar> resultList =  extraLinkService.getCarList();
+
+            List<TbStore> tbStoreList = apiService.getStoreList();
+            List<TbStoreRentalCarDTO> resultList = null;
+            if(!tbStoreList.isEmpty()){
+                 resultList =  extraLinkService.getCarList(tbStoreList.get(0).getStoreNo());
+            } else {
+                resultList = null;
+            }
+
+            model.addAttribute("tbStoreList", tbStoreList);
             model.addAttribute("carList", resultList);
 
         } catch (Exception e) {

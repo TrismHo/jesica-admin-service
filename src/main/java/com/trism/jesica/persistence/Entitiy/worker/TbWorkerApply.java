@@ -148,6 +148,12 @@ public class TbWorkerApply implements Serializable {
     private Integer signYn = 0;
 
     /**
+     * 푸시키
+     */
+    @Column(name = "push_key")
+    private String pushKey = "";
+
+    /**
      * 등록일
      */
     @Column(name = "insert_date", updatable = false, nullable = false)

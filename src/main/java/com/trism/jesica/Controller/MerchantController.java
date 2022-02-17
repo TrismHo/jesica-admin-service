@@ -374,24 +374,6 @@ public class MerchantController {
         try {
             if (!searchValue.isEmpty()) {
 
-              /*  List<TbStoreGoods> tbStoreGoodsSearch = merchandiseService.tbStoreGoodsSearch(searchValue);
-                List<TbStoreGoodsData> tbStoreGoodsDataList = null;
-
-                String url = "";
-                String url2 = "";
-                for (TbStoreGoods tbStoreGoodsSearchData : tbStoreGoodsSearch) {
-                    TbStoreGoodsData tbStoreGoodsData = new TbStoreGoodsData();
-                    if (tbStoreGoodsSearchData.getImgFile1() != null) {
-                        url = URLEncoder.encode(tbStoreGoodsData.getImgFile1(), "UTF-8");
-                    }
-                    if (tbStoreGoodsSearchData.getImgFileSmall() != null) {
-                        url2 = URLEncoder.encode(tbStoreGoodsData.getImgFileSmall(), "UTF-8");
-                    }
-                    tbStoreGoodsData.setImgFile1(url);
-                    tbStoreGoodsData.setImgFileSmall(url2);
-                    tbStoreGoodsDataList.add(tbStoreGoodsData);
-                }
-*/
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);

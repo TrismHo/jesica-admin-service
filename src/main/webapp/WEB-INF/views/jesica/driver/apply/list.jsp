@@ -152,13 +152,9 @@
                     </div>
                 </div>
             </form>
-            <div class="panel-body p-15">
+            <div class="panel-body panel-body-datatable p-15">
                 <table id="testTable" class="display table table-bordered w-100 table-striped ">
                     <thead>
-                      <%--  <th class="text-center" width="3%;">
-                            <input type="checkbox" name="checked_all" id="select0" class="d-none">
-                            <label for="select0" class="input-label "> <i class="fa fa-square check_all_i"></i></label>
-                        </th>--%>
                         <th class="text-center" width="3%;"><spring:message code="list.word.no" text="순번"/></th>
                         <th class="text-center" width="10%;">프로필 이미지</th>
                         <th class="text-center" width="5%;">이름</th>
@@ -170,7 +166,7 @@
                         <th class="text-center" width="8%;">수정일</th>
                         <th class="text-center" width="8%;">최종승인일</th>
                     </thead>
-                    <tbody>
+                    <tbody class="dataTableBody">
                     <c:forEach var="item" items="${workList}" varStatus="status">
                         <tr class="detailRow"
                                 applyNo="${item.applyNo}"
@@ -193,6 +189,7 @@
                                 licenseExpDate="${item.licenseExpDate}"
                                 careerAuthStatus="${item.careerAuthStatus}"
                                 careerFile="${item.careerFile}"
+                                pushKey="${item.pushKey}"
                                 insertDate="<javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />"
                             authDate="<javatime:format value="${item.authDate}" pattern="yyyy-MM-dd HH:mm:ss" />"
                             data-toggle="modal"
@@ -336,6 +333,7 @@
 <script>
 
     $(() => {
+
         //기사가입신청 리스트
         $("#testTable").DataTable({
             language : lang_set //or lang_eng
@@ -408,20 +406,7 @@
         }
 
 
-        function removeClass(){
-            $(".enrollment_1").removeClass("disabled");
-            $(".enrollment_1").removeClass("completed");
-            $(".enrollment_1").removeClass("active");
-            $(".enrollment_2").removeClass("disabled");
-            $(".enrollment_2").removeClass("completed");
-            $(".enrollment_2").removeClass("active");
-            $(".enrollment_3").removeClass("disabled");
-            $(".enrollment_3").removeClass("completed");
-            $(".enrollment_3").removeClass("active");
-            $(".enrollment_4").removeClass("disabled");
-            $(".enrollment_4").removeClass("completed");
-            $(".enrollment_4").removeClass("active");
-        }
+
 
        $(document).on("click",".careerFile",function(){
            let careerFile = $(this).attr("careerFile");
@@ -451,6 +436,7 @@
           let licenseExpDate = $(this).attr("licenseExpDate");
           let careerAuthStatus = $(this).attr("careerAuthStatus");
           let careerFile = $(this).attr("careerFile");
+          let pushKey = $(this).attr("pushKey");
           let insertDate = $(this).attr("insertDate");
           let authDate = $(this).attr("authDate");
 
@@ -560,6 +546,10 @@
            $(".careerAuthStatus").text(careerAuthStatus);
            $(".insertDate").text(insertDate);
            $(".authDate").text(authDate);
+           $(".pushKey").text(pushKey);
+
+
+
            let file = decodeURI($(this).attr("careerFile"));
            let filename = file.split('/').pop().split('\\').pop().split('%2F').pop();
            $(".careerFile").attr("careerFile",careerFile);
@@ -743,16 +733,6 @@
                                "     </div>" +
                                " </li>"
                            )
-
-                         /*  $(".attachList").append(
-                               " <li >" +
-                               "     <label class=\"branch_text\">\n" +
-                               "" + data.searchBranchList[i].branchName + "" +
-                               "<small style=\"color: green;\">[" + data.searchBranchList[i].branchNo + "]</small>\n" +
-                               "     </label>\n" +
-                               "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selBranchNoBtn\" branchName=" + data.searchBranchList[i].branchName + " style=\"height: 25px; line-height: 0px;margin-top: -5px;\"  branchNo=" + data.searchBranchList[i].branchNo + " value='"+apply+"'></div>\n" +
-                               " </li>"
-                           )*/
                        }
                    }
                }
@@ -768,6 +748,7 @@
             let param3 = $(this).attr("param3");
             let applyNo = $(this).attr("applyNo");
             let uploadFile = $(this).attr("uploadFile");
+            let pushKey = $(".pushKey").val();
             let authStatus = 2;
             let updateUserId = "${sessionScope.sessionKey.userLoginId}";
 
@@ -794,13 +775,27 @@
                             uploadFile : uploadFile,
                             applyAttachType : applyAttachType,
                             updateUserId : updateUserId,
+                            pushKey : pushKey,
                             rejectMemo : null
                         },
                         dataType: "json",
                         success: function (data) {
                             if (data.result == 1) {
                                 swal(`승인되었습니다.`);
-                                location.reload();
+                                //location.reload();
+                                let applyNo = $(".applyNo").text();
+                                listReload();
+                                attachListReload(applyNo);
+                                //프로필승인
+                                if(applyAttachType == 1){
+                                    $(".profileAuthStatus").text("승인");
+                                //면허증승인
+                                } else if(applyAttachType == 2) {
+                                    $(".licenseAuthStatus").text("승인");
+                                //경력확인서승인
+                                } else if(applyAttachType == 3) {
+                                    $(".careerAuthStatus").text("승인");
+                                }
                             } else {
                                 alert("승인에 실패하였습니다.");
                                 return;
@@ -818,6 +813,7 @@
             let param3 = $(this).attr("param3");
             let uploadFile = $(this).attr("uploadFile");
             let applyNo = $(this).attr("applyNo");
+            let pushKey = $(".pushKey").val();
             let authStatus = 3;
             let updateUserId = "${sessionScope.sessionKey.userLoginId}";
 
@@ -847,7 +843,8 @@
                             uploadFile : uploadFile,
                             applyNo : applyNo,
                             updateUserId : updateUserId,
-                            rejectMemo : rejectMemoText
+                            rejectMemo : rejectMemoText,
+                            pushKey :pushKey
                         },
                         /*contentType: "application/json;",*/
                         dataType: "json",
@@ -855,7 +852,19 @@
                             if (data.result == 1) {
                                 swal(`반려되었습니다.`);
                                 restoreBootstrapModal();
-                                location.reload();
+                                //location.reload();
+                                let applyNo = $(".applyNo").text();
+                                listReload();
+                                attachListReload(applyNo);
+                                if(applyAttachType == 1){
+                                    $(".profileAuthStatus").text("반려");
+                                    //면허증승인
+                                } else if(applyAttachType == 2) {
+                                    $(".licenseAuthStatus").text("반려");
+                                    //경력확인서승인
+                                } else if(applyAttachType == 3) {
+                                    $(".careerAuthStatus").text("반려");
+                                }
                             } else {
                                 alert("반려에 실패하였습니다.");
                                 return;
@@ -928,6 +937,498 @@
     function close_pop(flag) {
         $('#myModal').hide();
     };
+
+
+
+    function listReload(){
+        $.ajax({
+            type: "GET",
+            url: "/api/driver/apply/list",
+            data: {
+                searchValue : {
+                    startDate : $(".startDate").val(),
+                    endDate : $(".endDate").val(),
+                    name : $(".name").val(),
+                    authStatus : $(".selAuthStatus").val()
+                },
+            },
+            dataType: "json",
+            success: function (data) {
+
+                let workList = data.data;
+                $(".panel-body-datatable").html("");
+                $(".panel-body-datatable").append("" +
+                    "<table id='testTable' class='display table table-bordered w-100 table-striped '>"+
+                    "<thead>"+
+                    "<th class='text-center' width='3%;'><spring:message code='list.word.no' text='순번'/></th>"+
+                    "<th class='text-center' width='10%'>프로필 이미지</th>"+
+                    "<th class='text-center' width='5%;'>이름</th>"+
+                    "<th class='text-center' width='8%;'>최종승인</th>"+
+                    "<th class='text-center' width='10%;'>프로필 승인상태</th>"+
+                    "<th class='text-center' width='10%;'>면허증 승인상태</th>"+
+                    "<th class='text-center' width='10%;'>경력확인서 승인상태</th>"+
+                    "<th class='text-center' width='8%;'>등록일</th>"+
+                    "<th class='text-center' width='8%;'>수정일</th>"+
+                    "<th class='text-center' width='8%;'>최종승인일</th>"+
+                    "</thead>"+
+                    "<tbody class='dataTableBody'>" +
+                    "</tbody>"+
+                    "</table>");
+
+
+
+                for(var i = 0 ; i < workList.length ; i++){
+
+                    let profileAuthStatus ="";
+                    let careerAuthStatus ="";
+                    let licenseAuthStatus ="";
+                    let authStatus ="";
+
+
+                    if(workList[i].authStatus == 0){
+                        authStatus = "미등록";
+                    } else if(workList[i].authStatus == 1){
+                        authStatus = "신청";
+                    } else if(workList[i].authStatus == 2){
+                        authStatus = "<span class='text-green'>승인</span>";
+                    } else if(workList[i].authStatus == 3){
+                        authStatus = "<span class='text-red'>반려</span>";
+                    }
+
+                    if(workList[i].profileAuthStatus == 0){
+                        profileAuthStatus = "미승인";
+                    } else if(workList[i].profileAuthStatus == 1){
+                        profileAuthStatus = "신청";
+                    } else if(workList[i].profileAuthStatus == 2){
+                        profileAuthStatus = "<span class='text-green'>승인</span>";
+                    } else if(workList[i].profileAuthStatus == 3){
+                        profileAuthStatus = "<span class='text-red'>반려</span>";
+                    }
+
+                    if(workList[i].careerAuthStatus == 0){
+                        careerAuthStatus = "미승인";
+                    } else if(workList[i].careerAuthStatus == 1){
+                        careerAuthStatus = "신청";
+                    } else if(workList[i].careerAuthStatus == 2){
+                        careerAuthStatus = "<span class='text-green'>승인</span>";
+                    } else if(workList[i].careerAuthStatus == 3){
+                        careerAuthStatus =  "<span class='text-red'>반려</span>";
+                    }
+
+                    if(workList[i].licenseAuthStatus == 0){
+                        licenseAuthStatus = "미승인";
+                    } else if(workList[i].licenseAuthStatus == 1){
+                        licenseAuthStatus = "신청";
+                    } else if(workList[i].licenseAuthStatus == 2){
+                        licenseAuthStatus = "<span class='text-green'>승인</span>";
+                    } else if(workList[i].licenseAuthStatus == 3){
+                        licenseAuthStatus =  "<span class='text-red'>반려</span>";
+                    }
+
+                    let authDate = "";
+                    if(workList[i].authDate == null ){
+                        authDate = "";
+                    } else {
+                        authDate = workList[i].authDate;
+                    }
+
+                    let updateDate = "";
+                    if(workList[i].updateDate == null ){
+                        updateDate = "";
+                    } else {
+                        updateDate = workList[i].updateDate;
+                    }
+
+                    let img = "/api/img/fileLoad?filePath="+workList[i].profileFileSmall;
+                    let errorimg = encodeURI("this.src='/assets/img/logo/logo-noimg.gif");
+
+                    $(".dataTableBody").append("" +
+                        "<tr class='detailRow'"+
+                        " applyNo='"+workList[i].applyNo+"'"+
+                        " authStatus='"+workList[i].authStatus+"'"+
+                        " serviceType='"+workList[i].serviceType+"'"+
+                        " branchNo='"+workList[i].branchNo+"'"+
+                        " workerNo='"+workList[i].workerNo+"'"+
+                        " name='"+workList[i].name+"'"+
+                        " residentNum='"+workList[i].residentNum+"'"+
+                        " phone='"+workList[i].phone+"'"+
+                        " smsYn='"+workList[i].smsYn+"'"+
+                        " signYn='"+workList[i].signYn+"'"+
+                        " profileAuthStatus='"+workList[i].profileAuthStatus+"'"+
+                        " profileFile='"+workList[i].profileFile+"'"+
+                        " profileFileSmall='"+workList[i].profileFileSmall+"'"+
+                        " licenseAuthStatus='"+workList[i].licenseAuthStatus+"'"+
+                        " licenseFile='"+workList[i].licenseFile+"'"+
+                        " licenseNum='"+workList[i].licenseNum+"'"+
+                        " licenseType='"+workList[i].licenseType+"'"+
+                        " licenseExpDate='"+workList[i].licenseExpDate+"'"+
+                        " careerAuthStatus='"+workList[i].careerAuthStatus+"'"+
+                        " careerFile='"+workList[i].careerFile+"'"+
+                        " pushKey='"+workList[i].pushKey+"'"+
+                        " data-toggle='modal'"+
+                        " data-target='#attach_list'>"+
+                        "<td class='text-center'>"+(i+1)+"</td>"+
+                        " <td class='text-center'><img style=\"width: 100px;height :53px;\" class=\"storeImg\" src="+img+" onerror=\"this.src='${path}/assets/img/logo/logo-noimg.gif'\"></td>" +
+                        "</td>"+
+                        "<td class='text-center'>"+workList[i].name+"</td>"+
+                        "<td class='text-center'>"+authStatus+"</td>"+
+                        "<td class='text-center'>"+profileAuthStatus+"</td>"+
+                        "<td class='text-center'>"+licenseAuthStatus+"</td>"+
+                        "<td class='text-center'>"+careerAuthStatus+"</td>"+
+                        "<td class='text-center'>"+workList[i].insertDate+"</td>"+
+                        "<td class='text-center'>"+updateDate+"</td>"+
+                        "<td class='text-center'>"+authDate+"</td>"+
+                        "</tr>"
+                    )
+                }
+                //alert 안뜨게
+                $.fn.dataTable.ext.errMode='throw';
+                $("#testTable").DataTable().ajax.reload(null, false);
+            }
+        });
+    }
+
+
+
+    function attachListReload(applyNo) {
+
+        let authStatus = $(".authStatus").text();
+        let serviceType = $(".serviceType").text();
+        let branchNo = $(".branchNo").text();
+        let workerNo = $(".workerNo").text();
+        let residentNum = $(".residentNum").text();
+        let phone = $(".phone").text();
+        let smsYn = $(".smsYn").text();
+        let signYn = $(".signYn").text();
+        let profileAuthStatus = $(".profileAuthStatus").text();
+        let profileFile = $(".profileFile").text();
+        let profileFileSmall = $(".profileFileSmall").text();
+        let licenseAuthStatus = $(".licenseAuthStatus").text();
+        let licenseFile = $(".licenseFile").text();
+        let licenseNum = $(".licenseNum").text();
+        let licenseType = $(".licenseType").text();
+        let licenseExpDate = $(".licenseExpDate").text();
+        let careerAuthStatus = $(".careerAuthStatus").text();
+        let careerFile = $(".careerFile").text();
+        let insertDate = $(".insertDate").text();
+        let authDate = $(".authDate").text();
+
+      /*  if(serviceType == 1){
+            serviceType = "렌터카";
+        } else if(serviceType == 2) {
+            serviceType = "탁송";
+        } else if(serviceType == 3) {
+            serviceType = "맛집";
+        } else if(serviceType == 4) {
+            serviceType = "마트";
+        }
+
+        if(profileAuthStatus == 0){
+            profileAuthStatus = "미승인";
+        } else if(profileAuthStatus == 1){
+            profileAuthStatus = "신청";
+        } else if(profileAuthStatus == 2){
+            profileAuthStatus = "승인";
+        } else if(profileAuthStatus == 3){
+            profileAuthStatus = "반려";
+        }
+
+        if(careerAuthStatus == 0){
+            careerAuthStatus = "미승인";
+        } else if(careerAuthStatus == 1){
+            careerAuthStatus = "신청";
+        } else if(careerAuthStatus == 2){
+            careerAuthStatus = "승인";
+        } else if(careerAuthStatus == 3){
+            careerAuthStatus = "반려";
+        }
+
+        if(licenseAuthStatus == 0){
+            licenseAuthStatus = "미승인";
+        } else if(licenseAuthStatus == 1){
+            licenseAuthStatus = "신청";
+        } else if(licenseAuthStatus == 2){
+            licenseAuthStatus = "승인";
+        } else if(licenseAuthStatus == 3){
+            licenseAuthStatus = "반려";
+        }
+
+        if(smsYn == 0){
+            smsYn = "거부";
+        } else {
+            smsYn = "동의";
+        }
+
+        if(signYn == 0){
+            signYn = "미생성";
+        } else {
+            signYn = "생성";
+        }*/
+
+
+       /* if(licenseType != null){
+            /!*param2 = "면허종류 : "+ tbWorkerApplyAttchList[i].param2*!/
+            if(licenseType == "11"){
+                licenseType = "1종 대형";
+            } else if(licenseType == "12") {
+                licenseType = "1종 보통";
+            } else if(licenseType == "13") {
+                licenseType = "1종 소형";
+            } else if(licenseType == "14") {
+                licenseType = "1종대형견인";
+            } else if(licenseType == "15") {
+                licenseType = "1종 구난";
+            } else if(licenseType == "16") {
+                licenseType = "1종 소형견인";
+            } else if(licenseType == "32") {
+                licenseType = "2종 보통";
+            } else if(licenseType == "33") {
+                licenseType = "2종 소형";
+            } else if(licenseType == "34") {
+                licenseType = "2종 특수";
+            } else if(licenseType == "38") {
+                licenseType = "2종 원자";
+            } else {
+                licenseType = " 알수없음";
+            }
+        }
+*/
+        let img = "/api/img/fileLoad?filePath="+encodeURI(profileFileSmall);
+        let img2 = "/api/img/fileLoad?filePath="+encodeURI(licenseFile);
+        $(".profileImg").attr("src",img);
+        $(".licenseFile").attr("src",img2);
+
+
+        $(".authStatus").text(authStatus);
+        $(".serviceType").text(serviceType);
+        $(".branchNo").text(branchNo);
+        $(".workerNo").text(workerNo);
+        $(".residentNum").text(residentNum);
+        $(".phone").text(phone);
+        $(".smsYn").text(smsYn);
+        $(".signYn").text(signYn);
+        $(".profileAuthStatus").text(profileAuthStatus);
+        $(".profileFile").text(profileFile);
+        $(".profileFileSmall").text(profileFileSmall);
+        $(".licenseAuthStatus").text(licenseAuthStatus);
+        $(".licenseNum").text(licenseNum);
+        $(".licenseType").text(licenseType+"");
+        $(".licenseExpDate").text(licenseExpDate);
+        $(".careerAuthStatus").text(careerAuthStatus);
+        $(".insertDate").text(insertDate);
+        $(".authDate").text(authDate);
+
+      /*  let file1 = decodeURI($(careerFile).text());
+        let filename1 = file1.split('/').pop().split('\\').pop().split('%2F').pop();
+        $(".careerFile").attr("careerFile",careerFile);
+        $(".careerFileDown").text(filename1);*/
+
+/*        let file = decodeURI($(this).attr("careerFile"));
+        let filename = file.split('/').pop().split('\\').pop().split('%2F').pop();
+        $(".careerFile").attr("careerFile",careerFile);
+        $(".careerFileDown").text(filename);*/
+
+
+        let applyNoString = applyNo.toString();
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/driver/attach/list",
+            data: {
+                applyNo : applyNoString
+            },
+            dataType: "json",
+            success: function(data) {
+                var tbWorkerApplyAttchList = data.tbWorkerApplyAttchList;
+                if(authStatus == 0) {
+                    removeClass();
+                    $(".enrollment_1").addClass("active");
+                    $(".enrollment_2").addClass("disabled");
+                    $(".enrollment_3").addClass("disabled");
+                    $(".enrollment_4").addClass("disabled");
+
+                } else if (authStatus == 1){
+                    removeClass();
+                    $(".enrollment_1").addClass("completed");
+                    $(".enrollment_2").addClass("active");
+                    $(".enrollment_3").addClass("disabled");
+                    $(".enrollment_4").addClass("disabled");
+
+                } else if (authStatus == 2){
+                    removeClass();
+                    $(".enrollment_1").addClass("completed");
+                    $(".enrollment_2").addClass("completed");
+                    $(".enrollment_3").addClass("active");
+                    $(".enrollment_4").addClass("disabled");
+
+                } else if (authStatus == 3){
+                    removeClass();
+                    $(".enrollment_1").addClass("disabled");
+                    $(".enrollment_2").addClass("disabled");
+                    $(".enrollment_3").addClass("disabled");
+                    $(".enrollment_4").addClass("active");
+                }
+
+                $(".attachList").html("");
+                if(tbWorkerApplyAttchList.length == 0 || tbWorkerApplyAttchList == null){
+                    $(".attachList").append(
+                        " <li >" +
+                        "     <label class=\"store_text\">\n" +
+                        "신청내역이 없습니다."+
+                        "     </label>\n" +
+                        "     <div class=\"float-right \"></div>\n" +
+                        " </li>"
+                    )
+                }else {
+                    for (var i = 0; i < tbWorkerApplyAttchList.length; i++) {
+                        let applyAttachType = "";
+                        let statusColor = "";
+                        if (tbWorkerApplyAttchList[i].applyAttachType == 0) {
+                            applyAttachType = "기타";
+                        } else if (tbWorkerApplyAttchList[i].applyAttachType == 1) {
+                            applyAttachType = "프로필사진";
+                        } else if (tbWorkerApplyAttchList[i].applyAttachType == 2) {
+                            applyAttachType = "면허증";
+                        } else if (tbWorkerApplyAttchList[i].applyAttachType == 3) {
+                            applyAttachType = "경력확인서";
+                        }
+                        let inputBtn = "<div style='width:125px;'>" +
+                            "<input  type=\"button\"  uploadFile=" + tbWorkerApplyAttchList[i].uploadFile + " param1=" + tbWorkerApplyAttchList[i].param1 + " param2=" + tbWorkerApplyAttchList[i].param2 + " param3=" + tbWorkerApplyAttchList[i].param3 + "  applyNo=" + tbWorkerApplyAttchList[i].applyNo + " applyAttachType=" + tbWorkerApplyAttchList[i].applyAttachType + " attachNo=" + tbWorkerApplyAttchList[i].attachNo + " class=\"btn-sm btn-primary btn-approval\" value=\"승인\">" +
+                            "<input  type=\"button\"  uploadFile=" + tbWorkerApplyAttchList[i].uploadFile + " param1=" + tbWorkerApplyAttchList[i].param1 + " param2=" + tbWorkerApplyAttchList[i].param2 + " param3=" + tbWorkerApplyAttchList[i].param3 + " applyNo=" + tbWorkerApplyAttchList[i].applyNo + " applyAttachType=" + tbWorkerApplyAttchList[i].applyAttachType + " attachNo=" + tbWorkerApplyAttchList[i].attachNo + " class=\"btn-sm btn-danger btn-companion\" value=\"반려\"></div>";
+                        //최종승인이면서 프로필/면허증인경우 수정불가
+                        /*  if (authStatus == 1) {
+                          } else if (authStatus == 2) {
+                              if(tbWorkerApplyAttchList[i].applyAttachType == 1 )  {
+                                  inputBtn =  "<div style='width:125px;'>반려되었습니다.</div>"
+                              } else if(tbWorkerApplyAttchList[i].applyAttachType == 2) {
+                                  inputBtn =  "<div style='width:125px;'>최종승인되었습니다.</div>"
+                              } else if(tbWorkerApplyAttchList[i].applyAttachType == 3) {
+                              }
+                          } else if (authStatus == 3) {
+                          }*/
+
+
+                        if(tbWorkerApplyAttchList[i].applyAttachType == 1 && tbWorkerApplyAttchList[i].authStatus == 2)  {
+                            inputBtn =  "<div style='width:125px;'>최종승인되었습니다.</div>"
+                        } else if(tbWorkerApplyAttchList[i].applyAttachType == 2 && tbWorkerApplyAttchList[i].authStatus == 2) {
+                            inputBtn =  "<div style='width:125px;'>최종승인되었습니다.</div>"
+                        } else if(tbWorkerApplyAttchList[i].applyAttachType == 3 && tbWorkerApplyAttchList[i].authStatus == 2) {
+                            inputBtn =  "<div style='width:125px;'>최종승인되었습니다.</div>"
+                        }
+
+                        if(tbWorkerApplyAttchList[i].applyAttachType == 3 && tbWorkerApplyAttchList[i].authStatus == 3) {
+                            inputBtn = "<div style='width:125px;'>반려되었습니다.</div>"
+                        } else if(tbWorkerApplyAttchList[i].applyAttachType == 1 && tbWorkerApplyAttchList[i].authStatus == 3) {
+                            inputBtn =  "<div style='width:125px;'>반려되었습니다.</div>"
+                        } else if(tbWorkerApplyAttchList[i].applyAttachType == 2 && tbWorkerApplyAttchList[i].authStatus == 3) {
+                            inputBtn =  "<div style='width:125px;'>반려되었습니다.</div>"
+                        }
+
+                        let authStatusTxt = "";
+                        if(tbWorkerApplyAttchList[i].authStatus == 1) {
+                            authStatusTxt = "신청";
+                            statusColor = "";
+                        } else if(tbWorkerApplyAttchList[i].authStatus == 2) {
+                            authStatusTxt = "승인";
+                            statusColor = "style='background-color:'";
+                        } else if(tbWorkerApplyAttchList[i].authStatus == 3) {
+                            authStatusTxt = "반려";
+                            statusColor = "style='background-color:#c6c6c6'"
+                        }
+
+                        var updateTime = "";
+                        var insertTime = "";
+                        var userId = "";
+                        var param1 = "";
+                        var param2 = "";
+                        var param3 = "";
+
+                        if(tbWorkerApplyAttchList[i].updateDate != null){
+                            updateTime = (tbWorkerApplyAttchList[i].updateDate).substring(0,10)+" "+(tbWorkerApplyAttchList[i].updateDate).substring(11,19)
+                        }
+                        if(tbWorkerApplyAttchList[i].updateDate != null){
+                            insertTime = (tbWorkerApplyAttchList[i].insertDate).substring(0,10)+" "+(tbWorkerApplyAttchList[i].insertDate).substring(11,19)
+                        }
+                        if(tbWorkerApplyAttchList[i].updateUserId != null){
+                            userId = tbWorkerApplyAttchList[i].updateUserId
+                        }
+                        if(tbWorkerApplyAttchList[i].param1 != null){
+                            param1 = "면허번호 : <span class='text-green'>"+ tbWorkerApplyAttchList[i].param1+"</span>"
+                        }
+                        if(tbWorkerApplyAttchList[i].param2 != null){
+                            /*param2 = "면허종류 : "+ tbWorkerApplyAttchList[i].param2*/
+                            if(tbWorkerApplyAttchList[i].param2 == "11"){
+                                param2 = "면허종류 : "+ "1종 대형";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "12") {
+                                param2 = "면허종류 : "+ "1종 보통";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "13") {
+                                param2 = "면허종류 : "+ "1종 소형";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "14") {
+                                param2 = "면허종류 : "+ "1종대형견인";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "15") {
+                                param2 = "면허종류 : "+ "1종 구난";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "16") {
+                                param2 = "면허종류 : "+ "1종 소형견인";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "32") {
+                                param2 = "면허종류 : "+ "2종 보통";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "33") {
+                                param2 = "면허종류 : "+ "2종 소형";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "34") {
+                                param2 = "면허종류 : "+ "2종 특수";
+                            } else if(tbWorkerApplyAttchList[i].param2 == "38") {
+                                param2 = "면허종류 : "+ "2종 원자";
+                            } else {
+                                param2 = "면허종류 : 알수없음";
+                            }
+                        }
+                        if(tbWorkerApplyAttchList[i].param3 != null){
+                            param3 = "만료일 : &nbsp;&nbsp;&nbsp;"+ tbWorkerApplyAttchList[i].param3
+                        }
+
+                        let imgPath = "/api/img/fileLoad?filePath="+tbWorkerApplyAttchList[i].uploadFile;
+                        $(".attachList").append(
+                            " <li >" +
+                            "     <div class=\"panel-body\">" +
+                            "         <table id=\"testTable\" class=\"display table table-bordered w-100 table-striped \">"+
+                            "            <tbody>"+
+                            "             <tr class=\"\" attachNo="+tbWorkerApplyAttchList[i].attachNo+" "+statusColor+">" +
+                            "                <td style=\"width:60px;\">"+(i+1)+"</td>" +
+                            "                <td style=\"width:101px;\">"+applyAttachType+"</td>" +
+                            "                <td style=\"width:67px;\">"+authStatusTxt+"</td>" +
+                            "                <td style=\"width:129px;\"><img style=\"width: 100px;height :53px;\" class=\"systemImg\" src="+imgPath+" onerror=\"this.src='${path}/assets/img/logo/logo-noimg.gif'\"></td>" +
+                            "                <td style=\"width:78px;\">"+userId+"</td>" +
+                            "                <td style=\"width:160px;\">"+param1+" <br>"+param2+"<br>"+param3+"</td>" +
+                            "                <td style=\"width:120px;\">"+updateTime+"</td>" +
+                            "                <td style=\"width:120px;\">"+insertTime+"</td>" +
+                            "                <td style=\"width:120px;\" class=\"text-center\">" +
+                            inputBtn+
+                            "                </td>" +
+                            "             </tr>" +
+                            "           </tbody>" +
+                            "        </table>"+
+                            "     </div>" +
+                            " </li>"
+                        )
+                    }
+                }
+            }
+        });
+
+    }
+
+    function removeClass(){
+        $(".enrollment_1").removeClass("disabled");
+        $(".enrollment_1").removeClass("completed");
+        $(".enrollment_1").removeClass("active");
+        $(".enrollment_2").removeClass("disabled");
+        $(".enrollment_2").removeClass("completed");
+        $(".enrollment_2").removeClass("active");
+        $(".enrollment_3").removeClass("disabled");
+        $(".enrollment_3").removeClass("completed");
+        $(".enrollment_3").removeClass("active");
+        $(".enrollment_4").removeClass("disabled");
+        $(".enrollment_4").removeClass("completed");
+        $(".enrollment_4").removeClass("active");
+    }
 </script>
 </body>
 </html>

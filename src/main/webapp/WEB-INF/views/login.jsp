@@ -266,7 +266,6 @@
 			$("input:checkbox[id='remember_checkbox']").prop("checked", true);
 			$('#bmLoginId').val(cookieid);
 		}
-
 	}
 
 	function setCookie(name, value, expiredays) {

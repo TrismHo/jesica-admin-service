@@ -38,15 +38,15 @@
             <li class="dropdown navbar-language">
                 <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="ko" data-toggle="dropdown" >
                     <span class="flag-icon flag-icon-kr" title="ko"></span>
-                    <span class="name d-none d-sm-inline">KR</span> <b class="caret"></b>
+                    <span class="name_ d-none d-sm-inline">KR</span> <b class="caret"></b>
                 </a>
                 <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="en" data-toggle="dropdown" style="display: none;">
                     <span class="flag-icon flag-icon-us" title="us"></span>
-                    <span class="name d-none d-sm-inline">EN</span> <b class="caret"></b>
+                    <span class="name_ d-none d-sm-inline">EN</span> <b class="caret"></b>
                 </a>
                 <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="kh" data-toggle="dropdown" style="display: none;">
                     <span class="flag-icon flag-icon-kh" title="kh"></span>
-                    <span class="name d-none d-sm-inline">KH</span> <b class="caret"></b>
+                    <span class="name_ d-none d-sm-inline">KH</span> <b class="caret"></b>
                 </a>
 <%--
                 <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="la" data-toggle="dropdown" style="display: none;">

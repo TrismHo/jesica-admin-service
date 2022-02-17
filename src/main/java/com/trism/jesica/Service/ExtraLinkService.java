@@ -1,7 +1,7 @@
 package com.trism.jesica.Service;
 
 import com.trism.jesica.Util.SearchUtil;
-import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.dto.TbStoreRentalCarDTO;
 import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
 import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
@@ -41,13 +41,9 @@ public class ExtraLinkService {
                                      : tbRentalInfoRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-
-
     @Transactional(readOnly = true)
-    public List<TbStoreRentalCar> getCarList() {
-        return  tbStoreRentalCarRepository.findByDataStatus(DataStatus.OK);
+    public List<TbStoreRentalCarDTO> getCarList(Long storeNo) {
+        return  tbStoreRentalCarRepository.findByStoreNoAndDataStatus(storeNo,DataStatus.OK);
     }
-
-
 }
 

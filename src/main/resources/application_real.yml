@@ -133,6 +133,9 @@ file:
     path: /event
   bannerPath:
     path: /banner
+  platformPath:
+    path: /platform
+
   messageFile:
     path: /data/jesicar/messages/message
   apiServer:

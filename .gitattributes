@@ -1,0 +1,25 @@
+
+# Auto detect text files and perform LF normalization
+# 텍스트 파일 자동 감지 및 LF 정규화 수행
+*        text=auto
+
+*.cs     text diff=csharp
+*.java   text diff=java
+*.html   text diff=html
+*.css    text
+*.js     text
+*.sql    text
+
+*.csproj text merge=union
+*.sln    text merge=union eol=crlf
+
+*.docx   diff=astextplain
+*.DOCX   diff=astextplain
+
+# absolute paths are ok, as are globs
+# 절대경로는 괜찮다
+/**/postinst* text eol-lf
+
+# paths that don't start with / are treated relative to the .gitattributes folder
+# .gitattributes 와 관련하여 /로 시작하지 않는 경로
+relative/path/*.txt text eol-lf

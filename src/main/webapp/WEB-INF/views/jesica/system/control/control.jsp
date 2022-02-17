@@ -63,8 +63,8 @@
 		.map_wrap, .map_wrap * {margin:0;padding:0;font-size:12px;}
 		.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
 		.map_wrap {position:relative;width:100%;height:100%;}
-		#menu_wrap1,#menu_wrap2 { overflow-x: hidden;position:absolute;top:0;left:170px;bottom:50%;width:320px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
-		#menu_wrap_left {position:absolute;top:0;left:0;bottom:0;width:160px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
+		#menu_wrap1,#menu_wrap2 { overflow-x: hidden;position:absolute;top:0;left:190px;bottom:50%;width:320px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
+		#menu_wrap_left {position:absolute;top:0;left:0;bottom:0;width:180px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
 		.bg_white {background:#fff;}
 		#menu_wrap1 hr,#menu_wrap2 hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 		#menu_wrap_left hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
@@ -76,7 +76,7 @@
 		#menu_wrap_left .option button {margin-left:5px;}
 		#placesList li, #placesList2 li  {list-style: none;}
 		#placesList .item, #placesList2 .item {border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 46px;}
-		#placesList2 .item span {display: block;margin-top:8px; width:50px; float: right;}
+		#placesList2 .item span {display: block; width:70px; float: right;}
 		#placesList .item h5, #placesList .item .info, #placesList2 .item h5, #placesList2 .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 		#placesList .item .info{padding:10px 0 10px 55px;}
 		#placesList .info .gray {color:#8a8a8a;}
@@ -298,7 +298,12 @@
 		.bg_month_black{
 			background: url(../../assets/img/control/month_btn_black.png) no-repeat;
 		}
-
+		.btn.btn-icon.btn-xs {
+			width: 12px;
+			height: 12px;
+			font-size: 8px;
+			line-height: 9px;
+		}
 
 	</style>
 </head>
@@ -428,7 +433,6 @@
 							<a href="javascript:;" onclick="" class="btn btn-sm salary_all btn-white selectSalary active" value="all"  >
 								 </a>
 							<a href="javascript:;" onclick="" class="btn btn-sm salary_month btn-white selectSalary" value="month" >
-								<%--<i class="fas fa-lg fa-fw fa-user-tie" style="font-size: 17px;"></i>--%></a>
 							<a href="javascript:;" onclick="" class="btn btn-sm salary_day btn-white selectSalary" value="day" >
 								<%--<i class="fas fa-lg fa-fw fa-user-ninja" style="font-size: 17px;"></i>--%></a>
 						</div>
@@ -498,6 +502,10 @@
 					</div>
 
 					<div id="menu_wrap_left" class="bg_white">
+						<div style="padding: 5px; background-color: aliceblue;">
+							<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"></a>  위치정보없음,
+							<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse" data-bs-original-title="" title="" data-tooltip-init="true"></a>  정상
+						</div>
 						<div class="option">
 							<ul id="placesList2"></ul>
 							<div id="pagination2"></div>
@@ -550,7 +558,6 @@
 							gender: list[i].gender, // N 모름 ,M 남자, F 여자
 							workerPayType: list[i].workerPayType // 1 급여 ,2 수수료
 						}
-						if(list[i].lng != null){
 							if(gender == "all"){
 								if(workerPayType == "all"){
 									waiting.push(push);
@@ -592,7 +599,6 @@
 									}
 								}
 							}
-						}
 					}
 				} else {
 					alert(data.body.data.desc);
@@ -624,7 +630,6 @@
 							gender: list[i].gender, // N 모름 ,M 남자, F 여자
 							workerPayType: list[i].workerPayType // 1 급여 ,2 수수료
 						}
-						if(list[i].lng != null){
 							if(gender == "all"){
 								if(workerPayType == "all"){
 									running.push(push);
@@ -666,7 +671,6 @@
 									}
 								}
 							}
-						}
 					}
 
 				} else {
@@ -1097,18 +1101,44 @@
 
 	// 검색결과 항목을 Element로 반환하는 함수입니다
 	function getListItem(index, places) {
-
+		console.log(places)
 		var statusText = "";
+		var locationText = "";
+		var gender = "";
+		var workerPayType = "";
+
+		if(places.x == null){
+			locationText = "<a href='javascript:;' class='btn btn-xs btn-icon btn-danger' data-toggle='panel-remove'></a>";
+		} else {
+			locationText = "<a href='javascript:;' class='btn btn-xs btn-icon btn-warning' data-toggle='panel-collapse' data-bs-original-title='' title='' data-tooltip-init='true'></a>"
+		}
 		if($("#waiting").hasClass("on")){
 			statusText = "대기중";
+
 		}else {
 			statusText = "운행중";
+		}
+
+		if(places.gender == "M") {
+			gender = "남"
+		} else if (places.gender == "F"){
+			gender = "여"
+		} else if (places.gender == "N"){
+			gender = "알수없음"
+		}
+
+		if(places.workerPayType == 1) {
+			workerPayType = "급여"
+		} else if (places.workerPayType == 2){
+			workerPayType = "수수료"
 		}
 
 		var el = document.createElement('li'),
 				itemStr =
 						'<div class="info">' +
-						'   <h5 style="margin:5px;line-height: 19px;">  ' + places.name + '<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px " style="background-color:#9dbad1;">'+statusText+'</span><br>' + phoneNumber(places.phone)  +
+						'   <h5 style="margin:5px;line-height: 19px;">  ' + places.name +
+						'<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px " ' +
+						'style="background-color:#9dbad1;">'+statusText+'</span><br>' + phoneNumber(places.phone)  + '<br>'+ workerPayType +'&nbsp/&nbsp;'+gender +' '+ locationText
 						'</h5>';
 
 		itemStr += '' +

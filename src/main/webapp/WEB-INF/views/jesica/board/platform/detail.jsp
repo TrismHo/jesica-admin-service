@@ -52,7 +52,7 @@
                                              <input type="radio" name="groupType" value="0" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 0}">checked</c:if>> <spring:message code="list.detail.tothewhole" text="전체에게"/>
                                          </label>--%>
                                         <label class="m-r-10 ">
-                                            <input type="radio" name="groupType" value="8" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
+                                            <input type="radio" name="groupType" value="5" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
                                         </label>
                                         <label class="">
                                             <input type="radio" name="groupType" value="4" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 4}">checked</c:if>> <spring:message code="list.detail.deliveryman1" text="드라이버"/>
@@ -168,6 +168,13 @@
 <%-- Custom JS End--%>
 
 <script>
+    CKEDITOR.replace('body', { filebrowserUploadUrl: '${path}/api/file/upload/platform',
+        font_names: '맑은 고딕/Malgun Gothic;굴림/Gulim;돋움/Dotum;바탕/Batang;궁서/Gungsuh;Arial/Arial;Comic Sans MS/Comic Sans MS;Courier New/Courier New;Georgia/Georgia;Lucida Sans Unicode/Lucida Sans Unicode;Tahoma/Tahoma;Times New Roman/Times New Roman;MS Mincho/MS Mincho;Trebuchet MS/Trebuchet MS;Verdana/Verdana',
+        font_defaultLabel: '맑은 고딕/Malgun Gothic',
+        fontSize_defaultLabel: '12',
+        allowedContent : true,
+        language: 'ko',
+    });
     $(() => {
         $(".btn_list").click(function() {
             location.href = "${path}/board/platform/list?groupType=&dataStatus=OK&title=&startDate=2020-01-01&endDate=${now}";
