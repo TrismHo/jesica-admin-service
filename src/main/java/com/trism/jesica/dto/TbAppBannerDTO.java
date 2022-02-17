@@ -12,5 +12,7 @@ public interface TbAppBannerDTO {
 
     String getTitle();
 
+    String getBoardType();
+
     LocalDateTime getInsertDate();
 }

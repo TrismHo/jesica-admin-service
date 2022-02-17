@@ -192,13 +192,12 @@
             $("#sortable").sortable({
                 update: function() {
                     let bannerNos = $(this).sortable("toArray");
-
                     $.ajax({
                         type: "GET",
                         url: "${path}/api/banner/update/viewOrder?bannerNos=" + bannerNos,
                         success: function() {
-                            alert("변경 완료");
                             getBannerSort();
+                            alert("변경 완료");
                         }
                     });
                 }
@@ -277,7 +276,7 @@
         });
     }
 
-    function drawingBannerSort(bannerSortList) {
+    /*function drawingBannerSort(bannerSortList) {
         for (let i = 0; i < bannerSortList.length; i++) {
             let imgPath = '/api/img/fileLoad?filePath=' + bannerSortList[i].bannerFile;
             let html = "<li id="+bannerSortList[i].bannerNo+">" +
@@ -296,6 +295,34 @@
                         "</li>"
             $(".bannerSortList").append(html);
         }
+    }*/
+
+    function drawingBannerSort(bannerSortList) {
+        for (let i = 0; i < bannerSortList.length; i++) {
+            let imgPath = '/api/img/fileLoad?filePath=' + bannerSortList[i].bannerFile;
+            let html = "<tr id="+bannerSortList[i].bannerNo+">" +
+                            "<td>" +
+                                bannerSortList[i].viewOrder +
+                            "</td>" +
+                            "<td>" +
+                                bannerSortList[i].boardType +
+                            "</td>" +
+                            "<td>" +
+                                bannerSortList[i].title +
+                            "</td>" +
+                            "<td>" +
+                                bannerSortList[i].insertDate +
+                            "</td>" +
+                            "<td>" +
+                                "<img src="+imgPath+" onerror=\"this.src='${path}/assets/img/logo/logo-noimg.gif'\" >" +
+                            "</td>" +
+                        "</tr>"
+            $(".bannerSortList").append(html);
+        }
+    }
+
+    function convertBoardType() {
+
     }
 </script>
 </body>

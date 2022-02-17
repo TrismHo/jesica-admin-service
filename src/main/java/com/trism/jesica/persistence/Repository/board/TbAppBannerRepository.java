@@ -18,6 +18,7 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
             "tab.banner_no as bannerNo, " +
             "tab.view_order as viewOrder, " +
             "tab.banner_file as bannerFile, " +
+            "tab.board_type as boardType, " +
             "te.title as title, " +
             "te.insert_date as insertDate " +
                 "from tb_app_banner as tab " +
@@ -36,6 +37,7 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
             "tab.banner_no as bannerNo, " +
             "tab.view_order as viewOrder, " +
             "tab.banner_file as bannerFile, " +
+            "tab.board_type as boardType, " +
             "tnp.title as title, " +
             "tnp.insert_date as insertDate " +
                 "from tb_app_banner as tab " +

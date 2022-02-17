@@ -45,10 +45,25 @@
         line-height: 50px;
     }
     ul#sortable li div img {
-        width: 200px; height: 100px
+        width: 200px;
+        height: 100px;
     }
     .timeline-body {
         min-width: 0 !important;
+    }
+    .sort-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        border-color: rgb(240, 240, 240);
+        margin-bottom: 5px;
+    }
+    #sortable tr td:last-child {
+        padding: 5px;
+    }
+    #sortable tr td img {
+        width: 320px;
+        height: 90px;
     }
 </style>
 
@@ -69,9 +84,22 @@
                         <i class="fas fa-lg fa-fw m-r-5 fa-info-circle"></i>
                         <span>배너정보</span>
                     </div>
-                    <ul id="sortable" class="bannerSortList m-b-10"></ul>
+                    <table id="sortTable" class="sort-table" border="1">
+                        <thead>
+                            <tr>
+                                <th>순서</th>
+                                <th>게시판 종류</th>
+                                <th>게시글 제목</th>
+                                <th>등록일자</th>
+                                <th>이미지</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sortable" class="bannerSortList">
+                        </tbody>
+                    </table>
+<%--                    <ul id="sortable" class="bannerSortList m-b-10"></ul>--%>
                     <div class="no-sort-item"></div>
-                    <small id="explain" style="font-size: 13px;">* 드래그로 순서변경이 가능합니다.</small>
+                    <small id="explain" style="font-size: 13px">* 드래그로 순서변경이 가능합니다.</small>
                 </div>
             </form>
         </div>
