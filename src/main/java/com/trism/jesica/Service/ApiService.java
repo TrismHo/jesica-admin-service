@@ -2604,7 +2604,9 @@ public class ApiService {
                               Integer authStatus,
                               Integer applyNo,
                               String updateUserId,
-                              String rejcectMemo
+                              String rejcectMemo,
+                              String pushKey,
+                              HttpSession session
 
     ) {
 
@@ -2658,6 +2660,8 @@ public class ApiService {
                     //계정발급은 0: 미발급으로 일괄처리됨. 추후 서버에서 1로 바꿈
                     tbWorkerApply.setSignYn(0);
 
+                    //푸시메시지 발송 추가
+                    restTemplateUtil.pushMessage("jsdr",pushKey,"프로필이 승인되었습니다.","프로필이 승인되었습니다.",session);
                     //면허증승인
                     if(applyAttachType == 2) {
                         tbWorkerApply.setLicenseAuthStatus(2);
@@ -2665,11 +2669,14 @@ public class ApiService {
                         tbWorkerApply.setLicenseType(param2);
                         tbWorkerApply.setLicenseExpDate(param3);
                         tbWorkerApply.setLicenseFile(uploadFile);
+                    //푸시메시지 발송 추가
+                    restTemplateUtil.pushMessage("jsdr",pushKey,"면허증이 승인되었습니다.","면허증이 승인되었습니다.",session);
                     }
                     //경력확인서승인
                     if(applyAttachType == 3) {
                         tbWorkerApply.setCareerAuthStatus(2);
                         tbWorkerApply.setCareerFile(uploadFile);
+                    restTemplateUtil.pushMessage("jsdr",pushKey,"경력확인서가 승인되었습니다.","경력확인서가 승인되었습니다.",session);
                     }
 
                     //프로필승인
@@ -2720,6 +2727,7 @@ public class ApiService {
 
                             /*tbWorkerApplyRepository.updateAuthStatus(applyNo, 2);*/
                             tbWorkerApply.setAuthStatus(2);
+                            restTemplateUtil.pushMessage("jsdr",pushKey,"최종승인되었습니다.","최종승인되었습니다.",session);
                         }
                         //1개만 승인인경우도 신청상태 - 12.28일 백대리님 요청
                     } else if(profile != 2 && license == 2 && applyAttachType != 3){
@@ -2741,13 +2749,15 @@ public class ApiService {
                     TbWorkerApply tbWorkerApply = optional.get();
 
                     //현재 클릭한 상태에 대한 반려처리
-                    //프로필승인
+                    //프로필반려
                     if (applyAttachType == 1) {
                         tbWorkerApply.setProfileAuthStatus(3);
+                        restTemplateUtil.pushMessage("jsdr",pushKey,"프로필이 반려되었습니다.","프로필이 반려되었습니다.",session);
                     }
-                    //면허증승인
+                    //면허증반려
                     if (applyAttachType == 2) {
                         tbWorkerApply.setLicenseAuthStatus(3);
+                        restTemplateUtil.pushMessage("jsdr",pushKey,"면허증이 반려되었습니다.","면허증이 반려되었습니다.",session);
                     }
 
                     //반려인 경우 미등록
@@ -2766,6 +2776,7 @@ public class ApiService {
                 if (optional.isPresent()) {
                     tbWorkerApply.setCareerAuthStatus(3);
                     tbWorkerApplyRepository.save(tbWorkerApply);
+                    restTemplateUtil.pushMessage("jsdr",pushKey,"경력확인서가 반려되었습니다.","경력확인서가 반려되었습니다.",session);
                 }
             }
             result = 1;

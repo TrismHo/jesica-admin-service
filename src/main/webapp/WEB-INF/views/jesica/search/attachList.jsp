@@ -46,6 +46,8 @@
                     <i class="fa fa-times"></i></a></div>
             </div>
         </div>
+        <input type="hidden" class="applyNo" value="">
+        <input type="hidden" class="pushKey" value="">
         <div class="modal-body" style="padding: 5px;">
             <form class="store_search_form">
                 <div class="row">

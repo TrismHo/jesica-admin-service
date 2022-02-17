@@ -61,16 +61,6 @@ public class DriverApplyController {
 
                     putSearchOption(session, searchValue);
 
-
-             /*   if(searchValue.get("endDate") == null && searchValue.get("startDate") == null) {
-                    Calendar c1 = new GregorianCalendar();
-                    c1.add(Calendar.DATE, -1); // 오늘날짜로부터 -1
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷
-                    String yesterday = sdf.format(c1.getTime()); // String으로 저장
-
-                    searchValue.put("endDate",yesterday);
-                    searchValue.put("startDate",yesterday);
-                }*/
                 List<TbWorkerApply> tbWorkerApplyList =  workerApplyService.getWorkList(searchValue);
                 List<TbWorkerApply> tbWorkerApplyListNew = new ArrayList<TbWorkerApply>();
                 for (TbWorkerApply tbWorkerApply : tbWorkerApplyList) {

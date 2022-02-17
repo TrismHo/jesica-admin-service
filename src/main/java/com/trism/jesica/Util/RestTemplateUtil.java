@@ -175,6 +175,33 @@ public class RestTemplateUtil {
 		return restTemplate.exchange(url, HttpMethod.PUT,entity,Map.class);
 	}
 
+	//푸시메시지
+	public ResponseEntity<Map> pushMessage(String appcode, String receiver, String title, String contents, HttpSession session ) {
+		Map<String,Object> requestDto = new HashMap<>();
+		requestDto.put("appcode",appcode);
+		requestDto.put("receiver",receiver);
+		requestDto.put("title",title);
+		requestDto.put("contents",contents);
+
+		//현재시간
+		long time = System.currentTimeMillis();
+		requestDto.put("timestamp",time);
+
+
+		String authorization = "";
+		if (session.getAttribute("accessToken") != null ){
+			authorization ="Bearer "+session.getAttribute("accessToken").toString();
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		headers.add(HttpHeaders.AUTHORIZATION, authorization);
+		HttpEntity<Map<String,Object>> entity = new HttpEntity<>(requestDto, headers);
+		/*String url = "http://101.55.126.138:13000/api/v1/auth/login";*/
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/auth/push/req";
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}
+
 
 
 
