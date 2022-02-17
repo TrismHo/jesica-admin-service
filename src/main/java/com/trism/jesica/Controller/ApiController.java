@@ -2632,14 +2632,14 @@ public class ApiController {
                 map.put("result","200");
                 map.put("message", "삭제 되었습니다.");
             } else {
-                map.put("result","400");
+                map.put("result", "400");
                 map.put("message", "삭제에 실패하였습니다.");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<>(map,HttpStatus.OK);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     //배너 순서변경 리스트
@@ -2777,7 +2777,6 @@ public class ApiController {
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-
     //렌트카 리스트
     @ResponseBody
     @PostMapping("/rentcar/getCarList")
