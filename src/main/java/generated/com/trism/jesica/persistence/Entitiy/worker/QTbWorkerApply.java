@@ -1,12 +1,15 @@
 package com.trism.jesica.persistence.Entitiy.worker;
 
-import static com.querydsl.core.types.PathMetadataFactory.*;
-
-import com.querydsl.core.types.dsl.*;
-
-import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.DateTimePath;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
+
+import javax.annotation.Generated;
+
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
 
 /**
@@ -52,6 +55,8 @@ public class QTbWorkerApply extends EntityPathBase<TbWorkerApply> {
     public final StringPath profileFile = createString("profileFile");
 
     public final StringPath profileFileSmall = createString("profileFileSmall");
+
+    public final StringPath pushKey = createString("pushKey");
 
     public final StringPath residentNum = createString("residentNum");
 
