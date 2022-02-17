@@ -2621,7 +2621,7 @@ public class ApiController {
     //쿠폰 삭제
     @ResponseBody
     @DeleteMapping("/coupon/management/delete")
-    public ResponseEntity<?> updateTbCoupon(@RequestParam Long couponNo) {
+    public ResponseEntity<?> deleteTbCoupon(@RequestParam Long couponNo) {
         log.info("couponNo::{}", couponNo);
 
         Map<String,Object> map = new HashMap<>();
@@ -2640,6 +2640,142 @@ public class ApiController {
         }
 
         return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //배너 순서변경 리스트
+    @ResponseBody
+    @GetMapping("/banner/sortList")
+    public ResponseEntity<?> getSortList() {
+
+        Map<String, Object> map = new HashMap();
+        try {
+            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList();
+
+            map.put("listBannerSort", listBannerSort);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping("/banner/update/viewOrder")
+    public ResponseEntity<?> updateViewOrder(@RequestParam("bannerNos") String bannerNos) {
+        log.info("bannerNos::{}", bannerNos);
+
+        Map<String,Object> map = new HashMap<>();
+        try {
+            int result = apiService.updateViewOrder(bannerNos);
+
+            if(result == 1) {
+                map.put("result","200");
+                map.put("message", "변경 되었습니다.");
+            } else {
+                map.put("result","400");
+                map.put("message", "변경에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //배너 등록 - 게시글 검색
+    @ResponseBody
+    @GetMapping("/board/search")
+    public ResponseEntity<?> searchBoardList(@RequestParam Integer boardType, @RequestParam(required = false) Long boardNo, @RequestParam(required = false) String keyword) {
+        log.info("boardType:: ", boardType);
+        log.info("boardNo:: ", boardNo);
+        log.info("keyword:: ", keyword);
+
+        Map<String, Object> map = new HashMap<>();
+        List<?> boardList;
+
+        try {
+            boardList = apiService.searchBoard(boardType, boardNo, keyword);
+            map.put("boardList", boardList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    //배너 등록
+    @ResponseBody
+    @PostMapping("/banner/insert")
+    public ResponseEntity<?> insertAppBanner(@RequestPart TbAppBannerData tbAppBannerData
+            ,@RequestPart(value="imgFile", required = false) MultipartFile imgFile) {
+        log.info("TbAppBannerData tbAppBannerData::{}", tbAppBannerData);
+        log.info("imgFile imgFile::{}", imgFile);
+
+        Map<String,Object> map = new HashMap<>();
+        try {
+            int result = apiService.insertTbAppBanner(tbAppBannerData, imgFile);
+
+            if(result == 1) {
+                map.put("result", "200");
+                map.put("message", "등록 되었습니다.");
+            } else {
+                map.put("result", "400");
+                map.put("message", "등록에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    //배너 수정
+    @ResponseBody
+    @PutMapping("/banner/update")
+    public ResponseEntity<?> updateAppBanner(@RequestPart TbAppBannerData tbAppBannerData
+            ,@RequestPart(value="imgFile", required = false) MultipartFile imgFile) {
+        log.info("tbAppBannerData::{}", tbAppBannerData);
+        Map<String,Object> map = new HashMap<>();
+
+        try {
+            int result = apiService.updateTbAppBanner(tbAppBannerData, imgFile);
+
+            if(result == 1) {
+                map.put("result", "200");
+                map.put("message", "수정 되었습니다.");
+            } else {
+                map.put("result", "400");
+                map.put("message", "수정에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    //배너삭제
+    @ResponseBody
+    @DeleteMapping("/banner/delete")
+    public ResponseEntity<?> deleteAppBanner(@RequestParam Long bannerNo) {
+        log.info("bannerNo::{}", bannerNo);
+
+        Map<String, Object> map = new HashMap<>();
+        try {
+            int result = apiService.deleteTbAppBanner(bannerNo);
+
+            if (result == 1) {
+                map.put("result", "200");
+                map.put("message", "삭제 되었습니다.");
+            } else {
+                map.put("result", "400");
+                map.put("message", "삭제에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     //렌트카 리스트
