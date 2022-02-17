@@ -134,11 +134,11 @@
                                                 <ul class="sort_list">
                                                     <li>
                                                         <div class="sort_body1" id="sort_body1">
-                                                            <img class="width-full" style="height: 100px" src="/api/img/fileLoad?filePath=${imgFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
+                                                            <img class="width-full" style="width: 192px; height: 54px" src="/api/img/fileLoad?filePath=${imgFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        * 권장 이미지 비율 : 984*876<br><br>
+                                                        * 권장 이미지 비율 : 32:9<br><br>
                                                         <div class="deliverymanFileName1"></div>
                                                         <br>
                                                         <div class="deliverymanFileSize1"></div>

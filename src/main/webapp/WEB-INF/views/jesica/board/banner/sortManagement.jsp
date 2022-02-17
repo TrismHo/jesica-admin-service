@@ -62,8 +62,8 @@
         padding: 5px;
     }
     #sortable tr td img {
-        width: 320px;
-        height: 90px;
+        width: 192px;
+        height: 54px;
     }
 </style>
 

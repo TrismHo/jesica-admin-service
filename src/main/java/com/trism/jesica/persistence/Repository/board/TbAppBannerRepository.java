@@ -12,7 +12,8 @@ import java.util.List;
 
 public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>, JpaSpecificationExecutor<TbAppBanner> {
 
-    List<TbAppBanner> findAllByViewYn(Integer viewYn);
+    List<TbAppBanner> findAllByViewYnAndDataStatus(Integer viewYn, Integer dataStatus);
+    List<TbAppBanner> findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(Integer viewYn, Integer dataStatus, Integer viewOrder);
 
     @Query(value = "select " +
             "tab.banner_no as bannerNo, " +

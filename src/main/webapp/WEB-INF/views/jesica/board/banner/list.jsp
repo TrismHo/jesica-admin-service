@@ -45,6 +45,7 @@
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
+                                    <input type="hidden" name="dataStatus" value="OK">
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                             <tr>
@@ -123,7 +124,7 @@
                     <thead>
                         <tr class="text-center">
                             <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                            <th><spring:message code="list.word.merchant/deliverygroupname" text="배너 이미지"/></th>
+                            <th width="30%"><spring:message code="list.word.merchant/deliverygroupname" text="배너 이미지"/></th>
                             <th><spring:message code="list.word.contents" text="서비스 타입"/></th>
                             <th><spring:message code="list.word.division" text="게시판 종류"/></th>
                             <th><spring:message code="list.word.registrationdate" text="등록일"/></th>
@@ -136,7 +137,7 @@
                             <tr class="detailRow" bannerNo="${item.bannerNo}">
                                 <td class="text-center">${status.index + 1}</td>
                                 <td class="text-center">
-                                    <img style="width: 100px; height: 40px" class="storeImg" src="/api/img/fileLoad?filePath=${item.bannerFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >
+                                    <img style="width: 192px; height: 54px" class="storeImg" src="/api/img/fileLoad?filePath=${item.bannerFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >
                                 </td>
                                 <td class="text-center">
                                     <c:if test="${item.serviceType == 0}">메인</c:if>
@@ -257,6 +258,7 @@
             dataType: "json",
             success: function (data) {
                 let bannerSortList = data.listBannerSort;
+                bannerSortList = bannerSortList.sort((a, b) => a.viewOrder - b.viewOrder);
                 $(".bannerSortList").html("");
                 if (bannerSortList.length == 0 || bannerSortList == null) {
                     document.getElementById("sortable").style.visibility = 'hidden';
@@ -305,7 +307,7 @@
                                 bannerSortList[i].viewOrder +
                             "</td>" +
                             "<td>" +
-                                bannerSortList[i].boardType +
+                                convertBoardType(bannerSortList[i].boardType) +
                             "</td>" +
                             "<td>" +
                                 bannerSortList[i].title +
@@ -321,8 +323,8 @@
         }
     }
 
-    function convertBoardType() {
-
+    function convertBoardType(boardType) {
+        return boardType == 1 ? '이벤트' : '공지';
     }
 </script>
 </body>

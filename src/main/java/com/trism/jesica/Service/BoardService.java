@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -181,8 +182,17 @@ public class BoardService {
             searchValue.put(key,(String)value);
             predicate = (Specification<TbAppBanner>) SearchUtil.searchAppBanner(searchValue);
         }
+        List<Sort.Order> orders = new ArrayList<>();
+
+        Sort.Order viewYn = new Sort.Order(Sort.Direction.DESC, "viewYn");
+        Sort.Order viewOrder = new Sort.Order(Sort.Direction.ASC, "viewOrder");
+        Sort.Order insertDateOrder = new Sort.Order(Sort.Direction.DESC, "insertDate");
+        orders.add(viewYn);
+        orders.add(viewOrder);
+        orders.add(insertDateOrder);
+
         return searchValue.isEmpty() ? null
-                : tbAppBannerRepository.findAll(predicate, Sort.by(Sort.Direction.ASC, "viewOrder", "insertDate"));
+                : tbAppBannerRepository.findAll(predicate, Sort.by(orders));
     }
 
     @Transactional(readOnly = true)

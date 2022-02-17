@@ -2943,9 +2943,8 @@ public class ApiService {
             if (imgFile != null && !imgFile.isEmpty()) {
                 String fileName = DateUtil.now_yyyymmdd().substring(6, 8) + "_" + DateUtil.now_hhmmss() + "_" + RandomStringUtils.random(4, 33, 125, true, true);
                 Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
-                        jesicaProperties.getBannerPath().getPath(),
-                        yyyy,
-                        mm);
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getBannerPath().getPath());
                 PrintWriter pw = null;
 
                 byte[] bytes = imgFile.getBytes();
@@ -2958,15 +2957,13 @@ public class ApiService {
                 int pos = imgFile.getOriginalFilename().lastIndexOf(".");
                 String ext = imgFile.getOriginalFilename().substring(pos + 1);
                 Path uploadFullPath = Paths.get(
+                        jesicaProperties.getBoardPath().getPath(),
                         jesicaProperties.getBannerPath().getPath(),
-                        yyyy,
-                        mm,
                         fileName + "." + ext);
 
                 Path fileNamePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBoardPath().getPath(),
                         jesicaProperties.getBannerPath().getPath(),
-                        yyyy,
-                        mm,
                         fileName + "." + ext);
 
                 os = new FileOutputStream(new File(fileNamePath.toFile().getPath()));
@@ -2978,14 +2975,22 @@ public class ApiService {
                 tbAppBannerData.setBannerFile(tbAppBannerData.getBannerFile());
             }
 
-            List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYn(1);
+            List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatus(1, 1);
 
-            if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
-                for (TbAppBanner tbAppBanner: tbAppBannerList) {
-
+            if (tbAppBannerData.getViewYn() == 1) {
+                if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
+                    int viewOrder = tbAppBannerList.get(0).getViewOrder();
+                    for (TbAppBanner tbAppBanner: tbAppBannerList) {
+                        if (tbAppBanner.getViewOrder() > viewOrder) {
+                            viewOrder = tbAppBanner.getViewOrder();
+                        }
+                    }
+                    tbAppBannerData.setViewOrder(viewOrder + 1);
+                } else {
+                    tbAppBannerData.setViewOrder(1);
                 }
             } else {
-                tbAppBannerData.setViewOrder(1);
+                tbAppBannerData.setViewOrder(null);
             }
             tbAppBannerRepository.save(tbAppBannerData.insertData());
             result = 1;
@@ -3047,6 +3052,27 @@ public class ApiService {
                 } else {
                     Optional<TbAppBanner> tbAppBanner = tbAppBannerRepository.findById(tbAppBannerData.getBannerNo());
                     tbAppBannerData.setBannerFile(tbAppBanner.get().getBannerFile());
+                }
+
+                if (tbAppBannerData.getViewYn() == 0) {
+                    int viewOrder = tbAppBannerData.getViewOrder();
+                    List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(1, 1, viewOrder);
+
+                    for(int i = 0; i < tbAppBannerList.size(); i++) {
+                        int index = viewOrder + i;
+                        tbAppBannerRepository.updateViewOrder(index, tbAppBannerList.get(i).getBannerNo());
+                    }
+                    tbAppBannerData.setViewOrder(null);
+                } else {
+                    List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatus(1, 1);
+                    int viewOrder = tbAppBannerList.get(0).getViewOrder();
+
+                    for (TbAppBanner tbAppBanner: tbAppBannerList) {
+                        if (tbAppBanner.getViewOrder() > viewOrder) {
+                            viewOrder = tbAppBanner.getViewOrder();
+                        }
+                    }
+                    tbAppBannerData.setViewOrder(viewOrder + 1);
                 }
 
                 tbAppBannerRepository.save(tbAppBannerData.updateData());

@@ -103,7 +103,7 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage" text="게시판 종류를 선택하세요."/>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <%--<tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="배너노출순서"/></td>
                                         <td>
                                             <input type="text" name="viewOrder" class="form-control viewOrder">
@@ -111,7 +111,7 @@
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage" text="배너 노출순서를 입력하세요."/>
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시글 선택"/></td>
                                         <td>
@@ -133,11 +133,11 @@
                                                 <ul class="sort_list">
                                                     <li>
                                                         <div class="sort_body1" id="sort_body1">
-                                                            <img class="width-full" style="height: 100px" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
+                                                            <img class="width-full" style="width: 192px; height: 54px" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        * 권장 이미지 비율 : 984*876<br><br>
+                                                        * 권장 이미지 비율 : 32:9<br><br>
                                                         <div class="deliverymanFileName1"></div>
                                                         <br>
                                                         <div class="deliverymanFileSize1"></div>
@@ -388,9 +388,7 @@
 
 
     function inputDataCheck(args) {
-       if (isNull(args.viewOrder)) {
-            return alert_focus("viewOrder", " 배너노출순서를 입력해주세요");
-        } else if (isNull(args.boardNo)) {
+        if (isNull(args.boardNo)) {
             return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
         } else if (isNull($("#imgFile")[0].files[0])) {
             return alert_focus("button_base", "배너이미지를 선택해주세요");
