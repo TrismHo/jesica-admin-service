@@ -1,15 +1,23 @@
 package com.trism.jesica.persistence.Entitiy.board;
 
-import com.trism.jesica.persistence.core.entity.BaseEntity;
-import com.trism.jesica.persistence.type.DataStatus;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "tb_app_banner")
-public class TbAppBanner extends BaseEntity {
+@Accessors(chain = true)
+@ToString(callSuper = true, exclude = {})
+@DynamicInsert
+@DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class TbAppBanner {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,13 +27,20 @@ public class TbAppBanner extends BaseEntity {
     @Id
     @Column(name = "banner_no", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bannerNo;
+    private Long bannerNo;
 
     /**
      * 데이터_상태 (0: 삭제, 1: 정상)
      */
     @Column(name = "data_status", nullable = false)
-    private DataStatus dataStatus = null;
+    private Integer dataStatus = 1;
+
+    /**
+     * 등록일
+     */
+    @Column(name = "insert_date", updatable = false, nullable = false)
+    @CreatedDate
+    private LocalDateTime insertDate;
 
     /**
      * 노출여부 (0: 숨김, 1: 노출)
@@ -69,4 +84,30 @@ public class TbAppBanner extends BaseEntity {
     @Column(name = "board_no")
     private Long boardNo;
 
+    @Builder
+    public TbAppBanner(
+            Long bannerNo,
+            String insertUserId,
+            Integer serviceType,
+            Integer viewYn,
+            Integer boardType,
+            Integer viewOrder,
+            Long boardNo,
+            String bannerFile,
+            Integer dataStatus
+    ) {
+        this.bannerNo = bannerNo;
+        this.insertUserId = insertUserId;
+        this.serviceType = serviceType;
+        this.viewYn = viewYn;
+        this.boardType = boardType;
+        this.viewOrder = viewOrder;
+        this.boardNo = boardNo;
+        this.bannerFile = bannerFile;
+        this.dataStatus = dataStatus;
+    }
+
+    public void updateDisabledTbAppBanner() {
+        this.dataStatus = 0;
+    }
 }

@@ -9,10 +9,7 @@ import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyArea;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaGeo;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
+import com.trism.jesica.persistence.Entitiy.board.*;
 import com.trism.jesica.persistence.Entitiy.business.*;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
@@ -28,10 +25,7 @@ import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaGeoRepository;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaRepository;
-import com.trism.jesica.persistence.Repository.board.TbNoticeCompanyRepository;
-import com.trism.jesica.persistence.Repository.board.TbNoticePlatformRepository;
-import com.trism.jesica.persistence.Repository.board.TbNoticeReleaseRepository;
-import com.trism.jesica.persistence.Repository.board.TbNoticeWorkerRepository;
+import com.trism.jesica.persistence.Repository.board.*;
 import com.trism.jesica.persistence.Repository.business.*;
 import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
@@ -230,6 +224,10 @@ public class ApiService {
 
     @Autowired
     private final TbCouponRepository tbCouponRepository;
+
+    private final BoardService boardService;
+
+    private final TbAppBannerRepository tbAppBannerRepository;
 
     @Transactional
     public int insertTbHead(TbHeadData tbHeadData, TbBusinessInfoData tbBusinessInfoData) {
@@ -2860,6 +2858,208 @@ public class ApiService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public List<TbAppBannerDTO> bannerSortList() {
+        List<TbAppBannerDTO> listEvent = tbAppBannerRepository.getSortEventList();
+        List<TbAppBannerDTO> listNotice = tbAppBannerRepository.getSortNoticeList();
+
+        listEvent.addAll(listNotice);
+
+        return listEvent;
+    }
+
+    @Transactional
+    public int updateViewOrder(String bannerNos) {
+        int result = 0;
+        String[] bannerNoArr = bannerNos.split(",");
+
+        for(int i = 0; i < bannerNoArr.length; i++) {
+            result = tbAppBannerRepository.updateViewOrder(i + 1, Long.parseLong(bannerNoArr[i]));
+
+            if (result < 1) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    @Transactional(readOnly = true)
+    public List<?> searchBoard(Integer boardType, Long boardNo, String keyword) {
+        Map<String,Object> searchValue = new HashMap<>();
+        if (ObjectUtils.isNotEmpty(boardNo)) {
+            if (boardType == 1) {
+                List<TbEvent> listEvent = new ArrayList<>();
+                TbEvent tbEvent = boardService.getTbEventDetail(boardNo);
+                listEvent.add(tbEvent);
+                return listEvent;
+            } else {
+                List<TbNoticePlatform> listNotice = new ArrayList<>();
+                TbNoticePlatform tbNoticePlatform = boardService.getTbNoticePlatFormUserDetail(boardNo);
+                listNotice.add(tbNoticePlatform);
+                return listNotice;
+            }
+        } else if (StringUtils.isNotEmpty(keyword)) {
+            searchValue.put("title", keyword);
+        }
+        //검색조건 이벤트일때
+        if (boardType == 1) {
+            List<TbEvent> result = boardService.tbEventSearch(searchValue);
+            return result;
+        } else if (boardType == 2) {
+            //검색 조건 공지일때(고객 대상 공지만 검색)
+            searchValue.put("groupType", 5);
+            List<TbNoticePlatform> result = boardService.tbNoticePlatFormSearch(searchValue);
+            return result;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Transactional
+    public int insertTbAppBanner(TbAppBannerData tbAppBannerData, MultipartFile imgFile) {
+
+        int result = 0;
+
+        try {
+            OutputStream os = null;
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy");
+            SimpleDateFormat format2 = new SimpleDateFormat("MM");
+            Date time = new Date();
+            String yyyy = format.format(time);
+            String mm = format2.format(time);
+
+            if (imgFile != null && !imgFile.isEmpty()) {
+                String fileName = DateUtil.now_yyyymmdd().substring(6, 8) + "_" + DateUtil.now_hhmmss() + "_" + RandomStringUtils.random(4, 33, 125, true, true);
+                Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBannerPath().getPath(),
+                        yyyy,
+                        mm);
+                PrintWriter pw = null;
+
+                byte[] bytes = imgFile.getBytes();
+
+                File uploadFile = new File(filePath.toFile().getPath());
+                if (!uploadFile.exists()) {
+                    uploadFile.mkdirs();
+                }
+
+                int pos = imgFile.getOriginalFilename().lastIndexOf(".");
+                String ext = imgFile.getOriginalFilename().substring(pos + 1);
+                Path uploadFullPath = Paths.get(
+                        jesicaProperties.getBannerPath().getPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + ext);
+
+                Path fileNamePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBannerPath().getPath(),
+                        yyyy,
+                        mm,
+                        fileName + "." + ext);
+
+                os = new FileOutputStream(new File(fileNamePath.toFile().getPath()));
+                os.write(bytes);
+                os.close();
+                tbAppBannerData.setBannerFile(uploadFullPath.toFile().getPath());
+                log.debug("uploadFullPath=''", uploadFullPath);
+            } else {
+                tbAppBannerData.setBannerFile(tbAppBannerData.getBannerFile());
+            }
+
+            List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYn(1);
+
+            if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
+                for (TbAppBanner tbAppBanner: tbAppBannerList) {
+
+                }
+            } else {
+                tbAppBannerData.setViewOrder(1);
+            }
+            tbAppBannerRepository.save(tbAppBannerData.insertData());
+            result = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public int updateTbAppBanner(TbAppBannerData tbAppBannerData, MultipartFile imgFile) {
+        int result = 0;
+
+        if (tbAppBannerRepository.existsById(tbAppBannerData.getBannerNo())) {
+            try {
+                OutputStream os = null;
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyy");
+                SimpleDateFormat format2 = new SimpleDateFormat("MM");
+                Date time = new Date();
+                String yyyy = format.format(time);
+                String mm = format2.format(time);
+
+                if (imgFile != null && !imgFile.isEmpty()) {
+                    String fileName = DateUtil.now_yyyymmdd().substring(6, 8) + "_" + DateUtil.now_hhmmss() + "_" + RandomStringUtils.random(4, 33, 125, true, true);
+                    Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                            jesicaProperties.getBannerPath().getPath(),
+                            yyyy,
+                            mm);
+                    PrintWriter pw = null;
+
+                    byte[] bytes = imgFile.getBytes();
+
+                    File uploadFile = new File(filePath.toFile().getPath());
+                    if (!uploadFile.exists()) {
+                        uploadFile.mkdirs();
+                    }
+
+                    int pos = imgFile.getOriginalFilename().lastIndexOf(".");
+                    String ext = imgFile.getOriginalFilename().substring(pos + 1);
+                    Path uploadFullPath = Paths.get(
+                            jesicaProperties.getBannerPath().getPath(),
+                            yyyy,
+                            mm,
+                            fileName + "." + ext);
+
+                    Path fileNamePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                            jesicaProperties.getBannerPath().getPath(),
+                            yyyy,
+                            mm,
+                            fileName + "." + ext);
+
+                    os = new FileOutputStream(new File(fileNamePath.toFile().getPath()));
+                    os.write(bytes);
+                    os.close();
+                    tbAppBannerData.setBannerFile(uploadFullPath.toFile().getPath());
+                    log.debug("uploadFullPath=''", uploadFullPath);
+                } else {
+                    Optional<TbAppBanner> tbAppBanner = tbAppBannerRepository.findById(tbAppBannerData.getBannerNo());
+                    tbAppBannerData.setBannerFile(tbAppBanner.get().getBannerFile());
+                }
+
+                tbAppBannerRepository.save(tbAppBannerData.updateData());
+                result = 1;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public int deleteTbAppBanner(Long bannerNo) {
+        Optional<TbAppBanner> tbAppBanner = tbAppBannerRepository.findById(bannerNo);
+
+        if (tbAppBanner.isPresent()) {
+            TbAppBanner appBanner = tbAppBanner.get();
+            appBanner.updateDisabledTbAppBanner();
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 
     @Transactional
     public int confirmOldPass(TbUserStaffData tbUserStaffData) {

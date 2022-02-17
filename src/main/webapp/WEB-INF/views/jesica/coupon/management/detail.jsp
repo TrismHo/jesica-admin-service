@@ -48,6 +48,12 @@
                         <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="발급 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#default-tab-3" data-toggle="tab" class="nav-link">
+                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="사용 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="사용 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                    </a>
+                </li>
             </ul>
             <div class="tab-content" style="padding: 15px 15px 5px 15px">
                 <div class="tab-pane fade active show" id="default-tab-1">
@@ -247,7 +253,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="default-tab-2">
-                    <form class="update_form" id="update_form3" method="post">
+                    <form class="update_form" id="update_form2" method="post">
                         <div class="table-responsive" style="overflow: hidden;">
 <%--                            <a href="#modal-message" class="btn btn-sm btn-primary m-b-10" data-toggle="modal"><spring:message code="list.detail.userregistration" text="사용자 등록"/></a>--%>
                             <table class="table table-condensed table-bordered">
@@ -268,11 +274,10 @@
                                                                 <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone" text="사용자 전화번호"/></th>
                                                                 <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="발급일자"/></th>
                                                                 <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="만료일자"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="사용일자"/></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody id="tbUserStaffBody">
-                                                                <c:forEach var="item" items="${tbCouponPublishes}"  varStatus="status">
+                                                                <c:forEach var="item" items="${unUsedUsers}" varStatus="status">
                                                                     <tr class="detailRow">
                                                                         <td class="text-center">${status.index + 1}</td>
                                                                         <td class="text-center">
@@ -302,6 +307,74 @@
                                                                         <td class="text-center">
                                                                             ${item.expireDate}
                                                                         </td>
+                                                                    </tr>
+                                                                </c:forEach>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="default-tab-3">
+                    <form class="update_form" id="update_form3" method="post">
+                        <div class="table-responsive" style="overflow: hidden;">
+                            <%--                            <a href="#modal-message" class="btn btn-sm btn-primary m-b-10" data-toggle="modal"><spring:message code="list.detail.userregistration" text="사용자 등록"/></a>--%>
+                            <table class="table table-condensed table-bordered">
+                                <tr class="border-0" >
+                                    <td colspan="2" class="p-0" style="border: 0;">
+                                        <div class="tab-pane fade active show" >
+                                            <form id="update_form3" style="width: 100%;" class="p-0">
+                                                <div class="panel panel-inverse">
+                                                    <div class="height-300 overflow-auto border">
+                                                        <input type="hidden"  class="viewOrder" value="">
+                                                        <table class="table table-bordered border-bottom text-center border-0">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="bg-light" style="width:5%"><spring:message code="list.detail.number" text="번호"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="아이디"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.username" text="사용자 이름"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone" text="사용자 전화번호"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="발급일자"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="만료일자"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="사용일자"/></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <c:forEach var="item" items="${usedUsers}"  varStatus="status">
+                                                                    <tr class="detailRow">
+                                                                        <td class="text-center">${status.index + 1}</td>
+                                                                        <td class="text-center">
+                                                                            <div style="overflow: hidden;
+                                                  margin: auto;
+                                                  text-overflow: ellipsis;
+                                                  white-space: nowrap;
+                                                  width: 250px;
+                                                  display: block;">${item.loginId}</div>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <div style="overflow: hidden;
+                                                  margin: auto;
+                                                  text-overflow: ellipsis;
+                                                  white-space: nowrap;
+                                                  width: 250px;
+                                                  display: block;"> ${item.custName}</div>
+                                                                        </td>
+                                                                        <td class="text-center" style="">
+                                                                            ${item.custTel}
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            ${item.insertDate}
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            ${item.expireDate}
+                                                                        </td>
                                                                         <td class="text-center">
                                                                             ${item.useDate}
                                                                         </td>
@@ -315,7 +388,6 @@
                                         </div>
                                     </td>
                                 </tr>
-                                </tbody>
                             </table>
                         </div>
                     </form>
@@ -461,15 +533,15 @@
                             contentType: "application/json",
                             dataType: "json",
                             success: function (data) {
-                            if (data.result == 200) {
-                                alert(updatesussmsg);
-                                location.href="${path}/coupon/management/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="
-                            } else {
-                                alert(editfailed);
-                                return;
+                                if (data.result == 200) {
+                                    alert(updatesussmsg);
+                                    location.href="${path}/coupon/management/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="
+                                } else {
+                                    alert(editfailed);
+                                    return;
+                                }
                             }
-                        }
-                    });
+                        });
                     }
                 });
             }

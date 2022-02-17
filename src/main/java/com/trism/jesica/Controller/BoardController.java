@@ -9,6 +9,7 @@ import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -245,9 +246,15 @@ public class BoardController {
                                           Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
         try {
-            if (!searchValue.isEmpty()) {
+            if (ObjectUtils.isNotEmpty(searchValue)) {
                 putSearchOption(session, searchValue);
-                List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
+            } else {
+                searchValue = getSearchOption(session);
+            }
+            List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
+            log.info("tbAppBannerList::[{}]", tbAppBannerList);
+
+            if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
                 List<TbAppBanner> tbAppBannerListNew = new ArrayList<>();
 
                 for (TbAppBanner tbAppBanner : tbAppBannerList) {
@@ -261,7 +268,6 @@ public class BoardController {
                 }
                 model.addAttribute("bannerList", tbAppBannerListNew);
             } else {
-                searchValue = getSearchOption(session);
                 model.addAttribute("bannerList", null);
             }
         } catch (Exception e) {
@@ -276,6 +282,27 @@ public class BoardController {
     public ModelAndView insertAppBanner() {
 
         return new ModelAndView("jesica/board/banner/insert");
+    }
+
+    @GetMapping("/banner/detail")
+    public ModelAndView detailAppBanner(@RequestParam("bannerNo") Long bannerNo, Model model) {
+        log.info("bannerNo:: ", bannerNo);
+
+        try {
+            TbAppBanner tbAppBanner = boardService.tbAppBannerDetail(bannerNo);
+
+            String url = "";
+            if (ObjectUtils.isNotEmpty(tbAppBanner.getBannerFile())) {
+                url = URLEncoder.encode(tbAppBanner.getBannerFile(), "UTF-8");
+            }
+
+            model.addAttribute("tbAppBanner", tbAppBanner);
+            model.addAttribute("imgFile", url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/board/banner/detail");
     }
 
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {

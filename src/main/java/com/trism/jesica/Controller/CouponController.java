@@ -63,8 +63,10 @@ public class CouponController {
             model.addAttribute("tbCoupon", tbCoupon);
 
             //쿠폰 개별정보
-            List<Map<String, Object>> tbCouponPublishes = (List<Map<String, Object>>)detailCouponMap.get("tbCouponPublishes");
-            model.addAttribute("tbCouponPublishes", tbCouponPublishes);
+            List<Map<String, Object>> unUsedUsers = (List<Map<String, Object>>)detailCouponMap.get("unUsedUsers");
+            List<Map<String, Object>> usedUsers = (List<Map<String, Object>>)detailCouponMap.get("usedUsers");
+            model.addAttribute("unUsedUsers", unUsedUsers);
+            model.addAttribute("usedUsers", usedUsers);
 
         } catch (Exception e) {
             e.printStackTrace();

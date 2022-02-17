@@ -10,6 +10,7 @@ import com.trism.jesica.persistence.Repository.board.*;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -51,7 +52,7 @@ public class BoardService {
         for (String key : searchValue.keySet()) {
             Object value = searchValue.get(key);
             log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
-            searchValue.put(key,(String)value);
+            searchValue.put(key, value);
             predicate = (Specification<TbNoticePlatform>) SearchUtil.searchNoticePlatform(searchValue);
         }
         return searchValue.isEmpty() ? null
@@ -69,6 +70,17 @@ public class BoardService {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
         return tbNoticePlatForm.get();
+    }
+
+    @Transactional(readOnly = true)
+    public TbNoticePlatform getTbNoticePlatFormUserDetail(Long noticeNo) {
+        TbNoticePlatform tbNoticePlatForm = tbNoticePlatformRepository.findByNoticeNoAndGroupType(noticeNo, 5);
+
+        if (ObjectUtils.isEmpty(tbNoticePlatForm)) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+
+        return tbNoticePlatForm;
     }
 
     @Transactional(readOnly = true)
@@ -122,7 +134,7 @@ public class BoardService {
         for (String key : searchValue.keySet()) {
             Object value = searchValue.get(key);
             log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
-            searchValue.put(key,(String)value);
+            searchValue.put(key, value);
             predicate = (Specification<TbEvent>) SearchUtil.searchEvent(searchValue);
         }
         return searchValue.isEmpty() ? tbEventRepository.findAll(Sort.by(Sort.Direction.DESC, "insertDate"))
@@ -170,9 +182,19 @@ public class BoardService {
             predicate = (Specification<TbAppBanner>) SearchUtil.searchAppBanner(searchValue);
         }
         return searchValue.isEmpty() ? null
-                : tbAppBannerRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+                : tbAppBannerRepository.findAll(predicate, Sort.by(Sort.Direction.ASC, "viewOrder", "insertDate"));
     }
 
+    @Transactional(readOnly = true)
+    public TbAppBanner tbAppBannerDetail(Long bannerNo) {
+        Optional<TbAppBanner> tbAppBanner = tbAppBannerRepository.findById(bannerNo);
+
+        if (tbAppBanner.isPresent() == false) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+
+        return tbAppBanner.get();
+    }
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getUpdateListLimit() {

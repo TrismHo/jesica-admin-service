@@ -17,6 +17,8 @@ public interface TbNoticePlatformRepository extends JpaRepository<TbNoticePlatfo
             "", nativeQuery = true)
     int deleteNotice(@Param("noticeNo") Long noticeNo);
 
+    TbNoticePlatform findByNoticeNoAndGroupType(Long noticeNo, Integer groupType);
+
     @Query(value = "select " +
             "notice_no as noticeNo " +
             ",title as title " +

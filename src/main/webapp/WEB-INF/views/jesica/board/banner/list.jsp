@@ -45,77 +45,74 @@
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
-                                    <div class="search-box">
-                                        <div class="inner-search-box p-5">
-                                            <div class="row">
-                                                <div class="col-xl-12 col-md-12 ">
-                                                    <form name="frmSearch" id="frmSearch">
-                                                        <table class="table table-condensed table-bordered">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="서비스 타입"/></strong></td>
-                                                                    <td>
-                                                                        <label>
-                                                                            <select class="form-control" name="serviceType">
-                                                                                <option value="" <c:if test="${searchValue.serviceType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                                                <option value="0" <c:if test="${searchValue.serviceType == '0'}">selected</c:if>><spring:message code="list.search.affiliated" text="메인"/></option>
-                                                                                <option value="2" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.distributor" text="탁송"/></option>
-                                                                                <option value="3" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집"/></option>
-                                                                                <option value="4" <c:if test="${searchValue.serviceType == '4'}">selected</c:if>><spring:message code="list.search.distributor" text="마트"/></option>
-                                                                                <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>
-                                                                            </select>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="게시판 종류"/></strong></td>
-                                                                    <td>
-                                                                        <label>
-                                                                            <select class="form-control" name="boardType">
-                                                                                <option value="" <c:if test="${searchValue.boardType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/><%--상품명--%></option>
-                                                                                <option value="1" <c:if test="${searchValue.boardType == '1'}">selected</c:if>><spring:message code="list.search.affiliated" text="이벤트"/><%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
-                                                                                <option value="2" <c:if test="${searchValue.boardType == '2'}">selected</c:if>><spring:message code="list.search.distributor" text="공지"/></option>
-                                                                            </select>
-                                                                        </label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="bg-light"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
-                                                                    <td>
-                                                                        <label>
-                                                                            <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                                                        </label>
-                                                                        <label>
-                                                                            <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                                        </label>
-                                                                    </td>
-                                                                    <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
-                                                                    <td>
-                                                                        <div class="row">
-                                                                        </div>
-                                                                        <label>
-                                                                            <select class="form-control dataStatus" name="dataStatus">
-                                                                                <option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                                                <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal" text="정상"/></option>
-                                                                                <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop" text="정지"/></option>
-                                                                            </select>
-                                                                        </label>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </form>
-                                                </div>
-                                                <div class="col-xl-12 col-md-12 m-t-10">
-                                                    <div class="">
-                                                        <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
-                                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="배너 등록"/></span>
-                                                        </button>
-                                                        <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/><%--검색--%> </button>
+                                    <table class="table table-condensed table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="서비스 타입"/></strong></td>
+                                                <td>
+                                                    <label>
+                                                        <select class="form-control" name="serviceType">
+                                                            <option value="" <c:if test="${searchValue.serviceType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
+                                                            <option value="0" <c:if test="${searchValue.serviceType == '0'}">selected</c:if>><spring:message code="list.search.affiliated" text="메인"/></option>
+                                                            <option value="2" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.distributor" text="탁송"/></option>
+                                                            <option value="3" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집"/></option>
+                                                            <option value="4" <c:if test="${searchValue.serviceType == '4'}">selected</c:if>><spring:message code="list.search.distributor" text="마트"/></option>
+                                                            <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>
+                                                        </select>
+                                                    </label>
+                                                </td>
+                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="게시판 종류"/></strong></td>
+                                                <td>
+                                                    <label>
+                                                        <select class="form-control" name="boardType">
+                                                            <option value="" <c:if test="${searchValue.boardType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/><%--상품명--%></option>
+                                                            <option value="1" <c:if test="${searchValue.boardType == '1'}">selected</c:if>><spring:message code="list.search.affiliated" text="이벤트"/><%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
+                                                            <option value="2" <c:if test="${searchValue.boardType == '2'}">selected</c:if>><spring:message code="list.search.distributor" text="공지"/></option>
+                                                        </select>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
+                                                <td colspan="3">
+                                                    <label>
+                                                        <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
+                                                    </label>
+                                                    <label>
+                                                        <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
+                                                    </label>
+                                                </td>
+                                                <%--<td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
+                                                <td>
+                                                    <div class="row">
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                    <label>
+                                                        <select class="form-control dataStatus" name="dataStatus">
+                                                            <option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
+                                                            <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal" text="정상"/></option>
+                                                            <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop" text="정지"/></option>
+                                                        </select>
+                                                    </label>
+                                                </td>--%>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </form>
+                            </div>
+                            <div class="col-xl-12 col-md-12 m-t-10">
+                                <div style="display: flex">
+                                    <span class="mr-auto">
+                                        <button type="button" class="insert_btn btn btn-primary m-b-10">
+                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="배너 등록"/></span>
+                                        </button>
+                                        <button type="button" data-toggle="modal" data-target="#sort_modal" class="update_orders_btn btn btn-primary m-b-10">
+                                            <span class="fa fa-list">&nbsp;<spring:message code="list.search.noticeregistration" text="순서 변경"/></span>
+                                        </button>
+                                    </span>
+                                    <span>
+                                        <button class="btn-box-r bgGray line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/><%--검색--%> </button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,40 +121,42 @@
             <div class="panel-body">
                 <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
                     <thead>
-                    <tr class="text-center">
-                        <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                        <th width="15%" class="text-center"><spring:message code="list.word.merchant/deliverygroupname" text="배너 이미지"/></th>
-                        <th width=""><spring:message code="list.word.contents" text="서비스 타입"/></th>
-                        <th width="10%"><spring:message code="list.word.division" text="게시판 종류"/></th>
-                        <th width="10%"><spring:message code="list.word.status" text="상태"/></th>
-                        <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
-                    </tr>
+                        <tr class="text-center">
+                            <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
+                            <th><spring:message code="list.word.merchant/deliverygroupname" text="배너 이미지"/></th>
+                            <th><spring:message code="list.word.contents" text="서비스 타입"/></th>
+                            <th><spring:message code="list.word.division" text="게시판 종류"/></th>
+                            <th><spring:message code="list.word.status" text="상태"/></th>
+                            <th><spring:message code="list.word.registrationdate" text="등록일"/></th>
+                            <th width="5%"><spring:message code="list.word.registrationdate" text="노출순서"/></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="item"  items="${tbAppBanner}"  varStatus="status">
-                        <tr class="detailRow" noticeNo="${item.bannerNo}">
-                            <td class="text-center">${status.index + 1}</td>
-                            <td class="text-left">
-                                <img style="width: 100px;" class="storeImg" src="/api/img/fileLoad?filePath=${item.bannerFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >
-                            </td>
-                            <td class="text-center">
-                                <c:if test="${item.serviceType == 0}">메인</c:if>
-                                <c:if test="${item.serviceType == 2}">탁송</c:if>
-                                <c:if test="${item.serviceType == 3}">맛집</c:if>
-                                <c:if test="${item.serviceType == 4}">마트</c:if>
-                                <c:if test="${item.serviceType == 5}">맛집예약</c:if>
-                            </td>
-                            <td class="text-center">
-                                <c:if test="${item.boardType == 1}">이벤트</c:if>
-                                <c:if test="${item.boardType == 2}">공지</c:if>
-                            </td>
-                            <td class="text-center" style="">
-                                <c:if test="${item.dataStatus == 0}">삭제</c:if>
-                                <c:if test="${item.dataStatus == 1}">정상</c:if>
-                            </td>
-                            <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
-                        </tr>
-                    </c:forEach>
+                        <c:forEach var="item"  items="${bannerList}"  varStatus="status">
+                            <tr class="detailRow" bannerNo="${item.bannerNo}">
+                                <td class="text-center">${status.index + 1}</td>
+                                <td class="text-center">
+                                    <img style="width: 100px; height: 40px" class="storeImg" src="/api/img/fileLoad?filePath=${item.bannerFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >
+                                </td>
+                                <td class="text-center">
+                                    <c:if test="${item.serviceType == 0}">메인</c:if>
+                                    <c:if test="${item.serviceType == 2}">탁송</c:if>
+                                    <c:if test="${item.serviceType == 3}">맛집</c:if>
+                                    <c:if test="${item.serviceType == 4}">마트</c:if>
+                                    <c:if test="${item.serviceType == 5}">맛집예약</c:if>
+                                </td>
+                                <td class="text-center">
+                                    <c:if test="${item.boardType == 1}">이벤트</c:if>
+                                    <c:if test="${item.boardType == 2}">공지</c:if>
+                                </td>
+                                <td class="text-center" style="">
+                                    <c:if test="${item.dataStatus == 0}">삭제</c:if>
+                                    <c:if test="${item.dataStatus == 1}">정상</c:if>
+                                </td>
+                                <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
+                                <td class="text-center">${item.viewOrder}</td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -172,9 +171,9 @@
 </div>
 
 <%--modal add start--%>
-<%--<div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="insert.jsp" %>
-</div>--%>
+<div class="modal fade" id="sort_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="sortManagement.jsp" %>
+</div>
 <%--modal add end--%>
 
 
@@ -187,6 +186,25 @@
 <%-- Custom JS End--%>
 <script>
     $(() => {
+        getBannerSort();
+
+        $(function() {
+            $("#sortable").sortable({
+                update: function() {
+                    let bannerNos = $(this).sortable("toArray");
+
+                    $.ajax({
+                        type: "GET",
+                        url: "${path}/api/banner/update/viewOrder?bannerNos=" + bannerNos,
+                        success: function() {
+                            alert("변경 완료");
+                            getBannerSort();
+                        }
+                    });
+                }
+            });
+        });
+
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
         });
@@ -231,6 +249,52 @@
         let bannerNo = $(this).attr("bannerNo");
         location.href = "${path}/board/banner/detail?bannerNo="+bannerNo;
     });
+
+    function getBannerSort() {
+        $.ajax({
+            type: "GET",
+            url: "${path}/api/banner/sortList",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                let bannerSortList = data.listBannerSort;
+                $(".bannerSortList").html("");
+                if (bannerSortList.length == 0 || bannerSortList == null) {
+                    $(".bannerSortList").append(
+                        "<li>" +
+                        "<label class=\"store_text\">\n" +
+                        "배너가 없습니다."+
+                        "</label>\n" +
+                        "<div class=\"float-right \"></div>\n" +
+                        "</li>"
+                    )
+                } else {
+                    drawingBannerSort(bannerSortList);
+                }
+            }
+        });
+    }
+
+    function drawingBannerSort(bannerSortList) {
+        for (let i = 0; i < bannerSortList.length; i++) {
+            let imgPath = '/api/img/fileLoad?filePath=' + bannerSortList[i].bannerFile;
+            let html = "<li id="+bannerSortList[i].bannerNo+">" +
+                            "<div>" +
+                                "<img src="+imgPath+" onerror=\"this.src='${path}/assets/img/logo/logo-noimg.gif'\" >" +
+                            "</div>" +
+                            "<div style=\"width: 250px; text-align: center\">" +
+                                bannerSortList[i].title +
+                            "</div>" +
+                            "<div style=\"width: 250px; text-align: center\">" +
+                                bannerSortList[i].insertDate +
+                            "</div>" +
+                            "<div style=\"width: 250px; text-align: center\">" +
+                                bannerSortList[i].viewOrder +
+                            "</div>" +
+                        "</li>"
+            $(".bannerSortList").append(html);
+        }
+    }
 </script>
 </body>
 </html>

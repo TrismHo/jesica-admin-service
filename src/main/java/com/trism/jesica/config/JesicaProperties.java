@@ -22,6 +22,7 @@ public class JesicaProperties {
 
     private BoardPath boardPath;
     private EventPath eventPath;
+    private BannerPath bannerPath;
     private ImgHttp imgHttp;
 
 
@@ -80,6 +81,10 @@ public class JesicaProperties {
     }
     @Data
     public static class EventPath {
+        private String path;
+    }
+    @Data
+    public static class BannerPath {
         private String path;
     }
     @Data

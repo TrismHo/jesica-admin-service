@@ -43,15 +43,18 @@ public class CouponService {
     @Transactional(readOnly = true)
     public Map<String, Object> getCouponDetail(Long couponNo) {
         Optional<TbCoupon> tbCoupon = tbCouponRepository.findById(couponNo);
-        List<Map<String, Object>> tbCouponPublishes = tbCouponPublishRepository.findByCouponNo(couponNo);
+        List<Map<String, Object>> unUsedUsers = tbCouponPublishRepository.findByCouponNoUnUsed(couponNo);
+        List<Map<String, Object>> usedUsers = tbCouponPublishRepository.findByCouponNoUsed(couponNo);
 
         if (tbCoupon.isPresent() == false) {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
 
+        log.info("unUsedUsers::", unUsedUsers);
         Map<String, Object> map = new HashMap();
         map.put("tbCoupon", tbCoupon.get());
-        map.put("tbCouponPublishes", tbCouponPublishes);
+        map.put("unUsedUsers", unUsedUsers);
+        map.put("usedUsers", usedUsers);
 
         return map;
     }

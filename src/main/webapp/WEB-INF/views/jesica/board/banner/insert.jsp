@@ -44,14 +44,42 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="노출서비스"/></td>
+                                        <td>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="serviceType" class="serviceType" value="0" style="margin-right: 5px" checked>
+                                                <span><spring:message code="list.detail.tothewhole" text="메인"/></span>
+                                            </label>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="serviceType" class="serviceType" value="2" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate" text="탁송"/></span>
+                                            </label>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="serviceType" class="serviceType" value="3" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate" text="맛집"/></span>
+                                            </label>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="serviceType" class="serviceType" value="4" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate" text="마트"/></span>
+                                            </label>
+                                            <label style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="serviceType" class="serviceType" value="5" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate" text="맛집예약"/></span>
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage" text="노출서비스를 선택하세요."/>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="노출여부"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="serviceType" value="2" style="margin-right: 5px" checked>
+                                                <input type="radio" name="viewYn" value="0" style="margin-right: 5px" checked>
                                                 <span><spring:message code="list.detail.tothewhole" text="숨김"/></span>
                                             </label>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="serviceType" value="3" style="margin-right: 5px">
+                                                <input type="radio" name="viewYn" value="1" style="margin-right: 5px">
                                                 <span><spring:message code="list.detail.affiliate" text="노출"/></span>
                                             </label>
                                         </td>
@@ -60,157 +88,42 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="노출서비스"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시판 종류"/></td>
                                         <td>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="validityType" class="serviceType" value="0" style="margin-right: 5px" checked>
-                                                <span><spring:message code="list.detail.tothewhole" text="메인"/></span>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="boardType" value="1" style="margin-right: 5px" checked>
+                                                <span><spring:message code="list.detail.tothewhole" text="이벤트"/></span>
                                             </label>
-                                            <label style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="validityType" class="serviceType" value="2" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="탁송"/></span>
-                                            </label>
-                                            <label style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="validityType" class="serviceType" value="3" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="맛집"/></span>
-                                            </label>
-                                            <label style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="validityType" class="serviceType" value="4" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="마트"/></span>
-                                            </label>
-                                            <label style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="validityType" class="serviceType" value="5" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="맛집예약"/></span>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="boardType" value="2" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate" text="공지"/></span>
                                             </label>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="유효기간 방식을 선택하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr id="expireDate-form">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="만료일자"/></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control expireDate background-white"  name="expireDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 만료일자를 선택하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr id="validDay-form" style="display: none">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="유효일수"/></td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control validDay background-white"  name="validDay">
-                                                <span>일 후 만료</span>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 유효일수를 작성하세요."/>
+                                            <spring:message code="list.description.entertherepresentativebasemessage" text="게시판 종류를 선택하세요."/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="발급가능 기간"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="배너노출순서"/></td>
                                         <td>
-                                            <label>
-                                                <input type="text" class="form-control publishStartDate background-white"  name="publishStartDate" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                            </label>
-                                            <label>
-                                                <input type="text" class="form-control publishEndDate background-white" name="publishEndDate" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                            </label>
+                                            <input type="text" name="viewOrder" class="form-control viewOrder">
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 발급가능기간을 선택하세요."/>
+                                            <spring:message code="list.description.entertherepresentativebasemessage" text="배너 노출순서를 입력하세요."/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="할인방식"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시글 선택"/></td>
                                         <td>
-                                            <div style="display: flex; align-items: center">
-                                            <span class="m-r-20">
-                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="dcRateType" class="dcRateType" value="1" style="margin-right: 5px" checked>
-                                                    <span><spring:message code="list.detail.tothewhole" text="할인금액"/></span>
-                                                </label>
-                                                <label style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="dcRateType" class="dcRateType" value="2" style="margin-right: 5px">
-                                                    <span><spring:message code="list.detail.affiliate" text="할인율"/></span>
-                                                </label>
-                                            </span>
-
-                                                <span>
-                                                <input type="text" class="form-control dcAmt text-right" name="dcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                                <span id="amt-form">원</span>
-                                                <span id="rate-form" style="display: none">%</span>
-                                            </span>
-                                            </div>
+                                            <input type="hidden" name="boardNo" class="selBoardNo">
+                                            <button type="button" data-toggle="modal" data-target="#board_search_modal" class="btn btn-primary board-search-btn">
+                                                <span class="fa fa-search m-r-3"></span>
+                                                <spring:message code="list.search.noticeregistration" text="게시글 검색"/>
+                                            </button>
+                                            <span id="board_title" class="m-l-10"></span>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 할인방식을 선택 후 값 또는 비율을 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.title" text="최대할인금액"/></td>
-                                        <td>
-                                            <input type="text" name="maxDcAmt" class="form-control maxDcAmt text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                            <span>원</span>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="할인 가능한 최대금액을 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.title" text="최소결제금액"/></td>
-                                        <td>
-                                            <input type="text" name="minPayAmt" class="form-control minPayAmt text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                            <span>원</span>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰 사용에 필요한 최소결제금액을 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.title" text="최대발급개수"/></td>
-                                        <td>
-                                            <input type="text" name="maxPublishCount" class="form-control maxPublishCount text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                            <span>개</span>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 최대발급 가능 개수를 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.title" text="동일고객 중복발급가능개수"/></td>
-                                        <td>
-                                            <input type="text" name="multiPublishCount" class="form-control multiPublishCount text-right"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                            <span>개</span>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="한 고객당 발급 가능한 최대 개수를 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.title" text="쿠폰코드"/></td>
-                                        <td><input type="text" name="couponCode" class="form-control width-full couponCode" maxlength="150"></td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰코드를 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.title" text="쿠폰명"/></td>
-                                        <td><input type="text" name="title" class="form-control width-full title" maxlength="150"></td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰명을 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
-                                        <td>
-                                            <textarea name="body" class="form-control width-full body" rows="10"></textarea>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰 설명을 입력하세요."/>
+                                            <spring:message code="list.description.entertherepresentativebasemessage" text="연결할 게시글을 검색 후 선택해주세요."/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -220,7 +133,7 @@
                                                 <ul class="sort_list">
                                                     <li>
                                                         <div class="sort_body1" id="sort_body1">
-                                                            <img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
+                                                            <img class="width-full" style="height: 100px" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
                                                         </div>
                                                     </li>
                                                     <li>
@@ -263,16 +176,9 @@
 
 </div>
 
-<div class="modal fade" id="head_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="../../search/headSearch.jsp" %>
+<div class="modal fade" id="board_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/boardSearch.jsp" %>
 </div>
-<div class="modal fade" id="branch_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="../../search/branchSearch.jsp" %>
-</div>
-<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="../../search/storeSearch.jsp" %>
-</div>
-
 
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="../../../common/include_common_js.jsp" %>
@@ -311,7 +217,7 @@
 <script>
     $(() => {
         //imgFile
-        $(document).on("change", "#imgFile", (e) => {
+        $(document).on("change", "#imgFile", function(e) {
             e.preventDefault();
 
             let result = chk_file_type(this);
@@ -334,12 +240,13 @@
             };
             reader.readAsDataURL(file);
             //파일명 삽입
+            let filename;
             if (window.FileReader) {
                 // modern browser
-                let filename = file.name;
+                filename = file.name;
             } else {
                 // old IE
-                let filename = $("#imgFile").val().split('/').pop().split('\\').pop();
+                filename = $("#imgFile").val().split('/').pop().split('\\').pop();
             } // 추출한 파일명 삽입
             $('.deliverymanFileName1').text("변경할 이미지 :" + filename);
             $('.deliverymanFileSize1').text("용량 :" + file.size + " Byte");
@@ -348,11 +255,27 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/board/banner/list";
+            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=2022-02-16&serviceType=&boardType=";
         });
 
-        $(document).on("click",".btn_add",function() {
-            let url = "${path}/api/deliveryman/insert/action";
+        $(document).on("click", "#selBoardNoBtn", function() {
+            console.log($(this).closest("li").find(".title").text())
+            $('#board_title').text('');
+            let boardType = $("input[type='radio'][name='boardType']:checked").val();
+            let boardTitle = $(this).closest("li").find(".board_text").text();
+            let boardNo;
+            if (boardType == 1) {
+                boardNo = $(this).attr('eventNo');
+            } else {
+                boardNo = $(this).attr('noticeNo');
+            }
+            $('.selBoardNo').val(boardNo);
+            $('#board_title').text(boardTitle);
+            $('.boardModalCloseBtn').click();
+        });
+
+        $(document).on("click", ".btn_add", function() {
+            let url = "${path}/api/banner/insert";
             let _forms = $('#insert_form');
             let req = convertFormToObj(_forms);
 
@@ -374,23 +297,19 @@
                 }).then(function (isConfirm) {
                     if (isConfirm) {
                         let formData = new FormData(document.getElementById('insert_form'));
-                        formData.append("tbUserWorkerData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                        formData.append("tbAppBannerData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
                         formData.append("imgFile", $("#imgFile")[0].files[0]);
-                        formData.append("imgFile2", $("#imgFile2")[0].files[0]);
                         $.ajax({
                             type: "POST",
                             url: url,
-                            data:  formData,
+                            data: formData,
                             dataType: "json",
                             processData: false,
                             contentType: false,
                             success: function (data) {
                                 if (data.result == 200) {
-                                    location.href = "${path}/driver/deliveryman/list";
-                                } else if (data.result == 500) {
-                                    alert(duplicatemsg);
-                                    return;
-                                }else {
+                                    location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=2022-02-16&serviceType=&boardType=";
+                                } else {
                                     alert(confirmfailmsg);
                                     return;
                                 }
@@ -400,17 +319,81 @@
                 });
             }
         });
+
+        //게시글 검색
+        $(".searchBoardBtn").on("click", () => {
+            let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters" text="검색된 게시글이 존재하지 않습니다."/>";
+            let apply = "<spring:message code="list.script.apply" text="적용"/>";
+            // let req = convertFormToObj($('form.board_search_form'));
+            let boardType = $("input[type='radio'][name='boardType']:checked").val();
+            let keyword = $('#keyword').val();
+
+            $.ajax({
+                type: "GET",
+                url: "${path}/api/board/search",
+                data: {
+                    boardType,
+                    keyword,
+                },
+                contentType: "application/json;",
+                dataType: "json",
+                success: (data) => {
+                    resetSearchResult();
+                    if(data.boardList.length == 0 || data.boardList == null) {
+                        $(".searchBoardList").append(
+                            " <li >" +
+                            "     <label class=\"b_text\">\n" +
+                            noregisteredaffiliateheadquarters+
+                            "     </label>\n" +
+                            "     <div class=\"float-right \"></div>\n" +
+                            " </li>"
+                        )
+                    } else {
+                        for (let i = 0 ; i < data.boardList.length ; i++) {
+                            let insertDate = convertInsertDate(data.boardList[i].insertDate);
+                            if (boardType == 1) {
+                                $(".searchBoardList").append(
+                                    " <li >" +
+                                    "     <label class=\"board_text\">\n" +
+                                    ""+data.boardList[i].title+""+
+                                    "<small style=\"color: green;\">["+ insertDate +"]</small>\n" +
+                                    "     </label>\n" +
+                                    "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selBoardNoBtn\" title="+data.boardList[i].title+" style=\"height: 25px; line-height: 0px;margin-top: -5px;\" eventNo="+data.boardList[i].eventNo+" value='"+apply+"'></div>\n" +
+                                    " </li>"
+                                )
+                            } else {
+                                $(".searchBoardList").append(
+                                    " <li >" +
+                                    "     <label class=\"head_text\">\n" +
+                                    ""+data.boardList[i].title+""+
+                                    "<small style=\"color: green;\">["+ insertDate +"]</small>\n" +
+                                    "     </label>\n" +
+                                    "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selBoardNoBtn\" title="+data.boardList[i].title+" style=\"height: 25px; line-height: 0px;margin-top: -5px;\" noticeNo="+data.boardList[i].noticeNo+" value='"+apply+"'></div>\n" +
+                                    " </li>"
+                                )
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        $('#keyword').on('keydown', (e) => {
+            if (e.keyCode === 13) {
+                $('.searchBoardBtn').click();
+            }
+        })
     });
 
 
 
     function inputDataCheck(args) {
-       if (isNull(args.name)) {
-            return alert_focus("name", " 드라이버 이름을 입력해주세요");
-        } else if (isNull(args.phone)) {
-            return alert_focus("phone", "드라이버 연락처를 입력해주세요");
-        } else if (isNull(args.storeNo)) {
-            return alert_focus("storeNo", "가맹점을 선택해주세요");
+       if (isNull(args.viewOrder)) {
+            return alert_focus("viewOrder", " 배너노출순서를 입력해주세요");
+        } else if (isNull(args.boardNo)) {
+            return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
+        } else if (isNull($("#imgFile")[0].files[0])) {
+            return alert_focus("button_base", "배너이미지를 선택해주세요");
         }
         return true;
     }
@@ -418,19 +401,29 @@
     function chk_file_type(obj) {
         let imgmsg = "<spring:message code="list.script.onlyimagefilescanbeuploaded" text="취소"/>";
         let file_kind = obj.value.lastIndexOf('.');
-        let file_name = obj.value.substring(file_kind+1,obj.length);
+        let file_name = obj.value.substring(file_kind + 1, obj.length);
         let file_type = file_name.toLowerCase();
-        let check_file_type = new Array();
-        check_file_type = ['jpg','gif','png','jpeg','bmp','tif'];
+        let check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp', 'tif'];
 
         if(check_file_type.indexOf(file_type) == -1) {
+
             alert(imgmsg);
+            let parent_Obj=obj.parentNode;
+            let node = parent_Obj.replaceChild(obj.cloneNode(true),obj);
 
             document.getElementById("imgFile").value = "";    //초기화를 위한 추가 코드
             document.getElementById("imgFile").select();        //초기화를 위한 추가 코드
             document.selection.clear();                          //일부 브라우저 미지원
             return false;
         }
+    }
+
+    function convertInsertDate(date) {
+        return date.replace("T", " ");
+    }
+
+    function resetSearchResult() {
+        $(".searchBoardList").html("");
     }
 </script>
 </body>

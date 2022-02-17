@@ -1,12 +1,15 @@
 package com.trism.jesica.persistence.Entitiy.board;
 
-import static com.querydsl.core.types.PathMetadataFactory.*;
-
-import com.querydsl.core.types.dsl.*;
-
-import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.DateTimePath;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
+
+import javax.annotation.Generated;
+
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
 
 /**
@@ -19,27 +22,21 @@ public class QTbAppBanner extends EntityPathBase<TbAppBanner> {
 
     public static final QTbAppBanner tbAppBanner = new QTbAppBanner("tbAppBanner");
 
-    public final com.trism.jesica.persistence.core.entity.QBaseEntity _super = new com.trism.jesica.persistence.core.entity.QBaseEntity(this);
-
     public final StringPath bannerFile = createString("bannerFile");
 
-    public final NumberPath<Integer> bannerNo = createNumber("bannerNo", Integer.class);
+    public final NumberPath<Long> bannerNo = createNumber("bannerNo", Long.class);
 
     public final NumberPath<Long> boardNo = createNumber("boardNo", Long.class);
 
     public final NumberPath<Integer> boardType = createNumber("boardType", Integer.class);
 
-    public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);
+    public final NumberPath<Integer> dataStatus = createNumber("dataStatus", Integer.class);
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> insertDate = _super.insertDate;
+    public final DateTimePath<java.time.LocalDateTime> insertDate = createDateTime("insertDate", java.time.LocalDateTime.class);
 
     public final StringPath insertUserId = createString("insertUserId");
 
     public final NumberPath<Integer> serviceType = createNumber("serviceType", Integer.class);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updateDate = _super.updateDate;
 
     public final NumberPath<Integer> viewOrder = createNumber("viewOrder", Integer.class);
 
