@@ -168,6 +168,9 @@ file:
     path: /images/board
   eventPath:
     path: /event
+  platformPath:
+    path: /platform
+
 
   messageFile:
     #test
