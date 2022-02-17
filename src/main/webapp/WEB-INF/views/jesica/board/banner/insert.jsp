@@ -255,7 +255,7 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=2022-02-16&serviceType=&boardType=";
+            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=&boardType=";
         });
 
         $(document).on("click", "#selBoardNoBtn", function() {
@@ -308,7 +308,7 @@
                             contentType: false,
                             success: function (data) {
                                 if (data.result == 200) {
-                                    location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=2022-02-16&serviceType=&boardType=";
+                                    location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=&boardType=";
                                 } else {
                                     alert(confirmfailmsg);
                                     return;
@@ -424,6 +424,14 @@
 
     function resetSearchResult() {
         $(".searchBoardList").html("");
+    }
+
+    function getToday() {
+        let dateObj = new Date();
+        let year = dateObj.getFullYear();
+        let month = dateObj.getMonth() + 1 < 10 ? '0' + (dateObj.getMonth() + 1) : (dateObj.getMonth() + 1);
+        let date = dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate();
+        return year + '-' + month + '-' + date;
     }
 </script>
 </body>

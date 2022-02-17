@@ -69,9 +69,9 @@
                         <i class="fas fa-lg fa-fw m-r-5 fa-info-circle"></i>
                         <span>배너정보</span>
                     </div>
-                    <ul id="sortable" class="bannerSortList">
-                    </ul>
-                    <small style="font-size: 13px;">* 드래그로 순서변경이 가능합니다.</small>
+                    <ul id="sortable" class="bannerSortList m-b-10"></ul>
+                    <div class="no-sort-item"></div>
+                    <small id="explain" style="font-size: 13px;">* 드래그로 순서변경이 가능합니다.</small>
                 </div>
             </form>
         </div>

@@ -23,8 +23,12 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
                 "from tb_app_banner as tab " +
                     "inner join tb_event te " +
                         "on tab.board_no = te.event_no " +
-                    "where tab.board_type = 1 and tab.data_status = 1 and te.data_status = 1 and tab.view_order > 0 " +
-            "order by tab.view_order asc" +
+                    "where tab.board_type = 1 and " +
+                          "tab.data_status = 1 and " +
+                          "tab.view_yn = 1 and " +
+                          "te.data_status = 1 and " +
+                          "tab.view_order > 0 " +
+                    "order by tab.view_order asc" +
             "", nativeQuery = true)
     List<TbAppBannerDTO> getSortEventList();
 
@@ -37,7 +41,12 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
                 "from tb_app_banner as tab " +
                     "inner join tb_notice_platform tnp " +
                         "on tab.board_no = tnp.notice_no " +
-                "where tab.board_type = 2 and tab.data_status = 1 and tnp.data_status = 1 and tnp.group_type = 5 and tab.view_order > 0 " +
+                    "where tab.board_type = 2 and " +
+                          "tab.data_status = 1 and " +
+                          "tab.view_yn = 1 and " +
+                          "tnp.data_status = 1 and " +
+                          "tnp.group_type = 5 and " +
+                          "tab.view_order > 0 " +
             "order by tab.view_order asc" +
             "", nativeQuery = true)
     List<TbAppBannerDTO> getSortNoticeList();

@@ -575,7 +575,7 @@
                         success: (data) => {
                             if (data.result == 200) {
                                 alert(deleted);
-                                location.href="${path}/coupon/management/list"
+                                location.href = "${path}/coupon/management/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title=";
                             } else {
                                 alert(deletionfailed);
                                 return;

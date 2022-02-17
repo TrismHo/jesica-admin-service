@@ -126,8 +126,8 @@
                             <th><spring:message code="list.word.merchant/deliverygroupname" text="배너 이미지"/></th>
                             <th><spring:message code="list.word.contents" text="서비스 타입"/></th>
                             <th><spring:message code="list.word.division" text="게시판 종류"/></th>
-                            <th><spring:message code="list.word.status" text="상태"/></th>
                             <th><spring:message code="list.word.registrationdate" text="등록일"/></th>
+                            <th><spring:message code="list.word.status" text="노출여부"/></th>
                             <th width="5%"><spring:message code="list.word.registrationdate" text="노출순서"/></th>
                         </tr>
                     </thead>
@@ -149,11 +149,11 @@
                                     <c:if test="${item.boardType == 1}">이벤트</c:if>
                                     <c:if test="${item.boardType == 2}">공지</c:if>
                                 </td>
-                                <td class="text-center" style="">
-                                    <c:if test="${item.dataStatus == 0}">삭제</c:if>
-                                    <c:if test="${item.dataStatus == 1}">정상</c:if>
-                                </td>
                                 <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
+                                <td class="text-center">
+                                    <c:if test="${item.viewYn == 0}">숨김</c:if>
+                                    <c:if test="${item.viewYn == 1}">노출</c:if>
+                                </td>
                                 <td class="text-center">${item.viewOrder}</td>
                             </tr>
                         </c:forEach>
@@ -260,12 +260,14 @@
                 let bannerSortList = data.listBannerSort;
                 $(".bannerSortList").html("");
                 if (bannerSortList.length == 0 || bannerSortList == null) {
-                    $(".bannerSortList").append(
+                    document.getElementById("sortable").style.visibility = 'hidden';
+                    document.getElementById("explain").style.visibility = 'hidden';
+                    $(".no-sort-item").append(
                         "<li>" +
-                        "<label class=\"store_text\">\n" +
-                        "배너가 없습니다."+
-                        "</label>\n" +
-                        "<div class=\"float-right \"></div>\n" +
+                            "<label class=\"store_text text-center w-100\">\n" +
+                                "노출되는 배너가 없습니다."+
+                            "</label>\n" +
+                            "<div class=\"float-right \"></div>\n" +
                         "</li>"
                     )
                 } else {
