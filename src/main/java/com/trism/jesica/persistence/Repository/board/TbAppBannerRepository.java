@@ -14,6 +14,7 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
 
     List<TbAppBanner> findAllByViewYnAndDataStatus(Integer viewYn, Integer dataStatus);
     List<TbAppBanner> findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(Integer viewYn, Integer dataStatus, Integer viewOrder);
+    List<TbAppBanner> findAllByViewYnAndDataStatusOrderByViewOrderAsc(Integer viewYn, Integer dataStatus);
 
     @Query(value = "select " +
             "tab.banner_no as bannerNo, " +

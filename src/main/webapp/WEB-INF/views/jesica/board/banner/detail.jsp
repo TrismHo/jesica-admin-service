@@ -413,7 +413,7 @@
                             } else {
                                 $(".searchBoardList").append(
                                     " <li >" +
-                                    "     <label class=\"head_text\">\n" +
+                                    "     <label class=\"board_text\">\n" +
                                     ""+data.boardList[i].title+""+
                                     "<small style=\"color: green;\">["+ insertDate +"]</small>\n" +
                                     "     </label>\n" +

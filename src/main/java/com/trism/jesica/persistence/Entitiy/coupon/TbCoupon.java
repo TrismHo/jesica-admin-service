@@ -55,6 +55,12 @@ public class TbCoupon extends BaseEntity {
     private Integer serviceType;
 
     /**
+     * 주문_구분_코드 (SYS_TYPE = OT)
+     */
+    @Column(name = "order_type_code")
+    private String orderTypeCode;
+
+    /**
      * 쿠폰_코드
      */
     @Column(name = "coupon_code")
@@ -150,6 +156,7 @@ public class TbCoupon extends BaseEntity {
             String insertUserId,
             String updateUserId,
             Integer serviceType,
+            String orderTypeCode,
             Integer validityType,
             LocalDateTime expireDate,
             Integer validDay,
@@ -169,6 +176,7 @@ public class TbCoupon extends BaseEntity {
         this.insertUserId = insertUserId;
         this.updateUserId = updateUserId;
         this.serviceType = serviceType;
+        this.orderTypeCode = orderTypeCode;
         this.validityType = validityType;
         this.expireDate = expireDate;
         this.validDay = validDay;

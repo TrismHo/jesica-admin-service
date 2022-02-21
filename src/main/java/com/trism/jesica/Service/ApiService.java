@@ -2833,7 +2833,7 @@ public class ApiService {
             result = 0;
         } else {
             //아이디가 없으면 insert
-            TbCoupon tbCoupon = tbCouponRepository.save(tbCouponData.insertData());
+            tbCouponRepository.save(tbCouponData.insertData());
             result = 1;
         }
 
@@ -2934,18 +2934,11 @@ public class ApiService {
         try {
             OutputStream os = null;
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy");
-            SimpleDateFormat format2 = new SimpleDateFormat("MM");
-            Date time = new Date();
-            String yyyy = format.format(time);
-            String mm = format2.format(time);
-
             if (imgFile != null && !imgFile.isEmpty()) {
                 String fileName = DateUtil.now_yyyymmdd().substring(6, 8) + "_" + DateUtil.now_hhmmss() + "_" + RandomStringUtils.random(4, 33, 125, true, true);
                 Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
                         jesicaProperties.getBoardPath().getPath(),
                         jesicaProperties.getBannerPath().getPath());
-                PrintWriter pw = null;
 
                 byte[] bytes = imgFile.getBytes();
 
@@ -3009,19 +3002,11 @@ public class ApiService {
             try {
                 OutputStream os = null;
 
-                SimpleDateFormat format = new SimpleDateFormat("yyyy");
-                SimpleDateFormat format2 = new SimpleDateFormat("MM");
-                Date time = new Date();
-                String yyyy = format.format(time);
-                String mm = format2.format(time);
-
                 if (imgFile != null && !imgFile.isEmpty()) {
                     String fileName = DateUtil.now_yyyymmdd().substring(6, 8) + "_" + DateUtil.now_hhmmss() + "_" + RandomStringUtils.random(4, 33, 125, true, true);
                     Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
-                            jesicaProperties.getBannerPath().getPath(),
-                            yyyy,
-                            mm);
-                    PrintWriter pw = null;
+                            jesicaProperties.getBoardPath().getPath(),
+                            jesicaProperties.getBannerPath().getPath());
 
                     byte[] bytes = imgFile.getBytes();
 
@@ -3033,15 +3018,13 @@ public class ApiService {
                     int pos = imgFile.getOriginalFilename().lastIndexOf(".");
                     String ext = imgFile.getOriginalFilename().substring(pos + 1);
                     Path uploadFullPath = Paths.get(
+                            jesicaProperties.getBoardPath().getPath(),
                             jesicaProperties.getBannerPath().getPath(),
-                            yyyy,
-                            mm,
                             fileName + "." + ext);
 
                     Path fileNamePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                            jesicaProperties.getBoardPath().getPath(),
                             jesicaProperties.getBannerPath().getPath(),
-                            yyyy,
-                            mm,
                             fileName + "." + ext);
 
                     os = new FileOutputStream(new File(fileNamePath.toFile().getPath()));
@@ -3064,15 +3047,24 @@ public class ApiService {
                     }
                     tbAppBannerData.setViewOrder(null);
                 } else {
-                    List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatus(1, 1);
-                    int viewOrder = tbAppBannerList.get(0).getViewOrder();
+                    Optional<TbAppBanner> appBanner = tbAppBannerRepository.findById(tbAppBannerData.getBannerNo());
 
-                    for (TbAppBanner tbAppBanner: tbAppBannerList) {
-                        if (tbAppBanner.getViewOrder() > viewOrder) {
-                            viewOrder = tbAppBanner.getViewOrder();
+                    if (appBanner.isPresent()) {
+                        int preViewYn = appBanner.get().getViewYn();
+
+                        //숨김에서 노출로 변경할 때 마지막 viewOrder 매핑
+                        if (preViewYn == 0) {
+                            List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatus(1, 1);
+                            int viewOrder = tbAppBannerList.get(0).getViewOrder();
+
+                            for (TbAppBanner tbAppBanner: tbAppBannerList) {
+                                if (tbAppBanner.getViewOrder() > viewOrder) {
+                                    viewOrder = tbAppBanner.getViewOrder();
+                                }
+                            }
+                            tbAppBannerData.setViewOrder(viewOrder + 1);
                         }
                     }
-                    tbAppBannerData.setViewOrder(viewOrder + 1);
                 }
 
                 tbAppBannerRepository.save(tbAppBannerData.updateData());
@@ -3092,6 +3084,15 @@ public class ApiService {
         if (tbAppBanner.isPresent()) {
             TbAppBanner appBanner = tbAppBanner.get();
             appBanner.updateDisabledTbAppBanner();
+
+            int viewOrder = appBanner.getViewOrder();
+            List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(1, 1, viewOrder);
+
+            for(int i = 0; i < tbAppBannerList.size(); i++) {
+                int index = viewOrder + i;
+                tbAppBannerRepository.updateViewOrder(index, tbAppBannerList.get(i).getBannerNo());
+            }
+
             return 1;
         } else {
             return 0;

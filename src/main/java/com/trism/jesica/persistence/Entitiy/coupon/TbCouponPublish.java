@@ -70,6 +70,12 @@ public class TbCouponPublish implements Serializable {
     private Integer serviceType;
 
     /**
+     * 주문_구분_코드 (SYS_TYPE = OT)
+     */
+    @Column(name = "order_type_code")
+    private String orderTypeCode;
+
+    /**
      * 할인 구분 (1: 할인금액, 2: 할인율)
      */
     @Column(name = "dc_rate_type", nullable = false)

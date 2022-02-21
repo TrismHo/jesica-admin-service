@@ -12,6 +12,7 @@ public class TbCouponData {
     private String insertUserId;
     private String updateUserId;
     private Integer serviceType;
+    private String orderTypeCode;
     private Integer validityType;
     private LocalDateTime expireDate;
     private Integer validDay;
@@ -32,6 +33,7 @@ public class TbCouponData {
         return TbCoupon.builder()
                 .insertUserId(insertUserId)
                 .serviceType(serviceType)
+                .orderTypeCode(orderTypeCode)
                 .validityType(validityType)
                 .expireDate(expireDate)
                 .validDay(validDay)
@@ -56,6 +58,7 @@ public class TbCouponData {
                 .insertUserId(insertUserId)
                 .updateUserId(updateUserId)
                 .serviceType(serviceType)
+                .orderTypeCode(orderTypeCode)
                 .validityType(validityType)
                 .expireDate(expireDate)
                 .validDay(validDay)

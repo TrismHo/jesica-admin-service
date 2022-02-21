@@ -68,24 +68,84 @@
                                     <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="서비스"/></td>
                                     <td>
                                         <label class="m-r-10 " style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="serviceType" value="2" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 2}">checked</c:if>>
+                                            <input type="radio" name="serviceType" class="serviceType" value="2" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 2}">checked</c:if>>
                                             <span><spring:message code="list.detail.tothewhole" text="탁송"/></span>
                                         </label>
                                         <label class="m-r-10 " style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="serviceType" value="3" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 3}">checked</c:if>>
+                                            <input type="radio" name="serviceType" class="serviceType" value="3" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 3}">checked</c:if>>
                                             <span><spring:message code="list.detail.affiliate" text="맛집"/></span>
                                         </label>
                                         <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="serviceType" value="4" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 4}">checked</c:if>>
+                                            <input type="radio" name="serviceType" class="serviceType" value="4" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 4}">checked</c:if>>
                                             <span><spring:message code="list.detail.deliveryman1" text="마트"/></span>
-                                        </label>
-                                        <label style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="serviceType" value="5" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 5}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="맛집예약"/></span>
                                         </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
                                         <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 서비스타입을 선택하세요."/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="서비스 주문 구분"/></td>
+                                    <%--<td>
+                                        <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="orderTypeCode" value="10" style="margin-right: 5px" checked>
+                                            <span><spring:message code="list.detail.tothewhole" text="렌터카 예약"/></span>
+                                        </label>
+                                    </td>--%>
+                                    <td>
+                                        <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="orderTypeCode" value="00" id="00" style="margin-right: 5px" checked>
+                                            <span><spring:message code="list.detail.tothewhole" text="전체"/></span>
+                                        </label>
+                                        <span id="2" style="display: none">
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="20" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.tothewhole" text="인수대행"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="21" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate" text="반납대행"/></span>
+                                            </label>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="22" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.deliveryman1" text="마이카탁송"/></span>
+                                            </label>
+                                            <label style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="23" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.deliveryman1" text="올레길탁송"/></span>
+                                            </label>
+                                        </span>
+                                        <span id="3" style="display: none">
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="30" id="30" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.tothewhole" text="맛집배달"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="31" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate" text="맛집포장"/></span>
+                                            </label>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="32" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.deliveryman1" text="맛집예약"/></span>
+                                            </label>
+                                            <label style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="33" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.deliveryman1" text="테이블주문"/></span>
+                                            </label>
+                                        </span>
+                                        <span id="4" style="display: none">
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="40" id="40" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.tothewhole" text="마트배달"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="orderTypeCode" value="41" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate" text="마트포장"/></span>
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td class="text-danger-darker" style="width:25%">
+                                        <spring:message code="list.description.entertherepresentativebasemessage" text="서비스 주문 구분을 선택하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -263,7 +323,7 @@
 
                                             <form id="update_form2" style="width: 100%;" class="p-0">
                                                 <div class="panel panel-inverse">
-                                                    <div class="height-300 overflow-auto border">
+                                                    <div class="border">
                                                         <input type="hidden"  class="viewOrder" value="">
                                                         <table class="table table-bordered border-bottom text-center border-0">
                                                             <thead>
@@ -332,7 +392,7 @@
                                         <div class="tab-pane fade active show" >
                                             <form id="update_form3" style="width: 100%;" class="p-0">
                                                 <div class="panel panel-inverse">
-                                                    <div class="height-300 overflow-auto border">
+                                                    <div class="border">
                                                         <input type="hidden"  class="viewOrder" value="">
                                                         <table class="table table-bordered border-bottom text-center border-0">
                                                             <thead>
@@ -428,6 +488,8 @@
     const date = new Date(); //각 날짜 초기 세팅 date객체
     const dateClasses = ['.expireDate', '.publishStartDate', '.publishEndDate'];
     const couponNo = document.getElementsByName('couponNo')[0].value;
+    const orderTypeCode = ${tbCoupon.orderTypeCode};
+    const originServiceType = ${tbCoupon.serviceType};
 
     $(() => {
         /**
@@ -453,6 +515,31 @@
             }
             date = date.substring(0, 11);
             $(dateClass).datepicker('setDate', date);
+        });
+
+        //서비스 타입 초기 세팅
+        let strServiceType = originServiceType + '';
+        document.getElementById(strServiceType).style.display = 'inline';
+        $('input:radio[name="orderTypeCode"]:radio[value=${tbCoupon.orderTypeCode}]').prop('checked', true);
+
+        //서비스 타입에 따른 form 노출 선택
+        $(".serviceType").change((e) => {
+            let value = e.target.value;
+            let serviceType = ['2', '3', '4'];
+
+            serviceType.forEach((type) => {
+                let el = document.getElementById(type);
+                if (type === value) {
+                    el.style.display = 'inline';
+                    if (value == originServiceType) {
+                        $('input:radio[name="orderTypeCode"]:radio[value=${tbCoupon.orderTypeCode}]').prop('checked', true);
+                    } else {
+                        $('input:radio[name="orderTypeCode"]:radio[value="00"]').prop('checked', true);
+                    }
+                } else {
+                    el.style.display = 'none';
+                }
+            });
         });
 
         //유효기간 타입에 따른 form(만료일자, 유효일수) 노출 선택

@@ -259,10 +259,10 @@
         });
 
         $(document).on("click", "#selBoardNoBtn", function() {
-            console.log($(this).closest("li").find(".title").text())
             $('#board_title').text('');
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
             let boardTitle = $(this).closest("li").find(".board_text").text();
+            console.log(boardTitle)
             let boardNo;
             if (boardType == 1) {
                 boardNo = $(this).attr('eventNo');
@@ -364,7 +364,7 @@
                             } else {
                                 $(".searchBoardList").append(
                                     " <li >" +
-                                    "     <label class=\"head_text\">\n" +
+                                    "     <label class=\"board_text\">\n" +
                                     ""+data.boardList[i].title+""+
                                     "<small style=\"color: green;\">["+ insertDate +"]</small>\n" +
                                     "     </label>\n" +
