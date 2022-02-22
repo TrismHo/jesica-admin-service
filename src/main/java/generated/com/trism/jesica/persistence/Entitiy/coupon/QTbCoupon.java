@@ -1,12 +1,15 @@
 package com.trism.jesica.persistence.Entitiy.coupon;
 
-import static com.querydsl.core.types.PathMetadataFactory.*;
-
-import com.querydsl.core.types.dsl.*;
-
-import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.DateTimePath;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
+
+import javax.annotation.Generated;
+
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
 
 /**
@@ -47,6 +50,8 @@ public class QTbCoupon extends EntityPathBase<TbCoupon> {
     public final NumberPath<Integer> minPayAmt = createNumber("minPayAmt", Integer.class);
 
     public final NumberPath<Integer> multiPublishCount = createNumber("multiPublishCount", Integer.class);
+
+    public final StringPath orderTypeCode = createString("orderTypeCode");
 
     public final NumberPath<Integer> publishCount = createNumber("publishCount", Integer.class);
 

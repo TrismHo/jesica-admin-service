@@ -172,7 +172,8 @@ public class WebConfig /*extends WebMvcConfigurationSupport*/ implements WebMvcC
                 .excludePathPatterns("/css/**", "/fonts/**", "/plugin/**", "/scripts/**")
                 .excludePathPatterns("/api/event/fileLoad/**")
                 .excludePathPatterns("/api/img/fileLoad/**")
-                .excludePathPatterns("/api/token/**");
+                .excludePathPatterns("/api/token/**")
+                .excludePathPatterns("/api/deliveryman/detail/vue");
 
     }
 

@@ -3,6 +3,7 @@ package com.trism.jesica.Service;
 import com.trism.jesica.Util.SearchUtil;
 import com.trism.jesica.dto.TbStoreCategoryFoDTO;
 import com.trism.jesica.dto.TbSystemCategoryDTO;
+import com.trism.jesica.dto.TbUserWorkerDTO;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.Entitiy.business.*;
@@ -31,6 +32,7 @@ import com.trism.jesica.persistence.Repository.system.TbSystemCodeRepository;
 import com.trism.jesica.persistence.Repository.worker.TbWorkerChargeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -260,6 +262,15 @@ public class WorkGroupService {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
         return tbUserWorker.get();
+    }
+
+    @Transactional(readOnly = true)
+    public TbUserWorkerDTO getTbUserWorkerDTO(Long workerNo) {
+        TbUserWorkerDTO tbUserWorker = tbUserWorkerRepository.findByWorkerNo(workerNo);
+        if(ObjectUtils.isEmpty(tbUserWorker)) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+        return tbUserWorker;
     }
 
     @Transactional(readOnly = true)

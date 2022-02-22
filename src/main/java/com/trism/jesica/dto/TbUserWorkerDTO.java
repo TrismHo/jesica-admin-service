@@ -1,204 +1,100 @@
 package com.trism.jesica.dto;
 
 
-import com.trism.jesica.persistence.type.DataStatus;
-
-import java.time.LocalDateTime;
-
 public interface TbUserWorkerDTO {
 
-     Long workerNo();
+    /**
+     * 드라이버 번호
+     */
+    Long getWorkerNo();
 
     /**
-     * 수정_일시
+     * 드라이버 프로필 사진
      */
-     LocalDateTime updateDate();
+    String getProfileFile();
 
     /**
-     * 데이터_상태 (0: 삭제, 1: 정상, 2: 정지)
+     * 드라이버 급여방식
      */
-     DataStatus dataStatus();
+    Integer getWorkerPayType();
 
     /**
-     * 출근_상태 (0: 퇴근, 1: 출근, 2: 휴식)
+     * 동시배차건수
      */
-     Integer attendStatus();
+    Integer getDlvyLimit();
 
     /**
-     * 정지_사유_코드 (SYS_TYPE = BL)
+     * 출근상태
      */
-     String blockTypeCode();
+    Integer getAttendStatus();
 
     /**
-     * 제휴본사_번호
+     * 사원번호
      */
-     Integer headNo();
+    String getRegistNum();
 
     /**
-     * 총판_번호
+     * 드라이버 이름
      */
-     Integer branchNo();
+    String getName();
 
     /**
-     * 가맹점_번호
+     * 드라이버 연락처
      */
-     Integer storeNo();
-    /**
-     * 사원_번호
-     */
-     String registNum();
+    String getPhone();
 
     /**
-     * 이름
+     * 드라이버 성별
      */
-     String name();
+    String getGender();
 
     /**
-     * 전화번호
+     * 입사일
      */
-     String phone();
+    String getJoinDate();
 
     /**
-     * 성별 (N: 알수없음, M: 남성, F: 여성)
+     * 퇴사일
      */
-     String gender();
+    String getRetireDate();
 
     /**
-     * 승인_일자 (YYYYMMDD)
+     * 거주지 주소
      */
-     String joinDate();
-
-    /**
-     * 퇴사_일자 (YYYYMMDD)
-     */
-     String retireDate();
-
-    /**
-     * 주소
-     */
-     String addr();
-
-    /**
-     * 예치금
-     */
-     Integer deposit();
-
-    /**
-     * 캐시
-     */
-     Integer cash();
-
-    /**
-     * 캐시_체납금
-     */
-     Integer cashDefault();
-
-    /**
-     * 가상계좌_구분_코드 (SYS_TYPE = CBT)
-     */
-     String cybankTypeCode();
-
-    /**
-     * 가상계좌_번호
-     */
-     String cybankAccount();
-
-    /**
-     * PIN_번호 (출금비밀번호)
-     */
-     String pinNum();
-
-    /**
-     * 인출은행_구분_코드 (SYS_TYPE = BT)
-     */
-     String bankTypeCode();
-
-    /**
-     * 인출은행_계좌번호
-     */
-     String bankAccount();
-
-    /**
-     * 인출은행_예금주
-     */
-     String bankOwner();
-
-    /**
-     * 프로필_사진
-     */
-     String profileFile();
-
-    /**
-     * 프로필_사진_썸네일
-     */
-     String profileFileSmall();
-
-    /**
-     * 면허증_사진
-     */
-     String licenseFile();
-
-    /**
-     * 면허_번호
-     */
-     String licenseNum();
-
-    /**
-     * 면허_종류 (SYS_TYPE = LC)
-     */
-     String licenseType();
-
-    /**
-     * 면허_갱신_마감일(YYYYMMDD)
-     */
-     String licenseExpDate();
-
-    /**
-     * 면허_만료_여부 (0: 유효, 1: 만료)
-     */
-     Integer licenseExpYn();
+    String getAddr();
 
     /**
      * 메모
      */
-     String memo();
+    String getMemo();
 
+    /**
+     * 로그인 ID
+     */
+    String getUserId();
 
-   /* public TbUserWorker insertData() {
-        return TbUserWorker.builder()
-                .workerNo(this.workerNo)
-                .updateDate(this.updateDate)
-                .dataStatus(this.dataStatus)
-                .attendStatus(this.attendStatus)
-                .blockTypeCode(this.blockTypeCode)
-                .headNo(this.headNo)
-                .storeNo(this.storeNo)
-                .branchNo(this.branchNo)
-                .name(this.name)
-                .phone(this.phone)
-                .gender(this.gender)
-                .registNum(this.registNum)
-                .joinDate(this.joinDate)
-                .retireDate(this.retireDate)
-                .addr(this.addr)
-                .deposit(this.deposit)
-                .cash(this.cash)
-                .cashDefault(this.cashDefault)
-                .cybankTypeCode(this.cybankTypeCode)
-                .cybankAccount(this.cybankAccount)
-                .pinNum(this.pinNum)
-                .bankTypeCode(this.bankTypeCode)
-                .bankAccount(this.bankAccount)
-                .bankOwner(this.bankOwner)
-                .profileFile(this.profileFile)
-                .profileFileSmall(profileFileSmall)
-                .licenseFile(licenseFile)
-                .licenseNum(licenseNum)
-                .licenseType(licenseType)
-                .licenseExpDate(licenseExpDate)
-                .licenseExpYn(licenseExpYn)
-                .memo(this.memo)
-                .build();
-    }*/
+    /**
+     * 면허증 사진
+     */
+    String getLicenseFile();
 
+    /**
+     * 면허번호
+     */
+    String getLicenseNum();
+
+    /**
+     * 면허종류
+     */
+    String getLicenseType();
+
+    /**
+     * 면허갱신마감일
+     */
+    String getLicenseExpDate();
+
+    /**
+     * 면허 만료여부
+     */
+    Integer getLicenseExpYn();
 }

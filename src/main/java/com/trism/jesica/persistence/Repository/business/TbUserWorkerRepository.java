@@ -2,6 +2,7 @@ package com.trism.jesica.persistence.Repository.business;
 
 /*import com.trism.manna.dto.TbHeadDTO;*/
 
+import com.trism.jesica.dto.TbUserWorkerDTO;
 import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -148,4 +149,31 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             "order by cnt desc "+
             "", nativeQuery = true)
     List<Map<String,Object>> getUserWorkerChart();
+
+    @Query(value = "select " +
+                        "tuw.worker_no as workerNo, " +
+                        "tuw.profile_file as profileFile, " +
+                        "tuw.worker_pay_type as workerPayType, " +
+                        "tuw.dlvy_limit as dlvyLimit, " +
+                        "tuw.attend_status as attendStatus, " +
+                        "tuw.regist_num as registNum, " +
+                        "tuw.name as name, " +
+                        "tuw.phone as phone, " +
+                        "tuw.gender as gender, " +
+                        "tuw.join_date as joinDate, " +
+                        "tuw.retire_date as retireDate, " +
+                        "tuw.addr as addr, " +
+                        "tuw.memo as memo, " +
+                        "tu.user_id as userId, " +
+                        "tuw.license_file as licenseFile, " +
+                        "tuw.license_num as licenseNum, " +
+                        "tuw.license_type as licenseType, " +
+                        "tuw.license_exp_date as licenseExpDate, " +
+                        "tuw.license_exp_yn as licenseExpYn " +
+                   "from tb_user_worker tuw " +
+                   "inner join tb_user tu " +
+                        "on tuw.worker_no = tu.user_no " +
+                   "where tuw.data_status = 1 and tuw.worker_no = :workerNo" +
+            "", nativeQuery = true)
+    TbUserWorkerDTO findByWorkerNo(@Param("workerNo") Long workerNo);
 }
