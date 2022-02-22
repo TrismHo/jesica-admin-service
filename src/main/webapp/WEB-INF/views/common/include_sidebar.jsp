@@ -141,20 +141,21 @@
 <%--                    <li class=<c:if test="${fn:contains(servletPath,'ratemgt') }">"active"</c:if> > <a href="${path}/merchant/ratemgt/list"><spring:message code="sidemenu.merchantsetting.ratemanagement" text="요금관리"/></a></li>--%>
                 </ul>
             </li>
-        <%--   <li class="has-sub <c:if test="${fn:contains(servletPath,'settlement') }">active</c:if>">
+           <li class="has-sub <c:if test="${fn:contains(servletPath,'settlement') }">active</c:if>">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-calculator"></i>
                     <span><spring:message code="sidemenu.settlement" text="정산"/></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=<c:if test="${fn:contains(servletPath,'salpurstate') }">"active"</c:if>><a href="${path}/settlement/salpurstate/list"><spring:message code="sidemenu.settlement.salespurchasestatement" text="매출매입계산서"/></a></li>
+                  <%--  <li class=<c:if test="${fn:contains(servletPath,'salpurstate') }">"active"</c:if>><a href="${path}/settlement/salpurstate/list"><spring:message code="sidemenu.settlement.salespurchasestatement" text="매출매입계산서"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'feesettleratio') }">"active"</c:if>><a href="${path}/settlement/feesettleratio/list"><spring:message code="sidemenu.settlement.feesettlementratio" text="수수료 정산비율"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'servicechargegrp') }">"active"</c:if>><a href="${path}/settlement/servicechargegrp/list"><spring:message code="sidemenu.settlement.orderplatformsettlementgroup" text="주문플랫폼정산 그룹"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'transsettle') }">"active"</c:if>><a href="${path}/settlement/transsettle/list"><spring:message code="sidemenu.settlement.transfersettlement" text="이동정산"/></a></li>
-                    <li class=<c:if test="${fn:contains(servletPath,'paymenthistory') }">"active"</c:if>><a href="${path}/settlement/paymenthistory/list"><spring:message code="sidemenu.settlement.paymenthistory" text="결제내역"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'paymenthistory') }">"active"</c:if>><a href="${path}/settlement/paymenthistory/list"><spring:message code="sidemenu.settlement.paymenthistory" text="결제내역"/></a></li>--%>
+                      <li class=<c:if test="${fn:contains(servletPath,'order/cashwithdraw/list') }">"active"</c:if>><a href="${path}/settlement/cashwithdraw/list?insertDate=insertDate&startDate=2020-01-01&endDate=${now}"><spring:message code="sidemenu.orderhistory.123" text="입출금 신청관리"/></a></li>
                 </ul>
-            </li>--%>
+            </li>
 <%--
             <li class="has-sub <c:if test="${fn:contains(servletPath,'settlement') }">active</c:if>">
                 <a href="javascript:;">
@@ -194,7 +195,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li class=<c:if test="${fn:contains(servletPath,'driver/deliveryman') }">"active"</c:if>><a href="${path}/driver/deliveryman/list??headNoText=&headNo=&headNoText=&branchNo=&branchNoText=&storeNo=&branchNoText=&storeNoText=&startDate=2020-01-01&endDate=${now}&dataStatus=OK&name="><spring:message code="sidemenu.workgroupmanagement.deiliveryman1" text="드라이버"/></a></li>
-                    <li class=<c:if test="${fn:contains(servletPath,'driver/apply') }">"active"</c:if>><a href="${path}/driver/apply/list?&authStatus=1"><spring:message code="list.detail.articleapprovalmanagement1" text="승인요청관리"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'driver/apply') }">"active"</c:if>><a href="${path}/driver/apply/list?insertDate=insertDate&startDate=2020-01-01&endDate=${now}&authStatus=1"><spring:message code="list.detail.articleapprovalmanagement1" text="승인요청관리"/></a></li>
                 </ul>
             </li>
         <%--    <li class="has-sub <c:if test="${fn:contains(servletPath,'system') }">active</c:if>">

@@ -4,6 +4,7 @@ import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.ImageUtil;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.Util.Secure.CipherAESUtils;
+import com.trism.jesica.config.Data;
 import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
@@ -12,6 +13,7 @@ import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaGeo;
 import com.trism.jesica.persistence.Entitiy.board.*;
 import com.trism.jesica.persistence.Entitiy.business.*;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
 import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.Entitiy.goods.*;
@@ -29,6 +31,7 @@ import com.trism.jesica.persistence.Repository.board.*;
 import com.trism.jesica.persistence.Repository.business.*;
 import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
+import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
 import com.trism.jesica.persistence.Repository.coupon.TbCouponRepository;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
 import com.trism.jesica.persistence.Repository.goods.*;
@@ -67,6 +70,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -228,6 +232,8 @@ public class ApiService {
     private final BoardService boardService;
 
     private final TbAppBannerRepository tbAppBannerRepository;
+
+    private final TbCashWithdrawRepository tbCashWithdrawRepository;
 
     @Transactional
     public int insertTbHead(TbHeadData tbHeadData, TbBusinessInfoData tbBusinessInfoData) {
@@ -795,6 +801,23 @@ public class ApiService {
         }
 
         return tbStoreOption.get();
+    }
+    @Transactional
+    public int cashWithdrawUpdate(TbCashWithdrawData tbCashWithdrawData , String withdrawDate) {
+        int result = 0;
+
+        if(tbCashWithdrawData.getWithdrawNo() != null){
+            //아이디가 있으면 update
+            LocalDateTime day = LocalDateTime.parse(withdrawDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            tbCashWithdrawData.setWithdrawDate(day);
+            TbCashWithdraw tbCashWithdraw = tbCashWithdrawRepository.save(tbCashWithdrawData.insertData());
+            result = 1;
+        } else {
+            //아이디가 없으면 insert
+            result = 0;
+        }
+
+        return result;
     }
 
 
@@ -2607,20 +2630,25 @@ public class ApiService {
                               HttpSession session
 
     ) {
-
         int result = 0;
         try {
             Integer resultCode = tbWorkerApplyAttachRepository.attachApproval(attachNo,applyAttachType,authStatus,updateUserId,rejcectMemo);
 
             //상태가 승인일경우 - 프로필/면허증 승인이 둘다 승인일경우 최종승인
             if(authStatus == 2) {
+                Data data= new Data();
+                String title = "";
+                String contents ="";
                 Optional<TbWorkerApply> optional = tbWorkerApplyRepository.findById(applyNo);
                 if(optional.isPresent()) {
                     TbWorkerApply tbWorkerApply = optional.get();
 
+
+
                     //현재 클릭한 상태에 대한 승인처리
                     //프로필승인
                     if(applyAttachType == 1) {
+
                         tbWorkerApply.setProfileAuthStatus(2);
             /*        tbWorkerApply.setName(param1);
                     tbWorkerApply.setResidentNum(param2);
@@ -2651,6 +2679,12 @@ public class ApiService {
                                     yyyy,
                                     mm,fileName);
                             tbWorkerApply.setProfileFileSmall(profileFileSmallPath.toString());
+                            //알림종류
+                            data.setType("3");
+                            //속성값
+                            data.setValue("2");
+                            title = "프로필이 승인되었습니다.";
+                            contents = "프로필이 승인되었습니다.";
                         } catch (IOException e){
                             System.out.println(e);
                         }
@@ -2658,8 +2692,6 @@ public class ApiService {
                     //계정발급은 0: 미발급으로 일괄처리됨. 추후 서버에서 1로 바꿈
                     tbWorkerApply.setSignYn(0);
 
-                    //푸시메시지 발송 추가
-                    restTemplateUtil.pushMessage("jsdr",pushKey,"프로필이 승인되었습니다.","프로필이 승인되었습니다.",session);
                     //면허증승인
                     if(applyAttachType == 2) {
                         tbWorkerApply.setLicenseAuthStatus(2);
@@ -2667,14 +2699,25 @@ public class ApiService {
                         tbWorkerApply.setLicenseType(param2);
                         tbWorkerApply.setLicenseExpDate(param3);
                         tbWorkerApply.setLicenseFile(uploadFile);
-                    //푸시메시지 발송 추가
-                    restTemplateUtil.pushMessage("jsdr",pushKey,"면허증이 승인되었습니다.","면허증이 승인되었습니다.",session);
+
+                        //알림종류
+                        data.setType("3");
+                        //속성값
+                        data.setValue("2");
+                        title = "면허증이 승인되었습니다.";
+                        contents = "면허증이 승인되었습니다.";
                     }
                     //경력확인서승인
                     if(applyAttachType == 3) {
                         tbWorkerApply.setCareerAuthStatus(2);
                         tbWorkerApply.setCareerFile(uploadFile);
-                    restTemplateUtil.pushMessage("jsdr",pushKey,"경력확인서가 승인되었습니다.","경력확인서가 승인되었습니다.",session);
+                        //알림종류
+                        data.setType("3");
+                        //속성값
+                        data.setValue("2");
+                        title = "경력확인서가 승인되었습니다.";
+                        contents = "경력확인서가 승인되었습니다.";
+
                     }
 
                     //프로필승인
@@ -2725,7 +2768,6 @@ public class ApiService {
 
                             /*tbWorkerApplyRepository.updateAuthStatus(applyNo, 2);*/
                             tbWorkerApply.setAuthStatus(2);
-                            restTemplateUtil.pushMessage("jsdr",pushKey,"최종승인되었습니다.","최종승인되었습니다.",session);
                         }
                         //1개만 승인인경우도 신청상태 - 12.28일 백대리님 요청
                     } else if(profile != 2 && license == 2 && applyAttachType != 3){
@@ -2735,12 +2777,16 @@ public class ApiService {
                         tbWorkerApply.setAuthStatus(1);
                     }
                     tbWorkerApplyRepository.save(tbWorkerApply);
+                    restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
 
                 } else {
                     throw new Exception();
                 }
                 //상태가 반려일경우 - 최종승인을 신청으로 변경 (경력확인서는 예외)
             } else if(authStatus == 3 && applyAttachType != 3) {
+                Data data= new Data();
+                String title = "";
+                String contents ="";
                 Optional<TbWorkerApply> optional = tbWorkerApplyRepository.findById(applyNo);
                 if (optional.isPresent()) {
 
@@ -2750,12 +2796,22 @@ public class ApiService {
                     //프로필반려
                     if (applyAttachType == 1) {
                         tbWorkerApply.setProfileAuthStatus(3);
-                        restTemplateUtil.pushMessage("jsdr",pushKey,"프로필이 반려되었습니다.","프로필이 반려되었습니다.",session);
+                        //알림종류
+                        data.setType("3");
+                        //속성값
+                        data.setValue("3");
+                        title = "프로필이 반려되었습니다.";
+                        contents = "프로필이 반려되었습니다.";
                     }
                     //면허증반려
                     if (applyAttachType == 2) {
                         tbWorkerApply.setLicenseAuthStatus(3);
-                        restTemplateUtil.pushMessage("jsdr",pushKey,"면허증이 반려되었습니다.","면허증이 반려되었습니다.",session);
+                        //알림종류
+                        data.setType("3");
+                        //속성값
+                        data.setValue("3");
+                        title = "면허증이 반려되었습니다.";
+                        contents = "면허증이 반려되었습니다.";
                     }
 
                     //반려인 경우 미등록
@@ -2766,15 +2822,26 @@ public class ApiService {
                         tbWorkerApply.setCareerAuthStatus(3);
                     }*/
                     tbWorkerApplyRepository.save(tbWorkerApply);
+                    restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
                 }
                 //경력확인서일경우
             } else if (authStatus == 3 && applyAttachType == 3){
+                Data data= new Data();
+                String title = "";
+                String contents ="";
                 Optional<TbWorkerApply> optional = tbWorkerApplyRepository.findById(applyNo);
                 TbWorkerApply tbWorkerApply = optional.get();
                 if (optional.isPresent()) {
                     tbWorkerApply.setCareerAuthStatus(3);
                     tbWorkerApplyRepository.save(tbWorkerApply);
-                    restTemplateUtil.pushMessage("jsdr",pushKey,"경력확인서가 반려되었습니다.","경력확인서가 반려되었습니다.",session);
+                    //알림종류
+                    data.setType("3");
+                    //속성값
+                    data.setValue("3");
+                    title = "경력확인서가 반려되었습니다.";
+                    contents = "경력확인서가 반려되었습니다.";
+
+                    restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
                 }
             }
             result = 1;

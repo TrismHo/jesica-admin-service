@@ -1,5 +1,6 @@
 package com.trism.jesica.Util;
 
+import com.trism.jesica.config.Data;
 import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.dto.TbRentalInfoData;
 import lombok.extern.slf4j.Slf4j;
@@ -176,12 +177,13 @@ public class RestTemplateUtil {
 	}
 
 	//푸시메시지
-	public ResponseEntity<Map> pushMessage(String appcode, String receiver, String title, String contents, HttpSession session ) {
+	public ResponseEntity<Map> pushMessage(String appcode, String receiver, String title, String contents, HttpSession session, Data data ) {
 		Map<String,Object> requestDto = new HashMap<>();
 		requestDto.put("appcode",appcode);
 		requestDto.put("receiver",receiver);
 		requestDto.put("title",title);
 		requestDto.put("contents",contents);
+		requestDto.put("data",data);
 
 		//현재시간
 		long time = System.currentTimeMillis();

@@ -41,6 +41,7 @@
 <link href="${path}/css/custom.css" rel="stylesheet" >
 <link href="${path}/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
 <link href="${path}/assets/plugins/flag-icon-css/css/flag-icon.min.css" rel="stylesheet" />
+<link href="${path}/assets/plugins/datetimepicker-master/jquery.datetimepicker.css" rel="stylesheet" />
 <!-- ================== END BASE CSS STYLE ================== -->
 <link href="${path}/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
 <link href="${path}/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />

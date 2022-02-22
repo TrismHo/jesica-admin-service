@@ -17,6 +17,7 @@
 <script src="${path}/assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
 <script src="${path}/assets/plugins/moment/min/moment.min.js"></script>
 <script src="${path}/assets/plugins/tag-it/js/tag-it.min.js"></script>
+<script src="${path}/assets/plugins/datetimepicker-master/jquery.datetimepicker.js"></script>
 <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <!--End bootstrap, jquery, datatables-->

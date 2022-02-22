@@ -7,6 +7,7 @@ import com.trism.jesica.dto.TbHeadDTO;
 import com.trism.jesica.dto.TbServiceChargeDTO;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
+import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
 import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayApproval;
@@ -17,6 +18,7 @@ import com.trism.jesica.persistence.Entitiy.service.TbServiceCharge;
 import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
 import com.trism.jesica.persistence.Repository.business.TbBranchRepository;
 import com.trism.jesica.persistence.Repository.business.TbHeadRepository;
+import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
 import com.trism.jesica.persistence.Repository.order.TbOrderAllRepository;
 import com.trism.jesica.persistence.Repository.order.TbOrderDayRepository;
 import com.trism.jesica.persistence.Repository.paymenthistory.TbPayApprovalRepository;
@@ -28,6 +30,7 @@ import com.trism.jesica.persistence.Repository.service.TbServiceChargeRepository
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +75,9 @@ public class SettlementService {
 
     @Autowired
     private final TbOrderAllRepository tbOrderAllRepository;
+
+    @Autowired
+    private final TbCashWithdrawRepository tbCashWithdrawRepository;
 
 
     @Transactional(readOnly = true)
@@ -152,6 +158,19 @@ public class SettlementService {
     }
 
     @Transactional(readOnly = true)
+    public List<TbCashWithdraw> tbCashWithdrawList(Map<String,Object> searchValue) {
+        Specification<TbCashWithdraw> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbCashWithdraw>) SearchUtil.searchCashWithdrawList(searchValue);
+        }
+        return searchValue.isEmpty() ? null
+                : tbCashWithdrawRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+    }
+
+    @Transactional(readOnly = true)
     public TbPayCert getCert(Long orderNo) {
         TbPayCert tbPayCert = tbPayCertRepository.findByOrderNo(orderNo);
         return tbPayCert;
@@ -184,6 +203,15 @@ public class SettlementService {
     public TbOrderAll getOrderAll(Long orderNo) {
         TbOrderAll tbOrderAll = tbOrderAllRepository.findByOrderNo(orderNo);
         return tbOrderAll;
+    }
+
+    @Transactional(readOnly = true)
+    public TbCashWithdraw getTbCashWithdraw(Long withdrawNo) {
+        Optional<TbCashWithdraw> tbCashWithdraw = tbCashWithdrawRepository.findById(withdrawNo);
+        if(tbCashWithdraw.isPresent() == false) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+        return tbCashWithdraw.get();
     }
 
 

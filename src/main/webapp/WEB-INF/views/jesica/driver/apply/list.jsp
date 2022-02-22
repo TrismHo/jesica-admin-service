@@ -546,7 +546,7 @@
            $(".careerAuthStatus").text(careerAuthStatus);
            $(".insertDate").text(insertDate);
            $(".authDate").text(authDate);
-           $(".pushKey").text(pushKey);
+           $(".pushKey").val(pushKey);
 
 
 
@@ -945,12 +945,10 @@
             type: "GET",
             url: "/api/driver/apply/list",
             data: {
-                searchValue : {
-                    startDate : $(".startDate").val(),
-                    endDate : $(".endDate").val(),
-                    name : $(".name").val(),
-                    authStatus : $(".selAuthStatus").val()
-                },
+                startDate : $(".startDate").val(),
+                endDate : $(".endDate").val(),
+                name : $(".name").val(),
+                authStatus : $(".selAuthStatus option:selected").val()
             },
             dataType: "json",
             success: function (data) {
@@ -1029,14 +1027,21 @@
                     if(workList[i].authDate == null ){
                         authDate = "";
                     } else {
-                        authDate = workList[i].authDate;
+                        authDate = workList[i].authDate.substring(0,10)+" "+workList[i].authDate.substring(11,19);
+                    }
+
+                    let insertDate = "";
+                    if(workList[i].insertDate == null ){
+                        insertDate = "";
+                    } else {
+                        insertDate = workList[i].insertDate.substring(0,10)+" "+workList[i].insertDate.substring(11,19);
                     }
 
                     let updateDate = "";
                     if(workList[i].updateDate == null ){
                         updateDate = "";
                     } else {
-                        updateDate = workList[i].updateDate;
+                        updateDate = workList[i].updateDate.substring(0,10)+" "+workList[i].updateDate.substring(11,19);
                     }
 
                     let img = "/api/img/fileLoad?filePath="+workList[i].profileFileSmall;
@@ -1075,7 +1080,7 @@
                         "<td class='text-center'>"+profileAuthStatus+"</td>"+
                         "<td class='text-center'>"+licenseAuthStatus+"</td>"+
                         "<td class='text-center'>"+careerAuthStatus+"</td>"+
-                        "<td class='text-center'>"+workList[i].insertDate+"</td>"+
+                        "<td class='text-center'>"+insertDate+"</td>"+
                         "<td class='text-center'>"+updateDate+"</td>"+
                         "<td class='text-center'>"+authDate+"</td>"+
                         "</tr>"

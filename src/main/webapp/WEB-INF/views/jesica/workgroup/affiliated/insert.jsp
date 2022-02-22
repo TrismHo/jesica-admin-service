@@ -413,7 +413,8 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 
-<%@include file="../../../common/include_number_only_js.jsp" %>
+    <%@include file="../../../common/include_kakao_map_js.jsp" %>
+    <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
     $(() => {
         $('.pin-div i').on('click',function(){
@@ -464,7 +465,7 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/workgroup/affiliated/list";
+            location.href = "${path}/workgroup/affiliated/list?brandNo=&startDate=2020-01-01&endDate=${now}&dataStatus=OK&headName=";
         });
         $(document).on("click",".btn_add",function() {
             let url = "${path}/api/affiliated/insert/action";

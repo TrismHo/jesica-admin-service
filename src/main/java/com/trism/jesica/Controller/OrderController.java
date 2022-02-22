@@ -205,7 +205,6 @@ public class OrderController {
 
             List<TbSystemCode> tbSystemCode = orderService.searchTbSystemCode("OP");
             model.addAttribute("tbSystemCode", tbSystemCode);
-            //List<TbOrderAllExtra> resultList =  orderService.tbOrderAllList(searchValue);
             model.addAttribute("consignmentList", resultList);
 
         } catch (Exception e) {
@@ -233,5 +232,6 @@ public class OrderController {
 
         return new ModelAndView("jesica/order/consignment/detail");
     }
+
 
 }

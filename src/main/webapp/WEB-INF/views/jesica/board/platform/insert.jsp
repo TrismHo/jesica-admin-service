@@ -158,7 +158,8 @@
             let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
             let registrationwassuccessful = "<spring:message code="list.script.registrationwassuccessful" text="등록에 성공하였습니다."/>";
-
+            var value = CKEDITOR.instances['body'].getData();
+            $(".body").val(value);
             let url = "${path}/api/board/platform/insert";
             let _forms = $('#insert_form');
             let req = convertFormToObj(_forms);

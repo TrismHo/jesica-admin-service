@@ -15,6 +15,7 @@ import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
 import com.trism.jesica.persistence.Repository.call.TbCallChargeRepository;
 import com.trism.jesica.persistence.Repository.call.TbCallHistoryRepository;
+import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
 import com.trism.jesica.persistence.Repository.order.*;
 import com.trism.jesica.persistence.Repository.system.TbSystemCodeRepository;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,9 @@ public class OrderService {
 
     @Autowired
     private final TbCallHistoryRepository tbCallHistoryRepository;
+
+    @Autowired
+    private final TbCashWithdrawRepository tbCashWithdrawRepository;
 
 
 

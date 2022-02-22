@@ -502,10 +502,10 @@
 					</div>
 
 					<div id="menu_wrap_left" class="bg_white">
-						<div style="padding: 5px; background-color: aliceblue;">
+						<%--<div style="padding: 5px; background-color: aliceblue;">
 							<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"></a>  위치정보없음,
 							<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse" data-bs-original-title="" title="" data-tooltip-init="true"></a>  정상
-						</div>
+						</div>--%>
 						<div class="option">
 							<ul id="placesList2"></ul>
 							<div id="pagination2"></div>
@@ -689,10 +689,13 @@
 		$("#menu_wrap2").css("display","none");
 		placesSearchCB();*/
 		$(".refresh").on("click",function(){
-
-			/*openFullScreenMode();*/
-			searchPlaces2();
+			reload();
+			searchPlaces();
+			/*searchPlaces2();*/
 			$("#menu_wrap2").css("display","none");
+			/*openFullScreenMode();*/
+/*			searchPlaces2();
+			$("#menu_wrap2").css("display","none");*/
 		});
 	});
 
@@ -1107,11 +1110,11 @@
 		var gender = "";
 		var workerPayType = "";
 
-		if(places.x == null){
+		/*if(places.x == null){
 			locationText = "<a href='javascript:;' class='btn btn-xs btn-icon btn-danger' data-toggle='panel-remove'></a>";
 		} else {
 			locationText = "<a href='javascript:;' class='btn btn-xs btn-icon btn-warning' data-toggle='panel-collapse' data-bs-original-title='' title='' data-tooltip-init='true'></a>"
-		}
+		}*/
 		if($("#waiting").hasClass("on")){
 			statusText = "대기중";
 

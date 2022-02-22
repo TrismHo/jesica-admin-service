@@ -20,7 +20,17 @@ $("input:text[numberOnly] , input:password[numberOnly]").on("focus", function() 
 }).on("keyup", function() {
     $(this).val($(this).val().replace(/[^0-9]/g,""));
 });
+$("input:text[numberCommaOnly]").on("keyup", function() {
+    $(this).val($(this).val().replace(/[^0-9.]/g,""));
+});
 
+$(".numberOnly").focus(function(){
+    /!*$(this).val('');*!/
+}).blur(function(){
+    if($(this).val() == ""){
+        $(this).val("0");
+    }
+});
 //모든 콤마 제거
 function removeCommas(x) {
     if(!x || x.length == 0) return "";
