@@ -8,6 +8,7 @@ import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.GetClientIp;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.JesicaProperties;
+import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
 import com.trism.jesica.persistence.Entitiy.block.TbDlvyArea;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
@@ -23,6 +24,7 @@ import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -81,6 +83,9 @@ public class ApiController {
     @Autowired
     private WorkerApplyService workerApplyService;
 
+    private final WorkGroupService workGroupService;
+
+    private final KeyGeneratorConfig keyGeneratorConfig;
 
     //테스트용 API
     @ResponseBody
@@ -230,7 +235,7 @@ public class ApiController {
             }
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -255,6 +260,34 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 */
+
+    /**
+     * 관제 - 배송원상세
+     */
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/deliveryman/detail/vue")
+    public ResponseEntity<?> detailDeliveryManForControl(@RequestParam("userNo") Long userNo) {
+        log.info("userNo:: ''", userNo);
+
+        Map map = new HashMap();
+
+        try {
+            TbUserWorkerDTO tbUserWorker = workGroupService.getTbUserWorkerDTO(userNo);
+            log.info("tbUserWorker::{}", tbUserWorker);
+
+            if (StringUtils.isNotEmpty(tbUserWorker.getProfileFile())) {
+                map.put("profileFile", URLEncoder.encode(tbUserWorker.getProfileFile(), "UTF-8"));
+            }
+            if (StringUtils.isNotEmpty(tbUserWorker.getLicenseFile())) {
+                map.put("licenseFile", URLEncoder.encode(tbUserWorker.getLicenseFile(), "UTF-8"));
+            }
+
+            map.put("userWorker", tbUserWorker);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
 
 
     //지역검색
