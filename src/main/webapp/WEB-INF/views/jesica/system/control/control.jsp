@@ -63,8 +63,8 @@
 		.map_wrap, .map_wrap * {margin:0;padding:0;font-size:12px;}
 		.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
 		.map_wrap {position:relative;width:100%;height:100%;}
-		#menu_wrap1,#menu_wrap2 { overflow-x: hidden;position:absolute;top:0;left:190px;bottom:50%;width:320px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
-		#menu_wrap_left {position:absolute;top:0;left:0;bottom:0;width:180px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
+		#menu_wrap1,#menu_wrap2 { overflow-x: hidden;position:absolute;top:0;left:220px;bottom:50%;width:320px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
+		#menu_wrap_left {position:absolute;top:0;left:0;bottom:0;width:200px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.6);z-index: 1;font-size:12px;border-radius: 1px;}
 		.bg_white {background:#fff;}
 		#menu_wrap1 hr,#menu_wrap2 hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 		#menu_wrap_left hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
@@ -76,7 +76,7 @@
 		#menu_wrap_left .option button {margin-left:5px;}
 		#placesList li, #placesList2 li  {list-style: none;}
 		#placesList .item, #placesList2 .item {border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 46px;}
-		#placesList2 .item span {display: block; width:70px; float: right;}
+		#placesList2 .item span {display: block; width:60px; float: right; right: 7px;position: absolute;}
 		#placesList .item h5, #placesList .item .info, #placesList2 .item h5, #placesList2 .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 		#placesList .item .info{padding:10px 0 10px 55px;}
 		#placesList .info .gray {color:#8a8a8a;}
@@ -547,6 +547,27 @@
 				waiting =[];
 				if(data.body.serviceStatus == "OK") {
 					for(var i = 0 ; i < list.length ; i++){
+						let lastText = "";
+						if(list[i].lastUpdateDtm != null){
+							let lastUpdateDtmText = list[i].lastUpdateDtm;
+							let nowDate = new Date();
+							let lastDate = new Date(lastUpdateDtmText);
+							let updateTimelate = nowDate.getTime() - lastDate.getTime();
+
+							let now = updateTimelate / 1000 / 60 / 60 / 24; // 2
+							lastText = Math.floor(Number(now)) + " 일 경과";
+							if(now < 1){
+								let nowTime = updateTimelate / 1000 / 60 / 60 // 2
+								lastText = Math.floor(Number(nowTime)) + " 시간 경과";
+								if(nowTime < 1) {
+									let nowSecond = updateTimelate / 1000 / 60 // 2
+									lastText = Math.floor(Number(nowSecond)) + " 분 경과";
+								}
+							}
+						} else {
+							lastText = " ";
+						}
+
 						let push = {
 							distance: "",
 							userNo: list[i].userNo,
@@ -556,7 +577,8 @@
 							x: list[i].lng,
 							y: list[i].lat,
 							gender: list[i].gender, // N 모름 ,M 남자, F 여자
-							workerPayType: list[i].workerPayType // 1 급여 ,2 수수료
+							workerPayType: list[i].workerPayType, // 1 급여 ,2 수수료
+							lastUpdateDtm : lastText //최근 업데이트일
 						}
 							if(gender == "all"){
 								if(workerPayType == "all"){
@@ -620,6 +642,26 @@
 				running =[];
 				if(data.body.serviceStatus == "OK") {
 					for(var i = 0 ; i < list.length ; i++){
+						let lastText = "";
+						if(list[i].lastUpdateDtm != null){
+							let lastUpdateDtmText = list[i].lastUpdateDtm;
+							let nowDate = new Date();
+							let lastDate = new Date(lastUpdateDtmText);
+							let updateTimelate = nowDate.getTime() - lastDate.getTime();
+
+							let now = updateTimelate / 1000 / 60 / 60 / 24; // 2
+							lastText = Math.floor(Number(now)) + " 일 경과";
+							if(now < 1){
+								let nowTime = updateTimelate / 1000 / 60 / 60 // 2
+								lastText = Math.floor(Number(nowTime)) + " 시간 경과";
+								if(nowTime < 1) {
+									let nowSecond = updateTimelate / 1000 / 60 // 2
+									lastText = Math.floor(Number(nowSecond)) + " 분 경과";
+								}
+							}
+						} else {
+							lastText = "";
+						}
 						let push = {
 							distance: "",
 							phone: list[i].phone,
@@ -628,7 +670,8 @@
 							x: list[i].lng,
 							y: list[i].lat,
 							gender: list[i].gender, // N 모름 ,M 남자, F 여자
-							workerPayType: list[i].workerPayType // 1 급여 ,2 수수료
+							workerPayType: list[i].workerPayType, // 1 급여 ,2 수수료
+							lastUpdateDtm : lastText //최근 업데이트일
 						}
 							if(gender == "all"){
 								if(workerPayType == "all"){
@@ -1080,7 +1123,7 @@
 
 		var content = '<div class="placeinfo">' +
 				'   <div class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +""+ place.name +""+'</div>';
-		content +='<span  title="' + place.address_name + '">('+workerPayType+' / ' + gender + ')</span>'
+		content +='<span  title="' + place.address_name + '">('+workerPayType+' / ' + gender + ' / ' + place.lastUpdateDtm + ')</span>'
 		content += '    <span title="' + place.road_address_name + '">' +"연락처 : "+ phoneNumber(place.phone) + '</span>' +
 				'  <span class="jibun" title="' + place.address_name + '">(소속 : ' + branchName + ')</span>';
 
@@ -1117,7 +1160,6 @@
 		}*/
 		if($("#waiting").hasClass("on")){
 			statusText = "대기중";
-
 		}else {
 			statusText = "운행중";
 		}
@@ -1135,14 +1177,20 @@
 		} else if (places.workerPayType == 2){
 			workerPayType = "수수료"
 		}
+		let lastUpdateDtm = "";
+		if(places.lastUpdateDtm != ""){
+			lastUpdateDtm = '<i class="fa fa-map-marked-alt fa-fw fa-lg"></i>&nbsp;&nbsp;' +
+					places.lastUpdateDtm +"";
+		}
 
 		var el = document.createElement('li'),
 				itemStr =
 						'<div class="info">' +
-						'   <h5 style="margin:5px;line-height: 19px;">  ' + places.name +
+						'   <div style="margin:5px;line-height: 19px;">  ' + places.name + " ("+gender +'/'+ workerPayType +')  '+ locationText+
 						'<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px " ' +
-						'style="background-color:#9dbad1;">'+statusText+'</span><br>' + phoneNumber(places.phone)  + '<br>'+ workerPayType +'&nbsp/&nbsp;'+gender +' '+ locationText
-						'</h5>';
+						'style="background-color:#9dbad1;">'+statusText+'</span><br><i class="fa fa-phone-square fa-fw fa-l"></i> &nbsp;' + phoneNumber(places.phone)  + '<br>' +
+						lastUpdateDtm+
+						'</div>';
 
 		itemStr += '' +
 				'</div>';
