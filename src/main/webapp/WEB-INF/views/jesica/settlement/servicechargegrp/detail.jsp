@@ -285,7 +285,7 @@
                 <!-- end tab-pane -->
                 <p class="text-right m-b-0">
                     <a href="javascript:;" class="btn btn-white list_btn"><spring:message code="list.detail.list" text="목록"/><%--목록--%></a>
-                    <a href="javascript:;" class="btn btn-primary update_btn"><spring:message code="list.detail.update" text="수정"/><%--수정--%></a>
+                  정
                 </p>
             </div>
             <!-- end tab-content -->

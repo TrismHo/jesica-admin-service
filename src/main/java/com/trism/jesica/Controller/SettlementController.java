@@ -1,9 +1,12 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.SettlementService;
+import com.trism.jesica.Util.Secure.CipherAESUtils;
+import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.TbBranchDTO;
 import com.trism.jesica.dto.TbHeadDTO;
 import com.trism.jesica.dto.TbServiceChargeDTO;
+import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
 import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayApproval;
@@ -12,6 +15,7 @@ import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayCardData;
 import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +36,9 @@ import java.util.Map;
 public class SettlementController {
 
     private final SettlementService settlementService;
+
+    @Autowired
+    private final KeyGeneratorConfig keyGeneratorConfig;
 
     @GetMapping("/salpurstate/list")
     public ModelAndView listMerchandise() {
@@ -163,6 +170,60 @@ public class SettlementController {
         return new ModelAndView("jesica/settlement/servicechargegrp/detail");
     }
 
+    /**
+     * 금일 주문내역
+     */
+    @GetMapping("/cashwithdraw/list")
+    public ModelAndView cashwithdraw(@RequestParam Map<String,Object> searchValue,
+                                     Model model, HttpSession session) {
+
+        log.info("@@searchValue {}",searchValue);
+        try {
+            if (!searchValue.isEmpty()) {
+                putSearchOption(session, searchValue);
+            } else {
+                searchValue = getSearchOption(session);
+            }
+
+            List<TbCashWithdraw> resultList = settlementService.tbCashWithdrawList(searchValue);
+            model.addAttribute("tbCashWithdraw", resultList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("/jesica/settlement/cashwithdraw/list");
+    }
+
+    @GetMapping("/cashwithdraw/detail")
+    public ModelAndView detailCashwithdraw(@RequestParam Long withdrawNo, Model model) {
+
+        try {
+            TbCashWithdraw tbCashWithdraw = settlementService.getTbCashWithdraw(withdrawNo);
+            CipherAESUtils cipherAESUtils = new CipherAESUtils(keyGeneratorConfig.generateSecretKeySpec(),keyGeneratorConfig.generateIvParameterSpec());
+
+            model.addAttribute("accountNo", cipherAESUtils.decryptAES(tbCashWithdraw.getAccountNo()));
+            model.addAttribute("accountName", cipherAESUtils.decryptAES(tbCashWithdraw.getAccountName()));
+
+            model.addAttribute("tbCashWithdraw",tbCashWithdraw);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    /*    TbServiceChargeGroup tbServiceChargeGroup = settlementService.tbServiceChargeGroupfindById(chargeNo);
+        List<TbServiceChargeDTO> tbServiceCharge =  settlementService.tbServiceChargefindById(chargeNo);
+
+        List<TbHeadDTO> tbHeadDTO = settlementService.getHeadAll();
+        List<TbBranchDTO> tbBranchDTO = settlementService.getBranchAll();
+        model.addAttribute("tbServiceCharge",tbServiceCharge);
+        model.addAttribute("tbServiceChargeGroup",tbServiceChargeGroup);
+        model.addAttribute("tbHead",tbHeadDTO);
+        model.addAttribute("tbBranch",tbBranchDTO);*/
+        return new ModelAndView("jesica/settlement/cashwithdraw/detail");
+    }
+
+
     @GetMapping("/transsettle/list")
     public ModelAndView listTransferSettlement() {
 
@@ -212,4 +273,6 @@ public class SettlementController {
 
         return searchValue;
     }
+
+
 }

@@ -665,7 +665,7 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/workgroup/distributor/list";
+            location.href = "${path}/workgroup/distributor/list?headNo=&startDate=2020-01-01&endDate=${now}&dataStatus=OK&branchName=";
         })
 
         $(document).on("click",".btn_add",function() {

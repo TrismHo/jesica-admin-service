@@ -77,7 +77,8 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
                                     <td>
-                                        <textarea name="body"  class="form-control width-full body" rows="10">${tbNoticePlatform.body}</textarea>
+                                        <textarea  id="body"  class="form-control width-full ckeditor" rows="20">${tbNoticePlatform.body}</textarea>
+                                        <textarea style="display: none;"  name="body"  class="body" rows="10">${tbNoticePlatform.body}</textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -223,10 +224,10 @@
 
         $(document).on("click",".btn_up",function() {
             let url = "${path}/api/board/platform/update";
+            var value = CKEDITOR.instances['body'].getData();
+            $(".body").val(value);
             let _forms = $('#update_form');
-            console.log(_forms)
             let req = convertFormToObj(_forms);
-
             let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정 하시겠습니까?"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
             let update = "<spring:message code="list.script.update" text="수정"/>";

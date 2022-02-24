@@ -261,8 +261,8 @@
                     if (isConfirm) {
                         var formData = new FormData(document.getElementById('insert_form'));
                         formData.append("tbEvent",  new Blob([JSON.stringify(req)], {type:"application/json"}));
-                        formData.append("startDate", JSON.stringify(startDate));
-                        formData.append("endDate",  JSON.stringify(endDate));
+                        formData.append("startDate", startDate);
+                        formData.append("endDate",  endDate);
                         /*formData.append("imgFileSmall",_forms.find('#imgFileSmall')[0]);*/
                         $.ajax({
                             type: "POST",

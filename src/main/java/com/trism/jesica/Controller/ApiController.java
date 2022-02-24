@@ -380,6 +380,26 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    //제휴본사 update
+    @ResponseBody
+    @PostMapping("/cashwithdraw/update/action")
+    public ResponseEntity<?> cashWithdrawUpdateAction(
+            @RequestPart(value="tbCashWithdraw" ,required = false) TbCashWithdrawData tbCashWithdrawData,
+            @RequestPart(value="withdrawDate" ,required = true) String withdrawDate
+    ) {
+        log.info("TbCashWithdraw::{}", tbCashWithdrawData);
+        int result =  apiService.cashWithdrawUpdate(tbCashWithdrawData,withdrawDate);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
 
     //총판 insert
     @ResponseBody
@@ -2020,9 +2040,9 @@ public class ApiController {
         endDate = endDate.trim()+ " 23:59:59";
 
         LocalDateTime startDateText = LocalDateTime.parse(startDate,
-        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime endDateText = LocalDateTime.parse(endDate,
-        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         tbEvent.setStartDate(startDateText);
         tbEvent.setEndDate(endDateText);

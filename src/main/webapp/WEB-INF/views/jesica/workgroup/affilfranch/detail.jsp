@@ -856,7 +856,7 @@
                                         <td class="bg-light"><spring:message code="list.detail.accountholder1" text="선결제 수수료"/></td>
                                         <td class="bg-light"><spring:message code="list.detail.accountholder1" text="주문건당"/></td>
                                         <td class="border-right-0" colspan="2">
-                                            <input type="text"  class="form-control width-200 pgCharge" name="pgCharge" value="${tbStoreCharge.pgCharge}" numberCommaOnly>
+                                            <input type="text"  class="form-control width-200 pgCharge" name="pgCharge" value="${tbStoreCharge.pgCharge}" numberOnlycomma>
                                             <select name="pgRateType" class="form-control width-60">
                                                 <option value="1"<c:if test="${tbStoreCharge.pgRateType == 1}" >selected</c:if>>원</option>
                                                 <option value="2"<c:if test="${tbStoreCharge.pgRateType == 2}" >selected</c:if>>%</option>

@@ -689,7 +689,7 @@ margin-top: 200px;
             }
         });
         $(".btn_list").click(function() {
-            location.href = "${path}/workgroup/affiliated/list";
+            location.href = "${path}/workgroup/affiliated/list?brandNo=&startDate=2020-01-01&endDate=${now}&dataStatus=OK&headName=";
         })
         /*$("#dataTable").dataTable({
             "paging" : true,
@@ -861,7 +861,18 @@ margin-top: 200px;
     function inputDataCheck(args) {
         let headmsg = "<spring:message code="list.script.enterthenameoftheaffiliatedheadoffice" text="제휴본사명을 입력해주세요"/>";
         let headphonemsg = "<spring:message code="list.script.representativenumberheadmsg" text="제휴본사 대표번호를 입력해주세요"/>";
+
+
         if (isNull(args.headName)) {
+            return alert_focus("branchName", headmsg);
+        } else if (isNull(args.authTel)) {
+            return alert_focus("authTel", "인증용 휴대전화를 입력해주세요");
+        } /*else if (isNull(args.branchTel)) {
+            return alert_focus("branchTel", "총판 대표번호를 입력해주세요");
+        } */else if (isNull(args.actualAddr)) {
+            return alert_focus("actualAddr", "실제주소를 입력해주세요");
+        }
+       /* if (isNull(args.headName)) {
             return alert_focus("headName", headmsg);
         } else if (isNull(args.authTel)) {
             return alert_focus("authTel", "인증용 휴대전화를 입력해주세요");
@@ -895,7 +906,7 @@ margin-top: 200px;
             return alert_focus("bizType", "업태를 입력해주세요");
         } else if (isNull(args.bizItem)) {
             return alert_focus("bizItem", "종목를 입력해주세요");
-        }
+        }*/
         return true;
     }
 
