@@ -14,7 +14,6 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
 
     List<TbAppBanner> findAllByViewYnAndDataStatus(Integer viewYn, Integer dataStatus);
     List<TbAppBanner> findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(Integer viewYn, Integer dataStatus, Integer viewOrder);
-    List<TbAppBanner> findAllByViewYnAndDataStatusOrderByViewOrderAsc(Integer viewYn, Integer dataStatus);
 
     @Query(value = "select " +
             "tab.banner_no as bannerNo, " +
@@ -22,7 +21,7 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
             "tab.banner_file as bannerFile, " +
             "tab.board_type as boardType, " +
             "te.title as title, " +
-            "te.insert_date as insertDate " +
+            "tab.insert_date as insertDate " +
                 "from tb_app_banner as tab " +
                     "inner join tb_event te " +
                         "on tab.board_no = te.event_no " +
@@ -42,7 +41,7 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
             "tab.banner_file as bannerFile, " +
             "tab.board_type as boardType, " +
             "tnp.title as title, " +
-            "tnp.insert_date as insertDate " +
+            "tab.insert_date as insertDate " +
                 "from tb_app_banner as tab " +
                     "inner join tb_notice_platform tnp " +
                         "on tab.board_no = tnp.notice_no " +
