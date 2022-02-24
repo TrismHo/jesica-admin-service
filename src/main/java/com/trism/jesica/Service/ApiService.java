@@ -2870,9 +2870,9 @@ public class ApiService {
     }
 
     @Transactional(readOnly = true)
-    public List<TbAppBannerDTO> bannerSortList() {
-        List<TbAppBannerDTO> listEvent = tbAppBannerRepository.getSortEventList();
-        List<TbAppBannerDTO> listNotice = tbAppBannerRepository.getSortNoticeList();
+    public List<TbAppBannerDTO> bannerSortList(int serviceType) {
+        List<TbAppBannerDTO> listEvent = tbAppBannerRepository.getSortEventList(serviceType);
+        List<TbAppBannerDTO> listNotice = tbAppBannerRepository.getSortNoticeList(serviceType);
 
         listEvent.addAll(listNotice);
 

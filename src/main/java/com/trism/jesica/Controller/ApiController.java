@@ -2678,11 +2678,11 @@ public class ApiController {
     //배너 순서변경 리스트
     @ResponseBody
     @GetMapping("/banner/sortList")
-    public ResponseEntity<?> getSortList() {
+    public ResponseEntity<?> getSortList(@RequestParam("serviceType") int serviceType) {
 
         Map<String, Object> map = new HashMap();
         try {
-            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList();
+            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList(serviceType);
 
             map.put("listBannerSort", listBannerSort);
         } catch (Exception e) {

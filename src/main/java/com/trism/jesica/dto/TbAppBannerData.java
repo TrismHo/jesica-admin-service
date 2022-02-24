@@ -34,7 +34,6 @@ public class TbAppBannerData {
 
         return TbAppBanner.builder()
                 .bannerNo(bannerNo)
-                .insertUserId(insertUserId)
                 .serviceType(serviceType)
                 .viewYn(viewYn)
                 .boardType(boardType)

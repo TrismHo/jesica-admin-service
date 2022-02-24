@@ -82,7 +82,7 @@
                 <div class="timeline-body">
                     <div class="timeline-header m-b-5">
                         <i class="fas fa-lg fa-fw m-r-5 fa-info-circle"></i>
-                        <span>배너정보</span>
+                        <span id="sortManageTitle"></span>
                     </div>
                     <table id="sortTable" class="sort-table" border="1">
                         <thead>

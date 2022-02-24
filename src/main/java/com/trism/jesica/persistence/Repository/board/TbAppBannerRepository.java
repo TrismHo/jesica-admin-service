@@ -30,10 +30,11 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
                           "tab.data_status = 1 and " +
                           "tab.view_yn = 1 and " +
                           "te.data_status = 1 and " +
-                          "tab.view_order > 0 " +
+                          "tab.view_order > 0 and " +
+                          "tab.service_type = :serviceType " +
                     "order by tab.view_order asc" +
             "", nativeQuery = true)
-    List<TbAppBannerDTO> getSortEventList();
+    List<TbAppBannerDTO> getSortEventList(@Param("serviceType") int serviceType);
 
     @Query(value = "select " +
             "tab.banner_no as bannerNo, " +
@@ -50,10 +51,11 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
                           "tab.view_yn = 1 and " +
                           "tnp.data_status = 1 and " +
                           "tnp.group_type = 5 and " +
-                          "tab.view_order > 0 " +
+                          "tab.view_order > 0 and " +
+                          "tab.service_type = :serviceType " +
             "order by tab.view_order asc" +
             "", nativeQuery = true)
-    List<TbAppBannerDTO> getSortNoticeList();
+    List<TbAppBannerDTO> getSortNoticeList(@Param("serviceType") int serviceType);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "update tb_app_banner set " +

@@ -62,10 +62,10 @@
                                                 <input type="radio" name="serviceType" class="serviceType" value="4" style="margin-right: 5px">
                                                 <span><spring:message code="list.detail.affiliate" text="마트"/></span>
                                             </label>
-                                            <label style="display: inline-flex; align-items: center">
+                                            <%--<label style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="serviceType" class="serviceType" value="5" style="margin-right: 5px">
                                                 <span><spring:message code="list.detail.affiliate" text="맛집예약"/></span>
-                                            </label>
+                                            </label>--%>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage" text="노출서비스를 선택하세요."/>
@@ -255,7 +255,7 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=&boardType=";
+            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=";
         });
 
         $(document).on("click", "#selBoardNoBtn", function() {
@@ -382,7 +382,11 @@
             if (e.keyCode === 13) {
                 $('.searchBoardBtn').click();
             }
-        })
+        });
+
+        $("#board_search_modal").on('show.bs.modal', () => {
+            $('.searchBoardBtn').click();
+        });
     });
 
 

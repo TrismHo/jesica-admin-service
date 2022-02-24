@@ -53,7 +53,6 @@
                                                 <td>
                                                     <label>
                                                         <select class="form-control" name="serviceType">
-                                                            <option value="" <c:if test="${searchValue.serviceType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
                                                             <option value="0" <c:if test="${searchValue.serviceType == '0'}">selected</c:if>><spring:message code="list.search.affiliated" text="메인"/></option>
                                                             <option value="2" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.distributor" text="탁송"/></option>
                                                             <option value="3" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집"/></option>
@@ -186,6 +185,8 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    const searchValueServiceType = ${searchValue.serviceType};
+
     $(() => {
         getBannerSort();
 
@@ -254,6 +255,9 @@
         $.ajax({
             type: "GET",
             url: "${path}/api/banner/sortList",
+            data: {
+                serviceType: searchValueServiceType,
+            },
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
@@ -300,6 +304,7 @@
     }*/
 
     function drawingBannerSort(bannerSortList) {
+        $("#sortManageTitle").append(convertServiceType(searchValueServiceType) + '배너목록')
         for (let i = 0; i < bannerSortList.length; i++) {
             let imgPath = '/api/img/fileLoad?filePath=' + bannerSortList[i].bannerFile;
             let html = "<tr id="+bannerSortList[i].bannerNo+">" +
@@ -325,6 +330,19 @@
 
     function convertBoardType(boardType) {
         return boardType == 1 ? '이벤트' : '공지';
+    }
+
+    function convertServiceType(serviceType) {
+        switch (serviceType) {
+            case 0:
+                return '메인';
+            case 2:
+                return '탁송';
+            case 3:
+                return '맛집';
+            case 4:
+                return '마트';
+        }
     }
 </script>
 </body>
