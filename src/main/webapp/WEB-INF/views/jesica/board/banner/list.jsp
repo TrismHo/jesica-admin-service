@@ -57,7 +57,7 @@
                                                             <option value="2" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.distributor" text="탁송"/></option>
                                                             <option value="3" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집"/></option>
                                                             <option value="4" <c:if test="${searchValue.serviceType == '4'}">selected</c:if>><spring:message code="list.search.distributor" text="마트"/></option>
-                                                            <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>
+<%--                                                            <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>--%>
                                                         </select>
                                                     </label>
                                                 </td>
@@ -318,7 +318,7 @@
                                 bannerSortList[i].title +
                             "</td>" +
                             "<td>" +
-                                bannerSortList[i].insertDate +
+                                convertInsertDate(bannerSortList[i].insertDate) +
                             "</td>" +
                             "<td>" +
                                 "<img src="+imgPath+" onerror=\"this.src='${path}/assets/img/logo/logo-noimg.gif'\" >" +
@@ -342,6 +342,13 @@
                 return '맛집';
             case 4:
                 return '마트';
+        }
+    }
+
+    function convertInsertDate(insertDate) {
+        console.log(insertDate)
+        if (insertDate) {
+            return insertDate.replaceAll('T', ' ');
         }
     }
 </script>
