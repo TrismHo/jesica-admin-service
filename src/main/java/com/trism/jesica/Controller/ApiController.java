@@ -2830,6 +2830,7 @@ public class ApiController {
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
     //렌트카 리스트
     @ResponseBody
     @PostMapping("/rentcar/getCarList")
@@ -2847,6 +2848,58 @@ public class ApiController {
         }
 
         return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //고객 비밀번호 변경
+    @ResponseBody
+    @PutMapping("/user/cust/updatePwd")
+    public ResponseEntity<?> updateCustPwd(@RequestBody TbCustData tbCustData) {
+
+        log.info("TbCustData::{}", tbCustData);
+        Map<String,Object> map = new HashMap<>();
+
+        try {
+            int result = apiService.updateCustPassword(tbCustData);
+
+            if (result == 1) {
+                if (result == 1) {
+                    map.put("result", "200");
+                    map.put("message", "변경 되었습니다.");
+                } else {
+                    map.put("result", "400");
+                    map.put("message", "변경에 실패하였습니다.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //고객 정보 변경
+    @ResponseBody
+    @PutMapping("/user/cust/update")
+    public ResponseEntity<?> updateCust(@RequestBody TbCustData tbCustData) {
+
+        log.info("tbCustData::{} ", tbCustData);
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            int result = apiService.updateCust(tbCustData);
+
+            if (result == 1) {
+                map.put("result", "200");
+                map.put("message", "변경 되었습니다.");
+            } else {
+                map.put("result", "400");
+                map.put("message", "변경에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     /**

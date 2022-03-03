@@ -33,6 +33,7 @@ import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
 import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
 import com.trism.jesica.persistence.Repository.coupon.TbCouponRepository;
+import com.trism.jesica.persistence.Repository.cust.TbCustRepository;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
 import com.trism.jesica.persistence.Repository.goods.*;
 import com.trism.jesica.persistence.Repository.safe.TbSafenMappingRepository;
@@ -234,6 +235,8 @@ public class ApiService {
     private final TbAppBannerRepository tbAppBannerRepository;
 
     private final TbCashWithdrawRepository tbCashWithdrawRepository;
+
+    private final TbCustRepository tbCustRepository;
 
     @Transactional
     public int insertTbHead(TbHeadData tbHeadData, TbBusinessInfoData tbBusinessInfoData) {
@@ -3164,6 +3167,47 @@ public class ApiService {
         } else {
             return 0;
         }
+    }
+
+    @Transactional
+    public int updateCustPassword(TbCustData tbCustData) {
+
+        int result = 0;
+
+        try {
+            if (tbCustData.getCustNo() != null) {
+                String pass = tbCustData.getLoginPwd();
+                if (StringUtils.isNotEmpty(pass)) {
+                    String encodedPassword = new BCryptPasswordEncoder().encode(pass);
+                    tbCustData.setLoginPwd(encodedPassword);
+                    result = tbCustRepository.updateCustPassword(tbCustData.getCustNo(),tbCustData.getLoginPwd());
+                } else {
+                    result = 0;
+                }
+            } else {
+                result = 0;
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Transactional
+    public int updateCust(TbCustData tbCustData) {
+        int result = 0;
+
+        if (tbCustData.getCustNo() != null) {
+            //아이디가 있으면 update
+            tbCustRepository.updateCust(tbCustData.getCustNo(), tbCustData.getCustName(), tbCustData.getCustTel(), tbCustData.getDataStatus(), tbCustData.getGender(), tbCustData.getSmsYn(), tbCustData.getPushOrderYn(), tbCustData.getPushNoticeYn(), tbCustData.getPushMarketingYn());
+            result = 1;
+        } else {
+            //아이디가 없으면 insert
+            result = 0;
+        }
+
+        return result;
     }
 
     @Transactional

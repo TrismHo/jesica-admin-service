@@ -264,7 +264,6 @@
     }
 
     function inputDataCheck(args) {
-        console.log(args)
         if (isNull(args.userId)) {
             return alert_focus("userId", "아이디를 입력해주세요.");
         } else if (isNull(args.userOldPwd)) {

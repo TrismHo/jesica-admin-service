@@ -112,25 +112,31 @@ public class TbCust extends BaseEntity {
      * SMS_수신여부 (0:거부, 1:동의)
      */
     @Column(name = "sms_yn")
-    private Boolean smsYn;
+    private Integer smsYn;
 
     /**
      * PUSH_주문_수신여부(0: 거부, 1:동의)
      */
     @Column(name = "push_order_yn")
-    private Boolean pushOrderYn;
+    private Integer pushOrderYn;
 
     /**
      * PUSH_공지이벤트_수신여부(0: 거부, 1: 동의)
      */
     @Column(name = "push_notice_yn")
-    private Boolean pushNoticeYn;
+    private Integer pushNoticeYn;
 
     /**
      * PUSH_마케팅_수신여부(0: 거부, 1: 동의)
      */
     @Column(name = "push_marketing_yn")
-    private Boolean pushMarketingYn;
+    private Integer pushMarketingYn;
+
+    /**
+     * 회원여부(0: 비회원, 1: 회원)
+     */
+    @Column(name = "is_member")
+    private Integer isMember;
 
     /**
      * 고객 단골매장 양방향
@@ -158,9 +164,9 @@ public class TbCust extends BaseEntity {
     private void init() {
         this.dataStatus = DataStatus.OK;
         this.gender = GenderType.N;
-        this.smsYn = true;
-        this.pushOrderYn = true;
-        this.pushNoticeYn = true;
-        this.pushMarketingYn = true;
+        this.smsYn = 0;
+        this.pushOrderYn = 0;
+        this.pushNoticeYn = 0;
+        this.pushMarketingYn = 0;
     }
 }

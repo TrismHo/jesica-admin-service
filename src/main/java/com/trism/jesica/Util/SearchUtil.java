@@ -234,6 +234,12 @@ public class SearchUtil {
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
+    public static Specification<?> searchCustList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchCustList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
 
     private static List<Predicate> getPredicateWithKeyword(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
@@ -981,12 +987,8 @@ public class SearchUtil {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
                 if (key.equals("dataStatus")) {
-                    if (ObjectUtils.isEmpty(value)) {
-                        predicate.add(builder.notEqual(root.get(key), 0));
-                    } else if (value.equals("OK")) {
+                    if (ObjectUtils.isEmpty(value) || value.equals("OK")) {
                         predicate.add(builder.equal(root.get(key), 1));
-                    } else if (value.equals("STOP")) {
-                        predicate.add(builder.equal(root.get(key), 2));
                     }
                 } else if (key.equals("startDate") && value != "") {
                     String string = value.toString() + " 00:00:00";
@@ -1815,6 +1817,57 @@ public class SearchUtil {
                             dataStatus = 2;
                         }
                         predicate.add(builder.equal(root.get(key), dataStatus));
+                    }
+                } else {
+                    if (ObjectUtils.isNotEmpty(value)) {
+                        predicate.add(builder.equal(root.get(key),value));
+                    }
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
+
+    private static List<Predicate> searchCustList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+
+        LocalDateTime startDate;
+        LocalDateTime endDate = null;
+
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                if (ObjectUtils.isNotEmpty(value) && key.equals("custName")) {
+                    predicate.add(builder.like(root.get(key), "%" + value + "%"));
+                } else if (ObjectUtils.isNotEmpty(value) && "endDate".equals(key)) {
+                    String string = value + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if (ObjectUtils.isNotEmpty(value) && "startDate".equals(key) && value != "") {
+                    String string = value + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                    predicate.add(builder.between(root.get("insertDate"), startDate, endDate));
+                } else if ("dataStatus".equals(key)) {
+                    int dataStatus = 1;
+                    if(ObjectUtils.isEmpty(value)) {
+                        predicate.add(builder.notEqual(root.get(key), 0));
+                    } else {
+                        if (value.equals("OK")) {
+                            dataStatus = 1;
+                        } else {
+                            dataStatus = 2;
+                        }
+                        predicate.add(builder.equal(root.get(key), dataStatus));
+                    }
+                } else if ("isMember".equals(key)) {
+                    if(ObjectUtils.isEmpty(value)) {
+                        predicate.add(builder.or(builder.equal(root.get(key), "0"), builder.equal(root.get(key), "1")));
+                    } else if (ObjectUtils.isNotEmpty(value)) {
+                        predicate.add(builder.equal(root.get(key), value));
                     }
                 } else {
                     if (ObjectUtils.isNotEmpty(value)) {

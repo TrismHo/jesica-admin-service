@@ -282,28 +282,8 @@
         });
     }
 
-    /*function drawingBannerSort(bannerSortList) {
-        for (let i = 0; i < bannerSortList.length; i++) {
-            let imgPath = '/api/img/fileLoad?filePath=' + bannerSortList[i].bannerFile;
-            let html = "<li id="+bannerSortList[i].bannerNo+">" +
-                            "<div>" +
-                                "<img src="+imgPath+" onerror=\"this.src='${path}/assets/img/logo/logo-noimg.gif'\" >" +
-                            "</div>" +
-                            "<div style=\"width: 250px; text-align: center\">" +
-                                bannerSortList[i].title +
-                            "</div>" +
-                            "<div style=\"width: 250px; text-align: center\">" +
-                                bannerSortList[i].insertDate +
-                            "</div>" +
-                            "<div style=\"width: 250px; text-align: center\">" +
-                                bannerSortList[i].viewOrder +
-                            "</div>" +
-                        "</li>"
-            $(".bannerSortList").append(html);
-        }
-    }*/
-
     function drawingBannerSort(bannerSortList) {
+        $("#sortManageTitle").text('');
         $("#sortManageTitle").append(convertServiceType(searchValueServiceType) + '배너목록')
         for (let i = 0; i < bannerSortList.length; i++) {
             let imgPath = '/api/img/fileLoad?filePath=' + bannerSortList[i].bannerFile;
@@ -346,7 +326,6 @@
     }
 
     function convertInsertDate(insertDate) {
-        console.log(insertDate)
         if (insertDate) {
             return insertDate.replaceAll('T', ' ');
         }
