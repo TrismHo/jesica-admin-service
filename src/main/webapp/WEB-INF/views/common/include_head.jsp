@@ -10,6 +10,8 @@
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
 <c:set var="date" value="<%=new java.util.Date()%>" />
 <c:set var="now"><fmt:formatDate value="${date}" pattern="yyyy-MM-dd" /></c:set>
+<c:set var="yearStart"><fmt:formatDate value="${date}" pattern="yyyy" /></c:set>
+<c:set var="thisMonth"><fmt:formatDate value="${date}" pattern="MM" /></c:set>
     <%--GoogleMapTestKey--%>
 <c:set var="imgUrlPath" value="https://jesicar.co.kr/" />
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANWaKymkYvONhGDsRjCd7pwNHO_ygW3Og&libraries=drawing,places&v=weekly"defer></script>--%>

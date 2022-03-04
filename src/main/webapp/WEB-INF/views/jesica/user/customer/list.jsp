@@ -144,10 +144,14 @@
                             <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
                             <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd" /></td>
                             <td class="text-center">
-                                <button type="button" data-toggle="modal" data-target="#password_modal" class="btn btn-warning btn-pwd" custNo="${item.custNo}">
-                                    <i class="fa fa-lock"></i>
-                                    <span class="m-l-5"><spring:message code="list.detail.list" text="비밀번호 변경"/></span>
-                                </button>
+                                <c:if test="${item.isMember == 1}">
+                                    <button type="button" data-toggle="modal" data-target="#password_modal" class="btn btn-warning btn-pwd" custNo="${item.custNo}">
+                                        <span style="display: flex; align-items: center">
+                                            <i class="fa fa-lock"></i>
+                                            <span class="m-l-5"><spring:message code="list.detail.list" text="비밀번호 변경"/></span>
+                                        </span>
+                                    </button>
+                                </c:if>
                             </td>
                         </tr>
                     </c:forEach>

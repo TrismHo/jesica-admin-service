@@ -2,7 +2,6 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -58,7 +57,6 @@
                     <div class="stats-icon"><i class="fas fa-lg fa-fw m-r-10 fa-building"></i></div>
                     <div class="stats-info">
                         <h4><spring:message code="dashboard.123" text="신규고객"/></h4>
-
                         <p data-animation="number" data-value="${userChart}"></p>
                     </div>
                     <div class="stats-link">
@@ -116,13 +114,30 @@
 
 
         <!-- begin row -->
+        <div class="m-b-5" style="display: flex">
+            <select class="chart-year form-control" style="width: 80px; height: 25px; padding: 0 5px; margin-left: auto">
+                <c:forEach begin="0" end="10" var="result" step="1">
+                    <option value="<c:out value="${yearStart - result}" />"><c:out value="${yearStart - result}" /></option>
+                </c:forEach>
+            </select>
+            <select class="chart-month form-control m-l-5" style="width: 60px; height: 25px; padding: 0 5px">
+                <c:forEach begin="1" end="12" var="month" step="1">
+                    <option value="<c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if><c:if test="${month >= 10}"><c:out value="${month}" /></c:if>" <c:if test="${month == thisMonth}">selected</c:if>>
+                        <c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if>
+                        <c:if test="${month >= 10}"><c:out value="${month}" /></c:if>
+                    </option>
+                </c:forEach>
+            </select>
+        </div>
         <div class="row">
             <!-- begin col-8 -->
             <div class="col-xl-6 ">
                 <!-- begin panel -->
-                <div class="panel panel-inverse" >
+                <div class="panel panel-inverse">
                     <div class="panel-heading">
-                        <h4 class="panel-title"><spring:message code="dashboard.123" text="인수대행 변화추이"/></h4>
+                        <h4 class="panel-title">
+                            <spring:message code="dashboard.123" text="인수대행 변화추이"/>
+                        </h4>
                         <div class="panel-heading-btn">
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -142,7 +157,9 @@
                 <!-- begin panel -->
                 <div class="panel panel-inverse" >
                     <div class="panel-heading">
-                        <h4 class="panel-title"><spring:message code="dashboard.123" text="반납대행 변화추이"/></h4>
+                        <h4 class="panel-title">
+                            <spring:message code="dashboard.123" text="반납대행 변화추이"/>
+                        </h4>
                         <div class="panel-heading-btn">
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -227,6 +244,13 @@
 
 <script>
     $(() => {
+        let dateObj = new Date();
+        let month = dateObj.getMonth() + 1;
+        let selectYear = dateObj.getFullYear();
+        let selectMonth = month < 10 ? '0' + month : month;
+        let searchDate = selectYear + '/' + selectMonth + '/01';
+
+        drawChart(searchDate);
 
         $("#wait").on("click",function(){
            alert("작업중");
@@ -239,46 +263,67 @@
             }).appendTo("body").fadeIn(200);
         }
 
-        var data1 = [];
-        var data2 = [];
-        var data3 = [];
-        var data4 = [];
-        var xLabel = [];
-        var xLabel2 = [];
+        //연도 선택시 차트 새로 그림
+        $('.chart-year').change(function(e) {
+            selectYear = e.target.value;
+            searchDate = selectYear + '/' + selectMonth + '/01';
+            drawChart(searchDate);
+        });
+
+        //월 선택시 차트 새로 그림
+        $('.chart-month').change(function(e) {
+            selectMonth = e.target.value;
+            searchDate = selectYear + '/' + selectMonth + '/01';
+            drawChart(searchDate);
+        });
+
+        var previousPoint = null;
+        $("#interactive-chart,#interactive-chart3").bind("plothover", function (event, pos, item) {
+            $("#x").text(pos.x.toFixed(2));
+            $("#y").text(pos.y.toFixed(2));
+            if (item) {
+                if (previousPoint !== item.dataIndex) {
+                    previousPoint = item.dataIndex;
+                    $("#tooltip").remove();
+                    var y = item.datapoint[1].toFixed(2);
+                    var content = item.series.label + " " + Math.floor(y);
+                    showTooltip(item.pageX, item.pageY, content);
+                }
+            } else {
+                $("#tooltip").remove();
+                previousPoint = null;
+            }
+            event.preventDefault();
+        });
+
+
+
+    });
+
+    function drawChart(searchDate) {
+        let receiptComplData = []; //인수대행 완료 데이터
+        let receiptCancelData = []; //인수대행 취소 데이터
+        let receiptLabels = []; // 인수대행 일자 label
+
+        let returnComplData = []; //반납대행 완료 데이터
+        let returnCancelData = []; //반납대행 취소 데이터
+        let returnLabels = []; // 반납대행 일자 label
         $.ajax({
             type: "POST",
-            url: "${path}/api/main/chart/list",
+            url: "${path}/api/main/chart/list?searchDate=" + searchDate,
             contentType: "application/json;",
-            async:false,
+            async: false,
             dataType: "json",
             success: function(data) {
-                for(var i = 0 ; i < data.getCallAllListType2040.length ; i++ ){
-                    data1.push([i,data.getCallAllListType2040[i].cnt]);
-                    if(i%3 == 0){
-                        xLabel.push([i,data.getCallAllListType2040[i].dayDate]);
-                    }else {
-                        xLabel.push([i,""]);
-                    }
+                let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2041);
+                receiptComplData = receiptResult.complete;
+                receiptCancelData = receiptResult.cancel;
+                receiptLabels = receiptResult.labels;
 
-                }
-              for(var i = 0 ; i < data.getCallAllListType2041.length ; i++ ){
-                    data2.push([i,data.getCallAllListType2041[i].cnt]);
-                   /* if(i%5 == 0){
-                        xLabel.push([i,data.getCallAllListType2041[i].dayDate]);
-                    }else {
-                        xLabel.push([i,'']);
-                    }*/
-                }
-
-
-                for(var i = 0 ; i < data.getCallAllListType2140.length ; i++ ){
-                    data3.push([i,data.getCallAllListType2140[i].cnt]);
-                    xLabel2.push([i,data.getCallAllListType2140[i].dayDate]);
-                }
-                for(var i = 0 ; i < data.getCallAllListType2141.length ; i++ ){
-                    data4.push([i,data.getCallAllListType2141[i].cnt]);
-                    /*xLabel2.push([i,data.getCallAllListType2141[i].dayDate]);*/
-                }
+                let returnResult = setChartDatas(data.getCallAllListType2140, data.getCallAllListType2141);
+                returnComplData = returnResult.complete;
+                returnCancelData = returnResult.cancel;
+                returnLabels = returnResult.labels;
             }
         });
         let normal = "<spring:message code="list.script.normal" text="정상"/>";
@@ -290,21 +335,21 @@
         let secession = "<spring:message code="list.script.ordercall" text="탈퇴"/>";
 
         $.plot($("#interactive-chart"), [{
-            data: data1,
+            data: receiptComplData,
             label: '인수대행 완료',
             color: COLOR_BLUE,
             lines: { show: true, fill:false, lineWidth: 2 },
             points: { show: true, radius: 3, fillColor: COLOR_WHITE },
             shadowSize: 0
         }, {
-            data: data2,
+            data: receiptCancelData,
             label: '인수대행 취소',
             color: COLOR_GREEN,
             lines: { show: true, fill:false, lineWidth: 2 },
             points: { show: true, radius: 3, fillColor: COLOR_WHITE },
             shadowSize: 0
         }], {
-            xaxis: {  ticks:xLabel, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
+            xaxis: {  ticks: receiptLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
             yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0 },
             grid: {
                 hoverable: true,
@@ -323,21 +368,21 @@
         });
 
         $.plot($("#interactive-chart3"), [{
-            data: data3,
+            data: returnComplData,
             label: "반납대행 완료",
             color: COLOR_BLUE,
             lines: { show: true, fill:false, lineWidth: 2 },
             points: { show: true, radius: 3, fillColor: COLOR_WHITE },
             shadowSize: 0
         }, {
-            data: data4,
+            data: returnCancelData,
             label: "반납대행 취소",
             color: COLOR_GREEN,
             lines: { show: true, fill:false, lineWidth: 2 },
             points: { show: true, radius: 3, fillColor: COLOR_WHITE },
             shadowSize: 0
         }], {
-            xaxis: {  ticks:xLabel2, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
+            xaxis: {  ticks: returnLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
             yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0  },
             grid: {
                 hoverable: true,
@@ -354,29 +399,55 @@
                 show: true
             }
         });
+    }
 
-        var previousPoint = null;
-        $("#interactive-chart,#interactive-chart3").bind("plothover", function (event, pos, item) {
-            $("#x").text(pos.x.toFixed(2));
-            $("#y").text(pos.y.toFixed(2));
-            if (item) {
-                if (previousPoint !== item.dataIndex) {
-                    previousPoint = item.dataIndex;
-                    $("#tooltip").remove();
-                    var y = item.datapoint[1].toFixed(2);
-                    var content = item.series.label + " " +   Math.floor(y);
-                    showTooltip(item.pageX, item.pageY, content);
+    function setChartDatas(completeDatas, cancelDatas) {
+        let completeData = [];
+        let cancelData = [];
+        let exLabels = [];
+        let labels = [];
+        for (let i = 0 ; i < completeDatas.length ; i++ ) {
+            completeData.push([completeDatas[i].dayDate, completeDatas[i].cnt]);
+            exLabels.push(completeDatas[i].dayDate);
+        }
+        for (let i = 0 ; i < cancelDatas.length ; i++ ) {
+            cancelData.push([cancelDatas[i].dayDate, cancelDatas[i].cnt]);
+            exLabels.push(cancelDatas[i].dayDate);
+        }
+
+        let setLabels = new Set(exLabels); //일자 중복 제거
+        let labelArr = Array.from(setLabels); //set -> array 변환
+        let sortSetLabels = labelArr.sort((a, b) => a - b); //일자 오름차순 정렬
+
+        //완료 건 일자 array와 인덱스 맞춤 작업
+        completeData.forEach((data) => {
+            sortSetLabels.forEach((label, idx) => {
+                if (data[0] === label) {
+                    data[0] = idx;
                 }
-            } else {
-                $("#tooltip").remove();
-                previousPoint = null;
-            }
-            event.preventDefault();
+            });
         });
 
+        //취소 건 일자 array와 인덱스 맞춤 작업
+        cancelData.forEach((data) => {
+            sortSetLabels.forEach((label, idx) => {
+                if (data[0] === label) {
+                    data[0] = idx;
+                }
+            });
+        });
 
+        //일자 인덱스 세팅
+        sortSetLabels.forEach((label, idx) => {
+            labels.push([idx, label]);
+        });
 
-    });
+        return {
+            complete: completeData,
+            cancel: cancelData,
+            labels,
+        }
+    }
 </script>
 </body>
 </html>

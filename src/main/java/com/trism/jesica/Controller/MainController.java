@@ -95,7 +95,7 @@ public class MainController {
 
 
         //신규고객
-        model.addAttribute("userChart",apiService.getUserChart().get(0).get("cnt"));
+        model.addAttribute("userChart",apiService.getCustChart().get(0).get("cnt"));
         //정상기사
         model.addAttribute("userWorkerChart",apiService.getUserWorkerChart().get(0).get("cnt"));
         //기사심사요청

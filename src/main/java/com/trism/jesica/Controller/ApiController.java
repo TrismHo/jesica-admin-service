@@ -2612,16 +2612,15 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
-    //기사가입신청 승인(프로필,면허증,경력확인서)
     @ResponseBody
     @PostMapping("/main/chart/list")
-    public ResponseEntity<?> attachApproval()  {
+    public ResponseEntity<?> chartData(@RequestParam("searchDate") String searchDate)  {
         Map<String,Object> map = new HashMap<>();
         try {
-            map.put("getCallAllListType2040" , apiService.getCallAllListType2040());
-            map.put("getCallAllListType2041" , apiService.getCallAllListType2041());
-            map.put("getCallAllListType2140" , apiService.getCallAllListType2140());
-            map.put("getCallAllListType2141" , apiService.getCallAllListType2141());
+            map.put("getCallAllListType2040" , apiService.getCallAllListType2040(searchDate));
+            map.put("getCallAllListType2041" , apiService.getCallAllListType2041(searchDate));
+            map.put("getCallAllListType2140" , apiService.getCallAllListType2140(searchDate));
+            map.put("getCallAllListType2141" , apiService.getCallAllListType2141(searchDate));
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);

@@ -3239,8 +3239,8 @@ public class ApiService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getUserChart() {
-        return tbUserRepository.getUserChart();
+    public List<Map<String,Object>> getCustChart() {
+        return tbCustRepository.getCustChart();
     }
 
     @Transactional(readOnly = true)
@@ -3261,21 +3261,26 @@ public class ApiService {
         return tbStoreRepository.findByServiceType(ServiceType.RENTCAR);
     }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public List<Map<String,Object>> getCallAllListType2040() {
         return tbCallAllRepository.getCallAllListType2040();
+    }*/
+
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getCallAllListType2040(String searchDate) {
+        return tbCallAllRepository.getCallAllListType2040(searchDate);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getCallAllListType2041() {
-        return tbCallAllRepository.getCallAllListType2041();
+    public List<Map<String,Object>> getCallAllListType2041(String searchDate) {
+        return tbCallAllRepository.getCallAllListType2041(searchDate);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getCallAllListType2140() {
-        return tbCallAllRepository.getCallAllListType2140();
+    public List<Map<String,Object>> getCallAllListType2140(String searchDate) {
+        return tbCallAllRepository.getCallAllListType2140(searchDate);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getCallAllListType2141() {
-        return tbCallAllRepository.getCallAllListType2141();
+    public List<Map<String,Object>> getCallAllListType2141(String searchDate) {
+        return tbCallAllRepository.getCallAllListType2141(searchDate);
     }
 }
 

@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Map;
+
 public interface TbCustRepository extends JpaRepository<TbCust, Long>, JpaSpecificationExecutor<TbCust> {
 
     @Modifying
@@ -36,4 +39,10 @@ public interface TbCustRepository extends JpaRepository<TbCust, Long>, JpaSpecif
                    @Param("pushNoticeYn") Integer pushNoticeYn,
                    @Param("pushMarketingYn") Integer pushMarketingYn
     );
+
+    @Query(value = "select count(cust_no) as cnt " +
+            "from tb_cust " +
+            "where data_status = 1 " +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getCustChart();
 }
