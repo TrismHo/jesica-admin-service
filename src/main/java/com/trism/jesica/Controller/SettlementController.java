@@ -1,5 +1,6 @@
 package com.trism.jesica.Controller;
 
+import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.SettlementService;
 import com.trism.jesica.Util.Secure.CipherAESUtils;
 import com.trism.jesica.config.KeyGeneratorConfig;
@@ -7,6 +8,7 @@ import com.trism.jesica.dto.TbBranchDTO;
 import com.trism.jesica.dto.TbHeadDTO;
 import com.trism.jesica.dto.TbServiceChargeDTO;
 import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
+import com.trism.jesica.persistence.Entitiy.cust.TbCustCashLog;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
 import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayApproval;
@@ -36,6 +38,7 @@ import java.util.Map;
 public class SettlementController {
 
     private final SettlementService settlementService;
+    private final ApiService apiService;
 
     @Autowired
     private final KeyGeneratorConfig keyGeneratorConfig;
@@ -184,9 +187,22 @@ public class SettlementController {
             } else {
                 searchValue = getSearchOption(session);
             }
+            CipherAESUtils cipherAESUtils = new CipherAESUtils(keyGeneratorConfig.generateSecretKeySpec(),keyGeneratorConfig.generateIvParameterSpec());
+            List<TbCashWithdraw> withdrawList = null;
+            withdrawList = settlementService.tbCashWithdrawList(searchValue);
+            int index = 0;
 
-            List<TbCashWithdraw> resultList = settlementService.tbCashWithdrawList(searchValue);
-            model.addAttribute("tbCashWithdraw", resultList);
+            for(TbCashWithdraw resultList : withdrawList) {
+                if(!withdrawList.get(index).getAccountNo().isEmpty()){
+                    withdrawList.get(index).setAccountNo(cipherAESUtils.decryptAES(resultList.getAccountNo()));
+                }
+                if(!withdrawList.get(index).getAccountName().isEmpty()){
+                    withdrawList.get(index).setAccountName(cipherAESUtils.decryptAES(resultList.getAccountName()));
+                }
+                index++;
+            }
+
+            model.addAttribute("tbCashWithdraw", withdrawList);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -223,6 +239,33 @@ public class SettlementController {
         return new ModelAndView("jesica/settlement/cashwithdraw/detail");
     }
 
+    /**
+     * 금일 주문내역
+     */
+    @GetMapping("/cashlog/list")
+    public ModelAndView cashLog(@RequestParam Map<String,Object> searchValue,
+                                     Model model, HttpSession session) {
+
+        log.info("@@searchValue {}",searchValue);
+        try {
+            if (!searchValue.isEmpty()) {
+                putSearchOption(session, searchValue);
+            } else {
+                searchValue = getSearchOption(session);
+            }
+            List<TbCustCashLog> tbCustCashLog = null;
+            tbCustCashLog = settlementService.tbCustCashLogList(searchValue);
+            int index = 0;
+
+            model.addAttribute("tbCustCashLog", tbCustCashLog);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("/jesica/settlement/cashlog/list");
+    }
 
     @GetMapping("/transsettle/list")
     public ModelAndView listTransferSettlement() {

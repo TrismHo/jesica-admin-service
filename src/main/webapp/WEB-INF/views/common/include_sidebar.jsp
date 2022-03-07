@@ -148,12 +148,13 @@
                     <span><spring:message code="sidemenu.settlement" text="정산"/></span>
                 </a>
                 <ul class="sub-menu">
-                  <%--  <li class=<c:if test="${fn:contains(servletPath,'salpurstate') }">"active"</c:if>><a href="${path}/settlement/salpurstate/list"><spring:message code="sidemenu.settlement.salespurchasestatement" text="매출매입계산서"/></a></li>
+                    <%--<li class=<c:if test="${fn:contains(servletPath,'salpurstate') }">"active"</c:if>><a href="${path}/settlement/salpurstate/list"><spring:message code="sidemenu.settlement.salespurchasestatement" text="매출매입계산서"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'feesettleratio') }">"active"</c:if>><a href="${path}/settlement/feesettleratio/list"><spring:message code="sidemenu.settlement.feesettlementratio" text="수수료 정산비율"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'servicechargegrp') }">"active"</c:if>><a href="${path}/settlement/servicechargegrp/list"><spring:message code="sidemenu.settlement.orderplatformsettlementgroup" text="주문플랫폼정산 그룹"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'transsettle') }">"active"</c:if>><a href="${path}/settlement/transsettle/list"><spring:message code="sidemenu.settlement.transfersettlement" text="이동정산"/></a></li>
-                    <li class=<c:if test="${fn:contains(servletPath,'paymenthistory') }">"active"</c:if>><a href="${path}/settlement/paymenthistory/list"><spring:message code="sidemenu.settlement.paymenthistory" text="결제내역"/></a></li>--%>
-                      <li class=<c:if test="${fn:contains(servletPath,'order/cashwithdraw/list') }">"active"</c:if>><a href="${path}/settlement/cashwithdraw/list?insertDate=insertDate&startDate=2020-01-01&endDate=${now}"><spring:message code="sidemenu.orderhistory.123" text="입출금 신청관리"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'paymenthistory') }">"active"</c:if>><a href="${path}/settlement/paymenthistory/list"><spring:message code="sidemenu.settlement.paymenthistory" text="결제내역"/></a></li>&ndash;%&gt;--%>
+                    <li class=<c:if test="${fn:contains(servletPath,'order/cashwithdraw/list') }">"active"</c:if>><a href="${path}/settlement/cashwithdraw/list?insertDate=insertDate&startDate=2020-01-01&endDate=${now}&withdrawStatus=0"><spring:message code="sidemenu.orderhistory.123" text="입출금 신청관리"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'order/cashlog/list') }">"active"</c:if>><a href="${path}/settlement/cashlog/list?insertDate=insertDate&startDate=2020-01-01&endDate=${now}&withdrawStatus=0"><spring:message code="sidemenu.orderhistory.123" text="입출금 신청로그"/></a></li>
                 </ul>
             </li>
 <%--

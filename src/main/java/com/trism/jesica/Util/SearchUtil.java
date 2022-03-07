@@ -1,12 +1,15 @@
 package com.trism.jesica.Util;
 
 
+import com.trism.jesica.persistence.Entitiy.cust.TbCust;
+import com.trism.jesica.persistence.Entitiy.cust.TbCustCashLog;
 import com.trism.jesica.persistence.type.CatLevel;
 import com.trism.jesica.persistence.type.DataStatus;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
@@ -194,6 +197,12 @@ public class SearchUtil {
     public static Specification<?> searchCashWithdrawList(Map<String, Object> searchKeyword) {
         return (Specification<?>) ((root, query, builder) -> {
             List<Predicate> predicate = searchCashWithdrawList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+    public static Specification<?> searchCustCashLogList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchCustCashLogList(searchKeyword, root, builder);
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
@@ -1369,6 +1378,34 @@ public class SearchUtil {
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
                 } else if ("withdrawStatus".equals(key) && value != ""){
                     predicate.add(builder.equal(root.get(key),value));
+                } else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
+    private static List<Predicate>  searchCustCashLogList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                Join<TbCustCashLog, TbCust> joinCol =  root.join("cust");
+                if ("searchText".equals(key) && value != "") {
+                    Predicate predicate1 = builder.like(joinCol.get("custName"), "%"+value+"%");
+                    predicate.add(builder.or(predicate1,builder.like(joinCol.get("custTel"), "%"+value+"%")));
                 } else if ("endDate".equals(key) && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

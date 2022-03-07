@@ -8,6 +8,7 @@ import com.trism.jesica.dto.TbServiceChargeDTO;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
+import com.trism.jesica.persistence.Entitiy.cust.TbCustCashLog;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
 import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayApproval;
@@ -19,6 +20,7 @@ import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
 import com.trism.jesica.persistence.Repository.business.TbBranchRepository;
 import com.trism.jesica.persistence.Repository.business.TbHeadRepository;
 import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
+import com.trism.jesica.persistence.Repository.cust.TbCustCashLogRepository;
 import com.trism.jesica.persistence.Repository.order.TbOrderAllRepository;
 import com.trism.jesica.persistence.Repository.order.TbOrderDayRepository;
 import com.trism.jesica.persistence.Repository.paymenthistory.TbPayApprovalRepository;
@@ -78,6 +80,9 @@ public class SettlementService {
 
     @Autowired
     private final TbCashWithdrawRepository tbCashWithdrawRepository;
+
+    @Autowired
+    private final TbCustCashLogRepository tbCustCashLogList;
 
 
     @Transactional(readOnly = true)
@@ -168,6 +173,19 @@ public class SettlementService {
         }
         return searchValue.isEmpty() ? null
                 : tbCashWithdrawRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbCustCashLog> tbCustCashLogList(Map<String,Object> searchValue) {
+        Specification<TbCustCashLog> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbCustCashLog>) SearchUtil.searchCustCashLogList(searchValue);
+        }
+        return searchValue.isEmpty() ? null
+                : tbCustCashLogList.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
     @Transactional(readOnly = true)

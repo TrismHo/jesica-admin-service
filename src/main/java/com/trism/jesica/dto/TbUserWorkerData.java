@@ -56,6 +56,8 @@ public class TbUserWorkerData {
     private String licenseType;
     private String licenseExpDate;
     private Integer licenseExpYn;
+    private String registrationNum;
+    private String insurancePolicy;
 
     public TbUserWorker insertData() {
         return TbUserWorker.builder()
@@ -93,6 +95,8 @@ public class TbUserWorkerData {
                 .memo(this.memo)
                 .workerPayType(this.workerPayType)
                 .dlvyLimit(this.dlvyLimit)
+                .registrationNum(this.registrationNum)
+                .insurancePolicy(this.insurancePolicy)
                 .build();
     }
    /* public TbUserWorker insertData() {
@@ -133,7 +137,7 @@ public class TbUserWorkerData {
                 .build();
     }*/
 
-    public TbUserWorker insertDataEncrypt(String pinNum, String bankAccount, String bankOwner) {
+    public TbUserWorker insertDataEncrypt(String pinNum, String bankAccount, String bankOwner, String registrationNum) {
         return TbUserWorker.builder()
                 .userNo(this.userNo)
                 .headNo(this.headNo)
@@ -175,6 +179,8 @@ public class TbUserWorkerData {
                 .licenseExpYn(this.licenseExpYn)
                 .memo(this.memo)
                 .workerPayType(this.workerPayType)
+                .registrationNum(registrationNum)
+                .insurancePolicy(this.insurancePolicy)
                 .build();
     }
 }

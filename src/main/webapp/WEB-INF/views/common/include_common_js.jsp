@@ -26,7 +26,7 @@
 <script src="${path}/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="${path}/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
 <script src="${path}/assets/plugins/jquery.maskedinput/src/jquery.maskedinput.js"></script>
-
+<script src="${path}/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="${path}/assets/plugins/apexcharts/dist/apexcharts.min.js"></script>
 
 <script src="${path}/assets/plugins/flot/jquery.flot.js"></script>
@@ -38,6 +38,12 @@
 <script src="${path}/assets/plugins/ckeditor/ckeditor.js"></script>
 <script src="${path}/assets/plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js"></script>
 <script src="${path}/assets/js/demo/form-wysiwyg.demo.js"></script>
+
+<script src="${path}/assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="${path}/assets/plugins/jszip/dist/jszip.min.js"></script>
+<script src="${path}/assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="${path}/assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+
 <!-- ================== END PAGE LEVEL JS ================== -->
 <%--<script src="${path}/assets/demo/lang.js"></script>--%>
 <!-- 로딩바 -->

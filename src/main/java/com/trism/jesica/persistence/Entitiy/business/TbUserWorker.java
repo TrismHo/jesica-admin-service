@@ -246,6 +246,19 @@ public class TbUserWorker implements Serializable {
     @Column(name = "dlvy_limit")
     private Integer dlvyLimit = null;
 
+    /**
+     * 주민등록번호(암호화)
+     */
+    @Column(name = "registration_num")
+    private String registrationNum = null;
+
+    /**
+     * 보험증권번호
+     */
+    @Column(name = "insurance_policy")
+    private String insurancePolicy = null;
+
+
 
     @PrePersist
     private void defaultInit() {
@@ -288,6 +301,8 @@ public class TbUserWorker implements Serializable {
             String memo,
             Integer workerPayType,
             Integer dlvyLimit,
+            String registrationNum,
+            String insurancePolicy,
             Long userNo,
             String insertUserId, String userId, String userPwd, UserType userType, Boolean pushOrderYn, Boolean pushNoticeYn, Boolean pushMarketingYn, List<TbUserDevice> userDevices,LocalDateTime lastLoginDtm, Integer pwdFailCount, Integer isFirstLogin, LocalDateTime pwdUpdateDtm
             ) {
@@ -325,6 +340,8 @@ public class TbUserWorker implements Serializable {
                 this.memo = memo;
                 this.workerPayType = workerPayType;
                 this.dlvyLimit = dlvyLimit;
+                this.registrationNum = registrationNum;
+                this.insurancePolicy = insurancePolicy;
     }
 
 

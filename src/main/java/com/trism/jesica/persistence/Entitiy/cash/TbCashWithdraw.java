@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Accessors(chain = true)
 @Getter
+@Setter
 @ToString(callSuper = true, exclude = {})
 @EqualsAndHashCode(callSuper = true)
 @DynamicInsert
@@ -29,8 +30,6 @@ public class TbCashWithdraw extends CreatedDateEntity {
     @Column(name = "withdraw_no", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long withdrawNo;
-
-
 
 
     /**

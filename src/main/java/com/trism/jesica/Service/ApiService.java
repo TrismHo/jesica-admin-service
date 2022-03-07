@@ -1345,12 +1345,15 @@ public class ApiService {
                 //예금주 암호화
                 String ownerEncrpt = cipherAESUtils.encryptAES(tbUserWorkerData.insertData().getBankOwner());
 
+                //주민번호 암호화
+                String registrationNum = cipherAESUtils.encryptAES(tbUserWorkerData.insertData().getRegistrationNum());
+
                 //PIN번호 암호화
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 String pinEncrpt = encoder.encode(tbUserWorkerData.insertData().getPinNum());
                 //TbHead tbHead =  tbHeadRepository.save(tbHeadData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
                 //tbUserWorkerRepository.save(tbUserWorkerData.insertData());
-                tbUserWorker =  tbUserWorkerRepository.save(tbUserWorkerData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
+                tbUserWorker =  tbUserWorkerRepository.save(tbUserWorkerData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt, registrationNum));
 
                 //tb_wokrer_charge 세팅
                 TbWorkerChargeData tbWorkerCharge = new TbWorkerChargeData();
@@ -1636,13 +1639,19 @@ public class ApiService {
         } catch (IOException e){
             log.error(e.getMessage());
         }
-
+        try {
             if(tbUserWorkerData.getDataStatus().ordinal() == 1){
                 tbUserWorkerData.setBlockTypeCode(null);
             }
             if(tbUserWorkerData.getDataStatus().ordinal() == 2){
                 tbUserWorkerData.setAttendStatus(AttendStatusType.OFF_WORK);
             }
+
+            CipherAESUtils cipherAESUtils = new CipherAESUtils(keyGeneratorConfig.generateSecretKeySpec(),keyGeneratorConfig.generateIvParameterSpec());
+
+            //주민번호 암호화
+            String registrationNum = cipherAESUtils.encryptAES(tbUserWorkerData.insertData().getRegistrationNum());
+
             if(tbUserWorkerRepository.existsById(tbUserWorkerData.getUserNo())){
                 tbUserWorkerRepository.updateUserWorker(
                         tbUserWorkerData.getUserNo(),
@@ -1677,7 +1686,9 @@ public class ApiService {
                         tbUserWorkerData.getLicenseExpYn(),
                         tbUserWorkerData.getMemo(),
                         tbUserWorkerData.getWorkerPayType(),
-                        tbUserWorkerData.getDlvyLimit()
+                        tbUserWorkerData.getDlvyLimit(),
+                        registrationNum,
+                        tbUserWorkerData.getInsurancePolicy()
                 );
                 /*tbUserWorkerRepository.save(tbUserWorkerData.insertData());*/
                 //수수료등록
@@ -1689,6 +1700,9 @@ public class ApiService {
                 //아이디가 없으면 insert
                 result = 0;
             }
+        } catch (Exception e){
+
+        }
         return result;
     }
 

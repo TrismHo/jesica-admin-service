@@ -364,11 +364,23 @@
                                         <input type="hidden" name="pushOrderYn" value="${tbUserWorker.pushOrderYn}">
                                         <input type="hidden" name="pushNoticeYn" value="${tbUserWorker.pushNoticeYn}">
                                         <input type="hidden" name="pushMarketingYn" value="${tbUserWorker.pushMarketingYn}">
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deposit" text="예치금"/></td>
+                                            <td><input class="form-control width-200" type="text"  name="deposit" value="${tbUserWorker.deposit}" readonly> <spring:message code="list.detail.won" text="원"/>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text="충전 계좌로 이체시 예치금으로 입금됩니다."/></td>
+                                        </tr>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.deposit" text="예치금"/></td>
-                                        <td><input class="form-control width-200" type="text"  name="deposit" value="${tbUserWorker.deposit}" readonly> <spring:message code="list.detail.won" text="원"/>
+                                        <td class="bg-light"><spring:message code="list.detail.deposit1" text="주민등록번호"/></td>
+                                        <td><input class="form-control width-200" type="text"  name="registrationNum" value="${registrationNum}" >
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text="충전 계좌로 이체시 예치금으로 입금됩니다."/></td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text="주민번호를 입력해주세요"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.deposit1" text="보험증권번호"/></td>
+                                        <td><input class="form-control width-200" type="text"  name="insurancePolicy" value="${tbUserWorker.insurancePolicy}" >
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text=""/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.cash" text="캐시"/></td>

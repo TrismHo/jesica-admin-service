@@ -561,11 +561,11 @@
 								lastText = Math.floor(Number(nowTime)) + " 시간 경과";
 								if(nowTime < 1) {
 									let nowSecond = updateTimelate / 1000 / 60 // 2
-									lastText = Math.floor(Number(nowSecond)) + " 분 경과";
+									lastText = +Math.floor(Number(nowSecond)) + " 분 경과";
 								}
 							}
 						} else {
-							lastText = " ";
+							lastText = " 위치정보없음";
 						}
 
 						let push = {
@@ -660,7 +660,7 @@
 								}
 							}
 						} else {
-							lastText = "";
+							lastText = " 위치정보없음";
 						}
 						let push = {
 							distance: "",
@@ -1120,12 +1120,13 @@
 			workerPayType = "수수료"
 		}
 
-
 		var content = '<div class="placeinfo">' +
-				'   <div class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +""+ place.name +""+'</div>';
-		content +='<span  title="' + place.address_name + '">('+workerPayType+' / ' + gender + ' / ' + place.lastUpdateDtm + ')</span>'
-		content += '    <span title="' + place.road_address_name + '">' +"연락처 : "+ phoneNumber(place.phone) + '</span>' +
-				'  <span class="jibun" title="' + place.address_name + '">(소속 : ' + branchName + ')</span>';
+				'   <div class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '"> ' +place.name+" <r style='font-size: 12px'> ("+gender+" / " + workerPayType +  ")</r>"+ '</div>';
+		content +='<span  title="' + place.address_name + '"></span>'
+		content += '    <span title="' + place.road_address_name + '">' +"<i class='fa fa-phone-square fa-fw fa-l'></i> : &nbsp;"+ phoneNumber(place.phone) + '</span>' +
+				'  <span class="" title="' + place.address_name + '"><i class="fa fa-building fa-fw fa-l"></i> : &nbsp;' + branchName + '</span>'+
+				'  <span class="" title="' + place.address_name + '"><i class="fa fa-map-marked-alt fa-fw fa-lg"></i> : &nbsp;' + place.lastUpdateDtm + '</span>';
+
 
 		content +=
 				'</div>' +
@@ -1165,9 +1166,9 @@
 		}
 
 		if(places.gender == "M") {
-			gender = "남"
+			gender = '남'
 		} else if (places.gender == "F"){
-			gender = "여"
+			gender = '여'
 		} else if (places.gender == "N"){
 			gender = "알수없음"
 		}
@@ -1186,7 +1187,7 @@
 		var el = document.createElement('li'),
 				itemStr =
 						'<div class="info">' +
-						'   <div style="margin:5px;line-height: 19px;">  ' + places.name + " ("+gender +'/'+ workerPayType +')  '+ locationText+
+						'   <div style="margin:5px;line-height: 19px;">  <r style="white-space: nowrap; font-weight: bold;">' + places.name + "</r> ("+gender +' / '+ workerPayType +')  '+ locationText+
 						'<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px " ' +
 						'style="background-color:#9dbad1;">'+statusText+'</span><br><i class="fa fa-phone-square fa-fw fa-l"></i> &nbsp;' + phoneNumber(places.phone)  + '<br>' +
 						lastUpdateDtm+

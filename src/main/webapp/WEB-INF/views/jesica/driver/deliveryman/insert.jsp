@@ -334,6 +334,18 @@
                                         <td colspan="1"><input type="text" name="addr" value="" class="form-control width-400" maxlength="150"></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourresidentialaddress" text="거주지 주소를 입력하세요."/></td>
                                     </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.deposit1" text="주민등록번호"/></td>
+                                        <td><input class="form-control width-200" type="text"  name="registrationNum" value="${tbUserWorker.registrationNum}" >
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text="주민번호를 입력해주세요"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.deposit1" text="보험증권번호"/></td>
+                                        <td><input class="form-control width-200" type="text"  name="insurancePolicy" value="${tbUserWorker.insurancePolicy}" >
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text=""/></td>
+                                    </tr>
                                   <%--  <tr>
                                         <td class="bg-light">생년월일</td>
                                         <td colspan="1">

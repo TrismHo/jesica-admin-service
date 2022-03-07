@@ -217,6 +217,7 @@ public class DriverApplyController {
             model.addAttribute("bankOwner", cipherAESUtils.decryptAES(tbUserWorker.getBankOwner()));
             model.addAttribute("tbUserWorker", tbUserWorker);
             model.addAttribute("tbWorkerCharge", tbWorkerCharge);
+            model.addAttribute("registrationNum", cipherAESUtils.decryptAES(tbUserWorker.getRegistrationNum()));
             model.addAttribute("imgFile", url);
             model.addAttribute("imgFile2", url2);
         } catch (Exception e){

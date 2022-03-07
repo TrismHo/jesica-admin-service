@@ -35,6 +35,49 @@
             width: 100%;
         }
     }
+    .buttons-csv {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .buttons-csv:hover {
+        color: #ddd;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .buttons-copy {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .buttons-copy:hover {
+        color: #ddd;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .buttons-excel {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .buttons-excel:hover {
+        color: #ddd;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .buttons-print {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .buttons-print:hover {
+        color: #ddd;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .dataTables_wrapper.dt-bootstrap4 .dataTables_filter {
+        display: block;
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -51,7 +94,7 @@
     <!-- begin #sidebar -->
     <%@include file="../../../common/include_sidebar.jsp" %>
     <!-- end #sidebar -->
-
+    <form name="frmSearch" id="frmSearch">
     <!-- begin #content -->
     <div id="content" class="content p-0">
         <!-- begin panel -->
@@ -69,7 +112,7 @@
             </div>
             <!-- end page-header -->
             <!-- begin row -->
-            <form name="frmSearch" id="frmSearch">
+
                 <input type="hidden" name="insertDate" value="insertDate">
                 <div class="search-box">
                     <div class="inner-search-box p-15">
@@ -146,7 +189,7 @@
                                             </label>
                                             <label>
                                                     <span class="btn-group  bg-black-transparent-2 rounded">
-                                                        <a href="/driver/apply/list?dataStatus=&startDate=2021-01-01&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
+                                                        <a href="/settlement/cashwithdraw/list?dataStatus=&startDate=2021-01-01&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
                                                             <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message code="list.search.searchreset" text="검색 초기화"/>
                                                         </a>
                                                     </span>
@@ -156,15 +199,15 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-xl-12 col-md-12 m-t-10">
+                           <%-- <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
                                     <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
                                 </div>
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                 </div>
-            </form>
+
             <div class="panel-body p-15">
                 <table id="testTable" class="display table table-bordered w-100 table-striped ">
                     <thead>
@@ -175,11 +218,14 @@
                     <th class="text-center" width="3%;"><spring:message code="list.word.no" text="순번"/></th>
                     <th class="text-center" width="6%;">그룹명</th>
                     <th class="text-center" width="5%;">사용자타입</th>
-                    <th class="text-center" width="5%;">연락처</th>
+                    <th class="text-center" width="5%;">은행명</th>
+                    <th class="text-center" width="5%;">계좌번호</th>
+                    <th class="text-center" width="5%;">예금주</th>
                     <th class="text-center" width="5%;">요청액</th>
-                    <th class="text-center" width="5%;">출금액</th>
+                    <th class="text-center" width="5%;">출금시간</th>
                     <th class="text-center" width="5%;">출금상태</th>
                     <th class="text-center" width="5%;">연락처</th>
+                    <th class="text-center" width="5%;">출금시간</th>
                     <th class="text-center" width="8%;">등록일</th>
                     </thead>
                     <tbody>
@@ -195,17 +241,23 @@
                                 <c:if test="${item.groupType == '3'}"><spring:message code="list.word.3" text="가맹점"/></c:if>
                                 <c:if test="${item.groupType == '4'}"><spring:message code="list.word.3" text="배송원"/></c:if>
                             </td>
-                            <td class="text-center">${item.phone}</td>
+                            <td class="text-center">${item.bankName}</td>
+                            <td class="text-center">${item.accountNo}</td>
+                            <td class="text-center">${item.accountName}</td>
                             <td class="text-center"><fmt:formatNumber value="${item.reqAmount}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
-                            <td class="text-center"><fmt:formatNumber value="${item.cash}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                            <td class="text-center"><javatime:format value="${item.withdrawDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center">
                                 <c:if test="${item.withdrawStatus == '0'}"><spring:message code="list.word.3" text="출금대기"/></c:if>
                                 <c:if test="${item.withdrawStatus == '1'}"><spring:message code="list.word.3" text="처리중"/></c:if>
                                 <c:if test="${item.withdrawStatus == '2'}"><spring:message code="list.word.3" text="출금완료"/></c:if>
                                 <c:if test="${item.withdrawStatus == '3'}"><spring:message code="list.word.3" text="실패"/></c:if>
                             </td>
-                            <td class="text-center">${item.phone}</td>
-
+                            <td class="text-center" >
+                                <c:if test="${fn:length(item.phone) > 10}">
+                                    ${fn:substring(item.phone,0,3)}-${fn:substring(item.phone,3,7)}-${fn:substring(item.phone,7,13)}
+                                </c:if>
+                            </td>
+                            <td class="text-center"><javatime:format value="${item.withdrawDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                         </tr>
                     </c:forEach>
@@ -215,7 +267,7 @@
         </div>
         <!-- end panel -->
     </div>
-
+    </form>
     <!-- end #content -->
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
@@ -229,13 +281,30 @@
 <!-- ================== END BASE JS ================== -->
 <%-- Custom JS Start--%>
 <%@include file="../../../common/include_custom_js.jsp" %>
+
+
+
+
+
 <%-- Custom JS End--%>
 <script>
     $(() => {
         //기사가입신청 리스트
         $("#testTable").DataTable({
-            language : lang_set //or lang_eng
+            language : lang_set, //or lang_eng
+            responsive: true,
+            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            buttons: [
+
+              /*  { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
+                { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },
+              /*  { extend: 'excel',text: ' 엑셀', className: 'btn-sm fa fa-file-excel' },
+                { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+            ],
         });
+
+        $("#testTable_filter").text("");
+        $("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 
         $(document).on("click",".detailRow",function(){
             let withdrawNo = $(this).attr("withdrawNo");

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration" text="고객 상세"/></title>
+    <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration1" text="고객 상세"/></title>
 
 </head>
 <body>
@@ -29,23 +29,23 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="사용자 관리"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="고객 관리"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.platformnoticeregistration" text="고객 상세"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="사용자 관리"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="고객 관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.platformnoticeregistration1" text="고객 상세"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.detail.platformnoticeregistration" text="고객 상세"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
             </div>
             <ul class="nav nav-tabs m-t-10">
                 <li class="nav-item">
                     <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
-                        <span class="d-sm-none"><spring:message code="list.detail.basicInformation" text="기본정보"/></span>
-                        <span class="d-sm-block d-none"><spring:message code="list.detail.basicInformation" text="기본정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
+                        <span class="d-sm-none"><spring:message code="list.detail.basicInformation1" text="기본정보"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.basicInformation1" text="기본정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#default-tab-2" data-toggle="tab" class="nav-link">
-                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="보유쿠폰"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
-                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="보유쿠폰"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation1" text="보유쿠폰"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation1" text="보유쿠폰"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
                     </a>
                 </li>
             </ul>
@@ -56,7 +56,7 @@
                             <input type="hidden" name="custNo" value="${tbCust.custNo}">
                             <table class="table table-bordered">
                                 <tbody>
-                                    <tr>
+                                    <tr class="height-50">
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="회원여부"/></td>
                                         <td>
                                             <c:if test="${tbCust.isMember == 1}">회원</c:if>
@@ -66,14 +66,14 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage" text="회원 여부입니다.(변경불가)"/>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr class="height-50">
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="가입일자"/></td>
                                         <td><javatime:format value="${tbCust.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage" text="가입일자입니다.(변경불가)"/>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr class="height-50">
                                         <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="이름"/></td>
                                         <td><input type="text" name="custName" class="form-control" value="${tbCust.custName}"></td>
                                         <td class="text-danger-darker" style="width:25%">
@@ -87,7 +87,7 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage" text="고객 휴대폰번호를 입력하세요."/>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr  class="height-50">
                                         <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="로그인 ID"/></td>
                                         <td>${tbCust.loginId}</td>
                                         <td class="text-danger-darker" style="width:25%">
@@ -96,7 +96,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="계정 상태"/></td>
-                                        <td>
+                                        <td  class="height-50">
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="dataStatus" class="dataStatus" value="0" style="margin-right: 5px" <c:if test="${tbCust.dataStatus == 'DELETE'}">checked</c:if>>
                                                 <span><spring:message code="list.detail.tothewhole" text="삭제"/></span>
@@ -130,7 +130,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="성별"/></td>
-                                        <td>
+                                        <td  class="height-50">
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="gender" class="gender" value="M" style="margin-right: 5px" <c:if test="${tbCust.gender == 'M'}">checked</c:if>>
                                                 <span><spring:message code="list.detail.tothewhole" text="남자"/></span>
@@ -148,7 +148,7 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage" text="성별을 선택하세요."/>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr  class="height-50">
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="SMS 수신여부"/></td>
                                         <td>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
@@ -166,7 +166,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="주문 PUSH 수신여부"/></td>
-                                        <td>
+                                        <td class="height-50">
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="pushOrderYn" class="pushOrderYn" value="0" style="margin-right: 5px" <c:if test="${tbCust.pushOrderYn == 0}">checked</c:if>>
                                                 <span><spring:message code="list.detail.tothewhole" text="거부"/></span>
@@ -182,7 +182,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="공지이벤트 PUSH 수신여부"/></td>
-                                        <td>
+                                        <td  class="height-50">
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="pushNoticeYn" class="pushNoticeYn" value="0" style="margin-right: 5px" <c:if test="${tbCust.pushNoticeYn == 0}">checked</c:if>>
                                                 <span><spring:message code="list.detail.tothewhole" text="거부"/></span>
@@ -198,7 +198,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="마케팅 PUSH 수신여부"/></td>
-                                        <td>
+                                        <td  class="height-50">
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="pushMarketingYn" class="pushMarketingYn" value="0" style="margin-right: 5px" <c:if test="${tbCust.pushMarketingYn == 0}">checked</c:if>>
                                                 <span><spring:message code="list.detail.tothewhole" text="거부"/></span>

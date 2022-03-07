@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement" text="고객 관리"/></title>
+    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="고객 관리"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -31,10 +31,10 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="사용자 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="고객 관리"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="사용자 관리"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="고객 관리"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="고객 관리"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="고객 관리"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
@@ -111,7 +111,7 @@
                     <thead>
                     <tr class="text-center">
                         <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                        <th width="10%"><spring:message code="list.detail.title" text="이름"/></th>
+                        <th width="5%"><spring:message code="list.detail.title" text="이름"/></th>
                         <th width=""><spring:message code="list.word.contents" text="휴대폰번호"/></th>
                         <th width="10%"><spring:message code="list.word.status1" text="성별"/></th>
                         <th width="10%"><spring:message code="list.word.serviceclassification" text="로그인ID"/></th>
@@ -128,7 +128,11 @@
                         <tr>
                             <td class="text-center detailRow" custNo="${item.custNo}">${status.index + 1}</td>
                             <td class="text-center detailRow" custNo="${item.custNo}">${item.custName}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.custTel}</td>
+                            <td class="text-center detailRow" custNo="${item.custNo}">
+                                <c:if test="${fn:length(item.custTel) > 10}">
+                                    ${fn:substring(item.custTel,0,3)}-${fn:substring(item.custTel,3,7)}-${fn:substring(item.custTel,7,13)}
+                                </c:if>
+                            </td>
                             <td class="text-center detailRow" custNo="${item.custNo}">
                                 <c:if test="${item.gender == 'M'}"><spring:message code="list.search.all" text="남성"/></c:if>
                                 <c:if test="${item.gender == 'F'}"><spring:message code="list.word.franchisee1" text="여성"/></c:if>
@@ -141,8 +145,8 @@
                                 <c:if test="${item.isMember == 1}"><spring:message code="list.search.all" text="회원"/></c:if>
                                 <c:if test="${item.isMember == 0}"><spring:message code="list.word.franchisee1" text="비회원"/></c:if>
                             </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
-                            <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd" /></td>
+                            <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                            <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center">
                                 <c:if test="${item.isMember == 1}">
                                     <button type="button" data-toggle="modal" data-target="#password_modal" class="btn btn-warning btn-pwd" custNo="${item.custNo}">

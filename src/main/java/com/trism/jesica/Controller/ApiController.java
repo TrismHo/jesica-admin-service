@@ -380,7 +380,7 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
-    //제휴본사 update
+    //입출근 신청관리 상세 update
     @ResponseBody
     @PostMapping("/cashwithdraw/update/action")
     public ResponseEntity<?> cashWithdrawUpdateAction(
@@ -1128,6 +1128,12 @@ public class ApiController {
             if("".equals(tbUserWorkerData.getBlockTypeCode())){
                 tbUserWorkerData.setBlockTypeCode(null);
             }
+            if("".equals(tbUserWorkerData.getRegistrationNum())){
+                tbUserWorkerData.setRegistrationNum(null);
+            }
+            if("".equals(tbUserWorkerData.getInsurancePolicy())){
+                tbUserWorkerData.setInsurancePolicy(null);
+            }
 
             tbUserWorker =  apiService.insertTbUserWork(tbUserWorkerData, imgFile,imgFile2, session);
             if (tbUserWorker != null) {
@@ -1310,6 +1316,12 @@ public class ApiController {
         }
         if("".equals(tbUserWorkerData.getBlockTypeCode())){
             tbUserWorkerData.setBlockTypeCode(null);
+        }
+        if("".equals(tbUserWorkerData.getRegistrationNum())){
+            tbUserWorkerData.setRegistrationNum(null);
+        }
+        if("".equals(tbUserWorkerData.getInsurancePolicy())){
+            tbUserWorkerData.setInsurancePolicy(null);
         }
 
         int result = 0;

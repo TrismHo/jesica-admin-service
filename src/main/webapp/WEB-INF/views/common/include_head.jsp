@@ -26,7 +26,6 @@
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=94f23e0f25ea704e6e4a26359fb10b86&libraries=services"></script>--%>
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
 <c:set var="servletPath" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
@@ -53,5 +52,9 @@
 <link href="${path}/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
 <link link rel="shortcut icon" href="${path}/assets/img/icon/icon.png"/>
 
+
+<link href="${path}/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.css" rel="stylesheet" />
+<link href="${path}/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="${path}/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.css" rel="stylesheet" />
 
 <%--<c:set var="session" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication}"/>--%>
