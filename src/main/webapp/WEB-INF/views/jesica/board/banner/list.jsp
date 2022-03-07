@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.delivernotice" text="배너 관리"/></title>
+    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -32,10 +32,10 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="게시판 관리"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.delivernotice12" text="배너 관리"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/><%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.delivernotice12" text="배너 관리"/><%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
@@ -49,31 +49,31 @@
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                             <tr>
-                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="서비스 타입"/></strong></td>
+                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="서비스 타입"/></strong></td>
                                                 <td>
                                                     <label>
                                                         <select class="form-control" name="serviceType">
-                                                            <option value="0" <c:if test="${searchValue.serviceType == '0'}">selected</c:if>><spring:message code="list.search.affiliated" text="메인"/></option>
-                                                            <option value="2" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.distributor" text="탁송"/></option>
-                                                            <option value="3" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집"/></option>
-                                                            <option value="4" <c:if test="${searchValue.serviceType == '4'}">selected</c:if>><spring:message code="list.search.distributor" text="마트"/></option>
+                                                            <option value="0" <c:if test="${searchValue.serviceType == '0'}">selected</c:if>><spring:message code="list.search.affiliated1" text="메인"/></option>
+                                                            <option value="2" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.distributor1" text="탁송"/></option>
+                                                            <option value="3" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.distributor1" text="맛집"/></option>
+                                                            <option value="4" <c:if test="${searchValue.serviceType == '4'}">selected</c:if>><spring:message code="list.search.distributor1" text="마트"/></option>
 <%--                                                            <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>--%>
                                                         </select>
                                                     </label>
                                                 </td>
-                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="게시판 종류"/></strong></td>
+                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="게시판 종류"/></strong></td>
                                                 <td>
                                                     <label>
                                                         <select class="form-control" name="boardType">
-                                                            <option value="" <c:if test="${searchValue.boardType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/><%--상품명--%></option>
-                                                            <option value="1" <c:if test="${searchValue.boardType == '1'}">selected</c:if>><spring:message code="list.search.affiliated" text="이벤트"/><%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
-                                                            <option value="2" <c:if test="${searchValue.boardType == '2'}">selected</c:if>><spring:message code="list.search.distributor" text="공지"/></option>
+                                                            <option value="" <c:if test="${searchValue.boardType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/><%--상품명--%></option>
+                                                            <option value="1" <c:if test="${searchValue.boardType == '1'}">selected</c:if>><spring:message code="list.search.affiliated1" text="이벤트"/><%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
+                                                            <option value="2" <c:if test="${searchValue.boardType == '2'}">selected</c:if>><spring:message code="list.search.distributor1" text="공지"/></option>
                                                         </select>
                                                     </label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="bg-light"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
+                                                <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="등록기간"/><%--등록기간--%></strong></td>
                                                 <td colspan="3">
                                                     <label>
                                                         <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
@@ -103,14 +103,14 @@
                                 <div style="display: flex">
                                     <span class="mr-auto">
                                         <button type="button" class="insert_btn btn btn-primary m-b-10">
-                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="배너 등록"/></span>
+                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="배너 등록"/></span>
                                         </button>
                                         <button type="button" data-toggle="modal" data-target="#sort_modal" class="update_orders_btn btn btn-primary m-b-10">
-                                            <span class="fa fa-list">&nbsp;<spring:message code="list.search.noticeregistration" text="순서 변경"/></span>
+                                            <span class="fa fa-list">&nbsp;<spring:message code="list.search.noticeregistration1" text="순서 변경"/></span>
                                         </button>
                                     </span>
                                     <span>
-                                        <button class="btn-box-r bgGray line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/><%--검색--%> </button>
+                                        <button class="btn-box-r bgGray line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="검색"/><%--검색--%> </button>
                                     </span>
                                 </div>
                             </div>
@@ -122,13 +122,13 @@
                 <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
                     <thead>
                         <tr class="text-center">
-                            <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                            <th width="30%"><spring:message code="list.word.merchant/deliverygroupname" text="배너 이미지"/></th>
-                            <th><spring:message code="list.word.contents" text="서비스 타입"/></th>
-                            <th><spring:message code="list.word.division" text="게시판 종류"/></th>
-                            <th><spring:message code="list.word.registrationdate" text="등록일"/></th>
-                            <th><spring:message code="list.word.status" text="노출여부"/></th>
-                            <th width="5%"><spring:message code="list.word.registrationdate" text="노출순서"/></th>
+                            <th width="5%"><spring:message code="list.word.no1" text="번호"/></th>
+                            <th width="30%"><spring:message code="list.word.merchant/deliverygroupname1" text="배너 이미지"/></th>
+                            <th><spring:message code="list.word.contents1" text="서비스 타입"/></th>
+                            <th><spring:message code="list.word.division1" text="게시판 종류"/></th>
+                            <th><spring:message code="list.word.registrationdate1" text="등록일"/></th>
+                            <th><spring:message code="list.word.status1" text="노출여부"/></th>
+                            <th width="5%"><spring:message code="list.word.registrationdate1" text="노출순서"/></th>
                         </tr>
                     </thead>
                     <tbody>

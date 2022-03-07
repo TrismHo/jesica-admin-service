@@ -70,7 +70,7 @@
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="panel panel-inverse">
-            <div class="panel-heading ui-sortable-handle"><h4 class="panel-title">배너순서관리</h4>
+            <div class="panel-heading ui-sortable-handle"><h4 class="panel-title"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너순서관리"/></h4>
                 <div class="panel-heading-btn"><a href="javascript:;"
                                                   class="btn btn-xs btn-icon btn-circle btn-danger"
                                                   data-dismiss="modal" aria-label="Close">
@@ -87,11 +87,11 @@
                     <table id="sortTable" class="sort-table" border="1">
                         <thead>
                             <tr>
-                                <th>순서</th>
-                                <th>게시판 종류</th>
-                                <th>게시글 제목</th>
-                                <th>등록일시</th>
-                                <th>이미지</th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="순서"/></th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="게시판 종류"/></th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="게시글 제목"/></th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="등록일시"/></th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="이미지"/></th>
                             </tr>
                         </thead>
                         <tbody id="sortable" class="bannerSortList">
@@ -99,12 +99,12 @@
                     </table>
 <%--                    <ul id="sortable" class="bannerSortList m-b-10"></ul>--%>
                     <div class="no-sort-item"></div>
-                    <small id="explain" style="font-size: 13px">* 드래그로 순서변경이 가능합니다.</small>
+                    <small id="explain" style="font-size: 13px"><th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="* 드래그로 순서변경이 가능합니다."/></th></small>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="닫기"/></button>
         </div>
     </div>
 </div>

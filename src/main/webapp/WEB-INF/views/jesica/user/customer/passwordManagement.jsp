@@ -33,7 +33,7 @@
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="panel panel-inverse">
-            <div class="panel-heading ui-sortable-handle"><h4 class="panel-title"><spring:message code="list.detail.update" text="비밀번호관리"/></h4>
+            <div class="panel-heading ui-sortable-handle"><h4 class="panel-title"><spring:message code="list.detail.update1" text="비밀번호관리"/></h4>
                 <div class="panel-heading-btn"><a href="javascript:;"
                                                   class="btn btn-xs btn-icon btn-circle btn-danger"
                                                   data-dismiss="modal" aria-label="Close">
@@ -44,20 +44,20 @@
             <div class="timeline-body">
                 <div class="timeline-header m-b-5" style="display: flex; align-items: center">
                     <i class="fas fa-lg fa-fw m-r-5 fa-info-circle"></i>
-                    <span id="sortManageTitle"><spring:message code="list.detail.update" text="변경할 비밀번호를 입력하세요"/></span>
+                    <span id="sortManageTitle"><spring:message code="list.detail.update1" text="변경할 비밀번호를 입력하세요"/></span>
                 </div>
                 <div style="margin-left: 5px">
                     <form id="update_pwd_form" class="update_pwd_form d-inline">
                         <input type="hidden" id="custNo" name="custNo" value="">
-                        <strong><spring:message code="list.detail.update" text="비밀번호"/> :</strong>
+                        <strong><spring:message code="list.detail.update1" text="비밀번호"/> :</strong>
                         <input type="password" name="loginPwd" id="loginPwd" class="form-control m-l-10" style="width: 200px">
                     </form>
-                    <button type="button" class="btn btn-primary m-l-5 update_pwd_btn"><spring:message code="list.detail.update" text="변경"/></button>
+                    <button type="button" class="btn btn-primary m-l-5 update_pwd_btn"><spring:message code="list.detail.update1" text="변경"/></button>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal"><spring:message code="list.detail.update" text="닫기"/></button>
+            <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal"><spring:message code="list.detail.update1" text="닫기"/></button>
         </div>
     </div>
 </div>

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration" text="쿠폰 상세"/></title>
+    <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 상세"/></title>
 
 </head>
 <body>
@@ -29,29 +29,29 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="쿠폰 관리"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="쿠폰 관리"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.platformnoticeregistration" text="쿠폰 상세"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="쿠폰 관리"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="쿠폰 관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.platformnoticeregistration" text="쿠폰 상세"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 상세"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
             </div>
             <ul class="nav nav-tabs m-t-10">
                 <li class="nav-item">
                     <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
-                        <span class="d-sm-none"><spring:message code="list.detail.basicInformation" text="기본정보"/></span>
-                        <span class="d-sm-block d-none"><spring:message code="list.detail.basicInformation" text="기본정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
+                        <span class="d-sm-none"><spring:message code="list.detail.basicInformation1" text="기본정보"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.basicInformation1" text="기본정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#default-tab-2" data-toggle="tab" class="nav-link">
-                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="발급 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
-                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="발급 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation1" text="발급 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation1" text="발급 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#default-tab-3" data-toggle="tab" class="nav-link">
-                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="사용 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
-                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="사용 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation1" text="사용 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation1" text="사용 현황"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
                     </a>
                 </li>
             </ul>
@@ -65,27 +65,27 @@
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
-                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="서비스"/></td>
+                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="서비스"/></td>
                                     <td>
                                         <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                             <input type="radio" name="serviceType" class="serviceType" value="2" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 2}">checked</c:if>>
-                                            <span><spring:message code="list.detail.tothewhole" text="탁송"/></span>
+                                            <span><spring:message code="list.detail.tothewhole1" text="탁송"/></span>
                                         </label>
                                         <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                             <input type="radio" name="serviceType" class="serviceType" value="3" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 3}">checked</c:if>>
-                                            <span><spring:message code="list.detail.affiliate" text="맛집"/></span>
+                                            <span><spring:message code="list.detail.affiliate1" text="맛집"/></span>
                                         </label>
                                         <label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="serviceType" class="serviceType" value="4" style="margin-right: 5px" <c:if test="${tbCoupon.serviceType == 4}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="마트"/></span>
+                                            <span><spring:message code="list.detail.deliveryman12" text="마트"/></span>
                                         </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 서비스타입을 선택하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰의 서비스타입을 선택하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification" text="서비스 주문 구분"/></td>
+                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="서비스 주문 구분"/></td>
                                     <%--<td>
                                         <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                             <input type="radio" name="orderTypeCode" value="10" style="margin-right: 5px" checked>
@@ -95,88 +95,88 @@
                                     <td>
                                         <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                             <input type="radio" name="orderTypeCode" value="00" id="00" style="margin-right: 5px" checked>
-                                            <span><spring:message code="list.detail.tothewhole" text="전체"/></span>
+                                            <span><spring:message code="list.detail.tothewhole1" text="전체"/></span>
                                         </label>
                                         <span id="2" style="display: none">
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="20" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.tothewhole" text="인수대행"/></span>
+                                                <span><spring:message code="list.detail.tothewhole1" text="인수대행"/></span>
                                             </label>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="21" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="반납대행"/></span>
+                                                <span><spring:message code="list.detail.affiliate1" text="반납대행"/></span>
                                             </label>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="22" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.deliveryman1" text="마이카탁송"/></span>
+                                                <span><spring:message code="list.detail.deliveryman12" text="마이카탁송"/></span>
                                             </label>
                                             <label style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="23" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.deliveryman1" text="올레길탁송"/></span>
+                                                <span><spring:message code="list.detail.deliveryman12" text="올레길탁송"/></span>
                                             </label>
                                         </span>
                                         <span id="3" style="display: none">
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="30" id="30" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.tothewhole" text="맛집배달"/></span>
+                                                <span><spring:message code="list.detail.tothewhole1" text="맛집배달"/></span>
                                             </label>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="31" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="맛집포장"/></span>
+                                                <span><spring:message code="list.detail.affiliate1" text="맛집포장"/></span>
                                             </label>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="32" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.deliveryman1" text="맛집예약"/></span>
+                                                <span><spring:message code="list.detail.deliveryman12" text="맛집예약"/></span>
                                             </label>
                                             <label style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="33" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.deliveryman1" text="테이블주문"/></span>
+                                                <span><spring:message code="list.detail.deliveryman12" text="테이블주문"/></span>
                                             </label>
                                         </span>
                                         <span id="4" style="display: none">
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="40" id="40" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.tothewhole" text="마트배달"/></span>
+                                                <span><spring:message code="list.detail.tothewhole1" text="마트배달"/></span>
                                             </label>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="orderTypeCode" value="41" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="마트포장"/></span>
+                                                <span><spring:message code="list.detail.affiliate1" text="마트포장"/></span>
                                             </label>
                                         </span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="서비스 주문 구분을 선택하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="서비스 주문 구분을 선택하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="유효기간 방식"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="유효기간 방식"/></td>
                                     <td>
                                         <label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="validityType" class="validityType" value="1" style="margin-right: 5px" <c:if test="${tbCoupon.validityType == 1}">checked</c:if>>
-                                            <span><spring:message code="list.detail.tothewhole" text="만료일자"/></span>
+                                            <span><spring:message code="list.detail.tothewhole1" text="만료일자"/></span>
                                         </label>
                                         <label style="display: inline-flex; align-items: center">
                                             <input type="radio" name="validityType" class="validityType" value="2" style="margin-right: 5px" <c:if test="${tbCoupon.validityType == 2}">checked</c:if>>
-                                            <span><spring:message code="list.detail.affiliate" text="발급일 기준"/></span>
+                                            <span><spring:message code="list.detail.affiliate1" text="발급일 기준"/></span>
                                         </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="유효기간 방식을 선택하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="유효기간 방식을 선택하세요."/>
                                     </td>
                                 </tr>
                                 <tr id="expireDate-form" <c:if test="${tbCoupon.validityType == 2}">style="display: none"</c:if>>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="만료일자"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="만료일자"/></td>
                                     <td>
                                         <label>
                                             <input type="text" class="form-control expireDate background-white"  name="expireDate" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>
                                         </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 만료일자를 선택하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰의 만료일자를 선택하세요."/>
                                     </td>
                                 </tr>
                                 <tr id="validDay-form" <c:if test="${tbCoupon.validityType == 1}">style="display: none"</c:if>>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="유효일수"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="유효일수"/></td>
                                     <td>
                                         <label>
                                             <input type="text" class="form-control validDay background-white"  name="validDay" value="${tbCoupon.validDay}">
@@ -184,11 +184,11 @@
                                         </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 유효일수를 작성하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰의 유효일수를 작성하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="발급가능 기간"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="발급가능 기간"/></td>
                                     <td>
                                         <label>
                                             <input type="text" class="form-control publishStartDate background-white" name="publishStartDate" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
@@ -198,21 +198,21 @@
                                         </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 발급가능기간을 선택하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰의 발급가능기간을 선택하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="할인방식"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="할인방식"/></td>
                                     <td>
                                         <div style="display: flex; align-items: center">
                                             <span class="m-r-20">
                                                 <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="dcRateType" class="dcRateType" value="1" style="margin-right: 5px" <c:if test="${tbCoupon.dcRateType == 1}">checked</c:if>>
-                                                    <span><spring:message code="list.detail.tothewhole" text="할인금액"/></span>
+                                                    <span><spring:message code="list.detail.tothewhole1" text="할인금액"/></span>
                                                 </label>
                                                 <label style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="dcRateType" class="dcRateType" value="2" style="margin-right: 5px" <c:if test="${tbCoupon.dcRateType == 2}">checked</c:if>>
-                                                    <span><spring:message code="list.detail.affiliate" text="할인율"/></span>
+                                                    <span><spring:message code="list.detail.affiliate1" text="할인율"/></span>
                                                 </label>
                                             </span>
                                             <span>
@@ -223,70 +223,70 @@
                                         </div>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 할인방식을 선택 후 값 또는 비율을 입력하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰의 할인방식을 선택 후 값 또는 비율을 입력하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="최대할인금액"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.title1" text="최대할인금액"/></td>
                                     <td>
                                         <input type="text" name="maxDcAmt" class="form-control maxDcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxDcAmt}">
                                         <span>원</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="할인 가능한 최대금액을 입력하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="할인 가능한 최대금액을 입력하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="최소결제금액"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.title1" text="최소결제금액"/></td>
                                     <td>
                                         <input type="text" name="minPayAmt" class="form-control minPayAmt"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.minPayAmt}">
                                         <span>원</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰 사용에 필요한 최소결제금액을 입력하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰 사용에 필요한 최소결제금액을 입력하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="최대발급개수"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.title1" text="최대발급개수"/></td>
                                     <td>
                                         <input type="text" name="maxPublishCount" class="form-control maxPublishCount"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxPublishCount}">
                                         <span>개</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰의 최대발급 가능 개수를 입력하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰의 최대발급 가능 개수를 입력하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="동일고객 중복발급가능개수"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.title1" text="동일고객 중복발급가능개수"/></td>
                                     <td>
                                         <input type="text" name="multiPublishCount" class="form-control multiPublishCount"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.multiPublishCount}">
                                         <span>개</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="한 고객당 발급 가능한 최대 개수를 입력하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="한 고객당 발급 가능한 최대 개수를 입력하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="쿠폰코드"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.title1" text="쿠폰코드"/></td>
                                     <td><input type="text" name="couponCode" class="form-control width-full couponCode" maxlength="150" value="${tbCoupon.couponCode}"></td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰코드를 입력하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰코드를 입력하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="쿠폰명"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.title1" text="쿠폰명"/></td>
                                     <td><input type="text" name="title" class="form-control width-full title" maxlength="150" value="${tbCoupon.title}"></td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰명을 입력하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰명을 입력하세요."/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.contents1" text="내용"/></td>
                                     <td>
                                         <textarea name="body" class="form-control width-full body" rows="10">${tbCoupon.body}</textarea>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage" text="쿠폰 설명을 입력하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰 설명을 입력하세요."/>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -297,17 +297,17 @@
                         <span>
                             <button type="button" class="btn btn-primary btn_list m-t-5" style="display: flex; align-items: center">
                                 <i class="fa fa-list"></i>
-                                <span class="m-l-5"><spring:message code="list.detail.list" text="목록"/></span>
+                                <span class="m-l-5"><spring:message code="list.detail.list1" text="목록"/></span>
                             </button>
                         </span>
                         <span style="display: flex; align-items: center; margin-left: auto">
                             <button type="button" class="btn btn-primary btn_up m-r-5" style="display: flex; align-items: center">
                                 <i class="fa fa-check"></i>
-                                <span class="m-l-5"><spring:message code="list.detail.enrollment" text="수정"/></span>
+                                <span class="m-l-5"><spring:message code="list.detail.enrollment1" text="수정"/></span>
                             </button>
                             <button type="button" class="btn btn-danger btn_remove m-t-5 m-b-5" style="display: flex; align-items: center">
                                 <i class="fa fa-trash-alt"></i>
-                                <span class="m-l-5"><spring:message code="list.detail.delete" text="삭제"/></span>
+                                <span class="m-l-5"><spring:message code="list.detail.delete1" text="삭제"/></span>
                             </button>
                         </span>
                     </div>
@@ -328,12 +328,12 @@
                                                         <table class="table table-bordered border-bottom text-center border-0">
                                                             <thead>
                                                             <tr>
-                                                                <th class="bg-light" style="width:5%"><spring:message code="list.detail.number" text="번호"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="아이디"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.username" text="사용자 이름"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone" text="사용자 전화번호"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="발급일자"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="만료일자"/></th>
+                                                                <th class="bg-light" style="width:5%"><spring:message code="list.detail.number1" text="번호"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="아이디"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.username1" text="사용자 이름"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone1" text="사용자 전화번호"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="발급일자"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="만료일자"/></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody id="tbUserStaffBody">
@@ -397,13 +397,13 @@
                                                         <table class="table table-bordered border-bottom text-center border-0">
                                                             <thead>
                                                             <tr>
-                                                                <th class="bg-light" style="width:5%"><spring:message code="list.detail.number" text="번호"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="아이디"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.username" text="사용자 이름"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone" text="사용자 전화번호"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="발급일자"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="만료일자"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id" text="사용일자"/></th>
+                                                                <th class="bg-light" style="width:5%"><spring:message code="list.detail.number1" text="번호"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="아이디"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.username1" text="사용자 이름"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone1" text="사용자 전화번호"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="발급일자"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="만료일자"/></th>
+                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="사용일자"/></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -583,11 +583,11 @@
         });
 
         $(".btn_up").click(() => {
-            let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정 하시겠습니까?"/>";
-            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-            let update = "<spring:message code="list.script.update" text="수정"/>";
-            let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
-            let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
+            let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate1" text="수정 하시겠습니까?"/>";
+            let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
+            let update = "<spring:message code="list.script.update1" text="수정"/>";
+            let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful1" text="수정에 성공하였습니다."/>";
+            let editfailed = "<spring:message code="list.script.editfailed1" text="수정에 실패하였습니다."/>";
 
             let url = "${path}/api/coupon/management/update";
             let _forms = $('#update_form');
@@ -636,11 +636,11 @@
 
         $(".btn_remove").click(() => {
             let url = '${path}/api/coupon/management/delete';
-            let doyouwanttodelete = "<spring:message code="list.script.doyouwanttodelete" text="삭제 하시겠습니까?"/>";
-            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-            let deletemsg = "<spring:message code="list.script.deletemsg" text="삭제"/>";
-            let deletionfailed = "<spring:message code="list.script.deletionfailed" text="삭제에 실패하였습니다."/>";
-            let deleted = "<spring:message code="list.script.deleted" text="삭제되었습니다."/>";
+            let doyouwanttodelete = "<spring:message code="list.script.doyouwanttodelete1" text="삭제 하시겠습니까?"/>";
+            let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
+            let deletemsg = "<spring:message code="list.script.deletemsg1" text="삭제"/>";
+            let deletionfailed = "<spring:message code="list.script.deletionfailed1" text="삭제에 실패하였습니다."/>";
+            let deleted = "<spring:message code="list.script.deleted1" text="삭제되었습니다."/>";
 
             swal({
                 title: doyouwanttodelete,
@@ -675,15 +675,15 @@
     });
 
     function inputDataCheck(args) {
-        let emptyValidDayMsg = "<spring:message code="list.script.pleaseenterantitle" text="유효일수를 입력해주세요"/>";
-        let emptyDcAmtMsg = "<spring:message code="list.script.pleaseenterantitle" text="할인금액 또는 할인율을 입력해주세요"/>";
-        let emptyMaxDcAmtMsg = "<spring:message code="list.script.pleaseenteransubject" text="최대할인금액을 입력해주세요"/>";
-        let emptyMinPayAmtMsg = "<spring:message code="list.script.pleaseenteransubject" text="최소결제금액을 입력해주세요"/>";
-        let emptyMaxPublishCountMsg = "<spring:message code="list.script.pleaseenteransubject" text="최대발급개수 입력해주세요"/>";
-        let emptyMultiPublishCountMsg = "<spring:message code="list.script.pleaseenteransubject" text="동일고객 중복발급가능개수 입력해주세요"/>";
-        let emptyCouponCodeMsg = "<spring:message code="list.script.pleaseenteransubject" text="쿠폰코드를 입력해주세요"/>";
-        let emptyTitleMsg = "<spring:message code="list.script.pleaseenteransubject" text="쿠폰명을 입력해주세요"/>";
-        let emptyBodyMsg = "<spring:message code="list.script.pleaseenteransubject" text="내용을 입력해주세요"/>";
+        let emptyValidDayMsg = "<spring:message code="list.script.pleaseenterantitle1" text="유효일수를 입력해주세요"/>";
+        let emptyDcAmtMsg = "<spring:message code="list.script.pleaseenterantitle1" text="할인금액 또는 할인율을 입력해주세요"/>";
+        let emptyMaxDcAmtMsg = "<spring:message code="list.script.pleaseenteransubject1" text="최대할인금액을 입력해주세요"/>";
+        let emptyMinPayAmtMsg = "<spring:message code="list.script.pleaseenteransubject1" text="최소결제금액을 입력해주세요"/>";
+        let emptyMaxPublishCountMsg = "<spring:message code="list.script.pleaseenteransubject1" text="최대발급개수 입력해주세요"/>";
+        let emptyMultiPublishCountMsg = "<spring:message code="list.script.pleaseenteransubject1" text="동일고객 중복발급가능개수 입력해주세요"/>";
+        let emptyCouponCodeMsg = "<spring:message code="list.script.pleaseenteransubject1" text="쿠폰코드를 입력해주세요"/>";
+        let emptyTitleMsg = "<spring:message code="list.script.pleaseenteransubject1" text="쿠폰명을 입력해주세요"/>";
+        let emptyBodyMsg = "<spring:message code="list.script.pleaseenteransubject1" text="내용을 입력해주세요"/>";
         if (isNull(args.validDay) && args.validityType == 2) {
             return alert_focus("validDay", emptyValidDayMsg);
         } else if (isNull(args.dcAmt)) {

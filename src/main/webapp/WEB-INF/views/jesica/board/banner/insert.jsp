@@ -44,23 +44,23 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="노출서비스"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="노출서비스"/></td>
                                         <td>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="serviceType" class="serviceType" value="0" style="margin-right: 5px" checked>
-                                                <span><spring:message code="list.detail.tothewhole" text="메인"/></span>
+                                                <span><spring:message code="list.detail.tothewhole1" text="메인"/></span>
                                             </label>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="serviceType" class="serviceType" value="2" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="탁송"/></span>
+                                                <span><spring:message code="list.detail.affiliate1" text="탁송"/></span>
                                             </label>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="serviceType" class="serviceType" value="3" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="맛집"/></span>
+                                                <span><spring:message code="list.detail.affiliate1" text="맛집"/></span>
                                             </label>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="serviceType" class="serviceType" value="4" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="마트"/></span>
+                                                <span><spring:message code="list.detail.affiliate1" text="마트"/></span>
                                             </label>
                                             <%--<label style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="serviceType" class="serviceType" value="5" style="margin-right: 5px">
@@ -68,39 +68,39 @@
                                             </label>--%>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="노출서비스를 선택하세요."/>
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="노출서비스를 선택하세요."/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="노출여부"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="노출여부"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="viewYn" value="0" style="margin-right: 5px" checked>
-                                                <span><spring:message code="list.detail.tothewhole" text="숨김"/></span>
+                                                <span><spring:message code="list.detail.tothewhole1" text="숨김"/></span>
                                             </label>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="viewYn" value="1" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="노출"/></span>
+                                                <span><spring:message code="list.detail.affiliate1" text="노출"/></span>
                                             </label>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="배너 노출여부를 선택하세요."/>
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="배너 노출여부를 선택하세요."/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시판 종류"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시판 종류"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="boardType" value="1" style="margin-right: 5px" checked>
-                                                <span><spring:message code="list.detail.tothewhole" text="이벤트"/></span>
+                                                <span><spring:message code="list.detail.tothewhole1" text="이벤트"/></span>
                                             </label>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="boardType" value="2" style="margin-right: 5px">
-                                                <span><spring:message code="list.detail.affiliate" text="공지"/></span>
+                                                <span><spring:message code="list.detail.affiliate1" text="공지"/></span>
                                             </label>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="게시판 종류를 선택하세요."/>
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="게시판 종류를 선택하세요."/>
                                         </td>
                                     </tr>
                                     <%--<tr>
@@ -113,21 +113,21 @@
                                         </td>
                                     </tr>--%>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시글 선택"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시글 선택"/></td>
                                         <td>
                                             <input type="hidden" name="boardNo" class="selBoardNo">
                                             <button type="button" data-toggle="modal" data-target="#board_search_modal" class="btn btn-primary board-search-btn">
                                                 <span class="fa fa-search m-r-3"></span>
-                                                <spring:message code="list.search.noticeregistration" text="게시글 검색"/>
+                                                <spring:message code="list.search.noticeregistration1" text="게시글 검색"/>
                                             </button>
                                             <span id="board_title" class="m-l-10"></span>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage" text="연결할 게시글을 검색 후 선택해주세요."/>
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="연결할 게시글을 검색 후 선택해주세요."/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light" rowspan="1"><spring:message code="list.detail.image1" text="배너 이미지"/></td>
+                                        <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="배너 이미지"/></td>
                                         <td>
                                             <div class="category_sort">
                                                 <ul class="sort_list">
@@ -145,13 +145,13 @@
                                                 </ul>
                                                 <label for="imgFile">
                                                     <div class="button_base b03_skewed_slide_in btn btn-primary">
-                                                        <div><spring:message code="list.detail.selectfile" text="파일선택"/></div>
+                                                        <div><spring:message code="list.detail.selectfile1" text="파일선택"/></div>
                                                     </div>
                                                 </label>
                                                 <input type="file" id="imgFile" name="imgFile" class="fileBtn d-none" accept="image/*" >
                                             </div>
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.registerapictureofthedeliveryperson1" text="배너 이미지를 등록하세요."/></td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.registerapictureofthedeliveryperson12" text="배너 이미지를 등록하세요."/></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -159,9 +159,9 @@
                     </div>
                     <div class="m-l-5">
                         <c:if test="${sessionScope.sessionKey.userRole == 0}">
-                            <button type="button" class="btn btn-primary btn_add float-right m-t-5 m-r--5"><i class="fa fa-plus m-r-3"></i> <spring:message code="list.detail.enrollment" text="등록"/></button>
+                            <button type="button" class="btn btn-primary btn_add float-right m-t-5 m-r--5"><i class="fa fa-plus m-r-3"></i> <spring:message code="list.detail.enrollment1" text="등록"/></button>
                         </c:if>
-                        <button type="button" class="btn btn-primary btn_list float-left m-t-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                        <button type="button" class="btn btn-primary btn_list float-left m-t-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list1" text="목록"/></button>
                     </div>
                 </div>
             </div>
@@ -279,11 +279,11 @@
             let _forms = $('#insert_form');
             let req = convertFormToObj(_forms);
 
-            let confirmfailmsg = "<spring:message code="list.script.registrationfailed" text="등록에 실패하였습니다."/>";
-            let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister" text="등록 하시겠습니까?"/>";
-            let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
-            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-            let duplicatemsg = "<spring:message code="list.script.duplicateaccount" text="계정이 중복되었습니다."/>";
+            let confirmfailmsg = "<spring:message code="list.script.registrationfailed1" text="등록에 실패하였습니다."/>";
+            let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="등록 하시겠습니까?"/>";
+            let confirm = "<spring:message code="list.script.enrollment1" text="등록"/>";
+            let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
+            let duplicatemsg = "<spring:message code="list.script.duplicateaccount1" text="계정이 중복되었습니다."/>";
 
            if (inputDataCheck(req)) {
                 swal({
@@ -322,8 +322,8 @@
 
         //게시글 검색
         $(".searchBoardBtn").on("click", () => {
-            let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters" text="검색된 게시글이 존재하지 않습니다."/>";
-            let apply = "<spring:message code="list.script.apply" text="적용"/>";
+            let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="검색된 게시글이 존재하지 않습니다."/>";
+            let apply = "<spring:message code="list.script.apply1" text="적용"/>";
             // let req = convertFormToObj($('form.board_search_form'));
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
             let keyword = $('#keyword').val();
@@ -401,7 +401,7 @@
     }
 
     function chk_file_type(obj) {
-        let imgmsg = "<spring:message code="list.script.onlyimagefilescanbeuploaded" text="취소"/>";
+        let imgmsg = "<spring:message code="list.script.onlyimagefilescanbeuploaded1" text="취소"/>";
         let file_kind = obj.value.lastIndexOf('.');
         let file_name = obj.value.substring(file_kind + 1, obj.length);
         let file_type = file_name.toLowerCase();
