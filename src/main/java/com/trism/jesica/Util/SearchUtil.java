@@ -1430,28 +1430,6 @@ public class SearchUtil {
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                /*if ("dataStatus".equals(key)) {
-                    DataStatus dataStatus = null;
-                    DataStatus delDataStatus = null;
-                    if("".equals(value) || value == null) {
-                        delDataStatus = DataStatus.valueOf("DELETE");
-                        predicate.add(builder.notEqual(root.get(key),delDataStatus));
-                    } else {
-                        dataStatus = DataStatus.valueOf(value.toString());
-                        delDataStatus = DataStatus.valueOf("DELETE");
-                        predicate.add(builder.equal(root.get(key),dataStatus));
-                        predicate.add(builder.notEqual(root.get(key),delDataStatus));
-                    }
-                } */
-                /*if("storeNo".equals(key)){
-
-                    if(!"".equals(value) ) {
-                        predicate.add(builder.equal(root.get(key),value));
-                    } else {
-                        predicate.add(builder.equal(root.get(key),0));
-                    }
-
-                }*/
                 if ("destAddr3".equals(key) && value != "") {
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
                 } else if ("storeName".equals(key) && value != ""){

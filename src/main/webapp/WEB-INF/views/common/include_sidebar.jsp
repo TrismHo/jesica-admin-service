@@ -172,7 +172,7 @@
                 </ul>
             </li>
 --%>
-           <%-- <li class="has-sub <c:if test="${fn:contains(servletPath,'statistics') }">active</c:if>">
+            <li class="has-sub <c:if test="${fn:contains(servletPath,'statistics') }">active</c:if>">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-chart-pie"></i>
@@ -186,7 +186,7 @@
                     <li class=<c:if test="${fn:contains(servletPath,'platform') }">"active"</c:if>><a href="${path}/statistics/platform/list"><spring:message code="sidemenu.statistics.platformrevenue" text="플랫폼 매출"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'performance') }">"active"</c:if>><a href="${path}/statistics/performance/list"><spring:message code="sidemenu.statistics.performance" text="실적"/></a></li>
                 </ul>
-            </li>--%>
+            </li>
             <li class="has-sub <c:if test="${fn:contains(servletPath,'driver') }">active</c:if>">
                 <a href="javascript:;">
                     <b class="caret"></b>

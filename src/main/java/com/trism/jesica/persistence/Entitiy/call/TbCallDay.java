@@ -1,7 +1,6 @@
 package com.trism.jesica.persistence.Entitiy.call;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.trism.jesica.persistence.Entitiy.order.TbOrderDayExtra;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDayHistory;
 import com.trism.jesica.persistence.mappedsuper.BaseOrderEntity;
 import lombok.*;
@@ -36,10 +35,10 @@ public class TbCallDay extends BaseOrderEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "order")
     @JsonBackReference
     private Collection<TbOrderDayHistory> orderHistories = new ArrayList<>();
-
+/*
     @MapsId
     @OneToOne(optional = false ,fetch = FetchType.LAZY)
     @JoinColumn(name = "order_no", referencedColumnName = "order_no",nullable = true  )
-    private TbCallDayExtra callDayExtra;
+    private TbCallDayExtra_Del callDayExtra;*/
 
 }

@@ -59,6 +59,30 @@ public class TbWorkerCharge implements Serializable {
     private Integer takeoverRateType = 1;
 
     /**
+     * 인수대행 릴레이콜 수수료(인수)
+     */
+    @Column(name = "takeover_charge_1")
+    private Integer takeoverCharge1 = 1;
+
+    /**
+     * 1:정액 , 2:정률
+     */
+    @Column(name = "takeover_rate_type_1")
+    private Integer takeoverRateType1 = 1;
+
+    /**
+     * 인수대행 릴레이콜 수수료(마중)
+     */
+    @Column(name = "takeover_charge_2")
+    private Integer takeoverCharge2 = 1;
+
+    /**
+     * 1:정액 , 2:정률
+     */
+    @Column(name = "takeover_rate_type_2")
+    private Integer takeoverRateType2 = 1;
+
+    /**
      * 반납대행 수수료
      */
     @Column(name = "return_charge")

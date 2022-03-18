@@ -181,28 +181,17 @@ public class OrderController {
                                      Model model, HttpSession session) {
 
         log.info("@@searchValue {}",searchValue);
-
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
             }
-            /*if(searchValue.get("endDate") == null && searchValue.get("startDate") == null) {
-                Calendar c1 = new GregorianCalendar();
-                c1.add(Calendar.DATE, -1); // 오늘날짜로부터 -1
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷
-                String yesterday = sdf.format(c1.getTime()); // String으로 저장
-
-                searchValue.put("endDate",yesterday);
-                searchValue.put("startDate",yesterday);
-            }*/
 
             if(searchValue.get("storeNo") == null) {
                 searchValue.put("storeNo","0");
             }
             List<TbCallAll> resultList =  orderService.tbCallAllList(searchValue);
-
             List<TbSystemCode> tbSystemCode = orderService.searchTbSystemCode("OP");
             model.addAttribute("tbSystemCode", tbSystemCode);
             model.addAttribute("consignmentList", resultList);
@@ -223,7 +212,11 @@ public class OrderController {
         log.info("@@orderNo {}",orderNo);
 
         try {
-            model.addAttribute("callDetail",orderService.getCallAllDetail(orderNo));
+            //;
+            TbCallAll tbCallAll = orderService.getCallAllDetail(orderNo);
+            List<TbSystemCode> tbSystemCodeAll = orderService.searchTbSystemCodeAll();
+            model.addAttribute("callDetail",tbCallAll);
+            model.addAttribute("tbSystemCodeAll",tbSystemCodeAll);
             model.addAttribute("callCharge",orderService.getCallCharge(orderNo));
             model.addAttribute("callHistory",orderService.getOrderHistory(orderNo));
         } catch (Exception e) {

@@ -127,6 +127,10 @@ public class OrderService {
         return tbSystemCodeRepository.findBySysType(sysType);
     }
     @Transactional(readOnly = true)
+    public List<TbSystemCode> searchTbSystemCodeAll() {
+        return tbSystemCodeRepository.findAll();
+    }
+    @Transactional(readOnly = true)
     public TbOrderCharge getOrderCharge(Long orderNo) {
 
         Optional<TbOrderCharge> tbOrderCharge = tbOrderChargeRepository.findById(orderNo);

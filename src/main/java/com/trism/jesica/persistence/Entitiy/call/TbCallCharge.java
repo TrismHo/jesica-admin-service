@@ -38,6 +38,12 @@ public class TbCallCharge implements Serializable {
     private Integer cancelYn = null;
 
     /**
+     * 주문 구분 코드 (SYS_TYPE = OT)
+     */
+    @Column(name = "order_type_code")
+    private String orderTypeCode = null;
+
+    /**
      * 발주_그룹_번호
      */
     @Column(name = "give_dlvy_no")
@@ -54,12 +60,6 @@ public class TbCallCharge implements Serializable {
      */
     @Column(name = "give_store_no")
     private Integer giveStoreNo = null;
-
-    /**
-     * 발주_가맹점_이름
-     */
-    @Column(name = "give_store_name")
-    private String giveStoreName = null;
 
     /**
      * 수주_그룹_번호
@@ -79,11 +79,6 @@ public class TbCallCharge implements Serializable {
     @Column(name = "accept_store_no")
     private Integer acceptStoreNo = null;
 
-    /**
-     * 수주가맹점_이름
-     */
-    @Column(name = "accept_store_name")
-    private String acceptStoreName = null;
 
     /**
      * 기사_번호
@@ -96,6 +91,37 @@ public class TbCallCharge implements Serializable {
      */
     @Column(name = "worker_name")
     private String workerName = null;
+
+    /**
+     * 수주_그룹_번호 (콜2)
+     */
+    @Column(name = "accept_dlvy_no_2")
+    private String acceptDlvyNo2 = null;
+
+    /**
+     * 수주_총판_번호(콜2)
+     */
+    @Column(name = "accept_branch_no_2")
+    private String acceptBranchNo2 = null;
+
+    /**
+     * 수주_총판_번호(콜2)
+     */
+    @Column(name = "accept_store_no_2")
+    private String acceptStoreNo2 = null;
+
+    /**
+     * 기사번호(콜2)
+     */
+    @Column(name = "worker_no_2")
+    private String workerNo2 = null;
+
+    /**
+     * 기사이름(콜2)
+     */
+    @Column(name = "worker_name_2")
+    private String workerName2 = null;
+
 
     /**
      * 주문_금액 (총액)
@@ -160,8 +186,26 @@ public class TbCallCharge implements Serializable {
     /**
      * 배달관리비_정산_구분(1: 정액, 2: 정률) - 건당관리비 기준
      */
-    @Column(name = "mng_rate_type")
-    private Integer mngRateType = null;
+/*    @Column(name = "mng_rate_type")
+    private Integer mngRateType = null;*/
+
+    /**
+     * 배달료_총금액(배달대행료_할증) (콜2)
+     */
+    @Column(name = "dlvy_total_amt_2")
+    private Integer dlvyTotalAmt2 = null;
+
+    /**
+     * 기사_정산금액(배달총금액-배달관리비) (콜2)
+     */
+    @Column(name = "worker_income_2")
+    private Integer worker_income_2 = null;
+
+    /**
+     * 배달관리비(기사수수료) (콜2)
+     */
+    @Column(name = "mng_price_2")
+    private Integer mngPrice2 = null;
 
     /**
      * 선결제_입금액
@@ -182,28 +226,12 @@ public class TbCallCharge implements Serializable {
     private Integer callCharge = null;
 
     /**
-     * 배달관리비_플랫폼사(원/%)
+     * 쿠폰정산금
      */
-   /* @Column(name = "mng_rate_platform")
-    private Integer mngRatePlatform = null;*/
+    @Column(name = "coupon_income")
+    private Integer couponIncome = null;
 
-    /**
-     * 배달관리비_발주그룹(총판)
-     */
-    /*@Column(name = "mng_rate_give")
-    private Integer mngRateGive = null;*/
 
-    /**
-     * 배달관리비_수주그룹(총판)
-     */
-   /* @Column(name = "mng_rate_accept")
-    private Integer mngRateAccept = null;*/
 
-    /**
-     * 배달_공유_구분 (1:미공유, 2:공유)
-     */
-   /* @Column(name = "dlvy_share_type")
-    private Integer dlvyShareType = null;*/
 
-    
 }

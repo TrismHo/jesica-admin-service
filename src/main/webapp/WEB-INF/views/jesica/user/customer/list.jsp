@@ -8,6 +8,11 @@
     <%@include file="../../../common/include_head.jsp" %>
     <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
 </head>
+<style>
+    .dataTables_wrapper.dt-bootstrap4 .dataTables_filter {
+        display: block;
+    }
+</style>
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>
@@ -23,7 +28,7 @@
     <!-- begin #sidebar -->
     <%@include file="../../../common/include_sidebar.jsp" %>
     <!-- end #sidebar -->
-
+    <form name="frmSearch" id="frmSearch">
     <!-- begin #content -->
     <div id="content" class="content p-0">
         <!-- begin panel -->
@@ -38,7 +43,7 @@
             </div>
             <!-- end page-header -->
             <!-- begin row -->
-            <form name="frmSearch" id="frmSearch">
+
                 <div class="search-box">
                     <div class="inner-search-box p-5">
                         <div class="row">
@@ -94,23 +99,22 @@
                                     </table>
                                 </form>
                             </div>
-                            <div class="col-xl-12 col-md-12 m-t-10">
+                          <%--  <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                    <%--<button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
+                                    &lt;%&ndash;<button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
                                         <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="고객등록"/></span>
-                                    </button>--%>
-                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="검색"/><%--검색--%> </button>
+                                    </button>&ndash;%&gt;
+                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="검색"/>&lt;%&ndash;검색&ndash;%&gt; </button>
                                 </div>
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                 </div>
-            </form>
             <div class="panel-body">
                 <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
                     <thead>
                     <tr class="text-center">
-                        <th width="5%"><spring:message code="list.word.no1" text="번호"/></th>
+                        <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
                         <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
                         <th width=""><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
                         <th width="10%"><spring:message code="list.word.status12" text="성별"/></th>
@@ -156,6 +160,14 @@
                                         </span>
                                     </button>
                                 </c:if>
+                                <c:if test="${item.isMember != 1}">
+                                    <button type="button"   class="btn btn-info btn-pwd" style="width: 107px;cursor: auto;">
+                                        <span style="display: flex; align-items: center">
+                                            <i class="fa fa-lock"></i>
+                                            <span class="m-l-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="비회원"/></span>
+                                        </span>
+                                    </button>
+                                </c:if>
                             </td>
                         </tr>
                     </c:forEach>
@@ -166,6 +178,7 @@
         <!-- end panel -->
     </div>
     <!-- end #content -->
+    </form>
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
             class="fa fa-angle-up"></i></a>
@@ -187,17 +200,18 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+
+    $(document).on("click",".detailRow",function() {
+        let custNo = $(this).attr("custno");
+        location.href = "${path}/user/cust/detail?custNo=" + custNo;
+    });
     $(() => {
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
         });
 
-        $(".detailRow").click(function() {
-            let custNo = $(this).attr("custno");
-            location.href = "${path}/user/cust/detail?custNo=" + custNo;
-        });
-
-
+        $("#testTable_filter").text("");
+        $("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 
         let date = new Date();
         let startDate = "${searchValue.startDate}";

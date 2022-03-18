@@ -3,7 +3,7 @@
 <%--<jsp:forward page="/contents/lifecycle"/>--%>
 <script>
     <c:choose>
-        <c:when test="${empty sessionScope.userName}">
+        <c:when test="${sessionScope == null}">
             self.location="/login";
         </c:when>
         <c:otherwise>

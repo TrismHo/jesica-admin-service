@@ -1,14 +1,13 @@
 package com.trism.jesica.persistence.mappedsuper;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.trism.jesica.persistence.Entitiy.business.TbStoreSub;
+import com.trism.jesica.persistence.Entitiy.business.TbHead;
 import com.trism.jesica.persistence.core.entity.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -53,11 +52,30 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
     @Column(name = "order_pay_status", length = 4)
     private String orderPayStatus;
 
+
     /**
-     * 결제상태(1 결제완료 , 2 부분결제 , 3 미결제 ,4 결제대기)
+     * 릴레이콜_개수(단일콜인 경우 1)
      */
-    @Column(name = "airport_drive_yn", length = 4)
-    private String airportDriveYn;
+    @Column(name = "relay_cnt")
+    private Integer relayCnt;
+
+    /**
+     * 릴레이콜_현재단계
+     */
+    @Column(name = "relay_step")
+    private Integer relayStep;
+
+    /**
+     * 발주_제휴본사
+     */
+    @Column(name = "head_no")
+    private Integer headNo;
+
+    /**
+     * 발주총판
+     */
+    @Column(name = "branch_no")
+    private Integer branchNo;
 
     /**
      * 가맹점번호
@@ -65,19 +83,12 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
     @Column(name = "store_no", nullable = false)
     private Integer storeNo;
 
-    /**
-     * 가맹점번호
-     */
-/*    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
-    @JoinColumn(name = "store_no", nullable = false, insertable= false, updatable = false)
-    @JsonManagedReference
-    private TbStore store;*/
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_no", nullable = false, insertable= false, updatable = false)
+    @JoinColumn(name = "head_no", nullable = false, insertable= false, updatable = false)
     @JsonManagedReference
-    private TbStoreSub store;
+    private TbHead head;
+
 
     /**
      * 가맹점 이름
@@ -90,6 +101,13 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
      */
     @Column(name = "store_tel", length = 15)
     private String storeTel;
+
+    /**
+     * 가맹점 전화번호
+     */
+    /*@Column(name = "rental_store_tel", length = 15)
+    private String rentalStoreTel;*/
+
 
     /**
      * 고객번호
@@ -107,35 +125,11 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
     @Column(name = "cust_tel", length = 15)
     private String custTel;
 
-
     /**
-     * 배달대행_일련번호
+     * 고객전화번호
      */
-    @Column(name = "dlvy_no")
-    private Integer dlvyNo;
-
-    @Column(name = "worker_no", nullable = false)
-    private Integer workerNo;
-
-    /**
-     * 배송원_(FK)
-     */
-/*    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_no", referencedColumnName = "worker_no")
-    @JsonManagedReference
-    private TbUserWorker userWorker;*/
-
-    /**
-     * 배송원 이름
-     */
-    @Column(name = "worker_name", length = 40)
-    private String workerName;
-
-    /**
-     * 베송원 전화번호
-     */
-    @Column(name = "worker_tel", length = 15)
-    private String workerTel;
+    @Column(name = "cust_tel_2", length = 15)
+    private String custTel2;
 
     /**
      * 주문 일시
@@ -143,96 +137,11 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
 
-
     /**
-     * 배송 요청 일시
+     * 렌터카업체 인수/반납 예약시간
      */
-    @Column(name = "dlvy_req_date")
-    private LocalDateTime dlvyReqDate;
-
-    /**
-     * 배송_배차_일시
-     */
-    @Column(name = "dlvy_acc_date")
-    private LocalDateTime dlvyAccDate;
-
-    /**
-     * 배송_도착_일시
-     */
-/*    @Column(name = "dlvy_arr_date")
-    private LocalDateTime dlvyArrDate;*/
-
-    /**
-     * 출발 일시
-     */
-    @Column(name = "pickup_date")
-    private LocalDateTime pickupDate;
-
-    /**
-     * 완료 일시
-     */
-    @Column(name = "finish_date")
-    private LocalDateTime finishDate;
-
-    /**
-     * 취소일시
-     */
-    @Column(name = "cancel_date")
-    private LocalDateTime cancelDate;
-
-    /**
-     * 출발 명칭
-     */
-    @Column(name = "depart_poi", length = 100)
-    private String departPoi;
-
-    /**
-     * 출발 위도
-     */
-    @Column(name = "depart_lat")
-    private BigDecimal departLat;
-
-    /**
-     * 출발 경도
-     */
-    @Column(name = "depart_lng")
-    private BigDecimal departLng;
-
-    /**
-     * 도착 명칭
-     */
-    @Column(name = "dest_poi", length = 100)
-    private String destPoi;
-
-    /**
-     * 도착 위도
-     */
-    @Column(name = "dest_lat")
-    private BigDecimal destLat;
-
-    /**
-     * 도착 경도
-     */
-    @Column(name = "dest_lng")
-    private BigDecimal destLng;
-
-    /**
-     * 도착주소 3 (레벨3)
-     */
-    @Column(name = "dest_addr_3", length = 100)
-    private String destAddr3;
-
-    /**
-     * 도착주소 4 (나머지 주소)
-     */
-    @Column(name = "dest_addr_4", length = 100)
-    private String destAddr4;
-
-    /**
-     * 상품이름 (표시이름)
-     */
-    @Column(name = "goods_name", length = 100)
-    private String goodsName;
+    @Column(name = "car_use_date")
+    private LocalDateTime carUseDate;
 
     /**
      * 주문금액(총액)
@@ -253,75 +162,139 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
     private Integer serviceAmt;
 
     /**
-     * 배달거리 (미터단위)
+     * 봉사료 금액
      */
-    @Column(name = "dlvy_distance")
-    private Integer dlvyDistance;
+    @Column(name = "total_amt")
+    private Integer totalAmt;
 
     /**
-     * 배달 거리(미터단위)
+     * 고객쿠폰번호
      */
-   /* @Column(name = "dlvy_cnt")
-    private Integer dlvyCnt;*/
+    @Column(name = "pub_coupon_no")
+    private Integer pubCouponNo;
 
     /**
-     * 배달대행 금액
+     * 기사번호
      */
-    @Column(name = "dlvy_amt")
-    private Integer dlvyAmt;
+    @Column(name = "worker_no", nullable = false)
+    private Integer workerNo;
 
     /**
-     * 배달대행 할증 요금
+     * 배송원 이름
      */
-    @Column(name = "dlvy_extra_charge")
-    private Integer dlvyExtraCharge;
+    @Column(name = "worker_name", length = 40)
+    private String workerName;
 
     /**
-     * 배달대행 취소 시간(자동 취소)
+     * 베송원 전화번호
      */
-/*    @Column(name = "dlvy_cancel_time")
-    private Integer dlvyCancelTime;*/
+    @Column(name = "worker_tel", length = 15)
+    private String workerTel;
 
     /**
-     * 주문 취소 패널티 금액
+     * 배송 요청 일시
      */
-    @Column(name = "dlvy_penalty_amt")
-    private Integer dlvyPenaltyAmt;
+    @Column(name = "dlvy_req_date")
+    private LocalDateTime dlvyReqDate;
 
     /**
-     * 요금결제 방식 (1: 현금, 2: 카드, 3: 캐시)
+     * 배송_배차_일시
      */
-/*    @Column(name = "pay_method", length = 4)
-    @Enumerated(EnumType.ORDINAL)
-    private PayMethodType payMethod;*/
+    @Column(name = "dlvy_acc_date")
+    private LocalDateTime dlvyAccDate;
+
+    /**
+     * 출발 일시
+     */
+    @Column(name = "pickup_date")
+    private LocalDateTime pickupDate;
+
+    /**
+     * 완료 일시
+     */
+    @Column(name = "finish_date")
+    private LocalDateTime finishDate;
+
+    /**
+     * 취소일시
+     */
+    @Column(name = "cancel_date")
+    private LocalDateTime cancelDate;
+
+    /**
+     * 수주 제휴본사
+     */
+    @Column(name = "accept_head_no")
+    private Integer acceptHeadNo;
+
+    /**
+     * 수주 총판
+     */
+    @Column(name = "accept_branch_no")
+    private Integer acceptBranchNo;
+
+    /**
+     * 수주 가맹점
+     */
+    @Column(name = "accept_store_no")
+    private Integer acceptStoreNo;
+
+    /**
+     * 수주 가맹점 연락처
+     */
+    @Column(name = "accept_store_tel")
+    private Integer acceptStoreTel;
+
+    /**
+     * 고객요청
+     */
+    @Column(name = "cust_memo")
+    private String custMemo;
+
+    /**
+     * 주문메모
+     */
+    @Column(name = "order_memo")
+    private String orderMemo;
+
+    /**
+     * 취소메모
+     */
+    @Column(name = "cancel_memo")
+    private String cancelMemo;
+
+    /**
+     * 취소사유 구분 코드 (SYS_TYPE = OC)
+     */
+    @Column(name = "order_cancel_code")
+    private String orderCancelCode;
+
+    /**
+     * 차량 모델
+     */
+    @Column(name = "car_model")
+    private String carModel;
+
+    /**
+     * 차량 모델
+     */
+    @Column(name = "car_num")
+    private String carNum;
 
 
     /**
-     * 배달대행_요금결제_방식 (1: 현금, 2: 카드, 3: 캐시)
+     * 배송원_(FK)
      */
-/*    @Column(name = "dlvy_pay_method", length = 4)
-    @Enumerated(EnumType.ORDINAL)
-    private DlvyPayMethodType dlvyPayMethod;*/
+/*    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "worker_no", referencedColumnName = "worker_no")
+    @JsonManagedReference
+    private TbUserWorker userWorker;*/
 
     /**
-     * 회원여부
+     * 배송_도착_일시
      */
-    @Column(name = "is_member")
-    private Integer isMember;
-
-    /**
-     * 30일 경과 사용자 정보 마스킹 여부
-     */
-    @Column(name = "is_mask")
-    private Integer isMask;
-
-    /**
-     * 30일 경과 사용자 정보 마스킹 여부
-     */
-    @Column(name = "dlvy_total_amt")
-    private Integer dlvyTotalAmt;
-
-
+/*    @Column(name = "dlvy_arr_date")
+    private LocalDateTime dlvyArrDate;*/
 
     @PrePersist
     private void defaultInit() {
@@ -330,10 +303,7 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
         this.orderAmt = 0;
         this.discountAmt = 0;
         this.serviceAmt = 0;
-        this.dlvyDistance = 0;
         /*this.dlvyCnt = 0;*/
-        this.dlvyAmt = 0;
-        this.dlvyExtraCharge = 0;
     }
 
 

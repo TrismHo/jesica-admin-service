@@ -49,7 +49,7 @@
             </div>
             <!-- end page-header -->
             <!-- begin row -->
-            <form name="frmSearch" id="frmSearch">
+           <%-- <form name="frmSearch" id="frmSearch">
                 <div class="search-box">
                     <div class="inner-search-box p-5">
                         <div class="row">
@@ -58,7 +58,7 @@
                                 <table class="table table-condensed table-bordered">
                                     <tbody>
                                     <tr>
-                                        <td class="bg-light"><strong>범위대상<%--<spring:message code="merchandise.search1" text="default text"/>--%><%--가맹점선택--%></strong></td>
+                                        <td class="bg-light"><strong>범위대상&lt;%&ndash;<spring:message code="merchandise.search1" text="default text"/>&ndash;%&gt;&lt;%&ndash;가맹점선택&ndash;%&gt;</strong></td>
                                         <td>
                                             <label>
                                                 <select id="test1" class="form-control">
@@ -96,13 +96,13 @@
                                                 </select>
                                             </label>
                                             <label id="test13">
-                                                <input type="text" data-toggle="modal" data-target="#search_modal" placeholder="<spring:message code="merchandise.search1.option1" text="default text"/><%--제휴본사 선택--%>" class="form-control background-white" readonly>
+                                                <input type="text" data-toggle="modal" data-target="#search_modal" placeholder="<spring:message code="merchandise.search1.option1" text="default text"/>&lt;%&ndash;제휴본사 선택&ndash;%&gt;" class="form-control background-white" readonly>
                                             </label>
                                             <label id="test14">
-                                                <input type="text" placeholder="<spring:message code="merchandise.search1.option2" text="default text"/><%--총판선택--%>" class="form-control background-white" readonly>
+                                                <input type="text" placeholder="<spring:message code="merchandise.search1.option2" text="default text"/>&lt;%&ndash;총판선택&ndash;%&gt;" class="form-control background-white" readonly>
                                             </label>
                                         </td>
-                                        <td class="bg-light"><strong>기간선택<%--<spring:message code="merchandise.search8" text="default text"/>--%><%--등록기간--%></strong></td>
+                                        <td class="bg-light"><strong>기간선택&lt;%&ndash;<spring:message code="merchandise.search8" text="default text"/>&ndash;%&gt;&lt;%&ndash;등록기간&ndash;%&gt;</strong></td>
                                         <td>
                                             <label>
                                                 <select class="form-control">
@@ -119,12 +119,12 @@
                                                 <input type="text" class="form-control endDate background-white" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
                                             </label>
                                         </td>
-                                        <td class="bg-light"><strong><spring:message code="merchandise.search9" text="default text"/><%--검색어 입력--%></strong></td>
+                                        <td class="bg-light"><strong><spring:message code="merchandise.search9" text="default text"/>&lt;%&ndash;검색어 입력&ndash;%&gt;</strong></td>
                                         <td>
                                             <label>
                                                 <select class="form-control">
-                                                    <option>제휴본사명<%--<spring:message code="merchandise.search9.option1" text="default text"/>--%><%--상품명--%></option>
-                                                    <option>총판명<%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
+                                                    <option>제휴본사명&lt;%&ndash;<spring:message code="merchandise.search9.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</option>
+                                                    <option>총판명&lt;%&ndash;<spring:message code="merchandise.search9.option2" text="default text"/>&ndash;%&gt;&lt;%&ndash;바코드&ndash;%&gt;</option>
                                                 </select>
                                             </label>
                                             <label>
@@ -139,7 +139,7 @@
                                 <table class="table table-condensed table-bordered">
                                     <tbody>
                                     <tr>
-                                        <td class="bg-light"><strong>범위대상<%--<spring:message code="merchandise.search1" text="default text"/>--%><%--가맹점선택--%></strong></td>
+                                        <td class="bg-light"><strong>범위대상&lt;%&ndash;<spring:message code="merchandise.search1" text="default text"/>&ndash;%&gt;&lt;%&ndash;가맹점선택&ndash;%&gt;</strong></td>
                                         <td>
                                             <label>
                                                 <select id="test2" class="form-control">
@@ -177,15 +177,15 @@
                                                 </select>
                                             </label>
                                             <label id="test23">
-                                                <input type="text" data-toggle="modal" data-target="#search_modal" placeholder="<spring:message code="merchandise.search1.option1" text="default text"/><%--제휴본사 선택--%>" class="form-control background-white" readonly>
+                                                <input type="text" data-toggle="modal" data-target="#search_modal" placeholder="<spring:message code="merchandise.search1.option1" text="default text"/>&lt;%&ndash;제휴본사 선택&ndash;%&gt;" class="form-control background-white" readonly>
                                             </label>
                                             <label id="test24">
-                                                <input type="text" placeholder="<spring:message code="merchandise.search1.option2" text="default text"/><%--총판선택--%>" class="form-control background-white" readonly>
+                                                <input type="text" placeholder="<spring:message code="merchandise.search1.option2" text="default text"/>&lt;%&ndash;총판선택&ndash;%&gt;" class="form-control background-white" readonly>
                                             </label>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light"><strong><spring:message code="merchandise.search8" text="default text"/><%--등록기간--%></strong></td>
+                                        <td class="bg-light"><strong><spring:message code="merchandise.search8" text="default text"/>&lt;%&ndash;등록기간&ndash;%&gt;</strong></td>
                                         <td>
                                             <label>
                                                 <select class="form-control">
@@ -204,12 +204,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light"><strong><spring:message code="merchandise.search9" text="default text"/><%--검색어 입력--%></strong></td>
+                                        <td class="bg-light"><strong><spring:message code="merchandise.search9" text="default text"/>&lt;%&ndash;검색어 입력&ndash;%&gt;</strong></td>
                                         <td>
                                             <label>
                                                 <select class="form-control">
-                                                    <option>제휴본사명<%--<spring:message code="merchandise.search9.option1" text="default text"/>--%><%--상품명--%></option>
-                                                    <option>총판명<%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
+                                                    <option>제휴본사명&lt;%&ndash;<spring:message code="merchandise.search9.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</option>
+                                                    <option>총판명&lt;%&ndash;<spring:message code="merchandise.search9.option2" text="default text"/>&ndash;%&gt;&lt;%&ndash;바코드&ndash;%&gt;</option>
                                                 </select>
                                             </label>
                                             <label>
@@ -226,48 +226,59 @@
                                         <i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="default text"/>
                                     </button>
                                     <button class="btn-box-r bgGray float-left m-r-10 p-5" type="button" data-toggle="modal" data-target="#add_modal">
-                                        <i class="fa fa-download"></i> 엑셀저장(전체)<%--<spring:message code="merchandise.registerbutton" text="default text"/>--%>
+                                        <i class="fa fa-download"></i> 엑셀저장(전체)&lt;%&ndash;<spring:message code="merchandise.registerbutton" text="default text"/>&ndash;%&gt;
                                     </button>
                                     <button class="btn-box-r bgGray float-left m-r-10 p-5" type="button" data-toggle="modal" data-target="#add_modal">
-                                        <i class="fa fa-download"></i> 엑셀저장(가맹점)<%--<spring:message code="merchandise.registerbutton" text="default text"/>--%>
+                                        <i class="fa fa-download"></i> 엑셀저장(가맹점)&lt;%&ndash;<spring:message code="merchandise.registerbutton" text="default text"/>&ndash;%&gt;
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </form>--%>
             <div class="panel-body">
+                <div class="row">
+                    <!-- begin col-3 -->
+                    <div class="col-xl-6 col-md-6">
+                        <canvas id="myChart" style="width:100%;"></canvas>
+                    </div>
+                    <div class="col-xl-6 col-md-6 ">
+                        <canvas id="myChart2" style="width:100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" style="height: 430px;">
                 <table id="testTable" class="display table table-bordered w-100 table-striped">
                     <thead>
-                        <tr class="text-center">
-                            <th>기간</th>
-                            <th>공유 배송 그룹 개수</th>
-                            <th>발주 완료 건수</th>
-                            <th>배달대행 수행 완료 건수</th>
-                            <th>배달대행 배달대행료</th>
-                            <th>자체 배송 완료 건수</th>
-                        </tr>
+                    <tr class="text-center">
+                        <th>기간</th>
+                        <th>공유 배송 그룹 개수</th>
+                        <th>발주 완료 건수</th>
+                        <th>배달대행 수행 완료 건수</th>
+                        <th>배달대행 배달대행료</th>
+                        <th>자체 배송 완료 건수</th>
+                    </tr>
                     </thead>
                     <tbody>
+                    <tr class="text-center">
+                        <td></td>
+                        <td>55</td>
+                        <td>55</td>
+                        <td>55</td>
+                        <td>550000</td>
+                        <td>55</td>
+                    </tr>
+                    <c:forEach begin="1" end="10" varStatus="idx">
                         <tr class="text-center">
-                            <td></td>
-                            <td>55</td>
-                            <td>55</td>
-                            <td>55</td>
-                            <td>550000</td>
-                            <td>55</td>
+                            <td>2020-12-05 ~ 2021-01-05</td>
+                            <td>${idx.index}</td>
+                            <td>${idx.index}</td>
+                            <td>${idx.index}</td>
+                            <td>${idx.index}0000</td>
+                            <td>${idx.index}</td>
                         </tr>
-                        <c:forEach begin="1" end="10" varStatus="idx">
-                            <tr class="text-center">
-                                <td>2020-12-05 ~ 2021-01-05</td>
-                                <td>${idx.index}</td>
-                                <td>${idx.index}</td>
-                                <td>${idx.index}</td>
-                                <td>${idx.index}0000</td>
-                                <td>${idx.index}</td>
-                            </tr>
-                        </c:forEach>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -281,6 +292,7 @@
     <!-- end scroll to top btn -->
 </div>
 
+<script src="${path}/assets/plugins/chart.js/dist/Chart.min.js"></script>
 <%--modal search start--%>
 <div class="modal fade" id="search_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="search.jsp" %>
@@ -325,6 +337,7 @@
                 $("#test14").show();
             }
         });
+
 
         $("#test2").on("change", function() {
             if(this.value == '1') {
@@ -416,7 +429,133 @@
         $(".excel_form_btn").click(function() {
             location.href = "${path}/merchant/uploadexcel/excelform";
         });
+
+        var context = document
+            .getElementById('myChart')
+            .getContext('2d');
+        var myChart = new Chart(context, {
+            type: 'bar', // 차트의 형태
+            data: { // 차트에 들어갈 데이터
+                labels: [
+                    //x 축
+                    '1','2','3','4','5','6','7'
+                ],
+                datasets: [
+                    { //데이터
+                        label: 'test1', //차트 제목
+                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                        data: [
+                            21,19,25,20,23,26,25 //x축 label에 대응되는 데이터 값
+                        ],
+                        backgroundColor: [
+                            //색상
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            //경계선 색상
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1 //경계선 굵기
+                    }/* ,
+                        {
+                            label: 'test2',
+                            fill: false,
+                            data: [
+                                8, 34, 12, 24
+                            ],
+                            backgroundColor: 'rgb(157, 109, 12)',
+                            borderColor: 'rgb(157, 109, 12)'
+                        } */
+                ]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    ]
+                }
+            }
+        });
+
+        var context2 = document
+            .getElementById('myChart2')
+            .getContext('2d');
+        var myChart2 = new Chart(context2, {
+            type: 'bar', // 차트의 형태
+            data: { // 차트에 들어갈 데이터
+                labels: [
+                    //x 축
+                    '1','2','3','4','5','6','7'
+                ],
+                datasets: [
+                    { //데이터
+                        label: 'test1', //차트 제목
+                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                        data: [
+                            21,19,25,20,23,26,25 //x축 label에 대응되는 데이터 값
+                        ],
+                        backgroundColor: [
+                            //색상
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            //경계선 색상
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1 //경계선 굵기
+                    }/* ,
+                        {
+                            label: 'test2',
+                            fill: false,
+                            data: [
+                                8, 34, 12, 24
+                            ],
+                            backgroundColor: 'rgb(157, 109, 12)',
+                            borderColor: 'rgb(157, 109, 12)'
+                        } */
+                ]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    ]
+                }
+            }
+        });
     });
+
+
 </script>
 </body>
 </html>

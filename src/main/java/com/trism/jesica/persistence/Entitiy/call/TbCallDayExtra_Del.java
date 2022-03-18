@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "tb_call_day_extra")
 @Entity
 @Data
-public class TbCallDayExtra implements Serializable {
+public class TbCallDayExtra_Del implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

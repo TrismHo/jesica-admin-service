@@ -153,7 +153,7 @@
                 </div>
             </form>
             <div class="panel-body panel-body-datatable p-15">
-                <table id="testTable" class="display table table-bordered w-100 table-striped ">
+                <table id="testTable" class="listTable display table table-bordered w-100 table-striped>
                     <thead>
                         <th class="text-center" width="3%;"><spring:message code="list.word.no" text="순번"/></th>
                         <th class="text-center" width="10%;">프로필 이미지</th>

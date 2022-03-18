@@ -9,6 +9,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * 탁송_전체_추가정보
@@ -17,8 +18,6 @@ import javax.persistence.*;
 @Table(name = "tb_call_all")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Accessors(chain = true)
-@AllArgsConstructor
-@Builder
 @Getter
 @ToString(callSuper = true, exclude = {})
 @EqualsAndHashCode(callSuper = true)
@@ -33,7 +32,19 @@ public class TbCallAll extends BaseCallEntity {
 
     @MapsId
     @NotFound(action= NotFoundAction.IGNORE)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_no", referencedColumnName = "order_no")
+    private List<TbCallAllRelay> callAllRelay;
+
+    @MapsId
+    @NotFound(action= NotFoundAction.IGNORE)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_no", referencedColumnName = "order_no")
+    private List<TbCallAllWk> callAllWk;
+
+/*    @MapsId
+    @NotFound(action= NotFoundAction.IGNORE)
     @OneToOne(optional = false)
     @JoinColumn(name = "order_no", referencedColumnName = "order_no")
-    private TbCallAllExtra callExtra;
+    private List<TbCallAllRelay> callAllRelay;*/
 }
