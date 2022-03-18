@@ -113,6 +113,12 @@
                         <span class="d-sm-block d-none"><spring:message code="list.detail.123" text="릴레이콜"/></span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#default-tab-5" data-toggle="tab" class="nav-link">
+                        <span class="d-sm-none"><spring:message code="list.detail.123" text="배차정보"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.123" text="배차정보"/></span>
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
 
@@ -162,11 +168,7 @@
                                             <tr>
                                                 <td rowspan="1"><spring:message code="list.detail.orderidentification" text="주문구분"/></td>
                                                 <td rowspan="1">
-                                                    <c:forEach var="item" items="${tbSystemCodeAll}" varStatus="status">
-                                                        <c:if test="${callDetail.orderTypeCode == item.sysCode && item.sysType == 'OT'}">
-                                                            ${item.codeName}
-                                                        </c:if>
-                                                    </c:forEach>
+                                                 분
                                                 </td>
                                             </tr>
                                             <tr>
@@ -491,19 +493,11 @@
                             <div class="panel panel-inverse">
                                 <!-- begin table-responsive -->
                                 <div class="table-responsive">
-                                    <table id="user" class="table table-condensed table-bordered">
+                                  <%--  <table id="user" class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr>
-                                      <%--      <td class="bg-light" width="180px;"><spring:message code="list.detail.orderingfranchiseeheadquarters" text="발주 가맹점명"/></td>
-                                            <td>${callCharge.giveStoreName}</td>&ndash;%&gt;
-                                            <td class="bg-light" width="180px;"><spring:message code="list.detail.orderingdistributorname" text="발주 총판명"/></td>
-                                            <td></td>
-                                            <td class="bg-light" width="180px;"><spring:message code="list.detail.orderfranchiseeheadquarters" text="수주 가맹점명"/></td>
-                                            <td>${callDetail.acceptStoreName}</td>--%>
-                                        </tr>
-                                        <tr>
                                             <td class="bg-light" ><spring:message code="list.detail.deliverymanname1" text="드라이버 이름"/></td>
-                                            <td>${callCharge.workerName}</td>
+                                            <td>${callCharge.workerName}(${callCharge.workerNo})</td>
                                             <td class="bg-light"><spring:message code="list.detail.deliverymanagentsettlementamount1" text="드라이버 정산금액"/></td>
                                             <td><fmt:formatNumber value="${callCharge.workerIncome}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
                                         </tr>
@@ -520,18 +514,6 @@
                                             <td><fmt:formatNumber value="${callCharge.totalAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
                                         </tr>
 
-                                           <%-- <td class="bg-light"><spring:message code="list.detail.customerpaymentmethod" text="고객지불방식"/></td>
-                                            <td>
-                                                <c:if test="${callCharge.payMethod ==  1}">
-                                                    <spring:message code="list.detail.payment" text="현금"/>
-                                                </c:if>
-                                                <c:if test="${callCharge.payMethod ==  2}">
-                                                    <spring:message code="list.detail.card" text="카드"/>
-                                                </c:if>
-                                                <c:if test="${callCharge.payMethod ==  3}">
-                                                    <spring:message code="list.detail.prepayment" text="선결제"/>
-                                                </c:if>
-                                            </td>--%>
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.totalamountofdeliveryagent" text="배달대행 총금액"/></td>
                                             <td><fmt:formatNumber value="${callCharge.dlvyTotalAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/>
@@ -540,59 +522,439 @@
                                             <td><fmt:formatNumber value="${callCharge.mngPrice}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
                                         </tr>
                                         <tr>
-                                          <%--  <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeesettlement" text="배달관리비 정산 구분"/></td>
-                                            <td>
-                                                ${callCharge.mngRateType}
-                                               &lt;%&ndash; <c:if test="${callCharge.mngRateType ==  1}">
-                                                    <spring:message code="list.detail.flatrate" text="정액"/>
-                                                </c:if>
-                                                <c:if test="${callCharge.mngRateType ==  2}">
-                                                    <spring:message code="list.detail.fixedrate" text="정률"/>
-                                                </c:if>&ndash;%&gt;
-                                            </td>--%>
                                             <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeplatformcompany" text="선결제 입금액"/></td>
                                             <td>${callCharge.pgIncome} (<spring:message code="list.detail.won" text="원"/> / %)  </td>
-                                            <%--<td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeplatformcompany" text="배달관리비 플랫폼사"/></td>
-                                            <td>${callCharge.mngRatePlatform} (<spring:message code="list.detail.won" text="원"/> / %)  </td>--%>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeorderinggroup" text="PG_수수료"/></td>
-                                            <td>${callCharge.pgCharge} <spring:message code="list.detail.won" text="원"/></td>
-                                          <%--  <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeordergroup" text="배달관리
-                                            비 수주그룹"/></td>
-                                            <td>${callCharge.mngRateAccept} <spring:message code="list.detail.won" text="원"/></td>--%>
-                                        </tr>
-                                        <tr>
-                                          <%--  <td class="bg-light"><spring:message code="list.detail.deliverysharing" text="배달공유구분"/></td>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeplatformcompany" text="취소정산여부"/></td>
                                             <td>
-                                                <c:if test="${callCharge.dlvyShareType ==  1}">
-                                                    <spring:message code="list.detail.unshared" text="미공유"/>
-                                                </c:if>
-                                                <c:if test="${callCharge.dlvyShareType ==  2}">
-                                                    <spring:message code="list.detail.share" text="공유"/>
-                                                </c:if>
-                                            </td>--%>
+                                                <c:if test="${callCharge.cancelYn == '0'}">정상</c:if>
+                                                <c:if test="${callCharge.cancelYn == '1'}">취소</c:if>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeorderinggroup1" text="PG_수수료"/></td>
+                                            <td>${callCharge.pgCharge} <spring:message code="list.detail.won" text="원"/></td>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeordergroup1" text="주문구문"/></td>
+                                            <td>
+                                                <c:forEach var="item" items="${tbSystemCodeAll}" varStatus="status">
+                                                    <c:if test="${callCharge.orderTypeCode == item.sysCode && item.sysType == 'OT'}">
+                                                        ${item.codeName}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                          <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="발주그룹번호"/></td>
+                                            <td>
+                                                ${callCharge.giveDlvyNo}
+                                            </td>
                                             <td class="bg-light"><spring:message code="list.detail.customerpayout" text="고객지불금액"/></td>
                                             <td>
                                                 <fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
                                             </td>
-                                          <%--  <td class="bg-light"><spring:message code="list.detail.servicefee" text="서비스이용료(합계)"/></td>
-                                            <td><fmt:formatNumber value="${callCharge.svcPrice}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>--%>
                                         </tr>
-                                       <%-- <tr>
-                                            <td class="bg-light"><spring:message code="list.detail.servicefeeplatformcompany" text="서비스이용료 플랫폼사"/></td>
-                                            <td><fmt:formatNumber value="${callCharge.svcPrice0}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
-                                            <td class="bg-light"><spring:message code="list.detail.firstsettlementofservicefee" text="서비스이용료 1차 정산"/></td>
-                                            <td><fmt:formatNumber value="${callCharge.svcPrice1}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
-                                        </tr>--%>
-                                     <%--   <tr>
-                                            <td class="bg-light"><spring:message code="list.detail.secondsettlementofservicefee" text="서비스이용료 2차 정산"/></td>
-                                            <td><fmt:formatNumber value="${callCharge.svcPrice2}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
-                                            <td class="bg-light"><spring:message code="list.detail.3rdsettlementofservicefee" text="서비스이용료 3차 정산"/></td>
-                                            <td><fmt:formatNumber value="${callCharge.svcPrice3}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
-                                        </tr>--%>
+                                        <tr>
+                                          <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="발주총판번호"/></td>
+                                            <td>
+                                                ${callCharge.giveBranchNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="발주가맹점번호"/></td>
+                                            <td>
+                                                ${callCharge.giveStoreNo}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                          <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="수주그룹번호"/></td>
+                                            <td>
+                                                ${callCharge.acceptDlvyNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="수주총판번호"/></td>
+                                            <td>
+                                                ${callCharge.acceptBranchNo}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                          <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="수주가맹점번호"/></td>
+                                            <td>
+                                                ${callCharge.acceptStoreNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="고객지불금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="할증금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.serviceAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text=""/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.serviceAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="고객지불금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                          <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="발주그룹번호"/></td>
+                                            <td>
+                                                ${callCharge.giveDlvyNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="고객지불금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
+                                    <table id="user" class="table table-condensed table-bordered">
+                                        <tbody>
+                                        <tr>
+                                            <td class="bg-light" ><spring:message code="list.detail.deliverymanname1" text="드라이버 이름"/></td>
+                                            <td>${callCharge.workerName}(${callCharge.workerNo})</td>
+                                            <td class="bg-light" ><spring:message code="list.detail.deliverymanname1" text="드라이버 이름"/></td>
+                                            <td>${callCharge.workerName2}(${callCharge.workerNo2})</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagentsettlementamount1" text="드라이버 정산금액"/></td>
+                                            <td><fmt:formatNumber value="${callCharge.workerIncome}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            <td class="bg-light"><spring:message code="list.detail.servicechargeamount" text="봉사료 금액"/></td>
+                                            <td><fmt:formatNumber value="${callCharge.serviceAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            <td class="bg-light"><spring:message code="list.detail.orderamount" text="주문 금액"/></td>
+                                            <td><fmt:formatNumber value="${callCharge.orderAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.discountamount" text="할인금액"/></td>
+                                            <td><fmt:formatNumber value="${callCharge.discountAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            <td class="bg-light"><spring:message code="list.detail.thetotalamount" text="총금액"/></td>
+                                            <td><fmt:formatNumber value="${callCharge.totalAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                        </tr>
+
+                                        &lt;%&ndash; <td class="bg-light"><spring:message code="list.detail.customerpaymentmethod" text="고객지불방식"/></td>
+                                         <td>
+                                             <c:if test="${callCharge.payMethod ==  1}">
+                                                 <spring:message code="list.detail.payment" text="현금"/>
+                                             </c:if>
+                                             <c:if test="${callCharge.payMethod ==  2}">
+                                                 <spring:message code="list.detail.card" text="카드"/>
+                                             </c:if>
+                                             <c:if test="${callCharge.payMethod ==  3}">
+                                                 <spring:message code="list.detail.prepayment" text="선결제"/>
+                                             </c:if>
+                                         </td>&ndash;%&gt;
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.totalamountofdeliveryagent" text="배달대행 총금액"/></td>
+                                            <td><fmt:formatNumber value="${callCharge.dlvyTotalAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/>
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfee" text="배달관리비"/></td>
+                                            <td><fmt:formatNumber value="${callCharge.mngPrice}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                        </tr>
+                                        <tr>
+                                            &lt;%&ndash;  <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeesettlement" text="배달관리비 정산 구분"/></td>
+                                              <td>
+                                                  ${callCharge.mngRateType}
+                                                 &lt;%&ndash; <c:if test="${callCharge.mngRateType ==  1}">
+                                                      <spring:message code="list.detail.flatrate" text="정액"/>
+                                                  </c:if>
+                                                  <c:if test="${callCharge.mngRateType ==  2}">
+                                                      <spring:message code="list.detail.fixedrate" text="정률"/>
+                                                  </c:if>&ndash;%&gt;
+                                              </td>&ndash;%&gt;
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeplatformcompany" text="선결제 입금액"/></td>
+                                            <td>${callCharge.pgIncome} (<spring:message code="list.detail.won" text="원"/> / %)  </td>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeplatformcompany" text="취소정산여부"/></td>
+                                            <td>
+                                                <c:if test="${callCharge.cancelYn == '0'}">정상</c:if>
+                                                <c:if test="${callCharge.cancelYn == '1'}">취소</c:if>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeorderinggroup1" text="PG_수수료"/></td>
+                                            <td>${callCharge.pgCharge} <spring:message code="list.detail.won" text="원"/></td>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeordergroup1" text="주문구문"/></td>
+                                            <td>
+                                                <c:forEach var="item" items="${tbSystemCodeAll}" varStatus="status">
+                                                    <c:if test="${callCharge.orderTypeCode == item.sysCode && item.sysType == 'OT'}">
+                                                        ${item.codeName}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="발주그룹번호"/></td>
+                                            <td>
+                                                ${callCharge.giveDlvyNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="고객지불금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="발주총판번호"/></td>
+                                            <td>
+                                                ${callCharge.giveBranchNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="발주가맹점번호"/></td>
+                                            <td>
+                                                ${callCharge.giveStoreNo}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="수주그룹번호"/></td>
+                                            <td>
+                                                ${callCharge.acceptDlvyNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="수주총판번호"/></td>
+                                            <td>
+                                                ${callCharge.acceptBranchNo}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="수주가맹점번호"/></td>
+                                            <td>
+                                                ${callCharge.acceptStoreNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="고객지불금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="수주그룹번호2"/></td>
+                                            <td>
+                                                ${callCharge.acceptDlvyNo2}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="수주총판번호2"/></td>
+                                            <td>
+                                                ${callCharge.acceptBranchNo2}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="수주가맹점번호2"/></td>
+                                            <td>
+                                                ${callCharge.acceptStoreNo2}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="할증금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.serviceAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text=""/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.serviceAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="고객지불금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.deliverysharing1" text="발주그룹번호"/></td>
+                                            <td>
+                                                ${callCharge.giveDlvyNo}
+                                            </td>
+                                            <td class="bg-light"><spring:message code="list.detail.customerpayout" text="고객지불금액"/></td>
+                                            <td>
+                                                <fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </td>
+                                        </tr>
+                                        &lt;%&ndash; <tr>
+                                             <td class="bg-light"><spring:message code="list.detail.servicefeeplatformcompany" text="서비스이용료 플랫폼사"/></td>
+                                             <td><fmt:formatNumber value="${callCharge.svcPrice0}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                             <td class="bg-light"><spring:message code="list.detail.firstsettlementofservicefee" text="서비스이용료 1차 정산"/></td>
+                                             <td><fmt:formatNumber value="${callCharge.svcPrice1}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                         </tr>&ndash;%&gt;
+                                        &lt;%&ndash;   <tr>
+                                               <td class="bg-light"><spring:message code="list.detail.secondsettlementofservicefee" text="서비스이용료 2차 정산"/></td>
+                                               <td><fmt:formatNumber value="${callCharge.svcPrice2}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                               <td class="bg-light"><spring:message code="list.detail.3rdsettlementofservicefee" text="서비스이용료 3차 정산"/></td>
+                                               <td><fmt:formatNumber value="${callCharge.svcPrice3}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                           </tr>&ndash;%&gt;
+                                        </tbody>
+                                    </table>--%>
+                                      <div class="row">
+                                          <div class="col-xl-12">
+                                              <!-- begin panel -->
+                                              <div class="panel panel-inverse">
+                                                  <!-- begin table-responsive -->
+                                                  <div class="table-responsive">
+                                                      <table id="user" class="table table-condensed table-bordered">
+                                                          <tbody>
+                                                          <tr>
+                                                              <td width="20%" class="bg-light" ><spring:message code="list.detail.deliverymanname1" text="등록일"/></td>
+                                                              <td  width="30%;"><javatime:format value="${callCharge.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                                              <td width="20%;" class="bg-light"><spring:message code="list.detail.deliverymanagentsettlementamount1" text="취소정산여부"/></td>
+                                                              <td width="30%;" >
+                                                                  <c:if test="${callCharge.cancelYn == '0'}">정상</c:if>
+                                                                  <c:if test="${callCharge.cancelYn == '1'}">취소</c:if>
+                                                              </td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="bg-light"><spring:message code="list.detail.orderamount1" text="주문구분"/></td>
+                                                              <td>
+                                                                  <c:forEach var="item" items="${tbSystemCodeAll}" varStatus="status">
+                                                                      <c:if test="${callCharge.orderTypeCode == item.sysCode && item.sysType == 'OT'}">
+                                                                          ${item.codeName}
+                                                                      </c:if>
+                                                                  </c:forEach>
+                                                              </td>
+                                                              <td width="20%;" class="bg-light"><spring:message code="list.detail.deliverymanagentsettlementamount1" text="발주그룹번호"/></td>
+                                                              <td width="30%;" >${callCharge.giveDlvyNo}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="bg-light"><spring:message code="list.detail.orderamount1" text="발주총판번호"/></td>
+                                                              <td>${callCharge.giveBranchNo}</td>
+                                                              <td class="bg-light"><spring:message code="list.detail.servicechargeamount1" text="발주가맹점번호"/></td>
+                                                              <td>${callCharge.giveStoreNo}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="bg-light"><spring:message code="list.detail.discountamount1" text="기본금액"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.orderAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                              <td class="bg-light"><spring:message code="list.detail.discountamount1" text="할증금액"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.serviceAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="bg-light"><spring:message code="list.detail.discountamount1" text="할인금액(쿠폰등)"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.discountAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                              <td class="bg-light"><spring:message code="list.detail.discountamount1" text="결제금액(기본+할증-할인금액)"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.totalAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="고객지불금액(현금)"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.payAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                              <td class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="고객지불금액(카드)"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.payAmtCc}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="고객지불금액(포인트)"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.payAmtPt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                              <td class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="선결제입금액"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.pgIncome}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="PG수수료"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.pgCharge}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                              <td class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="중개수수료"/></td>
+                                                              <td><fmt:formatNumber value="${callCharge.callCharge}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="쿠폰정산금"/></td>
+                                                              <td colspan="3"><fmt:formatNumber value="${callCharge.couponIncome}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                                          </tr>
+                                                          </tbody>
+                                                      </table>
+                                                  </div>
+                                                  <!-- end table-responsive -->
+                                              </div>
+                                              <!-- end panel -->
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xl-6">
+                                              <!-- begin panel -->
+                                              <div class="panel panel-inverse">
+                                                  <!-- begin table-responsive -->
+                                                  <div class="table-responsive">
+                                                      <table id="user" class="table table-condensed table-bordered">
+                                                          <tbody>
+                                                          <tr>
+                                                              <td class="bg-light width-150" rowspan="7"><spring:message code="list.detail.deliveryinformation1" text="콜1 정보"/></td>
+                                                              <td class="width-200" rowspan="1"><spring:message code="list.detail.deliverymanname1" text="드라이버명"/></td>
+                                                              <td rowspan="1">${callCharge.workerName}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.completiondate1" text="수주그룹번호"/></td>
+                                                              <td rowspan="1">${callCharge.acceptDlvyNo}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.completiondate1" text="수주총판번호"/></td>
+                                                              <td rowspan="1">${callCharge.acceptBranchNo}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.shippersphonenumber1" text="수주가맹점번호"/></td>
+                                                              <td rowspan="1">${callCharge.acceptStoreNo}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="배달료 총금액(배달대행료 + 할증)"/></td>
+                                                              <td rowspan="1">
+                                                                  <fmt:formatNumber value="${callCharge.dlvyTotalAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/>
+                                                              </td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="기사정산금액(배달총금액+베달관리비)"/></td>
+                                                              <td rowspan="1">
+                                                                  <fmt:formatNumber value="${callCharge.workerIncome}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/>
+                                                              </td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="배달관리비(기사수수료)"/></td>
+                                                              <td rowspan="1">
+                                                                  <fmt:formatNumber value="${callCharge.mngPrice}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/>
+                                                              </td>
+                                                          </tr>
+                                                          </tbody>
+                                                      </table>
+                                                  </div>
+                                                  <!-- end table-responsive -->
+                                              </div>
+                                              <!-- end panel -->
+                                          </div>
+                                          <div class="col-xl-6">
+                                              <!-- begin panel -->
+                                              <div class="panel panel-inverse">
+                                                  <!-- begin table-responsive -->
+                                                  <div class="table-responsive">
+
+                                                      <table id="user" class="table table-condensed table-bordered">
+                                                          <tbody>
+                                                          <tr>
+                                                              <td class="bg-light width-150" rowspan="7"><spring:message code="list.detail.deliveryinformation1" text="콜2 정보"/></td>
+                                                              <td class="width-200"rowspan="1"><spring:message code="list.detail.deliverymanname1" text="드라이버명"/></td>
+                                                              <td rowspan="1">${callCharge.workerName2}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.completiondate1" text="수주그룹번호"/></td>
+                                                              <td rowspan="1">${callCharge.acceptDlvyNo2}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.completiondate1" text="수주총판번호"/></td>
+                                                              <td rowspan="1">${callCharge.acceptBranchNo2}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.shippersphonenumber1" text="수주가맹점번호"/></td>
+                                                              <td rowspan="1">${callCharge.acceptStoreNo2}</td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="배달료 총금액(배달대행료 + 할증)"/></td>
+                                                              <td rowspan="1">
+                                                                  <fmt:formatNumber value="${callCharge.dlvyTotalAmt2}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/>
+                                                              </td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="기사정산금액(배달총금액+베달관리비)"/></td>
+                                                              <td rowspan="1">
+                                                                  <fmt:formatNumber value="${callCharge.workerIncome2}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/>
+                                                              </td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="배달관리비(기사수수료)"/></td>
+                                                              <td rowspan="1">
+                                                                  <fmt:formatNumber value="${callCharge.mngPrice2}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/>
+                                                              </td>
+                                                          </tr>
+                                                          </tbody>
+                                                      </table>
+                                                  </div>
+                                                  <!-- end table-responsive -->
+                                              </div>
+                                              <!-- end panel -->
+                                          </div>
+                                      </div>
                                 </div>
                                 <!-- end table-responsive -->
                             </div>
@@ -631,7 +993,12 @@
                                                     <tr class="detailRow" orderNo="${item.orderNo}">
                                                         <td class="text-center">${status.index+1}</td>
                                                         <td class="text-center">
-                                                            <c:choose>
+                                                            <c:forEach var="item2" items="${tbSystemCodeAll}" varStatus="status">
+                                                                <c:if test="${item.orderTypeCode == item2.sysCode && item2.sysType == 'OT'}">
+                                                                    ${item2.codeName}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                           <%-- <c:choose>
                                                                 <c:when test="${item.orderTypeCode == 10}">
                                                                     <spring:message code="list.word.receipt1" text="렌터카예약"/>
                                                                 </c:when>
@@ -661,10 +1028,15 @@
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                 </c:otherwise>
-                                                            </c:choose>
+                                                            </c:choose>--%>
                                                         </td>
                                                         <td class="text-center">
-                                                            <c:choose>
+                                                            <c:forEach var="item2" items="${tbSystemCodeAll}" varStatus="status">
+                                                                <c:if test="${item.orderStatusCode == item2.sysCode && item2.sysType == 'OH'}">
+                                                                    ${item2.codeName}
+                                                                </c:if>
+                                                            </c:forEach>
+                                                            <%--<c:choose>
                                                                 <c:when test="${item.orderStatusCode == 0000}">
                                                                     <spring:message code="list.word.receipt" text="주문수정"/>
                                                                 </c:when>
@@ -724,7 +1096,7 @@
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                 </c:otherwise>
-                                                            </c:choose>
+                                                            </c:choose>--%>
                                                         </td>
                                                         <td class="text-center">
                                                             <c:choose>
@@ -775,6 +1147,253 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade " id="default-tab-4">
+                <c:forEach var="item" items="${callDetail.callAllRelay}" varStatus="status">
+                    <div class="table-responsive">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <!-- begin panel -->
+                                <div class="panel panel-inverse">
+                                    <!-- begin table-responsive -->
+                                    <div class="table-responsive">
+
+                                        <table id="user" class="table table-condensed table-bordered">
+                                            <tbody>
+                                            <tr>
+                                                <td class="bg-light" rowspan="1"><spring:message code="list.detail.franchisee" text="릴레이 단계"/></td>
+                                                <td colspan="2">${item.relayStep} 단계</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light" rowspan="8"><spring:message code="list.detail.franchisee" text="출발정보"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.franchiseeheadquarters1" text="출발장소"/></td>
+                                                <td rowspan="1">
+                                                    <c:if test="${item.departPlaceType == '0'}">일반</c:if>
+                                                    <c:if test="${item.departPlaceType == '1'}">제시카존</c:if>
+                                                    <c:if test="${item.departPlaceType == '2'}">공항</c:if>
+                                                    <c:if test="${item.departPlaceType == '3'}">여객터미널</c:if>
+                                                    <c:if test="${item.departPlaceType == '4'}">올레길</c:if>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.merchantphonenumber1" text="출발명칭"/></td>
+                                                <td rowspan="1">${item.departPoi}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.orderidentification1" text="출발주소"/></td>
+                                                <td rowspan="1">${item.departAddr1} ${item.departAddr2} ${item.departAddr3} ${item.departAddr4} ${item.departAddr5}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.orderstatus1" text="출발위도"/></td>
+                                                <td rowspan="1">${item.departLat}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.completiondate1" text="출발경도"/></td>
+                                                <td rowspan="1">${item.departLng}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.completiondate1" text="출발연락처"/></td>
+                                                <td rowspan="1">${item.departTel}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.completiondate1" text="출발메모"/></td>
+                                                <td rowspan="1">${item.departMemo}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light" rowspan="5"><spring:message code="list.detail.franchisee1" text="경유지정보"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.franchiseeheadquarters1" text="경유장소"/></td>
+                                                <td rowspan="1">
+                                                    <c:if test="${item.viaPlaceType == '0'}">일반</c:if>
+                                                    <c:if test="${item.viaPlaceType == '1'}">제시카존</c:if>
+                                                    <c:if test="${item.viaPlaceType == '2'}">공항</c:if>
+                                                    <c:if test="${item.viaPlaceType == '3'}">여객터미널</c:if>
+                                                    <c:if test="${item.viaPlaceType == '4'}">올레길</c:if>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><spring:message code="list.detail.franchisee1" text="경유지명칭"/></td>
+                                                <td>${item.viaPoi}</td>
+                                            </tr>
+                                            <tr>
+                                                <td ><spring:message code="list.detail.franchisee1" text="경유지위도"/></td>
+                                                <td>${item.viaLat}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><spring:message code="list.detail.franchisee1" text="경유지경도"/></td>
+                                                <td>${item.viaLng}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end table-responsive -->
+                                </div>
+                                <!-- end panel -->
+                            </div>
+                            <div class="col-xl-6">
+                                <!-- begin panel -->
+                                <div class="panel panel-inverse">
+                                    <!-- begin table-responsive -->
+                                    <div class="table-responsive">
+
+                                        <table id="user" class="table table-condensed table-bordered">
+                                            <tbody>
+                                            <tr>
+                                                <td class="bg-light" rowspan="8"><spring:message code="list.detail.franchisee" text="도착정보"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.franchiseeheadquarters1" text="도착장소"/></td>
+                                                <td rowspan="1">
+                                                    <c:if test="${item.destPlaceType == '0'}">일반</c:if>
+                                                    <c:if test="${item.destPlaceType == '1'}">제시카존</c:if>
+                                                    <c:if test="${item.destPlaceType == '2'}">공항</c:if>
+                                                    <c:if test="${item.destPlaceType == '3'}">여객터미널</c:if>
+                                                    <c:if test="${item.destPlaceType == '4'}">올레길</c:if>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.merchantphonenumber1" text="도착명칭"/></td>
+                                                <td rowspan="1">${item.destPoi}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.orderidentification1" text="도착주소"/></td>
+                                                <td rowspan="1">${item.destAddr1} ${item.destAddr2} ${item.destAddr3} ${item.destAddr4} ${item.destAddr5}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.orderstatus1" text="도착위도"/></td>
+                                                <td rowspan="1">${item.destLat}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.completiondate1" text="도착경도"/></td>
+                                                <td rowspan="1">${item.destLng}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.completiondate1" text="도착연락처"/></td>
+                                                <td rowspan="1">${item.destTel}</td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.completiondate1" text="도착메모"/></td>
+                                                <td rowspan="1">${item.destMemo}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light" rowspan="6"><spring:message code="list.detail.franchisee1" text="배달정보"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="1"><spring:message code="list.detail.franchiseeheadquarters1" text="배달거리 (미터)"/></td>
+                                                <td rowspan="1">
+                                                    <fmt:formatNumber value="${(item.dlvyDistance/100)}" pattern="#,##0.00" /> Km
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><spring:message code="list.detail.franchisee1" text="배달기본금액"/></td>
+                                                <td><fmt:formatNumber value="${item.dlvyAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td ><spring:message code="list.detail.franchisee1" text="배달할증요금"/></td>
+                                                <td><fmt:formatNumber value="${item.dlvyExtraCharge}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><spring:message code="list.detail.franchisee1" text="배달총금액"/></td>
+                                                <td><fmt:formatNumber value="${item.dlvyTotalAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><spring:message code="list.detail.franchisee1" text="배달취소 패널티금액"/></td>
+                                                <td><fmt:formatNumber value="${item.dlvyPenaltyAmt}" pattern="#,###" /> <spring:message code="list.detail.won" text="원"/></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end table-responsive -->
+                                </div>
+                                <!-- end panel -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 100%; border-top:3px solid #ddd;"></div>
+                    <br>
+                </c:forEach>
+                </div>
+                <div class="tab-pane fade " id="default-tab-5">
+                    <c:forEach var="item" items="${callDetail.callAllWk}" varStatus="status">
+                        <div class="table-responsive">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <!-- begin panel -->
+                                    <div class="panel panel-inverse">
+                                        <!-- begin table-responsive -->
+                                        <div class="table-responsive">
+                                            <table id="user" class="table table-condensed table-bordered">
+                                                <tbody>
+                                                <tr>
+                                                    <td width="20%" class="bg-light" ><spring:message code="list.detail.deliverymanname1" text="릴레이 단계"/></td>
+                                                    <td  width="30%;" colspan="3">${item.relayStep} 단계</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="bg-light"><spring:message code="list.detail.orderamount1" text="수주 제휴본사"/></td>
+                                                    <td><span class="text-green">
+                                                        <c:if test="${!empty item.head.headName }">
+                                                            [H${item.headNo}]</span> ${item.head.headName}
+                                                        </c:if>
+                                                    </td>
+                                                    <td width="20%;" class="bg-light"><spring:message code="list.detail.deliverymanagentsettlementamount1" text="기사명"/>(기사번호)</td>
+                                                    <td width="30%;" >${item.workerName} (${item.workerNo})</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="bg-light"><spring:message code="list.detail.orderamount1" text="수주 총판"/></td>
+                                                    <td><span class="text-green">[B${item.branchNo}]</span> ${item.branch.branchName}</td>
+                                                    <td class="bg-light"><spring:message code="list.detail.servicechargeamount1" text="배달그룹일련번호"/></td>
+                                                    <td>${item.dlvyNo}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="bg-light"><spring:message code="list.detail.discountamount" text="수주 가맹점"/></td>
+                                                    <td><span class="text-green">[S${item.storeNo}]</span> ${item.store.storeName}</td>
+                                                    <td class="bg-light"><spring:message code="list.detail.thetotalamount" text="주문상태"/></td>
+                                                    <td>
+                                                        <c:forEach var="item2" items="${tbSystemCodeAll}" varStatus="status">
+                                                            <c:if test="${item.orderStatusCode == item2.sysCode && item2.sysType == 'OS'}">
+                                                                ${item2.codeName}
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="출발일시"/></td>
+                                                    <td rowspan="1">
+                                                        <javatime:format value="${item.pickupDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                    </td>
+                                                    <td  class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="배차일시"/></td>
+                                                    <td rowspan="1">
+                                                        <javatime:format value="${item.dlvyAccDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="완료일시"/></td>
+                                                    <td rowspan="1">
+                                                        <javatime:format value="${item.finishDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                    </td>
+                                                    <td  class="bg-light" rowspan="1"><spring:message code="list.detail.deliverydateandtime1" text="취소일시"/></td>
+                                                    <td rowspan="1">
+                                                        <javatime:format value="${item.cancelDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- end table-responsive -->
+                                    </div>
+                                    <!-- end panel -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="width: 100%; border-top:3px solid #ddd;"></div>
+                        <br>
+                    </c:forEach>
+                </div>
+
             </div>
             <div class="m-l-5 m-t-5">
                 <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
@@ -789,141 +1408,6 @@
 
 </div>
 
-
-<!-- #modal-message -->
-<%--
-<form id="user_modal" class="user_modal">
-    <div class="modal modal-message fade" id="modal-message">
-        <input type="hidden" name="headNo" value="${tbHead.headNo}">
-        <input type="hidden" name="branchNo" value="">
-        <input type="hidden" name="storeNo" value="">
-        <input type="hidden" name="userType" value="UT_HEAD">
-                            <div class="modal-dialog" style="
-                    height: 50%;
-                ">
-                                <div class="modal-content" style="
-                    margin: auto;
-                    margin-top: 200px;
-                ">
-                                    <div class="modal-header height-30 m-t-40" >
-                                        <h4 class="modal-title">사용자 등록</h4>
-                                        <button type="button" class="insert_close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table table-condensed table-bordered">
-                                            <tbody>
-                                            <tr>
-                                                <td class="bg-light">아이디</td>
-                                                <td><input type="text" class="form-control width-full userId" name="userId" value="" placeholder="아이디를 입력해주세요"></td>
-                                                <td class="text-danger-darker">아이디를 입력해주세요</td>
-                                            </tr>
-                                            <tr>
-                            <td class="bg-light">패스워드</td>
-                            <td><input type="text" class="form-control width-full userPwd" name="userPwd" value="" placeholder="패스워드를 입력해주세요"></td>
-                            <td class="text-danger-darker">패스워드를 입력해주세요 </td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">사용자 이름</td>
-                            <td><input type="text" class="form-control width-full name" name="name" value="" placeholder="사용자 이름을 입력해주세요"></td>
-                            <td class="text-danger-darker">사용자 이름을 입력해주세요</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">사용자 전화번호</td>
-                            <td><input type="text" class="form-control width-full phone" name="phone" value="" placeholder="사용자 전화번호를 입력해주세요"></td>
-                            <td class="text-danger-darker">사용자 전화번호를 입력해주세요</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">메모</td>
-                            <td><input type="text" class="form-control width-full memo" name="memo" value="" placeholder="기타 메모를 입력해주세요"></td>
-                            <td class="text-danger-darker">기타 메모를 입력해주세요</td>
-                        </tr>
-                        </tbody></table>
-                </div>
-                <div class="modal-footer">
-                    <a href="javascript:;" class="btn btn-white" data-dismiss="modal">취소</a>
-                    <a href="javascript:;" class="btn btn-primary modalUserSave">저장</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-
-<!-- #modal-message -->
-<form id="user_update_modal" class="user_update_modal">
-    <div class="modal modal-message-up fade" id="modal-message-up">
-        <input type="hidden" name="headNo" value="${tbHead.headNo}">
-        <input type="hidden" name="branchNo" value="">
-        <input type="hidden" name="storeNo" value="">
-        <input type="hidden" class="userNo upUserNo" name="userNo" value="">
-        <input type="hidden" name="userType" value="UT_HEAD">
-        <div class="modal-dialog" style="
-                    height: 50%;
-                ">
-            <div class="modal-content" style="
-                    margin-top: 200px;
-                    width: 120%;
-                ">
-                <div class="modal-header height-30 m-t-40" >
-                    <h4 class="modal-title">사용자 수정</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-condensed table-bordered">
-                        <tbody>
-                        <tr>
-                            <td class="bg-light">아이디</td>
-                            <td><input type="text" class="form-control width-full userId upUserId" name="" value="" placeholder="아이디를 입력해주세요" disabled></td>
-                            <td class="text-danger-darker">아이디를 입력해주세요</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">새 패스워드</td>
-                            <td><input type="text" class="form-control width-full userPwd upUserPwd" name="userPwd" value="" placeholder="새로운 패스워드를 입력해주세요"></td>
-                            <td class="text-danger-darker">새로운 패스워드를 입력해주세요 </td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">사용자 이름</td>
-                            <td><input type="text" class="form-control width-full name upName" name="name" value="" placeholder="사용자 이름을 입력해주세요"></td>
-                            <td class="text-danger-darker">사용자 이름을 입력해주세요</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">사용자 전화번호</td>
-                            <td><input type="text" class="form-control width-full phone upPhone" name="phone" value="" placeholder="사용자 전화번호를 입력해주세요"></td>
-                            <td class="text-danger-darker">사용자 전화번호를 입력해주세요</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">상태</td>
-                            <td>
-                                <select class="form-control upDataStatus" name="dataStatus">
-                                    <option value="1">정상</option>
-                                    <option value="2">정지</option>
-                                </select>
-                            </td>
-                            <td class="text-danger-darker">사용자 전화번호를 입력해주세요</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">메모</td>
-                            <td><input type="text" class="form-control width-full memo upMemo" name="memo" value="" placeholder="기타 메모를 입력해주세요"></td>
-                            <td class="text-danger-darker">기타 메모를 입력해주세요</td>
-                        </tr>
-                        </tbody></table>
-                </div>
-                <div class="modal-footer">
-                    <a href="javascript:;" class="btn btn-white" data-dismiss="modal">취소</a>
-                    <a href="javascript:;" class="btn btn-primary modalUserUp">수정</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
---%>
-
-
-<%--modal edit start--%>
-<%--<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="update.jsp" %>
-</div>--%>
-<%--modal edit end--%>
-<!-- end page container -->
 
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="../../../common/include_common_js.jsp" %>

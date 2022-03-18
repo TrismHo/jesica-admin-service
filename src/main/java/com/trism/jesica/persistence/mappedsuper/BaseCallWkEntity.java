@@ -1,11 +1,13 @@
 package com.trism.jesica.persistence.mappedsuper;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trism.jesica.persistence.Entitiy.business.TbBranchSub;
+import com.trism.jesica.persistence.Entitiy.business.TbHeadSub;
+import com.trism.jesica.persistence.Entitiy.business.TbStoreSub;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -63,17 +65,34 @@ public abstract class BaseCallWkEntity implements Serializable {
     @Column(name = "head_no")
     private Integer headNo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "head_no", nullable = false, insertable= false, updatable = false)
+    @JsonManagedReference
+    private TbHeadSub head;
+
     /**
      * 수주_총판
      */
     @Column(name = "branch_no")
     private Integer branchNo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_no", nullable = false, insertable= false, updatable = false)
+    @JsonManagedReference
+    private TbBranchSub branch;
+
     /**
      * 수주_가맹점
      */
     @Column(name = "store_no")
     private Integer storeNo;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_no", nullable = false, insertable= false, updatable = false)
+    @JsonManagedReference
+    private TbStoreSub store;
+
 
     /**
      * 주문_상태_코드 (SYS_TYPE = OS)

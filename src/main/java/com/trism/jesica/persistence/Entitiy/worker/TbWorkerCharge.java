@@ -62,7 +62,7 @@ public class TbWorkerCharge implements Serializable {
      * 인수대행 릴레이콜 수수료(인수)
      */
     @Column(name = "takeover_charge_1")
-    private Integer takeoverCharge1 = 1;
+    private BigDecimal takeoverCharge1;
 
     /**
      * 1:정액 , 2:정률
@@ -74,7 +74,7 @@ public class TbWorkerCharge implements Serializable {
      * 인수대행 릴레이콜 수수료(마중)
      */
     @Column(name = "takeover_charge_2")
-    private Integer takeoverCharge2 = 1;
+    private BigDecimal takeoverCharge2;
 
     /**
      * 1:정액 , 2:정률
@@ -125,6 +125,10 @@ public class TbWorkerCharge implements Serializable {
             Integer monthlyCharge,
             BigDecimal takeoverCharge,
             Integer takeoverRateType,
+            BigDecimal takeoverCharge1,
+            Integer takeoverRateType1,
+            BigDecimal takeoverCharge2,
+            Integer takeoverRateType2,
             BigDecimal returnCharge,
             Integer returnRateType,
             BigDecimal mycarCharge,
@@ -137,6 +141,10 @@ public class TbWorkerCharge implements Serializable {
         this.monthlyCharge = monthlyCharge;
         this.takeoverCharge = takeoverCharge;
         this.takeoverRateType = takeoverRateType;
+        this.takeoverCharge1 = takeoverCharge1;
+        this.takeoverRateType1 = takeoverRateType1;
+        this.takeoverCharge2 = takeoverCharge2;
+        this.takeoverRateType2 = takeoverRateType2;
         this.returnCharge = returnCharge;
         this.returnRateType = returnRateType;
         this.mycarCharge = mycarCharge;

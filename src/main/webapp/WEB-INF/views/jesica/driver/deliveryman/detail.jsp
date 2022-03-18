@@ -470,8 +470,8 @@
                                             <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="월 관리비(원)를 입력해주세요"/></td>
                                         </tr>
                                         <tr>
-                                            <td class="bg-light" rowspan="4"><spring:message code="list.detail.accountholder1" text="운행건당 수수료"/></td>
-                                            <td ><spring:message code="list.detail.accountholder1" text="인수대행 수수료"/></td>
+                                            <td class="bg-light" rowspan="6"><spring:message code="list.detail.accountholder1" text="운행건당 수수료"/></td>
+                                            <td ><spring:message code="list.detail.accountholder1" text="인수대행 수수료 (릴레이콜 아닌경우사용)"/></td>
                                             <td class="border-right-0">
                                                 <input type="text"  class="form-control width-200 takeoverCharge" name="takeoverCharge" value="${tbWorkerCharge.takeoverCharge}" numberOnly>
                                                 <select name="takeoverRateType" class="form-control width-60">
@@ -479,7 +479,28 @@
                                                     <option value="2"<c:if test="${tbWorkerCharge.takeoverRateType == 2}" >selected</c:if>>%</option>
                                                 </select>
                                             </td>
-
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 수수료를 입력해주세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td ><spring:message code="list.detail.accountholder1" text="인수대행 수수료(인수)"/></td>
+                                            <td class="border-right-0">
+                                                <input type="text"  class="form-control width-200 takeoverCharge1" name="takeoverCharge1" value="${tbWorkerCharge.takeoverCharge1}" numberOnly>
+                                                <select name="takeoverRateType1" class="form-control width-60">
+                                                    <option value="1"<c:if test="${tbWorkerCharge.takeoverRateType1 == 1}" >selected</c:if>>원</option>
+                                                    <option value="2"<c:if test="${tbWorkerCharge.takeoverRateType1 == 2}" >selected</c:if>>%</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 수수료를 입력해주세요."/></td>
+                                        </tr>
+                                        <tr>
+                                            <td ><spring:message code="list.detail.accountholder1" text="인수대행 수수료(마중)"/></td>
+                                            <td class="border-right-0">
+                                                <input type="text"  class="form-control width-200 takeoverCharge2" name="takeoverCharge2" value="${tbWorkerCharge.takeoverCharge2}" numberOnly>
+                                                <select name="takeoverRateType2" class="form-control width-60">
+                                                    <option value="1"<c:if test="${tbWorkerCharge.takeoverRateType2 == 1}" >selected</c:if>>원</option>
+                                                    <option value="2"<c:if test="${tbWorkerCharge.takeoverRateType2 == 2}" >selected</c:if>>%</option>
+                                                </select>
+                                            </td>
                                             <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 수수료를 입력해주세요."/></td>
                                         </tr>
                                         <tr>
@@ -629,6 +650,8 @@
 
 
         $(".takeoverCharge").val(percentChk($(".takeoverCharge").val()));
+        $(".takeoverCharge1").val(percentChk($(".takeoverCharge1").val()));
+        $(".takeoverCharge2").val(percentChk($(".takeoverCharge2").val()));
         $(".returnCharge").val(percentChk($(".returnCharge").val()));
         $(".mycarCharge").val(percentChk($(".mycarCharge").val()));
         $(".olleCharge").val(percentChk($(".olleCharge").val()));

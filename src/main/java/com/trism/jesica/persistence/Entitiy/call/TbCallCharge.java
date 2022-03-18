@@ -199,7 +199,7 @@ public class TbCallCharge implements Serializable {
      * 기사_정산금액(배달총금액-배달관리비) (콜2)
      */
     @Column(name = "worker_income_2")
-    private Integer worker_income_2 = null;
+    private Integer workerIncome2 = null;
 
     /**
      * 배달관리비(기사수수료) (콜2)
