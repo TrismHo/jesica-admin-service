@@ -171,6 +171,9 @@ file:
   platformPath:
     path: /platform
 
+  samplePath:
+    path: /sample
+
   messageFile:
     #test
     path: /home/rnd/jesicaAdmin/messages/message

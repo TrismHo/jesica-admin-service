@@ -1,17 +1,12 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.business.TbUser;
-import com.trism.jesica.persistence.Entitiy.business.TbUserStaff;
-import com.trism.jesica.persistence.type.UserType;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 
 @Data
 public class TbUserDto {
 
-    Long userNo;
+   /* Long userNo;
     private UserType userType;
     private Integer headNo;
     private Integer branchNo;
@@ -19,14 +14,11 @@ public class TbUserDto {
     private LocalDateTime insertDate;
 
     public TbUser insertData() {
-        return TbUserStaff.builder()
+        return TbUser.builder()
                 .userNo(this.userNo)
                 .userType(this.userType)
-                .headNo(this.headNo)
-                .branchNo(this.branchNo)
-                .storeNo(this.storeNo)
                 .build();
-    }
+    }*/
     /*public TbUserStaff insertData() {
         return TbUserStaff.builder()
                 .userNo(this.userNo)

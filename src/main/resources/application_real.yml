@@ -135,6 +135,8 @@ file:
     path: /banner
   platformPath:
     path: /platform
+  samplePath:
+    path: /sample
 
   messageFile:
     path: /data/jesicar/messages/message

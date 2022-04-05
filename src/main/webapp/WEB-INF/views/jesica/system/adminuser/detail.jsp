@@ -29,7 +29,7 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.system1" text="시스템 설정"/></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.system1" text="시스템 운영"/></a></li>
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.system.systemmerchandise1" text="마스터사용자 관리"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.systemproductdetails1" text="마스터관리자 상세"/></li>
                 </ol>

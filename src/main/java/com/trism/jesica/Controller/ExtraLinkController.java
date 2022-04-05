@@ -5,7 +5,6 @@ import com.trism.jesica.Service.ExtraLinkService;
 import com.trism.jesica.dto.TbStoreRentalCarDTO;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
-import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -54,7 +53,7 @@ public class ExtraLinkController {
             List<TbStore> tbStoreList = apiService.getStoreList();
             List<TbStoreRentalCarDTO> resultList = null;
             if(!tbStoreList.isEmpty()){
-                 resultList =  extraLinkService.getCarList(tbStoreList.get(0).getStoreNo());
+                resultList =  extraLinkService.getCarList(tbStoreList.get(0).getStoreNo());
             } else {
                 resultList = null;
             }
@@ -68,4 +67,7 @@ public class ExtraLinkController {
 
         return new ModelAndView("jesica/extralink/rentcar/insert");
     }
+
+
+
 }

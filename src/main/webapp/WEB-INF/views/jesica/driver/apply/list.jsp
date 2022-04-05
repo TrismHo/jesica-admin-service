@@ -153,9 +153,10 @@
                 </div>
             </form>
             <div class="panel-body panel-body-datatable p-15">
-                <table id="testTable" class="listTable display table table-bordered w-100 table-striped>
+                <table id="testTable" class="display table table-bordered w-100 table-striped">
                     <thead>
-                        <th class="text-center" width="3%;"><spring:message code="list.word.no" text="순번"/></th>
+                    <%--<th><input type="checkbox"></th>--%>
+                        <th class="text-center" width="3%;">순번"</th>
                         <th class="text-center" width="10%;">프로필 이미지</th>
                         <th class="text-center" width="5%;">이름</th>
                         <th class="text-center" width="8%;">최종승인</th>
@@ -166,38 +167,38 @@
                         <th class="text-center" width="8%;">수정일</th>
                         <th class="text-center" width="8%;">최종승인일</th>
                     </thead>
-                    <tbody class="dataTableBody">
+                    <tbody>
                     <c:forEach var="item" items="${workList}" varStatus="status">
                         <tr class="detailRow"
-                                applyNo="${item.applyNo}"
-                                authStatus="${item.authStatus}"
-                                serviceType="${item.serviceType}"
-                                branchNo="${item.branchNo}"
-                                workerNo="${item.workerNo}"
-                                name="${item.name}"
-                                residentNum="${item.residentNum}"
-                                phone="${item.phone}"
-                                smsYn="${item.smsYn}"
-                                signYn="${item.signYn}"
-                                profileAuthStatus="${item.profileAuthStatus}"
-                                profileFile="${item.profileFile}"
-                                profileFileSmall="${item.profileFileSmall}"
-                                licenseAuthStatus="${item.licenseAuthStatus}"
-                                licenseFile="${item.licenseFile}"
-                                licenseNum="${item.licenseNum}"
-                                licenseType="${item.licenseType}"
-                                licenseExpDate="${item.licenseExpDate}"
-                                careerAuthStatus="${item.careerAuthStatus}"
-                                careerFile="${item.careerFile}"
-                                pushKey="${item.pushKey}"
-                                insertDate="<javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />"
+                            applyNo="${item.applyNo}"
+                            authStatus="${item.authStatus}"
+                            serviceType="${item.serviceType}"
+                            branchNo="${item.branchNo}"
+                            workerNo="${item.workerNo}"
+                            name="${item.name}"
+                            residentNum="${item.residentNum}"
+                            phone="${item.phone}"
+                            smsYn="${item.smsYn}"
+                            signYn="${item.signYn}"
+                            profileAuthStatus="${item.profileAuthStatus}"
+                            profileFile="${item.profileFile}"
+                            profileFileSmall="${item.profileFileSmall}"
+                            licenseAuthStatus="${item.licenseAuthStatus}"
+                            licenseFile="${item.licenseFile}"
+                            licenseNum="${item.licenseNum}"
+                            licenseType="${item.licenseType}"
+                            licenseExpDate="${item.licenseExpDate}"
+                            careerAuthStatus="${item.careerAuthStatus}"
+                            careerFile="${item.careerFile}"
+                            pushKey="${item.pushKey}"
+                            insertDate="<javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />"
                             authDate="<javatime:format value="${item.authDate}" pattern="yyyy-MM-dd HH:mm:ss" />"
                             data-toggle="modal"
                             data-target="#attach_list">
                             <td class="text-center">${status.index + 1}</td>
                             <td class="text-center">
                                 <img style="width: 100px;" class="storeImg" src="/api/img/fileLoad?filePath=${item.profileFileSmall}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >
-                                <%--<img style="width: 100px;" class="storeImg" src="jesicar.co.kr/${item.profileFileSmall}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >--%>
+                                    <%--<img style="width: 100px;" class="storeImg" src="jesicar.co.kr/${item.profileFileSmall}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >--%>
                             </td>
                             <td class="text-center">${item.name}</td>
                             <td class="text-center">
@@ -256,20 +257,20 @@
                                     <span class="text-red" >반려</span>
                                 </c:if>
                             </td>
-                           <%-- <td class="text-center">
-                                <c:if test="${item.serviceType == 1}">
-                                    렌터카
-                                </c:if>
-                                <c:if test="${item.serviceType == 2}">
-                                    탁송
-                                </c:if>
-                                <c:if test="${item.serviceType == 3}">
-                                    맛집
-                                </c:if>
-                                <c:if test="${item.serviceType == 4}">
-                                    마트
-                                </c:if>
-                            </td>--%>
+                                <%-- <td class="text-center">
+                                     <c:if test="${item.serviceType == 1}">
+                                         렌터카
+                                     </c:if>
+                                     <c:if test="${item.serviceType == 2}">
+                                         탁송
+                                     </c:if>
+                                     <c:if test="${item.serviceType == 3}">
+                                         맛집
+                                     </c:if>
+                                     <c:if test="${item.serviceType == 4}">
+                                         마트
+                                     </c:if>
+                                 </td>--%>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center"><javatime:format value="${item.authDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

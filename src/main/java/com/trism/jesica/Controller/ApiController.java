@@ -31,6 +31,8 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -49,6 +51,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -79,6 +82,9 @@ public class ApiController {
 
     @Autowired
     private CacheManager cacheManager;
+
+    @Autowired
+    private SystemPropService systemPropService;
 
     @Autowired
     private WorkerApplyService workerApplyService;
@@ -2912,6 +2918,47 @@ public class ApiController {
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
+    //시스템설정 수정
+    @ResponseBody
+    @GetMapping("/systemprop/update")
+    public ResponseEntity<?> systempropUpdate(
+                                            @RequestParam("propName") String propName,
+                                            @RequestParam("propValue") String propValue,
+                                            @RequestParam("memo") String memo
+                                         ) {
+        log.info("languageUpdate tslId::{}", propName);
+        Map<String,Object> map = new HashMap<>();
+
+        try {
+            int result = systemPropService.updateSystemProp(propName ,propValue ,memo );
+            map.put("result" , result);
+
+        } catch (Exception e) {
+            map.put("result" , 0);
+            e.printStackTrace();
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    /**
+     * 샘플파일 다운로드
+     */
+    @GetMapping("/car/sampleDownload")
+    public ResponseEntity<Resource> fileDownload() throws IOException {
+        Path sampleFilePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
+                jesicaProperties.getSamplePath().getPath(),"sample.xlsx"
+        );
+        Resource resource = new InputStreamResource(Files.newInputStream(sampleFilePath));
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "sample.xlsx" + "\"")
+                .body(resource);
+    }
+
+
 
     /**
      * 전달된 파라미터에 맞게 난수를 생성한다

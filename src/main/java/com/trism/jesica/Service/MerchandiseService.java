@@ -3,6 +3,7 @@ package com.trism.jesica.Service;
 import com.trism.jesica.Util.SearchUtil;
 import com.trism.jesica.dto.TbStoreCategoryDTO;
 import com.trism.jesica.dto.TbStoreGoodsItemDTO;
+import com.trism.jesica.dto.TbStoreRentalCarData;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
@@ -11,6 +12,7 @@ import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
 import com.trism.jesica.persistence.Repository.goods.TbStoreCategoryRepository;
 import com.trism.jesica.persistence.Repository.goods.TbStoreGoodsItemRepository;
 import com.trism.jesica.persistence.Repository.goods.TbStoreGoodsRepository;
+import com.trism.jesica.persistence.Repository.safe.TbSafenMappingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class MerchandiseService {
 
     @Autowired
     private final TbStoreRentalCarRepository tbStoreRentalCarRepository;
+
+    @Autowired
+    private final TbSafenMappingRepository tbSafenMappingRepository;
 
 
     @Transactional(readOnly = true)
@@ -103,6 +108,24 @@ public class MerchandiseService {
     @Transactional(readOnly = true)
     public List<TbStoreCategoryDTO> getTbStoreCategoryList(Long storeNo, Integer storeGoodsNo) {
         return tbStoreCategoryRepository.getTbStoreCategoryList(storeNo, storeGoodsNo);
+    }
+
+    @Transactional
+    public int tbStoreRentCarExcelUpdate(TbStoreRentalCarData tbStoreRentalCarData) {
+
+        //아이디가 없으면 insert
+        TbStoreRentalCar resultCar = tbStoreRentalCarRepository.save(tbStoreRentalCarData.insertData());
+
+        //안심번호 매핑
+        int result = tbSafenMappingRepository.mappingSafenNumSafenNum(resultCar.getRentalCarNo(),resultCar.getSafenNum());
+        if(result < 1) {
+            throw new ServiceException(ErrorCode.NOT_MAPPING);
+        }
+/*
+        TbSafenMapping tbSafenMapping = tbSafenMappingRepository.findByRentalCarNo(resultCar.getRentalCarNo());
+        int result = tbStoreRentalCarRepository.updateSafenNum(resultCar.getRentalCarNo(),tbSafenMapping.getSafenNum());*/
+
+        return result;
     }
 
 }

@@ -21,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Accessors(chain = true)
 @Getter
+@Setter
 @ToString(callSuper = true, exclude = {"userDevices"})
 @EqualsAndHashCode(callSuper = true)
 @DynamicInsert
@@ -134,4 +135,6 @@ public abstract class TbUser extends CreatedDateEntity {
         this.isFirstLogin = isFirstLogin;
         this.pwdUpdateDtm = pwdUpdateDtm;
     }
+
+
 }

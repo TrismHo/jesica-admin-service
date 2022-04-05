@@ -49,6 +49,7 @@ import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyAttachReposit
 import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyRepository;
 import com.trism.jesica.persistence.Repository.worker.TbWorkerChargeRepository;
 import com.trism.jesica.persistence.type.AttendStatusType;
+import com.trism.jesica.persistence.type.DataStatus;
 import com.trism.jesica.persistence.type.ServiceType;
 import com.trism.jesica.persistence.type.UserType;
 import lombok.RequiredArgsConstructor;
@@ -2749,24 +2750,46 @@ public class ApiService {
                         tbWorkerApplyRepository.updateAuthStatus(applyNo, 2);
                         //경력확인서 승인이 아닌경우
                         if(applyAttachType == 1 || applyAttachType == 2){
-                            //최종승인인시 tb_user 추가
-                            TbUserDto tbUser = new TbUserDto();
-                            UserType userType = null;
-                            TbUserWorkerData tbUserWorker = new TbUserWorkerData();
-                            tbUser.setUserType(userType.UT_DELIVERY);
-                            LocalDateTime localDateTime = null;
-                            tbUser.setInsertDate(localDateTime.now());
 
-                            TbUser tbUser1 = tbUserRepository.save(tbUser.insertData());
-                            tbWorkerApply.setWorkerNo(Integer.parseInt(tbUser1.getUserNo().toString()));
+
+                            UserType userType = null;
+                            TbUserWorkerData tbUserWorkerData = new TbUserWorkerData();
+                            tbUserWorkerData.setUserType(userType.UT_DELIVERY);
+
+                            tbUserWorkerData.setName(tbWorkerApply.getName());
+                            tbUserWorkerData.setPhone(tbWorkerApply.getPhone());
+                            tbUserWorkerData.setDataStatus(DataStatus.OK);
+                            tbUserWorkerData.setLicenseFile(tbWorkerApply.getLicenseFile());
+                            tbUserWorkerData.setLicenseType(tbWorkerApply.getLicenseType());
+                            tbUserWorkerData.setLicenseExpDate(tbWorkerApply.getLicenseExpDate());
+                            tbUserWorkerData.setLicenseNum(tbWorkerApply.getLicenseNum());
+                            tbUserWorkerData.setProfileFile(tbWorkerApply.getProfileFile());
+                            tbUserWorkerData.setProfileFileSmall(tbWorkerApply.getProfileFileSmall());
+                            tbUserWorkerData.setJoinDate(DateUtil.now_yyyymmdd());
+                            tbUserWorkerData.setHeadNo(1000);
+                            tbUserWorkerData.setBranchNo(10001);
+                            tbUserWorkerData.setStoreNo(100034);
+
+                            TbUserWorker tbUserWorker =  tbUserWorkerRepository.save(tbUserWorkerData.insertData());
+
+
+                            //최종승인인시 tb_user 추가
+                            //TbUserDto tbUser = new TbUserDto();
+                            //TbUserWorkerData tbUserWorker = new TbUserWorkerData();
+                            //tbUser.setUserType(userType.UT_DELIVERY);
+                            //LocalDateTime localDateTime = null;
+                            //tbUser.setInsertDate(localDateTime.now());
+
+                            //TbUser tbUser1 = tbUserRepository.save(tbUser.insertData());
+                            tbWorkerApply.setWorkerNo(Integer.parseInt(tbUserWorker.getUserNo().toString()));
 
                             //최종승인시 tb_worker_charge 추가
                             TbWorkerChargeData tbWorkerCharge = new TbWorkerChargeData();
-                            tbWorkerCharge.setWorkerNo(Integer.parseInt(tbUser1.getUserNo().toString()));
+                            tbWorkerCharge.setWorkerNo(Integer.parseInt(tbUserWorker.getUserNo().toString()));
                             tbWorkerChargeRepository.save(tbWorkerCharge.insertData());
 
 
-                            tbUserWorkerRepository.saveUserWorker(
+                           /* =tbUserWorkerRepository.saveUserWorker(
                                     Long.parseLong(tbUser1.getUserNo().toString()),
                                     tbWorkerApply.getName(),
                                     tbWorkerApply.getPhone(),
@@ -2781,7 +2804,7 @@ public class ApiService {
                                      1000,
                                     10001, //드라이버관리수주[제주]
                                     100034 //드라이버관리[제주]
-                            );
+                            );*/
 
                             /*tbWorkerApplyRepository.updateAuthStatus(applyNo, 2);*/
                             tbWorkerApply.setAuthStatus(2);

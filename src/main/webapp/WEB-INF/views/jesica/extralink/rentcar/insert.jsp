@@ -55,7 +55,7 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement1" text="외부연동"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement1" text="시스템 운영"/><%--가맹점 설정--%></a></li>
                     <li class="breadcrumb-item"><a href="/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="안심번호 할당"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration1" text="안심번호 할당"/><%--상품등록--%></li>
                 </ol>

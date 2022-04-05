@@ -29,7 +29,7 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main51" text="게시판 관리"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main51" text="시스템 운영"/><%--가맹점 설정--%></a></li>
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5.sub41" text="업데이트 내역"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.shippernoticedetails1" text="업데이트 내역상세"/></li>
                 </ol>

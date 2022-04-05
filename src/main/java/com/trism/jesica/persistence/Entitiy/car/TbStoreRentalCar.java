@@ -3,10 +3,7 @@ package com.trism.jesica.persistence.Entitiy.car;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.type.DataStatus;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -24,6 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Accessors(chain = true)
 @Getter
+@Setter
 @DynamicInsert
 @DynamicUpdate
 @Inheritance(strategy = InheritanceType.JOINED)

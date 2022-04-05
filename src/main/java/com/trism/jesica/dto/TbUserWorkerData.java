@@ -62,6 +62,7 @@ public class TbUserWorkerData {
     public TbUserWorker insertData() {
         return TbUserWorker.builder()
                 .userNo(this.userNo)
+                .userType(this.userType)
                 .updateDate(this.updateDate)
                 .dataStatus(this.dataStatus)
                 .attendStatus(this.attendStatus)

@@ -118,7 +118,7 @@ spring:
 file:
   #기본 이미지 경로
   baseImgPath:
-    path: /home/rnd
+    path: /data/jesicar
   servicePath:
     path: /images/driver
   imgPath:
@@ -138,6 +138,8 @@ file:
     path: /banner
   platformPath:
     path: /platform
+  samplePath:
+    path: /sample
   messageFile:
     path: /data/jesicar/messages/message
   apiServer:

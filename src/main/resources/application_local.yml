@@ -171,6 +171,8 @@ file:
   platformPath:
     path: /platform
 
+  samplePath:
+    path: /sample
 
   messageFile:
     #test

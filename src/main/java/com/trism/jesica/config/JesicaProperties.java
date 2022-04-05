@@ -26,6 +26,8 @@ public class JesicaProperties {
     private PlatFormPath platFormPath;
     private ImgHttp imgHttp;
 
+    private SamplePath samplePath;
+
 
 
     @Data
@@ -94,6 +96,10 @@ public class JesicaProperties {
     }
     @Data
     public static class PlatFormPath {
+        private String path;
+    }
+    @Data
+    public static class SamplePath {
         private String path;
     }
 }

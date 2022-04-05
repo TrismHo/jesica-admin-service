@@ -296,9 +296,10 @@
                             <th class="text-center"><spring:message code="list.word.distributor" text="총판"/></th>
                             <th class="text-center"><spring:message code="list.word.franchisee" text="가맹점"/></th>
                             <th class="text-center"><spring:message code="list.word.name" text="이름"/></th>
+                            <th class="text-center"><spring:message code="list.word.name" text="성별"/></th>
+                            <th class="text-center"><spring:message code="list.word.name" text="급여방식"/></th>
                             <th class="text-center"><spring:message code="list.word.usestatus" text="사용상태"/></th>
                             <th class="text-center"><spring:message code="list.word.workstatus" text="출근상태"/></th>
-                            <th class="text-center"><spring:message code="list.word.deposit" text="예치금"/></th>
                             <th class="text-center"><spring:message code="list.word.cash" text="캐시"/></th>
                             <th class="text-center"><spring:message code="list.word.arrears" text="체납금"/></th>
                             <th class="text-center"><spring:message code="list.word.phone" text="전화번호"/></th>
@@ -327,6 +328,22 @@
                                 <span>${item.registNum}</span>
                             </td>--%>
                             <td>${item.name}</td>
+                            <td class="text-center">
+                                <c:if test="${item.gender == 'M'}">
+                                    <spring:message code="list.detail.normal1" text="남"/>
+                                </c:if>
+                                <c:if test="${item.gender == 'F'}">
+                                    <spring:message code="list.detail.stop1" text="여"/>
+                                </c:if>
+                            </td>
+                            <td class="text-center">
+                                <c:if test="${item.workerPayType == '1'}">
+                                    <spring:message code="list.detail.normal1" text="급여"/>
+                                </c:if>
+                                <c:if test="${item.workerPayType == '2'}">
+                                    <spring:message code="list.detail.stop1" text="수수료"/>
+                                </c:if>
+                            </td>
                             <td class="text-center <c:if test="${item.dataStatus == 'STOP'}">text-red</c:if>">
                                 <c:if test="${item.dataStatus == 'OK'}">
                                     <spring:message code="list.detail.normal" text="정상"/>
@@ -349,7 +366,6 @@
                                     <spring:message code="list.word.rest1" text="운행"/>
                                 </c:if>
                             </td>
-                            <td class="text-center">${item.deposit} <spring:message code="list.word.won" text="원"/></td>
                             <td class="text-center">${item.cash} <spring:message code="list.word.won" text="원"/></td>
                             <td class="text-center">${item.cashDefault} <spring:message code="list.word.won" text="원"/></td>
                             <td class="text-center">${item.phone}</td>

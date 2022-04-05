@@ -172,7 +172,7 @@
                 </ul>
             </li>
 --%>
-            <li class="has-sub <c:if test="${fn:contains(servletPath,'statistics') }">active</c:if>">
+           <%-- <li class="has-sub <c:if test="${fn:contains(servletPath,'statistics') }">active</c:if>">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-chart-pie"></i>
@@ -186,7 +186,7 @@
                     <li class=<c:if test="${fn:contains(servletPath,'platform') }">"active"</c:if>><a href="${path}/statistics/platform/list"><spring:message code="sidemenu.statistics.platformrevenue" text="플랫폼 매출"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'performance') }">"active"</c:if>><a href="${path}/statistics/performance/list"><spring:message code="sidemenu.statistics.performance" text="실적"/></a></li>
                 </ul>
-            </li>
+            </li>--%>
             <li class="has-sub <c:if test="${fn:contains(servletPath,'driver') }">active</c:if>">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -300,13 +300,13 @@
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-cogs"></i>
-                    <span><spring:message code="sidemenu.11" text="시스템 설정"/></span>
+                    <span><spring:message code="sidemenu.11" text="시스템 운영"/></span>
                 </a>
                 <ul class="sub-menu">
                     <li class=<c:if test="${fn:contains(servletPath,'extralink/rentcar') }">"active"</c:if>><a href="${path}/extralink/rentcar/list"><spring:message code="sidemenu.orderhistory.123" text="안심번호 할당정보"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'system/master/list') }">"active"</c:if>><a href="${path}/system/master/list"><spring:message code="sidemenu.orderhistory.123" text="마스터사용자 관리"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'system/release') }">"active"</c:if>><a href="${path}/system/release/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="><spring:message code="sidemenu.boardmanagement.release11" text="업데이트 내역"/></a></li>
-                    <%--<li class=<c:if test="${fn:contains(servletPath,'safe/number') }">"active"</c:if>><a href="${path}/safe/number/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="><spring:message code="sidemenu.boardmanagement.release11" text="안심번호 할당관리"/></a></li>---%>
+                    <li class=<c:if test="${fn:contains(servletPath,'system/systemprop') }">"active"</c:if>><a href="${path}/system/systemprop/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="><spring:message code="sidemenu.boardmanagement.release11" text="시스템 설정"/></a></li>
                    <%--<li class=<c:if test="${fn:contains(servletPath,'coopcompany') }">"active"</c:if>><a href="${path}/system/coopcompany/list"><spring:message code="sidemenu.systemoperation.cooperativecompany" text="협력사"/></a></li>--%>
                     <%--<li class=<c:if test="${fn:contains(servletPath,'systemgoods') }">"active"</c:if>><a href="${path}/system/systemgoods/list"><spring:message code="sidemenu.system.systemmerchandise" text="상품관리"/></a></li>--%>
                     <%--<li class=<c:if test="${fn:contains(servletPath,'number') }">"active"</c:if>><a href="${path}/system/number/list"><spring:message code="sidemenu.system.safenum" text="안심번호"/></a></li>--%>

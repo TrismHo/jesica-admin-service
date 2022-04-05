@@ -168,7 +168,11 @@
                                             <tr>
                                                 <td rowspan="1"><spring:message code="list.detail.orderidentification" text="주문구분"/></td>
                                                 <td rowspan="1">
-                                                 분
+                                                    <c:forEach var="item" items="${tbSystemCodeAll}" varStatus="status">
+                                                        <c:if test="${callDetail.orderTypeCode == item.sysCode && item.sysType == 'OT'}">
+                                                            ${item.codeName}
+                                                        </c:if>
+                                                    </c:forEach>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -978,7 +982,7 @@
                                                     <th class="align-middle width-80"><spring:message code="list.word.1" text="주문구분코드"/></th>
                                                     <th class="align-middle width-80"><spring:message code="list.word.123" text="주문상태코드"/></th>
                                                     <th class="align-middle width-80"><spring:message code="list.word.123" text="결제상태"/></th>
-                                                    <th class="align-middle"><spring:message code="list.word.123" text="배치드라이버 명"/></th>
+                                                    <th class="align-middle"><spring:message code="list.word.123" text="배치드라이버명"/></th>
                                                     <th class="align-middle"><spring:message code="list.word.123" text="출발주소5"/></th>
                                                     <th class="align-middle"><spring:message code="list.word.123" text="도착주소5"/></th>
                                                     <th class="align-middle"><spring:message code="list.word.123" text="주문금액(총액)"/></th>
@@ -1116,7 +1120,11 @@
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </td>
-                                                        <td class="text-center">(번호: ${item.workerNo}) ${item.workerName}</td>
+                                                        <td class="text-center">
+                                                            <c:if test="${item.workerNo != null}">
+                                                                (번호: ${item.workerNo}) ${item.workerName}
+                                                            </c:if>
+                                                        </td>
                                                         <td class="text-center">${item.departAddr5}</td>
                                                         <td class="text-center">${item.destAddr5}</td>
                                                         <td class="text-center"><fmt:formatNumber value="${item.orderAmt}" pattern="#,###"/><spring:message code="list.word.won" text="원"/></td>

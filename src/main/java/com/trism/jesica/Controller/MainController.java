@@ -9,6 +9,7 @@ import com.trism.jesica.Service.WorkGroupService;
 import com.trism.jesica.Util.GetClientIp;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.SessionConfig;
+import com.trism.jesica.dto.ClientDTO;
 import com.trism.jesica.dto.LoginDTO;
 import com.trism.jesica.persistence.Entitiy.business.TbBranch;
 import com.trism.jesica.persistence.Entitiy.business.TbHead;
@@ -36,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RequestMapping("/")
 @RestController
@@ -158,7 +160,7 @@ public class MainController {
     }
     @ResponseBody
     @GetMapping(value = "/chk/test")
-    public ResponseEntity<?> test(
+    public ResponseEntity<?> getLoginChk(
             HttpServletRequest request
  ) {
         //쿠키 조회
@@ -242,8 +244,14 @@ public class MainController {
             if(clientId == null || code == null || deviceId == null || refreshTokenEnd == null) {
 
                 log.info("--------------cookieSetting------------------");
+
+                ClientDTO clientDTO = getClient(response,uuid);
+
+                clientId = clientDTO.getClientId();
+                code = clientDTO.getCode();
+                deviceId = clientDTO.getDeviceId();
                 /*HttpUtil.callInfo(params,"GET", request);*/
-                ResponseEntity<Map> tokenNullMap = restTemplateUtil.authorizeToken();
+              /*  ResponseEntity<Map> tokenNullMap = restTemplateUtil.authorizeToken();
                 Map<String,String> codeNullMap = (Map)tokenNullMap.getBody().get("data");
 
                Cookie clientIdC = new Cookie("clientId",codeNullMap.get("clientId"));
@@ -267,7 +275,7 @@ public class MainController {
 
                clientId = codeNullMap.get("clientId");
                code = codeNullMap.get("code");
-               deviceId = uuid;
+               deviceId = uuid;*/
             }
 
             //클라이언트 아이디/코드값으로 로그인 시도
@@ -276,21 +284,19 @@ public class MainController {
             /*HttpUtil.callInfo(params,"GET", request);*/
             String encPass = cipherService.encryptAES(bmLoginPwd);
 
-            ResponseEntity<Map> tokenMap = restTemplateUtil.loginAuth(clientId, code, deviceId, bmLoginId,encPass);
-            Map<String,Object> codeMap = (Map)tokenMap.getBody();
-            LoginDTO loginDTO = modelMapper.map(codeMap, LoginDTO.class);
-            if(!"OK".equals(loginDTO.getServiceStatus())){
-                isPwdMatch = false;
-                map.put("result", "500");
-                map.put("message", "로그인오류입니다. 재로그인해주세요.");
-            } else{
+//            LoginDTO loginDTO = getLogin(clientId, bmLoginId, code, deviceId, encPass);
+
+            int count = 0;
+            Optional<LoginDTO> opLoginDto = getLoginChk(clientId, bmLoginId, code, deviceId, encPass, response, uuid, count);
+            if (opLoginDto.isPresent()) {
+                log.info("login auth success...");
+                LoginDTO loginDTO = opLoginDto.get();
                 //캐시에 저장
                 Cache ehCacheAll      = cacheManager.getCache("loginCache");
                 ehCacheAll.put("clientId", clientId);
                 ehCacheAll.put("code", code);
                 ehCacheAll.put("deviceId", deviceId);
                 ehCacheAll.put("refreshToken", loginDTO.getData().getToken().getRefreshToken());
-
 
                 session.setAttribute("accessToken",loginDTO.getData().getToken().getAccessToken());
                 Cookie refreshToken = new Cookie("refreshToken",loginDTO.getData().getToken().getRefreshToken());
@@ -299,6 +305,10 @@ public class MainController {
                 refreshToken.setMaxAge(loginDTO.getData().getToken().getRefreshTokenExpiresIn().intValue());
                 response.addCookie(refreshToken);
                 isPwdMatch = true;
+            } else {
+                isPwdMatch = false;
+                map.put("result", "500");
+                map.put("message", "로그인오류입니다. 재로그인해주세요.");
             }
 
 
@@ -430,6 +440,45 @@ public class MainController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    private LoginDTO getLogin(String clientId, String bmLoginId, String code, String deviceId, String encPass) {
+
+        ResponseEntity<Map> tokenMap = restTemplateUtil.loginAuth(clientId, code, deviceId, bmLoginId, encPass);
+        Map<String,Object> codeMap = (Map)tokenMap.getBody();
+        LoginDTO loginDTO = modelMapper.map(codeMap, LoginDTO.class);
+
+        log.info("getLogin:::::{}",loginDTO);
+        return loginDTO;
+    }
+
+
+
+    private Optional<LoginDTO> getLoginChk(String clientId, String bmLoginId, String code, String deviceId, String encPass, HttpServletResponse response, String uuid, int count){
+        log.info("count cnt :::::::::{}",count);
+        if(count >= 3) {
+            return Optional.empty();
+        }
+        LoginDTO loginDTO = getLogin(clientId, bmLoginId, code, deviceId, encPass);
+        log.info("loginDTO {}" ,loginDTO);
+
+        if(!"OK".equals(loginDTO.getServiceStatus())){
+            if("NOT_FOUND_CLIENT".equals(loginDTO.getServiceStatus())) {
+                ClientDTO clientDTO = getClient(response,uuid);
+
+                clientId = clientDTO.getClientId();
+                code = clientDTO.getCode();
+                deviceId = clientDTO.getDeviceId();
+                return getLoginChk(clientId, bmLoginId, code, deviceId, encPass, response, uuid,count++);
+            } else {
+                return Optional.empty();
+                //isPwdMatch = false;
+                //map.put("result", "500");
+                //map.put("message", "로그인오류입니다. 재로그인해주세요.");
+            }
+
+        }
+        return Optional.of(loginDTO);
+    }
+
     /**
      * 로그인처리
      */
@@ -479,6 +528,39 @@ public class MainController {
             session.invalidate();
         }
         return new ModelAndView("redirect:/login");
+    }
+
+
+    private ClientDTO getClient(HttpServletResponse response,String uuid){
+        log.info("--------------cookieSetting------------------");
+        /*HttpUtil.callInfo(params,"GET", request);*/
+        ResponseEntity<Map> tokenNullMap = restTemplateUtil.authorizeToken();
+        Map<String,String> codeNullMap = (Map)tokenNullMap.getBody().get("data");
+
+        Cookie clientIdC = new Cookie("clientId",codeNullMap.get("clientId"));
+        Cookie codeC = new Cookie("code",codeNullMap.get("code"));
+        Cookie deviceIdC = new Cookie("deviceId",uuid);
+
+        //1년 쿠키 저장
+        clientIdC.setMaxAge(365*60*60*24*1);
+        //1년 쿠키 저장
+        codeC.setMaxAge(365*60*60*24*1);
+        //1년 쿠키 저장
+        deviceIdC.setMaxAge(365*60*60*24*1);
+
+        clientIdC.setPath("/");
+        codeC.setPath("/");
+        deviceIdC.setPath("/");
+
+        response.addCookie(clientIdC);
+        response.addCookie(codeC);
+        response.addCookie(deviceIdC);
+
+
+        return ClientDTO.builder()
+                .clientId(codeNullMap.get("clientId"))
+                .code(codeNullMap.get("code"))
+                .deviceId(uuid).build();
     }
 }
 

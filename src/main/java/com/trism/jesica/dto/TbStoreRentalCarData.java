@@ -4,6 +4,7 @@ import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.type.DataStatus;
 import lombok.Data;
 
+import javax.persistence.Transient;
 import java.time.LocalDateTime;
 
 
@@ -20,6 +21,8 @@ public class TbStoreRentalCarData {
     private String carModel;
     private String safenNum;
 
+    @Transient
+    private String error;
 
     public TbStoreRentalCar insertData() {
         return TbStoreRentalCar.builder()

@@ -1,8 +1,12 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.*;
+import com.trism.jesica.Util.PoiUtil;
 import com.trism.jesica.dto.TbStoreCategoryDTO;
 import com.trism.jesica.dto.TbStoreGoodsItemDTO;
+import com.trism.jesica.dto.TbStoreRentalCarData;
+import com.trism.jesica.exception.ErrorCode;
+import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory;
@@ -13,20 +17,20 @@ import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
+import com.trism.jesica.persistence.type.DataStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RequestMapping("/merchant")
 @RestController
@@ -43,6 +47,18 @@ public class MerchantController {
     private final WorkGroupService workGroupService;
 
     private final ApiService apiService;
+
+
+    //사전등록 엑세파일 헤더 이름
+    private final String[] uploadExcelHeaderList = {
+            "차량번호", "모델명", "안심번호"
+    };
+
+    //필수 입력 항목 index
+    private final int[] mandatoryIndex = {
+            0, 1, 2,  	//차량번호, 모델명, 안심번호
+    };
+
 
 
     //상품
@@ -418,7 +434,153 @@ public class MerchantController {
     }
 
 
+    @GetMapping("/car/insertExcel")
+    public ModelAndView insertExcel( Model model) {
+        List<TbStore> tbStoreLIst = apiService.getStoreList();
+        model.addAttribute("tbStoreLIst", tbStoreLIst);
 
+        return new ModelAndView("jesica/merchant/car/insertExcel");
+    }
+
+
+    /**
+     * 렌터카 엑셀파일 입력
+     * @param session
+     * @param model
+     * @param excelFile
+     */
+    @RequestMapping(value = "/car/Excelupload")
+    public ModelAndView uploadExcel(Model model,@RequestParam("storeNo") String storeNo, @RequestParam("excelFile") MultipartFile excelFile) {
+//        Map<String, Integer> departMap = departmentService.getDepartments().stream()
+//                .collect(Collectors.toMap(Department::getName, Department::getId));
+       List<TbStoreRentalCarData> userList = new ArrayList<>();
+        Workbook workbook = null;
+        try {
+            workbook = WorkbookFactory.create(excelFile.getInputStream());
+            Sheet sheet = workbook.getSheetAt(0); // 시트 가져오기
+
+            //헤더 Row를 검색하고 컬럼 순서를 정한다
+            boolean headerFound = false;
+            Map<String, Integer> headerIndex = new HashMap<>();
+            Iterator<Row> rows = sheet.rowIterator();
+            while (rows.hasNext()) {
+                Row row = rows.next();
+
+                short minColIdx = row.getFirstCellNum();
+                short maxColIdx = row.getLastCellNum();
+                for(short colIdx = minColIdx; colIdx < maxColIdx; colIdx++) {
+                    Cell cell = row.getCell(colIdx);
+                    if(cell != null) {
+                        String colName = cell.getStringCellValue();
+                        for (String headerStr : uploadExcelHeaderList) {
+                            if (headerStr.equals(colName)) {
+                                //헤더 이름으로 Index 저장
+                                headerIndex.put(headerStr, new Integer(colIdx));
+                                headerFound = true;
+                            }
+                        }
+                    }
+                }
+                if (headerFound) break;
+
+            }
+
+            //check required header column is absent
+            for (int idx : mandatoryIndex) {
+                if (headerIndex.containsKey(uploadExcelHeaderList[idx]) == false) {
+                    throw new ServiceException(ErrorCode.BAD_REQUEST);
+                }
+            }
+
+            //헤더 Row 다음부터 이어서 데이터 Row 처리
+            while (rows.hasNext()) {
+                Row row = rows.next();
+
+                TbStoreRentalCarData tbStoreRentalCar = new TbStoreRentalCarData();
+                //tbStoreRentalCar.setRentalCarNo();
+                if (headerIndex.containsKey(uploadExcelHeaderList[0])) {	//차량번호
+                    Integer cellIdx = headerIndex.get(uploadExcelHeaderList[0]);
+                    String value = PoiUtil.getStringCellValue(row.getCell(cellIdx));
+                    if (StringUtils.isEmpty(value)) continue;
+                    tbStoreRentalCar.setCarNum(value);
+                }
+                if (headerIndex.containsKey(uploadExcelHeaderList[1])) {	//모델명
+                    Integer cellIdx = headerIndex.get(uploadExcelHeaderList[1]);
+                    String value = PoiUtil.getStringCellValue(row.getCell(cellIdx));
+                    if (StringUtils.isEmpty(value)) continue;
+                    tbStoreRentalCar.setCarModel(value);
+                }
+                if (headerIndex.containsKey(uploadExcelHeaderList[2])) {	//안심번호
+                    Integer cellIdx = headerIndex.get(uploadExcelHeaderList[2]);
+                    String value = PoiUtil.getStringCellValue(row.getCell(cellIdx));
+                    if (StringUtils.isEmpty(value)) continue;
+                    tbStoreRentalCar.setSafenNum(value);
+                }
+
+                //가맹점번호
+                tbStoreRentalCar.setStoreNo(Long.parseLong(storeNo));
+                //데이터상태
+                tbStoreRentalCar.setDataStatus(DataStatus.OK);
+                //입력일시
+                tbStoreRentalCar.setInsertDate(LocalDateTime.now());
+
+                userList.add(tbStoreRentalCar);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        } finally {
+            if (workbook != null) {
+                try { workbook.close(); } catch (Exception e) {}
+            }
+        }
+
+        log.debug("updating user: {}", userList);
+
+        List<TbStoreRentalCarData> successList = new ArrayList<>();
+        List<TbStoreRentalCarData> failList = new ArrayList<>();
+        for (TbStoreRentalCarData tbStoreRentalCarData : userList) {
+            if (tbStoreRentalCarData.getCarNum() == null) {
+                tbStoreRentalCarData.setError("차량번호없음");
+                failList.add(tbStoreRentalCarData);
+                continue;
+            } else if (tbStoreRentalCarData.getCarModel() == null) {
+                tbStoreRentalCarData.setError("모델명없음");
+                failList.add(tbStoreRentalCarData);
+                continue;
+            } else if (tbStoreRentalCarData.getSafenNum() == null) {
+                tbStoreRentalCarData.setError("안심번호없음");
+                failList.add(tbStoreRentalCarData);
+                continue;
+            } else if (tbStoreRentalCarData.getStoreNo() == null) {
+                tbStoreRentalCarData.setError("가맹점 번호없음");
+                failList.add(tbStoreRentalCarData);
+                continue;
+            }
+
+            try {
+                int result = merchandiseService.tbStoreRentCarExcelUpdate(tbStoreRentalCarData);
+                if (result == 0) {
+                    tbStoreRentalCarData.setError("등록 실패");
+                    failList.add(tbStoreRentalCarData);
+                } else {
+                    successList.add(tbStoreRentalCarData);
+                }
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    tbStoreRentalCarData.setError("중복된 차량번호 / 안심번호입니다.");
+                } else {
+                    tbStoreRentalCarData.setError(e.getMessage());
+                }
+                failList.add(tbStoreRentalCarData);
+            }
+        }
+
+        model.addAttribute("successList", successList);
+        model.addAttribute("failList", failList);
+        return new ModelAndView("jesica/merchant/car/resultExcel");
+        //return "redirect:jesica/merchant/car/resultExcel";
+    }
 
 
 

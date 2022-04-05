@@ -65,10 +65,10 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="주문관리"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="탁송내역(과거)"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="탁송내역(과거)"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
@@ -274,7 +274,6 @@
                                                                checked
                                                         </c:when>
                                                         <c:when test="${itemChk == '' || itemChk == null }">
-                                                               checked
                                                         </c:when>
                                                         </c:choose>
                                                         </c:forEach>
@@ -610,8 +609,10 @@
 
 
         let date = new Date();
+        let date2 = new Date();
         let startDate = "${searchValue.startDate}";
         let endDate = "${searchValue.endDate}";
+        var yesterday = new Date(date2.setDate(date2.getDate() - 1));
 
         $(".startDate").datepicker({
             calendarWeeks: false,
@@ -622,7 +623,7 @@
         });
 
         if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
+            $(".startDate").datepicker('setDate', yesterday);
         } else {
             $(".startDate").datepicker('setDate', startDate);
         }

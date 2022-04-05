@@ -45,6 +45,8 @@ public class SystemController {
 
     private final ApiService apiService;
 
+    private final SystemPropService systemPropService;
+
     @GetMapping("/coopcompany/list")
     public ModelAndView listCooperativeCompany() {
 
@@ -419,6 +421,32 @@ public class SystemController {
     public ModelAndView insertRelese() {
         return new ModelAndView("jesica/system/release/insert");
     }
+
+
+    /**
+     * 안심번호리스트
+     */
+    @GetMapping("/systemprop/list")
+    public ModelAndView systempropList(Locale locale, HttpServletRequest request,
+                                       @RequestParam Map<String,Object> searchValue,
+                                       LoginSession session,
+                                       Model model) {
+        log.info("@@searchValue {}",searchValue);
+
+        if (!searchValue.isEmpty()){
+
+            model.addAttribute("tbServiceProp", systemPropService.tbSystemProp());
+        } else {
+            model.addAttribute("tbServiceProp", null);
+        }
+
+        model.addAttribute("searchValue",searchValue);
+
+
+
+        return new ModelAndView("/jesica/system/systemprop/list");
+    }
+
 
 
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {

@@ -174,6 +174,9 @@
                                     <button type="button" class="insert_btn btn btn-primary float-left m-b-10">
                                         <span class="fa fa-plus">&nbsp;<spring:message code="list.search.123" text="렌터카등록"/><%--상품등록--%></span>
                                     </button>
+                                    <button type="button" class="insert_excel btn btn-primary float-left m-b-10 m-l-10">
+                                        <span class="fa fa-plus">&nbsp;<spring:message code="list.search.123" text="엑셀등록"/><%--상품등록--%></span>
+                                    </button>
                                     <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/><%--검색--%> </button>
                                     <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5">
                                     </div>
@@ -349,6 +352,9 @@
 
         $(".insert_btn").click(function() {
             location.href = "${path}/merchant/car/insert";
+        });
+        $(".insert_excel").click(function() {
+            location.href = "${path}/merchant/car/insertExcel";
         });
 
 
