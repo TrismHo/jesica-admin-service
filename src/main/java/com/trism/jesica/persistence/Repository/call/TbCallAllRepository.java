@@ -33,12 +33,13 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return
      */
-    @Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%d') as dayDate" +
-            " from tb_call_all " +
+    @Query(value = "select count(*) as cnt, " +
+                          "DATE_FORMAT(finish_date, '%d') as dayDate " +
+            "from tb_call_all " +
             "where order_type_code = 20 " +
-            "and order_pay_status = 4 " +
+            "and order_pay_status = 1 " +
             "and order_status_code = 40 "+
-            "and finish_date > LAST_DAY(:searchDate - interval 1 month) AND finish_date <= LAST_DAY(:searchDate) " +
+            "and finish_date >= :searchDate AND finish_date <= LAST_DAY(:searchDate) " +
             "group by dayDate " +
             "order by finish_date "+
             "", nativeQuery = true)
@@ -61,14 +62,15 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return
      */
-    @Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%d') as dayDate" +
-            " from tb_call_all " +
+    @Query(value = "select count(*) as cnt, " +
+                          "DATE_FORMAT(cancel_date, '%d') as dayDate " +
+            "from tb_call_all " +
             "where order_type_code = 20 " +
-            "and order_pay_status = 4 " +
+            "and (order_pay_status = 4 or order_pay_status = 5) " +
             "and order_status_code = 41 "+
-            "and finish_date > LAST_DAY(:searchDate - interval 1 month) AND finish_date <= LAST_DAY(:searchDate) " +
+            "and cancel_date >= :searchDate AND cancel_date <= LAST_DAY(:searchDate) " +
             "group by dayDate " +
-            "order by finish_date "+
+            "order by cancel_date "+
             "", nativeQuery = true)
     List<Map<String,Object>> getCallAllListType2041(@Param("searchDate") String searchDate);
 
@@ -89,12 +91,13 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return
      */
-    @Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%d') as dayDate" +
-            " from tb_call_all " +
+    @Query(value = "select count(*) as cnt, " +
+                          "DATE_FORMAT(finish_date, '%d') as dayDate " +
+            "from tb_call_all " +
             "where order_type_code = 21 " +
-            "and order_pay_status = 4 " +
+            "and order_pay_status = 1 " +
             "and order_status_code = 40 "+
-            "and finish_date > LAST_DAY(:searchDate - interval 1 month) AND finish_date <= LAST_DAY(:searchDate) " +
+            "and finish_date >= :searchDate AND finish_date <= LAST_DAY(:searchDate) " +
             "group by dayDate " +
             "order by finish_date "+
             "", nativeQuery = true)
@@ -117,14 +120,15 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return
      */
-    @Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%d') as dayDate" +
-            " from tb_call_all " +
+    @Query(value = "select count(*) as cnt, " +
+                          "DATE_FORMAT(cancel_date, '%d') as dayDate " +
+            "from tb_call_all " +
             "where order_type_code = 21 " +
-            "and order_pay_status = 4 " +
+            "and (order_pay_status = 4 or order_pay_status = 5) " +
             "and order_status_code = 41 " +
-            "and finish_date > LAST_DAY(:searchDate - interval 1 month) AND finish_date <= LAST_DAY(:searchDate) " +
+            "and cancel_date >= :searchDate AND cancel_date <= LAST_DAY(:searchDate) " +
             "group by dayDate " +
-            "order by finish_date " +
+            "order by cancel_date " +
             "", nativeQuery = true)
     List<Map<String,Object>> getCallAllListType2141(@Param("searchDate") String searchDate);
 }

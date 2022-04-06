@@ -56,11 +56,11 @@
                 <div class="widget widget-stats bg-teal-lighter">
                     <div class="stats-icon"><i class="fas fa-lg fa-fw m-r-10 fa-building"></i></div>
                     <div class="stats-info">
-                        <h4><spring:message code="dashboard.123" text="신규고객"/></h4>
+                        <h4><spring:message code="dashboard.123" text="전체고객"/></h4>
                         <p data-animation="number" data-value="${userChart}"></p>
                     </div>
                     <div class="stats-link">
-                        <a id="wait"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                        <a href="${path}/user/cust/list?isMember=&dataStatus=&startDate=2021-01-01&endDate=${now}&custName="><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -315,6 +315,7 @@
             async: false,
             dataType: "json",
             success: function(data) {
+                console.log(data);
                 let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2041);
                 receiptComplData = receiptResult.complete;
                 receiptCancelData = receiptResult.cancel;
