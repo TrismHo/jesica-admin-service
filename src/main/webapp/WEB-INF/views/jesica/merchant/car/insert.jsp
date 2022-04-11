@@ -61,7 +61,7 @@
                                         <td class="bg-light"><spring:message code="list.detail.123" text="번호판" /><%--상품상태--%></td>
                                         <td colspan="1">
                                             <label class="font-size-10">
-                                                <input type="text" class="form-control width-200 carNum" name="carNum" value="" maxlength="70">
+                                                <input type="text" class="form-control width-200 carNum" name="carNum" value="" maxlength="70" placeholder="번호판">
                                             </label>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.1" text="차량 번호판을 입력해주세요." /></td>
@@ -71,7 +71,7 @@
                                         <td class="bg-light"><spring:message code="list.detail.123" text="모델명" /><%--상품상태--%></td>
                                         <td colspan="1">
                                             <label class="font-size-10">
-                                                <input type="text" class="form-control width-200 carModel" name="carModel" value="" maxlength="70">
+                                                <input type="text" class="form-control width-200 carModel" name="carModel" value="" maxlength="70" placeholder="모델명">
                                             </label>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.2" text="차량 모델명을 입력해주세요." /></td>
@@ -79,12 +79,14 @@
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.123" text="안심번호" /><%--상품상태--%></td>
                                         <td class="text-danger-darker">
-
-                                            <select class="form-control width-150 safenNum" name="safenNum">
+                                            <label>
+                                                <input type="text" data-toggle="modal" data-target="#safen_search_modal" name="safenNum" value=""  placeholder="<spring:message code="list.search.distributorheadquarters1" text="안심번호"/>" class="form-control background-white safenNum width-100" readonly>
+                                            </label>
+                                          <%--  <select class="form-control width-150 safenNum" name="safenNum">
                                                 <c:forEach var="item" items="${tbSafenMapping}">
                                                     <option>${item.safenNum}</option>
                                                 </c:forEach>
-                                            </select>
+                                            </select>--%>
 
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.2" text="사용할 안심번호를 선택해주세요." /></td>
@@ -116,8 +118,7 @@
 <div class="modal fade" id="search_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="search.jsp" %>
 </div>
-
-<div class="modal fade" id="head_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+<%--<div class="modal fade" id="head_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="../../search/headSearch.jsp" %>
 </div>
 <div class="modal fade" id="branch_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -125,6 +126,9 @@
 </div>
 <div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="../../search/storeSearch.jsp" %>
+</div>--%>
+<div class="modal fade" id="safen_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/safenNumSearch.jsp" %>
 </div>
 <%--modal search end--%>
 
@@ -170,6 +174,63 @@
                 $(this).val("0");
             }
         });
+        $('.searchSafenText').keyup(function(event) {
+            var val = $(this).val();
+            if (val == "") {
+                $('.searchSafenList li').show();
+            } else {
+                $('.searchSafenList li').hide();
+                $(".searchSafenList li:contains('"+val+"')").show();
+            }
+        });
+        $(document).on("click","#selSafenNoBtn",function(){
+            $(".safenNum").val($(this).attr("safenNum"));
+            $(".safenModalCloseBtn").click();
+        });
+
+
+        //안심번호 검색
+        $(".searchSafenBtn").on("click",function(){
+            /*alert(1)
+            let req = convertFormToObj($('form.safen_search_form'));
+            let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="등록된 안심번호가 없습니다."/>";
+            let apply = "<spring:message code="list.script.apply" text="적용"/>";*/
+          /*  $.ajax({
+                type: "POST",
+                url: "${path}/api/search/head/list",
+                data: JSON.stringify(req),
+                contentType: "application/json;",
+                dataType: "json",
+                success: function(data) {
+                    $(".searchHeadList").html("");
+                    if(data.searchHeadList.length == 0 || data.searchHeadList == null){
+                        $(".searchHeadList").append(
+                            " <li >" +
+                            "     <label class=\"store_text\">\n" +
+                            noregisteredaffiliateheadquarters+
+                            "     </label>\n" +
+                            "     <div class=\"float-right \"></div>\n" +
+                            " </li>"
+                        )
+                    }else {
+                        for(var i = 0 ; i < data.searchHeadList.length ; i++){
+                            $(".searchHeadList").append(
+                                " <li >" +
+                                "     <label class=\"head_text\">\n" +
+                                ""+data.searchHeadList[i].headName+""+
+                                "<small style=\"color: green;\">["+data.searchHeadList[i].headNo+"]</small>\n" +
+                                "     </label>\n" +
+                                "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selHeadNoBtn\" headName="+data.searchHeadList[i].headName+" style=\"height: 25px; line-height: 0px;margin-top: -5px;\" headNo="+data.searchHeadList[i].headNo+" value='"+apply+"'></div>\n" +
+                                " </li>"
+                            )
+                        }
+                    }
+                }
+            });*/
+        });
+
+
+
         $(".list_btn").click(function() {
             location.href = "${path}/merchant/car/list";
         });
@@ -192,7 +253,7 @@
         date.setMonth(date.getMonth() + 1, 1);
         $("#endDate").datepicker('setDate', date);
 
-        //제휴본사 검색
+     /*   //제휴본사 검색
         $(".searchHeadBtn").on("click",function(){
             let req = convertFormToObj($('form.head_search_form'));
             let noheadmsg = "<spring:message code="list.script.noregisteredaffiliateheadquarters" text="등록된 제휴본사가 없습니다."/>";
@@ -394,7 +455,7 @@
             $(".storeName").val($(this).closest("li").find(".store_text").text());
             $(".storeModalCloseBtn").click();
         });
-
+*/
         $(document).on("click",".btn_insert",function() {
             let url = "${path}/api/car/insert/action";
             let _forms = $('#insert_form, #insert_form2');
