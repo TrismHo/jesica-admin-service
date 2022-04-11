@@ -293,7 +293,7 @@
                     <span><spring:message code="sidemenu.11" text="사용자 관리"/></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=<c:if test="${fn:contains(servletPath,'user/cust') }">"active"</c:if>><a href="${path}/user/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName="><spring:message code="sidemenu.orderhistory.123" text="고객 관리"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'user/cust') }">"active"</c:if>><a href="${path}/user/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName=&custTel="><spring:message code="sidemenu.orderhistory.123" text="고객 관리"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'user/outcust') }">"active"</c:if>><a href="${path}/user/퇴/list?dataStatus=&startDate=2020-01-01&endDate=${now}="><spring:message code="sidemenu.orderhistory.123" text="탈퇴회원 관리"/></a></li>
                 </ul>
             </li>

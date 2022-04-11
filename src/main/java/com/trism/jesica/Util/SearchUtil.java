@@ -1859,7 +1859,7 @@ public class SearchUtil {
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                if (ObjectUtils.isNotEmpty(value) && key.equals("custName")) {
+                if (ObjectUtils.isNotEmpty(value) && (key.equals("custName") || key.equals("custTel"))) {
                     predicate.add(builder.like(root.get(key), "%" + value + "%"));
                 } else if (ObjectUtils.isNotEmpty(value) && key.equals("custTel")) {
                     predicate.add(builder.like(root.get(key), "%" + value + "%"));
@@ -1892,9 +1892,9 @@ public class SearchUtil {
                         predicate.add(builder.equal(root.get(key), value));
                     }
                 } else {
-                   /* if (ObjectUtils.isNotEmpty(value)) {
+                    if (ObjectUtils.isNotEmpty(value) && !key.equals("testTable_length")) {
                         predicate.add(builder.equal(root.get(key),value));
-                    }*/
+                    }
                 }
             }
         } catch (Exception e){

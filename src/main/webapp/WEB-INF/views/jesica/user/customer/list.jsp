@@ -88,26 +88,12 @@
                                             <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/><%--검색어 입력--%></strong></td>
                                             <td>
                                                 <label>
-                                                    <select class="form-control selectSearchValue" style="width: 110px">
-                                                        <option value="custName"  <c:if test="${searchValue.hiddenValue == 'custName' || searchValue.hiddenValue == '' || searchValue.hiddenValue == null}">selected</c:if>><spring:message code="list.search.franchiseeheadquarters1" text="이름"/></option>
-                                                        <option value="custTel" <c:if test="${searchValue.hiddenValue == 'custTel'}">selected</c:if>><spring:message code="list.search.franchiseeheadquarters1" text="전화번호"/></option>
+                                                    <select class="form-control searchOp" style="width: 110px">
+                                                        <option value="custName" <c:if test="${searchValue.custName != '' || (searchValue.custName == '' && searchValue.custTel == '')}">selected</c:if>><spring:message code="list.search.title1" text="이름"/></option>
+                                                        <option value="custTel" <c:if test="${searchValue.custTel != ''}">selected</c:if>><spring:message code="list.search.title2" text="전화번호"/></option>
                                                     </select>
-                                                    <c:if test="${searchValue.hiddenValue == 'custName'}">
-                                                        <input type="text" id="inputSearchValue" name="custName" value="${searchValue.custName}" class="form-control width-150" maxlength="150">
-                                                    </c:if>
-                                                    <c:if test="${searchValue.hiddenValue == 'custTel'}">
-                                                        <input type="text" id="inputSearchValue" name="custTel" value="${searchValue.carNum}" class="form-control width-150" maxlength="150">
-                                                    </c:if>
-                                                    <c:if test="${searchValue.hiddenValue == '' || searchValue.hiddenValue == null}">
-                                                        <input type="text" id="inputSearchValue" name="custName" value="${searchValue.inputSearchValue}" class="form-control width-150" maxlength="150">
-                                                    </c:if>
-
-                                                    <c:if test="${searchValue.hiddenValue == '' || searchValue.hiddenValue == null}">
-                                                        <input type="hidden" id="hiddenValue" name="hiddenValue" value="custName" >
-                                                    </c:if>
-                                                    <c:if test="${searchValue.hiddenValue != ''}">
-                                                        <input type="hidden" id="hiddenValue" name="hiddenValue" value="${searchValue.hiddenValue}" >
-                                                    </c:if>
+                                                    <input type="text" id="custName" class="form-control width-150" name="custName" value="${searchValue.custName}" maxlength="150">
+                                                    <input type="text" id="custTel" class="form-control width-150" name="custTel" value="${searchValue.custTel}" maxlength="150">
                                                 </label>
                                             </td>
                                         </tr>
@@ -222,10 +208,16 @@
         location.href = "${path}/user/cust/detail?custNo=" + custNo;
     });
     $(() => {
-        $(".selectSearchValue").on("change",function(){
-            $("#inputSearchValue").attr("name",$(this).val());
-            $("#hiddenValue").attr("value",$(this).val());
-        });
+        let nameForm = document.getElementById("custName");
+        let telForm = document.getElementById("custTel");
+
+        if (nameForm.value !== '' || (nameForm.value === '' && telForm.value === '')) {
+            nameForm.style.display = 'inline';
+            telForm.style.display = 'none';
+        } else if (telForm.value !== '') {
+            nameForm.style.display = 'none';
+            telForm.style.display = 'inline';
+        }
 
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
@@ -270,6 +262,26 @@
             let custNo = $(this).attr("custno");
             $("#custNo").val(custNo);
             $("#loginPwd").val('');
+        });
+
+        $(".searchOp").change(function(e) {
+            let option = e.target.value;
+            let nameForm = document.getElementById("custName");
+            let telForm = document.getElementById("custTel");
+
+            nameForm.value = '';
+            telForm.value = '';
+
+            switch (option) {
+                case 'custName':
+                    nameForm.style.display = 'inline';
+                    telForm.style.display = 'none';
+                    break;
+                case 'custTel':
+                    nameForm.style.display = 'none';
+                    telForm.style.display = 'inline';
+                    break;
+            }
         });
 
         $(".update_pwd_btn").click(function() {

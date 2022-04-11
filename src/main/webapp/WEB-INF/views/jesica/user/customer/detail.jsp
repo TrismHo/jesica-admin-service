@@ -409,7 +409,7 @@
 <script>
     $(() => {
         $(".btn_list").click(() => {
-            location.href = "${path}/user/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName=";
+            location.href = "${path}/user/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName=&custTel=";
         });
 
         $(".btn_up").click(() => {
