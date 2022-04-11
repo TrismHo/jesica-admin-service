@@ -61,16 +61,41 @@
                                         <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.searchword" text="검색어"/><%--검색어 입력--%></strong></td>
                                         <td>
                                             <label>
-                                                <select class="form-control  ">
-                                                    <option><spring:message code="list.search.franchiseeheadquarters1" text="업체명"/></option>
+                                                <select class="form-control selectSearchValue">
+                                                        <option value="storeName"  <c:if test="${searchValue.hiddenValue == 'storeName' || searchValue.hiddenValue == '' || searchValue.hiddenValue == null}">selected</c:if>><spring:message code="list.search.franchiseeheadquarters1" text="업체명"/></option>
+                                                        <option value="carNum" <c:if test="${searchValue.hiddenValue == 'carNum'}">selected</c:if>><spring:message code="list.search.franchiseeheadquarters1" text="차량번호"/></option>
+                                                        <option value="custDriverTel1" <c:if test="${searchValue.hiddenValue == 'custDriverTel1'}">selected</c:if>><spring:message code="list.search.franchiseeheadquarters1" text="운전자번호"/></option>
+                                                        <option value="safenNum" <c:if test="${searchValue.hiddenValue == 'safenNum'}">selected</c:if>><spring:message code="list.search.franchiseeheadquarters1" text="안심번호"/></option>
                                                 </select>
                                             </label>
                                             <label>
-                                                <input type="text" name="storeName" value="${searchValue.storeName}" class="form-control width-150" maxlength="150">
+                                                <c:if test="${searchValue.hiddenValue == 'storeName'}">
+                                                    <input type="text" id="inputSearchValue" name="storeName" value="${searchValue.storeName}" class="form-control width-150" maxlength="150">
+                                                </c:if>
+                                                <c:if test="${searchValue.hiddenValue == 'carNum'}">
+                                                    <input type="text" id="inputSearchValue" name="carNum" value="${searchValue.carNum}" class="form-control width-150" maxlength="150">
+                                                </c:if>
+                                                <c:if test="${searchValue.hiddenValue == 'custDriverTel1'}">
+                                                    <input type="text" id="inputSearchValue" name="custDriverTel1" value="${searchValue.custDriverTel1}" class="form-control width-150" maxlength="150">
+                                                </c:if>
+                                                <c:if test="${searchValue.hiddenValue == 'safenNum'}">
+                                                    <input type="text" id="inputSearchValue" name="custDriverTel1" value="${searchValue.safenNum}" class="form-control width-150" maxlength="150">
+                                                </c:if>
+                                                <c:if test="${searchValue.hiddenValue == '' || searchValue.hiddenValue == null}">
+                                                    <input type="text" id="inputSearchValue" name="storeName" value="${searchValue.inputSearchValue}" class="form-control width-150" maxlength="150">
+                                                </c:if>
+
+                                                <c:if test="${searchValue.hiddenValue == '' || searchValue.hiddenValue == null}">
+                                                    <input type="hidden" id="hiddenValue" name="hiddenValue" value="storeName" >
+                                                </c:if>
+                                                <c:if test="${searchValue.hiddenValue != ''}">
+                                                    <input type="hidden" id="hiddenValue" name="hiddenValue" value="${searchValue.hiddenValue}" >
+                                                </c:if>
+
                                             </label>
                                             <label>
                                                     <span class="btn-group  bg-black-transparent-2 rounded">
-                                                        <a href="${path}/extralink/rentcar/list?&startDate=2021-01-01&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
+                                                        <a href="${path}/extralink/rentcar/list?&startDate=${yesterDayStr}&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
                                                             <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message code="list.search.searchreset" text="검색 초기화"/>
                                                         </a>
                                                     </span>
@@ -230,6 +255,11 @@
     // DataTables Default
 
     $(() => {
+
+        $(".selectSearchValue").on("change",function(){
+            $("#inputSearchValue").attr("name",$(this).val());
+            $("#hiddenValue").attr("value",$(this).val());
+        });
 
         $("#testTable").DataTable({
             language : lang_set //or lang_eng

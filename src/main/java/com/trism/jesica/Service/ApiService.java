@@ -17,7 +17,6 @@ import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
 import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.Entitiy.goods.*;
-import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
 import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
@@ -2903,10 +2902,10 @@ public class ApiService {
             //아이디가 없으면 insert
             TbStoreRentalCar resultCar = tbStoreRentalCarRepository.save(tbStoreRentalCarData.insertData());
             //안심번호 매핑
-            tbSafenMappingRepository.mappingSafenNum(resultCar.getRentalCarNo());
+            tbSafenMappingRepository.mappingSafenNum(resultCar.getRentalCarNo(),resultCar.getSafenNum());
 
-            TbSafenMapping tbSafenMapping = tbSafenMappingRepository.findByRentalCarNo(resultCar.getRentalCarNo());
-            tbStoreRentalCarRepository.updateSafenNum(resultCar.getRentalCarNo(),tbSafenMapping.getSafenNum());
+            //TbSafenMapping tbSafenMapping = tbSafenMappingRepository.findByRentalCarNo(resultCar.getRentalCarNo());
+            //tbStoreRentalCarRepository.updateSafenNum(resultCar.getRentalCarNo(),tbSafenMapping.getSafenNum());
 
             result = 1;
         }

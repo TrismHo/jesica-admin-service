@@ -72,6 +72,53 @@ public class UserController {
         return new ModelAndView("jesica/user/customer/detail");
     }
 
+    /**
+     * 탈퇴회원 리스트
+     */
+    @GetMapping("/outcust/list")
+    public ModelAndView listOutCust(HttpSession session, @RequestParam Map<String, Object> searchValue, Model model) {
+        log.info("@@searchValue::{}", searchValue);
+
+        try {
+            if (ObjectUtils.isNotEmpty(searchValue)) {
+                log.info("searchValue::{}", searchValue);
+                putSearchOption(session, searchValue);
+                List<TbCust> tbCustList = custService.getCustList(searchValue);
+
+                model.addAttribute("custList", tbCustList);
+            } else {
+                getSearchOption(session);
+                model.addAttribute("custList", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("jesica/user/secession/list");
+    }
+
+    /**
+     * 탈퇴 상세
+     */
+    @GetMapping("/outcust/detail")
+    public ModelAndView detailOutCust(@RequestParam Long custNo, Model model) {
+        log.info("@@custNo:: ", custNo);
+
+        try {
+            Map<String, Object> map = custService.getCustDetail(custNo);
+
+            model.addAttribute("tbCust", map.get("tbCust"));
+            model.addAttribute("tbCustUsedCouponList", map.get("tbCustUsedCoupon"));
+            model.addAttribute("tbCustUnUsedCouponList", map.get("tbCustUnUsedCoupon"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/user/secession/detail");
+    }
+
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {
         session.setAttribute("isMember", searchValue.get("isMember"));
         session.setAttribute("dataStatus", searchValue.get("dataStatus"));

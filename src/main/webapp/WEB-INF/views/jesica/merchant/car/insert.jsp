@@ -49,67 +49,11 @@
                                     <tr>
                                         <td class="bg-light" style="width:15%"><spring:message code="list.detail.franchiseeheadquarters" text="가맹점"/></td>
                                         <td style="width:60%">
-                                            <%--<c:if test="${sessionScope.sessionKey.userRole == 0}">--%>
-                                                <label>
-                                                    <input type="text" data-toggle="modal" data-target="#head_search_modal"  name="headNoText"  value="${searchValue.headNoText}" placeholder="<spring:message code="list.detail.affiliatedheadquarters" text="제휴본사명"/>" class="form-control background-white headName width-100 " >
-                                                    <input type="hidden" class="headNo" name="headNo"  value="${searchValue.headNo}">
-                                                    <input type="hidden" class="headName" name="headNoText"  value="${searchValue.headNoText}">
-                                                    <input type="hidden" class="branchNo" name="branchNo" value="${searchValue.branchNo}">
-                                                    <input type="hidden" class="branchName" name="branchNoText" value="${searchValue.branchNoText}">
-                                                    <input type="hidden" class="storeNo" name="storeNo" value="${searchValue.storeNo}">
-                                                </label>
-                                                <label>
-                                                    <input type="text" data-toggle="<c:if test="${searchValue.branchNo != null && searchValue.branchNo !=''}">modal</c:if>" data-target="#branch_search_modal" name="branchNoText" value="${searchValue.branchNoText}"  placeholder="<spring:message code="list.detail.distributorheadquarters" text="총판명"/>" class="form-control background-white branchName width-100" >
-                                                </label>
-                                                <label>
-                                                    <input type="text"  id="testInput"  data-toggle="<c:if test="${searchValue.storeNo != null && searchValue.storeNo !=''}">modal</c:if>" data-target="#store_search_modal" name="storeNoText" value="${searchValue.storeNoText}" placeholder="<spring:message code="list.detail.franchiseeheadquarters" text="가맹점명"/>" class="form-control background-white storeName width-100">
-                                                </label>
-                                            <%--</c:if>
-                                            <c:if test="${sessionScope.sessionKey.userRole == 1}">
-                                                <label>
-                                                    <input type="text" data-toggle="modal" data-target="#head_search_modal"  name="headNoText"  value="${sessionScope.headName}" placeholder="<spring:message code="list.detail.affiliatedheadquarters" text="제휴본사명"/>" class="form-control background-white headName width-100 " disabled>
-                                                    <input type="hidden" class="headNo" name="headNo"  value="${sessionScope.sessionKey.headNo}">
-                                                    <input type="hidden" class="headName" name="headNoText"  value="${sessionScope.headName}">
-                                                    <c:if test="${searchValue.branchNo != null && searchValue.branchNo !=''}">
-                                                        <input type="hidden" class="branchNo" name="branchNo" value="${searchValue.branchNo}">
-                                                    </c:if>
-                                                    <c:if test="${searchValue.branchNo == null || searchValue.branchNo ==''}">
-                                                        <input type="hidden" class="branchNo" name="branchNo" value="${sessionScope.sessionKey.branchNo}">
-                                                    </c:if>
-
-
-                                                    <input type="hidden" class="branchName" name="branchNoText" value="${searchValue.branchNoText}">
-                                                    <input type="hidden" class="storeNo" name="storeNo" value="${searchValue.storeNo}">
-                                                </label>
-                                                <label>
-                                                    <input type="text" data-toggle="<c:if test="${(searchValue.branchNo != null && searchValue.branchNo !='') || (sessionScope.sessionKey.headNo != null && sessionScope.sessionKey.headNo !='')}">modal</c:if>" data-target="#branch_search_modal" name="branchNoText" value="${searchValue.branchNoText}"  placeholder="<spring:message code="list.detail.distributorheadquarters" text="총판명"/>" class="form-control background-white branchName width-100" >
-                                                </label>
-                                                <label>
-                                                    <input type="text"  id="testInput"  data-toggle="<c:if test="${searchValue.storeNo != null && searchValue.storeNo !=''}">modal</c:if>" data-target="#store_search_modal" name="storeNoText" value="${searchValue.storeNoText}" placeholder="<spring:message code="list.detail.franchiseeheadquarters" text="가맹점명"/>" class="form-control background-white storeName width-100">
-                                                </label>
-                                            </c:if>
-                                            <c:if test="${sessionScope.sessionKey.userRole == 2}">
-                                                <label>
-                                                    <input type="text" data-toggle="modal" data-target="#head_search_modal"  name="headNoText"  value="${sessionScope.headName}" placeholder="<spring:message code="list.detail.affiliatedheadquarters" text="제휴본사명"/>" class="form-control background-white headName width-100 " disabled>
-                                                    <input type="hidden" class="headNo" name="headNo"  value="${sessionScope.sessionKey.headNo}">
-                                                    <input type="hidden" class="headName" name="headNoText"  value="${sessionScope.headName}">
-                                                    <input type="hidden" class="branchNo" name="branchNo" value="${sessionScope.sessionKey.branchNo}">
-                                                    <input type="hidden" class="branchName" name="branchNoText" value="${sessionScope.branchName}">
-                                                    <c:if test="${searchValue.storeNo != null && searchValue.storeNo !=''}">
-                                                        <input type="hidden" class="storeNo" name="storeNo" value="${searchValue.storeNo}">
-                                                    </c:if>
-                                                    <c:if test="${searchValue.storeNo == null || searchValue.storeNo ==''}">
-                                                        <input type="hidden" class="storeNo" name="storeNo" value="${sessionScope.sessionKey.storeNo}">
-                                                    </c:if>
-
-                                                </label>
-                                                <label>
-                                                    <input type="text" data-toggle="<c:if test="${searchValue.branchNo != null && searchValue.branchNo !=''}">modal</c:if>" data-target="#branch_search_modal" name="branchNoText" value="${sessionScope.branchName}"  placeholder="<spring:message code="list.detail.distributorheadquarters" text="총판명"/>" class="form-control background-white branchName width-100" disabled>
-                                                </label>
-                                                <label>
-                                                    <input type="text"  id="testInput"  data-toggle="modal" data-target="#store_search_modal" placeholder="<spring:message code="list.detail.franchiseeheadquarters" text="가맹점명"/>" name="storeNoText" value="${searchValue.storeNoText}" class="form-control background-white storeName width-100">
-                                                </label>
-                                            </c:if>--%>
+                                            <select class="form-control width-150 storeNo" name="storeNo">
+                                                <c:forEach var="item" items="${tbStoreList}">
+                                                    <option value="${item.storeNo}">${item.storeName}[${item.storeNo}]</option>
+                                                </c:forEach>
+                                            </select>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseselectastore" text="가맹점을 선택하세요. (등록후 변경 불가)" /></td>
                                     </tr>
@@ -120,7 +64,7 @@
                                                 <input type="text" class="form-control width-200 carNum" name="carNum" value="" maxlength="70">
                                             </label>
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.1" text="번호판을 입력해주세요." /></td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.1" text="차량 번호판을 입력해주세요." /></td>
                                         <input type="hidden" name="goodsStatus" value="1">
                                     </tr>
                                     <tr>
@@ -130,7 +74,20 @@
                                                 <input type="text" class="form-control width-200 carModel" name="carModel" value="" maxlength="70">
                                             </label>
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.2" text="모델명을 입력해주세요." /></td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.2" text="차량 모델명을 입력해주세요." /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.123" text="안심번호" /><%--상품상태--%></td>
+                                        <td class="text-danger-darker">
+
+                                            <select class="form-control width-150 safenNum" name="safenNum">
+                                                <c:forEach var="item" items="${tbSafenMapping}">
+                                                    <option>${item.safenNum}</option>
+                                                </c:forEach>
+                                            </select>
+
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.2" text="사용할 안심번호를 선택해주세요." /></td>
                                     </tr>
                                 </table>
 

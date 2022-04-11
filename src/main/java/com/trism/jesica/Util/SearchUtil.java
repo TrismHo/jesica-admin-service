@@ -1751,8 +1751,13 @@ public class SearchUtil {
                 Object value = searchKeyword.get(key);
                 if ("storeName".equals(key) && value != ""){
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
-                } else
-                if ("endDate".equals(key) && value != "") {
+                } else if ("carNum".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("custDriverTel1".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("safenNum".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("endDate".equals(key) && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     endDate = LocalDateTime.parse(string, formatter);
@@ -1856,6 +1861,8 @@ public class SearchUtil {
                 Object value = searchKeyword.get(key);
                 if (ObjectUtils.isNotEmpty(value) && key.equals("custName")) {
                     predicate.add(builder.like(root.get(key), "%" + value + "%"));
+                } else if (ObjectUtils.isNotEmpty(value) && key.equals("custTel")) {
+                    predicate.add(builder.like(root.get(key), "%" + value + "%"));
                 } else if (ObjectUtils.isNotEmpty(value) && "endDate".equals(key)) {
                     String string = value + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -1885,9 +1892,9 @@ public class SearchUtil {
                         predicate.add(builder.equal(root.get(key), value));
                     }
                 } else {
-                    if (ObjectUtils.isNotEmpty(value)) {
+                   /* if (ObjectUtils.isNotEmpty(value)) {
                         predicate.add(builder.equal(root.get(key),value));
-                    }
+                    }*/
                 }
             }
         } catch (Exception e){

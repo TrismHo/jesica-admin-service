@@ -12,6 +12,7 @@ import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreGoods;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreOption;
+import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
 import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
@@ -415,6 +416,16 @@ public class MerchantController {
     @GetMapping("/car/insert")
     public ModelAndView insertCar(HttpSession session, Model model) {
         model.addAttribute("searchValue",getSearchOption(session));
+
+        //렌트카 가맹점리스트
+        List<TbStoreRentalCar> resultList = null;
+        List<TbStore> tbStoreList = apiService.getStoreList();
+
+        //안심번호 리스트(매칭안된것들)
+        List<TbSafenMapping> tbSafenMapping = merchandiseService.getTbSafenMappingList();
+        model.addAttribute("tbSafenMapping",tbSafenMapping);
+        model.addAttribute("tbStoreList",tbStoreList);
+
         return new ModelAndView("jesica/merchant/car/insert");
     }
 

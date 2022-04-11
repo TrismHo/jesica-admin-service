@@ -1,3 +1,4 @@
+<%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -5,6 +6,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 <c:set var="now" value="<%=new java.util.Date()%>" />
+<!-- 하루전 -->
+<c:set var="yesterDay" value="<%=new Date(new Date().getTime() - 60*60*24*1000*1)%>"/>
+<fmt:formatDate value="${yesterDay}" pattern="yyyy-MM-dd" var="yesterDayStr"/>
 <%--<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>--%>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>

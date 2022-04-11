@@ -132,7 +132,7 @@
                     <%--<li class=<c:if test="${fn:contains(servletPath,'merchangroup') }">"active"</c:if> > <a href="${path}/merchant/merchangroup/list"><spring:message code="sidemenu.merchantsetting.merchandise.group" text="상품그룹"/></a></li>--%>
                     <%--<li class=<c:if test="${fn:contains(servletPath,'storedlvycharge') }">"active"</c:if> > <a href="${path}/merchant/storedlvycharge/list"><spring:message code="sidemenu.merchantsetting.merchandise.11" text="배송요금"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'storemngcharge') }">"active"</c:if> > <a href="${path}/merchant/storemngcharge/list"><spring:message code="sidemenu.merchantsetting.merchandise.hire" text="사용료"/></a></li>--%>
-                    <li class=<c:if test="${fn:contains(servletPath,'car') }">"active"</c:if>><a href="${path}/merchant/car/list"><spring:message code="sidemenu.orderhistory.carservice" text="렌터카"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'car') }">"active"</c:if>><a href="${path}/merchant/car/list?startDate=2020-01-01&endDate=${now}"><spring:message code="sidemenu.orderhistory.carservice" text="렌터카"/></a></li>
 <%--                    <li class=<c:if test="${fn:contains(servletPath,'merchancopy') }">"active"</c:if> > <a href="${path}/merchant/merchancopy/list"><spring:message code="sidemenu.merchantsetting.merchandise.copy" text="상품복사"/></a></li>--%>
 <%--                    <li class=<c:if test="${fn:contains(servletPath,'uploadexcel') }">"active"</c:if> > <a href="${path}/merchant/uploadexcel/list"><spring:message code="sidemenu.merchantsetting.merchandise.excelupload" text="상품엑셀업로드"/></a></li>--%>
 <%--                    <li class=<c:if test="${fn:contains(servletPath,'multifrchi')}">"active"</c:if> > <a href="${path}/merchant/multifrchi/list"><spring:message code="sidemenu.merchantsetting.multipleaffiliates" text="멀티가맹점"/></a></li>--%>
@@ -294,6 +294,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li class=<c:if test="${fn:contains(servletPath,'user/cust') }">"active"</c:if>><a href="${path}/user/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName="><spring:message code="sidemenu.orderhistory.123" text="고객 관리"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'user/outcust') }">"active"</c:if>><a href="${path}/user/퇴/list?dataStatus=&startDate=2020-01-01&endDate=${now}="><spring:message code="sidemenu.orderhistory.123" text="탈퇴회원 관리"/></a></li>
                 </ul>
             </li>
             <li class="has-sub <c:if test="${fn:contains(servletPath,'system' ) || fn:contains(servletPath,'extralink') || fn:contains(servletPath,'release' || fn:contains(servletPath,'safe')) }">active</c:if>">
@@ -303,7 +304,7 @@
                     <span><spring:message code="sidemenu.11" text="시스템 운영"/></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class=<c:if test="${fn:contains(servletPath,'extralink/rentcar') }">"active"</c:if>><a href="${path}/extralink/rentcar/list"><spring:message code="sidemenu.orderhistory.123" text="안심번호 할당정보"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'extralink/rentcar') }">"active"</c:if>><a href="${path}/extralink/rentcar/list?startDate=${yesterDayStr}&endDate=${now}"><spring:message code="sidemenu.orderhistory.123" text="안심번호 할당정보"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'system/master/list') }">"active"</c:if>><a href="${path}/system/master/list"><spring:message code="sidemenu.orderhistory.123" text="마스터사용자 관리"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'system/release') }">"active"</c:if>><a href="${path}/system/release/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="><spring:message code="sidemenu.boardmanagement.release11" text="업데이트 내역"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'system/systemprop') }">"active"</c:if>><a href="${path}/system/systemprop/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="><spring:message code="sidemenu.boardmanagement.release11" text="시스템 설정"/></a></li>
