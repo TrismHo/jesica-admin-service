@@ -29,7 +29,7 @@ public interface TbNoticePlatformRepository extends JpaRepository<TbNoticePlatfo
             "from " +
             "tb_notice_platform " +
             "where data_status = 1 "+
-            "order by insert_date asc LIMIT 20" +
+            "order by insert_date desc LIMIT 20" +
             "", nativeQuery = true)
     List<Map<String,Object>> findAllLimit();
 }

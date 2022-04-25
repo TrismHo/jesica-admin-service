@@ -151,8 +151,8 @@ public class BoardService {
             searchValue.put(key,(String)value);
             predicate = (Specification<TbNoticeRelease>) SearchUtil.searchRelese(searchValue);
         }
-        return searchValue.isEmpty() ? tbNoticeReleaseRepository.findAll(Sort.by(Sort.Direction.DESC, "updateDate"))
-                : tbNoticeReleaseRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "updateDate"));
+        return searchValue.isEmpty() ? tbNoticeReleaseRepository.findAll(Sort.by(Sort.Direction.DESC, "insertDate"))
+                : tbNoticeReleaseRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
     @Transactional(readOnly = true)

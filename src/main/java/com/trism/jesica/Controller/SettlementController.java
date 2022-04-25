@@ -7,8 +7,12 @@ import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.TbBranchDTO;
 import com.trism.jesica.dto.TbHeadDTO;
 import com.trism.jesica.dto.TbServiceChargeDTO;
+import com.trism.jesica.persistence.Entitiy.business.TbBranch;
+import com.trism.jesica.persistence.Entitiy.business.TbHead;
+import com.trism.jesica.persistence.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
-import com.trism.jesica.persistence.Entitiy.cust.TbCustCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.*;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
 import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayApproval;
@@ -19,10 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -253,11 +254,28 @@ public class SettlementController {
             } else {
                 searchValue = getSearchOption(session);
             }
-            List<TbCustCashLog> tbCustCashLog = null;
-            tbCustCashLog = settlementService.tbCustCashLogList(searchValue);
+            List<TbHeadCashLog> tbHeadCashLog = null;
+            List<TbBranchCashLog> tbBranchCashLog = null;
+            List<TbStoreCashLog> tbStoreCashLog = null;
+            List<TbWorkerCashLog> tbWorkerCashLog = null;
+            if("1".equals(searchValue.get("groupType"))){
+                tbHeadCashLog = settlementService.tbHeadCashLogList(searchValue);
+                model.addAttribute("tbCustCashLog", tbHeadCashLog);
+            } else if("2".equals(searchValue.get("groupType"))){
+                tbBranchCashLog = settlementService.tbBranchCashLogList(searchValue);
+                model.addAttribute("tbCustCashLog", tbBranchCashLog);
+            } else if("3".equals(searchValue.get("groupType"))){
+                tbStoreCashLog = settlementService.tbStoreCashLogList(searchValue);
+                model.addAttribute("tbCustCashLog", tbStoreCashLog);
+            } else if("4".equals(searchValue.get("groupType"))){
+                tbWorkerCashLog = settlementService.tbWorkerCashLogList(searchValue);
+                model.addAttribute("tbCustCashLog", tbWorkerCashLog);
+            }
+
+
             int index = 0;
 
-            model.addAttribute("tbCustCashLog", tbCustCashLog);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -271,6 +289,25 @@ public class SettlementController {
     public ModelAndView listTransferSettlement() {
 
         return new ModelAndView("jesica/settlement/transfersettlement/list");
+    }
+    @GetMapping("/cashlog/search/{groupType}")
+    public ModelAndView cashLogSearch(@PathVariable Integer groupType, Model model) {
+        if(groupType == 1){
+            List<TbHead> tbHead = settlementService.tbHeadList();
+            model.addAttribute("tbHead", tbHead);
+        } else if(groupType == 2){
+            List<TbBranch> tbBranch = settlementService.tbBranchList();
+            model.addAttribute("tbBranch", tbBranch);
+        } else if(groupType == 3){
+            List<TbStore> tbStore = settlementService.tbStoreList();
+            model.addAttribute("tbStore", tbStore);
+        } else if(groupType == 4){
+            List<TbUserWorker> tbUserWorker = settlementService.tbWorkerList();
+            model.addAttribute("tbUserWorker", tbUserWorker);
+        }
+
+        model.addAttribute("groupType",groupType);
+        return new ModelAndView("jesica/settlement/cashlog/search");
     }
 
     @GetMapping("/transsettle/insert")

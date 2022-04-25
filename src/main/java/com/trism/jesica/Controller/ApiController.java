@@ -1238,10 +1238,10 @@ public class ApiController {
         if(result > 0 ) {
             log.info("Update_role :adminId = {} / userId =  {} / ip = {} / type = {}" , loginSession.getUserLoginId(), tbUserStaffData.getUserId() , ip , "update");
             map.put("result","200");
-            map.put("message", "등록 되었습니다.");
+            map.put("message", "수정 되었습니다.");
         } else {
             map.put("result","400");
-            map.put("message", "등록에 실패하였습니다.");
+            map.put("message", "수정에 실패하였습니다.");
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
@@ -2956,6 +2956,31 @@ public class ApiController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "sample.xlsx" + "\"")
                 .body(resource);
+    }
+
+
+    //사용자 update
+    @ResponseBody
+    @PostMapping(value="/userStaff/passUp/action" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> userStaffUpdateActionUseUser(
+            @RequestPart(value="tbUserStaffData" ,required = true) TbUserStaffData tbUserStaffData
+    ) {
+        log.info("tbUserStaffData ::{}", tbUserStaffData);
+
+        int result =  apiService.updateTbUserStaffUseUser(tbUserStaffData);
+
+        //LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        //String ip = GetClientIp.getClientIP(request);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0 ) {
+            //log.info("Update_role :adminId = {} / userId =  {} / ip = {} / type = {}" , loginSession.getUserLoginId(), tbUserStaffData.getUserId() , ip , "update");
+            map.put("result","200");
+            map.put("message", "수정 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "수정에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
 

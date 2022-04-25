@@ -187,7 +187,7 @@
                         <ul class="todolist">
                             <c:forEach var="item" items="${updateList}" varStatus="status">
                                 <li>
-                                    <a href="${path}/board/release/detail?noticeNo=${item.noticeNo}" class="todolist-container" data-click="todolist">
+                                    <a  class="todolist-container" data-click="todolist"  href="/notice/update/${item.noticeNo}" onclick="window.open(this.href, '_blank', 'width=1000, height=740,resizeable=no'); return false;" class="todolist-container" data-click="todolist">
                                         <div class="todolist-input" style="color:#2d353c;"> <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}</div>
                                         <div class="todolist-title"> ${item.title}</div>
                                     </a>
@@ -209,7 +209,7 @@
                         <ul class="todolist">
                             <c:forEach var="item" items="${updatePlatList}" varStatus="status">
                                 <li>
-                                    <a href="${path}/board/platform/detail?noticeNo=${item.noticeNo}" class="todolist-container" data-click="todolist">
+                                    <a  class="todolist-container" data-click="todolist"  href="/notice/platform/${item.noticeNo}" onclick="window.open(this.href, '_blank', 'width=1000, height=740, resizeable=no'); return false;">
                                         <div class="todolist-input" style="color:#2d353c;"> <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}</div>
                                         <div class="todolist-title">${item.title}</div>
                                     </a>

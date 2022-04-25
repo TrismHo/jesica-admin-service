@@ -1,8 +1,11 @@
 package com.trism.jesica.Util;
 
 
-import com.trism.jesica.persistence.Entitiy.cust.TbCust;
-import com.trism.jesica.persistence.Entitiy.cust.TbCustCashLog;
+import com.trism.jesica.persistence.Entitiy.business.TbBranch;
+import com.trism.jesica.persistence.Entitiy.business.TbHead;
+import com.trism.jesica.persistence.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
+import com.trism.jesica.persistence.Entitiy.cust.*;
 import com.trism.jesica.persistence.type.CatLevel;
 import com.trism.jesica.persistence.type.DataStatus;
 import org.apache.commons.lang3.ObjectUtils;
@@ -200,9 +203,33 @@ public class SearchUtil {
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
-    public static Specification<?> searchCustCashLogList(Map<String, Object> searchKeyword) {
+   /* public static Specification<?> searchCustCashLogList(Map<String, Object> searchKeyword) {
         return (Specification<?>) ((root, query, builder) -> {
             List<Predicate> predicate = searchCustCashLogList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }*/
+    public static Specification<?> searchHeadCashLogList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchHeadCashLogList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+    public static Specification<?> searchBranchCashLogList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchBranchCashLogList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+    public static Specification<?> searchStoreCashLogList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchStoreCashLogList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+    public static Specification<?> searchWorkerCashLogList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchWorkerCashLogList(searchKeyword, root, builder);
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
@@ -1395,7 +1422,7 @@ public class SearchUtil {
         }
         return predicate;
     }
-    private static List<Predicate>  searchCustCashLogList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+   /* private static List<Predicate>  searchCustCashLogList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
@@ -1403,9 +1430,151 @@ public class SearchUtil {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
                 Join<TbCustCashLog, TbCust> joinCol =  root.join("cust");
-                if ("searchText".equals(key) && value != "") {
+                if("storeNo".equals(key)){
+                    if(!"".equals(value) ) {
+                        predicate.add(builder.equal(root.get(key),value));
+                    } else {
+                        predicate.add(builder.equal(root.get(key),0));
+                    }
+                } else if ("searchText".equals(key) && value != "") {
                     Predicate predicate1 = builder.like(joinCol.get("custName"), "%"+value+"%");
                     predicate.add(builder.or(predicate1,builder.like(joinCol.get("custTel"), "%"+value+"%")));
+                } else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }*/
+    private static List<Predicate>  searchHeadCashLogList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                Join<TbHeadCashLog, TbHead> joinCol =  root.join("head");
+                if("headNo".equals(key)){
+                    if(!"".equals(value) ) {
+                        predicate.add(builder.equal(root.get(key),value));
+                    } else {
+                        predicate.add(builder.equal(root.get(key),0));
+                    }
+                } else if ("searchText".equals(key) && value != "") {
+                    Predicate predicate1 = builder.like(joinCol.get("headName"), "%"+value+"%");
+                    predicate.add(builder.or(predicate1,builder.like(joinCol.get("headTel"), "%"+value+"%")));
+                } else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
+    private static List<Predicate>  searchBranchCashLogList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                Join<TbBranchCashLog, TbBranch> joinCol =  root.join("branch");
+                if("branchNo".equals(key)){
+                    if(!"".equals(value) ) {
+                        predicate.add(builder.equal(root.get(key),value));
+                    } else {
+                        predicate.add(builder.equal(root.get(key),0));
+                    }
+                } else if ("searchText".equals(key) && value != "") {
+                    Predicate predicate1 = builder.like(joinCol.get("branchName"), "%"+value+"%");
+                    predicate.add(builder.or(predicate1,builder.like(joinCol.get("branchTel"), "%"+value+"%")));
+                } else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
+    private static List<Predicate>  searchStoreCashLogList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                Join<TbStoreCashLog, TbStore> joinCol =  root.join("store");
+                if("storeNo".equals(key)){
+                    if(!"".equals(value) ) {
+                        predicate.add(builder.equal(root.get(key),value));
+                    } else {
+                        predicate.add(builder.equal(root.get(key),0));
+                    }
+                } else if ("searchText".equals(key) && value != "") {
+                    Predicate predicate1 = builder.like(joinCol.get("storeName"), "%"+value+"%");
+                    predicate.add(builder.or(predicate1,builder.like(joinCol.get("storeTel"), "%"+value+"%")));
+                } else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
+    private static List<Predicate>  searchWorkerCashLogList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                Join<TbWorkerCashLog, TbUserWorker> joinCol =  root.join("worker");
+                if("workerNo".equals(key)){
+                    if(!"".equals(value) ) {
+                        predicate.add(builder.equal(root.get(key),value));
+                    } else {
+                        predicate.add(builder.equal(root.get(key),0));
+                    }
+                } else if ("searchText".equals(key) && value != "") {
+                    Predicate predicate1 = builder.like(joinCol.get("name"), "%"+value+"%");
+                    predicate.add(builder.or(predicate1,builder.like(joinCol.get("phone"), "%"+value+"%")));
                 } else if ("endDate".equals(key) && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

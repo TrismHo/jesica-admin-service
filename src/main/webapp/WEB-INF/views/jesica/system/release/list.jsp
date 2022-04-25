@@ -8,6 +8,11 @@
     <%@include file="../../../common/include_head.jsp" %>
     <title>Jesicar | <spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 관리"/></title>
 </head>
+<style>
+    .page-header-fixed {
+        padding-top: 32px;
+    }
+</style>
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>

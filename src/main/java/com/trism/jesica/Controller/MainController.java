@@ -11,6 +11,8 @@ import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.SessionConfig;
 import com.trism.jesica.dto.ClientDTO;
 import com.trism.jesica.dto.LoginDTO;
+import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
+import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.Entitiy.business.TbBranch;
 import com.trism.jesica.persistence.Entitiy.business.TbHead;
 import com.trism.jesica.persistence.Entitiy.business.TbUser;
@@ -528,6 +530,51 @@ public class MainController {
             session.invalidate();
         }
         return new ModelAndView("redirect:/login");
+    }
+
+    /**
+     * 로그인페이지
+     */
+    @GetMapping("/newPassWord")
+    public ModelAndView newPassWord(HttpSession session){
+       /* LoginSession sessionObj = (LoginSession)session.getAttribute(LoginSession.KEY);
+        if(ObjectUtils.isEmpty(sessionObj)) {
+            return new ModelAndView("/login");
+        } else {
+            return new ModelAndView("/index");
+        }
+*/
+        return new ModelAndView("/masterFindPassword");
+    }
+    /**
+     * 플랫폼공지
+     */
+    @GetMapping("/notice/platform/{noticeNo}")
+    public ModelAndView noticeFlatFormPopup(@PathVariable Long noticeNo, Model model){
+        log.info("noticeNo :: {}",noticeNo);
+        try {
+            TbNoticePlatform tbNoticePlatform = boardService.getTbNoticePlatFormDetail(noticeNo);
+
+            model.addAttribute("tbNoticePlatform", tbNoticePlatform);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ModelAndView("/searchPopupPlatform");
+    }
+
+    /**
+     * 업데이트공지
+     */
+    @GetMapping("/notice/update/{noticeNo}")
+    public ModelAndView noticeUpdatePopup(@PathVariable Long noticeNo, Model model){
+        log.info("noticeNo :: {}",noticeNo);
+        try {
+            TbNoticeRelease tbNoticeRelease = boardService.getTbReleaseDetail(noticeNo);
+            model.addAttribute("tbNoticeRelease", tbNoticeRelease);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ModelAndView("/searchPopupUpdate");
     }
 
 

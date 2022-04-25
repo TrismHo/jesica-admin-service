@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | 입출금 신청로그 </title>
+    <title>Jesicar | 입출금 로그 </title>
 </head>
 <style>
     .modal_img {
@@ -116,10 +116,10 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item">정산</li>
-                    <li class="breadcrumb-item active">입출금 신청로그</li>
+                    <li class="breadcrumb-item active">입출금 로그</li>
                 </ol>
                 <h3 class="rix-title">
-                    입출금 신청로그
+                    입출금 로그
                 </h3>
             </div>
             <!-- end page-header -->
@@ -143,40 +143,33 @@
                                 <table class="table table-condensed table-bordered">
                                     <tbody>
                                     <tr>
-                                        <%-- <td class="bg-light" style="width:10%">
-                                             <strong><spring:message code="list.search.brand" text="브랜드"/>&lt;%&ndash;가맹점선택&ndash;%&gt;</strong>
-                                         </td>
-                                         <td style="width:30%">
-
-                                         </td>--%>
-                                        <td class="bg-light" ><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
-                                        <td colspan="1">
+                                        <td class="bg-light" width="10%;" ><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
+                                        <td colspan="1" width="40%;">
                                             <label>
                                                 <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
                                             </label>
                                             <label>
                                                 <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
                                             </label>
-                                            <td class="bg-light"style="width:10%" ><strong><spring:message code="list.search.registrationperiod1" text="검색어"/><br> (기사명 / 핸드폰번호)<%--등록기간--%></strong></td>
-                                            <td style="width:40%">
-                                              <%--  <label>
-                                                    <select class="form-control searchSelect" name="searchSelect" >
-                                                        <option value="1" <c:if test="${searchValue.searchSelect == '1'}">selected</c:if>><spring:message code="list.search.groupname" text="기사명"/></option>
-                                                        <option value="2" <c:if test="${searchValue.searchSelect == '2'}">selected</c:if>><spring:message code="list.search.groupname" text="핸드폰번호"/></option>
+                                        <td class="bg-light" width="10%;"><strong>사용자타입</strong></td>
+                                        <td colspan="3" width="40%;">
+                                                <label>
+                                                    <select class="form-control groupType" name="groupType">
+                                                        <%--<option value="" <c:if test="${searchValue.groupType == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>--%>
+                                                        <option value="1" <c:if test="${searchValue.groupType == '1'}">selected</c:if>><spring:message code="list.search.all" text="제휴본사"/></option>
+                                                        <option value="2" <c:if test="${searchValue.groupType == '2'}">selected</c:if>><spring:message code="list.search.1" text="총판"/></option>
+                                                        <option value="3" <c:if test="${searchValue.groupType == '3'}">selected</c:if>><spring:message code="list.search.1" text="가맹점"/></option>
+                                                        <option value="4" <c:if test="${searchValue.groupType == '4'}">selected</c:if>><spring:message code="list.search.1" text="배송원"/></option>
                                                     </select>
-                                                </label>--%>
-                                                <label>
-                                                    <input type="text" style="display:block;" name="searchText" value="${searchValue.searchText}" class="form-control width-150 custName" maxlength="150">
                                                 </label>
-                                                <label>
-                                                    <span class="btn-group  bg-black-transparent-2 rounded">
-                                                        <a href="/settlement/cashlog/list?dataStatus=&startDate=2021-01-01&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
-                                                            <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message code="list.search.searchreset" text="검색 초기화"/>
-                                                        </a>
-                                                    </span>
-                                                </label>
+                                                <input name="headNo" class="headNo" type="hidden" value="${searchValue.headNo}">
+                                                <input name="branchNo" class="branchNo" type="hidden" value="${searchValue.branchNo}">
+                                                <input name="storeNo" class="storeNo" type="hidden" value="${searchValue.storeNo}">
+                                                <input name="workerNo" class="workerNo"  type="hidden" value="${searchValue.workerNo}">
+                                                <input name="groupName" class="groupName"  type="hidden" value="${searchValue.groupName}">
+                                                <a class="btn btn-info m-l-5 searchCashLogGroupType" type="button" href=""  >대상선택</a>
+                                                <b class="settleName" style="bottom: 0px;" >${searchValue.groupName}</b>
                                             </td>
-                                        </td>
                                        <%-- <td>
                                             <label>
                                                 <select class="form-control">
@@ -195,7 +188,7 @@
                                                 </span>
                                             </label>
                                         </td>--%>
-                                    </tr>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -211,10 +204,11 @@
                       </th>--%>
                     <th class="text-center" width="3%;"><spring:message code="list.word.no" text="순번"/></th>
 
-                    <th class="text-center" width="5%;">기사명</th>
-                    <th class="text-center" width="5%;">핸드폰번호</th>
+                    <th class="text-center" width="5%;">그룹명</th>
+                    <th class="text-center" width="5%;">번호</th>
                     <th class="text-center" width="5%;">입출금액</th>
                     <th class="text-center" width="5%;">잔액</th>
+                    <th class="text-center" width="5%;">이체그룹</th>
                     <th class="text-center" width="5%;">주문번호</th>
                     <th class="text-center" width="8%;">메모</th>
                     <th class="text-center" width="5%;">등록자</th>
@@ -222,7 +216,92 @@
                     </thead>
                     <tbody>
                     <c:forEach var="item" items="${tbCustCashLog}" varStatus="status">
-                        <tr class=""
+                        <c:choose>
+                            <c:when test="${searchValue.groupType == '1'}">
+                                <tr>
+                                    <td class="text-center">${status.index + 1}</td>
+                                    <td class="text-center">${item.head.headName}</td>
+                                    <td class="text-center">
+                                        <c:if test="${fn:length(item.head.headTel) > 10}">
+                                            ${fn:substring(item.head.headTel,0,3)}-${fn:substring(item.head.headTel,3,7)}-${fn:substring(item.head.headTel,7,13)}
+                                        </c:if>
+                                    </td>
+                                    <td class="text-center"><fmt:formatNumber value="${item.cash}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                                    <td class="text-center"><fmt:formatNumber value="${item.balance}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                                    <td class="text-center">
+                                        [${item.tranGroupNo}]${item.tranGroupName}
+                                    </td>
+                                    <td class="text-center">${item.referInfo}</td>
+                                    <td class="text-center">${item.memo}</td>
+                                    <td class="text-center">${item.insertUserId}</td>
+                                    <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                </tr>
+                            </c:when>
+                            <c:when test="${searchValue.groupType == '2'}">
+                                <tr>
+                                    <td class="text-center">${status.index + 1}</td>
+                                    <td class="text-center">${item.branch.branchName}</td>
+                                    <td class="text-center">
+                                        <c:if test="${fn:length(item.branch.branchTel) > 10}">
+                                            ${fn:substring(item.branch.branchTel,0,3)}-${fn:substring(item.branch.branchTel,3,7)}-${fn:substring(item.branch.branchTel,7,13)}
+                                        </c:if>
+                                    </td>
+                                    <td class="text-center"><fmt:formatNumber value="${item.cash}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                                    <td class="text-center"><fmt:formatNumber value="${item.balance}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                                    <td class="text-center">
+                                        [${item.tranGroupNo}]${item.tranGroupName}
+                                    </td>
+                                    <td class="text-center">${item.referInfo}</td>
+                                    <td class="text-center">${item.memo}</td>
+                                    <td class="text-center">${item.insertUserId}</td>
+                                    <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                </tr>
+                            </c:when>
+                            <c:when test="${searchValue.groupType == '3'}">
+                                <tr>
+                                    <td class="text-center">${status.index + 1}</td>
+                                    <td class="text-center">${item.store.storeName}</td>
+                                    <td class="text-center">
+                                        <c:if test="${fn:length(item.store.storeTel) > 10}">
+                                            ${fn:substring(item.store.storeTel,0,3)}-${fn:substring(item.store.storeTel,3,7)}-${fn:substring(item.store.storeTel,7,13)}
+                                        </c:if>
+                                    </td>
+                                    <td class="text-center"><fmt:formatNumber value="${item.cash}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                                    <td class="text-center"><fmt:formatNumber value="${item.balance}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                                    <td class="text-center">
+                                        [${item.tranGroupNo}]${item.tranGroupName}
+                                    </td>
+                                    <td class="text-center">${item.referInfo}</td>
+                                    <td class="text-center">${item.memo}</td>
+                                    <td class="text-center">${item.insertUserId}</td>
+                                    <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                </tr>
+                            </c:when>
+                            <c:when test="${searchValue.groupType == '4'}">
+                                <tr>
+                                    <td class="text-center">${status.index + 1}</td>
+                                    <td class="text-center">${item.worker.name}</td>
+                                    <td class="text-center">
+                                        <c:if test="${fn:length(item.worker.phone) > 10}">
+                                            ${fn:substring(item.worker.phone,0,3)}-${fn:substring(item.worker.phone,3,7)}-${fn:substring(item.worker.phone,7,13)}
+                                        </c:if>
+                                    </td>
+                                    <td class="text-center"><fmt:formatNumber value="${item.cash}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                                    <td class="text-center"><fmt:formatNumber value="${item.balance}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
+                                    <td class="text-center">
+                                        [${item.tranGroupNo}]${item.tranGroupName}
+                                    </td>
+                                    <td class="text-center">${item.referInfo}</td>
+                                    <td class="text-center">${item.memo}</td>
+                                    <td class="text-center">${item.insertUserId}</td>
+                                    <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                </tr>
+                            </c:when>
+                        </c:choose>
+
+
+
+                       <%-- <tr class=""
                             logNo="${item.logNo}"
                             data-target="#attach_list">
                             <td class="text-center">${status.index + 1}</td>
@@ -238,7 +317,7 @@
                             <td class="text-center">${item.memo}</td>
                             <td class="text-center">${item.insertUserId}</td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                        </tr>
+                        </tr>--%>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -260,8 +339,19 @@
 <!-- ================== END BASE JS ================== -->
 <%-- Custom JS Start--%>
 <%@include file="../../../common/include_custom_js.jsp" %>
-
-
+<%--modal add end--%>
+<div class="modal fade" id="head_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/headSearch.jsp" %>
+</div>
+<div class="modal fade" id="branch_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/branchSearch.jsp" %>
+</div>
+<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/storeSearch.jsp" %>
+</div>
+<div class="modal fade" id="search_user_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchUserLog.jsp" %>
+</div>
 
 <%-- Custom JS End--%>
 <script>
@@ -287,7 +377,14 @@
             let withdrawNo = $(this).attr("withdrawNo");
             location.href="${path}/settlement/cashwithdraw/detail?withdrawNo="+withdrawNo;
         });*/
-        $(document).on("change",".searchSelect",function(){
+        /*$(document).on("change",".groupType",function(){
+            $("#frmSearch").submit();
+        });*/
+
+
+
+
+      /*  $(document).on("change",".searchSelect",function(){
             var searchVal = $(this).val();
             $(".custName").val("");
             $(".custTel").val("");
@@ -298,7 +395,7 @@
                 $(".custName").css("display","none");
                 $(".custTel").css("display","block");
             }
-        });
+        });*/
 
 
         let date = new Date();
@@ -332,9 +429,46 @@
         } else {
             $(".endDate").datepicker('setDate', endDate);
         }
+        $(".searchCashLogGroupType").on("click",function(){
+            var groupType = $(".groupType option:selected").val();
+            window.open("/settlement/cashlog/search/"+groupType, '_blank', 'width=600, height=570'); return false;
+        });
     });
 
+    function setName(no,selectName) {
+        $(".settleName").html(selectName);
+        var groupType = $(".groupType option:selected").val();
+        $(".groupName").val(selectName);
 
+        switch (groupType) {
+            case "1":
+                $(".headNo").val(no);
+                $(".branchNo").val("");
+                $(".storeNo").val("");
+                $(".workerNo").val("");
+                break;
+            case "2":
+                $(".headNo").val("");
+                $(".branchNo").val(no);
+                $(".storeNo").val("");
+                $(".workerNo").val("");
+                break;
+            case "3":
+                $(".headNo").val("");
+                $(".branchNo").val("");
+                $(".storeNo").val(no);
+                $(".workerNo").val("");
+                break;
+            case "4":
+                $(".headNo").val("");
+                $(".branchNo").val("");
+                $(".storeNo").val("");
+                $(".workerNo").val(no);
+                break;
+            default:
+        }
+
+    }
 
 </script>
 </body>

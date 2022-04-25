@@ -262,8 +262,6 @@
         });
     });
 
-
-
     function inputDataCheck(args) {
         if (isNull(args.userId)) {
             return alert_focus("userId", "아이디를 입력해주세요.");

@@ -7,6 +7,7 @@
     <%@include file="../../../common/include_head.jsp" %>
     <title>Jesicar | <spring:message code="list.detail.productregistration" text="렌터카 등록"/></title>
 </head>
+
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>
@@ -164,9 +165,32 @@
 <![endif]-->
 <script src="${path}/assets/js/demo/form-multiple-upload.demo.js"></script>
 <link href="${path}/assets/plugins/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
+
+<style>
+    .list {
+        height: 370px;
+        overflow-y: initial;
+    }
+    .dataTables_wrapper.dt-bootstrap .dataTables_length, .dataTables_wrapper.dt-bootstrap4 .dataTables_length {
+        display: none;
+    }
+    #testTable_filter {
+        display: initial;
+    }
+    .pagination li {
+        margin : 0px;
+        padding : 0px;
+    }
+    .modal-content {
+        width: 100%;
+    }
+</style>
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
     $(() => {
+        $("#testTable").DataTable({
+            language : lang_set, //or lang_eng
+        });
         $("input[name=stockCnt], input[name=buyPrice], input[name=goodsPrice], input[name=goodsLimitOnce], input[name=goodsLimitDay]").focus(function(){
             $(this).val('');
         }).blur(function(){

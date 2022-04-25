@@ -7,8 +7,12 @@ import com.trism.jesica.dto.TbHeadDTO;
 import com.trism.jesica.dto.TbServiceChargeDTO;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
+import com.trism.jesica.persistence.Entitiy.business.TbBranch;
+import com.trism.jesica.persistence.Entitiy.business.TbHead;
+import com.trism.jesica.persistence.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
-import com.trism.jesica.persistence.Entitiy.cust.TbCustCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.*;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
 import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayApproval;
@@ -19,8 +23,10 @@ import com.trism.jesica.persistence.Entitiy.service.TbServiceCharge;
 import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
 import com.trism.jesica.persistence.Repository.business.TbBranchRepository;
 import com.trism.jesica.persistence.Repository.business.TbHeadRepository;
+import com.trism.jesica.persistence.Repository.business.TbStoreRepository;
+import com.trism.jesica.persistence.Repository.business.TbUserWorkerRepository;
 import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
-import com.trism.jesica.persistence.Repository.cust.TbCustCashLogRepository;
+import com.trism.jesica.persistence.Repository.cust.*;
 import com.trism.jesica.persistence.Repository.order.TbOrderAllRepository;
 import com.trism.jesica.persistence.Repository.order.TbOrderDayRepository;
 import com.trism.jesica.persistence.Repository.paymenthistory.TbPayApprovalRepository;
@@ -83,6 +89,26 @@ public class SettlementService {
 
     @Autowired
     private final TbCustCashLogRepository tbCustCashLogList;
+
+    @Autowired
+    private final TbHeadCashLogRepository tbHeadCashLogRepository;
+
+    @Autowired
+    private final TbBranchCashLogRepository tbBranchCashLogRepository;
+
+    @Autowired
+    private final TbStoreCashLogRepository tbStoreCashLogRepository;
+
+    @Autowired
+    private final TbWorkerCashLogRepository tbWorkerCashLogRepository;
+
+    @Autowired
+    private final TbStoreRepository tbStoreRepository;
+
+    @Autowired
+    private final TbUserWorkerRepository tbUserWorkerRepository;
+
+
 
 
     @Transactional(readOnly = true)
@@ -175,7 +201,7 @@ public class SettlementService {
                 : tbCashWithdrawRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    @Transactional(readOnly = true)
+  /*  @Transactional(readOnly = true)
     public List<TbCustCashLog> tbCustCashLogList(Map<String,Object> searchValue) {
         Specification<TbCustCashLog> predicate = null;
         for (String key : searchValue.keySet()) {
@@ -186,7 +212,59 @@ public class SettlementService {
         }
         return searchValue.isEmpty() ? null
                 : tbCustCashLogList.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+    }*/
+  @Transactional(readOnly = true)
+  public List<TbHeadCashLog> tbHeadCashLogList(Map<String,Object> searchValue) {
+      Specification<TbHeadCashLog> predicate = null;
+      for (String key : searchValue.keySet()) {
+          Object value = searchValue.get(key);
+          log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+          searchValue.put(key, (String) value);
+          predicate = (Specification<TbHeadCashLog>) SearchUtil.searchHeadCashLogList(searchValue);
+      }
+      return searchValue.isEmpty() ? null
+              : tbHeadCashLogRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+  }
+
+    @Transactional(readOnly = true)
+    public List<TbBranchCashLog> tbBranchCashLogList(Map<String,Object> searchValue) {
+        Specification<TbBranchCashLog> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbBranchCashLog>) SearchUtil.searchBranchCashLogList(searchValue);
+        }
+        return searchValue.isEmpty() ? null
+                : tbBranchCashLogRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
+
+    @Transactional(readOnly = true)
+    public List<TbStoreCashLog> tbStoreCashLogList(Map<String,Object> searchValue) {
+        Specification<TbStoreCashLog> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbStoreCashLog>) SearchUtil.searchStoreCashLogList(searchValue);
+        }
+        return searchValue.isEmpty() ? null
+                : tbStoreCashLogRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbWorkerCashLog> tbWorkerCashLogList(Map<String,Object> searchValue) {
+        Specification<TbWorkerCashLog> predicate = null;
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbWorkerCashLog>) SearchUtil.searchWorkerCashLogList(searchValue);
+        }
+        return searchValue.isEmpty() ? null
+                : tbWorkerCashLogRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+    }
+
 
     @Transactional(readOnly = true)
     public TbPayCert getCert(Long orderNo) {
@@ -221,6 +299,27 @@ public class SettlementService {
     public TbOrderAll getOrderAll(Long orderNo) {
         TbOrderAll tbOrderAll = tbOrderAllRepository.findByOrderNo(orderNo);
         return tbOrderAll;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbHead> tbHeadList() {
+        List<TbHead> tbHead = tbHeadRepository.findAll();
+        return tbHead;
+    }
+    @Transactional(readOnly = true)
+    public List<TbBranch> tbBranchList() {
+        List<TbBranch> tbBranch = tbBranchRepository.findAll();
+        return tbBranch;
+    }
+    @Transactional(readOnly = true)
+    public List<TbStore> tbStoreList() {
+        List<TbStore> tbStore = tbStoreRepository.findAll();
+        return tbStore;
+    }
+    @Transactional(readOnly = true)
+    public List<TbUserWorker> tbWorkerList() {
+        List<TbUserWorker> tbUserWorker = tbUserWorkerRepository.findAll();
+        return tbUserWorker;
     }
 
     @Transactional(readOnly = true)

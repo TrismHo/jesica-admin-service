@@ -28,17 +28,33 @@
             </div>
         </div>
         <div class="modal-body" style="padding: 5px;">
-            <form class="safen_search_form">
-                <div style="width: 100%;">
-                    <%--<select class="form-control searchHeadSelect">
+            <form class="safen_search_form" style="height: 432px;">
+               <%-- <div style="width: 100%;">
+                    &lt;%&ndash;<select class="form-control searchHeadSelect">
                         <option value="name">명칭</option>
                         <option value="code">코드</option>
-                    </select>--%>
+                    </select>&ndash;%&gt;
                    검색어입력: <input type="text" class="form-control searchSafenText ml-2" name="headName" style="width: 55%;" placeholder="<spring:message code="list.description.1" text="안심번호를 입력해주세요."/>" maxlength="150">
-                </div>
-                <div class="list m-t-10" style="background-color: #e4e4e4;">
-                    <ul class="searchSafenList">
-                        <c:forEach var="item" items="${tbSafenMapping}">
+                </div>--%>
+                <div class="list" style="">
+                    <table id="testTable" class="display table table-bordered w-100 table-striped">
+                        <thead>
+                        <%--<th><input type="checkbox"></th>--%>
+                        <th class="text-center"><spring:message code="list.word.no1" text="안심번호"/></th>
+                        <th class="text-center"><spring:message code="list.word.storename1" text=""/></th>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="item"  items="${tbSafenMapping}"  varStatus="status">
+                            <tr class="" rentalCarNo="${item.rentalCarNo}">
+                                <td class="text-center">${item.safenNum}</td>
+                                <td class="text-center"> <input type="button" class="btn btn-primary" safenNum="${item.safenNum}" id="selSafenNoBtn" style="height: 20px; line-height: 0px;margin-top: -5px;"value="적용"></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+
+                  <%--  <ul class="searchSafenList">--%>
+                       <%-- <c:forEach var="item" items="${tbSafenMapping}">
                             <li>
                                 <label class="head_text">
                                     ${item.safenNum}
@@ -47,8 +63,8 @@
                                     <input type="button" class="btn btn-primary" safenNum="${item.safenNum}" id="selSafenNoBtn" style="height: 25px; line-height: 0px;margin-top: -5px;"value="적용">
                                 </div>
                             </li>
-                        </c:forEach>
-                    </ul>
+                        </c:forEach>--%>
+                    <%--</ul>--%>
                 </div>
             </form>
         </div>

@@ -1452,6 +1452,28 @@ public class ApiService {
         }
         return result;
     }
+    @Transactional
+    public int updateTbUserStaffUseUser(TbUserStaffData tbUserStaffData) {
+        int result = 0;
+        try {
+            OutputStream os = null;
+            if (tbUserStaffData.getUserNo() != null){
+                String pass = tbUserStaffData.getUserPwd();
+                if(!StringUtils.isEmpty(pass)) {
+                    String encodedPassword = new BCryptPasswordEncoder().encode(pass);
+                    tbUserStaffData.setUserPwd(encodedPassword);
+                    result = tbUserRepository.updateUser(tbUserStaffData.getUserNo(),tbUserStaffData.getUserPwd());
+                } else {
+                    result = 1;
+                }
+            } else {
+                result = 0;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     @Transactional
     public int insertTbDelivery(TbDeliveryData tbDeliveryData ) {

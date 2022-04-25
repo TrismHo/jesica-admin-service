@@ -27,7 +27,7 @@ public interface TbNoticeReleaseRepository extends JpaRepository<TbNoticeRelease
             "from " +
             "tb_notice_release " +
             "where data_status = 1 "+
-            "order by insert_date asc LIMIT 20" +
+            "order by insert_date desc LIMIT 20" +
             "", nativeQuery = true)
     List<Map<String,Object>> findAllLimit();
 }
