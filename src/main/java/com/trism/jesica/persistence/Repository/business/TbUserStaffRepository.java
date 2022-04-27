@@ -52,6 +52,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             " a.name as name " +
             ", a.phone as phone " +
             ", a.memo as memo " +
+            ", a.role_type as roleType " +
             ", a.data_status as dataStatus" +
             ", a.block_type_code as blockTypeCode " +
             ", b.user_id as userId " +
@@ -70,6 +71,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             " a.name as name " +
             ", a.phone as phone " +
             ", a.memo as memo " +
+            ", a.role_type as roleType " +
             ", a.data_status as dataStatus" +
             ", a.block_type_code as blockTypeCode " +
             ", b.user_id as userId " +
@@ -88,6 +90,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             " a.name as name " +
             ", a.phone as phone " +
             ", a.memo as memo " +
+            ", a.role_type as roleType " +
             ", a.block_type_code as blockTypeCode " +
             ", a.data_status as dataStatus" +
             ", b.user_id as userId" +

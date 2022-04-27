@@ -39,9 +39,15 @@
                         <i class="fa fa-power-off" style="margin-right: 5px;"></i>
                             <small>Log out</small>
                         </a>
-                        ${sessionScope.sessionKey.userStaffName}
+                        ${sessionScope.sessionKey.userStaffName} &nbsp;<a href="/newPassWord" onclick="window.open(this.href, '_blank', 'width=500, height=280'); return false;"><i class="fas fa-fw m-r-10 fa-key" style="font-size: 5px"></i></a>
                         <small>
-                            <c:if test="${sessionScope.sessionKey.userRole == 0}">
+                            <c:if test="${sessionScope.sessionKey.roleType == 1}">
+                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="마스터"/>
+                            </c:if>
+                            <c:if test="${sessionScope.sessionKey.roleType == 2}">
+                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="사용자"/>
+                            </c:if>
+                           <%-- <c:if test="${sessionScope.sessionKey.userRole == 0}">
                                 <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="마스터"/>
                             </c:if>
                             <c:if test="${sessionScope.sessionKey.userRole == 1}">
@@ -49,7 +55,7 @@
                             </c:if>
                             <c:if test="${sessionScope.sessionKey.userRole == 2}">
                                 <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.distributor" text="총판"/>
-                            </c:if>
+                            </c:if>--%>
                             <form id="logout-form" action='<c:url value='/logout'/>' method="POST">
                                 <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                             </form>
@@ -154,7 +160,7 @@
                     <li class=<c:if test="${fn:contains(servletPath,'transsettle') }">"active"</c:if>><a href="${path}/settlement/transsettle/list"><spring:message code="sidemenu.settlement.transfersettlement" text="이동정산"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'paymenthistory') }">"active"</c:if>><a href="${path}/settlement/paymenthistory/list"><spring:message code="sidemenu.settlement.paymenthistory" text="결제내역"/></a></li>&ndash;%&gt;--%>
                     <li class=<c:if test="${fn:contains(servletPath,'order/cashwithdraw/list') }">"active"</c:if>><a href="${path}/settlement/cashwithdraw/list?insertDate=insertDate&startDate=2020-01-01&endDate=${now}&withdrawStatus=0"><spring:message code="sidemenu.orderhistory.123" text="입출금 신청관리"/></a></li>
-                    <li class=<c:if test="${fn:contains(servletPath,'order/cashlog/list') }">"active"</c:if>><a href="${path}/settlement/cashlog/list?insertDate=insertDate&startDate=2020-01-01&endDate=${now}&withdrawStatus=0"><spring:message code="sidemenu.orderhistory.123" text="입출금 신청로그"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'order/cashlog/list') }">"active"</c:if>><a href="${path}/settlement/cashlog/list?insertDate=insertDate&startDate=2020-01-01&endDate=${now}&withdrawStatus=0"><spring:message code="sidemenu.orderhistory.123" text="입출금 로그"/></a></li>
                 </ul>
             </li>
 <%--

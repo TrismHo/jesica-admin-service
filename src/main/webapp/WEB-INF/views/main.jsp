@@ -136,7 +136,7 @@
                 <div class="panel panel-inverse">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <spring:message code="dashboard.123" text="인수대행 변화추이"/>
+                            <spring:message code="dashboard.123" text="인수/반납대행 변화추이"/>
                         </h4>
                         <div class="panel-heading-btn">
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -158,7 +158,7 @@
                 <div class="panel panel-inverse" >
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <spring:message code="dashboard.123" text="반납대행 변화추이"/>
+                            <spring:message code="dashboard.123" text="신규고객 변화추이"/>
                         </h4>
                         <div class="panel-heading-btn">
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -300,14 +300,20 @@
 
     });
 
+
+    //인수대행 취소 없대고 인수대행 반납대행 합침 + 신규 고객 그래프 추가
     function drawChart(searchDate) {
         let receiptComplData = []; //인수대행 완료 데이터
-        let receiptCancelData = []; //인수대행 취소 데이터
+        /*let receiptCancelData = []; //인수대행 취소 데이터*/
         let receiptLabels = []; // 인수대행 일자 label
 
         let returnComplData = []; //반납대행 완료 데이터
-        let returnCancelData = []; //반납대행 취소 데이터
+        //let returnCancelData = []; //반납대행 취소 데이터
         let returnLabels = []; // 반납대행 일자 label
+
+        let returnNewUser= []; //신규 유저 데이터
+        let userUserLabels = []; // 신규유저 일자 label
+        console.log(searchDate)
         $.ajax({
             type: "POST",
             url: "${path}/api/main/chart/list?searchDate=" + searchDate,
@@ -315,6 +321,23 @@
             async: false,
             dataType: "json",
             success: function(data) {
+                console.log(data);
+                let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2140);
+                receiptComplData = receiptResult.complete;
+                returnComplData = receiptResult.cancel;
+                receiptLabels = receiptResult.labels;
+
+                let getUserCountList = getUserCount(data.getUserCount);
+
+                returnNewUser = getUserCountList.userCount;
+                userUserLabels = getUserCountList.labels;
+
+             /*   let returnResult = setChartDatas(data.getCallAllListType2140, data.getCallAllListType2141);
+                returnComplData = returnResult.complete;
+                //returnCancelData = returnResult.cancel;
+                returnLabels = returnResult.labels;*/
+
+/*
                 console.log(data);
                 let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2041);
                 receiptComplData = receiptResult.complete;
@@ -325,6 +348,7 @@
                 returnComplData = returnResult.complete;
                 returnCancelData = returnResult.cancel;
                 returnLabels = returnResult.labels;
+*/
             }
         });
         let normal = "<spring:message code="list.script.normal" text="정상"/>";
@@ -342,9 +366,16 @@
             lines: { show: true, fill:false, lineWidth: 2 },
             points: { show: true, radius: 3, fillColor: COLOR_WHITE },
             shadowSize: 0
-        }, {
+        }, /*{
             data: receiptCancelData,
             label: '인수대행 취소',
+            color: COLOR_GREEN,
+            lines: { show: true, fill:false, lineWidth: 2 },
+            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
+            shadowSize: 0
+        }*/{
+            data: returnComplData,
+            label: "반납대행 완료",
             color: COLOR_GREEN,
             lines: { show: true, fill:false, lineWidth: 2 },
             points: { show: true, radius: 3, fillColor: COLOR_WHITE },
@@ -368,6 +399,39 @@
             }
         });
 
+        $.plot($("#interactive-chart3"), [{
+            data: returnNewUser,
+            label: "신규 고객",
+            color: COLOR_BLUE,
+            lines: { show: true, fill:false, lineWidth: 2 },
+            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
+            shadowSize: 0
+        }, /*{
+            data: returnCancelData,
+            label: "반납대행 취소",
+            color: COLOR_GREEN,
+            lines: { show: true, fill:false, lineWidth: 2 },
+            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
+            shadowSize: 0
+        }*/], {
+            xaxis: {  ticks: userUserLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
+            yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0  },
+            grid: {
+                hoverable: true,
+                clickable: true,
+                tickColor: COLOR_DARK_TRANSPARENT_2,
+                borderWidth: 1,
+                backgroundColor: 'transparent',
+                borderColor: COLOR_DARK_TRANSPARENT_2
+            },
+            legend: {
+                labelBoxBorderColor: COLOR_DARK_TRANSPARENT_2,
+                margin: 10,
+                noColumns: 1,
+                show: true
+            }
+        });
+/*
         $.plot($("#interactive-chart3"), [{
             data: returnComplData,
             label: "반납대행 완료",
@@ -400,6 +464,7 @@
                 show: true
             }
         });
+*/
     }
 
     function setChartDatas(completeDatas, cancelDatas) {
@@ -446,6 +511,40 @@
         return {
             complete: completeData,
             cancel: cancelData,
+            labels,
+        }
+    }
+
+    function getUserCount(completeDatas ) {
+        let completeData = [];
+        let cancelData = [];
+        let exLabels = [];
+        let labels = [];
+        for (let i = 0 ; i < completeDatas.length ; i++ ) {
+            completeData.push([completeDatas[i].dayDate, completeDatas[i].cnt]);
+            exLabels.push(completeDatas[i].dayDate);
+        }
+
+        let setLabels = new Set(exLabels); //일자 중복 제거
+        let labelArr = Array.from(setLabels); //set -> array 변환
+        let sortSetLabels = labelArr.sort((a, b) => a - b); //일자 오름차순 정렬
+
+        //완료 건 일자 array와 인덱스 맞춤 작업
+        completeData.forEach((data) => {
+            sortSetLabels.forEach((label, idx) => {
+                if (data[0] === label) {
+                    data[0] = idx;
+                }
+            });
+        });
+
+        //일자 인덱스 세팅
+        sortSetLabels.forEach((label, idx) => {
+            labels.push([idx, label]);
+        });
+
+        return {
+            userCount: completeData,
             labels,
         }
     }

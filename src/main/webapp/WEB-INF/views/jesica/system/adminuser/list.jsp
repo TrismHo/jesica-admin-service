@@ -151,6 +151,7 @@
                 <table id="testTable" class="display table table-bordered w-100 table-striped">
                     <thead>
                     <th class="text-center"><spring:message code="list.word.no" text="순번"/></th>
+                    <th class="text-center"><spring:message code="list.word.no1" text="등급"/></th>
                     <th class="text-center"><spring:message code="list.word.affiliated1" text="로그인ID"/></th>
                     <th class="text-center"><spring:message code="list.word.franchisee1" text="사용자이름"/></th>
                     <th class="text-center"><spring:message code="list.word.statu1" text="사용자전화번호"/></th>
@@ -161,6 +162,14 @@
                     <c:forEach var="item" items="${tbUserStaffList}" varStatus="status">
                         <tr class="detailRow" userNo="${item.staffNo}" >
                             <td  class="text-center">${status.index + 1}</td>
+                            <td  class="text-center">
+                                <c:if test="${item.roleType == 1}">
+                                    마스터
+                                </c:if>
+                                <c:if test="${item.roleType == 2}">
+                                    사용자
+                                </c:if>
+                            </td>
                             <td class="text-center"><span class="orangeColor d-block">${item.userId}</span></td>
                             <td class="text-center">${item.name}</td>
                             <td class="text-center">${item.phone}</td>

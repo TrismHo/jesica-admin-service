@@ -54,15 +54,15 @@
                                 </td>
                                 <td class="text-danger-darker "><spring:message code="list.description.pleaseenteryourid1" text="수정불가"/></td>
                             </tr>
-                          <tr>
+                         <%-- <tr>
                                 <td class="bg-light"><spring:message code="list.detail.oldpassword" text="기존 패스워드"/></td>
                                 <td><input type="text" class="form-control width-full userOldPwd" name="userOldPwd" value="" placeholder="<spring:message code="list.detail.pleaseenteranewpassword1" text="기존 패스워드를 입력해주세요"/>" maxlength="60"></td>
                                 <td class="text-danger-darker"><spring:message code="list.description.pleaseenteranewpassword1" text="기존 패스워드를 입력해주세요(기존패스워드가 일치하여야만 정보수정이 가능합니다.)"/> </td>
-                            </tr>
+                            </tr>--%>
                             <tr>
                                 <td class="bg-light"><spring:message code="list.detail.newpassword1" text="신규 패스워드"/></td>
                                 <td><input type="text" class="form-control width-full userPwd upUserPwd" name="userPwd" value="" placeholder="<spring:message code="list.detail.pleaseenteranewpassword" text="새로운 패스워드를 입력해주세요"/>" maxlength="60"></td>
-                                <td class="text-danger-darker"><spring:message code="list.description.pleaseenteranewpassword" text="새로운 패스워드를 입력해주세요"/> </td>
+                                <td class="text-danger-darker"><spring:message code="list.description.pleaseenteranewpassword" text="새규로운 패스워드를 입력해주세요 (미입력시 기존패스워드로 저장)"/> </td>
                             </tr>
                             <tr>
                                 <td class="bg-light"><spring:message code="list.detail.username" text="사용자 이름"/></td>
@@ -199,7 +199,7 @@
 
     function udt_btn() {
         let url = "${path}/api/userStaff/update/action";
-        let url2 = "${path}/api/userStaff/oldpass/confirm";
+        //let url2 = "${path}/api/userStaff/oldpass/confirm";
         let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
         let update = "<spring:message code="list.script.update" text="수정"/>";
         let correctionwassuccessful = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
@@ -220,11 +220,25 @@
                 if (isConfirm) {
                     var formData = new FormData(document.getElementById('update_form'));
                     formData.append("tbUserStaffData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
-
-
-
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(correctionwassuccessful);
+                                location.reload();
+                            } else {
+                                alert(editfailed);
+                                return;
+                            }
+                        }
+                    });
                     //기존 패스워드 검사
-                   $.ajax({
+                  /* $.ajax({
                         type: "POST",
                         url: url2,
                         data: formData,
@@ -255,7 +269,7 @@
                                 return;
                             }
                         }
-                    });
+                    });*/
 
 
                 }
@@ -266,9 +280,9 @@
     function inputDataCheck(args) {
         if (isNull(args.userId)) {
             return alert_focus("userId", "아이디를 입력해주세요.");
-        } else if (isNull(args.userOldPwd)) {
+        } /*else if (isNull(args.userOldPwd)) {
             return alert_focus("userOldPwd", "기존 비밀번호를 입력해주세요.");
-        } else if (isNull(args.name)) {
+        } */else if (isNull(args.name)) {
             return alert_focus("name", "이름를 입력해주세요.");
         } else if (isNull(args.phone)) {
             return alert_focus("phone", "전화번호를를 입력해주세요.");

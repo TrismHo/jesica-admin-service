@@ -19,6 +19,7 @@ public class LoginSession {
 	private Integer branchNo;
 	private Integer storeNo;
 	private String loginKey;
+	private Integer roleType;
 	private LocalDateTime insertTime;
 	
 	public static LoginSession from(TbUserStaff tbUserStaff) {
@@ -31,6 +32,7 @@ public class LoginSession {
 		session.setStoreNo(tbUserStaff.getStoreNo());
 		session.setUserDataStatus(tbUserStaff.getDataStatus().ordinal());
 		session.setInsertTime(tbUserStaff.getInsertDate());
+		session.setRoleType(tbUserStaff.getRoleType());
 
 		return session;
 	}

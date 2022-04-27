@@ -102,6 +102,12 @@ public class TbUserStaff extends TbUser {
     @Column(name = "memo")
     private String memo;
 
+    /**
+     * 권한 구분 (1:마스터 , 2:사용자)
+     */
+    @Column(name = "role_type")
+    private Integer roleType;
+
 
     @PrePersist
     private void defaultInit() {

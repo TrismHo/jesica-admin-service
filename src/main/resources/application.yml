@@ -12,7 +12,8 @@ server:
     jsp:
       init-parameters:
         mappedfile: false
-
+    session:
+      timeout: 7200
 
   error:
     path: /error

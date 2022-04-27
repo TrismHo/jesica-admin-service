@@ -3340,5 +3340,9 @@ public class ApiService {
     public List<Map<String,Object>> getCallAllListType2141(String searchDate) {
         return tbCallAllRepository.getCallAllListType2141(searchDate);
     }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getUserCount(String searchDate) {
+        return tbCallAllRepository.getUserCount(searchDate);
+    }
 }
 

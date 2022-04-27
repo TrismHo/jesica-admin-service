@@ -2639,6 +2639,8 @@ public class ApiController {
             map.put("getCallAllListType2041" , apiService.getCallAllListType2041(searchDate));
             map.put("getCallAllListType2140" , apiService.getCallAllListType2140(searchDate));
             map.put("getCallAllListType2141" , apiService.getCallAllListType2141(searchDate));
+            map.put("getUserCount" , apiService.getUserCount(searchDate));
+
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);

@@ -74,6 +74,22 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "", nativeQuery = true)
     List<Map<String,Object>> getCallAllListType2041(@Param("searchDate") String searchDate);
 
+    /**
+     *
+     * @param searchDate
+     * @return
+     */
+    @Query(value = "select count(*) as cnt, " +
+            "DATE_FORMAT(insert_date, '%d') as dayDate " +
+            "from tb_cust " +
+            "where data_status = 1 " +
+            "and is_member = 1 "+
+            "and insert_date >= :searchDate AND insert_date <= LAST_DAY(:searchDate) " +
+            "group by dayDate " +
+            "order by dayDate "+
+            "", nativeQuery = true)
+    List<Map<String,Object>> getUserCount(@Param("searchDate") String searchDate);
+
     /*@Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%Y/%m/%d') as dayDate" +
             " from tb_call_all " +
             "where order_type_code = 21 " +

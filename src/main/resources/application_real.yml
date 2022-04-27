@@ -5,6 +5,8 @@ security:
 server:
   port: 9002
   servlet:
+    session:
+      timeout: 7200
     jsp:
       init-parameters:
         mappedfile: false
