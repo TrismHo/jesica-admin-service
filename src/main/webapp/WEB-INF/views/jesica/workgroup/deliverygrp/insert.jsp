@@ -30,7 +30,7 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement" text="업무그룹관리"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement.deiliverygroup" text="배송그룹"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/workgroup/deliverygrp/list"><spring:message code="sidemenu.workgroupmanagement.deiliverygroup" text="배송그룹"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.search.deliverygroupregistration" text="배송그룹 등록"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.search.deliverygroupregistration" text="배송그룹 등록"/></h3>

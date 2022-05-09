@@ -1,10 +1,13 @@
 package com.trism.jesica.config;
 
+import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.CipherService;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.Util.Secure.token.AuthTokenProvider;
 import com.trism.jesica.Util.Secure.token.Token;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.Entitiy.system.TbSiteMenu;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -31,12 +34,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     private CipherService cipherService;
     @Autowired
     private RestTemplateUtil restTemplateUtil;
+    @Autowired
+    private AuthService authService;
+
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     log.info("============================== START ==============================");
-
-
 
         log.info(" Class       \t:  " + handler.getClass());
         log.info(" Request URI \t:  " + request.getRequestURI());
@@ -44,8 +48,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         HttpSession session = request.getSession();
         LoginSession sessionObj = (LoginSession)session.getAttribute(LoginSession.KEY);
+
+
+
         int userRole = 0;
         String parentMenuId = "";
+        String parentparentMenuId = "";
         String menuId = "";
         /*log.info(" Servlet URI \t:  " + sessionObj);*/
 
@@ -55,10 +63,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         String servletPath = request.getServletPath();
 
+
+
         if(!servletPath.equals("/")) {
             parentMenuId = servletPath.split("/")[servletPath.split("/").length - 2];
             menuId = servletPath.split("/")[servletPath.split("/").length - 1];
         }
+
 
         if(ObjectUtils.isEmpty(sessionObj) ) {
            if(!servletPath.contains("fileLoad")
@@ -75,6 +86,26 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             if(servletPath.contains("/login")) {
                 response.sendRedirect("/main");
                 return false;
+            }else {
+                //마스터 사용자는 제외
+                if(sessionObj.getRoleType() != Integer.parseInt("1")){
+                    if(servletPath.split("/").length > 2){
+                        int userSfaffNo = sessionObj.getUserStaffNo();
+                        TbSiteMenu tbSiteMenu = authService.getTbSiteMenu(servletPath.split("/")[1]+"/"+servletPath.split("/")[2]);
+                        if(!ObjectUtils.isEmpty(tbSiteMenu)){
+                            TbSiteAcl tbSiteAcl = authService.getTbSiteAcl(Long.valueOf(userSfaffNo),Long.parseLong(tbSiteMenu.getMenuNo().toString()));
+                            if(!ObjectUtils.isEmpty(tbSiteAcl)) {
+                                if (tbSiteAcl.getPermission() == 0) {
+                                    response.sendRedirect("/authError");
+                                    return false;
+                                }
+                            } else {
+                                response.sendRedirect("/authError");
+                                return false;
+                            }
+                        }
+                    }
+                }
             }
         }
 

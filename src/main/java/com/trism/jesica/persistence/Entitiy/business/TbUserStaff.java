@@ -118,7 +118,7 @@ public class TbUserStaff extends TbUser {
     public TbUserStaff(Long userNo, String insertUserId, String userId, String userPwd, UserType userType, Integer headNo,
                        Integer branchNo, Integer storeNo, LocalDateTime updateDate, String updateUserId, List<TbUserDevice> userDevices,
                        Boolean pushOrderYn, Boolean pushNoticeYn, Boolean pushMarketingYn,
-                       DataStatus dataStatus, String blockTypeCode, String name, String phone, String memo,
+                       DataStatus dataStatus, String blockTypeCode, String name, String phone, String memo, Integer roleType,
                        LocalDateTime lastLoginDtm, Integer pwdFailCount, Integer isFirstLogin, LocalDateTime pwdUpdateDtm) {
         super(userNo, insertUserId, userId, userPwd, userType, pushOrderYn, pushNoticeYn, pushMarketingYn, userDevices,lastLoginDtm, pwdFailCount, isFirstLogin, pwdUpdateDtm);
         this.updateDate = updateDate;
@@ -131,6 +131,7 @@ public class TbUserStaff extends TbUser {
         this.name = name;
         this.phone = phone;
         this.memo = memo;
+        this.roleType = roleType;
     }
 
 }

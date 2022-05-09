@@ -1,37 +1,31 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.*;
-import com.trism.jesica.Util.PoiUtil;
 import com.trism.jesica.dto.TbStoreCategoryDTO;
 import com.trism.jesica.dto.TbStoreGoodsItemDTO;
-import com.trism.jesica.dto.TbStoreRentalCarData;
-import com.trism.jesica.exception.ErrorCode;
-import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
-import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreGoods;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreOption;
-import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
 import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
-import com.trism.jesica.persistence.type.DataStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/merchant")
 @RestController
@@ -384,7 +378,7 @@ public class MerchantController {
 
 
     //차량관리
-    @GetMapping("/car/list")
+   /* @GetMapping("/car/list")
     public ModelAndView listCar(@RequestParam Map<String,Object> searchValue,
                                         Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
@@ -408,12 +402,12 @@ public class MerchantController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*model.addAttribute("tbStoreGoods", merchandiseService.tbStoreGoodsSearch(searchValue));*/
+        *//*model.addAttribute("tbStoreGoods", merchandiseService.tbStoreGoodsSearch(searchValue));*//*
         model.addAttribute("searchValue", searchValue);
         return new ModelAndView("jesica/merchant/car/list");
-    }
+    }*/
 
-    @GetMapping("/car/insert")
+    /*@GetMapping("/car/insert")
     public ModelAndView insertCar(HttpSession session, Model model) {
         model.addAttribute("searchValue",getSearchOption(session));
 
@@ -427,9 +421,9 @@ public class MerchantController {
         model.addAttribute("tbStoreList",tbStoreList);
 
         return new ModelAndView("jesica/merchant/car/insert");
-    }
+    }*/
 
-    @GetMapping("/car/detail")
+ /*   @GetMapping("/car/detail")
     public ModelAndView rentailCar(@RequestParam Integer rentalCarNo,Model model) {
         log.info("@@rentalCarNo {}",rentalCarNo);
 
@@ -442,16 +436,16 @@ public class MerchantController {
         }
 
         return new ModelAndView("jesica/merchant/car/detail");
-    }
+    }*/
 
 
-    @GetMapping("/car/insertExcel")
+   /* @GetMapping("/car/insertExcel")
     public ModelAndView insertExcel( Model model) {
         List<TbStore> tbStoreLIst = apiService.getStoreList();
         model.addAttribute("tbStoreLIst", tbStoreLIst);
 
         return new ModelAndView("jesica/merchant/car/insertExcel");
-    }
+    }*/
 
 
     /**
@@ -460,7 +454,7 @@ public class MerchantController {
      * @param model
      * @param excelFile
      */
-    @RequestMapping(value = "/car/Excelupload")
+   /* @RequestMapping(value = "/car/Excelupload")
     public ModelAndView uploadExcel(Model model,@RequestParam("storeNo") String storeNo, @RequestParam("excelFile") MultipartFile excelFile) {
 //        Map<String, Integer> departMap = departmentService.getDepartments().stream()
 //                .collect(Collectors.toMap(Department::getName, Department::getId));
@@ -591,7 +585,7 @@ public class MerchantController {
         model.addAttribute("failList", failList);
         return new ModelAndView("jesica/merchant/car/resultExcel");
         //return "redirect:jesica/merchant/car/resultExcel";
-    }
+    }*/
 
 
 

@@ -29,7 +29,7 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><spring:message code="sidemenu.workgroupmanagement" text="업무그룹"/></li>
-                    <li class="breadcrumb-item"><a href="${path}/workgroup/deliveryman/list"><spring:message code="sidemenu.workgroupmanagement.deiliverygroup" text="배송그룹"/></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/workgroup/deliverygrp/list"><spring:message code="sidemenu.workgroupmanagement.deiliverygroup" text="배송그룹"/></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.deliverygroupdetail" text="배송그룹 상세"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.detail.deliverygroupdetail" text="배송그룹 상세"/></h3>

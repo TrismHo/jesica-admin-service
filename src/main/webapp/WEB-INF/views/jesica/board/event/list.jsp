@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/></title>
+    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 관리"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -31,10 +31,10 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="앱 관리"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 관리"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/><%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 관리"/><%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->

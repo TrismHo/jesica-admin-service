@@ -56,10 +56,10 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement1" text="시스템 운영"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="마스터사용자 관리"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration1" text="마스터사용자 등록"/><%--상품등록--%></li>
+                    <li class="breadcrumb-item"><a href="/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="사용자 관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration1" text="사용자 등록"/><%--상품등록--%></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.search.franchiseeregistration1" text="마스터사용자 등록"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.search.franchiseeregistration1" text="사용자 등록"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
             </div>
 
 <%--            <div class="tab-content">--%>
@@ -81,8 +81,20 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.id" text="아이디"/></td>
-                                            <td><input type="text" class="form-control width-full userId" name="userId" value="" placeholder="<spring:message code="list.description.pleaseenteryourid" text="아이디를 입력해주세요"/>" maxlength="20"></td>
+                                            <td><input type="text" class="form-control width-full userId" name="userId" value="" placeholder="<spring:message code="list.description.pleaseenteryourid" text="아이디를 입력해주세요"/>" maxlength="20">
+
+                                            </td>
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="아이디를 입력해주세요"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.id1" text="등급"/></td>
+                                            <td>
+                                                <select class="form-control" name="roleType">
+                                                    <option value="1">마스터 </option>
+                                                    <option value="2">사용자 </option>
+                                                </select>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="마스터/사용자를 선택해주세요"/></td>
                                         </tr>
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.password" text="패스워드"/></td>

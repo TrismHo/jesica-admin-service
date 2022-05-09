@@ -30,7 +30,7 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><spring:message code="sidemenu.1" text="드라이버 관리"/></li>
-                    <li class="breadcrumb-item"><a href="${path}/workgroup/deliveryman/list"><spring:message code="sidemenu.workgroupmanagement.1" text="드라이버"/></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/driver/deliveryman/list"><spring:message code="sidemenu.workgroupmanagement.1" text="드라이버"/></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.2" text="드라이버 상세"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.detail.2" text="드라이버 상세"/></h3>

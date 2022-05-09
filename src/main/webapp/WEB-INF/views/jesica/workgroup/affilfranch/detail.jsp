@@ -1592,7 +1592,7 @@
                                 </select>
                                 <label class="m-l-10 blockTypeCodeSel">
                                     정지/삭제사유 :
-                                    <select class="upBlockTypeCode" name="blockTypeCode"
+                                    <select class="upBlockTypeCode" name="blockTypeCode">
                                     <c:forEach var="item" items="${systemCodeList}" varStatus="status">
                                         <option value="${item.sysCode}" <c:if test="${tbUserStaff.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
                                     </c:forEach>

@@ -6,6 +6,8 @@ import com.trism.jesica.persistence.Entitiy.board.TbAppBanner;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
+import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
+import com.trism.jesica.persistence.Entitiy.cust.TbCust;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -304,6 +306,105 @@ public class BoardController {
 
         return new ModelAndView("jesica/board/banner/detail");
     }
+
+    @GetMapping("/management/list")
+    public ModelAndView listCoupon(@RequestParam Map<String, Object> searchValue,
+                                   Model model, HttpSession session) {
+        log.info("@@searchValue {}", searchValue);
+        try {
+            if (ObjectUtils.isNotEmpty(searchValue)) {
+                putSearchOption(session, searchValue);
+            } else {
+                searchValue = getSearchOption(session);
+            }
+
+            List<TbCoupon> resultList = boardService.tbCouponSearch(searchValue);
+            model.addAttribute("tbCouponList", resultList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("jesica/board/management/list");
+    }
+
+    @GetMapping("/management/insert")
+    public ModelAndView insertCoupon() {
+
+        return new ModelAndView("jesica/board/management/insert");
+    }
+
+    @GetMapping("/management/detail")
+    public ModelAndView detailCoupon(@RequestParam("couponNo") Long couponNo, Model model) {
+        log.info("couponNo:: ", couponNo);
+
+        try {
+            //쿠폰정보
+            Map detailCouponMap = boardService.getCouponDetail(couponNo);
+            TbCoupon tbCoupon = (TbCoupon)detailCouponMap.get("tbCoupon");
+            model.addAttribute("tbCoupon", tbCoupon);
+
+            //쿠폰 개별정보
+            List<Map<String, Object>> unUsedUsers = (List<Map<String, Object>>)detailCouponMap.get("unUsedUsers");
+            List<Map<String, Object>> usedUsers = (List<Map<String, Object>>)detailCouponMap.get("usedUsers");
+            model.addAttribute("unUsedUsers", unUsedUsers);
+            model.addAttribute("usedUsers", usedUsers);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/board/management/detail");
+    }
+
+    /**
+     * 고객 리스트
+     */
+    @GetMapping("/cust/list")
+    public ModelAndView listCust(HttpSession session, @RequestParam Map<String, Object> searchValue, Model model) {
+        log.info("@@searchValue::{}", searchValue);
+
+        try {
+            if (ObjectUtils.isNotEmpty(searchValue)) {
+                log.info("searchValue::{}", searchValue);
+                putSearchOption(session, searchValue);
+                List<TbCust> tbCustList = boardService.getCustList(searchValue);
+
+                model.addAttribute("custList", tbCustList);
+            } else {
+                getSearchOption(session);
+                model.addAttribute("custList", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("jesica/board/customer/list");
+    }
+
+    /**
+     * 고객 상세
+     */
+    @GetMapping("/cust/detail")
+    public ModelAndView detailCust(@RequestParam Long custNo, Model model) {
+        log.info("@@custNo:: ", custNo);
+
+        try {
+            Map<String, Object> map = boardService.getCustDetail(custNo);
+
+            model.addAttribute("tbCust", map.get("tbCust"));
+            model.addAttribute("tbCustUsedCouponList", map.get("tbCustUsedCoupon"));
+            model.addAttribute("tbCustUnUsedCouponList", map.get("tbCustUnUsedCoupon"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/board/customer/detail");
+    }
+
+
 
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {
         session.setAttribute("headNo", searchValue.get("headNo"));

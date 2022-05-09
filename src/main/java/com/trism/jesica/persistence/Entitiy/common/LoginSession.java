@@ -21,7 +21,7 @@ public class LoginSession {
 	private String loginKey;
 	private Integer roleType;
 	private LocalDateTime insertTime;
-	
+
 	public static LoginSession from(TbUserStaff tbUserStaff) {
 		LoginSession session = new LoginSession();
 		session.setUserStaffNo(tbUserStaff.getUserNo().intValue());

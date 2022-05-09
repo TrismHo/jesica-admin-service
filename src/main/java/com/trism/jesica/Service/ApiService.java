@@ -1177,7 +1177,7 @@ public class ApiService {
 
     @Transactional(readOnly = true)
     public List<TbSystemCode> systemCodeList(String sysType) {
-        return tbSystemCodeRepository.findBySysType(sysType);
+        return tbSystemCodeRepository.findBySysTypeAndDataStatus(sysType,DataStatus.OK);
     }
 
     @Transactional

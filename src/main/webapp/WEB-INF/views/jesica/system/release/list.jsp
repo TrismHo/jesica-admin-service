@@ -2,11 +2,11 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<head>리
+<head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 관리"/></title>
+    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 내역"/></title>
 </head>
 <style>
     .page-header-fixed {
@@ -37,9 +37,9 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="시스템 운영"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 관리"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 내역"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 관리"/><%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 내역"/><%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->

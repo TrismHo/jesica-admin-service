@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="language.languagesetting1" text="시스템설정"/><%--<spring:message code="merchandise.title" text="default text"/>--%><%--상품관리--%></title>
+    <title>Jesicar | <spring:message code="language.languagesetting1" text="시스템 설정"/><%--<spring:message code="merchandise.title" text="default text"/>--%><%--상품관리--%></title>
 </head>
 
 <style>

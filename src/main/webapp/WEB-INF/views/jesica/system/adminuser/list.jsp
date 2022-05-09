@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="마스터사용자 관리"/></title>
+    <title>Jesicar | <spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="사용자 관리"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -33,9 +33,9 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item"><spring:message code="sidemenu.workgroupmanagement1" text="시스템 운영"/></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="마스터사용자 관리"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="사용자 관리"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="마스터사용자 관리"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="사용자 관리"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
@@ -121,7 +121,7 @@
                             <div class="col-xl-12 col-md-12  m-t-10">
                                 <div class="">
                                     <button type="button" class="insert_btn btn btn-primary float-left m-b-10">
-                                        <spring:message code="list.search.franchiseeregistration1" text="마스터사용자 등록"/></span>
+                                        <spring:message code="list.search.franchiseeregistration1" text="사용자 등록"/></span>
                                     </button>
                                     <%--<div id="detailOptionBtn" class="arrow-down "></div>--%>
                                     <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick"  onclick="searchFormBranchFunction()" ><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/> </button>
@@ -151,7 +151,7 @@
                 <table id="testTable" class="display table table-bordered w-100 table-striped">
                     <thead>
                     <th class="text-center"><spring:message code="list.word.no" text="순번"/></th>
-                    <th class="text-center"><spring:message code="list.word.no1" text="등급"/></th>
+                    <th class="text-center"><spring:message code="list.word.no1" text="권한등급"/></th>
                     <th class="text-center"><spring:message code="list.word.affiliated1" text="로그인ID"/></th>
                     <th class="text-center"><spring:message code="list.word.franchisee1" text="사용자이름"/></th>
                     <th class="text-center"><spring:message code="list.word.statu1" text="사용자전화번호"/></th>

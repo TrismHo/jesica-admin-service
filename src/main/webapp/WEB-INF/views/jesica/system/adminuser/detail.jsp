@@ -30,23 +30,31 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.system1" text="시스템 운영"/></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.system.systemmerchandise1" text="마스터사용자 관리"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.systemproductdetails1" text="마스터관리자 상세"/></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.system.systemmerchandise1" text="사용자 관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.systemproductdetails1" text="사용자 상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.systemproductdetails1" text="마스터관리자 상세"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.systemproductdetails1" text="사용자 상세"/></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
                     <div class="timeline-header m-t-10 m-b-10">
                         <i class="fas fa-lg fa-fw m-r-10 fa-info-circle"></i>
-                        <span><strong><spring:message code="list.detail.basicInformation" text="기본 정보"/></strong></span>
+                        <span><strong><spring:message code="list.detail.basicInformation" text="기본 정보"/></strong>
+
+                        </span>
                     </div>
                     <form id="update_form" class="update_form">
                         <input type="hidden" class="userNo" name="userNo" value="${userNo}">
-                        <input type="hidden" class="userType" name="userType" value="0">
                         <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
                         <table class="table table-condensed table-bordered">
+                            <tr>
+                                <td class="bg-light"><spring:message code="list.detail.id1" text="등급"/></td>
+                                <td>
+                                    <input type="text" class="form-control width-full" value="<c:if test="${tbUserStaff.roleType == 1}">마스터</c:if><c:if test="${tbUserStaff.roleType == 2}">사용자</c:if>" placeholder="" disabled>
 
+                                </td>
+                                <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid11" text="현재 사용자의 등급입니다.(수정불가)"/></td>
+                            </tr>
                             <tr>
                                 <td class="bg-light width-150"><spring:message code="list.detail.id" text="아이디"/></td>
                                 <td class="width-500"><input type="text" class="form-control width-full userId upUserId" name="upUserId" value="${tbUserStaff.userId}" placeholder="아이디를 입력해주세요" disabled>
@@ -62,7 +70,7 @@
                             <tr>
                                 <td class="bg-light"><spring:message code="list.detail.newpassword1" text="신규 패스워드"/></td>
                                 <td><input type="text" class="form-control width-full userPwd upUserPwd" name="userPwd" value="" placeholder="<spring:message code="list.detail.pleaseenteranewpassword" text="새로운 패스워드를 입력해주세요"/>" maxlength="60"></td>
-                                <td class="text-danger-darker"><spring:message code="list.description.pleaseenteranewpassword" text="새규로운 패스워드를 입력해주세요 (미입력시 기존패스워드로 저장)"/> </td>
+                                <td class="text-danger-darker"><spring:message code="list.description.pleaseenteranewpassword" text="신규 패스워드를 입력해주세요 (미입력시 기존패스워드로 저장)"/> </td>
                             </tr>
                             <tr>
                                 <td class="bg-light"><spring:message code="list.detail.username" text="사용자 이름"/></td>
@@ -84,9 +92,9 @@
                                     </select>
                                     <label class="m-l-10 blockTypeCodeSel" style="display: <c:if test="${tbUserStaff.dataStatus == 1}" >none</c:if>">
                                         정지/삭제사유 :
-                                        <select class="blockTypeCode" name="blockTypeCode"
+                                        <select class="blockTypeCode" name="blockTypeCode">
                                             <c:forEach var="item" items="${systemCodeList}" varStatus="status">
-                                                <option value="${item.sysCode}" <c:if test="${tbUserStaff.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
+                                              <option value="${item.sysCode}" <c:if test="${tbUserStaff.blockTypeCode == item.sysCode}" >selected</c:if> > ${item.codeName} </option>
                                             </c:forEach>
                                         </select>
                                     </label>
@@ -115,7 +123,7 @@
                     <div class="m-l-5">
                         <%--<button type="button" class="btn btn-danger btn_remove float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-trash-alt m-r-3"></i> 삭제&lt;%&ndash;<spring:message code="merchandise.insert.insertbutton" text="default text"/>&ndash;%&gt;&lt;%&ndash;등록&ndash;%&gt;</button>--%>
                             <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
-                        <button type="button" class="btn btn-primary btn_update float-left m-t-5 m-b-5 m-r-5" onclick="udt_btn()"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
+                            <c:if test="${tbUserStaff.roleType != 1}"><button type="button" class="btn btn-primary btn_update float-left m-t-5 m-b-5 m-r-5" onclick="udt_btn()"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button></c:if>
 
                     </div>
                 </div>

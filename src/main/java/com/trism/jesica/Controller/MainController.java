@@ -2,10 +2,7 @@ package com.trism.jesica.Controller;
 
 import com.google.gson.JsonObject;
 import com.mysql.cj.Session;
-import com.trism.jesica.Service.ApiService;
-import com.trism.jesica.Service.BoardService;
-import com.trism.jesica.Service.CipherService;
-import com.trism.jesica.Service.WorkGroupService;
+import com.trism.jesica.Service.*;
 import com.trism.jesica.Util.GetClientIp;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.SessionConfig;
@@ -18,6 +15,8 @@ import com.trism.jesica.persistence.Entitiy.business.TbHead;
 import com.trism.jesica.persistence.Entitiy.business.TbUser;
 import com.trism.jesica.persistence.Entitiy.business.TbUserStaff;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.Entitiy.system.TbSiteMenu;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -38,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -66,6 +66,9 @@ public class MainController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private AuthService authService;
+
     /**
      * 핑테스트
      */
@@ -89,6 +92,14 @@ public class MainController {
     public ModelAndView index() {
 
         return new ModelAndView("/index");
+    }
+    /**
+     * 최초 페이지
+     */
+    @GetMapping("/authError")
+    public ModelAndView auth() {
+
+        return new ModelAndView("/error/auth");
     }
 
     /**
@@ -325,8 +336,8 @@ public class MainController {
                     isPwdMatch = true;
                 }*/
 
-                //마스터
-                if(tbUser.getUserType().ordinal() == 0 ) {
+                // 관리자
+                if(tbUser.getUserType().ordinal() == 6 ) {
                     //로그인 세션 저장
 
                     if(isPwdMatch == true) {
@@ -343,6 +354,14 @@ public class MainController {
                         sessionConfig.newSession(bmLoginId, session);
                         // 성공이면 실패카운트 0으로 + 로그인 시간 등록
                         apiService.setSuccessLoginSet(tbUser.getUserNo());
+
+                        //메뉴 권한 저장
+                        List<TbSiteAcl> tbSiteAclList =  authService.getSiteAcl(Long.valueOf(loginSession.getUserStaffNo()));
+                        List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
+                        List<Map<String, Object>>  tbSiteMenuAclList = authService.getTbSiteMenuAclList(Long.valueOf(loginSession.getUserStaffNo()));
+                        session.setAttribute("tbSiteMenus",tbSiteMenus);
+                        session.setAttribute("tbSiteAclList",tbSiteAclList);
+                        session.setAttribute("tbSiteMenuAclList",tbSiteMenuAclList);
                         map.put("result", "200");
                         map.put("message", "로그인 성공");
                         map.put("url", "main");
@@ -395,7 +414,7 @@ public class MainController {
                             LoginSession loginSession = LoginSession.from(bm);
                             session.setAttribute(LoginSession.KEY, loginSession);
                             //세션 30분유지
-                            session.setMaxInactiveInterval(60*60);
+                            session.setMaxInactiveInterval(60*120);
                             if(tbUser.getUserType().ordinal() == 1 ){
                                 session.setAttribute("headName",tbHead.getHeadName());
                             }
@@ -409,6 +428,12 @@ public class MainController {
                             session.setMaxInactiveInterval(60*60);
                             sessionConfig.newSession(bmLoginId, session);
 
+                            //메뉴 권한 저장
+                            List<TbSiteAcl> tbSiteAclList =  authService.getSiteAcl(Long.valueOf(loginSession.getUserStaffNo()));
+                            List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
+                            session.setAttribute("tbSiteMenus",tbSiteMenus);
+                            session.setAttribute("tbSiteAclList",tbSiteAclList);
+
                             // 성공이면 실패카운트 0으로 + 로그인 시간 등록
                             apiService.setSuccessLoginSet(tbUser.getUserNo());
                             map.put("result", "200");
@@ -416,9 +441,7 @@ public class MainController {
                             map.put("url", "main");
                         }
                     }
-
                 }  else {
-
                     //없는 권한일때
                     map.put("result", "500");
                     map.put("message", "권한등급이 다른계정입니다. 관리자에 문의하세요.");

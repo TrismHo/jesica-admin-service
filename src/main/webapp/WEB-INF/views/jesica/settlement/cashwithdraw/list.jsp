@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | 입출금 신청관리 </title>
+    <title>Jesicar | 출금 신청관리 </title>
 </head>
 <style>
     .modal_img {
@@ -103,11 +103,11 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item">입출금 신청관리</li>
-                    <li class="breadcrumb-item active">입출금 신청관리</li>
+                    <li class="breadcrumb-item">출금 신청관리</li>
+                    <li class="breadcrumb-item active">출금 신청관리</li>
                 </ol>
                 <h3 class="rix-title">
-                    입출금 신청관리
+                    출금 신청관리
                 </h3>
             </div>
             <!-- end page-header -->

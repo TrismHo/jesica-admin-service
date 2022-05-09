@@ -1,7 +1,6 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.OrderService;
-import com.trism.jesica.persistence.Entitiy.call.TbCallAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
@@ -176,7 +175,7 @@ public class OrderController {
     /**
      * 과거 주문내역(탁송)
      */
-    @GetMapping("/consignment/list")
+   /* @GetMapping("/consignment/list")
     public ModelAndView consignmentList(@RequestParam Map<String,Object> searchValue,
                                      Model model, HttpSession session) {
 
@@ -204,9 +203,9 @@ public class OrderController {
         return new ModelAndView("/jesica/order/consignment/list");
     }
 
-    /**
+    *//**
      * 과거 주문내역 상세(탁송)
-     */
+     *//*
     @GetMapping("/consignment/detail")
     public ModelAndView consignmentDetail(@RequestParam Long orderNo,Model model) {
         log.info("@@orderNo {}",orderNo);
@@ -225,6 +224,6 @@ public class OrderController {
 
         return new ModelAndView("jesica/order/consignment/detail");
     }
-
+*/
 
 }

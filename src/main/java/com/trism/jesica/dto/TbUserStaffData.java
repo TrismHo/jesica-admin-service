@@ -30,6 +30,7 @@ public class TbUserStaffData {
     private String phone;
     private String name;
     private String memo;
+    private Integer roleType;
 
     public TbUserStaff insertData() {
         return TbUserStaff.builder()
@@ -47,6 +48,7 @@ public class TbUserStaffData {
                 .name(this.name)
                 .phone(this.phone)
                 .memo(this.memo)
+                .roleType(this.roleType)
                 .build();
     }
 }

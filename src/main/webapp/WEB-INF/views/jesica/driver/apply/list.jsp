@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | 승인요청관리 </title>
+    <title>Jesicar | 승인요청 관리 </title>
 </head>
 <style>
     .modal_img {
@@ -61,10 +61,10 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item">드라이버 관리</li>
-                    <li class="breadcrumb-item active">승인요청관리</li>
+                    <li class="breadcrumb-item active">승인요청 관리</li>
                 </ol>
                 <h3 class="rix-title">
-                    승인요청관리
+                    승인요청 관리
                 </h3>
             </div>
             <!-- end page-header -->
@@ -133,7 +133,7 @@
                                                     </label>
                                                     <label>
                                                         <span class="btn-group  bg-black-transparent-2 rounded">
-                                                            <a href="/driver/apply/list?dataStatus=&startDate=2021-01-01&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
+                                                            <a href="/driver/apply/list?dataStatus=&startDate=2021-01-01&endDate=${now}&authStatus=1" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
                                                                 <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message code="list.search.searchreset" text="검색 초기화"/>
                                                             </a>
                                                         </span>
