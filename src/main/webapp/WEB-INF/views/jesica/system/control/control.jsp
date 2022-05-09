@@ -371,6 +371,11 @@
 							<%--<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span>--%>
 						</a></li>
 					</ul>
+					<ul class="nav nav-inbox">
+						<li class="active-li"><a class="control-3" style="cursor: pointer;" ><i class="fas fa-lg fa-fw me-10px fa-list"></i>  <spring:message code="list.controll.consignment1" text="문의 현황"/>
+							<%--<span class="badge bg-gray-600 fs-10px rounded-pill ms-auto fw-bolder pt-4px pb-5px px-8px viewer" style="display: none;"><spring:message code="list.controll.displaying" text="표시중"/></span>--%>
+						</a></li>
+					</ul>
 				</div>
 
 
@@ -1562,7 +1567,7 @@
 		}
 	}
 
-	$(document).on("click",".control-1,.control-2",function(){
+	$(document).on("click",".control-1,.control-2,.control-3",function(){
 		let thisClass = $(this).attr("class");
 		$(".active-li").removeClass("active");
 		$("."+thisClass).parents("li").addClass("active");
@@ -1570,13 +1575,19 @@
 		$("."+thisClass).find(".viewer").show();
 
 		if(thisClass =='control-1'){
-			$(".frame").css("display","none");
+			$(".frame1").css("display","none");
+			$(".frame2").css("display","none");
             //$(".frame").attr("src","");
 			$(".map_wrap").css("display","block");
 			reload();
 			$("#menu_wrap2").css("display","none");
 		} else if (thisClass == 'control-2') {
-			$(".frame").css("display","block");
+			$(".frame1").css("display","block");
+			$(".frame2").css("display","none");
+			$("#menu_wrap2").css("display","none");
+		} else if (thisClass == 'control-3') {
+			$(".frame1").css("display","none");
+			$(".frame2").css("display","block");
 			$("#menu_wrap2").css("display","none");
 		}
 
