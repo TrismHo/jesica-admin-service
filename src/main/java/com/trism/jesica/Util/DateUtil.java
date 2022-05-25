@@ -23,6 +23,7 @@ public class DateUtil {
 	}
 	
 	private static final SimpleDateFormat dateFormat_yyyyMMdd = new SimpleDateFormat("yyyyMMdd");
+	private static final SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * 현재 시간을 yyyyMMdd 포맷으로 리턴한다
 	 * @return yyyyMMdd
@@ -30,6 +31,46 @@ public class DateUtil {
 	public static String now_yyyymmdd() {
 		return dateFormat_yyyyMMdd.format(now());
 	}
+	/**
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
+	 * @return yyyyMMdd
+	 */
+
+	/**
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
+	 * @return yyyyMMdd
+	 */
+	public static String now_yyyy_mm_dd_yester() {
+		//하루 전
+		Calendar day = Calendar.getInstance();
+		day.add(Calendar.DATE , -1);
+
+		return dateFormat_yyyy_MM_dd.format(day.getTime());
+	}
+
+	/**
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
+	 * @return yyyyMMdd
+	 */
+	public static String now_yyyy_mm_dd_month() {
+		//하루 전
+		Calendar day = Calendar.getInstance();
+		day.add(Calendar.DATE , -30);
+
+		return dateFormat_yyyy_MM_dd.format(day.getTime());
+	}
+	/**
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
+	 * @return yyyyMMdd
+	 */
+	public static String now_yyyy_mm_dd() {
+
+		//오늘
+		Date today = new Date();
+		return dateFormat_yyyy_MM_dd.format(today);
+	}
+
+
 
 	public static String to_yyyymmdd(Calendar calendar) {
 		return dateFormat_yyyyMMdd.format(calendar.getTime());

@@ -66,11 +66,11 @@
 
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><spring:message code="sidemenu.orderhistory" text="주문내역"/></li>
-                    <li class="breadcrumb-item"><a href="${path}/driver/consignment/list"><spring:message code="sidemenu.pastorderhistory" text="탁송내역(과거)"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.detailsofpasorders" text="탁송내역(과거) 상세"/></li>
+                    <li class="breadcrumb-item"><spring:message code="sidemenu.orderhistory1" text="주문내역"/></li>
+                    <li class="breadcrumb-item"><a href="${path}/driver/consignment/list"><spring:message code="sidemenu.pastorderhistory1" text="탁송내역(과거)"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.detailsofpasorders1" text="탁송내역(과거) 상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.detailsofpasorders" text="탁송내역(과거) 상세"/> </h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.detailsofpasorders1" text="탁송내역(과거) 상세"/> </h3>
             </div>
             <div class="m-t-10">
                 <table class="table table-bordered">

@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="가맹점"/></title>
+    <title>Jesicar | <spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="가맹점"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -32,10 +32,10 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><spring:message code="sidemenu.workgroupmanagement" text="업무그룹"/></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="가맹점"/></li>
+                    <li class="breadcrumb-item"><spring:message code="sidemenu.workgroupmanagement1" text="업무그룹"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="가맹점"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="가맹점"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="가맹점"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->

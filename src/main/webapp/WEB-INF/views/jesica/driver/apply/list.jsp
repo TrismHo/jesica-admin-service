@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | 승인요청 관리 </title>
+    <title>Jesicar | 드라이버 승인관리 </title>
 </head>
 <style>
     .modal_img {
@@ -61,10 +61,10 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item">드라이버 관리</li>
-                    <li class="breadcrumb-item active">승인요청 관리</li>
+                    <li class="breadcrumb-item active">드라이버 승인관리</li>
                 </ol>
                 <h3 class="rix-title">
-                    승인요청 관리
+                    드라이버 승인관리
                 </h3>
             </div>
             <!-- end page-header -->

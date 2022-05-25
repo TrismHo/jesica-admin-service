@@ -1,17 +1,20 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.*;
+import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.TbSystemCategoryDTO;
 import com.trism.jesica.dto.TbUserStaffDTO;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
-import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.goods.TbSystemGoods;
 import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Entitiy.safe.TbSafenMappingLog;
+import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.util.Utils;
@@ -27,6 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RequestMapping("/system")
@@ -44,6 +49,8 @@ public class SystemController {
     private final BoardService boardService;
 
     private final ApiService apiService;
+
+    private final AuthService authService;
 
     private final SystemPropService systemPropService;
 
@@ -329,18 +336,44 @@ public class SystemController {
         String name = "";
         String dataStatus = "";
         List<TbUserStaffDTO> resultList = null;
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+
+        if (searchValue.get("startDate") != null) {
+            String string = searchValue.get("startDate").toString() + " 00:00:00";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            startDate = LocalDateTime.parse(string, formatter);
+        } else {
+            String string = "2020-01-01" + " 00:00:00";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            startDate = LocalDateTime.parse(string, formatter);
+        }
+        if (searchValue.get("endDate") != null) {
+            String string = searchValue.get("endDate").toString() + " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            endDate = LocalDateTime.parse(string, formatter);
+        } else {
+            String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            endDate = LocalDateTime.parse(string, formatter);
+        }
+
         if (!searchValue.isEmpty() && searchValue != null){
             if(searchValue.get("dataStatus") != null && searchValue.get("dataStatus") != null){
                 if(searchValue.get("dataStatus") != ""){
-                    resultList =  masterService.getUserDataStatusList(searchValue.get("name").toString(),Integer.parseInt(searchValue.get("dataStatus").toString()));
+                    resultList =  masterService.getUserDataStatusList(searchValue.get("name").toString(),Integer.parseInt(searchValue.get("dataStatus").toString()),startDate,endDate);
                 }else {
-                    resultList =  masterService.getUserList(searchValue.get("name").toString());
+                    resultList =  masterService.getUserList(searchValue.get("name").toString(),startDate,endDate);
                 }
             }else {
-                resultList =  masterService.getUserList(searchValue.get("name").toString());
+                searchValue.put("startDate", "2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+                resultList =  masterService.getUserList(searchValue.get("name").toString(),startDate,endDate);
             }
         } else {
-            resultList =  masterService.getUserList(name);
+            searchValue.put("startDate", "2020-01-01");
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            resultList =  masterService.getUserList(name,startDate,endDate);
         }
 
         try {
@@ -369,12 +402,23 @@ public class SystemController {
         log.info("@@headNo {}",userNo);
 
         try {
+
+
+
             List<TbSystemCode> systemCodeList = apiService.systemCodeList("BL");
             model.addAttribute("systemCodeList",systemCodeList);
             //유저명
             TbUserStaffDTO tbUserStaff = masterService.tbUserSearchDetail(userNo);
+
+            List<TbSiteAcl> tbSiteAclList =  authService.getSiteAcl(Long.valueOf(userNo));
+            List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
+            List<Map<String, Object>>  tbSiteMenuAclList = authService.getTbSiteMenuAclList(Long.valueOf(userNo));
+
             model.addAttribute("tbUserStaff", tbUserStaff);
             model.addAttribute("userNo", userNo);
+            model.addAttribute("tbSiteAclList", tbSiteAclList);
+            model.addAttribute("tbSiteMenus", tbSiteMenus);
+            model.addAttribute("tbSiteMenuAclList", tbSiteMenuAclList);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -390,11 +434,15 @@ public class SystemController {
         log.info("@@searchValue {}",searchValue);
         try {
             if (!searchValue.isEmpty()) {
-                putSearchOption(session, searchValue);
+                //putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
-            }
+                searchValue.put("title", "");
+                searchValue.put("dataStatus", "OK");
+                searchValue.put("startDate", "2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
 
+            }
             List<TbNoticeRelease> resultList =  boardService.tbReleaseSearch(searchValue);
             model.addAttribute("tbNoticeReleaseList", resultList);
 
@@ -432,13 +480,7 @@ public class SystemController {
                                        LoginSession session,
                                        Model model) {
         log.info("@@searchValue {}",searchValue);
-
-        if (!searchValue.isEmpty()){
-
-            model.addAttribute("tbServiceProp", systemPropService.tbSystemProp());
-        } else {
-            model.addAttribute("tbServiceProp", null);
-        }
+        model.addAttribute("tbServiceProp", systemPropService.tbSystemProp());
 
         model.addAttribute("searchValue",searchValue);
 

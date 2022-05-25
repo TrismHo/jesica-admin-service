@@ -4,6 +4,7 @@ import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.DriverApplyService;
 import com.trism.jesica.Service.WorkGroupService;
 import com.trism.jesica.Service.WorkerApplyService;
+import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.PoiUtil;
 import com.trism.jesica.Util.Secure.CipherAESUtils;
 import com.trism.jesica.config.KeyGeneratorConfig;
@@ -16,7 +17,6 @@ import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.Entitiy.call.TbCallAll;
 import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
-import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerCharge;
@@ -87,33 +87,25 @@ public class DriverApplyController {
         log.info("@@searchValue {}",searchValue);
         try {
             if (!searchValue.isEmpty()) {
-
-                    putSearchOption(session, searchValue);
-
-                List<TbWorkerApply> tbWorkerApplyList =  workerApplyService.getWorkList(searchValue);
-                List<TbWorkerApply> tbWorkerApplyListNew = new ArrayList<TbWorkerApply>();
-                for (TbWorkerApply tbWorkerApply : tbWorkerApplyList) {
-                    String url = "";
-                    String url2 = "";
-                    String url3 = "";
-                    if (tbWorkerApply.getProfileFileSmall() != null) {
-                        url = URLEncoder.encode(tbWorkerApply.getProfileFileSmall(), "UTF-8");
-                    }
-                    if (tbWorkerApply.getProfileFile() != null) {
-                        url2 = URLEncoder.encode(tbWorkerApply.getProfileFile(), "UTF-8");
-                    }
-                    if (tbWorkerApply.getCareerFile() != null) {
-                        url3 = URLEncoder.encode(tbWorkerApply.getCareerFile(), "UTF-8");
-                    }
-                    tbWorkerApply.setProfileFileSmall(url);
-                    tbWorkerApply.setProfileFile(url2);
-                    tbWorkerApply.setCareerFile(url3);
-                    tbWorkerApplyListNew.add(tbWorkerApply);
+                //overflow 대비
+                if(searchValue.get("_") != null) {
+                    Map<String,Object> searchValue1 = new HashMap<>();
+                    searchValue.put("startDate", "2020-01-01");
+                    searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+                    searchValue.put("authStatus","1");
+                    searchValue.put("insertDate","insertDate");
+                    List<TbWorkerApply> tbWorkerApplyListNew  =   driverApply(searchValue1);
+                    model.addAttribute("workList", tbWorkerApplyListNew);
                 }
+                List<TbWorkerApply> tbWorkerApplyListNew  =   driverApply(searchValue);
                 model.addAttribute("workList", tbWorkerApplyListNew);
             } else {
-                searchValue = getSearchOption(session);
-                model.addAttribute("workList", null);
+                searchValue.put("startDate", "2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+                searchValue.put("authStatus","1");
+                searchValue.put("insertDate","insertDate");
+                List<TbWorkerApply> tbWorkerApplyListNew  =   driverApply(searchValue);
+                model.addAttribute("workList", tbWorkerApplyListNew);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,13 +165,19 @@ public class DriverApplyController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate", "2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+                searchValue.put("dataStatus","OK");
+                searchValue.put("name","");
+                searchValue.put("headNoText","");
+                searchValue.put("headNo","");
+                searchValue.put("branchNo","");
+                searchValue.put("branchNoText","");
+                searchValue.put("storeNo","");
+                searchValue.put("storeNoText","");
             }
 
-            if (!searchValue.isEmpty()){
                 model.addAttribute("tbUserWork", workGroupService.tbUserWorkSerch(searchValue));
-            } else {
-                model.addAttribute("tbUserWork", null);
-            }
 
       /*      List<TbDelivery> resultList = null;
             model.addAttribute("tbUserWork", workGroupService.tbUserWorkSerch(searchValue));*/
@@ -257,7 +255,7 @@ public class DriverApplyController {
 
 
     /**
-     * 과거 주문내역(탁송)
+     * 과거주문내역
      */
     @GetMapping("/consignment/list")
     public ModelAndView consignmentList(@RequestParam Map<String,Object> searchValue,
@@ -269,11 +267,13 @@ public class DriverApplyController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+                searchValue.put("startDate", DateUtil.now_yyyy_mm_dd_yester());
+                searchValue.put("authStatus","1");
+                searchValue.put("storeNo","100000");
+                searchValue.put("orderStatusCode","40");
             }
 
-            if(searchValue.get("storeNo") == null) {
-                searchValue.put("storeNo","0");
-            }
             List<TbCallAll> resultList =  driverApplyService.tbCallAllList(searchValue);
             List<TbSystemCode> tbSystemCode = driverApplyService.searchTbSystemCode("OP");
             model.addAttribute("tbSystemCode", tbSystemCode);
@@ -322,6 +322,8 @@ public class DriverApplyController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate","2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
 
             List<TbStoreRentalCar> resultList = null;
@@ -350,8 +352,8 @@ public class DriverApplyController {
         List<TbStore> tbStoreList = apiService.getStoreList();
 
         //안심번호 리스트(매칭안된것들)
-        List<TbSafenMapping> tbSafenMapping = driverApplyService.getTbSafenMappingList();
-        model.addAttribute("tbSafenMapping",tbSafenMapping);
+/*        List<TbSafenMapping> tbSafenMapping = driverApplyService.getTbSafenMappingList();
+        model.addAttribute("tbSafenMapping",tbSafenMapping);*/
         model.addAttribute("tbStoreList",tbStoreList);
 
         return new ModelAndView("jesica/driver/car/insert");
@@ -530,6 +532,14 @@ public class DriverApplyController {
                                       Model model ) {
 
         log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()) {
+        } else {
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_yester());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("hiddenValue", "storeName");
+            searchValue.put("storeName", "");
+        }
+
         try {
             List<TbRentalInfo> resultList =  driverApplyService.getRentalInfo(searchValue);
             model.addAttribute("tbRentalInfo", resultList);
@@ -595,6 +605,35 @@ public class DriverApplyController {
         }
 
         return searchValue;
+    }
+
+    private List<TbWorkerApply> driverApply(Map<String,Object> searchValue) {
+        List<TbWorkerApply> tbWorkerApplyListNew = new ArrayList<TbWorkerApply>();
+        try {
+            List<TbWorkerApply> tbWorkerApplyList =  workerApplyService.getWorkList(searchValue);
+            for (TbWorkerApply tbWorkerApply1 : tbWorkerApplyList) {
+                String url = "";
+                String url2 = "";
+                String url3 = "";
+                if (tbWorkerApply1.getProfileFileSmall() != null) {
+                    url = URLEncoder.encode(tbWorkerApply1.getProfileFileSmall(), "UTF-8");
+                }
+                if (tbWorkerApply1.getProfileFile() != null) {
+                    url2 = URLEncoder.encode(tbWorkerApply1.getProfileFile(), "UTF-8");
+                }
+                if (tbWorkerApply1.getCareerFile() != null) {
+                    url3 = URLEncoder.encode(tbWorkerApply1.getCareerFile(), "UTF-8");
+                }
+                tbWorkerApply1.setProfileFileSmall(url);
+                tbWorkerApply1.setProfileFile(url2);
+                tbWorkerApply1.setCareerFile(url3);
+                tbWorkerApplyListNew.add(tbWorkerApply1);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return tbWorkerApplyListNew;
     }
 
 }

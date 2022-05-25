@@ -19,6 +19,7 @@ import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.Entitiy.goods.*;
+import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import lombok.AllArgsConstructor;
@@ -92,6 +93,8 @@ public class ApiController {
     private final WorkGroupService workGroupService;
 
     private final KeyGeneratorConfig keyGeneratorConfig;
+
+    private final DriverApplyService driverApplyService;
 
     //테스트용 API
     @ResponseBody
@@ -2985,6 +2988,91 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+
+    // 메뉴 권한 insert
+    @ResponseBody
+    @PostMapping("/system/menu/insert")
+    public ResponseEntity<?> menuInsert(
+            @RequestParam("menuNo") String menuNo,
+            @RequestParam("userNo") String userNo
+    ) {
+        log.info("menuNo::{}", menuNo);
+        Map<String,Object> map = new HashMap<>();
+        int result = apiService.systemMenuInsert(Long.parseLong(menuNo),Long.parseLong(userNo));
+        if(result > 0) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+    // 메뉴 권한 insert
+    @ResponseBody
+    @PostMapping("/system/menu/delete")
+    public ResponseEntity<?> menuDelete(
+            @RequestParam("menuNo") String menuNo,
+            @RequestParam("userNo") String userNo
+    ) {
+        log.info("menuNo::{}", menuNo);
+        Map<String,Object> map = new HashMap<>();
+        int result = apiService.systemMenuDelete(Long.parseLong(menuNo),Long.parseLong(userNo));
+        if(result > 0) {
+            map.put("result","200");
+            map.put("message", "삭제 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "삭제에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+
+
+    //안심번호 리스트
+    @ResponseBody
+    @PostMapping("/search/safenNum/list")
+    public ResponseEntity<?> searchSafenNumList(@RequestBody Map<String,Object> searchValue) {
+        log.info("TbStore searchValue::{}", searchValue);
+        Map<String,Object> map = new HashMap<>();
+        try {
+            if ((String)searchValue.get("keyword") != null){
+                if ((String)searchValue.get("keyword") != ""){
+                    List<TbSafenMapping> tbSafenMapping = driverApplyService.getTbSafenMappingList("%"+(String)searchValue.get("keyword")+"%");
+                    map.put("tbSafenMapping", tbSafenMapping);
+                }else {
+                    List<TbSafenMapping> tbSafenMapping = driverApplyService.getTbSafenMappingListAll();
+                    map.put("tbSafenMapping", tbSafenMapping);
+                }
+            }
+            //안심번호 리스트(매칭안된것들)
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+
+    //안심번호 재할당
+    @ResponseBody
+    @PostMapping("/car/safenNum/asssignment")
+    public ResponseEntity<?> searchSafenNumAsssignment(@RequestBody Map<String,Object> searchValue) {
+        log.info("TbStore searchValue::{}", searchValue);
+        Map<String,Object> map = new HashMap<>();
+            if ((String)searchValue.get("safenNumNew") != null){
+                if ((String)searchValue.get("safenNumNew") != ""){
+                    driverApplyService.getTbSafenMappingAsssignment((String)searchValue.get("safenNumNew"),Integer.parseInt((String)searchValue.get("rentalCarNoNew")));
+                    map.put("result",200);
+                    map.put("safenNumNew",(String)searchValue.get("safenNumNew"));
+                }else
+                    map.put("result",0000);
+            }
+            //안심번호 리스트(매칭안된것들)
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
 
 
     /**

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>, JpaSpecificationExecutor<TbUserStaff> {
@@ -61,10 +62,13 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             "from tb_user_staff a left outer join tb_user b " +
             "on b.user_no = a.staff_no " +
             "where name like %:name% " +
-            "and b.user_type = 0 " +
+            "and (b.user_type = 6) " +
             "and a.data_status != 0" +
+            " and (" +
+            " b.insert_date between :startDate and :endDate" +
+            "  ) " +
             "", nativeQuery = true)
-    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") String name);
+    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") String name, @Param("startDate") LocalDateTime startDate,  @Param("endDate") LocalDateTime endDate);
 
     @Query(value = "select " +
             "a.staff_no as staffNo, " +
@@ -80,10 +84,13 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             "from tb_user_staff a left outer join tb_user b " +
             "on b.user_no = a.staff_no " +
             "where name like %:name% " +
-            "and b.user_type = 0 " +
+            "and (b.user_type = 6) " +
             "and a.data_status = :dataStatus " +
+            " and (" +
+            " b.insert_date between :startDate and :endDate" +
+            "  ) " +
             "", nativeQuery = true)
-    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") String name, @Param("dataStatus") Integer dataStatus);
+    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") String name, @Param("dataStatus") Integer dataStatus, @Param("startDate") LocalDateTime startDate,  @Param("endDate") LocalDateTime endDate);
 
     @Query(value = "select " +
             "a.staff_no as staffNo, " +
@@ -100,7 +107,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             "from tb_user_staff a left outer join tb_user b " +
             "on b.user_no = a.staff_no " +
             "where b.user_no = :userNo " +
-            "and b.user_type = 0 " +
+            "and (b.user_type = 6)" +
             "and a.data_status != 0" +
             "", nativeQuery = true)
     TbUserStaffDTO findByUserStaffNative(@Param("userNo") Long userNo);

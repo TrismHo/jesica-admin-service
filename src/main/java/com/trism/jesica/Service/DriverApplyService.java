@@ -129,9 +129,37 @@ public class DriverApplyService {
     }
 
     @Transactional(readOnly = true)
-    public List<TbSafenMapping> getTbSafenMappingList() {
-        List<TbSafenMapping> tbSafenMappings = tbSafenMappingRepository.findByDataStatusAndRentalCarNoIsNull(DataStatus.STOP);
+    public List<TbSafenMapping> getTbSafenMappingList(String safenNum) {
+        List<TbSafenMapping> tbSafenMappings = tbSafenMappingRepository.findTop100ByDataStatusAndSafenNumLikeAndRentalCarNoIsNull(DataStatus.STOP,safenNum);
         return tbSafenMappings;
+    }
+    @Transactional(readOnly = true)
+    public List<TbSafenMapping> getTbSafenMappingListAll() {
+        List<TbSafenMapping> tbSafenMappings = tbSafenMappingRepository.findTop100ByDataStatusAndRentalCarNoIsNull(DataStatus.STOP);
+        return tbSafenMappings;
+    }
+
+    @Transactional
+    public int getTbSafenMappingAsssignment(String safenNum,Integer rentalCarNo) {
+        int result3 = 0;
+        try {
+            //기존번호 미할당
+            int result = tbSafenMappingRepository.getTbSafenMappingAsssignmentDefault(rentalCarNo);
+            if(result == 1){
+                //신규할당
+                int result2 = tbSafenMappingRepository.getTbSafenMappingAsssignment(rentalCarNo,safenNum);
+                if(result2 == 1){
+                    result3 = tbStoreRentalCarRepository.updateSafenNum(rentalCarNo,safenNum);
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        } catch (Exception e){
+            return 0;
+        }
+        return result3;
     }
 
     @Transactional(readOnly = true)

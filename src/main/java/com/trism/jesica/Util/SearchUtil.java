@@ -338,9 +338,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -380,49 +380,50 @@ public class SearchUtil {
         List<Predicate> predicate = new ArrayList<>();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
-        DataStatus delDataStatus = null;
+        DataStatus delDataStatus;
         delDataStatus = DataStatus.valueOf("DELETE");
         predicate.add(builder.notEqual(root.get("dataStatus"),delDataStatus));
         try {
-                for (String key : searchKeyword.keySet()) {
-                    Object value = searchKeyword.get(key);
-                    if("brandNo".equals(key)){
-                        if(!"".equals(value) ) {
-                            predicate.add(builder.equal(root.get(key),value));
-                        }
-                    } else if("headNo".equals(key)){
-                        if(!"".equals(value) ) {
-                            predicate.add(builder.equal(root.get(key),value));
-                        }
-                    } else if ("dataStatus".equals(key)) {
-                        DataStatus dataStatus = null;
-                        if("".equals(value) || value == null) {
-                            delDataStatus = DataStatus.valueOf("DELETE");
-                            predicate.add(builder.notEqual(root.get(key),delDataStatus));
-                        } else {
-                            dataStatus = DataStatus.valueOf(value.toString());
-                            delDataStatus = DataStatus.valueOf("DELETE");
-                            predicate.add(builder.equal(root.get(key),dataStatus));
-                            predicate.add(builder.notEqual(root.get(key),delDataStatus));
-                        }
-                    } else if ("headName".equals(key)  && value != "") {
-                        predicate.add(builder.like(root.get(key), "%"+value+"%"));
-                    } else if ("endDate".equals(key) && value != "") {
-                            String string = value.toString() + " 23:59:59";
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                            endDate = LocalDateTime.parse(string, formatter);
-                    } else if ("startDate".equals(key) && value != "") {
-
-                            String string = value.toString() + " 00:00:00";
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                            startDate = LocalDateTime.parse(string, formatter);
-
-                            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                if("brandNo".equals(key)){
+                    if(!"".equals(value) ) {
+                        predicate.add(builder.equal(root.get(key),value));
+                    }
+                } else if("headNo".equals(key)){
+                    if(!"".equals(value) ) {
+                        predicate.add(builder.equal(root.get(key),value));
                     }
                 }
+                else if ("dataStatus".equals(key)) {
+                    DataStatus dataStatus = null;
+                    if("".equals(value) || value == null) {
+                        delDataStatus = DataStatus.valueOf("DELETE");
+                        predicate.add(builder.notEqual(root.get(key),delDataStatus));
+                    } else {
+                        dataStatus = DataStatus.valueOf(value.toString());
+                        delDataStatus = DataStatus.valueOf("DELETE");
+                        predicate.add(builder.equal(root.get(key),dataStatus));
+                        predicate.add(builder.notEqual(root.get(key),delDataStatus));
+                    }
+                } else if ("headName".equals(key)  && value != "") {
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                } else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+
+                }
+            }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
             } catch (Exception e){
-            e.printStackTrace();
-        }
+             e.printStackTrace();
+            }
         return predicate;
     }
 
@@ -451,19 +452,18 @@ public class SearchUtil {
                     }
                 } else if ("branchName".equals(key)  && value != "") {
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
-                } else if ("endDate".equals(key) && value != "") {
-                    String string = value.toString() + " 23:59:59";
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    endDate = LocalDateTime.parse(string, formatter);
                 } else if ("startDate".equals(key) && value != "") {
-
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+                } else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -504,14 +504,13 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     endDate = LocalDateTime.parse(string, formatter);
                 } else if ("startDate".equals(key) && value != "") {
-
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -553,9 +552,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -597,9 +596,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -642,9 +641,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -686,9 +685,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -738,9 +737,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -781,9 +780,9 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -821,18 +820,18 @@ public class SearchUtil {
                    }
                } else if ("dlvyName".equals(key)  && value != "") {
                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
-                }  else if ("endDate".equals(key) && value != "") {
-                   String string = value.toString() + " 23:59:59";
-                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                   endDate = LocalDateTime.parse(string, formatter);
-               } else if ("startDate".equals(key) && value != "") {
+                }  else if ("startDate".equals(key) && value != "") {
                    String string = value.toString() + " 00:00:00";
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+               } else if ("endDate".equals(key) && value != "") {
+                   String string = value.toString() + " 23:59:59";
+                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                   endDate = LocalDateTime.parse(string, formatter);
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -876,10 +875,9 @@ public class SearchUtil {
                    String string = value.toString() + " 00:00:00";
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
-
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -920,9 +918,9 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -963,9 +961,9 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1006,9 +1004,9 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1030,8 +1028,6 @@ public class SearchUtil {
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
-
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"), startDate, endDate));
                 } else if (key.equals("endDate") && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -1042,6 +1038,7 @@ public class SearchUtil {
                     }
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1080,9 +1077,9 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1118,9 +1115,9 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1167,9 +1164,9 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1215,9 +1212,9 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-                   predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1367,9 +1364,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1414,9 +1411,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1482,9 +1479,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1516,9 +1513,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1550,9 +1547,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1583,10 +1580,9 @@ public class SearchUtil {
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
-
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1652,9 +1648,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1811,10 +1807,9 @@ public class SearchUtil {
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
-
-                    predicate.add(builder.between(root.<LocalDateTime>get("authDtm"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("authDtm"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1876,7 +1871,8 @@ public class SearchUtil {
         LocalDateTime endDate = null;
         try {
             for (String key : searchKeyword.keySet()) {
-                Object value = searchKeyword.get(key);if("storeNo".equals(key)){
+                Object value = searchKeyword.get(key);
+                if("storeNo".equals(key)){
                     if(!"".equals(value) ) {
                         predicate.add(builder.equal(root.get(key),value));
                     } else {
@@ -1891,8 +1887,7 @@ public class SearchUtil {
 
                 } else if ("name".equals(key) && value != ""){
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
-                } else
-                if ("endDate".equals(key) && value != "") {
+                } else if ("endDate".equals(key) && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     endDate = LocalDateTime.parse(string, formatter);
@@ -1901,9 +1896,9 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1935,9 +1930,10 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1962,11 +1958,9 @@ public class SearchUtil {
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
-
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 }
-
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1993,7 +1987,6 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
                 } else if ("dataStatus".equals(key)) {
                     int dataStatus = 0;
                     if(ObjectUtils.isEmpty(value)) {
@@ -2013,6 +2006,7 @@ public class SearchUtil {
                     }
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -2022,7 +2016,7 @@ public class SearchUtil {
     private static List<Predicate> searchCustList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
 
-        LocalDateTime startDate;
+        LocalDateTime startDate = null;
         LocalDateTime endDate = null;
 
         try {
@@ -2041,7 +2035,6 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
 
-                    predicate.add(builder.between(root.get("insertDate"), startDate, endDate));
                 } else if ("dataStatus".equals(key)) {
                     int dataStatus = 1;
                     if(ObjectUtils.isEmpty(value)) {
@@ -2066,6 +2059,7 @@ public class SearchUtil {
                     }
                 }
             }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
         } catch (Exception e){
             e.printStackTrace();
         }

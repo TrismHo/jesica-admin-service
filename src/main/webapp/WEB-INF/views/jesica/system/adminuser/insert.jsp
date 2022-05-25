@@ -77,7 +77,7 @@
                                 </div>
                                 <form class="insert_form" id="insert_form">
                                     <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
-                                    <input type="hidden" class="userType" name="userType" value="0">
+                                    <input type="hidden" class="userType" name="userType" value="6">
                                     <table class="table table-bordered">
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.id" text="아이디"/></td>

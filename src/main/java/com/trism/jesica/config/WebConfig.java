@@ -10,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 import org.apache.http.client.HttpClient;
+import org.apache.http.impl.NoConnectionReuseStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -188,6 +189,7 @@ public class WebConfig /*extends WebMvcConfigurationSupport*/ implements WebMvcC
         httpRequestFactory.setConnectTimeout(60000);
         httpRequestFactory.setReadTimeout(60000);
         HttpClient httpClient = HttpClientBuilder.create()
+                .setConnectionReuseStrategy(NoConnectionReuseStrategy.INSTANCE)
                 .setMaxConnTotal(200)
                 .setMaxConnPerRoute(20)
                 .build();

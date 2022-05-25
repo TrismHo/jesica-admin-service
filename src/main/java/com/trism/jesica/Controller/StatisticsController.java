@@ -1,51 +1,364 @@
 package com.trism.jesica.Controller;
 
+import com.trism.jesica.Service.StatisticsService;
+import com.trism.jesica.Util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/statistics")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class StatisticsController {
+    private final StatisticsService statisticsService;
 
-    @GetMapping("/bycallcnt/list")
-    public ModelAndView listByCallCount() {
+    //시간대별 통계
+    @GetMapping("/time/list")
+    public ModelAndView listByTime(@RequestParam Map<String,Object> searchValue,
+                                   Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            List<Map<String,Object>> timeList = null;
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (searchValue.get("startDate") != null) {
+                String string = searchValue.get("startDate").toString() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("endDate") != null) {
+                String string = searchValue.get("endDate").toString() + " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("day") != "" && searchValue.get("orderTypeCode") != "") {
+                 timeList =  statisticsService.getTimeList(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            }
+            if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") != "") {
+                timeList =  statisticsService.getTimeListOrderType(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            }
+            if(searchValue.get("day") != "" && searchValue.get("orderTypeCode") == "") {
+                timeList =  statisticsService.getTimeListDay(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            }
+            if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") == "") {
+                timeList =  statisticsService.getTimeListAll(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            }
 
-        return new ModelAndView("jesica/statistics/bycallcnt/list");
+            model.addAttribute("timeList",timeList);
+        } else {
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("selectDay", "");
+            searchValue.put("orderTypeCode", "");
+            searchValue.put("day", "");
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+
+            List<Map<String,Object>> timeList =  statisticsService.getTimeListAll(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+
+            model.addAttribute("timeList",timeList);
+
+        }
+        model.addAttribute("searchValue",searchValue);
+        return new ModelAndView("jesica/statistics/time/list");
     }
 
-    @GetMapping("/byfranchise/list")
-    public ModelAndView listByMerchant() {
+    //일별통계
+    @GetMapping("/day/list")
+    public ModelAndView listByDay(@RequestParam Map<String,Object> searchValue,
+                                   Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            List<Map<String,Object>> timeList = null;
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (searchValue.get("startDate") != null) {
+                String string = searchValue.get("startDate").toString() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("endDate") != null) {
+                String string = searchValue.get("endDate").toString() + " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("day") != "" && searchValue.get("orderTypeCode") != "") {
+                timeList =  statisticsService.getDayList(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            }
+            if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") != "") {
+                timeList =  statisticsService.getDayListOrderType(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            }
+            if(searchValue.get("day") != "" && searchValue.get("orderTypeCode") == "") {
+                timeList =  statisticsService.getDayListDay(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            }
+            if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") == "") {
+                timeList =  statisticsService.getDayListAll(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            }
 
-        return new ModelAndView("jesica/statistics/byfranchise/list");
+            model.addAttribute("timeList",timeList);
+        } else {
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("selectDay", "");
+            searchValue.put("orderTypeCode", "");
+            searchValue.put("day", "");
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+
+            List<Map<String,Object>> timeList =  statisticsService.getDayListAll(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+
+            model.addAttribute("timeList",timeList);
+
+        }
+        model.addAttribute("searchValue",searchValue);
+        return new ModelAndView("jesica/statistics/day/list");
     }
 
-    @GetMapping("/bydeliver/list")
-    public ModelAndView listByDeliver() {
+    //주별통계
+    @GetMapping("/week/list")
+    public ModelAndView listByWeek(@RequestParam Map<String,Object> searchValue,
+                                   Model model) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            List<Map<String,Object>> timeList = null;
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (searchValue.get("startDate") != null) {
+                String string = searchValue.get("startDate").toString() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("endDate") != null) {
+                String string = searchValue.get("endDate").toString() + " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            }
+            if ( searchValue.get("orderTypeCode") != "") {
+                timeList =  statisticsService.getWeekListOrderType(searchValue.get("orderTypeCode").toString(),startDate,endDate);
+            } else {
+                timeList =  statisticsService.getWeekListAll(startDate,endDate);
+            }
 
-        return new ModelAndView("jesica/statistics/bydeliver/list");
+            model.addAttribute("timeList",timeList);
+        } else {
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("selectDay", "");
+            searchValue.put("orderTypeCode", "");
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+
+            List<Map<String,Object>> timeList =  statisticsService.getWeekListAll(startDate,endDate);
+
+            model.addAttribute("timeList",timeList);
+
+        }
+        model.addAttribute("searchValue",searchValue);
+
+        return new ModelAndView("jesica/statistics/week/list");
     }
 
-    @GetMapping("/byregion/list")
-    public ModelAndView listByRegion() {
+    //월별통계
+    @GetMapping("/month/list")
+    public ModelAndView listByMonth(@RequestParam Map<String,Object> searchValue,
+                                    Model model) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            List<Map<String,Object>> timeList = null;
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (searchValue.get("startDate") != null) {
+                String string = searchValue.get("startDate").toString() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("endDate") != null) {
+                String string = searchValue.get("endDate").toString() + " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            }
+            if ( searchValue.get("orderTypeCode") != "") {
+                timeList =  statisticsService.getMonthListOrderType(searchValue.get("orderTypeCode").toString(),startDate,endDate);
+            } else {
+                timeList =  statisticsService.getMonthListAll(startDate,endDate);
+            }
 
-        return new ModelAndView("jesica/statistics/byregion/list");
+            model.addAttribute("timeList",timeList);
+        } else {
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("selectDay", "");
+            searchValue.put("orderTypeCode", "");
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+
+            List<Map<String,Object>> timeList =  statisticsService.getMonthListAll(startDate,endDate);
+
+            model.addAttribute("timeList",timeList);
+
+        }
+        model.addAttribute("searchValue",searchValue);
+
+        return new ModelAndView("jesica/statistics/month/list");
     }
 
-    @GetMapping("/platform/list")
-    public ModelAndView listByPlatformRevenue() {
+    //기본통계
+    @GetMapping("/base/list")
+    public ModelAndView listByBase() {
 
-        return new ModelAndView("jesica/statistics/platform/list");
+        return new ModelAndView("jesica/statistics/base/list");
     }
 
-    @GetMapping("/performance/list")
-    public ModelAndView listByPerformance() {
+    //회원통계
+    @GetMapping("/user/list")
+    public ModelAndView listByUser(@RequestParam Map<String,Object> searchValue,
+                                   Model model) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            List<Map<String,Object>> timeList = null;
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (searchValue.get("startDate") != null) {
+                String string = searchValue.get("startDate").toString() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("endDate") != null) {
+                String string = searchValue.get("endDate").toString() + " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            }
+            timeList =  statisticsService.getUserList(startDate,endDate);
+            model.addAttribute("timeList",timeList);
+        } else {
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
 
-        return new ModelAndView("jesica/statistics/performance/list");
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+
+            List<Map<String,Object>> timeList =  statisticsService.getUserList(startDate,endDate);
+
+            model.addAttribute("timeList",timeList);
+
+        }
+        model.addAttribute("searchValue",searchValue);
+        return new ModelAndView("jesica/statistics/user/list");
+    }
+
+    //지역별통계(추후진행)
+    @GetMapping("/location/list")
+    public ModelAndView listByLocation() {
+        return new ModelAndView("jesica/statistics/location/list");
+    }
+
+    private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {
+        session.setAttribute("headNo", searchValue.get("headNo"));
+        session.setAttribute("headNoText", searchValue.get("headNoText"));
+        session.setAttribute("branchNo", searchValue.get("branchNo"));
+        session.setAttribute("branchNoText", searchValue.get("branchNoText"));
+        session.setAttribute("storeNo", searchValue.get("storeNo"));
+        session.setAttribute("storeNoText", searchValue.get("storeNoText"));
+    }
+
+    private Map<String,Object> getSearchOption(HttpSession session) {
+        Map<String,Object> searchValue = new HashMap<>();
+        if (session == null) return searchValue;
+
+        String headNo = (String) session.getAttribute("headNo");
+        if (headNo != null) {
+            String headNoText = (String) session.getAttribute("headNoText");
+            String branchNo = (String) session.getAttribute("branchNo");
+            String branchNoText = (String) session.getAttribute("branchNoText");
+            String storeNo = (String) session.getAttribute("storeNo");
+            String storeNoText = (String) session.getAttribute("storeNoText");
+
+            searchValue.put("headNo", headNo);
+            searchValue.put("headNoText", headNoText);
+            searchValue.put("branchNo", branchNo);
+            searchValue.put("branchNoText", branchNoText);
+            searchValue.put("storeNo", storeNo);
+            searchValue.put("storeNoText", storeNoText);
+            searchValue.put("dataStatus", null);
+        }
+
+        return searchValue;
     }
 }

@@ -30,10 +30,23 @@
                         <i class="fas fa-lg fa-fw m-r-10 fa-language"></i><spring:message code="header.language.setting" text="Language"/>
                     </a>
                 </span>
-                <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+
+               <c:if test="${sessionScope.sessionKey.roleType == 1}">
+                    <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                     <a class="btn btn-sm btn-white btn-white-without-border new-control-btn" data-change="widget-theme" data-theme="dark"><spring:message code="list.detail.control" text="관제 바로가기"/></a>
-                    </a>
-                </span>
+                      </a>
+                    </span>
+                </c:if>
+                <c:if test="${sessionScope.sessionKey.roleType == 2}">
+                    <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
+                       <c:if test="${item.menuLevel == 10}">
+                        <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+                            <a class="btn btn-sm btn-white btn-white-without-border new-control-btn" data-change="widget-theme" data-theme="dark">${item.menuName}</a>
+                            </a>
+                        </span>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
             </li>
             <li class="dropdown navbar-language">
                 <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="ko" data-toggle="dropdown" >

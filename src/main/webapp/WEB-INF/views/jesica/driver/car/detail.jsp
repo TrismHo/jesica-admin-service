@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.productdetails" text="차량관리 상세"/></title>
+    <title>Jesicar | <spring:message code="list.detail.productdetails" text="렌터카 관리상세"/></title>
 </head>
 <style>
 
@@ -37,10 +37,10 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.merchantsetting" text="가맹점 설정"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="/driver/car/list"><spring:message code="sidemenu.merchantsetting.123" text="렌터카"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.123" text="렌터카 상세"/><%--차량관리 상세--%></li>
+                    <li class="breadcrumb-item"><a href="/driver/car/list"><spring:message code="sidemenu.merchantsetting.123" text="렌터카 관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.123" text="렌터카 관리상세"/><%--차량관리 상세--%></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.123" text="렌터카 상세"/><%--차량관리 상세--%></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.123" text="렌터카 관리상세"/><%--차량관리 상세--%></h3>
             </div>
             <div class="m-t-10">
                 <table class="table table-bordered">
@@ -93,12 +93,14 @@
                                             <td class="text-danger-darker width-150"><spring:message code="list.description.343" text="번호판을 입력해주세요." /></td>
                                         </tr>
                                         <tr>
-                                          <td class="bg-light" style="width:15%"><spring:message code="list.detail.carNum" text="안심번호" /><%--상품상태--%></td>
+                                          <td class="bg-light" style="width:15%"><spring:message code="list.detail.carNum" text="안심번호" /><%--상품상태--%>  </td>
                                           <td style="width:40%">
                                               <label class="font-size-10">
                                                   <input type="text" class="form-control width-200 safenNumTxt" value="${tbStoreRentalCar.safenNum}" readonly>
                                                   <input type="hidden" class="form-control width-200 safenNum" name="safenNum" value="${tbStoreRentalCar.safenNum}">
                                               </label>
+                                              <input type="button" data-toggle="modal" data-target="#safen_search_modal" class="btn btn-sm btn-success m-l-10" value="새로할당">
+
                                           </td>
                                             <td class="text-danger-darker width-150"><spring:message code="list.description.343" text="변경불가" /></td>
                                         </tr>
@@ -154,6 +156,10 @@
     <!-- end scroll to top btn -->
 
 </div>
+<form id="update_form2">
+    <input type="hidden" id="rentalCarNoNew"  name="rentalCarNoNew" value="${tbStoreRentalCar.rentalCarNo}">
+    <input type="hidden" id="safenNumNew" name="safenNumNew" value="">
+</form>
 
 <%--modal add start--%>
 <%--<div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -168,7 +174,9 @@
 <%--modal edit end--%>
 <!-- end page container -->
 
-
+<div class="modal fade" id="safen_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/safenNumSearch.jsp" %>
+</div>
 <%-- Custom JS Start--%>
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
@@ -208,6 +216,96 @@
     $(".btn_list").click(function() {
         location.href = "${path}/driver/car/list";
     });
+    $(document).on("click",".selSafenNoBtn",function(){
+        $("#safenNumNew").val($(this).attr("safennum"));
+        let url = "${path}/api/car/safenNum/asssignment";
+        let _forms = $('#update_form2');
+        let req = convertFormToObj(_forms);
+        let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="안심번호를 새로할당 하시겠습니까?"/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        let update = "<spring:message code="list.script.update" text="할당"/>";
+        let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="안심번호할당에 성공하였습니다."/>";
+        let editfailed = "<spring:message code="list.script.editfailed" text="할당에 실패하였습니다."/>";
+        if (inputDataCheck2(req)) {
+            swal({
+                title: wouldyouliketoupdate,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    update
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: JSON.stringify(req),
+                        contentType: "application/json;",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data)
+                            if (data.result == 200) {
+                                alert(updatesussmsg);
+                                $(".safenNum").val(data.safenNumNew);
+                                $(".safenNumTxt").val(data.safenNumNew);
+                                $(".safenModalCloseBtn").click();
+                            } else {
+                                alert(editfailed);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+
+    });
+    //안심번호 검색
+    $(".searchSafenBtn").on("click",function(){
+        let req = convertFormToObj($('form.safen_search_form'));
+        if (isNull(req.keyword)) {
+            return alert_focus("carModel", "안심번호를 입력해주세요");
+        }
+        let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="검색된 안심번호가 없습니다."/>";
+        let apply = "<spring:message code="list.script.apply" text="적용"/>";
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/search/safenNum/list",
+            data: JSON.stringify(req),
+            contentType: "application/json;",
+            dataType: "json",
+            success: function(data) {
+                console.log(data)
+                $(".searchSafenList").html("");
+                if(data.tbSafenMapping.length == 0 || data.tbSafenMapping == null){
+                    $(".searchSafenList").append(
+                        " <li >" +
+                        "     <label class=\"safen\">\n" +
+                        noregisteredaffiliateheadquarters+
+                        "     </label>\n" +
+                        "     <div class=\"float-right \"></div>\n" +
+                        " </li>"
+                    )
+                }else {
+                    for(var i = 0 ; i < data.tbSafenMapping.length ; i++){
+                        $(".searchSafenList").append(
+                            " <li >" +
+                            "     <label class=\"head_text\">\n" +
+                            "<small style=\"color: green;\">[안심번호]</small>\n" +
+                            ""+data.tbSafenMapping[i].safenNum+""+
+
+                            "     </label>\n" +
+                            "     <div class=\"float-right \"><input type=\"button\" safenNum="+data.tbSafenMapping[i].safenNum+ " class=\"btn btn-primary selSafenNoBtn\" style=\"height: 25px; line-height: 0px;margin-top: -5px;\" value='"+apply+"'></div>\n" +
+                            " </li>"
+                        )
+                    }
+                }
+            }
+        });
+    });
+
         $(document).on("click", ".btn_update", function () {
             let url = "${path}/api/car/update/action";
             let _forms = $('#update_form');
@@ -268,6 +366,19 @@
             }
             return true;
         }
+        function inputDataCheck2(args) {
+            let carNummsg = "<spring:message code="list.script.12" text="안심번호를 선택해주세요."/>";
+            if (isNull(args.safenNumNew)) {
+                return alert_focus("carNum", carNummsg);
+            }
+            return true;
+        }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        };
+    }, true);
 </script>
 </body>
 </html>

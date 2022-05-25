@@ -57,24 +57,46 @@
         </ul>
         <!-- begin sidebar nav -->
         <ul class="nav">
-            <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
-                <c:if test="${item.menuLevel == 1 && item.permission != 0}">
-                    <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
-                        <a href="javascript:;">
-                            <b class="caret"></b>
-                            <i class="fa ${item.menuIcon}"></i>
-                            <span>${item.menuName}</span>
-                        </a>
-                        <ul class="sub-menu">
-                            <c:forEach var="item2" items="${tbSiteMenuAclList}" varStatus="status">
-                                <c:if test="${item2.menuLevel == 2 && item2.permission != 0 && (item.menuGroup == item2.menuGroup)}">
-                                    <li class=<c:if test="${fn:contains(servletPath,item2.menuUrl) }">"active"</c:if>><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
-                                </c:if>
-                            </c:forEach>
-                        </ul>
-                    </li>
-                </c:if>
-            </c:forEach>
+            <c:if test="${sessionScope.sessionKey.roleType == 2}">
+                <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
+                    <c:if test="${item.menuLevel == 1 && item.permission != 0 }">
+                        <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                <i class="fa ${item.menuIcon}"></i>
+                                <span>${item.menuName}</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <c:forEach var="item2" items="${tbSiteMenuAclList}" varStatus="status">
+                                    <c:if test="${item2.menuLevel == 2 && item2.permission != 0 && (item.menuGroup == item2.menuGroup)}">
+                                        <li class=<c:if test="${fn:contains(servletPath,item2.menuUrl) }">"active"</c:if>><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                        </li>
+                    </c:if>
+                </c:forEach>
+            </c:if>
+            <c:if test="${sessionScope.sessionKey.roleType == 1}">
+                <c:forEach var="item" items="${tbSiteMenus}" varStatus="status">
+                    <c:if test="${item.menuLevel == 1 }">
+                        <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                <i class="fa ${item.menuIcon}"></i>
+                                <span>${item.menuName}</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <c:forEach var="item2" items="${tbSiteMenus}" varStatus="status">
+                                    <c:if test="${item2.menuLevel == 2 && (item.menuGroup == item2.menuGroup)}">
+                                        <li class=<c:if test="${fn:contains(servletPath,item2.menuUrl) }">"active"</c:if>><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                        </li>
+                    </c:if>
+                </c:forEach>
+            </c:if>
             <!-- end sidebar minify button -->
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i

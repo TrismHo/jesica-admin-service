@@ -67,11 +67,11 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement" text="업무그룹"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="가맹점"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration" text="가맹점등록"/><%--상품등록--%></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement1" text="업무그룹"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="가맹점"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration1" text="가맹점등록"/><%--상품등록--%></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.search.franchiseeregistration" text="가맹점등록"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.search.franchiseeregistration1" text="가맹점등록"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
             </div>
 
 <%--            <div class="tab-content">--%>

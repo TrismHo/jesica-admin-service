@@ -2,6 +2,7 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.BoardService;
+import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.persistence.Entitiy.board.TbAppBanner;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
@@ -48,6 +49,8 @@ public class BoardController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate","2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
 
             List<TbNoticePlatform> resultList =  boardService.tbNoticePlatFormSearch(searchValue);
@@ -175,6 +178,8 @@ public class BoardController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate","2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
 
             List<TbEvent> resultList =  boardService.tbEventSearch(searchValue);
@@ -252,6 +257,10 @@ public class BoardController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate","2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+                searchValue.put("serviceType", "0");
+                searchValue.put("dataStatus", "OK");
             }
             List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
             log.info("tbAppBannerList::[{}]", tbAppBannerList);
@@ -316,6 +325,8 @@ public class BoardController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate","2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
 
             List<TbCoupon> resultList = boardService.tbCouponSearch(searchValue);
@@ -367,13 +378,19 @@ public class BoardController {
         try {
             if (ObjectUtils.isNotEmpty(searchValue)) {
                 log.info("searchValue::{}", searchValue);
-                putSearchOption(session, searchValue);
+                /*putSearchOption(session, searchValue);*/
                 List<TbCust> tbCustList = boardService.getCustList(searchValue);
 
                 model.addAttribute("custList", tbCustList);
             } else {
                 getSearchOption(session);
-                model.addAttribute("custList", null);
+                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_yester());
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+                searchValue.put("testTable_length", "10");
+                searchValue.put("isMember", "");
+                searchValue.put("dataStatus", "");
+                List<TbCust> tbCustList = boardService.getCustList(searchValue);
+                model.addAttribute("custList", tbCustList);
             }
         } catch (Exception e) {
             e.printStackTrace();

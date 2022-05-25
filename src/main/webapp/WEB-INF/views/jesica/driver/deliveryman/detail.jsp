@@ -647,6 +647,33 @@
             language: "kr"
         });
 
+        $(document).on("click",".imgFile ,.imgFile2",function(){
+
+            let src = $(this).attr("src");
+            //let src = "/api/img/fileLoad?filePath=%252Fimages%252Fdriver%252Fprofile%252F2022%252F04%252F07_174940_REcF.jpeg";
+            /*$(".modal_img_src").attr("src",src);
+            $('#myModal').show();*/
+            fnImgPop(src);
+        });
+
+        function fnImgPop(url){
+            var img=new Image();
+            img.src=url;
+            var img_width=800;
+            var win_width=800;
+            var img_height=700;
+            var win=800;
+            var OpenWindow=window.open('','_blank', 'width='+img_width+', height='+img_height+', menubars=no, scrollbars=auto');
+            OpenWindow.document.write("<style>body{margin:0px;}</style><img src='"+url+"' width='"+win_width+"'>");
+            /*
+                        var img_width=img.width;
+                        var win_width=img.width+25;
+                        var img_height=img.height;
+                        var win=img.height+30;
+                        var OpenWindow=window.open('','_blank', 'width='+img_width+', height='+img_height+', menubars=no, scrollbars=auto');
+                        OpenWindow.document.write("<style>body{margin:0px;}</style><img src='"+url+"' width='"+win_width+"'>");
+            */
+        }
 
 
         $(".takeoverCharge").val(percentChk($(".takeoverCharge").val()));

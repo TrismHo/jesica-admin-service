@@ -2,8 +2,8 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.WorkGroupService;
+import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.Secure.CipherAESUtils;
-import com.trism.jesica.Util.Secure.DateUtils;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.TbStoreCategoryFoDTO;
 import com.trism.jesica.dto.TbSystemCategoryDTO;
@@ -14,6 +14,7 @@ import com.trism.jesica.persistence.Entitiy.goods.TbStoreCharge;
 import com.trism.jesica.persistence.Entitiy.goods.TbStorePrice;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPriceCharge;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.type.DataStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,17 +67,12 @@ public class WorkGroupController {
         if (!searchValue.isEmpty()){
             model.addAttribute("workGroup", workGroupService.tbHeadSearch(searchValue));
         } else {
-            if(searchValue.get("brandNo") == null){
-                searchValue.put("brandNo","");
-            } else if(searchValue.get("startDate") == null) {
-                searchValue.put("startDate", "2020-01-01");
-            } else if(searchValue.get("endDate") == null) {
-                searchValue.put("endDate",DateUtils.nowDate());
-            } else if(searchValue.get("dataStatus") == null) {
-                searchValue.put("dataStatus","OK");
-            } else if(searchValue.get("headName") == null) {
-                searchValue.put("headName","");
-            }
+            searchValue.put("brandNo","");
+            searchValue.put("headNo","");
+            searchValue.put("startDate","2020-01-01");
+            searchValue.put("endDate",DateUtil.now_yyyy_mm_dd());
+            searchValue.put("dataStatus", DataStatus.OK);
+            searchValue.put("headName","");
             model.addAttribute("workGroup", workGroupService.tbHeadSearch(searchValue));
         }
 
@@ -165,15 +161,11 @@ public class WorkGroupController {
         if (!searchValue.isEmpty()){
             model.addAttribute("tbBranch", workGroupService.tbBranchSerch(searchValue));
         } else {
-            if(searchValue.get("startDate") == null) {
-                searchValue.put("startDate", "2020-01-01");
-            } else if(searchValue.get("endDate") == null) {
-                searchValue.put("endDate",DateUtils.nowDate());
-            } else if(searchValue.get("dataStatus") == null) {
-                searchValue.put("dataStatus","OK");
-            } else if(searchValue.get("brandName") == null) {
-                searchValue.put("brandName","");
-            }
+            searchValue.put("headNo","");
+            searchValue.put("dataStatus",DataStatus.OK);
+            searchValue.put("branchName","");
+            searchValue.put("startDate", "2020-01-01");
+            searchValue.put("endDate",DateUtil.now_yyyy_mm_dd());
             model.addAttribute("tbBranch", workGroupService.tbBranchSerch(searchValue));
         }
 
@@ -259,29 +251,16 @@ public class WorkGroupController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate", "2020-01-01");
+                searchValue.put("endDate",DateUtil.now_yyyy_mm_dd());
+                searchValue.put("dataStatus","OK");
+                searchValue.put("storeName","");
+                searchValue.put("headNoText","");
+                searchValue.put("headNo","");
+                searchValue.put("branchNo","");
+                searchValue.put("branchNoText","");
             }
-            if (!searchValue.isEmpty()){
-                model.addAttribute("tbStore", workGroupService.tbStoreSearch(searchValue));
-            } else {
-                if(searchValue.get("startDate") == null) {
-                    searchValue.put("startDate", "2020-01-01");
-                } else if(searchValue.get("endDate") == null) {
-                    searchValue.put("endDate",DateUtils.nowDate());
-                } else if(searchValue.get("dataStatus") == null) {
-                    searchValue.put("dataStatus","OK");
-                } else if(searchValue.get("storeName") == null) {
-                    searchValue.put("storeName","");
-                } else if(searchValue.get("headNoText") == null) {
-                    searchValue.put("headNoText","");
-                } else if(searchValue.get("headNo") == null) {
-                    searchValue.put("headNo","");
-                } else if(searchValue.get("branchNo") == null) {
-                    searchValue.put("branchNo","");
-                } else if(searchValue.get("branchNoText") == null) {
-                    searchValue.put("branchNoText","");
-                }
-                model.addAttribute("tbStore", workGroupService.tbStoreSearch(searchValue));
-            }
+            model.addAttribute("tbStore", workGroupService.tbStoreSearch(searchValue));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -488,9 +467,17 @@ public class WorkGroupController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate", "2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+                searchValue.put("dataStatus","OK");
+                searchValue.put("dlvyName","");
+                searchValue.put("headNoText","");
+                searchValue.put("headNo","");
+                searchValue.put("branchNo","");
+                searchValue.put("branchNoText","");
             }
-
             List<TbDelivery> resultList = null;
+
             resultList =  workGroupService.getTbDeliveryList(searchValue);
             model.addAttribute("tbDelivery", resultList);
 

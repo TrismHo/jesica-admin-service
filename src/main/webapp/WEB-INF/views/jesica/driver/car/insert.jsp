@@ -30,7 +30,7 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.merchantsetting" text="가맹점 설정"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="/driver/car/list"><spring:message code="sidemenu.merchantsetting.222" text="렌터카"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item"><a href="/driver/car/list"><spring:message code="sidemenu.merchantsetting.222" text="렌터카 관리"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.productregistration1" text="렌터카 등록"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.detail.productregistration1" text="렌터카 등록"/></h3>
@@ -167,23 +167,23 @@
 <link href="${path}/assets/plugins/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
 
 <style>
-    .list {
+/*    .list {
         height: 370px;
         overflow-y: initial;
-    }
+    }*/
     .dataTables_wrapper.dt-bootstrap .dataTables_length, .dataTables_wrapper.dt-bootstrap4 .dataTables_length {
         display: none;
     }
-    #testTable_filter {
+  /*  #testTable_filter {
         display: initial;
-    }
-    .pagination li {
+    }*/
+   /* .pagination li {
         margin : 0px;
         padding : 0px;
     }
     .modal-content {
         width: 100%;
-    }
+    }*/
 </style>
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
@@ -207,7 +207,7 @@
                 $(".searchSafenList li:contains('"+val+"')").show();
             }
         });
-        $(document).on("click","#selSafenNoBtn",function(){
+        $(document).on("click",".selSafenNoBtn",function(){
             $(".safenNum").val($(this).attr("safenNum"));
             $(".safenModalCloseBtn").click();
         });
@@ -215,42 +215,46 @@
 
         //안심번호 검색
         $(".searchSafenBtn").on("click",function(){
-            /*alert(1)
             let req = convertFormToObj($('form.safen_search_form'));
-            let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="등록된 안심번호가 없습니다."/>";
-            let apply = "<spring:message code="list.script.apply" text="적용"/>";*/
-          /*  $.ajax({
+            if (isNull(req.keyword)) {
+                return alert_focus("carModel", "안심번호를 입력해주세요");
+            }
+            let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="검색된 안심번호가 없습니다."/>";
+            let apply = "<spring:message code="list.script.apply" text="적용"/>";
+            $.ajax({
                 type: "POST",
-                url: "${path}/api/search/head/list",
+                url: "${path}/api/search/safenNum/list",
                 data: JSON.stringify(req),
                 contentType: "application/json;",
                 dataType: "json",
                 success: function(data) {
-                    $(".searchHeadList").html("");
-                    if(data.searchHeadList.length == 0 || data.searchHeadList == null){
-                        $(".searchHeadList").append(
+                    console.log(data)
+                    $(".searchSafenList").html("");
+                    if(data.tbSafenMapping.length == 0 || data.tbSafenMapping == null){
+                        $(".searchSafenList").append(
                             " <li >" +
-                            "     <label class=\"store_text\">\n" +
+                            "     <label class=\"safen\">\n" +
                             noregisteredaffiliateheadquarters+
                             "     </label>\n" +
                             "     <div class=\"float-right \"></div>\n" +
                             " </li>"
                         )
                     }else {
-                        for(var i = 0 ; i < data.searchHeadList.length ; i++){
-                            $(".searchHeadList").append(
+                        for(var i = 0 ; i < data.tbSafenMapping.length ; i++){
+                            $(".searchSafenList").append(
                                 " <li >" +
                                 "     <label class=\"head_text\">\n" +
-                                ""+data.searchHeadList[i].headName+""+
-                                "<small style=\"color: green;\">["+data.searchHeadList[i].headNo+"]</small>\n" +
+                                "<small style=\"color: green;\">[안심번호]</small>\n" +
+                                ""+data.tbSafenMapping[i].safenNum+""+
+
                                 "     </label>\n" +
-                                "     <div class=\"float-right \"><input type=\"button\" class=\"btn btn-primary \" id=\"selHeadNoBtn\" headName="+data.searchHeadList[i].headName+" style=\"height: 25px; line-height: 0px;margin-top: -5px;\" headNo="+data.searchHeadList[i].headNo+" value='"+apply+"'></div>\n" +
+                                "     <div class=\"float-right \"><input type=\"button\" safenNum="+data.tbSafenMapping[i].safenNum+ " class=\"btn btn-primary selSafenNoBtn\" style=\"height: 25px; line-height: 0px;margin-top: -5px;\" value='"+apply+"'></div>\n" +
                                 " </li>"
                             )
                         }
                     }
                 }
-            });*/
+            });
         });
 
 
@@ -543,7 +547,11 @@
         }
         return true;
     }
-
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        };
+    }, true);
 
 </script>
 </body>

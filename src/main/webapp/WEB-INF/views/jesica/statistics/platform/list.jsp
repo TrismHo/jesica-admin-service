@@ -5,8 +5,18 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Jesicar | 플랫폼매출</title>
+    <title>Jesicar | 콜수별</title>
     <%@include file="../../../common/include_head.jsp" %>
+    <style>
+        #test11 {display: none;}
+        #test12 {display: none;}
+        #test13 {display: none;}
+        #test14 {display: none;}
+        #test21 {display: none;}
+        #test22 {display: none;}
+        #test23 {display: none;}
+        #test24 {display: none;}
+    </style>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -33,141 +43,111 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main4" text="default text"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="side.main4.sub5" text="default text"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="side.main4.sub1" text="default text"/></li>
                 </ol>
-                <h3 class="rix-title">플랫폼매출<%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
+                <h3 class="rix-title">콜수별<%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
             <form name="frmSearch" id="frmSearch">
                 <div class="search-box">
-                    <div class="inner-search-box p-5">
+                    <div class="inner-search-box p-15">
                         <div class="row">
-                            <!-- begin col-3 -->
-                            <div class="col-xl-12 col-md-12 wide">
-                                <table class="table table-condensed table-bordered">
-                                    <tbody>
+                            <div class="col-xl-12 col-md-12 ">
+                                <form name="frmSearch">
+                                    <table class="table table-condensed table-bordered">
+                                        <tbody>
                                         <tr>
-                                            <td class="bg-light"><strong>기간</strong></td>
+                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
+                                            <td style="width:50%">
+                                                <label>
+                                                    <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
+                                                </label>
+                                                <label>
+                                                    <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
+                                                </label>
+                                                <select class="form-control width-100" name="storeNo">
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>최근 1주일</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>최근 1개월</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>최근 3개월</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>최근 6개월</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>최근 1년</option>
+                                                </select>
+                                                <select class="form-control width-80" name="storeNo">
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>전체</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>월</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>화</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>수</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>목</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>금</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>토</option>
+                                                    <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>일</option>
+                                                </select>
+                                            </td>
+                                            <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="주문타입"/></strong></td>
                                             <td>
                                                 <label>
-                                                    <select class="form-control">
-                                                        <option>기간전체</option>
-                                                        <option>일별</option>
-                                                        <option>월별</option>
+                                                    <select class="form-control dataStatus" name="dataStatus">
+                                                        <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>전체</option>
+                                                        <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>인수대행</option>
+                                                        <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>반냅대행</option>
                                                     </select>
                                                 </label>
-                                                <label>
-                                                    <input type="text" class="form-control startDate background-white" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>
-                                                </label>
-                                                ~
-                                                <label>
-                                                    <input type="text" class="form-control endDate background-white" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                </label>
+                                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
+                                                            <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5">
+                                                    </div>
                                             </td>
                                         </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-xl-12 col-md-12 narrow">
-                                <table class="table table-condensed table-bordered">
-                                    <tbody>
-                                    <tr>
-                                        <td class="bg-light"><strong>기간</strong></td>
-                                        <td>
-                                            <label>
-                                                <select class="form-control">
-                                                    <option>기간전체</option>
-                                                    <option>일별</option>
-                                                    <option>월별</option>
-                                                </select>
-                                            </label>
-                                            <label>
-                                                <input type="text" class="form-control startDate background-white" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>
-                                            </label>
-                                            ~
-                                            <label>
-                                                <input type="text" class="form-control endDate background-white" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-xl-12 col-md-12 m-t-10">
-                                <div class="">
-                                    <button class="btn-box-r bgGray float-right width-100 p-5">
-                                        <i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="default text"/>
-                                    </button>
-                                </div>
+                                        </tbody>
+                                    </table>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
-            <div class="panel-body">
+          <%--  <div class="panel-body">
+                <div class="row">
+                    <!-- begin col-3 -->
+                    <div class="col-xl-6 col-md-6">
+                        <canvas id="myChart" style="width:100%;"></canvas>
+                    </div>
+                    <div class="col-xl-6 col-md-6 ">
+                        <canvas id="myChart2" style="width:100%;"></canvas>
+                    </div>
+                </div>
+            </div>--%>
+            <div class="panel-body" style="height: 430px;">
                 <table id="testTable" class="display table table-bordered w-100 table-striped">
                     <thead>
                     <tr class="text-center">
-                        <th>순번</th>
-                        <th>기간</th>
-                        <th>MCS플랫폼<br>매출</th>
-                        <th>MCS플랫폼<br>매출이익</th>
-                        <th>만나샵<br>매출</th>
-                        <th>만나샵<br>매출이익</th>
-                        <th>배달대행<br>플랫폼매출</th>
-                        <th>배달대행<br>플랫폼매출이익</th>
-                        <th>가맹점<br>설치비</th>
-                        <th>가맹점<br>리스비</th>
-                        <th>건당관리비<br>매출</th>
-                        <th>건당관리비<br>매출이익</th>
-                        <th>부르심<br>매출</th>
-                        <th>부르심<br>매출이익</th>
-                        <th>선결제수수료</th>
-                        <th>가상계좌<br>입금수수료</th>
-                        <th>배달대행료<br>과세매출(vat별도)</th>
-                        <th>배달대행료부가세</th>
-                        <th>배달대행료<br>현금영수증</th>
-                        <th>배송원<br>소득신고</th>
-                        <th>배달대행<br>수수료</th>
-                        <th>출금</th>
-                        <th>기타</th>
-                        <th>페이증감량</th>
-                        <th>일마감잔액</th>
-                        <th>잔액오차금액</th>
-                        <th>플랫폼<br>매출이익</th>
+                        <th>시간대</th>
+                        <th>완료콜수</th>
+                        <th>주문금액</th>
+                        <th>할인금액</th>
+                        <th>결제금액</th>
+                        <th>비율(%)</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="text-center">
-                        <td>1</td>
-                        <td>2020-12-05 ~ 2021-01-05</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td></td>
+                        <td>55</td>
+                        <td>55</td>
+                        <td>55</td>
+                        <td>550000</td>
+                        <td>55</td>
                     </tr>
+                    <c:forEach begin="1" end="10" varStatus="idx">
+                        <tr class="text-center">
+                            <td>2020-12-05 ~ 2021-01-05</td>
+                            <td>${idx.index}</td>
+                            <td>${idx.index}</td>
+                            <td>${idx.index}</td>
+                            <td>${idx.index}0000</td>
+                            <td>${idx.index}</td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -181,19 +161,8 @@
     <!-- end scroll to top btn -->
 </div>
 
-
-<%--modal add start--%>
-<%--<div class="modal fade" id="searchOption_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="searchOption.jsp" %>
-</div>--%>
-<%--modal add end--%>
-
-<%--modal edit start--%>
-<%--<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="update.jsp" %>
-</div>--%>
-<%--modal edit end--%>
-<!-- end page container -->
+<script src="${path}/assets/plugins/chart.js/dist/Chart.min.js"></script>
+<%--modal search end--%>
 
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="../../../common/include_common_js.jsp" %>
@@ -204,38 +173,45 @@
 <%-- Custom JS End--%>
 <script>
     $(() => {
-        $("#testTable").dataTable();
+        $("#testTable").DataTable();
 
-        $(".detailOptionBtn1").click(function(e) {
-            e.preventDefault();
-            $(".searchOptionZone").toggleClass('act');
-            if($(".searchOptionZone").css("visibility") == 'visible') {
-                $(".detailOptionBtnDownWide").hide();
-                $(".detailOptionBtnUpWide").show();
-                /*$(".arrow-down-wide").show();
-                $(".arrow-up-wide").hide();*/
-            } else {
-                $(".detailOptionBtnDownWide").show();
-                $(".detailOptionBtnUpWide").hide();
-                /*$(".arrow-down-wide").hide();
-                $(".arrow-up-wide").show();*/
-            }
+
+        let date = new Date();
+        let startDate = "${searchValue.startDate}";
+        let endDate = "${searchValue.endDate}";
+
+        $(".startDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
         });
 
-        $(".detailOptionBtn2").click(function(e) {
-            e.preventDefault();
-            $(".searchOptionZone").toggleClass('act');
-            if($(".searchOptionZone").css("visibility") == 'visible') {
-                $(".detailOptionBtnDownNarrow").hide();
-                $(".detailOptionBtnUpNarrow").show();
-                /*$(".arrow-down-narrow").show();
-                $(".arrow-up-narrow").hide();*/
-            } else {
-                $(".detailOptionBtnDownNarrow").show();
-                $(".detailOptionBtnUpNarrow").hide();
-                /*$(".arrow-down-narrow").hide();
-                $(".arrow-up-narrow").show();*/
-            }
+        if(startDate == ""){
+            $(".startDate").datepicker('setDate', '2020-01-01');
+        } else {
+            $(".startDate").datepicker('setDate', startDate);
+        }
+
+        /*date.setMonth(date.getMonth() + 1, 1);*/
+        $(".endDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
+        if(endDate == ""){
+            $(".endDate").datepicker('setDate', date);
+        } else {
+            $(".endDate").datepicker('setDate', endDate);
+        }
+
+
+
+        $(".detailRow").click(function() {
+            location.href = "${path}/settlement/mannashopgrp/detail";
         });
 
         /*$("#detailOptionBtn1").click(function(e) {
@@ -245,29 +221,13 @@
 
         });*/
 
-        $(".insert_btn").click(function() {
-            location.href = "${path}/merchant/uploadexcel/insert";
-        });
-
         $(".excel_form_btn").click(function() {
             location.href = "${path}/merchant/uploadexcel/excelform";
         });
 
-        $(".startDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-        $(".endDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
     });
+
+
 </script>
 </body>
 </html>

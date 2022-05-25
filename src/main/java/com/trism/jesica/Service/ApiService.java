@@ -22,6 +22,7 @@ import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
 import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
+import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaGeoRepository;
@@ -43,6 +44,7 @@ import com.trism.jesica.persistence.Repository.storedlvy.TbStoreDlvyChargeReposi
 import com.trism.jesica.persistence.Repository.storedlvy.TbStoreMngChargeRepository;
 import com.trism.jesica.persistence.Repository.street.TbDlvyPriceChargeRepository;
 import com.trism.jesica.persistence.Repository.street.TbDlvyPriceRepository;
+import com.trism.jesica.persistence.Repository.system.TbSiteAclRepository;
 import com.trism.jesica.persistence.Repository.system.TbSystemCodeRepository;
 import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyAttachRepository;
 import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyRepository;
@@ -237,6 +239,8 @@ public class ApiService {
     private final TbCashWithdrawRepository tbCashWithdrawRepository;
 
     private final TbCustRepository tbCustRepository;
+
+    private final TbSiteAclRepository tbSiteAclRepository;
 
     @Transactional
     public int insertTbHead(TbHeadData tbHeadData, TbBusinessInfoData tbBusinessInfoData) {
@@ -782,6 +786,7 @@ public class ApiService {
 
         return result;
     }
+
 
     @Transactional
     public TbStoreOption updateTbStoreOption(TbStoreOptionData tbStoreOptionData, List deleteIdList, List<TbStoreOptionItemData> tbStoreOptionItemData) {
@@ -2828,6 +2833,8 @@ public class ApiService {
                             );*/
 
                             /*tbWorkerApplyRepository.updateAuthStatus(applyNo, 2);*/
+                            tbWorkerApply.setBranchNo(10001);
+                            tbWorkerApply.setAuthDate(LocalDateTime.now());
                             tbWorkerApply.setAuthStatus(2);
                         }
                         //1개만 승인인경우도 신청상태 - 12.28일 백대리님 요청
@@ -3295,6 +3302,36 @@ public class ApiService {
         }
         return result;
     }
+
+    @Transactional
+    public int systemMenuInsert(Long menuNo, Long userNo) {
+        int result = 0;
+        try {
+            TbSiteAcl tbSiteAcl = new TbSiteAcl(userNo,menuNo,1);
+            TbSiteAcl tbSiteAcl1 =  tbSiteAclRepository.save(tbSiteAcl);
+            if(tbSiteAcl1.getMenuNo() != null){
+                result = 200;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    @Transactional
+    public int systemMenuDelete(Long menuNo, Long userNo) {
+        int result = 0;
+        TbSiteAcl tbSiteAcl = new TbSiteAcl(userNo,menuNo,1);
+        try {
+            tbSiteAclRepository.delete(tbSiteAcl);
+            result = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getCustChart() {

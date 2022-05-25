@@ -19,6 +19,18 @@
         margin-left: 220px;
         padding: 5px 30px;
     }*/
+    div.xAxis div.tickLabel
+    {
+        transform: rotate(-45deg);
+        -ms-transform:rotate(-45deg); /* IE 9 */
+        -moz-transform:rotate(-45deg); /* Firefox */
+        -webkit-transform:rotate(-45deg); /* Safari and Chrome */
+        -o-transform:rotate(-45deg); /* Opera */
+        /*rotation-point:50% 50%;*/ /* CSS3 */
+        /*rotation:270deg;*/ /* CSS3 */
+        font-size: 4px;
+        white-space:nowrap;
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -114,7 +126,7 @@
 
 
         <!-- begin row -->
-        <div class="m-b-5" style="display: flex">
+      <%--  <div class="m-b-5" style="display: flex">
             <select class="chart-year form-control" style="width: 80px; height: 25px; padding: 0 5px; margin-left: auto">
                 <c:forEach begin="0" end="10" var="result" step="1">
                     <option value="<c:out value="${yearStart - result}" />"><c:out value="${yearStart - result}" /></option>
@@ -128,7 +140,7 @@
                     </option>
                 </c:forEach>
             </select>
-        </div>
+        </div>--%>
         <div class="row">
             <!-- begin col-8 -->
             <div class="col-xl-6 ">
@@ -364,8 +376,9 @@
             label: '인수대행 완료',
             color: COLOR_BLUE,
             lines: { show: true, fill:false, lineWidth: 2 },
-            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
+            points: { show: true, radius: 1, fillColor: COLOR_WHITE },
             shadowSize: 0
+
         }, /*{
             data: receiptCancelData,
             label: '인수대행 취소',
@@ -378,11 +391,16 @@
             label: "반납대행 완료",
             color: COLOR_GREEN,
             lines: { show: true, fill:false, lineWidth: 2 },
-            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
+            points: { show: true, radius: 1, fillColor: COLOR_WHITE },
             shadowSize: 0
         }], {
-            xaxis: {  ticks: receiptLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
-            yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0 },
+            /*labels: {
+
+                fontColor: "red",
+                fontSize: 18
+            }*/
+            xaxis: {  ticks: receiptLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2},
+            yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0},
             grid: {
                 hoverable: true,
                 clickable: true,
@@ -404,7 +422,7 @@
             label: "신규 고객",
             color: COLOR_BLUE,
             lines: { show: true, fill:false, lineWidth: 2 },
-            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
+            points: { show: true, radius: 1, fillColor: COLOR_WHITE },
             shadowSize: 0
         }, /*{
             data: returnCancelData,
@@ -415,7 +433,7 @@
             shadowSize: 0
         }*/], {
             xaxis: {  ticks: userUserLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
-            yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0  },
+            yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0},
             grid: {
                 hoverable: true,
                 clickable: true,

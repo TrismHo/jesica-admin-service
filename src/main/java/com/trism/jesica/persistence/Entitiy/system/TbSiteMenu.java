@@ -45,4 +45,22 @@ public class TbSiteMenu implements Serializable {
     @Column(name = "menu_name")
     private String menuName;
 
+    /**
+     * 메뉴_그룹
+     */
+    @Column(name = "menu_group")
+    private Integer menuGroup;
+
+    /**
+     * 메뉴_레벨
+     */
+    @Column(name = "menu_level")
+    private Integer menuLevel;
+
+    /**
+     * 메뉴_아이콘
+     */
+    @Column(name = "menu_icon")
+    private String menuIcon;
+
 }

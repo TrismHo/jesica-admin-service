@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,13 +20,13 @@ public class MasterService {
     private final TbUserStaffRepository tbUserStaffRepository;
 
     @Transactional(readOnly = true)
-    public List<TbUserStaffDTO> getUserList(String name) {
-        return  tbUserStaffRepository.findByUserStaffNativeList(name);
+    public List<TbUserStaffDTO> getUserList(String name, LocalDateTime startDate, LocalDateTime endDate) {
+        return  tbUserStaffRepository.findByUserStaffNativeList(name,startDate,endDate);
     }
 
     @Transactional(readOnly = true)
-    public List<TbUserStaffDTO> getUserDataStatusList(String name,Integer dataStatus) {
-        return  tbUserStaffRepository.findByUserStaffNativeList(name,dataStatus);
+    public List<TbUserStaffDTO> getUserDataStatusList(String name,Integer dataStatus, LocalDateTime startDate, LocalDateTime endDate) {
+        return  tbUserStaffRepository.findByUserStaffNativeList(name,dataStatus,startDate,endDate);
     }
 
 

@@ -2,6 +2,7 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.SettlementService;
+import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.Secure.CipherAESUtils;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.TbBranchDTO;
@@ -12,7 +13,10 @@ import com.trism.jesica.persistence.Entitiy.business.TbHead;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
-import com.trism.jesica.persistence.Entitiy.cust.*;
+import com.trism.jesica.persistence.Entitiy.cust.TbBranchCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbHeadCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbStoreCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbWorkerCashLog;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
 import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
 import com.trism.jesica.persistence.Entitiy.paymenthistory.TbPayApproval;
@@ -187,6 +191,8 @@ public class SettlementController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate","2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
             CipherAESUtils cipherAESUtils = new CipherAESUtils(keyGeneratorConfig.generateSecretKeySpec(),keyGeneratorConfig.generateIvParameterSpec());
             List<TbCashWithdraw> withdrawList = null;
@@ -253,6 +259,8 @@ public class SettlementController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+                searchValue.put("startDate","2020-01-01");
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
             List<TbHeadCashLog> tbHeadCashLog = null;
             List<TbBranchCashLog> tbBranchCashLog = null;

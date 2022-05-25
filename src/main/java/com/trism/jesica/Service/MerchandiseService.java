@@ -8,13 +8,11 @@ import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreGoods;
-import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
 import com.trism.jesica.persistence.Repository.goods.TbStoreCategoryRepository;
 import com.trism.jesica.persistence.Repository.goods.TbStoreGoodsItemRepository;
 import com.trism.jesica.persistence.Repository.goods.TbStoreGoodsRepository;
 import com.trism.jesica.persistence.Repository.safe.TbSafenMappingRepository;
-import com.trism.jesica.persistence.type.DataStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,11 +99,11 @@ public class MerchandiseService {
         List<TbStoreGoodsItemDTO> tbStoreGoodsItemList = tbStoreGoodsItemRepository.findByStoreGoodsNo(tbStoreGoodsNo);
         return tbStoreGoodsItemList;
     }
-    @Transactional(readOnly = true)
+  /*  @Transactional(readOnly = true)
     public List<TbSafenMapping> getTbSafenMappingList() {
         List<TbSafenMapping> tbSafenMappings = tbSafenMappingRepository.findByDataStatusAndRentalCarNoIsNull(DataStatus.STOP);
         return tbSafenMappings;
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public int getTbStoreGoodsItemMaxNo(Long tbStoreGoodsNo) {

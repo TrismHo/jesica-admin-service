@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString(callSuper = true, exclude = {})
 @DynamicInsert
 @DynamicUpdate

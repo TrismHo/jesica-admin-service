@@ -551,6 +551,7 @@
 			dataType: "json",
 			success: function (data) {
 				let list = data.body.data;
+				console.log(list)
 				waiting =[];
 				if(data.body.serviceStatus == "OK") {
 					for(var i = 0 ; i < list.length ; i++){
@@ -650,6 +651,7 @@
 			dataType: "json",
 			success: function (data) {
 				let list = data.body.data;
+				console.log(list)
 				running =[];
 				if(data.body.serviceStatus == "OK") {
 					for(var i = 0 ; i < list.length ; i++){
