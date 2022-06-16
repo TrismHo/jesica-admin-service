@@ -180,4 +180,15 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
                    "where tuw.data_status = 1 and tuw.worker_no = :workerNo" +
             "", nativeQuery = true)
     TbUserWorkerDTO findByWorkerNo(@Param("workerNo") Long workerNo);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update tb_user_worker set " +
+            "cybank_type_code = :cybankTypeCode, " +
+            "cybank_account = :cybankAccount " +
+            "where worker_no = :workerNo", nativeQuery = true)
+    int setCyAccountSet(
+            @Param("cybankTypeCode") String cybankTypeCode,
+            @Param("cybankAccount") String cybankAccount,
+            @Param("workerNo") Long workerNo
+    );
 }

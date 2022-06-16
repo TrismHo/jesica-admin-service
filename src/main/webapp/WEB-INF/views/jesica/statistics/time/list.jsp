@@ -16,6 +16,59 @@
         #test22 {display: none;}
         #test23 {display: none;}
         #test24 {display: none;}
+
+        .buttons-csv {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .buttons-csv:hover {
+            color: #ddd;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .buttons-copy {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .buttons-copy:hover {
+            color: #ddd;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .buttons-excel {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .buttons-excel:hover {
+            color: #ddd;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .buttons-print {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .buttons-print:hover {
+            color: #ddd;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .dataTables_wrapper.dt-bootstrap4 .dataTables_filter {
+            display: block;
+        }
+        .dataTables_wrapper.dt-bootstrap4 .dataTables_filter label .form-control {
+            /* display: block; */
+            /* margin-left: 8px; */
+            /* width: 260px; */
+            /* height: 34px; */
+            width: 150px;
+            height: 23px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -125,7 +178,7 @@
                 </div>
             </div>--%>
             <div class="panel-body" >
-                <table id="" class="display table table-bordered w-100 table-striped">
+                <table id="testTable" class="display table table-bordered w-100 table-striped">
                     <thead>
                     <tr class="text-center">
                         <th>시간대</th>
@@ -181,6 +234,22 @@
 <%-- Custom JS End--%>
 <script>
     $(() => {
+
+        $("#testTable").DataTable({
+            language : lang_set, //or lang_eng
+            responsive: true,
+            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+            buttons: [
+                /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
+                /* { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
+                { extend: 'excel',text: ' &nbsp; 엑셀 다운로드', className: 'btn-sm fa fa-file-excel' },
+                /*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+            ],
+            bPaginate : false,
+        });
+
+        $("#testTable_filter").text("");
         $(".startDate").datepicker({
             calendarWeeks: false,
             todayHighlight: true,
@@ -207,12 +276,13 @@
 
         var day =  $(this).attr("day");
         let date = new Date();
+        let yesterDay = new Date();
         var d = new Date();
         var dayOfMonth = d.getDate();
         d.setDate(dayOfMonth - day);
+        yesterDay.setDate(yesterDay - 1);
         let startDate = "${searchValue.startDate}";
         let endDate = "${searchValue.endDate}";
-
 
 
         if(startDate == ""){
@@ -230,7 +300,7 @@
             language: "kr"
         });
         if(endDate == ""){
-            $(".endDate").datepicker('setDate', date);
+            $(".endDate").datepicker('setDate', yesterDay);
         } else {
             $(".endDate").datepicker('setDate', endDate);
         }

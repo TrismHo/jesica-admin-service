@@ -21,6 +21,7 @@ import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.Entitiy.goods.*;
 import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
+import com.trism.jesica.persistence.Entitiy.vacs.TbVacsVact;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -1077,6 +1078,35 @@ public class ApiController {
             map.put("result","400");
             map.put("message", "등록에 실패하였습니다.");
         }*/
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+    //가상계좌정보
+    @ResponseBody
+    @PostMapping("/workGroup/cybankAccount/reset")
+    public ResponseEntity<?> cybankAccountReset(
+            @RequestParam("cyBankTypeCode") String cyBankTypeCode,
+            @RequestParam("no") String no,
+            @RequestParam("type") Integer type,
+            @RequestParam("oldBankCode") String oldBankCode,
+            @RequestParam("oldNo") String oldNo
+    ) {
+        log.info("cyBankTypeCode::{}", cyBankTypeCode);
+        Map<String,Object> map = new HashMap<>();
+        List<TbVacsVact> vacsVact =  apiService.cybankAccountReset(cyBankTypeCode,no,type,oldBankCode,oldNo);
+        map.put("vacsVact",vacsVact);
+        if(vacsVact != null){
+            if(vacsVact.size() > 0) {
+                map.put("result","200");
+                map.put("cybankAccount",vacsVact.get(0).getAcctNo());
+            } else {
+                map.put("result","400");
+                map.put("cybankAccount",null);
+            }
+        } else {
+            map.put("result","400");
+            map.put("cybankAccount",null);
+        }
+
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
@@ -2952,7 +2982,7 @@ public class ApiController {
      * 샘플파일 다운로드
      */
     @GetMapping("/car/sampleDownload")
-    public ResponseEntity<Resource> fileDownload() throws IOException {
+    public ResponseEntity<Resource> sampleFileDownload() throws IOException {
         Path sampleFilePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
                 jesicaProperties.getSamplePath().getPath(),"sample.xlsx"
         );
@@ -2963,6 +2993,43 @@ public class ApiController {
                 .body(resource);
     }
 
+    /**
+     * 샘플파일 다운로드
+     */
+    @GetMapping("/file/download")
+    public void fileDownload(
+            HttpServletResponse response,
+            @RequestParam("filePath") String filePath
+    ) throws IOException {
+
+        String fileName = "file13_104228h87T.png";
+        String contentType = "image/jpg";
+        Path path = Paths.get(jesicaProperties.getBaseImgPath().getPath(), URLDecoder.decode(filePath,"UTF-8"));
+        File file = new File(path.toString());
+        long fileLength = file.length();
+        //파일의 크기와 같지 않을 경우 프로그램이 멈추지 않고 계속 실행되거나, 잘못된 정보가 다운로드 될 수 있다.
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        response.setHeader("Content-Type", contentType);
+        response.setHeader("Content-Length", "" + fileLength);
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+
+        try(
+                FileInputStream fis = new FileInputStream(file);
+                OutputStream out = response.getOutputStream();
+        ){
+            int readCount = 0;
+            byte[] buffer = new byte[1024];
+            while((readCount = fis.read(buffer)) != -1){
+                out.write(buffer,0,readCount);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+            throw new RuntimeException("file Save Error");
+        }
+    }
 
     //사용자 update
     @ResponseBody

@@ -293,6 +293,7 @@ public class WorkGroupController {
         try {
             //본사 정보상세
             TbStore tbStore = workGroupService.getTbStoreDetail(storeNo);
+            log.info("@@storeNo {}",tbStore.getStoreNo());
             //브랜드 리스트 조회
             List<TbBrand> tbBrandList = workGroupService.tbBrandList();
             //주문 카테고리 조회
@@ -506,10 +507,10 @@ public class WorkGroupController {
         try {
             TbDelivery tbUserWorker = workGroupService.getTbDelivery(dlvyNo);
 
-            List<TbDlvyPriceCharge> tbDlvyPriceChargeList = workGroupService.getTbDlvyPriceChargeListAll();
+           // List<TbDlvyPriceCharge> tbDlvyPriceChargeList = workGroupService.getTbDlvyPriceChargeListAll();
 
             model.addAttribute("tbDelivery", tbUserWorker);
-            model.addAttribute("tbDlvyPriceChargeList", tbDlvyPriceChargeList);
+           // model.addAttribute("tbDlvyPriceChargeList", tbDlvyPriceChargeList);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -671,6 +672,9 @@ public class WorkGroupController {
 
         return new ModelAndView("/jesica/workgroup/deliverystreet/insert");
     }
+
+
+
 
     /**
      * 거리요금리스트 상세

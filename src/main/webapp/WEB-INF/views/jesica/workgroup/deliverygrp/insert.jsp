@@ -143,7 +143,7 @@
                                            </c:if>
 
                                     </td>
-                                    <td class="text-danger-darker"><spring:message code="list.description.selectyouraffiliatedheadofficeanddistributor" text="소속 제휴본사와 총판을 선택하세요."/></td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.selectyouraffiliatedheadofficeanddistributor" text="소속 제휴본사/총판/가맹점을 선택하세요."/></td>
                                 </tr>
                                 <%--<tr>
                                     <td>가게구분</td>
@@ -174,7 +174,7 @@
                                             <input type="radio" name="openTimeYn" value="0" class="align-bottom openTimeYn" > <spring:message code="list.detail.pause" text="일시중지"/>
                                         </label>
                                     </td>
-                                    <td class="text-danger-darker"><spring:message code="list.description.pleaseselectadeliverygroup" text="배달대행 그룹을 선택하세요."/></td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.pleaseselectadeliverygroup" text="운영시간 사용여부를 선택해주세요."/></td>
                                 </tr>
                                 <tr class="opentimeTr">
                                     <td class="bg-light"><spring:message code="list.detail.operationstartendtime" text="운영시작/마감시간"/></td>

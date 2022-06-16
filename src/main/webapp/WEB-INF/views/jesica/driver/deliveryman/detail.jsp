@@ -380,7 +380,7 @@
                                         <td class="bg-light"><spring:message code="list.detail.deposit1" text="보험증권번호"/></td>
                                         <td><input class="form-control width-200" type="text"  name="insurancePolicy" value="${tbUserWorker.insurancePolicy}" >
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text=""/></td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text="보험증권번호를 입력해주세요"/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.cash" text="캐시"/></td>
@@ -395,6 +395,15 @@
                                         <td class="p-0 border-0">
                                             <table class="width-full border-0">
                                                 <tr>
+                                                    <td class="border-left-0  border-top-0 width-200 border-bottom-0"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
+                                                    <td class="border-right-0  border-top-0 border-bottom-0">
+                                                        <input class="form-control width-100 cybankTypeCodeTxt" value="${cBankName}" type="text" readonly>
+                                                        <input name="cybankTypeCode" class="form-control width-80 cybankTypeCode" value="${tbUserWorker.cybankTypeCode}" type="hidden" >
+                                                        <input type="text" class="form-control width-200 cybankAccount" name="cybankAccount" value="${tbUserWorker.cybankAccount}" readonly>
+                                                        <button type="button" onclick="popup();" class="btn btn-primary m-l-5"><spring:message code="list.detail.list" text="가상계좌 할당"/></button>
+                                                    </td>
+                                                </tr>
+                                                <%--<tr>
                                                     <td class="border-left-0 border-top-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
                                                     <td class="border-top-0 border-right-0">
                                                         <input type="text" class="form-control width-200" value="${cBankName}" readonly>
@@ -407,7 +416,7 @@
                                                         <input type="text" class="form-control width-200" value="${tbUserWorker.cybankAccount}" readonly>
                                                         <input type="hidden" name="cybankAccount" value="${tbUserWorker.cybankAccount}">
                                                     </td>
-                                                </tr>
+                                                </tr>--%>
                                             </table>
                                         </td>
                                         <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="수정불가"/></td>
@@ -490,7 +499,7 @@
                                                     <option value="2"<c:if test="${tbWorkerCharge.takeoverRateType1 == 2}" >selected</c:if>>%</option>
                                                 </select>
                                             </td>
-                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 수수료를 입력해주세요."/></td>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 수수료(인수)를 입력해주세요."/></td>
                                         </tr>
                                         <tr>
                                             <td ><spring:message code="list.detail.accountholder1" text="인수대행 수수료(마중)"/></td>
@@ -501,7 +510,7 @@
                                                     <option value="2"<c:if test="${tbWorkerCharge.takeoverRateType2 == 2}" >selected</c:if>>%</option>
                                                 </select>
                                             </td>
-                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 수수료를 입력해주세요."/></td>
+                                            <td class="text-danger-darker   "><spring:message code="list.description.cannotbemodified" text="인수대행 수수료(마중)를 입력해주세요."/></td>
                                         </tr>
                                         <tr>
                                             <td ><spring:message code="list.detail.accountholder1" text="반납대행 수수료"/></td>
@@ -1033,7 +1042,11 @@
             return false;
         }
     }
-
+    function popup(){
+        var cybankTypeCode = $(".cybankTypeCode").val();
+        var cybankAccount = $(".cybankAccount").val();
+        window.open("${path}/cyBankAccount/reset?type=4&no=${tbUserWorker.userNo}&oldNo="+cybankAccount+"&oldBankCode="+cybankTypeCode, "가상계좌 할당", "width=400, height=300, left=100, top=50");
+    }
 
 </script>
 </body>

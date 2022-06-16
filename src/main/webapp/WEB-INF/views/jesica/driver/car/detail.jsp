@@ -102,7 +102,7 @@
                                               <input type="button" data-toggle="modal" data-target="#safen_search_modal" class="btn btn-sm btn-success m-l-10" value="새로할당">
 
                                           </td>
-                                            <td class="text-danger-darker width-150"><spring:message code="list.description.343" text="변경불가" /></td>
+                                            <td class="text-danger-darker width-150"><spring:message code="list.description.343" text="안심번호를 선택해주세요." /></td>
                                         </tr>
                                         <tr>
                                           <td class="bg-light"><spring:message code="list.detail.333" text="상태" /><%--상품상태--%></td>

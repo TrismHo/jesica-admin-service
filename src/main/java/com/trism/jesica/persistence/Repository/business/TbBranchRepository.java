@@ -234,4 +234,15 @@ public interface TbBranchRepository extends JpaRepository<TbBranch, Long>, JpaSp
             "from tb_branch " +
             "where data_status != 0 ", nativeQuery = true)
     List<TbStoreDTO> findByBranchNameAll(@Param("branchName") String branchName);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update tb_branch set " +
+            "cybank_type_code = :cybankTypeCode, " +
+            "cybank_account = :cybankAccount " +
+            "where branch_no = :branchNo", nativeQuery = true)
+    int setCyAccountSet(
+            @Param("cybankTypeCode") String cybankTypeCode,
+            @Param("cybankAccount") String cybankAccount,
+            @Param("branchNo") Long branchNo
+    );
 }

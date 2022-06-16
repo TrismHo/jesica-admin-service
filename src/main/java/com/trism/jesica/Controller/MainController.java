@@ -600,6 +600,23 @@ public class MainController {
         return new ModelAndView("/searchPopupUpdate");
     }
 
+    /**
+     * 가상계좌 할당
+     */
+    @GetMapping("/cyBankAccount/reset")
+    public ModelAndView cyBankAccountSearch(
+            @RequestParam("type") Integer type,
+            @RequestParam("no") String no,
+            @RequestParam("oldBankCode") String oldBankCode,
+            @RequestParam("oldNo") String oldNo,
+            Model model
+    ) {
+        model.addAttribute("type",type);
+        model.addAttribute("no",no);
+        model.addAttribute("oldBankCode",oldBankCode);
+        model.addAttribute("oldNo",oldNo);
+        return new ModelAndView("/jesica/search/cyBankAccountSearch");
+    }
 
     private ClientDTO getClient(HttpServletResponse response,String uuid){
         log.info("--------------cookieSetting------------------");

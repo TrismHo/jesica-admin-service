@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
-<html lang="ko">록
+<html lang="ko">
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
@@ -22,7 +22,6 @@
     <!-- begin #sidebar -->
     <%@include file="../../../common/include_sidebar.jsp" %>
     <!-- end #sidebar -->
-
     <!-- begin #content -->
     <div id="content" class="content p-0">
         <div class="col-xl-12">

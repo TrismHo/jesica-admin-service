@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.productdetails" text="입출금 신청관리상세"/></title>
+    <title>Jesicar | <spring:message code="list.detail.productdetails" text="출금 신청관리상세"/></title>
 </head>
 <style>
 
@@ -38,10 +38,10 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.merchantsetting" text="정산"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.merchantsetting.merchandise" text="입출금 신청관리"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.productdetails" text="입출금 신청관리상세"/><%--안심번호 관리--%></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.merchantsetting.merchandise" text="출금 신청관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.productdetails" text="출금 신청관리상세"/><%--안심번호 관리--%></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.productdetails" text="입출금 신청관리상세"/><%--안심번호 관리--%></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.productdetails" text="출금 신청관리상세"/><%--안심번호 관리--%></h3>
             </div>
             <div class="m-t-10">
                 <table class="table table-bordered">

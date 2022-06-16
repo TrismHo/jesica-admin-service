@@ -236,7 +236,30 @@
                                        </tr>
                                        <tr>
                                            <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="충전 계좌"/></td>
-                                           <td class="p-0 border-0">
+                                           <td class="p-0 ">
+                                               <table class="width-full border-0">
+                                                   <tr>
+                                                       <td class="border-left-0  border-top-0 border-bottom-0 width-200"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
+                                                       <td class="border-right-0  border-top-0 border-bottom-0">
+                                                           <input class="form-control width-100 cybankTypeCodeTxt" value="${cBankName}" type="text" readonly>
+                                                           <input name="cybankTypeCode" class="form-control width-80 cybankTypeCode" value="${tbBranch.cybankTypeCode}" type="hidden" >
+                                                           <input type="text" class="form-control width-200 cybankAccount" name="cybankAccount" value="${tbBranch.cybankAccount}" readonly>
+                                                           <button type="button" onclick="popup();" class="btn btn-primary m-l-5"><spring:message code="list.detail.list" text="가상계좌 할당"/></button>
+                                                       </td>
+                                                   </tr>
+                                                   <%--<tr>
+                                                       <td class="border-left-0 border-top-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
+                                                       <td class="border-top-0 border-right-0"><input type="text" class="form-control width-200"  value="${cBankName}" readonly>
+                                                           <input type="hidden" class="form-control width-200 cybankTypeCode" name="cybankTypeCode" value="${tbHead.cybankTypeCode}" readonly>
+                                                       </td>
+                                                   </tr>
+                                                   <tr>
+                                                       <td class="border-left-0"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
+                                                       <td class="border-right-0"><input type="text" class="form-control width-200 cybankAccount" name="cybankAccount" value="${tbHead.cybankAccount}" readonly></td>
+                                                   </tr>--%>
+                                               </table>
+                                           </td>
+                                           <%--<td class="p-0 border-0">
                                                <table class="width-full border-0">
                                                    <tr>
                                                        <td class="border-left-0 border-top-0 width-200 border-right-0"><spring:message code="list.detail.bank" text="은행"/></td>
@@ -249,36 +272,23 @@
                                                        <td><input type="text" class="form-control width-200 cybankAccount" name="cybankAccount" value="${tbBranch.cybankAccount}" readonly></td>
                                                    </tr>
                                                </table>
-                                           </td>
+                                           </td>--%>
                                            <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="수정불가"/></td>
                                        </tr>
                                        <tr>
                                            <td class="bg-light"><spring:message code="list.detail.withdrawalaccount" text="출금계좌"/></td>
                                            <td class="p-0 border-0">
                                                <table class="width-full border-0">
-                                                  <%-- <tr>
-                                                       <td class="border-left-0 border-top-0 width-200">은행</td>
-                                                       <td class="border-top-0 border-right-0"><input type="text" class="form-control width-200 bankTypeCode" name="bankTypeCode" value="${bankName}" readonly>
-                                                           <input type="hidden" class="form-control width-200 bankTypeCode" name="bankTypeCode" value="${tbBranch.bankTypeCode}" readonly></td>
-                                                   </tr>
                                                    <tr>
-                                                       <td class="border-left-0 border-right-0">계좌번호</td>
-                                                       <td><input type="text" class="form-control width-200 bankAccount" name="bankAccount" value="${tbBranch.bankAccount}" readonly></td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td class="border-left-0 border-right-0">예금주</td>
-                                                       <td><input type="text" class="form-control width-200 bankOwner" name="bankOwner" value="${tbBranch.bankOwner}" readonly></td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td class="border-left-0 border-bottom-0 ">PIN번호</td>
-                                                       <td class="border-bottom-0 border-right-0">
-                                                           <div class="pin-div">
-                                                               <input  name="pinNum" class="form-control width-200 pinNum" value="${tbBranch.pinNum}" type="password" >
-                                                               <i class="fa fa-eye fa-lg m-l-5"></i>
-                                                           </div>
+                                                       <td class="border-left-0 border-bottom-0 border-top-0 width-200"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
+                                                       <td class="border-right-0 border-bottom-0 border-top-0">
+                                                           <input type="text" class="form-control width-100 "  value="${bankName}" readonly>
+                                                           <input type="hidden" class="form-control width-200 bankTypeCode" name="bankTypeCode" value="${tbBranch.bankTypeCode}" readonly>
+                                                           <input type="text" class="form-control width-200 " value="${bankAccount}" readonly>
+                                                           <input type="hidden" class="form-control width-200 bankAccount" name="bankAccount" value="${tbBranch.bankAccount}" readonly>
                                                        </td>
-                                                   </tr>--%>
-                                                   <tr>
+                                                   </tr>
+                                                 <%--  <tr>
                                                        <td class="border-left-0 border-top-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
                                                        <td class="border-top-0 border-right-0"><input type="text" class="form-control width-200 "  value="${bankName}" readonly>
                                                            <input type="hidden" class="form-control width-200 bankTypeCode" name="bankTypeCode" value="${tbBranch.bankTypeCode}" readonly>
@@ -289,7 +299,7 @@
                                                        <td class="border-right-0"><input type="text" class="form-control width-200 " value="${bankAccount}" readonly>
                                                            <input type="hidden" class="form-control width-200 bankAccount" name="bankAccount" value="${tbBranch.bankAccount}" readonly>
                                                        </td>
-                                                   </tr>
+                                                   </tr>--%>
                                                    <tr>
                                                        <td class="border-left-0"><spring:message code="list.detail.accountholder" text="예금주"/></td>
                                                        <td class="border-right-0"><input type="text" class="form-control width-200 " value="${bankOwner}" readonly>
@@ -574,7 +584,7 @@
                                         </select>
                                         <input type="text"  class="form-control width-120 weatherCharge" name="weatherCharge" value="${tbBranchPrice.weatherCharge}" numberCommaOnly> 원
                                     </td>
-                                    <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 정보를 입력해주세요"/></td>
                                 </tr>
 
                                 <tr class="useYnTr" >
@@ -623,7 +633,7 @@
                                             <input type="hidden" name="dayFilter" class="dayFilter" value="">
                                         </c:if>
                                     </td>
-                                    <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="눈비할증 정보를 입력해주세요"/></td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.cannotbemodified" text="요일할증 정보를 입력해주세요"/></td>
                                 </tr>
                                <%--  <tr  class="useYnTr">
                                      <td class="bg-light height-50 " colspan="2"><spring:message code="list.detail.accountholder1" text="서비스지역 블럭설정 사용여부"/></td>
@@ -887,7 +897,7 @@
                                 <input type="hidden" class="viewOrder" name="viewOrder" value="0">
                                 <input type="hidden" class="form-control-width-custom custPrice text-center" name="custPrice" value="0" maxlength="7" numberOnly>
                                 <input type="hidden" class="form-control-width-custom dlvyPrice text-center" name="dlvyPrice" value="0" maxlength="7" numberOnly>
-                                <input type="hidden" class="form-control-width-custom areaChargeType text-center" name="areaChargeType" value="0" numberOnly>
+                                <input type="hidden" class="form-control-width-custom areaChargeTypeType text-center" name="areaChargeType" value="0" numberOnly>
                                 <table class="table table-bordered">
                                     <caption></caption>
                                     <colgroup>
@@ -2210,13 +2220,13 @@
                     )
                 }
 
-                if(data.tbDlvyAreaList.length == 0) {
+                /*if(data.tbDlvyAreaList.length == 0) {
                     $(".addTbody").append(
                         "<tr class=\"\"  >\n" +
                         "<th class=\"text-center\" colspan=\"5\">"+noregisteredlist+"</th>"+
                         "</tr>"
                     )
-                }
+                }*/
             }
         });
     }
@@ -2994,6 +3004,11 @@
                 }
             });
         }
+    }
+    function popup(){
+        var cybankTypeCode = $(".cybankTypeCode").val();
+        var cybankAccount = $(".cybankAccount").val();
+        window.open("${path}/cyBankAccount/reset?type=2&no=${tbBranch.branchNo}&oldNo="+cybankAccount+"&oldBankCode="+cybankTypeCode, "가상계좌 할당", "width=400, height=300, left=100, top=50");
     }
 </script>
 </body>

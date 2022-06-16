@@ -97,7 +97,7 @@
                                                 <div class="col-xl-12 col-md-12 m-t-10">
                                                     <div class="">
                                                             <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
-                                                                <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="공지 등록"/></span>
+                                                                <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="업데이트 내역 등록"/></span>
                                                             </button>
                                                         <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/><%--검색--%> </button>
                                                     </div>

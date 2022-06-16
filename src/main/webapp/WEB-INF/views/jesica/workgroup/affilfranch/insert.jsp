@@ -516,6 +516,46 @@
                                     <%--<td class="text-danger-darker"><spring:message code="list.description.questingawithdrawautomessage" text="출금 요청시 입금받을 사업자의 계좌 정보를 입력하세요."/></td>--%>
                                     </tr>
                                     <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.withdrawalaccount" text="출금 계좌"/></td>
+                                        <td class="p-0 border-0">
+                                            <table class="width-full border-0">
+                                                <tr>
+                                                    <td class="border-left-0 border-bottom-0 border-top-0 width-200"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
+                                                    <td class="border-right-0 border-bottom-0 border-top-0">
+                                                        <select class="form-control width-100  bankTypeCode"  name="bankTypeCode" >
+                                                        </select>
+                                                        <input type="text" class="form-control width-200 bankAccount" name="bankAccount" value="" maxlength="50" numberOnly="true">
+                                                    </td>
+                                                </tr>
+                                                <%--<tr>
+                                                    <td class="border-left-0 border-top-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
+                                                    <td class="border-top-0 border-right-0 ">
+                                                        <select class="form-control width-200 m-r-10 bankTypeCode"  name="bankTypeCode" >
+                                                        </select>
+                                                    </td>
+                                                </tr>--%>
+                                                <%--   <tr>
+                                                       <td class="border-left-0"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
+                                                       <td class="border-right-0"><input type="text" class="form-control width-200 bankAccount" name="bankAccount" value="" maxlength="50" numberOnly="true"></td>
+                                                   </tr>--%>
+                                                <tr>
+                                                    <td class="border-left-0 border-bottom-0"><spring:message code="list.detail.accountholder" text="예금주"/></td>
+                                                    <td class="border-bottom-0 border-right-0"><input type="text" class="form-control width-200 bankOwner" name="bankOwner" value="" maxlength="20"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="border-left-0 border-bottom-0"><spring:message code="list.detail.pinnumber" text="PIN번호"/></td>
+                                                    <td class="border-left-0 border-bottom-0 border-right-0">
+                                                        <div class="pin-div">
+                                                            <input  name="pinNum" class="form-control width-200 pinNum" value="" type="password" maxlength="20" numberOnly="true">
+                                                            <i class="fa fa-eye fa-lg m-l-5"></i>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.questingawithdrawautomessage" text="출금 요청시 입금받을 사업자의 계좌 정보를 입력하세요."/></td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light"><spring:message code="list.detail.memo" text="메모"/></td>
                                         <td><input type="text" class="form-control width-600 memo" name="memo" value="" maxlength="200"></td>
                                         </td>

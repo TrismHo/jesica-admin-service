@@ -141,7 +141,12 @@
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.setthemainregion" text="주요지역을 설정하세요."/></td>
                                 </tr>
-                                <tr>
+                                <input type="hidden" name="cybankAccount" value="">
+                                <input type="hidden" name="deposit" value="0" />
+                                <input type="hidden" name="cash" value="0" />
+                                <input type="hidden" name="cashDefault" value="0" />
+                                <input name="cybankTypeCode" class="form-control width-80 cybankTypeCode" value="" type="hidden" >
+                               <%-- <tr>
                                     <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="충전계좌"/></td>
                                     <td class="p-0 ">
                                         <input type="hidden" name="deposit" value="0" />
@@ -151,30 +156,50 @@
                                             <tr>
                                                 <td class="border-left-0 border-top-0 border-bottom-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
                                                 <td class="border-top-0 border-right-0 border-bottom-0">
-                                                    <select class="form-control width-200 m-r-10 cybankTypeCode"  name="cybankTypeCode">
+                                                    <select class="form-control width-100 m-r-10 cybankTypeCode"  name="cybankTypeCode">
                                                     </select>
                                                     <input type="hidden" name="cybankAccount" value="">
                                                 </td>
                                             </tr>
                                         </table>
+                                       &lt;%&ndash; <table class="width-full border-0">
+                                            <tr>
+                                                <td class="border-left-0 border-bottom-0 border-top-0 width-200"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
+                                                <td class="border-right-0 border-bottom-0 border-top-0">
+                                                    <input class="form-control width-100 cybankTypeCodeTxt" value="" type="text" readonly>
+                                                    <input name="cyBankTypeCode" class="form-control width-80 cybankTypeCode" value="" type="hidden" >
+                                                    <input type="text" class="form-control width-200 cybankAccount" name="cybankAccount" value="" readonly>
+                                                    <a href="${path}/cyBankAccount/reset" onclick="window.open(this.href, '_blank', 'width=500, height=280'); return false;"><button type="button" class="btn btn-primary m-l-5"><spring:message code="list.detail.list" text="가상계좌 할당"/></button></a>
+                                                </td>
+                                            </tr>
+                                        </table>&ndash;%&gt;
+
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.accountautomessage" text="캐시 충전시 입금할 은행을 선택하면 계좌번호가 자동 생성됩니다."/></td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.withdrawalaccount" text="출금 계좌"/></td>
                                     <td class="p-0 border-0">
                                         <table class="width-full border-0">
                                             <tr>
-                                                <td class="border-left-0 border-top-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
-                                                <td class="border-top-0 border-right-0 ">
-                                                    <select class="form-control width-200 m-r-10 bankTypeCode"  name="bankTypeCode">
+                                                <td class="border-left-0 border-bottom-0 border-top-0 width-200"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
+                                                <td class="border-right-0 border-bottom-0 border-top-0">
+                                                    <select class="form-control width-100  bankTypeCode"  name="bankTypeCode" >
                                                     </select>
+                                                    <input type="text" class="form-control width-200 bankAccount" name="bankAccount" value="" maxlength="50" numberOnly="true">
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <%--<tr>
+                                                <td class="border-left-0 border-top-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
+                                                <td class="border-top-0 border-right-0 ">
+                                                    <select class="form-control width-200 m-r-10 bankTypeCode"  name="bankTypeCode" >
+                                                    </select>
+                                                </td>
+                                            </tr>--%>
+                                         <%--   <tr>
                                                 <td class="border-left-0"><spring:message code="list.detail.accountnumber" text="계좌번호"/></td>
                                                 <td class="border-right-0"><input type="text" class="form-control width-200 bankAccount" name="bankAccount" value="" maxlength="50" numberOnly="true"></td>
-                                            </tr>
+                                            </tr>--%>
                                             <tr>
                                                 <td class="border-left-0 border-bottom-0"><spring:message code="list.detail.accountholder" text="예금주"/></td>
                                                 <td class="border-bottom-0 border-right-0"><input type="text" class="form-control width-200 bankOwner" name="bankOwner" value="" maxlength="20"></td>

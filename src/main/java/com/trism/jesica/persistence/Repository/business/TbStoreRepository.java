@@ -324,4 +324,15 @@ public interface TbStoreRepository extends JpaRepository<TbStore, Long>, JpaSpec
 
     List<TbStore> findByServiceType(@Param("serviceType") ServiceType serviceType);
 
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update tb_store set " +
+            "cybank_type_code = :cybankTypeCode, " +
+            "cybank_account = :cybankAccount " +
+            "where store_no = :storeNo", nativeQuery = true)
+    int setCyAccountSet(
+            @Param("cybankTypeCode") String cybankTypeCode,
+            @Param("cybankAccount") String cybankAccount,
+            @Param("storeNo") Long storeNo
+    );
+
 }

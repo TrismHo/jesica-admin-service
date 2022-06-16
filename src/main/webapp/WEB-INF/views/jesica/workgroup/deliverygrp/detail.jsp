@@ -85,7 +85,7 @@
                                         </label>
                                     <td class="text-danger-darker"><spring:message code="list.description.selecttheoperatingstatus" text="운영상태를 선택하세요."/></td>
                                 </tr>
-                                <tr>
+                               <%-- <tr>
                                     <td class="bg-light height-50"><spring:message code="list.detail.status" text="상태"/></td>
                                     <td>
                                         <label class="">
@@ -96,7 +96,7 @@
                                         </label>
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.selectthedatastate" text="데이터 상태를 선택하세요."/></td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.deliveryagentname" text="배달대행명"/></td>
                                     <td><input type="text" class="form-control width-200" name="dlvyName" value="${tbDelivery.dlvyName}" maxlength="30"></td>
@@ -122,7 +122,7 @@
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.entertheoperationstartendtime" text="운영시작/마감시간을 입력하세요."/></td>
                                 </tr>
-                                <input type="hidden" name="dataStatus" value="1">
+                               <input type="hidden" name="dataStatus" value="1">
                                 <%--
                                                                     <tr>
                                                                         <td class="bg-light height-50">직영가맹점 여부</td>
@@ -246,7 +246,7 @@
                                     <td class="text-danger-darker"><spring:message code="list.description.registertheplatformfeemessage" text="플랫폼사 배달관리비를 등록해주세요"/></td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeorderinggroup" text="배달관리비 발주그룹"/>  </td>
+                                    <td class="bg-light"><spring:message code="list.detail.deliverymanagementfeeorderinggroup" text="발주그룹 배달관리비"/>  </td>
                                     <td>
                                         <%--<input type="text" name="mngRateGive" class="form-control width-200 mngRateGive" value="${tbDelivery.mngRateGive}" numberOnly> 원--%>
                                         <input type="text" class="form-control width-200 platForm1 mngRateGive" name="mngRateGive" value="${tbDelivery.mngRateGive}" style="display:  <c:if test="${tbDelivery.mngRateType != 0}">none</c:if>" <c:if test="${tbDelivery.mngRateType != 0}">disabled</c:if> numberOnly>

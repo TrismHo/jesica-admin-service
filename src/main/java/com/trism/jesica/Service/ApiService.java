@@ -24,6 +24,7 @@ import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
 import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
 import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.Entitiy.vacs.TbVacsVact;
 import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaGeoRepository;
 import com.trism.jesica.persistence.Repository.block.TbDlvyAreaRepository;
@@ -46,6 +47,7 @@ import com.trism.jesica.persistence.Repository.street.TbDlvyPriceChargeRepositor
 import com.trism.jesica.persistence.Repository.street.TbDlvyPriceRepository;
 import com.trism.jesica.persistence.Repository.system.TbSiteAclRepository;
 import com.trism.jesica.persistence.Repository.system.TbSystemCodeRepository;
+import com.trism.jesica.persistence.Repository.vacs.TbVacsVactRepository;
 import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyAttachRepository;
 import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyRepository;
 import com.trism.jesica.persistence.Repository.worker.TbWorkerChargeRepository;
@@ -232,15 +234,25 @@ public class ApiService {
     @Autowired
     private final TbCouponRepository tbCouponRepository;
 
+    @Autowired
     private final BoardService boardService;
 
+    @Autowired
     private final TbAppBannerRepository tbAppBannerRepository;
 
+    @Autowired
     private final TbCashWithdrawRepository tbCashWithdrawRepository;
 
+    @Autowired
     private final TbCustRepository tbCustRepository;
 
+    @Autowired
     private final TbSiteAclRepository tbSiteAclRepository;
+
+    @Autowired
+    private final TbVacsVactRepository tbVacsVactRepository;
+
+
 
     @Transactional
     public int insertTbHead(TbHeadData tbHeadData, TbBusinessInfoData tbBusinessInfoData) {
@@ -346,11 +358,11 @@ public class ApiService {
                 String ownerEncrpt = cipherAESUtils.encryptAES(tbBranchData.insertData().getBankOwner());
 
                 //PIN번호 암호화
-             /*   BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                String pinEncrpt = encoder.encode(tbBranchData.insertData().getPinNum());*/
-                String pinEncrpt = null;
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                String pinEncrpt = encoder.encode(tbBranchData.insertData().getPinNum());
+             /*   String pinEncrpt = null;
                 bankEncrpt = null;
-                ownerEncrpt = null;
+                ownerEncrpt = null;*/
                 TbBranch tbBranch =  tbBranchRepository.save(tbBranchData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
 
                 tbBusinessInfoData.setGroupNo(Integer.parseInt(tbBranch.getBranchNo().toString()));
@@ -445,11 +457,11 @@ public class ApiService {
                 String ownerEncrpt = cipherAESUtils.encryptAES(tbStoreData.insertData().getBankOwner());
 
                 //PIN번호 암호화
-               /* BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                String pinEncrpt = encoder.encode(tbStoreData.insertData().getPinNum());*/
-                String pinEncrpt = null;
-                bankEncrpt = null;
-                ownerEncrpt = null;
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                String pinEncrpt = encoder.encode(tbStoreData.insertData().getPinNum());
+                //String pinEncrpt = null;
+    /*            bankEncrpt = null;
+                ownerEncrpt = null;*/
                 TbStore tbStore =  tbStoreRepository.save(tbStoreData.insertDataEncrypt(pinEncrpt, bankEncrpt, ownerEncrpt));
 
                 int tbStoreMngCharge = tbStoreMngChargeRepository.saveDefault(tbStore.getStoreNo());
@@ -1183,6 +1195,41 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<TbSystemCode> systemCodeList(String sysType) {
         return tbSystemCodeRepository.findBySysTypeAndDataStatus(sysType,DataStatus.OK);
+    }
+    @Transactional
+    public List<TbVacsVact> cybankAccountReset(String bankCode, String no, Integer type, String oldBankCode, String oldNo) {
+
+        List<TbVacsVact> vacsVact = tbVacsVactRepository.findByBankCdAndAcctSt(bankCode,"0");
+
+        int result = 0;
+        //남는 가상번호가 존재할시 세팅
+        if(vacsVact.size() > 0) {
+            //본사
+            if (type == 1){
+                result = tbHeadRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),Long.parseLong(no));
+            //총판
+            } else if (type == 2){
+                result = tbBranchRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),Long.parseLong(no));
+            //가맹점
+            } else if (type == 3){
+                result =tbStoreRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),Long.parseLong(no));
+            //드라이버
+            } else if (type == 4){
+                result =tbUserWorkerRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),Long.parseLong(no));
+            }
+            if (result == 1){
+                //성공하면 할당으로 변경
+                tbVacsVactRepository.updateAcctst("1",vacsVact.get(0).getAcctNo(),vacsVact.get(0).getBankCd(),DateUtil.now_yyyymmdd());
+
+                //기존내역을 해지로 변경
+                tbVacsVactRepository.updateAcctstClose("9",oldNo,oldBankCode,DateUtil.now_yyyymmdd());
+                return vacsVact;
+            }else {
+                return null;
+            }
+        }else {
+            return null;
+        }
     }
 
     @Transactional
@@ -2699,7 +2746,6 @@ public class ApiService {
                     tbWorkerApply.setPhone(param3);*/
                         tbWorkerApply.setProfileFile(uploadFile);
 
-
                         //날짜경로
                         SimpleDateFormat format = new SimpleDateFormat ( "yyyy");
                         SimpleDateFormat format2 = new SimpleDateFormat ( "MM");
@@ -3331,7 +3377,6 @@ public class ApiService {
 
         return result;
     }
-
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getCustChart() {

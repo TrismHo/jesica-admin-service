@@ -364,14 +364,14 @@
             //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
             buttons: [
                 /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
-                { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },
-          /*      { extend: 'excel',text: ' 엑셀', className: 'btn-sm fa fa-file-excel' },
-                { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
-            ],
-        });
+                /*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
+              { extend: 'excel',text: '&nbsp; 엑셀 다운로드', className: 'btn-sm fa fa-file-excel' },
+                /*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+              ],
+          });
 
-        $("#testTable_filter").text("");
-        $("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
+          $("#testTable_filter").text("");
+          $("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 /*
         $(document).on("click",".detailRow",function(){
             let withdrawNo = $(this).attr("withdrawNo");

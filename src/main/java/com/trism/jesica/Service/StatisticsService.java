@@ -72,5 +72,9 @@ public class StatisticsService {
     public List<Map<String,Object>> getUserList(LocalDateTime startDate,LocalDateTime endDate) {
         return tbCallAllRepository.getUserList(startDate,endDate);
     }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getBaseList(LocalDateTime startDate,LocalDateTime endDate) {
+        return tbCallAllRepository.getBaseList(startDate,endDate);
+    }
 }
 

@@ -222,7 +222,6 @@
                     <th class="text-center" width="5%;">계좌번호</th>
                     <th class="text-center" width="5%;">예금주</th>
                     <th class="text-center" width="5%;">요청액</th>
-                    <th class="text-center" width="5%;">출금시간</th>
                     <th class="text-center" width="5%;">출금상태</th>
                     <th class="text-center" width="5%;">연락처</th>
                     <th class="text-center" width="5%;">출금시간</th>
@@ -245,7 +244,6 @@
                             <td class="text-center">${item.accountNo}</td>
                             <td class="text-center">${item.accountName}</td>
                             <td class="text-center"><fmt:formatNumber value="${item.reqAmount}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
-                            <td class="text-center"><javatime:format value="${item.withdrawDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center">
                                 <c:if test="${item.withdrawStatus == '0'}"><spring:message code="list.word.3" text="출금대기"/></c:if>
                                 <c:if test="${item.withdrawStatus == '1'}"><spring:message code="list.word.3" text="처리중"/></c:if>
@@ -297,14 +295,14 @@
             buttons: [
 
               /*  { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
-                { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },
-              /*  { extend: 'excel',text: ' 엑셀', className: 'btn-sm fa fa-file-excel' },
-                { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
-            ],
-        });
+                /*{ extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
+                { extend: 'excel',text: ' &nbsp; 엑셀 다운로드', className: 'btn-sm fa fa-file-excel' },
+                /*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+           ],
+       });
 
-        $("#testTable_filter").text("");
-        $("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
+       $("#testTable_filter").text("");
+       $("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 
         $(document).on("click",".detailRow",function(){
             let withdrawNo = $(this).attr("withdrawNo");

@@ -159,7 +159,7 @@
                                                 <input type="radio" name="workerPayType" value="2" class="align-bottom workerPayType" > <spring:message code="list.detail.female1" text="수수료"/>
                                             </label>
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="성별을 설정하세요."/></td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.setyourgender" text="급여방식 / 수수료방식을 선택해주세요."/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image1" text="프로필 사진"/></td>
@@ -344,7 +344,7 @@
                                         <td class="bg-light"><spring:message code="list.detail.deposit1" text="보험증권번호"/></td>
                                         <td><input class="form-control width-200" type="text"  name="insurancePolicy" value="${tbUserWorker.insurancePolicy}" >
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text=""/></td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.transferringtoachargingaccountmessage" text="보험증권번호를 입력해주세요."/></td>
                                     </tr>
                                   <%--  <tr>
                                         <td class="bg-light">생년월일</td>
@@ -374,7 +374,7 @@
                                     <input type="hidden" name="deposit" value="0">
                                     <input type="hidden" name="cash" value="0">
                                     <input type="hidden" name="cashDefault" value="0">
-                                    <tr>
+                                   <%-- <tr>
                                         <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="충전계좌"/></td>
                                         <td class="p-0 border-0">
                                             <table class="width-full border-0">
@@ -389,7 +389,7 @@
                                             </table>
                                         </td>
                                         <td class="text-danger-darker border-left-0"><spring:message code="list.description.accountautomessage" text="캐시 충전시 입금할 은행을 선택하면 계좌번호가 자동 생성됩니다."/></td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.withdrawalaccount" text="출금계좌"/></td>
                                         <td class="p-0 border-0">

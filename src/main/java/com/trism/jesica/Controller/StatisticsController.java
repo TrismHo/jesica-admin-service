@@ -46,7 +46,7 @@ public class StatisticsController {
                 String string = searchValue.get("endDate").toString() + " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             } else {
-                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
             if (searchValue.get("day") != "" && searchValue.get("orderTypeCode") != "") {
@@ -68,13 +68,13 @@ public class StatisticsController {
             LocalDateTime endDate = null;
 
             searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
-            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
             searchValue.put("selectDay", "");
             searchValue.put("orderTypeCode", "");
             searchValue.put("day", "");
 
             String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             startDate = LocalDateTime.parse(string, formatter);
@@ -110,7 +110,7 @@ public class StatisticsController {
                 String string = searchValue.get("endDate").toString() + " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             } else {
-                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
             if (searchValue.get("day") != "" && searchValue.get("orderTypeCode") != "") {
@@ -132,13 +132,13 @@ public class StatisticsController {
             LocalDateTime endDate = null;
 
             searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
-            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
             searchValue.put("selectDay", "");
             searchValue.put("orderTypeCode", "");
             searchValue.put("day", "");
 
             String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             startDate = LocalDateTime.parse(string, formatter);
@@ -174,7 +174,7 @@ public class StatisticsController {
                 String string = searchValue.get("endDate").toString() + " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             } else {
-                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
             if ( searchValue.get("orderTypeCode") != "") {
@@ -189,12 +189,12 @@ public class StatisticsController {
             LocalDateTime endDate = null;
 
             searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
-            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
             searchValue.put("selectDay", "");
             searchValue.put("orderTypeCode", "");
 
             String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             startDate = LocalDateTime.parse(string, formatter);
@@ -231,7 +231,7 @@ public class StatisticsController {
                 String string = searchValue.get("endDate").toString() + " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             } else {
-                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
             if ( searchValue.get("orderTypeCode") != "") {
@@ -246,12 +246,12 @@ public class StatisticsController {
             LocalDateTime endDate = null;
 
             searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
-            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
             searchValue.put("selectDay", "");
             searchValue.put("orderTypeCode", "");
 
             String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             startDate = LocalDateTime.parse(string, formatter);
@@ -269,8 +269,50 @@ public class StatisticsController {
 
     //기본통계
     @GetMapping("/base/list")
-    public ModelAndView listByBase() {
+    public ModelAndView listByBase(@RequestParam Map<String,Object> searchValue,
+                                   Model model) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            List<Map<String,Object>> timeList = null;
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (searchValue.get("startDate") != null) {
+                String string = searchValue.get("startDate").toString() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("endDate") != null) {
+                String string = searchValue.get("endDate").toString() + " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            }
+            timeList =  statisticsService.getBaseList(startDate,endDate);
+            model.addAttribute("timeList",timeList);
+        } else {
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
 
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+
+            List<Map<String,Object>> timeList =  statisticsService.getBaseList(startDate,endDate);
+
+            model.addAttribute("timeList",timeList);
+
+        }
+        model.addAttribute("searchValue",searchValue);
         return new ModelAndView("jesica/statistics/base/list");
     }
 
@@ -295,7 +337,7 @@ public class StatisticsController {
                 String string = searchValue.get("endDate").toString() + " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             } else {
-                String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
             timeList =  statisticsService.getUserList(startDate,endDate);
@@ -305,10 +347,10 @@ public class StatisticsController {
             LocalDateTime endDate = null;
 
             searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
-            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
 
             String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             startDate = LocalDateTime.parse(string, formatter);
