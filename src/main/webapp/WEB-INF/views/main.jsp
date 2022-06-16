@@ -72,7 +72,7 @@
                         <p data-animation="number" data-value="${userChart}"></p>
                     </div>
                     <div class="stats-link">
-                        <a href="${path}/user/cust/list?isMember=&dataStatus=&startDate=2021-01-01&endDate=${now}&custName="><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                        <a href="${path}/board/cust/list?isMember=&dataStatus=&startDate=2021-01-01&endDate=${now}&custName="><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
                     </div>
                 </div>
             </div>
