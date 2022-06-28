@@ -374,6 +374,13 @@
                                     <input type="hidden" name="deposit" value="0">
                                     <input type="hidden" name="cash" value="0">
                                     <input type="hidden" name="cashDefault" value="0">
+                                    <%--    <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="가상계좌 예금주"/></td>
+                                            <td class="" colspan=""><input type="text" class="form-control width-200 cybankOwner" name="cybankOwner" value="" >
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.accountautomessage" text="가상계좌 예금주명을 입력해주세요(추후 수정불가)"/>
+                                            </td>
+                                        </tr>--%>
                                    <%-- <tr>
                                         <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="충전계좌"/></td>
                                         <td class="p-0 border-0">

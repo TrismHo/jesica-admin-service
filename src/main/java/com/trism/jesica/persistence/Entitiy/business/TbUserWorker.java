@@ -258,6 +258,12 @@ public class TbUserWorker implements Serializable {
     @Column(name = "insurance_policy")
     private String insurancePolicy = null;
 
+    /**
+     * 가상계좌 예금주
+     */
+    @Column(name = "cybank_owner")
+    private String cybankOwner = null;
+
 
 
     @PrePersist
@@ -287,6 +293,7 @@ public class TbUserWorker implements Serializable {
             Integer cashDefault,
             String cybankTypeCode,
             String cybankAccount,
+            String cybankOwner,
             String pinNum,
             String bankTypeCode,
             String bankAccount,
@@ -326,6 +333,7 @@ public class TbUserWorker implements Serializable {
                 this.cashDefault = cashDefault;
                 this.cybankTypeCode = cybankTypeCode;
                 this.cybankAccount = cybankAccount;
+                this.cybankOwner = cybankOwner;
                 this.pinNum = pinNum;
                 this.bankTypeCode = bankTypeCode;
                 this.bankAccount = bankAccount;

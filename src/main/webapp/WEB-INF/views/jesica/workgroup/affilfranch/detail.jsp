@@ -545,6 +545,12 @@
                                                         <button type="button" onclick="popup();" class="btn btn-primary m-l-5"><spring:message code="list.detail.list" text="가상계좌 할당"/></button>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="border-left-0 border-bottom-0 width-200"><spring:message code="list.detail.bank" text="가상계좌 예금주명"/></td>
+                                                    <td class="border-bottom-0 border-right-0">
+                                                        <input type="text" class="form-control width-200 cybankOwner" name="cybankOwner" value="${tbStore.cybankOwner}" readonly>
+                                                    </td>
+                                                </tr>
                                               <%--  <tr>
                                                     <td class="border-left-0 border-top-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
                                                     <td class="border-top-0 border-right-0"><input type="text" class="form-control width-200"  value="${cBankName}" readonly>
@@ -4186,7 +4192,8 @@
     function popup(){
         var cybankTypeCode = $(".cybankTypeCode").val();
         var cybankAccount = $(".cybankAccount").val();
-        window.open("${path}/cyBankAccount/reset?type=3&no=${tbStore.storeNo}&oldNo="+cybankAccount+"&oldBankCode="+cybankTypeCode, "가상계좌 할당", "width=400, height=300, left=100, top=50");
+        var cybankOwner = $(".cybankOwner").val();
+        window.open("${path}/cyBankAccount/reset?type=3&no=${tbStore.storeNo}&oldNo="+cybankAccount+"&oldBankCode="+cybankTypeCode+"&owner="+cybankOwner, "가상계좌 할당", "width=400, height=300, left=100, top=50");
     }
 </script>
 </body>

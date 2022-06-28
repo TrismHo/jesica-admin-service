@@ -327,11 +327,13 @@ public interface TbStoreRepository extends JpaRepository<TbStore, Long>, JpaSpec
     @Modifying(clearAutomatically = true)
     @Query(value = "update tb_store set " +
             "cybank_type_code = :cybankTypeCode, " +
-            "cybank_account = :cybankAccount " +
+            "cybank_account = :cybankAccount, " +
+            "cybank_owner = :cybankOnwer " +
             "where store_no = :storeNo", nativeQuery = true)
     int setCyAccountSet(
             @Param("cybankTypeCode") String cybankTypeCode,
             @Param("cybankAccount") String cybankAccount,
+            @Param("cybankOnwer") String cybankOnwer,
             @Param("storeNo") Long storeNo
     );
 

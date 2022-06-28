@@ -32,6 +32,19 @@
     .form-control {
         padding: 7px .35rem;
     }
+    .dataTables_wrapper.dt-bootstrap4 .dataTables_filter {
+         display: block;
+     }
+    .dataTables_wrapper.dt-bootstrap4 .dataTables_filter label .form-control {
+        display: block;
+        margin-left: 8px;
+        width: 164px;
+        height: 22px;
+    }
+    .dataTables_wrapper.dt-bootstrap .dataTables_length label, .dataTables_wrapper.dt-bootstrap4 .dataTables_length label {
+        display: none;
+    }
+
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -83,22 +96,45 @@
                                         <td class="bg-light"><spring:message code="list.detail.franchiseeheadquarters1" text="렌터카 업체명"/></td>
                                         <td>
                                             <%--<input type="text" class="form-control width-200 storeName" name="storeName" value="" maxlength="30">--%>
-                                            <select class="form-control width-200 storeNo" name="storeNo">
+                                            <%--<select class="form-control width-200 storeNo" name="storeNo">
                                                 <c:forEach var="item"  items="${tbStoreList}"  varStatus="status">
                                                     <option value="${item.storeNo}" storeName="${item.storeName}">${item.storeName} [${item.storeNo}]</option>
                                                 </c:forEach>
-                                            </select>
+                                            </select>--%>
+                                            <label>
+                                                <input type="text" data-toggle="modal" data-target="#store_search_modal" value=""  placeholder="<spring:message code="list.search.distributorheadquarters1" text="가맹점"/>" class="form-control background-white storeTxt width-200" readonly>
+                                                <input type="hidden" name="storeNo" value=""  class="form-control background-white width-100" readonly>
+                                                <input type="hidden" name="storeName" value=""  class="form-control background-white width-100" readonly>
+                                            </label>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname1" text="렌터카 업체명을 입력해주세요."/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.1" text="차량번호"/></td>
                                         <td>
-                                            <select class="form-control width-200 carNum" name="carNum" >
+                                            <input type="text" data-toggle="modal" data-target="#carnum_search_modal"   value="" placeholder="<spring:message code="merchandise.search1.option1" text="차량번호 선택"/>" class="form-control background-white carNumTxt width-200 " readonly>
+                                            <input type="hidden" class="carNum" name="carNum" value="">
+                                         <%--   <table  class="listTable display table table-bordered w-100 table-striped carNum" name="">
+                                                <thead>
+                                                <tr class="text-center">
+                                                    <th class="text-center"><spring:message code="list.word.no" text="순번"/></th>
+                                                    <th class="text-center"><spring:message code="list.word.registrationdate" text="등록일"/></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach var="item" items="${carList}" varStatus="status">
+                                                    <tr class="detailRow" userNo="${item.carNum}">
+                                                        <td class="text-center">${item.carModel}(${item.carNum})</td>
+                                                        <td class="text-center"></td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>--%>
+                                          <%--  <select class="form-control width-200 carNum" name="carNum" >
                                                 <c:forEach var="item" items="${carList}" varStatus="status">
                                                     <option value="${item.carNum}">${item.carModel}(${item.carNum})</option>
                                                 </c:forEach>
-                                            </select>
+                                            </select>--%>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.chooseyourdefaultshippinggroup" text="차량번호를 선택해주세요"/></td>
                                     </tr>
@@ -206,11 +242,11 @@
 </div>
 
 <%--modal search start--%>
-<div class="modal fade" id="head_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="../../search/headSearch.jsp" %>
+<div class="modal fade" id="carnum_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchCarNum.jsp" %>
 </div>
-<div class="modal fade" id="branch_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="../../search/branchSearch.jsp" %>
+<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchStore.jsp" %>
 </div>
 <%--modal search end--%>
 
@@ -252,7 +288,18 @@
 
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
-
+   /* $(".carNum").DataTable({
+        language : lang_set, //or lang_eng
+        responsive: true,
+        dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+        //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+        buttons: [
+            /!*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*!/
+            /!*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*!/
+           /!* { extend: 'excel',text: '&nbsp; 엑셀 다운로드', className: 'btn-sm fa fa-file-excel' },*!/
+            /!*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*!/
+        ],
+    });*/
     let date = new Date();
 
     $(".startDtm").datepicker({
@@ -280,7 +327,24 @@
             $(this).val("0");
         }
     });
+   $(".storeSel").on("click",function(){
+       var storeNo = $(this).attr("storeNo");
+       var storeName = $(this).attr("storeName");
+       $("input[name=storeNo]").val(storeNo);
+       $("input[name=storeName]").val(storeName);
+       $(".storeTxt").val(storeName+" ["+storeNo+"]");
+       $(".storeModalCloseBtn").click();
+   });
 
+   $('.filterText').keyup(function(event) {
+       var val = $(this).val();
+       if (val == "") {
+           $('.filterUL li').hide();
+       } else {
+           $('.filterUL li').hide();
+           $(".filterUL li:contains('"+val+"')").show();
+       }
+   });
     $(() => {
         //렌터가 업체정보 리스트
         //가맹점 선택
@@ -336,7 +400,8 @@
                 }).then(function (isConfirm) {
                     if (isConfirm) {
 
-                        let storeName = $(".storeNo option:selected").attr("storeName");
+                        //let storeName = $(".storeNo option:selected").attr("storeName");
+                        let storeName = $("input[name=storeName]").val();
                         let carNum = $(".carNum").val();
                         let custDriverTel1 = $(".custDriverTel1").val();
                         let reservStartDate =  $(".startDtm").val().replaceAll("-","").replaceAll("-","") + $(".startDtmHH").val() + $(".startDtmMM").val() ;
@@ -372,6 +437,14 @@
                 });
             }
         });
+
+        $(".carNumSel").on("click",function(){
+            var carNum = $(this).attr("carNum");
+            var carModel = $(this).attr("carModel");
+            $(".carNumTxt").val(carModel+" ["+carNum+"]");
+            $("input[name=carNum]").val(carNum);
+            $(".carNumModalCloseBtn").click();
+        });
     });
 
 
@@ -389,6 +462,16 @@
         }
         return true;
     }
+
+    $('.filterText').keyup(function(event) {
+        var val = $(this).val();
+        if (val == "") {
+            $('.filterUL li').hide();
+        } else {
+            $('.filterUL li').hide();
+            $(".filterUL li:contains('"+val+"')").show();
+        }
+    });
 </script>
 </body>
 </html>

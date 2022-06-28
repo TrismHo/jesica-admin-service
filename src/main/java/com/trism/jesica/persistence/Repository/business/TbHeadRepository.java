@@ -175,11 +175,13 @@ public interface TbHeadRepository extends JpaRepository<TbHead, Long>, JpaSpecif
     @Modifying(clearAutomatically = true)
     @Query(value = "update tb_head set " +
             "cybank_type_code = :cybankTypeCode, " +
-            "cybank_account = :cybankAccount " +
+            "cybank_account = :cybankAccount, " +
+            "cybank_owner = :cybankOwner " +
             "where head_no = :headNo", nativeQuery = true)
     int setCyAccountSet(
             @Param("cybankTypeCode") String cybankTypeCode,
             @Param("cybankAccount") String cybankAccount,
+            @Param("cybankOwner") String cybankOwner,
             @Param("headNo") Long headNo
     );
 }

@@ -141,4 +141,10 @@ public class TbVacsVact implements Serializable {
     @Column(name = "cms_cd")
     private String cmsCd;
 
+    /**
+     * 타입 1:제휴본사 2:총판 3:가맹점
+     */
+    @Column(name = "group_type")
+    private String groupType;
+
 }

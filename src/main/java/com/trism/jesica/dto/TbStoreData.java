@@ -117,6 +117,11 @@ public class TbStoreData {
     private String cybankAccount;
 
     /**
+     * 가상계좌 번호
+     */
+    private String cybankOwner;
+
+    /**
      * PIN_번호 (출금비밀번호)
      */
     private String pinNum;
@@ -294,6 +299,7 @@ public class TbStoreData {
                 .memo(this.memo)
                 .cybankTypeCode(this.cybankTypeCode)
                 .cybankAccount(this.cybankAccount)
+                .cybankOwner(this.cybankOwner)
                 .pinNum(this.pinNum)
                 .bankTypeCode(this.bankTypeCode)
                 .bankAccount(this.bankAccount)
@@ -351,6 +357,7 @@ public class TbStoreData {
                 .memo(this.memo)
                 .cybankTypeCode(this.cybankTypeCode)
                 .cybankAccount(this.cybankAccount)
+                .cybankOwner(this.cybankOwner)
                 .pinNum(pinNum)
                 .bankTypeCode(this.bankTypeCode)
                 .bankAccount(bankAccount)

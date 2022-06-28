@@ -430,6 +430,13 @@
                                             </div>
                                         </td>
                                     </tr>--%>
+                                    <%--<tr>
+                                        <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="가상계좌 예금주"/></td>
+                                        <td class="" colspan="2"><input type="text" class="form-control width-200 cybankOwner" name="cybankOwner" value="" >
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.accountautomessage" text="가상계좌 예금주명을 입력해주세요(추후 수정불가)"/>
+                                        </td>
+                                    </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.withdrawalaccount" text="출금 계좌"/></td>
                                         <td class="p-0 border-0" colspan="2">

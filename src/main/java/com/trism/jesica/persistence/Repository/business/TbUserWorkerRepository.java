@@ -184,11 +184,13 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
     @Modifying(clearAutomatically = true)
     @Query(value = "update tb_user_worker set " +
             "cybank_type_code = :cybankTypeCode, " +
-            "cybank_account = :cybankAccount " +
+            "cybank_account = :cybankAccount, " +
+            "cybank_owner = :cybankOwner " +
             "where worker_no = :workerNo", nativeQuery = true)
     int setCyAccountSet(
             @Param("cybankTypeCode") String cybankTypeCode,
             @Param("cybankAccount") String cybankAccount,
+            @Param("cybankOwner") String cybankOwner,
             @Param("workerNo") Long workerNo
     );
 }

@@ -2,9 +2,9 @@ package com.trism.jesica.persistence.Entitiy.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.core.entity.BaseEntity;
 import com.trism.jesica.persistence.type.DataStatus;
-import com.trism.jesica.persistence.type.ServiceYn;
 import com.trism.jesica.persistence.type.ServiceYn;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -190,6 +190,13 @@ public class TbHeadSub extends BaseEntity {
     private String actualTel;
 
     /**
+     * 가상계좌 예금주
+     */
+    @Convert(converter = EmptyStringToNullConverter.class)
+    @Column(name = "cybank_owner ", length = 20)
+    private String cybankOwner;
+
+    /**
      * 총판 (양방향 매핑)
      */
     @OneToMany(mappedBy = "head", fetch = FetchType.LAZY)
@@ -215,7 +222,7 @@ public class TbHeadSub extends BaseEntity {
     }
 
     @Builder
-    public TbHeadSub(Long headNo, Integer brandNo, String insertUserId, String updateUserId, DataStatus dataStatus, ServiceYn serviceYn, String headName, String headTel, String authTel, Integer deposit, Integer cash, Integer cashDefault, String memoService, String memoArea, String memoEtc, String cybankTypeCode, String cybankAccount, String pinNum, String bankTypeCode, String bankAccount, String bankOwner, Boolean dlvyMngYn, String actualOwner, String actualAddr, String actualTel, TbHeadBusinessInfo businessInfo) {
+    public TbHeadSub(Long headNo, Integer brandNo, String insertUserId, String updateUserId, DataStatus dataStatus, ServiceYn serviceYn, String headName, String headTel, String authTel, Integer deposit, Integer cash, Integer cashDefault, String memoService, String memoArea, String memoEtc, String cybankTypeCode, String cybankAccount, String cybankOwner, String pinNum, String bankTypeCode, String bankAccount, String bankOwner, Boolean dlvyMngYn, String actualOwner, String actualAddr, String actualTel, TbHeadBusinessInfo businessInfo) {
         this.headNo = headNo;
         this.brandNo = brandNo;
         this.insertUserId = insertUserId;
@@ -233,6 +240,7 @@ public class TbHeadSub extends BaseEntity {
         this.memoEtc = memoEtc;
         this.cybankTypeCode = cybankTypeCode;
         this.cybankAccount = cybankAccount;
+        this.cybankOwner = cybankOwner;
         this.pinNum = pinNum;
         this.bankTypeCode = bankTypeCode;
         this.bankAccount = bankAccount;

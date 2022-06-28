@@ -2,6 +2,7 @@ package com.trism.jesica.persistence.Entitiy.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.Entitiy.cust.TbCustFavorite;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory;
 import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategoryFo;
@@ -330,6 +331,13 @@ public class TbStoreSub extends BaseEntity {
     @Column(name = "dlvy_area_yn", length = 100)
     private Integer dlvyAreaYn;
 
+    /**
+     * 가상계좌 예금주
+     */
+    @Convert(converter = EmptyStringToNullConverter.class)
+    @Column(name = "cybank_owner ", length = 20)
+    private String cybankOwner;
+
 
 
     /**
@@ -370,14 +378,15 @@ public class TbStoreSub extends BaseEntity {
                       ServiceYn serviceYn, String storeName, String storeNameInapp,
                       String storeTel, String authTel, Integer deposit, Integer cash,
                       Integer cashDefault, String mngrName, String memo, String cybankTypeCode,
-                      String cybankAccount, String pinNum, String bankTypeCode,
+                      String cybankAccount,String cybankOwner, String pinNum, String bankTypeCode,
                       String bankAccount, String bankOwner, Boolean alldayOpenYn,
                       StoreType storeType, MultiType multiType, MasterChargeType masterChargeYn,
                       MasterGoodsType masterGoodsYn, Long masterStoreNo, String poi, BigDecimal lat,
                       BigDecimal lng, String addr1, String addr2, String addr3, String addr4,
                       String addr5, String storeIntro, String imgFileSmall, String imgFile1,
                       Integer cookingTime, Integer openStatus,
-                      Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn) {
+                      Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn
+    ) {
         this.storeNo = storeNo;
 /*        this.headNo = headNo;
         this.branchNo = branchNo;*/
@@ -397,6 +406,7 @@ public class TbStoreSub extends BaseEntity {
         this.memo = memo;
         this.cybankTypeCode = cybankTypeCode;
         this.cybankAccount = cybankAccount;
+        this.cybankOwner = cybankOwner;
         this.pinNum = pinNum;
         this.bankTypeCode = bankTypeCode;
         this.bankAccount = bankAccount;

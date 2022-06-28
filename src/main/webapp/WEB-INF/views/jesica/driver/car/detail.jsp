@@ -317,6 +317,11 @@
             let update = "<spring:message code="list.script.update" text="수정"/>";
             let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
             let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
+
+            //공백제거
+            var carNum = $(".carNum").val().replace(/ /g,"");
+            $(".carNum").val(carNum);
+
             if (inputDataCheck(req)) {
                 swal({
                     title: wouldyouliketoupdate,

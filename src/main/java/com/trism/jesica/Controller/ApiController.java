@@ -1084,15 +1084,16 @@ public class ApiController {
     @ResponseBody
     @PostMapping("/workGroup/cybankAccount/reset")
     public ResponseEntity<?> cybankAccountReset(
-            @RequestParam("cyBankTypeCode") String cyBankTypeCode,
+            @RequestParam("cybankTypeCode") String cyBankTypeCode,
             @RequestParam("no") String no,
+            @RequestParam("owner") String owner,
             @RequestParam("type") Integer type,
             @RequestParam("oldBankCode") String oldBankCode,
             @RequestParam("oldNo") String oldNo
     ) {
         log.info("cyBankTypeCode::{}", cyBankTypeCode);
         Map<String,Object> map = new HashMap<>();
-        List<TbVacsVact> vacsVact =  apiService.cybankAccountReset(cyBankTypeCode,no,type,oldBankCode,oldNo);
+        List<TbVacsVact> vacsVact =  apiService.cybankAccountReset(cyBankTypeCode,no,type,oldBankCode,oldNo,owner);
         map.put("vacsVact",vacsVact);
         if(vacsVact != null){
             if(vacsVact.size() > 0) {
@@ -1145,6 +1146,9 @@ public class ApiController {
             }
             if("".equals(tbUserWorkerData.getBankAccount())){
                 tbUserWorkerData.setBankAccount(null);
+            }
+            if("".equals(tbUserWorkerData.getCybankOwner())){
+                tbUserWorkerData.setCybankOwner(null);
             }
             if("".equals(tbUserWorkerData.getProfileFile())){
                 tbUserWorkerData.setProfileFile(null);

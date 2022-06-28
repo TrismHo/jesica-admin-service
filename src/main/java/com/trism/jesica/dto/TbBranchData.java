@@ -44,6 +44,8 @@ public class TbBranchData {
 
     private String cybankAccount;
 
+    private String cybankOwner;
+
     private String pinNum;
 
     private String bankTypeCode;
@@ -77,6 +79,7 @@ public class TbBranchData {
                 .memoEtc(this.memoEtc)
                 .cybankTypeCode(this.cybankTypeCode)
                 .cybankAccount(this.cybankAccount)
+                .cybankOwner(this.cybankOwner)
                 .pinNum(this.pinNum)
                 .dlvyNo(this.dlvyNo)
                 .bankTypeCode(this.bankTypeCode)
@@ -107,6 +110,7 @@ public class TbBranchData {
                 .memoEtc(this.memoEtc)
                 .cybankTypeCode(this.cybankTypeCode)
                 .cybankAccount(this.cybankAccount)
+                .cybankOwner(this.cybankOwner)
                 .pinNum(pinNum)
                 .bankTypeCode(this.bankTypeCode)
                 .bankAccount(bankAccount)

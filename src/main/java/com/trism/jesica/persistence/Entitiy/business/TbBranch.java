@@ -208,6 +208,15 @@ public class TbBranch extends BaseEntity {
     private String actualTel;
 
     /**
+     * 가상계좌 예금주
+     */
+    @Convert(converter = EmptyStringToNullConverter.class)
+    @Column(name = "cybank_owner ", length = 20)
+    private String cybankOwner;
+
+
+
+    /**
      * 사업자 정보
      */
     @OneToOne(mappedBy = "branch", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
@@ -225,7 +234,7 @@ public class TbBranch extends BaseEntity {
     }
 
     @Builder
-    public TbBranch(Long branchNo, Integer headNo, String insertUserId, String updateUserId, DataStatus dataStatus, ServiceYn serviceYn, Integer dlvyNo, String branchName, String branchTel, String authTel, Integer deposit, Integer cash, Integer cashDefault, String memoService, String memoArea, String memoEtc, String cybankTypeCode, String cybankAccount, String pinNum, String bankTypeCode, String bankAccount, String bankOwner, String actualOwner, String actualAddr, String actualTel, TbBranchBusinessInfo businessInfo) {
+    public TbBranch(Long branchNo, Integer headNo, String insertUserId, String updateUserId, DataStatus dataStatus, ServiceYn serviceYn, Integer dlvyNo, String branchName, String branchTel, String authTel, Integer deposit, Integer cash, Integer cashDefault, String memoService, String memoArea, String memoEtc, String cybankTypeCode, String cybankAccount,String cybankOwner, String pinNum, String bankTypeCode, String bankAccount, String bankOwner, String actualOwner, String actualAddr, String actualTel, TbBranchBusinessInfo businessInfo) {
         this.branchNo = branchNo;
         this.headNo = headNo;
         this.insertUserId = insertUserId;
@@ -244,6 +253,7 @@ public class TbBranch extends BaseEntity {
         this.memoEtc = memoEtc;
         this.cybankTypeCode = cybankTypeCode;
         this.cybankAccount = cybankAccount;
+        this.cybankOwner = cybankOwner;
         this.pinNum = pinNum;
         this.bankTypeCode = bankTypeCode;
         this.bankAccount = bankAccount;

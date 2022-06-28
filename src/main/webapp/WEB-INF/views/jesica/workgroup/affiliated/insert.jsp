@@ -146,7 +146,13 @@
                                 <input type="hidden" name="cash" value="0" />
                                 <input type="hidden" name="cashDefault" value="0" />
                                 <input name="cybankTypeCode" class="form-control width-80 cybankTypeCode" value="" type="hidden" >
-                               <%-- <tr>
+                                <%--<tr>
+                                    <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="가상계좌 예금주"/></td>
+                                    <td class=""><input type="text" class="form-control width-200 cybankOwner" name="cybankOwner" value="" >
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.accountautomessage" text="가상계좌 예금주명을 입력해주세요(추후 수정불가)"/></td>
+                                </tr>--%>
+                                    <%-- <tr>
                                     <td class="bg-light"><spring:message code="list.detail.chargingaccount" text="충전계좌"/></td>
                                     <td class="p-0 ">
                                         <input type="hidden" name="deposit" value="0" />
@@ -177,6 +183,7 @@
                                     </td>
                                     <td class="text-danger-darker"><spring:message code="list.description.accountautomessage" text="캐시 충전시 입금할 은행을 선택하면 계좌번호가 자동 생성됩니다."/></td>
                                 </tr>--%>
+
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.withdrawalaccount" text="출금 계좌"/></td>
                                     <td class="p-0 border-0">
@@ -189,6 +196,7 @@
                                                     <input type="text" class="form-control width-200 bankAccount" name="bankAccount" value="" maxlength="50" numberOnly="true">
                                                 </td>
                                             </tr>
+
                                             <%--<tr>
                                                 <td class="border-left-0 border-top-0 width-200"><spring:message code="list.detail.bank" text="은행"/></td>
                                                 <td class="border-top-0 border-right-0 ">

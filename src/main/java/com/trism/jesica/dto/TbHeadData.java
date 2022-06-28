@@ -43,6 +43,8 @@ public class TbHeadData {
 
     private String cybankAccount;
 
+    private String cybankOwner;
+
     private String pinNum;
 
     private String bankTypeCode;

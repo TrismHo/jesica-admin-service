@@ -1197,7 +1197,7 @@ public class ApiService {
         return tbSystemCodeRepository.findBySysTypeAndDataStatus(sysType,DataStatus.OK);
     }
     @Transactional
-    public List<TbVacsVact> cybankAccountReset(String bankCode, String no, Integer type, String oldBankCode, String oldNo) {
+    public List<TbVacsVact> cybankAccountReset(String bankCode, String no, Integer type, String oldBankCode, String oldNo,String owner) {
 
         List<TbVacsVact> vacsVact = tbVacsVactRepository.findByBankCdAndAcctSt(bankCode,"0");
 
@@ -1206,20 +1206,20 @@ public class ApiService {
         if(vacsVact.size() > 0) {
             //본사
             if (type == 1){
-                result = tbHeadRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),Long.parseLong(no));
+                result = tbHeadRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),owner,Long.parseLong(no));
             //총판
             } else if (type == 2){
-                result = tbBranchRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),Long.parseLong(no));
+                result = tbBranchRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),owner,Long.parseLong(no));
             //가맹점
             } else if (type == 3){
-                result =tbStoreRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),Long.parseLong(no));
+                result =tbStoreRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),owner,Long.parseLong(no));
             //드라이버
             } else if (type == 4){
-                result =tbUserWorkerRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),Long.parseLong(no));
+                result =tbUserWorkerRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),owner,Long.parseLong(no));
             }
             if (result == 1){
-                //성공하면 할당으로 변경
-                tbVacsVactRepository.updateAcctst("1",vacsVact.get(0).getAcctNo(),vacsVact.get(0).getBankCd(),DateUtil.now_yyyymmdd());
+                //성공하면 할당으로 변경+예금주명 등록
+                tbVacsVactRepository.updateAcctst("1",vacsVact.get(0).getAcctNo(),vacsVact.get(0).getBankCd(),DateUtil.now_yyyymmdd(),type.toString(),owner,Long.parseLong(no));
 
                 //기존내역을 해지로 변경
                 tbVacsVactRepository.updateAcctstClose("9",oldNo,oldBankCode,DateUtil.now_yyyymmdd());

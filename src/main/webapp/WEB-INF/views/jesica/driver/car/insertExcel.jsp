@@ -67,11 +67,15 @@
                                         <tr>
                                             <td class="bg-light" style="width:10%;background-color: #fff;"><strong><spring:message code="list.search.franchiseselection" text="가맹점 선택"/><%--<spring:message code="merchandise.search1" text="default text"/>--%><%--가맹점선택--%></strong></td>
                                             <td style="width:30%;background-color: #fff;">
-                                                <select class="form-control width-150" name="storeNo" id="selectOption">
+                                               <%-- <select class="form-control width-150" name="storeNo" id="selectOption">
                                                     <c:forEach var="item"  items="${tbStoreLIst}"  varStatus="status">
                                                         <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>${item.storeName} [${item.storeNo}]</option>
                                                     </c:forEach>
-                                                </select>
+                                                </select>--%>
+                                                   <label>
+                                                       <input type="text" data-toggle="modal" data-target="#store_search_modal" value=""  placeholder="<spring:message code="list.search.distributorheadquarters1" text="가맹점"/>" class="form-control background-white storeTxt width-200" readonly>
+                                                       <input type="hidden" name="storeNo" value=""  class="form-control background-white width-100" readonly>
+                                                   </label>
                                             </td>
                                             <td class="bg-light" style="width:10%;background-color: #fff;">
                                                 <label for="fileBtn" class="btn btn-sm btn-info">파일선택<span class="ico download"></span></label>
@@ -108,11 +112,10 @@
 </div>
 
 <%--modal search start--%>
-<div class="modal fade" id="search_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="search.jsp" %>
-</div>
 <%--modal search end--%>
-
+<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchStore.jsp" %>
+</div>
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="../../../common/include_common_js.jsp" %>
 <!-- ================== END BASE JS ================== -->
@@ -162,7 +165,23 @@
         $("#excelUpForm").submit();
     })
 
+    $(".storeSel").on("click",function(){
+        var storeNo = $(this).attr("storeNo");
+        var storeName = $(this).attr("storeName");
+        $("input[name=storeNo]").val(storeNo);
+        $(".storeTxt").val("["+storeNo+"] "+storeName);
+        $(".storeModalCloseBtn").click();
+    });
 
+    $('.filterText').keyup(function(event) {
+        var val = $(this).val();
+        if (val == "") {
+            $('.filterUL li').hide();
+        } else {
+            $('.filterUL li').hide();
+            $(".filterUL li:contains('"+val+"')").show();
+        }
+    });
 
 
     $(() => {

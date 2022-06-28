@@ -44,6 +44,7 @@ public class TbUserWorkerData {
     private Integer cashDefault;
     private String cybankTypeCode;
     private String cybankAccount;
+    private String cybankOwner;
     private String pinNum;
     private String bankTypeCode;
     private String bankAccount;
@@ -82,6 +83,7 @@ public class TbUserWorkerData {
                 .cashDefault(this.cashDefault)
                 .cybankTypeCode(this.cybankTypeCode)
                 .cybankAccount(this.cybankAccount)
+                .cybankOwner(this.cybankOwner)
                 .pinNum(this.pinNum)
                 .bankTypeCode(this.bankTypeCode)
                 .bankAccount(this.bankAccount)
@@ -167,6 +169,7 @@ public class TbUserWorkerData {
                 .cashDefault(this.cashDefault)
                 .cybankTypeCode(this.cybankTypeCode)
                 .cybankAccount(this.cybankAccount)
+                .cybankOwner(this.cybankOwner)
                 .pinNum(pinNum)
                 .bankTypeCode(this.bankTypeCode)
                 .bankAccount(bankAccount)

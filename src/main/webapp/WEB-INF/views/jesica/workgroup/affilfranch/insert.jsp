@@ -558,7 +558,7 @@
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.memo" text="메모"/></td>
                                         <td><input type="text" class="form-control width-600 memo" name="memo" value="" maxlength="200"></td>
-                                        </td>
+
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력하세요"/></td>
                                     </tr>
                                 </table>

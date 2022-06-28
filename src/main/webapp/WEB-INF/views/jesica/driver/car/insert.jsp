@@ -50,11 +50,10 @@
                                     <tr>
                                         <td class="bg-light" style="width:15%"><spring:message code="list.detail.franchiseeheadquarters" text="가맹점"/></td>
                                         <td style="width:60%">
-                                            <select class="form-control width-150 storeNo" name="storeNo">
-                                                <c:forEach var="item" items="${tbStoreList}">
-                                                    <option value="${item.storeNo}">${item.storeName}[${item.storeNo}]</option>
-                                                </c:forEach>
-                                            </select>
+                                            <label>
+                                                <input type="text" data-toggle="modal" data-target="#store_search_modal" value=""  placeholder="<spring:message code="list.search.distributorheadquarters1" text="가맹점"/>" class="form-control background-white storeTxt width-200" readonly>
+                                                <input type="hidden" name="storeNo" value=""  class="form-control background-white width-100" readonly>
+                                            </label>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseselectastore" text="가맹점을 선택하세요. (등록후 변경 불가)" /></td>
                                     </tr>
@@ -81,7 +80,7 @@
                                         <td class="bg-light"><spring:message code="list.detail.123" text="안심번호" /><%--상품상태--%></td>
                                         <td class="text-danger-darker">
                                             <label>
-                                                <input type="text" data-toggle="modal" data-target="#safen_search_modal" name="safenNum" value=""  placeholder="<spring:message code="list.search.distributorheadquarters1" text="안심번호"/>" class="form-control background-white safenNum width-100" readonly>
+                                                <input type="text" data-toggle="modal" data-target="#safen_search_modal" name="safenNum" value=""  placeholder="<spring:message code="list.search.distributorheadquarters1" text="안심번호"/>" class="form-control background-white safenNum width-200" readonly>
                                             </label>
                                           <%--  <select class="form-control width-150 safenNum" name="safenNum">
                                                 <c:forEach var="item" items="${tbSafenMapping}">
@@ -116,8 +115,8 @@
 </div>
 
 <%--modal search start--%>
-<div class="modal fade" id="search_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="search.jsp" %>
+<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchStore.jsp" %>
 </div>
 <%--<div class="modal fade" id="head_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="../../search/headSearch.jsp" %>
@@ -196,6 +195,24 @@
         }).blur(function(){
             if($(this).val() == ""){
                 $(this).val("0");
+            }
+        });
+
+        $(".storeSel").on("click",function(){
+            var storeNo = $(this).attr("storeNo");
+            var storeName = $(this).attr("storeName");
+            $("input[name=storeNo]").val(storeNo);
+            $(".storeTxt").val(storeName+" ["+storeNo+"]");
+            $(".storeModalCloseBtn").click();
+        });
+
+        $('.filterText').keyup(function(event) {
+            var val = $(this).val();
+            if (val == "") {
+                $('.filterUL li').hide();
+            } else {
+                $('.filterUL li').hide();
+                $(".filterUL li:contains('"+val+"')").show();
             }
         });
         $('.searchSafenText').keyup(function(event) {
@@ -495,7 +512,12 @@
             let confirm = "<spring:message code="list.script.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
 
+            //공백제거
+            var carNum = $(".carNum").val().replace(/ /g,"");
+            $(".carNum").val(carNum);
 
+            var safenNum = $(".safenNum").val().replace(/ /g,"");
+            $(".safenNum").val(safenNum);
 
             if (inputDataCheck(req)) {
                 swal({
@@ -514,7 +536,6 @@
                             type: "POST",
                             url: url,
                             data: formData,
-                            /*contentType: "application/json;",*/
                             dataType: "json",
                             processData: false,
                             contentType: false,
@@ -531,8 +552,6 @@
                 });
             }
         });
-
-
     });
     function inputDataCheck(args) {
         let carModelmsg = "<spring:message code="list.script.23" text="차랑모델을 입력해주세요."/>";

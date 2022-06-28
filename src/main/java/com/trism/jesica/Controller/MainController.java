@@ -606,6 +606,7 @@ public class MainController {
     @GetMapping("/cyBankAccount/reset")
     public ModelAndView cyBankAccountSearch(
             @RequestParam("type") Integer type,
+            @RequestParam("owner") String owner,
             @RequestParam("no") String no,
             @RequestParam("oldBankCode") String oldBankCode,
             @RequestParam("oldNo") String oldNo,
@@ -615,6 +616,7 @@ public class MainController {
         model.addAttribute("no",no);
         model.addAttribute("oldBankCode",oldBankCode);
         model.addAttribute("oldNo",oldNo);
+        model.addAttribute("owner",owner);
         return new ModelAndView("/jesica/search/cyBankAccountSearch");
     }
 

@@ -377,8 +377,8 @@ public class DriverApplyController {
 
     @GetMapping("/car/insertExcel")
     public ModelAndView insertExcel( Model model) {
-        List<TbStore> tbStoreLIst = apiService.getStoreList();
-        model.addAttribute("tbStoreLIst", tbStoreLIst);
+        List<TbStore> tbStoreList = apiService.getStoreList();
+        model.addAttribute("tbStoreList", tbStoreList);
 
         return new ModelAndView("jesica/driver/car/insertExcel");
     }

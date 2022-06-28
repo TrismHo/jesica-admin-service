@@ -60,9 +60,13 @@
             <div class="timeline-body">
                 <div style="margin-left: 5px">
                     <form id="update_pwd_form" class="update_pwd_form d-inline">
-                        <strong><spring:message code="list.detail.update1" text="은행명"/>&nbsp;&nbsp;&nbsp;&nbsp; :</strong>
-                        <select class="form-control width-200 m-r-10 cyBankTypeCode"  name="cyBankTypeCode">
+                        <strong><spring:message code="list.detail.update1" text="은행명"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong>
+                        <select class="form-control width-200 m-r-10 cybankTypeCode"  name="cybankTypeCode">
                         </select>
+                        <br>
+                        <br>
+                        <strong><spring:message code="list.detail.update1" text="예금주명"/>&nbsp :</strong>
+                        <input type="text" class="form-control width-200 cybankOwner m-r-10" name="cybankOwner">
                     </form>
                     <button type="button" class="btn btn-primary cyBankReset"><spring:message code="list.detail.update1" text="가상계좌 신규할당"/></button>
                 </div>
@@ -85,41 +89,46 @@
             window.close();
         });
         $(document).on("click",".cyBankReset",function(){
-            var cyBankTypeCodeVal = $(".cyBankTypeCode").val();
-            var cyBankTypeCodeTxt = $(".cyBankTypeCode option:selected").text();
+            var cybankTypeCodeVal = $(".cybankTypeCode").val();
+            var cybankOwner = $(".cybankOwner").val();
+            var cybankTypeCodeTxt = $(".cybankTypeCode option:selected").text();
 
-            //가상계좌정보
-            $.ajax({
-                type: "POST",
-                url: "${path}/api/workGroup/cybankAccount/reset",
-                data: {
-                    cyBankTypeCode : cyBankTypeCodeVal,
-                    no : "${no}",
-                    type : "${type}",
-                    oldBankCode : "${oldBankCode}",
-                    oldNo : "${oldNo}"
-                },
-                /*contentType: "application/json;",*/
-                dataType: "json",
-                success: function(data) {
-                    if (data.result == 200) {
-                        alert("가상계좌가 입력되었습니다.");
-                        opener.$(".cybankTypeCode").val(cyBankTypeCodeVal);
-                        opener.$(".cybankTypeCodeTxt").val(cyBankTypeCodeTxt);
-                        opener.$(".cybankAccount").val(data.cybankAccount);
-                        window.close();
-                    } else {
-                        alert("가상계좌할당에 실패하였습니다.");
-                      /*  opener.$(".cybankTypeCode").val("");
-                        opener.$(".cybankTypeCodeTxt").val("");
-                        opener.$(".cybankAccount").val("");*/
+            if(cybankOwner == "" || cybankOwner == null){
+                alert("가상계좌 예금주명을 입력해주세요.");
+                return;
+            } else {
+                //가상계좌정보
+                $.ajax({
+                    type: "POST",
+                    url: "${path}/api/workGroup/cybankAccount/reset",
+                    data: {
+                        cybankTypeCode : cybankTypeCodeVal,
+                        owner : cybankOwner,
+                        no : "${no}",
+                        type : "${type}",
+                        oldBankCode : "${oldBankCode}",
+                        oldNo : "${oldNo}"
+                    },
+                    /*contentType: "application/json;",*/
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.result == 200) {
+                            alert("가상계좌가 입력되었습니다.");
+                            opener.$(".cybankTypeCode").val(cybankTypeCodeVal);
+                            opener.$(".cybankTypeCodeTxt").val(cybankTypeCodeTxt);
+                            opener.$(".cybankOwner").val(cybankOwner);
+                            opener.$(".cybankAccount").val(data.cybankAccount);
+                            window.close();
+                        } else {
+                            alert("가상계좌할당에 실패하였습니다.");
+                            /*  opener.$(".cybankTypeCode").val("");
+                              opener.$(".cybankTypeCodeTxt").val("");
+                              opener.$(".cybankAccount").val("");*/
+                        }
+
                     }
-
-                }
-            });
-
-
-
+                });
+            }
         });
         //가상계좌(입금)
         $.ajax({

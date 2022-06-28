@@ -376,6 +376,12 @@ public class TbStore extends BaseEntity {
     @Column(name = "return_use_yn")
     private int returnUseYn;
 
+    /**
+     * 가상계좌 예금주
+     */
+    @Convert(converter = EmptyStringToNullConverter.class)
+    @Column(name = "cybank_owner ", length = 20)
+    private String cybankOwner;
 
     /**
      * 사업자 정보
@@ -422,7 +428,7 @@ public class TbStore extends BaseEntity {
                    ServiceYn serviceYn, String storeName, String storeNameInapp,
                    String storeTel, String authTel, Integer deposit, Integer cash,
                    Integer cashDefault, String mngrName, String memo, String cybankTypeCode,
-                   String cybankAccount, String pinNum, String bankTypeCode,
+                   String cybankAccount, String cybankOwner,String pinNum, String bankTypeCode,
                    String bankAccount, String bankOwner, Boolean alldayOpenYn,
                    MultiType multiType, MasterChargeType masterChargeYn,
                    MasterGoodsType masterGoodsYn, Long masterStoreNo,ServiceType serviceType, String poi, BigDecimal lat,
@@ -450,6 +456,7 @@ public class TbStore extends BaseEntity {
         this.memo = memo;
         this.cybankTypeCode = cybankTypeCode;
         this.cybankAccount = cybankAccount;
+        this.cybankOwner = cybankOwner;
         this.pinNum = pinNum;
         this.bankTypeCode = bankTypeCode;
         this.bankAccount = bankAccount;
