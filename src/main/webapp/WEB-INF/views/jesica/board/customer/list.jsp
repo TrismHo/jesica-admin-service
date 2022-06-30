@@ -207,6 +207,12 @@
         let custNo = $(this).attr("custno");
         location.href = "${path}/board/cust/detail?custNo=" + custNo;
     });
+    $(document).on("click",".btn-pwd",function() {
+        let custNo = $(this).attr("custno");
+        $("#custNo").val(custNo);
+        $("#loginPwd").val('');
+    });
+
     $(() => {
         let nameForm = document.getElementById("custName");
         let telForm = document.getElementById("custTel");
@@ -258,11 +264,7 @@
             $(".endDate").datepicker('setDate', endDate);
         }
 
-        $(".btn-pwd").click(function () {
-            let custNo = $(this).attr("custno");
-            $("#custNo").val(custNo);
-            $("#loginPwd").val('');
-        });
+
 
         $(".searchOp").change(function(e) {
             let option = e.target.value;
@@ -284,7 +286,7 @@
             }
         });
 
-        $(".update_pwd_btn").click(function() {
+        $(document).on("click",".update_pwd_btn",function() {
             let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate1" text="수정하시겠습니까?"/>";
             let update = "<spring:message code="list.script.update1" text="수정"/>";
             let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
