@@ -194,6 +194,11 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    $(document).on("click", ".detailRow", function() {
+        let couponNo = $(this).attr("couponNo")
+        location.href = "${path}/coupon/management/detail?couponNo="+couponNo;
+    });
+
     $(() => {
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
@@ -202,13 +207,6 @@
         $(".insert_btn").click(function() {
            location.href = '${path}/coupon/management/insert';
         });
-
-        $(".detailRow").click(function() {
-            let couponNo = $(this).attr("couponNo")
-            location.href = "${path}/coupon/management/detail?couponNo="+couponNo;
-        });
-
-
 
         let date = new Date();
         let startDate = "${searchValue.startDate}";
