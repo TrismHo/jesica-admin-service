@@ -671,20 +671,31 @@
         }
 
         <%--documentURL = "${path}/system/control/view";    //팝업창에 출력될 페이지 URL--%>
-        /*documentURL = "http://192.168.0.90:15000/control?accessToken=${sessionScope.accessToken}";    //local 관제*/
-        documentURL = "http://ctl-d.jesicar.co.kr:15000/control?accessToken=${sessionScope.accessToken}";    //개발서버 관제 URL
-        //documentURL = "https://ctl.jesicar.co.kr/control?accessToken=${sessionScope.accessToken}";    //운영서버 관제 URL
+        // const documentURL = "http://192.168.0.90:15000/control";    //local 관제
+        const documentURL = "http://ctl-d.jesicar.co.kr:15000/control";    //개발서버 관제 URL
+        //const documentURL = "https://ctl.jesicar.co.kr/control";    //운영서버 관제 URL
         windowname = "관제";
         intWidth = screenSizeWidth;
         intHeight = screenSizeHeight;
         intYOffset = 0 ;
+        let obWindow;
         if(Option){
-            obwindow = window.open(documentURL,windowname, "fullscreen=yes, toolbar=no, location=no, directories=no, status=no, menubar=no,scrollbars=no,resizable=no") ;
+            obWindow = window.open(documentURL,windowname, "fullscreen=yes, toolbar=no, location=no, directories=no, status=no, menubar=no,scrollbars=no,resizable=no") ;
         } else {
-            obwindow = window.open(documentURL,windowname, " toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes,resizable=no") ;
-            obwindow.resizeTo(intWidth, intHeight) ;
-            obwindow.moveTo(intXOffset, intYOffset);
+            obWindow = window.open(documentURL,windowname, " toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes,resizable=no") ;
+            obWindow.resizeTo(intWidth, intHeight) ;
+            obWindow.moveTo(0, intYOffset);
         }
+        window.addEventListener('message', (e) => {
+            if (e.data === 'ctlLoadComplete') {
+                const accessToken = '${sessionScope.accessToken}';
+                const data = {
+                    type: 'accessToken',
+                    accessToken,
+                }
+                obWindow.postMessage(data, documentURL);
+            }
+        });
     }
 
     function phoneNumber(value) {
