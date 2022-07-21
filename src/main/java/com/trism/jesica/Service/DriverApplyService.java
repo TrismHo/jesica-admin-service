@@ -205,5 +205,9 @@ public class DriverApplyService {
     public List<TbStoreRentalCarDTO> getCarList(Long storeNo) {
         return  tbStoreRentalCarRepository.findByStoreNoAndDataStatus(storeNo,DataStatus.OK);
     }
+    @Transactional(readOnly = true)
+    public List<TbStoreRentalCar> getCarListALL() {
+        return  tbStoreRentalCarRepository.findByDataStatus(DataStatus.OK);
+    }
 }
 

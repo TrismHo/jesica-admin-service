@@ -194,20 +194,27 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    $(document).on("click",".detailRow",function(){
+        let couponNo = $(this).attr("couponNo")
+        location.href = "${path}/board/management/detail?couponNo="+couponNo;
+    });
+    $(document).on("click",".insert_btn",function(){
+        location.href = '${path}/board/management/insert';
+    });
     $(() => {
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
         });
 
-        $(".insert_btn").click(function() {
+       /* $(".insert_btn").click(function() {
            location.href = '${path}/board/management/insert';
-        });
+        });*/
 
-        $(".detailRow").click(function() {
+        /*$(".detailRow").click(function() {
             let couponNo = $(this).attr("couponNo")
             location.href = "${path}/board/management/detail?couponNo="+couponNo;
         });
-
+*/
 
 
         let date = new Date();

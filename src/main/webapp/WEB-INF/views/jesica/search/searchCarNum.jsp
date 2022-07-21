@@ -34,7 +34,7 @@
                         <option value="name">명칭</option>
                         <option value="code">코드</option>
                     </select>--%>
-                    <input type="text" class="form-control filterText ml-2"  style="width: 55%;" placeholder="<spring:message code="list.description.enterthenameoftheaffiliatedheadoffice1231" text="차량번호"/>" maxlength="150">
+                    <input type="text" class="form-control filterText ml-2" onkeyup="enterkey()"  style="width: 55%;" placeholder="<spring:message code="list.description.enterthenameoftheaffiliatedheadoffice1231" text="차량번호"/>" maxlength="150">
                     <%--<input type="button" class="btn btn-primary searchHeadBtn" style="margin-bottom: 3px;" value="<spring:message code="list.search.search" text="검색"/>">--%>
                 </div>
                 <div class="list m-t-10" style="background-color: #e4e4e4;">
@@ -47,7 +47,7 @@
                                 <label class="head_text">
                                     ${item.carModel}
                                 </label>
-                                <div class="float-right "><input type="button" class="btn btn-primary carNumSel" carModel="${item.carModel}" carNum="${item.carNum}"  style="height: 25px; line-height: 0px;margin-top: -5px;" headno="1000" value="적용"></div>
+                                <div class="float-right "><input type="button" class="btn btn-primary carNumSel" carModel="${item.carModel}" carNum="${item.carNum}"  style="height: 25px; line-height: 0px;margin-top: -5px;" headno="1000"  value="적용"></div>
                             </li>
                         </c:forEach>
                     </ul>

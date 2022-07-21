@@ -1650,7 +1650,8 @@ public class SearchUtil {
 
                 }
             }
-            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            //predicate.add(builder.between(root.<LocalDateTime>get("finishDate"),startDate,endDate));
+            predicate.add(builder.or(builder.between(root.<LocalDateTime>get("finishDate"),startDate,endDate),builder.between(root.<LocalDateTime>get("cancelDate"),startDate,endDate)));
         } catch (Exception e){
             e.printStackTrace();
         }

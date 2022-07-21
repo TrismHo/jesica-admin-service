@@ -80,16 +80,11 @@
                                 <form name="frmSearch" id="frmSearch">
                                     <input type="hidden" class="form-control ml-2 selHeadNo" name="headNo" value="1000}">
                                     <input type="hidden" class="form-control ml-2 selBranchNo" name="branchNo" value="10000">
-                                    <input type="hidden" class="headNo" name="headNo"
-                                           value="1000">
-                                    <input type="hidden" class="headName" name="headNoText"
-                                           value="${searchValue.headNoText}">
-                                    <input type="hidden" class="branchNo" name="branchNo"
-                                           value="10000">
-                                    <input type="hidden" class="branchName" name="branchNoText"
-                                           value="${searchValue.branchNoText}">
-                                    <input type="hidden" class="storeNo" name="storeNo"
-                                           value="100000">
+                                    <input type="hidden" class="headNo" name="headNo" value="1000">
+                                    <input type="hidden" class="headName" name="headNoText" value="${searchValue.headNoText}">
+                                    <input type="hidden" class="branchNo" name="branchNo" value="10000">
+                                    <input type="hidden" class="branchName" name="branchNoText" value="${searchValue.branchNoText}">
+                                    <input type="hidden" class="storeNo" name="storeNo" value="100000">
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr >
@@ -342,20 +337,16 @@
                                                                           text="주문번호"/></th>
                         <th class="align-middle"><spring:message code="list.word.distributor" text="총판"/></th>
                         <th class="align-middle "><spring:message code="list.word.franchisee" text="가맹점"/></th>
-                        <th class="align-middle "><spring:message code="list.word.merchantcontact"
-                                                                           text="가맹점연락처"/></th>
+                        <th class="align-middle "><spring:message code="list.word.merchantcontact" text="가맹점연락처"/></th>
                       <%--  <th class="align-middle"><spring:message code="list.word.orderinggroup" text="발주그룹"/></th>--%>
-                        <th class="align-middle "><spring:message code="list.word.1"
-                                                                           text="결제상태"/></th>
-                        <th class="align-middle "><spring:message code="list.word.orderstatus1"
-                                                                           text="주문구분"/></th>
-                        <th class="align-middle "><spring:message code="list.word.orderstatus1"
-                                                                           text="주문상태"/></th>
+                        <th class="align-middle "><spring:message code="list.word.1" text="결제상태"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderstatus1" text="주문구분"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderstatus1" text="주문상태"/></th>
                         <th class="align-middle "><spring:message code="list.word.orderdate" text="주문일시"/></th>
                         <th class="align-middle "><spring:message code="list.word.departuredate" text="출발일시"/></th>
                         <th class="align-middle "><spring:message code="list.word.completiondate" text="완료일시"/></th>
-                        <th class="align-middle "><spring:message
-                                code="list.word.customercontactinformation" text="주문고객연락처"/></th>
+                        <th class="align-middle "><spring:message code="list.word.completiondate" text="취소일시"/></th>
+                        <th class="align-middle "><spring:message code="list.word.customercontactinformation" text="주문고객연락처"/></th>
                         <th class="align-middle"><spring:message code="list.word.orderamount" text="주문금액"/></th>
                         <th class="align-middle "><spring:message code="list.word.discountamount" text="할인금액"/></th>
                         <th class="align-middle "><spring:message code="list.word.servicecharge" text="봉사료"/></th>
@@ -402,6 +393,9 @@
                                     </c:when>
                                     <c:when test="${item.orderPayStatus == 4}">
                                         <spring:message code="list.word.4" text="결제대기"/>
+                                    </c:when>
+                                    <c:when test="${item.orderPayStatus == 5}">
+                                        <spring:message code="list.word.5" text="결제취소"/>
                                     </c:when>
                                     <c:otherwise>
                                     </c:otherwise>
@@ -482,12 +476,10 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td class="text-center"><javatime:format value="${item.orderDate}"
-                                                                     pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                            <td class="text-center"><javatime:format value="${item.pickupDate}"
-                                                                     pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                            <td class="text-center"><javatime:format value="${item.finishDate}"
-                                                                     pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                            <td class="text-center"><javatime:format value="${item.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                            <td class="text-center"><javatime:format value="${item.pickupDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                            <td class="text-center"><javatime:format value="${item.finishDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                            <td class="text-center"><javatime:format value="${item.cancelDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                             <td>${item.custTel}</td>
                             <td class="text-right"><fmt:formatNumber value="${item.orderAmt}" pattern="#,###"/>
                                 <spring:message code="list.word.won" text="원"/></td>
