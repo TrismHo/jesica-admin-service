@@ -8,7 +8,6 @@ import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.Util.PoiUtil;
 import com.trism.jesica.Util.Secure.CipherAESUtils;
 import com.trism.jesica.config.KeyGeneratorConfig;
-import com.trism.jesica.dto.TbStoreRentalCarDTO;
 import com.trism.jesica.dto.TbStoreRentalCarData;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
@@ -391,7 +390,10 @@ public class DriverApplyController {
      * @param excelFile
      */
     @RequestMapping(value = "/car/Excelupload")
-    public ModelAndView uploadExcel(Model model,@RequestParam("storeNo") String storeNo, @RequestParam("excelFile") MultipartFile excelFile) {
+    public ModelAndView uploadExcel(Model model
+            ,@RequestParam("storeNo") Long storeNo
+            ,@RequestParam("excelFile") MultipartFile excelFile) {
+        log.info("::::::::::storeNo",storeNo);
 //        Map<String, Integer> departMap = departmentService.getDepartments().stream()
 //                .collect(Collectors.toMap(Department::getName, Department::getId));
         List<TbStoreRentalCarData> userList = new ArrayList<>();
@@ -459,7 +461,8 @@ public class DriverApplyController {
                 }
 
                 //가맹점번호
-                tbStoreRentalCar.setStoreNo(Long.parseLong(storeNo));
+                //tbStoreRentalCar.setStoreNo(Long.parseLong(storeNo));
+                tbStoreRentalCar.setStoreNo(storeNo);
                 //데이터상태
                 tbStoreRentalCar.setDataStatus(DataStatus.OK);
                 //입력일시
@@ -557,9 +560,10 @@ public class DriverApplyController {
         try {
 
             List<TbStore> tbStoreList = apiService.getStoreList();
-            List<TbStoreRentalCarDTO> resultList = null;
+            List<TbStoreRentalCar> resultList = null;
             if(!tbStoreList.isEmpty()){
-                resultList =  driverApplyService.getCarList(tbStoreList.get(0).getStoreNo());
+                //resultList =  driverApplyService.getCarList(tbStoreList.get(0).getStoreNo());
+                resultList =  driverApplyService.getCarListALL();
             } else {
                 resultList = null;
             }

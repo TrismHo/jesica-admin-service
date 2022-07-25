@@ -497,7 +497,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
             "  FROM (    " +
             "    SELECT    " +
-            "      date_format(car_use_date, '%y-%m-%d') AS yyyymmdd,    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
             "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
@@ -510,8 +510,8 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        order_status_code = 40 OR    " +
             "        (order_status_code = 41 AND order_pay_status = 5)    " +
             "      )    " +
-            "      and car_use_date BETWEEN :startDate AND :endDate    " +
-            "      and DAYOFWEEK(car_use_date) = :day    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
+            "      and DAYOFWEEK(IFNULL(finish_date, cancel_date)) = :day    " +
             "       and order_type_code = :orderTypeCode    " +
             "    GROUP BY yyyymmdd    " +
             "  ) dd    " +
@@ -544,7 +544,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
             "  FROM (    " +
             "    SELECT    " +
-            "      date_format(car_use_date, '%y-%m-%d') AS yyyymmdd,    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
             "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
@@ -557,7 +557,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        order_status_code = 40 OR    " +
             "        (order_status_code = 41 AND order_pay_status = 5)    " +
             "      )    " +
-            "      and car_use_date BETWEEN :startDate AND :endDate    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
             "      and order_type_code in (20 ,21)    " +
             "    GROUP BY yyyymmdd    " +
             "  ) dd    " +
@@ -590,7 +590,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
             "  FROM (    " +
             "    SELECT    " +
-            "      date_format(car_use_date, '%y-%m-%d') AS yyyymmdd,    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
             "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
@@ -603,7 +603,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        order_status_code = 40 OR    " +
             "        (order_status_code = 41 AND order_pay_status = 5)    " +
             "      )    " +
-            "      and car_use_date BETWEEN :startDate AND :endDate    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
             "      and order_type_code = :orderTypeCode    " +
             "    GROUP BY yyyymmdd    " +
             "  ) dd    " +
@@ -636,7 +636,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
             "  FROM (    " +
             "    SELECT    " +
-            "      date_format(car_use_date, '%y-%m-%d') AS yyyymmdd,    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
             "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
@@ -649,7 +649,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        order_status_code = 40 OR    " +
             "        (order_status_code = 41 AND order_pay_status = 5)    " +
             "      )    " +
-            "      and car_use_date BETWEEN :startDate AND :endDate    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
             "      and DAYOFWEEK(car_use_date) = :day    " +
             "       and order_type_code in (20, 21)    " +
             "    GROUP BY yyyymmdd    " +
@@ -690,7 +690,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
             "  FROM (    " +
             "    SELECT    " +
-            "      date_format(car_use_date, '%Y/%m') AS yyyymmdd,    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%Y/%m') AS yyyymmdd,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
             "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
@@ -703,7 +703,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        order_status_code = 40 OR    " +
             "        (order_status_code = 41 AND order_pay_status = 5)    " +
             "      )    " +
-            "      and car_use_date BETWEEN :startDate AND :endDate    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
             "       and order_type_code in (20, 21)    " +
             "    GROUP BY yyyymmdd    " +
             "  ) dd    " +
@@ -736,7 +736,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
             "  FROM (    " +
             "    SELECT    " +
-            "      date_format(car_use_date, '%Y/%m') AS yyyymmdd,    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%Y/%m') AS yyyymmdd,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
             "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
             "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
@@ -749,7 +749,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        order_status_code = 40 OR    " +
             "        (order_status_code = 41 AND order_pay_status = 5)    " +
             "      )    " +
-            "      and car_use_date BETWEEN :startDate AND :endDate    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
             "       and order_type_code = :orderTypeCode    " +
             "    GROUP BY yyyymmdd    " +
             "  ) dd    " +
@@ -793,7 +793,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        IFNULL(LAG(successCall) OVER (ORDER BY weekNum), '') AS beforeCall    " +
             "    FROM (    " +
             "        SELECT    " +
-            "            TRUNCATE(DATEDIFF(car_use_date, :startDate) / 7, 0) AS weekNum,    " +
+            "            TRUNCATE(DATEDIFF(IFNULL(finish_date, cancel_date), :startDate) / 7, 0) AS weekNum,    " +
             "            SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
             "            SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
             "            SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
@@ -806,7 +806,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "            order_status_code = 40 OR    " +
             "            (order_status_code = 41 AND order_pay_status = 5)    " +
             "        )    " +
-            "        and car_use_date BETWEEN :startDate AND :endDate    " +
+            "        and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
             "        and order_type_code in (20, 21)    " +
             "        GROUP BY    " +
             "            weekNum    " +
@@ -844,7 +844,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        IFNULL(LAG(successCall) OVER (ORDER BY weekNum), '') AS beforeCall    " +
             "    FROM (    " +
             "        SELECT    " +
-            "            TRUNCATE(DATEDIFF(car_use_date, :startDate) / 7, 0) AS weekNum,    " +
+            "            TRUNCATE(DATEDIFF(IFNULL(finish_date, cancel_date), :startDate) / 7, 0) AS weekNum,    " +
             "            SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
             "            SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
             "            SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
@@ -857,7 +857,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "            order_status_code = 40 OR    " +
             "            (order_status_code = 41 AND order_pay_status = 5)    " +
             "        )    " +
-            "        and car_use_date BETWEEN :startDate AND :endDate    " +
+            "        and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
             "        and order_type_code = :orderTypeCode    " +
             "        GROUP BY    " +
             "            weekNum    " +
@@ -926,7 +926,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "  t1.totalCnt  " +
             "FROM (  " +
             "  SELECT  " +
-            "    date_format(car_use_date, '%y-%m-%d') AS yyyymmdd,  " +
+            "    date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,  " +
             "    SUM(CASE WHEN order_type_code = 20 THEN 1 ELSE 0 END) AS takeoverCnt,  " +
             "    SUM(CASE WHEN order_type_code = 21 THEN 1 ELSE 0 END) AS returnCnt,  " +
             "    COUNT(1) AS totalCnt  " +
@@ -934,7 +934,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "    tb_call_all  " +
             "  WHERE  " +
             "    order_status_code = 40  " +
-            "    and car_use_date BETWEEN :startDate AND :endDate  " +
+            "    and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate  " +
             "  GROUP BY yyyymmdd  " +
             ") t1 left join (  " +
             "  SELECT   " +
