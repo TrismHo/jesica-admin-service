@@ -688,11 +688,6 @@
         }
         window.addEventListener('message', (e) => {
             if (e.data === 'ctlLoadComplete') {
-                /*const data = {
-                    type: 'accessToken',
-                    accessToken,
-                }*/
-
                 const accessToken = '${sessionScope.accessToken}';
                 const clientId = '${cookie.clientId.value}';
                 const code = '${cookie.code.value}';
@@ -706,7 +701,6 @@
                 }
 
                 obWindow.postMessage(data, documentURL);
-                console.log(new Date());
             }
         });
     }
