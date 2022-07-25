@@ -671,8 +671,8 @@
         }
 
         <%--documentURL = "${path}/system/control/view";    //팝업창에 출력될 페이지 URL--%>
-        // const documentURL = "http://192.168.0.90:15000/control";    //local 관제
-        const documentURL = "http://ctl-d.jesicar.co.kr:15000/control";    //개발서버 관제 URL
+        const documentURL = "http://192.168.0.90:15000/control";    //local 관제
+        // const documentURL = "http://ctl-d.jesicar.co.kr:15000/control";    //개발서버 관제 URL
         //const documentURL = "https://ctl.jesicar.co.kr/control";    //운영서버 관제 URL
         windowname = "관제";
         intWidth = screenSizeWidth;
@@ -688,12 +688,25 @@
         }
         window.addEventListener('message', (e) => {
             if (e.data === 'ctlLoadComplete') {
-                const accessToken = '${sessionScope.accessToken}';
-                const data = {
+                /*const data = {
                     type: 'accessToken',
                     accessToken,
+                }*/
+
+                const accessToken = '${sessionScope.accessToken}';
+                const clientId = '${cookie.clientId.value}';
+                const code = '${cookie.code.value}';
+                const refreshToken = '${cookie.refreshToken.value}';
+                const data = {
+                    type: 'authInfo',
+                    clientId,
+                    code,
+                    accessToken,
+                    refreshToken,
                 }
+
                 obWindow.postMessage(data, documentURL);
+                console.log(new Date());
             }
         });
     }
