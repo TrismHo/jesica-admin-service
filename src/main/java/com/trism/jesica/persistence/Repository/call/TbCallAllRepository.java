@@ -874,7 +874,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return + 회원통계
      */
-    @Query(value = "select     " +
+    /*@Query(value = "select     " +
             "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
             "    dw ,    " +
             "    totalCnt ,    " +
@@ -903,6 +903,49 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        and a.is_member =1" +
             "        and a.data_status = 1"+
             "        group by yyyymmdd      " +
+            "        )c    " +
+            "    group by yyyymmdd" +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getUserList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate
+    );*/
+    @Query(value = "select     " +
+            "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
+            "    dw ,    " +
+            "    totalCnt ,    " +
+            "    androidCnt ,    " +
+            "    ROUND(androidCnt/ (androidCnt+iosCnt) * 100, 1) AS androidPer ,    " +
+            "    iosCnt ,    " +
+            "    ROUND(iosCnt/ (androidCnt+iosCnt) * 100, 1) AS iosPer ,    " +
+            "    maleCnt ,    " +
+            "    ROUND(maleCnt/ (maleCnt+feMaleCnt) * 100, 1) AS malePer ,    " +
+            "    feMaleCnt ,    " +
+            "    ROUND(femaleCnt/ (maleCnt+femaleCnt) * 100, 1) AS femalePer     " +
+            "    from(    " +
+            "        select    " +
+            "            date_format(ab.insert_date, '%y-%m-%d') AS yyyymmdd       " +
+            "            , DAYOFWEEK(ab.insert_date) as dw       " +
+            "            , count(1) as totalCnt       " +
+            "            , SUM(CASE WHEN ab.device_type =1 THEN 1 ELSE 0 END) AS androidCnt       " +
+            "            , SUM(CASE WHEN ab.device_type =2 THEN 1 ELSE 0 END) AS iosCnt       " +
+            "            , SUM(CASE WHEN ab.gender = 'M' THEN 1 ELSE 0 END) AS maleCnt       " +
+            "            , SUM(CASE WHEN ab.gender = 'F' THEN 1 ELSE 0 END) AS femaleCnt       " +
+            "               from  " +
+            "                   (select        " +
+            "                           a.cust_no   " +
+            "                           ,a.cust_name   " +
+            "                           ,a.cust_tel   " +
+            "                           ,b.device_type   " +
+            "                           ,a.gender   " +
+            "                           ,a.insert_date   " +
+            "                    FROM tb_cust a       " +
+            "                   left outer join         " +
+            "                   tb_cust_device b        " +
+            "                   on a.cust_no = b.cust_no       " +
+            "                   where a.insert_date BETWEEN :startDate AND :endDate       " +
+            "                   and a.is_member =1   " +
+            "                   and a.data_status = 1   " +
+            "                   group by a.cust_no) ab   " +
+            "           group by yyyymmdd      " +
             "        )c    " +
             "    group by yyyymmdd" +
             "", nativeQuery = true)

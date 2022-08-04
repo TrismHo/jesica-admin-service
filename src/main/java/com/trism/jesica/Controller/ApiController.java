@@ -2667,6 +2667,47 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    //외부연동 API 안심번호 강제 할당
+    @ResponseBody
+    @PostMapping("/rentcar/resetSafenNum")
+    public ResponseEntity<?> carUpdateAction(
+            @RequestParam("rentalNo") String rentalNo,
+            HttpSession session
+    ) {
+        log.info("rentalNo ::"+rentalNo);
+        Map<String,Object> map = new HashMap<>();
+
+        try {
+
+            ResponseEntity<Map<String, Object>> resultMap = restTemplateUtil.resetSafenNum(Long.parseLong(rentalNo),session);
+            Map<String,Object> bodyMap = (Map)resultMap.getBody();
+            log.info("result ::"+bodyMap);
+            if(!"OK".equals(bodyMap.get("serviceStatus"))){
+                log.info("result :: 오류 500");
+                map.put("result", 500);
+            }else {
+                log.info("result :: 성공");
+                map.put("result", 200);
+                //성공하면 다시 update
+             /*   Map<String,String> safunDate = (Map)resultMap.getBody().get("data");
+                log.info("safenNo ::"+safunDate.get("safen_no"));*/
+               /* int result = apiService.updateTbRentalInfoSafenNum(Integer.parseInt(rentalNo),safunDate.get("safen_no"));*/
+                /*if(result == 1){
+                    log.info("result :: 성공");
+                    map.put("result", 200);
+                } else {
+                    log.info("result :: 오류 600");
+                    map.put("result", 600);
+                }*/
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
     @ResponseBody
     @PostMapping("/main/chart/list")
     public ResponseEntity<?> chartData(@RequestParam("searchDate") String searchDate)  {

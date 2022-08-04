@@ -31,6 +31,7 @@ import com.trism.jesica.persistence.Repository.block.TbDlvyAreaRepository;
 import com.trism.jesica.persistence.Repository.board.*;
 import com.trism.jesica.persistence.Repository.business.*;
 import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
+import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
 import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
 import com.trism.jesica.persistence.Repository.coupon.TbCouponRepository;
@@ -251,6 +252,9 @@ public class ApiService {
 
     @Autowired
     private final TbVacsVactRepository tbVacsVactRepository;
+
+    @Autowired
+    private final TbRentalInfoRepository tbRentalInfoRepository;
 
 
 
@@ -837,6 +841,13 @@ public class ApiService {
             result = 0;
         }
 
+        return result;
+    }
+
+    @Transactional
+    public int updateTbRentalInfoSafenNum(Integer rentalNo , String safenNum) {
+        int result = 0;
+        result = tbRentalInfoRepository.updateSafenNum(rentalNo, safenNum);
         return result;
     }
 

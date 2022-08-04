@@ -193,7 +193,16 @@
                             <td class="text-center">${item.carNum}</td>
                             <%--<td class="text-center custTel" >${item.custTel}</td>--%>
                             <td class="text-center custDriverTel1">${item.custDriverTel1}</td>
-                            <td class="text-center">${item.safenNum}</td>
+                            <td class="text-center">
+                                <c:if test="${item.safenNum != null}">
+                                    ${item.safenNum}
+                                </c:if>
+                                <c:if test="${item.safenNum == null}">
+                                    <button type="button" class="update_safen_num btn btn-primary p-5" rentalNo="${item.rentalNo}">
+                                        안심번호 할당
+                                    </button>
+                                </c:if>
+                            </td>
                             <td class="text-center">${item.mappingNum}</td>
                             <td class="text-center"><javatime:format value="${item.reservStartDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center"><javatime:format value="${item.reservEndDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
@@ -290,8 +299,24 @@
 
 
 
+
         $(".insert_btn").click(function() {
             location.href = "${path}/driver/rentcar/insert";
+        });
+
+        $(".update_safen_num").click(function() {
+            var rentalNo = $(this).attr("rentalNo");
+            $.ajax({
+                type: "POST",
+                url: "${path}/api/rentcar/resetSafenNum",
+                data: {
+                    rentalNo :rentalNo
+                },
+                /*contentType: "application/json;",*/
+                dataType: "json",
+                success: function (data) {
+                }
+            });
         });
 
         let date = new Date();

@@ -5,12 +5,14 @@ import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.dto.TbRentalInfoData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -156,6 +158,33 @@ public class RestTemplateUtil {
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
 
+	//차량 대여정보 등록
+	public ResponseEntity<Map<String, Object>> resetSafenNum(Long rentalNo, HttpSession session) {
+		Map<String,Long> requestDto = new HashMap<>();
+
+
+		requestDto.put("rentalNo", rentalNo);
+
+		String authorization = "";
+		if (session.getAttribute("accessToken") != null ){
+			authorization ="Bearer "+session.getAttribute("accessToken").toString();
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		headers.add(HttpHeaders.AUTHORIZATION, authorization);
+		headers.add("Content-Type", "application/json; charset=utf-8");
+		/*headers.add("RentApiKey", rentApiKey);*/
+		HttpEntity<Map<String,Long>> entity = new HttpEntity<>(headers);
+		/*String url = "http://101.55.126.138:13000/api/v1/rents/reserv";*/
+		String url = jesicaProperties.getApiServer().getServer()+"/v1/rents/reserv/safen";
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
+						.queryParam("rentalNo", rentalNo);
+		return restTemplate.exchange(builder.toUriString(), HttpMethod.PUT, entity, new ParameterizedTypeReference<Map<String, Object>>() {});
+		/*ResponseEntity<Map<String, Object>> response = restTemplate.exchange(builder.toUriString(), HttpMethod.PUT, entity, new ParameterizedTypeReference<Map<String, Object>>() {});
+
+		response.getBody();*/
+	}
 
 
 	//드라이버 수정이나 등록시 상태갱신
