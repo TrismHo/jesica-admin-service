@@ -221,6 +221,18 @@
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseselectastoretype" text="매장타입을 선택하세요."/></td>
                                     </tr>
                                     <tr>
+                                        <td class="bg-light height-50"><spring:message code="list.detail.1" text="안심번호 할당 사용유무"/></td>
+                                        <td>
+                                            <label class="">
+                                                <input type="radio" name="safenUseYn" value="1" class="align-bottom safenUseYn" > <spring:message code="list.detail.1" text="사용중"/>
+                                            </label>
+                                            <label class="m-l-10 ">
+                                                <input type="radio" name="safenUseYn" value="0" class="align-bottom safenUseYn" checked> <spring:message code="list.detail.1" text="미사용"/>
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.pleaseselectastoretype" text="매장타입을 선택하세요."/></td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light height-50">기본주문상태</td>
                                         <td>
                                             <label class="">

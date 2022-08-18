@@ -277,6 +277,11 @@ public class TbStoreData {
      */
     private int returnUseYn;
 
+    /**
+     * 안심번호 할당여부
+     */
+    private int safenUseYn;
+
 
     public TbStore insertData() {
         return TbStore.builder()
@@ -333,6 +338,7 @@ public class TbStoreData {
                 .orderStatusCode(this.orderStatusCode)
                 .takeoverUseYn(this.takeoverUseYn)
                 .returnUseYn(this.returnUseYn)
+                .safenUseYn(this.safenUseYn)
                 .build();
     }
 
@@ -391,6 +397,7 @@ public class TbStoreData {
                 .orderStatusCode(this.orderStatusCode)
                 .takeoverUseYn(this.takeoverUseYn)
                 .returnUseYn(this.returnUseYn)
+                .safenUseYn(this.safenUseYn)
                 .build();
     }
 

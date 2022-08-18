@@ -252,6 +252,22 @@
                                     <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage" text="사업자 인증 완료 후 정상으로 설정하세요."/></td>
                                 </tr>
                                 <tr>
+                                    <td class="bg-light height-50"><spring:message code="list.detail.franchiseestatus" text="안심번호 할당 유무"/></td>
+                                    <td>
+                                        <label class="">
+                                            <input type="radio" name="safenUseYn" value="1"
+                                                   class="align-bottom "
+                                                   <c:if test="${tbStore.safenUseYn == '1'}">checked</c:if>><spring:message code="list.detail.1" text="사용중"/>
+                                        </label>
+                                        <label class="m-l-10 ">
+                                            <input type="radio" name="safenUseYn" value="0"
+                                                   class="align-bottom dataStatus"
+                                                   <c:if test="${tbStore.safenUseYn == '0'}">checked</c:if>><spring:message code="list.detail.1" text="미사용"/>
+                                        </label>
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage" text="사업자 인증 완료 후 정상으로 설정하세요."/></td>
+                                </tr>
+                                <tr>
                                     <td class="bg-light height-50">기본주문상태</td>
                                     <td>
                                         <label class="">
