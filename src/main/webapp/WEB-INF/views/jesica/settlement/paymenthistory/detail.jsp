@@ -126,8 +126,8 @@
                             </td>
                             <td class="border-left-0">
                                 <span class="text-green" style="width:35%; height: auto;">
-                                    <input type="button" class="btn btn-primary float-right cancel-pay-action-btn" value="<spring:message code="list.detail.partialcancellation" text="주문취소"/>">
-                                    <input type="button" class="btn btn-primary float-right m-l-5 m-r-5 cancel-approval-action-btn" value="<spring:message code="list.detail.cancelapproval" text="승인취소"/>">
+                                   <%-- <input type="button" class="btn btn-primary float-right cancel-pay-action-btn" value="<spring:message code="list.detail.partialcancellation" text="주문취소"/>">
+                                    <input type="button" class="btn btn-primary float-right m-l-5 m-r-5 cancel-approval-action-btn" value="<spring:message code="list.detail.cancelapproval" text="승인취소"/>">--%>
                                      <%--<input class="btn btn-primary float-right cancel-pay-btn m-l-5 m-r-5" type="button" value="승인취소">--%>
                                 </span>
                             </td>

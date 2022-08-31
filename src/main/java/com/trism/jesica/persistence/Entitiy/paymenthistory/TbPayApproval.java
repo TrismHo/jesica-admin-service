@@ -2,6 +2,7 @@ package com.trism.jesica.persistence.Entitiy.paymenthistory;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.Entitiy.cust.TbCust;
 import com.trism.jesica.persistence.type.ServiceType;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -92,6 +93,22 @@ public class TbPayApproval implements Serializable {
      */
     @Column(name = "cust_no")
     private Long custNo;
+
+    /**
+     * 사용자
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="cust_no", insertable = false, updatable = false)
+    @JsonManagedReference
+    private TbCust cust;
+
+    /**
+     * 카드정보
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="tid", insertable = false, updatable = false)
+    @JsonManagedReference
+    private TbPayCardData payCardData;
 
     /**
      * 주문결제 인증결과 tid
@@ -310,6 +327,20 @@ public class TbPayApproval implements Serializable {
     }
 
     /**
+     * 고객정보
+     */
+    public void setCust(TbCust cust) {
+        this.cust = cust;
+    }
+
+    /**
+     * 고객정보
+     */
+    public TbCust getCust() {
+        return cust;
+    }
+
+    /**
      * 가맹점번호
      */
     public void setStoreNo(Long storeNo) {
@@ -321,6 +352,20 @@ public class TbPayApproval implements Serializable {
      */
     public Long getStoreNo() {
         return storeNo;
+    }
+
+    /**
+     * 가맹점번호
+     */
+    public void setPayCardData(String tid) {
+        this.tid = tid;
+    }
+
+    /**
+     * 가맹점 번호
+     */
+    public TbPayCardData getPayCardData() {
+        return payCardData;
     }
 
     @Override

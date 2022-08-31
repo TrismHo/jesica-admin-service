@@ -301,8 +301,8 @@
                             <th class="text-center"><spring:message code="list.word.no" text="번호"/></th>
                             <th class="text-center"><spring:message code="list.word.franchiseeheadquarters" text="가맹점명"/></th>
                             <th class="text-center"><spring:message code="list.word.orderno" text="주문번호"/></th>
-                            <th class="text-center"><spring:message code="list.word.storeid" text="상점ID"/></th>
-                            <th class="text-center"><spring:message code="list.word.meansofpayment" text="지불수단"/></th>
+                            <%--<th class="text-center"><spring:message code="list.word.storeid" text="상점ID"/></th>
+                            <th class="text-center"><spring:message code="list.word.meansofpayment" text="지불수단"/></th>--%>
                             <th class="text-center"><spring:message code="list.word.buyersname" text="구매자명"/></th>
                             <th class="text-center"><spring:message code="list.word.customernumber" text="고객번호"/></th>
                             <th class="text-center"><spring:message code="list.word.transactionamount" text="거래금액"/></th>
@@ -317,10 +317,18 @@
                             <td class="text-center">${status.index + 1}</td>
                             <td>${item.store.storeName}</td>
                             <td>${item.orderNo}</td>
-                            <td>${item.mid}</td>
-                            <td>${item.payType}</td>
-                            <td>${item.userName}</td>
-                            <td>${item.custNo}</td>
+                           <%-- <td>${item.mid}</td>
+                            <td>${item.payType}</td>--%>
+                            <td>${item.userName}/
+                                <c:if test=" ${item.cust ne null}">
+                                     <c:if test=" ${item.cust.custName ne null}">
+                                         ${item.cust}
+                                     </c:if>
+                                </c:if>
+                                    </td>
+                            <td>
+
+                            </td>
                             <td><fmt:formatNumber value="${item.amount}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
                             <td>
                                 <c:if test="${item.status == '00'}"><spring:message code="list.detail.success" text="성공"/></c:if>

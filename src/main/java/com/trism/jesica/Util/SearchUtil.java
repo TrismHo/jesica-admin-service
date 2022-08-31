@@ -5,7 +5,10 @@ import com.trism.jesica.persistence.Entitiy.business.TbBranch;
 import com.trism.jesica.persistence.Entitiy.business.TbHead;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
-import com.trism.jesica.persistence.Entitiy.cust.*;
+import com.trism.jesica.persistence.Entitiy.cust.TbBranchCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbHeadCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbStoreCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbWorkerCashLog;
 import com.trism.jesica.persistence.type.CatLevel;
 import com.trism.jesica.persistence.type.DataStatus;
 import org.apache.commons.lang3.ObjectUtils;
@@ -1800,6 +1803,8 @@ public class SearchUtil {
                     }
                 } else if ("workerName".equals(key) && value != ""){
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                    //Predicate predicate1 = builder.like(joinCol.get("workerName"), "%"+value+"%");
+                   //predicate.add(builder.or(predicate1,builder.like(joinCol.get("workerName"), "%"+value+"%")));
                 } else if ("endDate".equals(key) && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

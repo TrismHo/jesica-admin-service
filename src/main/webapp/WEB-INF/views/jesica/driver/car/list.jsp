@@ -118,11 +118,15 @@
                                               <label>
                                                     <input type="text" class="form-control width-250 storeNoText"  name="storeNoText" value="${searchValue.storeNoText}" placeholder="가맹점명을 입력후 엔터키를 입력해주세요" />
                                                 <label>--%>
-                                                <select class="form-control width-150" name="storeNo">
+                                               <%-- <select class="form-control width-150" name="storeNo">
                                                     <c:forEach var="item"  items="${tbStoreLIst}"  varStatus="status">
                                                     <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>${item.storeName} [${item.storeNo}]</option>
                                                     </c:forEach>
-                                                </select>
+                                                </select>--%>
+                                               <label>
+                                                   <input type="text" data-toggle="modal" data-target="#store_search_modal" value=""  placeholder="<spring:message code="list.search.distributorheadquarters1" text="가맹점"/>" class="form-control background-white storeTxt width-150" readonly>
+                                                   <input type="hidden" name="storeNo" value=""  class="form-control background-white width-100" readonly>
+                                               </label>
                                             </td>
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
                                             <td style="width:50%">
@@ -226,10 +230,8 @@
             class="fa fa-angle-up"></i></a>--%>
     <!-- end scroll to top btn -->
 </div>
-
-<%--modal add start--%>
-<div class="modal fade" id="search_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="search.jsp" %>
+<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchStore.jsp" %>
 </div>
 <%--modal add end--%>
 
@@ -244,9 +246,9 @@
 <div class="modal fade" id="branch_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="../../search/branchSearch.jsp" %>
 </div>
-<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+<%--<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="../../search/storeSearch.jsp" %>
-</div>
+</div>--%>
 <%--modal add end--%>
 <%--modal add start--%>
 <%--<div class="modal fade" id="searchOption_modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -597,6 +599,22 @@
         $(".searchClick").click();
         $(".storeModalCloseBtn").click();
     });*/
+    $(".storeSel").on("click",function(){
+        var storeNo = $(this).attr("storeNo");
+        var storeName = $(this).attr("storeName");
+        $("input[name=storeNo]").val(storeNo);
+        $(".storeTxt").val(storeName+" ["+storeNo+"]");
+        $(".storeModalCloseBtn").click();
+    });
+    $('.filterText').keyup(function(event) {
+        var val = $(this).val();
+        if (val == "") {
+            $('.filterUL li').hide();
+        } else {
+            $('.filterUL li').hide();
+            $(".filterUL li:contains('"+val+"')").show();
+        }
+    });
 
     $(document).on("click",".detailRow",function() {
         let rentalCarNo = $(this).attr("rentalCarNo");
