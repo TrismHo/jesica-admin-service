@@ -185,7 +185,7 @@ public class SettlementService {
             predicate = (Specification<TbPayApproval>) SearchUtil.searchPaymenthistoryList(searchValue);
         }
         return searchValue.isEmpty() ? tbPayApprovalRepository.findAll()
-                : tbPayApprovalRepository.findAll(predicate);
+                : tbPayApprovalRepository.findAll(predicate , Sort.by(Sort.Direction.DESC, "authDtm"));
     }
 
     @Transactional(readOnly = true)

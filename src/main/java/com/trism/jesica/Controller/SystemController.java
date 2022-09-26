@@ -72,12 +72,15 @@ public class SystemController {
 
                 if(searchValue.get("endDate") == null && searchValue.get("startDate") == null) {
                     Calendar c1 = new GregorianCalendar();
-                    c1.add(Calendar.DATE, -1); // 오늘날짜로부터 -1
+                    Calendar c2 = new GregorianCalendar();
+                    c1.add(Calendar.DATE, -1);
+                    c2.add(Calendar.DATE, 0);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷
                     String yesterday = sdf.format(c1.getTime()); // String으로 저장
+                    String today = sdf.format(c2.getTime()); // String으로 저장
 
                     searchValue.put("endDate",yesterday);
-                    searchValue.put("startDate",yesterday);
+                    searchValue.put("startDate",today);
                 }
                 List<TbWorkerApply> tbWorkerApplyList =  workerApplyService.getWorkList(searchValue);
                 List<TbWorkerApply> tbWorkerApplyListNew = new ArrayList<TbWorkerApply>();

@@ -50,9 +50,9 @@
                                 <table class="table table-condensed table-bordered">
                                     <tbody>
                                     <tr>
-                                        <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.brand" text="브랜드"/></strong></td>
+                                        <%--<td class="bg-light" style="width:10%"><strong><spring:message code="list.search.brand" text="브랜드"/></strong></td>
                                         <td style="width:30%">
-                                           <%-- <label>
+                                           &lt;%&ndash; <label>
                                                 <input type="text" data-toggle="modal" data-target="#head_search_modal" name="headNoText"  value="${searchValue.headNoText}" placeholder="<spring:message code="merchandise.search1.option1" text="제휴본사 선택"/>" class="form-control background-white headName width-100" readonly>
                                                 <input type="hidden" class="headNo" name="headNo"  value="${searchValue.headNo}">
                                             </label>
@@ -63,7 +63,7 @@
                                             <label>
                                                 <input type="text" data-toggle="<c:if test="${searchValue.storeNo != null && searchValue.storeNo !=''}">modal</c:if>" data-target="#store_search_modal" name="storeNoText" value="${searchValue.storeNoText}" placeholder="<spring:message code="merchandise.search1.option2" text="가맹점선택"/>" class="form-control background-white storeName width-100" readonly>
                                                 <input type="hidden" class="storeNo" name="storeNo" value="${searchValue.storeNo}">
-                                            </label>--%>
+                                            </label>&ndash;%&gt;
                                                <c:if test="${sessionScope.sessionKey.userRole == 0}">
                                                    <label>
                                                        <input type="text" data-toggle="modal" data-target="#head_search_modal"  name="headNoText"  value="${searchValue.headNoText}" placeholder="<spring:message code="list.search.affiliatedheadquarters" text="제휴본사명"/>" class="form-control background-white headName width-100 " >
@@ -125,7 +125,7 @@
                                                        <input type="text"  id="testInput"  data-toggle="modal" data-target="#store_search_modal" placeholder="<spring:message code="list.search.franchiseeheadquarters" text="가맹점 입력"/>" name="storeNoText" value="${searchValue.storeNoText}" class="form-control background-white storeName width-100">
                                                    </label>
                                                </c:if>
-                                        </td>
+                                        </td>--%>
                                         <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
                                         <td style="width:50%">
                                             <label>
@@ -144,18 +144,18 @@
                                             </div>
                                             <label>
                                                 <select class="form-control status" name="status">
-                                                    <option value="" <c:if test="${searchValue.status == ''  || searchValue.status == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                    <option value="00" <c:if test="${searchValue.status == '00'}">selected</c:if>><spring:message code="list.search.success" text="성공"/></option>
+                                                    <option value="-1" <c:if test="${searchValue.status == '-1'}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
+                                                    <option value="00" <c:if test="${searchValue.status == ''  || searchValue.status == null  ||  searchValue.status == '00'}">selected</c:if>><spring:message code="list.search.success" text="성공"/></option>
                                                     <option value="9999" <c:if test="${searchValue.status == '9999'}">selected</c:if>><spring:message code="list.search.fail" text="실패"/></option>
                                                 </select>
                                             </label>
-                                            <label>
+                                            <%--<label>
                                                     <span class="btn-group  bg-black-transparent-2 rounded">
                                                         <a href="/settlement/paymenthistory/list?dataStatus=&startDate=2021-01-01&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border searchClick" data-change="widget-theme" data-theme="dark">
                                                             <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message code="list.search.searchreset" text="검색 초기화"/>
                                                         </a>
                                                     </span>
-                                            </label>
+                                            </label>--%>
                                         </td>
                                         <%--<td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어"/>&lt;%&ndash;검색어 입력&ndash;%&gt;</strong></td>
                                         <td>
@@ -301,10 +301,10 @@
                             <th class="text-center"><spring:message code="list.word.no" text="번호"/></th>
                             <th class="text-center"><spring:message code="list.word.franchiseeheadquarters" text="가맹점명"/></th>
                             <th class="text-center"><spring:message code="list.word.orderno" text="주문번호"/></th>
-                            <%--<th class="text-center"><spring:message code="list.word.storeid" text="상점ID"/></th>
-                            <th class="text-center"><spring:message code="list.word.meansofpayment" text="지불수단"/></th>--%>
-                            <th class="text-center"><spring:message code="list.word.buyersname" text="구매자명"/></th>
-                            <th class="text-center"><spring:message code="list.word.customernumber" text="고객번호"/></th>
+                         <%--   <th class="text-center"><spring:message code="list.word.stor" text="쿠폰사용여부"/></th>
+                            <th class="text-center"><spring:message code="list.word.stor" text="쿠폰사용금액"/></th>--%>
+                            <th class="text-center"><spring:message code="list.word.meansofpayment" text="지불수단"/></th>
+                            <th class="text-center"><spring:message code="list.word.buyersname" text="결제 구매자명(고객명)"/></th>
                             <th class="text-center"><spring:message code="list.word.transactionamount" text="거래금액"/></th>
                             <th class="text-center"><spring:message code="list.word.resultcode" text="결과코드"/></th>
                             <th class="text-center"><spring:message code="list.word.resultmessage" text="결과 메시지"/></th>
@@ -317,18 +317,10 @@
                             <td class="text-center">${status.index + 1}</td>
                             <td>${item.store.storeName}</td>
                             <td>${item.orderNo}</td>
-                           <%-- <td>${item.mid}</td>
-                            <td>${item.payType}</td>--%>
-                            <td>${item.userName}/
-                                <c:if test=" ${item.cust ne null}">
-                                     <c:if test=" ${item.cust.custName ne null}">
-                                         ${item.cust}
-                                     </c:if>
-                                </c:if>
-                                    </td>
-                            <td>
-
-                            </td>
+                            <%--<td></td>
+                            <td></td>--%>
+                            <td>${item.payType}</td>
+                            <td>${item.userName}(${item.cust.custName})</td>
                             <td><fmt:formatNumber value="${item.amount}" pattern="#,###" /> <spring:message code="list.word.won" text="원"/></td>
                             <td>
                                 <c:if test="${item.status == '00'}"><spring:message code="list.detail.success" text="성공"/></c:if>
@@ -639,9 +631,7 @@
             location.href = "${path}/merchant/uploadexcel/excelform";
         });
 
-        let date = new Date();
-        let startDate = "${searchValue.startDate}";
-        let endDate = "${searchValue.endDate}";
+
 
         $(".startDate").datepicker({
             calendarWeeks: false,
@@ -651,8 +641,17 @@
             language: "kr"
         });
 
+        var date = new Date();
+        var yesterDay = new Date();
+        var d = new Date();
+        var dayOfMonth = d.getDate();
+        d.setDate(dayOfMonth - 30);
+        yesterDay.setDate(yesterDay - 1);
+        var startDate = "${searchValue.startDate}";
+        var endDate = "${searchValue.endDate}";
+
         if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
+            $(".startDate").datepicker('setDate', d);
         } else {
             $(".startDate").datepicker('setDate', startDate);
         }

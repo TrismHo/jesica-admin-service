@@ -31,10 +31,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RequestMapping("/settlement")
 @RestController
@@ -64,10 +62,17 @@ public class SettlementController {
     public ModelAndView paymenthistoryList(@RequestParam Map<String,Object> searchValue,
                                            Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
-        if (!searchValue.isEmpty()){
-            putSearchOption(session, searchValue);
-        } else {
-            searchValue = getSearchOption(session);
+        if(searchValue.get("endDate") == null && searchValue.get("startDate") == null) {
+            Calendar c1 = new GregorianCalendar();
+            Calendar c2 = new GregorianCalendar();
+            c1.add(Calendar.DATE, -30);
+            c2.add(Calendar.DATE, -1);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷
+            String yesterday = sdf.format(c1.getTime()); // String으로 저장
+            String today = sdf.format(c2.getTime()); // String으로 저장
+
+            searchValue.put("endDate",today);
+            searchValue.put("startDate",yesterday);
         }
 
         /*List<TbPayCert> tbPayCert = settlementService.getPaymenthistoryList();*/
@@ -75,6 +80,9 @@ public class SettlementController {
        /* if(storeNo == null){
             searchValue.put("storeNo",0);
         }*/
+        if(searchValue.get("status") == null){
+            searchValue.put("status","00");
+        }
         List<TbPayApproval> tbPayApprovals = settlementService.getPaymenthistoryList(searchValue);
         model.addAttribute("searchValue", searchValue);
 

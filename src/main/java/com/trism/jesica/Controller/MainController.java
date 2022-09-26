@@ -10,10 +10,7 @@ import com.trism.jesica.dto.ClientDTO;
 import com.trism.jesica.dto.LoginDTO;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
-import com.trism.jesica.persistence.Entitiy.business.TbBranch;
-import com.trism.jesica.persistence.Entitiy.business.TbHead;
-import com.trism.jesica.persistence.Entitiy.business.TbUser;
-import com.trism.jesica.persistence.Entitiy.business.TbUserStaff;
+import com.trism.jesica.persistence.Entitiy.business.*;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.Entitiy.system.TbSiteMenu;
@@ -222,6 +219,7 @@ public class MainController {
         TbUserStaff tbUserStaff = null;
         TbHead tbHead = null;
         TbBranch tbBranch = null;
+        TbStore tbStore = null;
         HttpSession session = request.getSession();
 
         //String clientId = null;
@@ -379,14 +377,17 @@ public class MainController {
                         }
                     }
 
-                    //제휴본사, 총판
-                } else if(tbUser.getUserType().ordinal() == 1 || tbUser.getUserType().ordinal() == 2) {
+                    //제휴본사, 총판 // 2022 09 14 가맹점 추가
+                } else if(tbUser.getUserType().ordinal() == 1 || tbUser.getUserType().ordinal() == 2 || tbUser.getUserType().ordinal() == 3) {
                     tbUserStaff = apiService.getUserStaff(tbUser.getUserId());
                     if(tbUser.getUserType().ordinal() == 1 ){
                         tbHead = workGroupService.getTbHeadDetail(Long.parseLong(tbUserStaff.getHeadNo().toString()));
                     }
                     if(tbUser.getUserType().ordinal() == 2 ){
                         tbBranch = workGroupService.getTbBranchDetail(Long.parseLong(tbUserStaff.getBranchNo().toString()));
+                    }
+                    if(tbUser.getUserType().ordinal() == 3 ){
+                        tbStore = workGroupService.getTbStoreDetail(Long.parseLong(tbUserStaff.getStoreNo().toString()));
                     }
 
                     if (tbUserStaff.getDataStatus().ordinal() == 2 || tbUserStaff.getDataStatus().ordinal() == 0) {
@@ -422,6 +423,11 @@ public class MainController {
                                 session.setAttribute("headName",tbBranch.getHead().getHeadName());
                                 session.setAttribute("branchName",tbBranch.getBranchName());
                             }
+                            if(tbUser.getUserType().ordinal() == 3 ){
+                                session.setAttribute("headName",tbStore.getHead().getHeadName());
+                                session.setAttribute("branchName",tbStore.getBranch().getBranchName());
+                                session.setAttribute("storeName",tbStore.getStoreName());
+                            }
 
                             session.setAttribute(LoginSession.KEY, loginSession);
                             //세션 30분유지
@@ -430,6 +436,8 @@ public class MainController {
 
                             //메뉴 권한 저장
                             List<TbSiteAcl> tbSiteAclList =  authService.getSiteAcl(Long.valueOf(loginSession.getUserStaffNo()));
+
+
                             List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
                             session.setAttribute("tbSiteMenus",tbSiteMenus);
                             session.setAttribute("tbSiteAclList",tbSiteAclList);
