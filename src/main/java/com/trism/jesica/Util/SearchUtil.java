@@ -12,6 +12,7 @@ import com.trism.jesica.persistence.Entitiy.cust.TbWorkerCashLog;
 import com.trism.jesica.persistence.type.CatLevel;
 import com.trism.jesica.persistence.type.DataStatus;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -2025,12 +2026,16 @@ public class SearchUtil {
 
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
+        String keywordType = "";
+        String keyword = "";
 
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                if (ObjectUtils.isNotEmpty(value) && (key.equals("custName") || key.equals("custTel"))) {
-                    predicate.add(builder.like(root.get(key), "%" + value + "%"));
+                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")) {
+                    keywordType = (String)value;
+                } else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
+                    keyword = (String)value;
                 } else if (ObjectUtils.isNotEmpty(value) && key.equals("custTel")) {
                     predicate.add(builder.like(root.get(key), "%" + value + "%"));
                 } else if (ObjectUtils.isNotEmpty(value) && "endDate".equals(key)) {
@@ -2067,9 +2072,16 @@ public class SearchUtil {
                 }
             }
             predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+
+            if (StringUtils.isNotBlank(keywordType)) {
+                if (StringUtils.isNotBlank(keyword)) {
+                    predicate.add(builder.like(root.get(keywordType), "%" + keyword + "%"));
+                }
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
+
         return predicate;
     }
 }

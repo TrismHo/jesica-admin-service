@@ -389,6 +389,7 @@ public class BoardController {
                 searchValue.put("testTable_length", "10");
                 searchValue.put("isMember", "");
                 searchValue.put("dataStatus", "");
+                searchValue.put("keywordType", "custName");
                 List<TbCust> tbCustList = boardService.getCustList(searchValue);
                 model.addAttribute("custList", tbCustList);
             }
