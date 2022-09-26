@@ -1452,12 +1452,14 @@ public class ApiService {
                 TbUserStaff tbUserStaff = tbUserStaffRepository.findByUserId(tbUserStaffData.getUserId());
 
 
+
                 if(ObjectUtils.isNotEmpty(tbUserStaff)) {
                     if (!StringUtils.isEmpty(tbUserStaff.getName())) {
                         //중복
                         result = 500;
                     } else {
                         tbUserStaffRepository.save(tbUserStaffData.insertData());
+                        //시스템이나 마스터가 아닐시 관제권한 항상부여
                         result = 1;
                     }
                 } else {

@@ -44,6 +44,8 @@ public class QTbUserWorker extends EntityPathBase<TbUserWorker> {
 
     public final StringPath cybankAccount = createString("cybankAccount");
 
+    public final StringPath cybankOwner = createString("cybankOwner");
+
     public final StringPath cybankTypeCode = createString("cybankTypeCode");
 
     public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);
@@ -61,6 +63,8 @@ public class QTbUserWorker extends EntityPathBase<TbUserWorker> {
 
     //inherited
     public final StringPath insertUserId = _super.insertUserId;
+
+    public final StringPath insurancePolicy = createString("insurancePolicy");
 
     //inherited
     public final NumberPath<Integer> isFirstLogin = _super.isFirstLogin;
@@ -108,6 +112,8 @@ public class QTbUserWorker extends EntityPathBase<TbUserWorker> {
     public final DateTimePath<java.time.LocalDateTime> pwdUpdateDtm = _super.pwdUpdateDtm;
 
     public final StringPath registNum = createString("registNum");
+
+    public final StringPath registrationNum = createString("registrationNum");
 
     public final StringPath retireDate = createString("retireDate");
 

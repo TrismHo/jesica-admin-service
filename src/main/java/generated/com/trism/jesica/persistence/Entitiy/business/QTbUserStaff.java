@@ -69,6 +69,8 @@ public class QTbUserStaff extends EntityPathBase<TbUserStaff> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> pwdUpdateDtm = _super.pwdUpdateDtm;
 
+    public final NumberPath<Integer> roleType = createNumber("roleType", Integer.class);
+
     public final QTbStore store;
 
     public final NumberPath<Integer> storeNo = createNumber("storeNo", Integer.class);

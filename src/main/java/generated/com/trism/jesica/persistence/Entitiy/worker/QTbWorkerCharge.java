@@ -37,7 +37,15 @@ public class QTbWorkerCharge extends EntityPathBase<TbWorkerCharge> {
 
     public final NumberPath<java.math.BigDecimal> takeoverCharge = createNumber("takeoverCharge", java.math.BigDecimal.class);
 
+    public final NumberPath<java.math.BigDecimal> takeoverCharge1 = createNumber("takeoverCharge1", java.math.BigDecimal.class);
+
+    public final NumberPath<java.math.BigDecimal> takeoverCharge2 = createNumber("takeoverCharge2", java.math.BigDecimal.class);
+
     public final NumberPath<Integer> takeoverRateType = createNumber("takeoverRateType", Integer.class);
+
+    public final NumberPath<Integer> takeoverRateType1 = createNumber("takeoverRateType1", Integer.class);
+
+    public final NumberPath<Integer> takeoverRateType2 = createNumber("takeoverRateType2", Integer.class);
 
     public final NumberPath<Integer> workerNo = createNumber("workerNo", Integer.class);
 

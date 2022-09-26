@@ -2,7 +2,7 @@ package com.trism.jesica.persistence.Entitiy.paymenthistory;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
-import com.trism.jesica.persistence.Entitiy.cust.TbCust;
+import com.trism.jesica.persistence.Entitiy.cust.TbCustSub;
 import com.trism.jesica.persistence.type.ServiceType;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -100,7 +100,8 @@ public class TbPayApproval implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="cust_no", insertable = false, updatable = false)
     @JsonManagedReference
-    private TbCust cust;
+    private TbCustSub cust;
+
 
     /**
      * 카드정보
@@ -329,14 +330,14 @@ public class TbPayApproval implements Serializable {
     /**
      * 고객정보
      */
-    public void setCust(TbCust cust) {
+    public void setCust(TbCustSub cust) {
         this.cust = cust;
     }
 
     /**
      * 고객정보
      */
-    public TbCust getCust() {
+    public TbCustSub getCust() {
         return cust;
     }
 

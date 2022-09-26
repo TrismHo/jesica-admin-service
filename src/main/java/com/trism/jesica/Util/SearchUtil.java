@@ -1794,8 +1794,9 @@ public class SearchUtil {
                         predicate.add(builder.equal(root.get(key),0));
                     }
                 } else if("status".equals(key)){
-                    if(!"".equals(value) ) {
-                        if("00".equals(value) ) {
+                    if(!"".equals(value) && !"-1".equals(value)) {
+                        if("".equals(value) || "00".equals(value) ) {
+                            value = "00";
                             predicate.add(builder.equal(root.get(key),value));
                         } else if("9999".equals(value) ){
                             predicate.add(builder.notEqual(root.get(key),"00"));

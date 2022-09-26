@@ -50,6 +50,8 @@ public class QTbBranchSub extends EntityPathBase<TbBranchSub> {
 
     public final StringPath cybankAccount = createString("cybankAccount");
 
+    public final StringPath cybankOwner = createString("cybankOwner");
+
     public final StringPath cybankTypeCode = createString("cybankTypeCode");
 
     public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);

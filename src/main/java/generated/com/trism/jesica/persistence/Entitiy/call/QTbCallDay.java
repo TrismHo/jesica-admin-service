@@ -24,8 +24,6 @@ public class QTbCallDay extends EntityPathBase<TbCallDay> {
 
     public final com.trism.jesica.persistence.mappedsuper.QBaseOrderEntity _super;
 
-    public final QTbCallDayExtra callDayExtra;
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> cancelDate;
 
@@ -200,7 +198,6 @@ public class QTbCallDay extends EntityPathBase<TbCallDay> {
     public QTbCallDay(Class<? extends TbCallDay> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this._super = new com.trism.jesica.persistence.mappedsuper.QBaseOrderEntity(type, metadata, inits);
-        this.callDayExtra = inits.isInitialized("callDayExtra") ? new QTbCallDayExtra(forProperty("callDayExtra")) : null;
         this.cancelDate = _super.cancelDate;
         this.custNo = _super.custNo;
         this.custTel = _super.custTel;

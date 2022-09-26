@@ -24,62 +24,56 @@ public class QBaseCallEntity extends EntityPathBase<BaseCallEntity> {
 
     public final com.trism.jesica.persistence.core.entity.QBaseEntity _super = new com.trism.jesica.persistence.core.entity.QBaseEntity(this);
 
-    public final StringPath airportDriveYn = createString("airportDriveYn");
+    public final NumberPath<Integer> acceptBranchNo = createNumber("acceptBranchNo", Integer.class);
+
+    public final NumberPath<Integer> acceptHeadNo = createNumber("acceptHeadNo", Integer.class);
+
+    public final NumberPath<Integer> acceptStoreNo = createNumber("acceptStoreNo", Integer.class);
+
+    public final NumberPath<Integer> acceptStoreTel = createNumber("acceptStoreTel", Integer.class);
+
+    public final NumberPath<Integer> branchNo = createNumber("branchNo", Integer.class);
 
     public final DateTimePath<java.time.LocalDateTime> cancelDate = createDateTime("cancelDate", java.time.LocalDateTime.class);
+
+    public final StringPath cancelMemo = createString("cancelMemo");
+
+    public final StringPath carModel = createString("carModel");
+
+    public final StringPath carNum = createString("carNum");
+
+    public final DateTimePath<java.time.LocalDateTime> carUseDate = createDateTime("carUseDate", java.time.LocalDateTime.class);
+
+    public final StringPath custMemo = createString("custMemo");
 
     public final NumberPath<Integer> custNo = createNumber("custNo", Integer.class);
 
     public final StringPath custTel = createString("custTel");
 
-    public final NumberPath<java.math.BigDecimal> departLat = createNumber("departLat", java.math.BigDecimal.class);
-
-    public final NumberPath<java.math.BigDecimal> departLng = createNumber("departLng", java.math.BigDecimal.class);
-
-    public final StringPath departPoi = createString("departPoi");
-
-    public final StringPath destAddr3 = createString("destAddr3");
-
-    public final StringPath destAddr4 = createString("destAddr4");
-
-    public final NumberPath<java.math.BigDecimal> destLat = createNumber("destLat", java.math.BigDecimal.class);
-
-    public final NumberPath<java.math.BigDecimal> destLng = createNumber("destLng", java.math.BigDecimal.class);
-
-    public final StringPath destPoi = createString("destPoi");
+    public final StringPath custTel2 = createString("custTel2");
 
     public final NumberPath<Integer> discountAmt = createNumber("discountAmt", Integer.class);
 
     public final DateTimePath<java.time.LocalDateTime> dlvyAccDate = createDateTime("dlvyAccDate", java.time.LocalDateTime.class);
 
-    public final NumberPath<Integer> dlvyAmt = createNumber("dlvyAmt", Integer.class);
-
-    public final NumberPath<Integer> dlvyDistance = createNumber("dlvyDistance", Integer.class);
-
-    public final NumberPath<Integer> dlvyExtraCharge = createNumber("dlvyExtraCharge", Integer.class);
-
-    public final NumberPath<Integer> dlvyNo = createNumber("dlvyNo", Integer.class);
-
-    public final NumberPath<Integer> dlvyPenaltyAmt = createNumber("dlvyPenaltyAmt", Integer.class);
-
     public final DateTimePath<java.time.LocalDateTime> dlvyReqDate = createDateTime("dlvyReqDate", java.time.LocalDateTime.class);
-
-    public final NumberPath<Integer> dlvyTotalAmt = createNumber("dlvyTotalAmt", Integer.class);
 
     public final DateTimePath<java.time.LocalDateTime> finishDate = createDateTime("finishDate", java.time.LocalDateTime.class);
 
-    public final StringPath goodsName = createString("goodsName");
+    public final com.trism.jesica.persistence.Entitiy.business.QTbHead head;
+
+    public final NumberPath<Integer> headNo = createNumber("headNo", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> insertDate = _super.insertDate;
 
-    public final NumberPath<Integer> isMask = createNumber("isMask", Integer.class);
-
-    public final NumberPath<Integer> isMember = createNumber("isMember", Integer.class);
-
     public final NumberPath<Integer> orderAmt = createNumber("orderAmt", Integer.class);
 
+    public final StringPath orderCancelCode = createString("orderCancelCode");
+
     public final DateTimePath<java.time.LocalDateTime> orderDate = createDateTime("orderDate", java.time.LocalDateTime.class);
+
+    public final StringPath orderMemo = createString("orderMemo");
 
     public final NumberPath<Long> orderNo = createNumber("orderNo", Long.class);
 
@@ -91,15 +85,21 @@ public class QBaseCallEntity extends EntityPathBase<BaseCallEntity> {
 
     public final DateTimePath<java.time.LocalDateTime> pickupDate = createDateTime("pickupDate", java.time.LocalDateTime.class);
 
-    public final NumberPath<Integer> serviceAmt = createNumber("serviceAmt", Integer.class);
+    public final NumberPath<Integer> pubCouponNo = createNumber("pubCouponNo", Integer.class);
 
-    public final com.trism.jesica.persistence.Entitiy.business.QTbStoreSub store;
+    public final NumberPath<Integer> relayCnt = createNumber("relayCnt", Integer.class);
+
+    public final NumberPath<Integer> relayStep = createNumber("relayStep", Integer.class);
+
+    public final NumberPath<Integer> serviceAmt = createNumber("serviceAmt", Integer.class);
 
     public final StringPath storeName = createString("storeName");
 
     public final NumberPath<Integer> storeNo = createNumber("storeNo", Integer.class);
 
     public final StringPath storeTel = createString("storeTel");
+
+    public final NumberPath<Integer> totalAmt = createNumber("totalAmt", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updateDate = _super.updateDate;
@@ -130,7 +130,7 @@ public class QBaseCallEntity extends EntityPathBase<BaseCallEntity> {
 
     public QBaseCallEntity(Class<? extends BaseCallEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.store = inits.isInitialized("store") ? new com.trism.jesica.persistence.Entitiy.business.QTbStoreSub(forProperty("store"), inits.get("store")) : null;
+        this.head = inits.isInitialized("head") ? new com.trism.jesica.persistence.Entitiy.business.QTbHead(forProperty("head"), inits.get("head")) : null;
     }
 
 }

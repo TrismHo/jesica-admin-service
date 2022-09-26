@@ -25,12 +25,41 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
     public final com.trism.jesica.persistence.mappedsuper.QBaseCallEntity _super;
 
     //inherited
-    public final StringPath airportDriveYn;
+    public final NumberPath<Integer> acceptBranchNo;
 
-    public final QTbCallAllExtra callExtra;
+    //inherited
+    public final NumberPath<Integer> acceptHeadNo;
+
+    //inherited
+    public final NumberPath<Integer> acceptStoreNo;
+
+    //inherited
+    public final NumberPath<Integer> acceptStoreTel;
+
+    //inherited
+    public final NumberPath<Integer> branchNo;
+
+    public final ListPath<TbCallAllRelay, QTbCallAllRelay> callAllRelay = this.<TbCallAllRelay, QTbCallAllRelay>createList("callAllRelay", TbCallAllRelay.class, QTbCallAllRelay.class, PathInits.DIRECT2);
+
+    public final ListPath<TbCallAllWk, QTbCallAllWk> callAllWk = this.<TbCallAllWk, QTbCallAllWk>createList("callAllWk", TbCallAllWk.class, QTbCallAllWk.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> cancelDate;
+
+    //inherited
+    public final StringPath cancelMemo;
+
+    //inherited
+    public final StringPath carModel;
+
+    //inherited
+    public final StringPath carNum;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> carUseDate;
+
+    //inherited
+    public final StringPath custMemo;
 
     //inherited
     public final NumberPath<Integer> custNo;
@@ -39,28 +68,7 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
     public final StringPath custTel;
 
     //inherited
-    public final NumberPath<java.math.BigDecimal> departLat;
-
-    //inherited
-    public final NumberPath<java.math.BigDecimal> departLng;
-
-    //inherited
-    public final StringPath departPoi;
-
-    //inherited
-    public final StringPath destAddr3;
-
-    //inherited
-    public final StringPath destAddr4;
-
-    //inherited
-    public final NumberPath<java.math.BigDecimal> destLat;
-
-    //inherited
-    public final NumberPath<java.math.BigDecimal> destLng;
-
-    //inherited
-    public final StringPath destPoi;
+    public final StringPath custTel2;
 
     //inherited
     public final NumberPath<Integer> discountAmt;
@@ -69,46 +77,31 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
     public final DateTimePath<java.time.LocalDateTime> dlvyAccDate;
 
     //inherited
-    public final NumberPath<Integer> dlvyAmt;
-
-    //inherited
-    public final NumberPath<Integer> dlvyDistance;
-
-    //inherited
-    public final NumberPath<Integer> dlvyExtraCharge;
-
-    //inherited
-    public final NumberPath<Integer> dlvyNo;
-
-    //inherited
-    public final NumberPath<Integer> dlvyPenaltyAmt;
-
-    //inherited
     public final DateTimePath<java.time.LocalDateTime> dlvyReqDate;
-
-    //inherited
-    public final NumberPath<Integer> dlvyTotalAmt;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> finishDate;
 
+    // inherited
+    public final com.trism.jesica.persistence.Entitiy.business.QTbHead head;
+
     //inherited
-    public final StringPath goodsName;
+    public final NumberPath<Integer> headNo;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> insertDate;
 
     //inherited
-    public final NumberPath<Integer> isMask;
-
-    //inherited
-    public final NumberPath<Integer> isMember;
-
-    //inherited
     public final NumberPath<Integer> orderAmt;
 
     //inherited
+    public final StringPath orderCancelCode;
+
+    //inherited
     public final DateTimePath<java.time.LocalDateTime> orderDate;
+
+    //inherited
+    public final StringPath orderMemo;
 
     //inherited
     public final NumberPath<Long> orderNo;
@@ -126,10 +119,16 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
     public final DateTimePath<java.time.LocalDateTime> pickupDate;
 
     //inherited
-    public final NumberPath<Integer> serviceAmt;
+    public final NumberPath<Integer> pubCouponNo;
 
-    // inherited
-    public final com.trism.jesica.persistence.Entitiy.business.QTbStoreSub store;
+    //inherited
+    public final NumberPath<Integer> relayCnt;
+
+    //inherited
+    public final NumberPath<Integer> relayStep;
+
+    //inherited
+    public final NumberPath<Integer> serviceAmt;
 
     //inherited
     public final StringPath storeName;
@@ -139,6 +138,9 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
 
     //inherited
     public final StringPath storeTel;
+
+    //inherited
+    public final NumberPath<Integer> totalAmt;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updateDate;
@@ -174,45 +176,44 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
     public QTbCallAll(Class<? extends TbCallAll> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this._super = new com.trism.jesica.persistence.mappedsuper.QBaseCallEntity(type, metadata, inits);
-        this.airportDriveYn = _super.airportDriveYn;
-        this.callExtra = inits.isInitialized("callExtra") ? new QTbCallAllExtra(forProperty("callExtra"), inits.get("callExtra")) : null;
+        this.acceptBranchNo = _super.acceptBranchNo;
+        this.acceptHeadNo = _super.acceptHeadNo;
+        this.acceptStoreNo = _super.acceptStoreNo;
+        this.acceptStoreTel = _super.acceptStoreTel;
+        this.branchNo = _super.branchNo;
         this.cancelDate = _super.cancelDate;
+        this.cancelMemo = _super.cancelMemo;
+        this.carModel = _super.carModel;
+        this.carNum = _super.carNum;
+        this.carUseDate = _super.carUseDate;
+        this.custMemo = _super.custMemo;
         this.custNo = _super.custNo;
         this.custTel = _super.custTel;
-        this.departLat = _super.departLat;
-        this.departLng = _super.departLng;
-        this.departPoi = _super.departPoi;
-        this.destAddr3 = _super.destAddr3;
-        this.destAddr4 = _super.destAddr4;
-        this.destLat = _super.destLat;
-        this.destLng = _super.destLng;
-        this.destPoi = _super.destPoi;
+        this.custTel2 = _super.custTel2;
         this.discountAmt = _super.discountAmt;
         this.dlvyAccDate = _super.dlvyAccDate;
-        this.dlvyAmt = _super.dlvyAmt;
-        this.dlvyDistance = _super.dlvyDistance;
-        this.dlvyExtraCharge = _super.dlvyExtraCharge;
-        this.dlvyNo = _super.dlvyNo;
-        this.dlvyPenaltyAmt = _super.dlvyPenaltyAmt;
         this.dlvyReqDate = _super.dlvyReqDate;
-        this.dlvyTotalAmt = _super.dlvyTotalAmt;
         this.finishDate = _super.finishDate;
-        this.goodsName = _super.goodsName;
+        this.head = _super.head;
+        this.headNo = _super.headNo;
         this.insertDate = _super.insertDate;
-        this.isMask = _super.isMask;
-        this.isMember = _super.isMember;
         this.orderAmt = _super.orderAmt;
+        this.orderCancelCode = _super.orderCancelCode;
         this.orderDate = _super.orderDate;
+        this.orderMemo = _super.orderMemo;
         this.orderNo = _super.orderNo;
         this.orderPayStatus = _super.orderPayStatus;
         this.orderStatusCode = _super.orderStatusCode;
         this.orderTypeCode = _super.orderTypeCode;
         this.pickupDate = _super.pickupDate;
+        this.pubCouponNo = _super.pubCouponNo;
+        this.relayCnt = _super.relayCnt;
+        this.relayStep = _super.relayStep;
         this.serviceAmt = _super.serviceAmt;
-        this.store = _super.store;
         this.storeName = _super.storeName;
         this.storeNo = _super.storeNo;
         this.storeTel = _super.storeTel;
+        this.totalAmt = _super.totalAmt;
         this.updateDate = _super.updateDate;
         this.updateScn = _super.updateScn;
         this.workerName = _super.workerName;

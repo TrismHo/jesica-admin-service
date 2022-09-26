@@ -28,6 +28,8 @@ public class QTbPayApproval extends EntityPathBase<TbPayApproval> {
 
     public final StringPath certTid = createString("certTid");
 
+    public final com.trism.jesica.persistence.Entitiy.cust.QTbCustSub cust;
+
     public final NumberPath<Long> custNo = createNumber("custNo", Long.class);
 
     public final StringPath memberName = createString("memberName");
@@ -37,6 +39,8 @@ public class QTbPayApproval extends EntityPathBase<TbPayApproval> {
     public final StringPath noti = createString("noti");
 
     public final NumberPath<Long> orderNo = createNumber("orderNo", Long.class);
+
+    public final QTbPayCardData payCardData;
 
     public final StringPath payType = createString("payType");
 
@@ -72,6 +76,8 @@ public class QTbPayApproval extends EntityPathBase<TbPayApproval> {
 
     public QTbPayApproval(Class<? extends TbPayApproval> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.cust = inits.isInitialized("cust") ? new com.trism.jesica.persistence.Entitiy.cust.QTbCustSub(forProperty("cust")) : null;
+        this.payCardData = inits.isInitialized("payCardData") ? new QTbPayCardData(forProperty("payCardData")) : null;
         this.store = inits.isInitialized("store") ? new com.trism.jesica.persistence.Entitiy.business.QTbStore(forProperty("store"), inits.get("store")) : null;
     }
 

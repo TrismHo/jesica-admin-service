@@ -47,19 +47,21 @@ public class QTbCust extends EntityPathBase<TbCust> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> insertDate = _super.insertDate;
 
+    public final NumberPath<Integer> isMember = createNumber("isMember", Integer.class);
+
     public final StringPath loginId = createString("loginId");
 
     public final StringPath loginPwd = createString("loginPwd");
 
     public final NumberPath<Integer> mileage = createNumber("mileage", Integer.class);
 
-    public final BooleanPath pushMarketingYn = createBoolean("pushMarketingYn");
+    public final NumberPath<Integer> pushMarketingYn = createNumber("pushMarketingYn", Integer.class);
 
-    public final BooleanPath pushNoticeYn = createBoolean("pushNoticeYn");
+    public final NumberPath<Integer> pushNoticeYn = createNumber("pushNoticeYn", Integer.class);
 
-    public final BooleanPath pushOrderYn = createBoolean("pushOrderYn");
+    public final NumberPath<Integer> pushOrderYn = createNumber("pushOrderYn", Integer.class);
 
-    public final BooleanPath smsYn = createBoolean("smsYn");
+    public final NumberPath<Integer> smsYn = createNumber("smsYn", Integer.class);
 
     public final StringPath snsToken1 = createString("snsToken1");
 

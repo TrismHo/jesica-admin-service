@@ -62,6 +62,8 @@ public class QTbStore extends EntityPathBase<TbStore> {
 
     public final StringPath cybankAccount = createString("cybankAccount");
 
+    public final StringPath cybankOwner = createString("cybankOwner");
+
     public final StringPath cybankTypeCode = createString("cybankTypeCode");
 
     public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);
@@ -116,6 +118,8 @@ public class QTbStore extends EntityPathBase<TbStore> {
     public final StringPath poi = createString("poi");
 
     public final NumberPath<Integer> returnUseYn = createNumber("returnUseYn", Integer.class);
+
+    public final NumberPath<Integer> safenUseYn = createNumber("safenUseYn", Integer.class);
 
     public final EnumPath<com.trism.jesica.persistence.type.ServiceType> serviceType = createEnum("serviceType", com.trism.jesica.persistence.type.ServiceType.class);
 
