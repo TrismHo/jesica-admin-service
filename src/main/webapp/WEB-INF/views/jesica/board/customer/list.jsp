@@ -89,8 +89,8 @@
                                             <td>
                                                 <label>
                                                     <select class="form-control searchOp" style="width: 110px">
-                                                        <option value="custName" <c:if test="${searchValue.custName != '' || (searchValue.custName == '' && searchValue.custTel == '')}">selected</c:if>><spring:message code="list.search.title1" text="이름"/></option>
-                                                        <option value="custTel" <c:if test="${searchValue.custTel != ''}">selected</c:if>><spring:message code="list.search.title2" text="전화번호"/></option>
+                                                        <option value="custName" <c:if test="${(searchValue.custName != null && searchValue.custName != '') || ((searchValue.custName == '' && searchValue.custTel == '') || (searchValue.custName == null && searchValue.custTel == null))}">selected</c:if>><spring:message code="list.search.title1" text="이름"/></option>
+                                                        <option value="custTel" <c:if test="${searchValue.custTel != null && searchValue.custTel != ''}">selected</c:if>><spring:message code="list.search.title2" text="전화번호"/></option>
                                                     </select>
                                                     <input type="text" id="custName" class="form-control width-150" name="custName" value="${searchValue.custName}" maxlength="150">
                                                     <input type="text" id="custTel" class="form-control width-150" name="custTel" value="${searchValue.custTel}" maxlength="150">
@@ -214,6 +214,9 @@
     });
 
     $(() => {
+        console.log('is CustName Empty:: ', ${searchValue.custName == null});
+        console.log('is CustTel Empty:: ', ${searchValue.custTel == null});
+
         let nameForm = document.getElementById("custName");
         let telForm = document.getElementById("custTel");
 
