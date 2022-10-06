@@ -543,6 +543,10 @@
            $(".name").text(name);
            $(".residentNum").text(residentNum);
            $(".phone").text(phone);
+
+           //삭제용 전화번호 세팅
+           $(".btn_remove").attr("phone",phone);
+
            $(".smsYn").text(smsYn);
            $(".signYn").text(signYn);
            $(".profileAuthStatus").text(profileAuthStatus);
@@ -748,7 +752,45 @@
            });
 
         });
+        $(document).on("click",".btn_remove", function () {
+            let phone = $(this).attr("phone");
+            let url = '${path}/api/driverapply/delete/action';
+            let doyouwanttodelete = "<spring:message code="list.script.doyouwanttodelete1" text="삭제 하시겠습니까?"/>";
+            let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
+            let deletemsg = "<spring:message code="list.script.deletemsg1" text="삭제"/>";
+            let deletionfailed = "<spring:message code="list.script.deletionfailed1" text="삭제에 실패하였습니다."/>";
+            let deleted = "<spring:message code="list.script.deleted1" text="삭제되었습니다."/>";
 
+            swal({
+                title: doyouwanttodelete,
+                icon: 'warning',
+                buttons: [
+                    cancel,
+                    deletemsg,
+                ],
+                dangerMode: true,
+            }).then((isConfirm) => {
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: {
+                            phone : phone
+                        },
+                        dataType: 'json',
+                        success: (data) => {
+                            if (data.result == 200) {
+                                alert(deleted);
+                                location.href = "${path}/driver/apply/list";
+                            } else {
+                                alert(deletionfailed);
+                                return;
+                            }
+                        }
+                    })
+                }
+            })
+        });
         $(document).on("click",".btn-approval", function () {
             let attachNo = $(this).attr("attachNo");
             let applyAttachType = $(this).attr("applyAttachType");

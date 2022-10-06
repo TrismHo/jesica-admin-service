@@ -557,6 +557,9 @@
                     </div>
                 <!-- end tab-pane -->
                 <div class="m-t-10">
+                    <c:if test="${sessionScope.sessionKey.roleType == 1}">
+                    <button type="button" class="btn btn-danger btn_remove float-right m-t-5 m-b-5 m-r-5" phone="${tbUserWorker.phone}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
+                    </c:if>
                     <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
                     <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
                 </div>
@@ -982,6 +985,46 @@
             }
         });
 
+        $(".btn_remove").click(function() {
+            let url = "${path}/api/deliveryman/delete/action";
+            let phone = $(this).attr("phone");
+            let doyouwanttodelete = "<spring:message code="list.script.doyouwanttodelete" text="삭제 하시겠습니까?"/>";
+            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+            let deletemsg = "<spring:message code="list.script.deletemsg" text="삭제"/>";
+            let deletionfailed = "<spring:message code="list.script.deletionfailed" text="삭제에 실패하였습니다."/>";
+            let deleted = "<spring:message code="list.script.deleted" text="삭제되었습니다."/>";
+
+            swal({
+                title: doyouwanttodelete,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    deletemsg
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            phone : phone
+                        },
+                        /*contentType: "application/json;",*/
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(deleted);
+                                location.href="${path}/driver/deliveryman/list";
+                            } else {
+                                alert(deletionfailed);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        })
 
         let date = new Date();
         let joinDate = "${tbUserWorker.joinDate}";

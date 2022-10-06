@@ -193,4 +193,12 @@ public interface TbUserWorkerRepository extends JpaRepository<TbUserWorker, Long
             @Param("cybankOwner") String cybankOwner,
             @Param("workerNo") Long workerNo
     );
+
+    @Modifying
+    @Query(value = " " +
+            "delete from tb_user_worker  " +
+            "where worker_no in (select a.worker_no from tb_worker_apply a " +
+            "where phone = :phone) "+
+            "", nativeQuery = true)
+    int deleteUserWorker(@Param("phone") String phone);
 }

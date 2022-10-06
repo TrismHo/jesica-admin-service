@@ -43,4 +43,14 @@ public interface TbUserRepository extends JpaRepository<TbUser, Long>, JpaSpecif
             "order by cnt desc "+
             "", nativeQuery = true)
     List<Map<String,Object>> getUserChart();
+
+
+    @Modifying
+    @Query(value = " " +
+            "delete from tb_user " +
+            "where user_type = 4 " +
+            "  and user_no = (select a.worker_no from tb_worker_apply a " +
+            "where phone = :phone) "+
+            "", nativeQuery = true)
+    int deleteUser(@Param("phone") String phone);
 }

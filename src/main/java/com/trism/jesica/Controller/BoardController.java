@@ -384,7 +384,7 @@ public class BoardController {
                 model.addAttribute("custList", tbCustList);
             } else {
                 getSearchOption(session);
-                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_3month());
+                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
                 searchValue.put("testTable_length", "10");
                 searchValue.put("isMember", "");

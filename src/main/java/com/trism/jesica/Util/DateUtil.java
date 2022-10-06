@@ -37,7 +37,7 @@ public class DateUtil {
 	 */
 
 	/**
-	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다(하루전)
 	 * @return yyyyMMdd
 	 */
 	public static String now_yyyy_mm_dd_yester() {
@@ -49,13 +49,25 @@ public class DateUtil {
 	}
 
 	/**
-	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다(한달)
 	 * @return yyyyMMdd
 	 */
 	public static String now_yyyy_mm_dd_month() {
 		//하루 전
 		Calendar day = Calendar.getInstance();
 		day.add(Calendar.DATE , -30);
+
+		return dateFormat_yyyy_MM_dd.format(day.getTime());
+	}
+
+	/**
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다(일주일)
+	 * @return yyyyMMdd
+	 */
+	public static String now_yyyy_mm_dd_week() {
+		//하루 전
+		Calendar day = Calendar.getInstance();
+		day.add(Calendar.DATE , -7);
 
 		return dateFormat_yyyy_MM_dd.format(day.getTime());
 	}
