@@ -158,8 +158,28 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.franchiseeheadquarters" text="가맹점명"/></td>
-                                        <td><input type="text" class="form-control width-200 storeName" name="storeName" value="${tbStore.storeName}" maxlength="30"></td>
+                                        <td><input type="text" class="form-control width-200 storeName" name="storeName" maxlength="30"></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname" text="가맹점 이름을 입력하세요."/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.franchiseeheadquarters" text="ERP 타입"/></td>
+                                        <td>
+                                            <label>
+                                                <select class="form-control width-200 erpType" name="erpType">
+                                                    <option value="INS">INS</option>
+                                                    <option value="REBORN">REBORN</option>
+                                                </select>
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname" text="ERP 타입을 선택하세요."/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.franchiseeheadquarters" text="ERP 코드"/></td>
+                                        <td>
+                                            <input type="text" class="form-control width-100 sysCode" id="sysCode" name="sysCode" placeholder="sysCode" disabled="true">
+                                            <input type="text" class="form-control width-100 corpCode" id="corpCode" name="corpCode" placeholder="corpCode" disabled="true">
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname" text="ERP 코드를 입력하세요."/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.externalmerchantcode" text="외부 가맹점 코드"/></td>
@@ -748,7 +768,6 @@
         let searchTxt = $("#pac-input").val();
         $("#keyword").val(searchTxt);
         $("#searchSubmitForm").submit();
-
     })
 
     $(document).on("click","#placesList li",function(){
@@ -805,7 +824,7 @@
         }
 
         // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-        ps.keywordSearch( keyword, placesSearchCB);
+        ps.keywordSearch(keyword, placesSearchCB);
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -1167,6 +1186,8 @@
 
         });
 
+        $(document).on("change", ".erpType", setCodeElDisabled);
+
         $(document).on("click","#selHeadNoBtn",function(){
             $(".headNo").val($(this).attr("headNo"));
             $(".headName").val($(this).closest("li").find(".head_text").text());
@@ -1197,6 +1218,14 @@
             let enrollment = "<spring:message code="list.detail.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.detail.cancel" text="취소"/>";
             if (inputDataCheck(req,req2)) {
+                const { sysCode, corpCode } = req;
+                const returnReq = {
+                    ...req,
+                    erpCode: sysCode + '|' + corpCode,
+                }
+                delete returnReq['sysCode'];
+                delete returnReq['corpCode'];
+
                 swal({
                     title: registermsg,
                     icon: "warning",
@@ -1208,7 +1237,7 @@
                 }).then(function (isConfirm) {
                     if (isConfirm) {
                         var formData = new FormData(document.getElementById('insert_form'));
-                        formData.append("tbStoreData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                        formData.append("tbStoreData",  new Blob([JSON.stringify(returnReq)], {type:"application/json"}));
                         formData.append("tbBusinessInfoData",  new Blob([JSON.stringify(req2)], {type:"application/json"}));
                         $.ajax({
                             type: "POST",
@@ -1435,6 +1464,12 @@
             return alert_focus("storeName", "가맹점명을 입력해주세요.");
         } else if (isNull(args.addr1)) {
             return alert_focus("addr1", "주소를 입력해주세요");
+        } else if (args.erpType === 'REBORN') {
+            if (isNull(args.sysCode)) {
+                return alert_focus("sysCode", "sysCode를 입력해주세요.");
+            } else if (isNull(args.corpCode)) {
+                return alert_focus("corpCode", "corpCode를 입력해주세요.");
+            }
         }
        /* else if (isNull(args.exStoreCd)) {
             return alert_focus("exStoreCd", "외부 가맹점 코드를 입력해주세요.");
@@ -1470,6 +1505,28 @@
             return alert_focus("bizItem", "종목를 입력해주세요");
         }*/
         return true;
+    }
+
+    function setCodeElDisabled(e) {
+        const sysCodeEl = $('#sysCode');
+        const corpCodeEl = $('#corpCode');
+        const { value } = e.target;
+
+        switch (value) {
+            case 'INS':
+                sysCodeEl.attr('disabled', true);
+                corpCodeEl.attr('disabled', true);
+                sysCodeEl.val('');
+                corpCodeEl.val('');
+                break;
+            case 'REBORN':
+                sysCodeEl.attr('disabled', false);
+                corpCodeEl.attr('disabled', false);
+                break;
+            default:
+                sysCodeEl.attr('disabled', true);
+                corpCodeEl.attr('disabled', true);
+        }
     }
 </script>
 </body>

@@ -218,6 +218,26 @@
                                     <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname" text="가맹점 이름을 입력하세요."/></td>
                                 </tr>
                                 <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.franchiseeheadquarters" text="ERP 타입"/></td>
+                                    <td>
+                                        <label>
+                                            <select class="form-control width-200 erpType" name="erpType">
+                                                <option value="INS" <c:if test="${tbStore.erpType == 'INS'}">selected</c:if>>INS</option>
+                                                <option value="REBORN" <c:if test="${tbStore.erpType == 'REBORN'}">selected</c:if>>REBORN</option>
+                                            </select>
+                                        </label>
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname" text="ERP 타입을 선택하세요."/></td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.franchiseeheadquarters" text="ERP 코드"/></td>
+                                    <td>
+                                        <input type="text" class="form-control width-100 sysCode" id="sysCode" name="sysCode" placeholder="sysCode" disabled="true">
+                                        <input type="text" class="form-control width-100 corpCode" id="corpCode" name="corpCode" placeholder="corpCode" disabled="true">
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.enterthemerchantname" text="ERP 코드를 입력하세요."/></td>
+                                </tr>
+                                <tr>
                                     <td class="bg-light"><spring:message code="list.detail.externalmerchantcode" text="외부 가맹점 코드"/></td>
                                     <td><input type="text" class="form-control width-200 memo" name="exStoreCd" value="${tbStore.exStoreCd}" placeholder="<spring:message code="list.description.pleaseentertheexternalmerchantcode" text="외부 가맹점 코드를 입력해주세요"/>" maxlength="10"></td>
                                     <td class="text-danger-darker"><spring:message code="list.description.pleaseentertheexternalmerchantcode" text="외부 가맹점 코드를 입력해주세요"/></td>
@@ -1725,6 +1745,16 @@
 <%@include file="../../../common/include_kakao_map_js.jsp" %>
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
+    const erpCode = '${tbStore.erpCode}';
+    const erpCodeSplArr = erpCode.split('|');
+    const sysCode = erpCodeSplArr[0];
+    const corpCode = erpCodeSplArr[1];
+
+    $('#sysCode').val(sysCode);
+    $('#corpCode').val(corpCode);
+
+    setCodeElDisabled(null, '${tbStore.erpType}');
+
     function percentChk(number){
         return number.replaceAll(".00","");
     }
@@ -2440,6 +2470,14 @@
             let updatconfirm = "<spring:message code="list.script.update" text="수정"/>";
 
             if (inputDataCheck(req)) {
+                const { sysCode, corpCode } = req;
+                const returnReq = {
+                    ...req,
+                    erpCode: sysCode + '|' + corpCode,
+                }
+                delete returnReq['sysCode'];
+                delete returnReq['corpCode'];
+
                 swal({
                     title: updatemsg,
                     icon: "warning",
@@ -2451,7 +2489,7 @@
                 }).then(function (isConfirm) {
                     if (isConfirm) {
                         var formData = new FormData(document.getElementById('update_form'));
-                        formData.append("tbStoreData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                        formData.append("tbStoreData",  new Blob([JSON.stringify(returnReq)], {type:"application/json"}));
                         formData.append("tbBusinessInfoData",  new Blob([JSON.stringify(req2)], {type:"application/json"}));
                         formData.append("tbStoreCategoryFo",  new Blob([JSON.stringify(codeList)], {type:"application/json"}));
                         formData.append("tbStoreCharge",  new Blob([JSON.stringify(req3)], {type:"application/json"}));
@@ -2723,6 +2761,12 @@
             return alert_focus("mngrName", "영업담당자 이름을 입력해주세요.");
         } else if (isNull(args.addr1)) {
             return alert_focus("addr1", "주소를 입력해주세요");
+        } else if (args.erpType === 'REBORN') {
+            if (isNull(args.sysCode)) {
+                return alert_focus("sysCode", "sysCode를 입력해주세요.");
+            } else if (isNull(args.corpCode)) {
+                return alert_focus("corpCode", "corpCode를 입력해주세요.");
+            }
         }
         return true;
     }
@@ -4149,6 +4193,8 @@
         });
     });
 
+    $(document).on("change", ".erpType", setCodeElDisabled);
+
     $(document).on("click",".resetBtnType",function(){
         $(".insBlockTxtType").text("등록");
         $(".delBlockTxtType").css("display","none");
@@ -4210,6 +4256,38 @@
         var cybankAccount = $(".cybankAccount").val();
         var cybankOwner = $(".cybankOwner").val();
         window.open("${path}/cyBankAccount/reset?type=3&no=${tbStore.storeNo}&oldNo="+cybankAccount+"&oldBankCode="+cybankTypeCode+"&owner="+cybankOwner, "가상계좌 할당", "width=400, height=300, left=100, top=50");
+    }
+
+    function setCodeElDisabled(e, val) {
+        const sysCodeEl = $('#sysCode');
+        const corpCodeEl = $('#corpCode');
+        let value;
+
+        if (e) {
+            value = e.target.value;
+        } else {
+            value = val;
+        }
+
+        switch (value) {
+            case 'INS':
+                sysCodeEl.attr('disabled', true);
+                corpCodeEl.attr('disabled', true);
+                sysCodeEl.val('');
+                corpCodeEl.val('');
+                break;
+            case 'REBORN':
+                sysCodeEl.attr('disabled', false);
+                corpCodeEl.attr('disabled', false);
+                sysCodeEl.val(sysCode);
+                corpCodeEl.val(corpCode);
+                break;
+            default:
+                sysCodeEl.attr('disabled', true);
+                corpCodeEl.attr('disabled', true);
+                sysCodeEl.val('');
+                corpCodeEl.val('');
+        }
     }
 </script>
 </body>
