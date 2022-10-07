@@ -326,13 +326,18 @@ public class DriverApplyController {
             }
 
             List<TbStoreRentalCar> resultList = null;
-            List<TbStore> tbStoreLIst = apiService.getStoreList();
+            List<TbStore> tbStoreList = apiService.getStoreList();
+
+            //안심번호 리스트(매칭안된것들)
+/*        List<TbSafenMapping> tbSafenMapping = driverApplyService.getTbSafenMappingList();
+        model.addAttribute("tbSafenMapping",tbSafenMapping);*/
+
 
             if (searchValue.containsKey("storeNo")) {
                 resultList = driverApplyService.tbStoreRentalCar(searchValue);
             }
             model.addAttribute("tbStoreRentalCar", resultList);
-            model.addAttribute("tbStoreLIst", tbStoreLIst);
+            model.addAttribute("tbStoreList", tbStoreList);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -391,9 +396,9 @@ public class DriverApplyController {
      */
     @RequestMapping(value = "/car/Excelupload")
     public ModelAndView uploadExcel(Model model
-            ,@RequestParam("storeNo") Long storeNo
+            ,@RequestParam("storeNo") String storeNo
             ,@RequestParam("excelFile") MultipartFile excelFile) {
-        log.info("::::::::::storeNo",storeNo);
+        log.info("::::::::::storeNo {}",storeNo);
 //        Map<String, Integer> departMap = departmentService.getDepartments().stream()
 //                .collect(Collectors.toMap(Department::getName, Department::getId));
         List<TbStoreRentalCarData> userList = new ArrayList<>();
@@ -462,7 +467,7 @@ public class DriverApplyController {
 
                 //가맹점번호
                 //tbStoreRentalCar.setStoreNo(Long.parseLong(storeNo));
-                tbStoreRentalCar.setStoreNo(storeNo);
+                tbStoreRentalCar.setStoreNo(Long.parseLong(storeNo));
                 //데이터상태
                 tbStoreRentalCar.setDataStatus(DataStatus.OK);
                 //입력일시

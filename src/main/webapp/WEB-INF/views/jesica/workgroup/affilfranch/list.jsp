@@ -227,6 +227,7 @@
                     <th class="text-center"><spring:message code="list.word.distributor" text="총판"/></th>
                     <th class="text-center"><spring:message code="list.word.franchisee" text="가맹점"/></th>
                     <th class="text-center"><spring:message code="list.word.status" text="상태"/></th>
+                    <th class="text-center"><spring:message code="list.word.cash" text="안심번호 할당"/></th>
                     <th class="text-center"><spring:message code="list.word.serviceclassification" text="서비스구분"/></th>
                     <%--<th class="text-center"><spring:message code="list.word.storetype" text="매장타입"/></th>--%>
                     <th class="text-center"><spring:message code="list.word.multimerchantstore" text="멀티가맹점"/></th>
@@ -262,6 +263,14 @@
                                 </c:if>
                                 <c:if test="${item.dataStatus == 'STOP'}">
                                     <spring:message code="list.detail.stop" text="정지"/>
+                                </c:if>
+                            </td>
+                            <td class="text-center">
+                                <c:if test="${item.safenUseYn == '1'}">
+                                    <spring:message code="list.detail.1" text="사용중"/>
+                                </c:if>
+                                <c:if test="${item.safenUseYn == '0'}">
+                                    <spring:message code="list.detail.1" text="미사용"/>
                                 </c:if>
                             </td>
                             <td class="text-center <c:if test="${item.serviceYn == 'TEST_OR_CALC'}">text-red</c:if>">

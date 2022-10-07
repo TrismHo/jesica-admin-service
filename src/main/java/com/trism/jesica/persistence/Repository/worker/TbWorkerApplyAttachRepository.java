@@ -24,5 +24,13 @@ public interface TbWorkerApplyAttachRepository extends JpaRepository<TbWorkerApp
             "and apply_attach_type = :applyAttachType ", nativeQuery = true)
     int attachApproval(@Param("attachNo") Long attachNo, @Param("applyAttachType") Integer applyAttachType, @Param("authStatus") Integer authStatus, @Param("updateUserId") String updateUserId, @Param("rejcectMemo") String rejcectMemo);
 
+    @Modifying
+    @Query(value = " " +
+            "delete from tb_worker_apply_attach " +
+            "where apply_no in (select a.apply_no from tb_worker_apply a " +
+            "where phone = :phone) "+
+            "", nativeQuery = true)
+    int deleteWorkerApplyAttach(@Param("phone") String phone);
+
 
 }

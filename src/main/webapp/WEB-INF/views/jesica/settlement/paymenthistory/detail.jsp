@@ -126,8 +126,8 @@
                             </td>
                             <td class="border-left-0">
                                 <span class="text-green" style="width:35%; height: auto;">
-                                    <input type="button" class="btn btn-primary float-right cancel-pay-action-btn" value="<spring:message code="list.detail.partialcancellation" text="주문취소"/>">
-                                    <input type="button" class="btn btn-primary float-right m-l-5 m-r-5 cancel-approval-action-btn" value="<spring:message code="list.detail.cancelapproval" text="승인취소"/>">
+                                   <%-- <input type="button" class="btn btn-primary float-right cancel-pay-action-btn" value="<spring:message code="list.detail.partialcancellation" text="주문취소"/>">
+                                    <input type="button" class="btn btn-primary float-right m-l-5 m-r-5 cancel-approval-action-btn" value="<spring:message code="list.detail.cancelapproval" text="승인취소"/>">--%>
                                      <%--<input class="btn btn-primary float-right cancel-pay-btn m-l-5 m-r-5" type="button" value="승인취소">--%>
                                 </span>
                             </td>
@@ -415,10 +415,10 @@
                                             <td class="bg-light"><spring:message code="list.detail.customernumber" text="고객번호"/></td>
                                             <td>${tbPayApproval.custNo}</td>
                                         </tr>
-                                        <tr>
+                                      <%--  <tr>
                                             <td class="bg-light"><spring:message code="list.detail.orderpaymentverificationresulttid" text="주문결제 인증결과 tid"/></td>
                                             <td>${tbPayApproval.certTid}</td>
-                                        </tr>
+                                        </tr>--%>
                                     </c:if>
                                     <c:if test="${tbPayApproval == ''}">
                                         <tr>
@@ -577,7 +577,8 @@
 <%@include file="../../../common/include_number_only_js.jsp" %>
 <script>
     $(".list_btn").click(function () {
-        location.href = "${path}/settlement/paymenthistory/list";
+        //location.href = "${path}/settlement/paymenthistory/list";
+        history.back();
     });
     $(".cancel-pay-btn").click(function () {
         location.href = "${path}/settlement/paymenthistory/list";

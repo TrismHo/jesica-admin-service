@@ -384,11 +384,12 @@ public class BoardController {
                 model.addAttribute("custList", tbCustList);
             } else {
                 getSearchOption(session);
-                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_yester());
+                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
                 searchValue.put("testTable_length", "10");
                 searchValue.put("isMember", "");
                 searchValue.put("dataStatus", "");
+                searchValue.put("keywordType", "custName");
                 List<TbCust> tbCustList = boardService.getCustList(searchValue);
                 model.addAttribute("custList", tbCustList);
             }

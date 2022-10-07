@@ -14,6 +14,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
 
 //OS = 41 취소
 //OS = 40 완료
+//GENDER = N 모름 M 남자 F 여자
 //order_pay_status 1로 바꿔야함 지금은 테스트
 
 

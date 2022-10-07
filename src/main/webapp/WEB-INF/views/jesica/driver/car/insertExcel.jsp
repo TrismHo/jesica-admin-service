@@ -89,8 +89,8 @@
                                     </table>
 
                                     <form name="excelUpForm" id="excelUpForm" method="post" enctype="multipart/form-data" action="/driver/car/Excelupload" >
-                                        <input type="file" id="fileBtn" name="excelFile" style="position: absolute;width: 1px;height: 1px;padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0;">
                                         <input type="hidden" id="submitStoreNo" name="storeNo" value="">
+                                        <input type="file" id="fileBtn" name="excelFile" style="position: absolute;width: 1px;height: 1px;padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0;">
                                     </form>
                                     <div class="m-t-20 ">
                                         <button type="button" class="btn btn-primary list_btn float-left m-t-5 m-l-5"><i class="fa fa-list m-록r-3"></i> <spring:message code="list.detail.list" text="목록"/><%--목록--%><%--<spring:message code="merchandisecont.merchandisedetail.insert.listbutton" text="default text"/>--%><%--목록--%></button>
@@ -161,7 +161,7 @@
         }
     });
     $("#uploadBtn").on("click",function(){
-        $("#submitStoreNo").val($("#selectOption option:selected").val());
+        //$("#submitStoreNo").val($("#selectOption option:selected").val());
         $("#excelUpForm").submit();
     })
 

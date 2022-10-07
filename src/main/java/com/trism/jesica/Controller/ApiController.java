@@ -1396,6 +1396,47 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    //드라이버 삭제
+    @ResponseBody
+    @PostMapping(value="/deliveryman/delete/action")
+    public ResponseEntity<?> deliverymanDelete(
+            @RequestParam("phone") String phone
+    ) {
+        log.info("phone::{}", phone);
+
+        int result =  apiService.deleteDeliveryman(phone);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0 ) {
+            map.put("result","200");
+            map.put("message", "삭제 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "삭제 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //드라이버 삭제
+    @ResponseBody
+    @PostMapping(value="/driverapply/delete/action")
+    public ResponseEntity<?> driverApplyDelete(
+            @RequestParam("phone") String phone
+    ) {
+        log.info("phone::{}", phone);
+
+        int result =  apiService.deleteDriverApply(phone);
+        Map<String,Object> map = new HashMap<>();
+        if(result > 0 ) {
+            map.put("result","200");
+            map.put("message", "삭제 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "삭제 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+
     //배송그룹 insert
     @ResponseBody
     @PostMapping(value="/deliverygrp/insert/action" , consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })

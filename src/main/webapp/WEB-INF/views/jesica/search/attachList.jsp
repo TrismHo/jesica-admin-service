@@ -220,6 +220,7 @@
             </form>
         </div>
         <div class="modal-footer">
+            <button type="button" class="btn btn-danger btn_remove float-right m-l-5" phone="${tbNoticeCompany.onticeNo}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
             <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal">닫기</button>
         </div>
     </div>

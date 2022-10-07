@@ -5,10 +5,14 @@ import com.trism.jesica.persistence.Entitiy.business.TbBranch;
 import com.trism.jesica.persistence.Entitiy.business.TbHead;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
-import com.trism.jesica.persistence.Entitiy.cust.*;
+import com.trism.jesica.persistence.Entitiy.cust.TbBranchCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbHeadCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbStoreCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.TbWorkerCashLog;
 import com.trism.jesica.persistence.type.CatLevel;
 import com.trism.jesica.persistence.type.DataStatus;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -1791,8 +1795,9 @@ public class SearchUtil {
                         predicate.add(builder.equal(root.get(key),0));
                     }
                 } else if("status".equals(key)){
-                    if(!"".equals(value) ) {
-                        if("00".equals(value) ) {
+                    if(!"".equals(value) && !"-1".equals(value)) {
+                        if("".equals(value) || "00".equals(value) ) {
+                            value = "00";
                             predicate.add(builder.equal(root.get(key),value));
                         } else if("9999".equals(value) ){
                             predicate.add(builder.notEqual(root.get(key),"00"));
@@ -1800,6 +1805,8 @@ public class SearchUtil {
                     }
                 } else if ("workerName".equals(key) && value != ""){
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                    //Predicate predicate1 = builder.like(joinCol.get("workerName"), "%"+value+"%");
+                   //predicate.add(builder.or(predicate1,builder.like(joinCol.get("workerName"), "%"+value+"%")));
                 } else if ("endDate".equals(key) && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -2019,12 +2026,16 @@ public class SearchUtil {
 
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
+        String keywordType = "";
+        String keyword = "";
 
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                if (ObjectUtils.isNotEmpty(value) && (key.equals("custName") || key.equals("custTel"))) {
-                    predicate.add(builder.like(root.get(key), "%" + value + "%"));
+                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")) {
+                    keywordType = (String)value;
+                } else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
+                    keyword = (String)value;
                 } else if (ObjectUtils.isNotEmpty(value) && key.equals("custTel")) {
                     predicate.add(builder.like(root.get(key), "%" + value + "%"));
                 } else if (ObjectUtils.isNotEmpty(value) && "endDate".equals(key)) {
@@ -2061,9 +2072,16 @@ public class SearchUtil {
                 }
             }
             predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+
+            if (StringUtils.isNotBlank(keywordType)) {
+                if (StringUtils.isNotBlank(keyword)) {
+                    predicate.add(builder.like(root.get(keywordType), "%" + keyword + "%"));
+                }
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
+
         return predicate;
     }
 }

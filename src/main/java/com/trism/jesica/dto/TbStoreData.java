@@ -277,6 +277,21 @@ public class TbStoreData {
      */
     private int returnUseYn;
 
+    /**
+     * 안심번호 할당여부
+     */
+    private int safenUseYn;
+
+    /**
+     * 렌터카 ERP Type
+     */
+    private String erpType;
+
+    /**
+     * 렌터카 ERP Code
+     */
+    private String erpCode;
+
 
     public TbStore insertData() {
         return TbStore.builder()
@@ -333,6 +348,9 @@ public class TbStoreData {
                 .orderStatusCode(this.orderStatusCode)
                 .takeoverUseYn(this.takeoverUseYn)
                 .returnUseYn(this.returnUseYn)
+                .safenUseYn(this.safenUseYn)
+                .erpType(this.erpType)
+                .erpCode(this.erpCode)
                 .build();
     }
 
@@ -391,6 +409,9 @@ public class TbStoreData {
                 .orderStatusCode(this.orderStatusCode)
                 .takeoverUseYn(this.takeoverUseYn)
                 .returnUseYn(this.returnUseYn)
+                .safenUseYn(this.safenUseYn)
+                .erpType(this.erpType)
+                .erpCode(this.erpCode)
                 .build();
     }
 

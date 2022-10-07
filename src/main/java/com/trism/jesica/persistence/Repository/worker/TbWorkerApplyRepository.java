@@ -26,6 +26,23 @@ public interface TbWorkerApplyRepository extends JpaRepository<TbWorkerApply, In
             "order by cnt desc "+
             "", nativeQuery = true)
     List<Map<String,Object>> getWorkerApplyChart();
+
+    @Query(value = "select worker_no " +
+            "from tb_worker_apply " +
+            "where phone = :phone "+
+            "", nativeQuery = true)
+    Integer selectUserNo(@Param("phone") String phone);
+
+    @Modifying
+    @Query(value = " " +
+            "delete from tb_worker_apply " +
+            "where phone = :phone"+
+            "", nativeQuery = true)
+    int deleteWorkerApply(@Param("phone") String phone);
+
+
+
+
    /* @Modifying
     @Query(value = "update tb_worker_apply set " +
             "auth_status = :authStatus, " +

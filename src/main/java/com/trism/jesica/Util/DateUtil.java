@@ -37,7 +37,7 @@ public class DateUtil {
 	 */
 
 	/**
-	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다(하루전)
 	 * @return yyyyMMdd
 	 */
 	public static String now_yyyy_mm_dd_yester() {
@@ -49,7 +49,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다(한달)
 	 * @return yyyyMMdd
 	 */
 	public static String now_yyyy_mm_dd_month() {
@@ -59,6 +59,31 @@ public class DateUtil {
 
 		return dateFormat_yyyy_MM_dd.format(day.getTime());
 	}
+
+	/**
+	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다(일주일)
+	 * @return yyyyMMdd
+	 */
+	public static String now_yyyy_mm_dd_week() {
+		//하루 전
+		Calendar day = Calendar.getInstance();
+		day.add(Calendar.DATE , -7);
+
+		return dateFormat_yyyy_MM_dd.format(day.getTime());
+	}
+
+	/**
+	 * devjune
+	 * 현재 - 3개월전 시간 가져오기
+	 */
+	public static String now_yyyy_mm_dd_3month() {
+		Date referenceDate = new Date();
+		Calendar day = Calendar.getInstance();
+		day.setTime(referenceDate);
+		day.add(Calendar.MONTH, -3);
+		return dateFormat_yyyy_MM_dd.format(day.getTime());
+	}
+
 	/**
 	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
 	 * @return yyyyMMdd

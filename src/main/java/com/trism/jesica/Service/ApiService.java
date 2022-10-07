@@ -1422,6 +1422,11 @@ public class ApiService {
                 TbWorkerChargeData tbWorkerCharge = new TbWorkerChargeData();
                 tbWorkerCharge.setWorkerNo(Integer.parseInt(tbUserWorker.getUserNo().toString()));
                 tbWorkerChargeRepository.save(tbWorkerCharge.insertData());
+                TbWorkerApply tbWorkerApply = new TbWorkerApply();
+                tbWorkerApply.setWorkerNo(Integer.parseInt(tbUserWorker.getUserNo().toString()));
+                tbWorkerApply.setName(tbUserWorker.getName()+"(관리자직접등록)");
+                tbWorkerApply.setPhone(tbUserWorker.getPhone());
+                tbWorkerApplyRepository.save(tbWorkerApply);
             }
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("아이디 중복 에러");
@@ -1452,12 +1457,14 @@ public class ApiService {
                 TbUserStaff tbUserStaff = tbUserStaffRepository.findByUserId(tbUserStaffData.getUserId());
 
 
+
                 if(ObjectUtils.isNotEmpty(tbUserStaff)) {
                     if (!StringUtils.isEmpty(tbUserStaff.getName())) {
                         //중복
                         result = 500;
                     } else {
                         tbUserStaffRepository.save(tbUserStaffData.insertData());
+                        //시스템이나 마스터가 아닐시 관제권한 항상부여
                         result = 1;
                     }
                 } else {
@@ -1886,6 +1893,62 @@ public class ApiService {
                     return 0;
                 }
             }
+        return 1;
+    }
+    @Transactional
+    public int deleteDeliveryman(String phone ) {
+        try {
+            //기사 회원 조희
+           Integer workerNo = tbWorkerApplyRepository.selectUserNo(phone);
+            tbWorkerChargeRepository.deleteWorkerCharge(phone);
+            tbUserWorkerRepository.deleteUserWorker(phone);
+            tbUserRepository.deleteUser(phone);
+            tbWorkerApplyAttachRepository.deleteWorkerApplyAttach(phone);
+            tbWorkerApplyRepository.deleteWorkerApply(phone);
+           //worker_no가 있으면 승인이 완료된 상태이므로 worker roweh tkrwp
+          /* if(workerNo != null) {
+               tbWorkerChargeRepository.deleteWorkerCharge(phone);
+               tbUserWorkerRepository.deleteUserWorker(phone);
+               tbUserRepository.deleteUser(phone);
+               tbWorkerApplyAttachRepository.deleteWorkerApplyAttach(phone);
+               tbWorkerApplyRepository.deleteWorkerApply(phone);
+           } else {
+           //worker_no 가 없으면 가입 전 상태이므로 apply 관련된 row만 삭제
+               tbWorkerApplyAttachRepository.deleteWorkerApplyAttach(phone);
+               tbWorkerApplyRepository.deleteWorkerApply(phone);
+           }*/
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
+    }
+
+    @Transactional
+    public int deleteDriverApply(String phone ) {
+        try {
+            //기사 회원 조희
+           //Integer workerNo = tbWorkerApplyRepository.selectUserNo(phone);
+            tbWorkerApplyAttachRepository.deleteWorkerApplyAttach(phone);
+            tbWorkerApplyRepository.deleteWorkerApply(phone);
+           //worker_no가 있으면 승인이 완료된 상태이므로 worker roweh tkrwp
+          /* if(workerNo != null) {
+               tbWorkerChargeRepository.deleteWorkerCharge(phone);
+               tbUserWorkerRepository.deleteUserWorker(phone);
+               tbUserRepository.deleteUser(phone);
+               tbWorkerApplyAttachRepository.deleteWorkerApplyAttach(phone);
+               tbWorkerApplyRepository.deleteWorkerApply(phone);
+           } else {
+           //worker_no 가 없으면 가입 전 상태이므로 apply 관련된 row만 삭제
+               tbWorkerApplyAttachRepository.deleteWorkerApplyAttach(phone);
+               tbWorkerApplyRepository.deleteWorkerApply(phone);
+           }*/
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
         return 1;
     }
 

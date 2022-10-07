@@ -377,6 +377,12 @@ public class TbStore extends BaseEntity {
     private int returnUseYn;
 
     /**
+     * 안심번호 할당여부
+     */
+    @Column(name = "safen_use_yn")
+    private int safenUseYn;
+
+    /**
      * 가상계좌 예금주
      */
     @Convert(converter = EmptyStringToNullConverter.class)
@@ -421,6 +427,17 @@ public class TbStore extends BaseEntity {
         this.masterGoodsYn = MasterGoodsType.NO_MANAGEMENT;
     }*/
 
+    /**
+     * 렌터카 ERP Type
+     */
+    @Column(name = "erp_type")
+    private String erpType;
+
+    /**
+     * 렌터카 ERP Code
+     */
+    @Column(name = "erp_code")
+    private String erpCode;
 
     @Builder
     public TbStore(Long storeNo, Integer headNo, Integer branchNo, Integer dlvyNo,
@@ -435,8 +452,9 @@ public class TbStore extends BaseEntity {
                    BigDecimal lng, String addr1, String addr2, String addr3, String addr4,
                    String addr5, String storeIntro, String imgFileSmall, String imgFile1,
                    TbStoreBusinessInfo businessInfo, Integer cookingTime, Integer openStatus,
-    Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn, String exStoreCd, String storeUrl
-    ,String orderStatusCode, int takeoverUseYn, int returnUseYn) {
+                   Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn, String exStoreCd, String storeUrl,
+                   String orderStatusCode, int takeoverUseYn, int returnUseYn, int safenUseYn,
+                   String erpType, String erpCode) {
         this.storeNo = storeNo;
         this.headNo = headNo;
         this.branchNo = branchNo;
@@ -489,6 +507,9 @@ public class TbStore extends BaseEntity {
         this.orderStatusCode = orderStatusCode;
         this.takeoverUseYn = takeoverUseYn;
         this.returnUseYn = returnUseYn;
+        this.safenUseYn = safenUseYn;
+        this.erpType = erpType;
+        this.erpCode = erpCode;
         if (ObjectUtils.isNotEmpty(businessInfo)) {
             this.businessInfo = businessInfo;
             this.businessInfo.setStore(this);

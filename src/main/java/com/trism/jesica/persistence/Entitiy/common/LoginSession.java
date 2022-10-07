@@ -20,6 +20,7 @@ public class LoginSession {
 	private Integer storeNo;
 	private String loginKey;
 	private Integer roleType;
+	private Integer userType;
 	private LocalDateTime insertTime;
 
 	public static LoginSession from(TbUserStaff tbUserStaff) {
@@ -33,6 +34,7 @@ public class LoginSession {
 		session.setUserDataStatus(tbUserStaff.getDataStatus().ordinal());
 		session.setInsertTime(tbUserStaff.getInsertDate());
 		session.setRoleType(tbUserStaff.getRoleType());
+		session.setUserType(tbUserStaff.getUserType().ordinal());
 
 		return session;
 	}
