@@ -2470,13 +2470,21 @@
             let updatconfirm = "<spring:message code="list.script.update" text="수정"/>";
 
             if (inputDataCheck(req)) {
-                const { sysCode, corpCode } = req;
+                const { sysCode, corpCode, erpType } = req;
+
+                let erpCode = null;
+                if (erpType === 'REBORN') {
+                    erpCode = sysCode + '|' + corpCode;
+                }
+
                 const returnReq = {
                     ...req,
-                    erpCode: sysCode + '|' + corpCode,
+                    erpCode,
                 }
                 delete returnReq['sysCode'];
                 delete returnReq['corpCode'];
+
+                console.log(returnReq)
 
                 swal({
                     title: updatemsg,

@@ -1218,10 +1218,16 @@
             let enrollment = "<spring:message code="list.detail.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.detail.cancel" text="취소"/>";
             if (inputDataCheck(req,req2)) {
-                const { sysCode, corpCode } = req;
+                const { sysCode, corpCode, erpType } = req;
+
+                let erpCode = null;
+                if (erpType === 'REBORN') {
+                    erpCode = sysCode + '|' + corpCode;
+                }
+
                 const returnReq = {
                     ...req,
-                    erpCode: sysCode + '|' + corpCode,
+                    erpCode,
                 }
                 delete returnReq['sysCode'];
                 delete returnReq['corpCode'];
