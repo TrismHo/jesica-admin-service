@@ -168,6 +168,7 @@
                                                 <select class="form-control width-200 erpType" name="erpType">
                                                     <option value="INS">INS</option>
                                                     <option value="REBORN">REBORN</option>
+                                                    <option value="GRIM">GRIM</option>
                                                 </select>
                                             </label>
                                         </td>
@@ -1519,6 +1520,7 @@
         const { value } = e.target;
 
         switch (value) {
+            case 'GRIM':
             case 'INS':
                 sysCodeEl.attr('disabled', true);
                 corpCodeEl.attr('disabled', true);

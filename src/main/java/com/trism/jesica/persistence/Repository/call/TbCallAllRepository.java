@@ -957,6 +957,101 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return + 기본통계
      */
+    @Query(value = "SELECT      " +
+            "  t1.yyyymmdd AS dayDate,      " +
+            "  DAYOFWEEK(t1.yyyymmdd) AS dw,      " +
+            "  t1.storeName as storeName,  " +
+            "  IFNULL(t1.rentCnt, 0) AS rentCnt,      " +
+            "  IFNULL(t1.safenCnt, 0) AS safenCnt,      " +
+            "  IFNULL(t2.reservEndCnt, 0) AS reservEndCnt,       " +
+            "  ROUND(IFNULL(t1.safenCnt / t1.rentCnt * 100, 0), 1) AS safenPer    " +
+            "FROM  (      " +
+            "  SELECT       " +
+            "    date_format(insert_date, '%y-%m-%d') AS yyyymmdd,       " +
+            "    COUNT(1) AS rentCnt,    " +
+            "    store_name as storeName,  " +
+            "    SUM(CASE WHEN safen_num IS NOT NULL THEN 1 ELSE 0 END) AS safenCnt       " +
+            "  FROM tb_rental_info      " +
+            "  WHERE insert_date BETWEEN :startDate and :endDate " +
+            "  AND store_name like :storeName   " +
+            "  GROUP BY yyyymmdd      " +
+            ") t1 left join (    " +
+            "  select     " +
+            "    al.yyyymmdd ,    " +
+            "      al.reservEndDate,    " +
+            "    count(al.reservEndDate) as reservEndCnt    " +
+            "  from(    " +
+            "    select     " +
+            "      date_format(insert_date, '%y-%m-%d') AS yyyymmdd,    " +
+            "      date_format(reserv_end_date, '%y-%m-%d') AS reservEndDate     " +
+            "    from tb_rental_info    " +
+            "    ) al    " +
+            "  group by al.reservEndDate    " +
+            " ) t2 on t1.yyyymmdd = t2.reservEndDate  " +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getBaseList(@Param("storeName") String storeName, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate
+    );
+/*
+    @Query(value = "SELECT    " +
+            "  t1.yyyymmdd AS dayDate,    " +
+            "  DAYOFWEEK(t1.yyyymmdd) AS dw,    " +
+            "  t2.storeName as storeName, " +
+            "  IFNULL(t2.rentCnt, 0) AS rentCnt,    " +
+            "  IFNULL(t2.safenCnt, 0) AS safenCnt,    " +
+            "  IFNULL(t3.reservEndCnt, 0) AS reservEndCnt,    " +
+            "  ROUND(IFNULL(t2.safenCnt / t2.rentCnt * 100, 0), 1) AS safenPer,    " +
+            "  t1.takeoverCnt,    " +
+            "  ROUND(t1.takeoverCnt / t1.totalCnt * 100, 1) AS takeoverPer,    " +
+            "  t1.returnCnt,    " +
+            "  ROUND(t1.returnCnt / t1.totalCnt * 100, 1) AS returnPer,    " +
+            "  t1.totalCnt    " +
+            "FROM (    " +
+            "  SELECT    " +
+            "    date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
+            "    SUM(CASE WHEN order_type_code = 20 THEN 1 ELSE 0 END) AS takeoverCnt,    " +
+            "    SUM(CASE WHEN order_type_code = 21 THEN 1 ELSE 0 END) AS returnCnt,    " +
+            "    COUNT(1) AS totalCnt    " +
+            "  FROM    " +
+            "    tb_call_all    " +
+            "  WHERE    " +
+            "    order_status_code = 40    " +
+            "    and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
+            "  GROUP BY yyyymmdd    " +
+            ") t1 left join (    " +
+            "  SELECT     " +
+            "    date_format(insert_date, '%y-%m-%d') AS yyyymmdd,     " +
+            "    COUNT(1) AS rentCnt,    " +
+            "    store_name as storeName,   " +
+            "    SUM(CASE WHEN safen_num IS NOT NULL THEN 1 ELSE 0 END) AS safenCnt     " +
+            "  FROM tb_rental_info    " +
+            "  WHERE insert_date BETWEEN :startDate and :endDate    " +
+            "  GROUP BY yyyymmdd    " +
+            ") t2  ON t1.yyyymmdd = t2.yyyymmdd  " +
+            " left join (  " +
+            "  select   " +
+            "    al.yyyymmdd ,  " +
+            "      al.reservEndDate,  " +
+            "    count(al.reservEndDate) as reservEndCnt  " +
+            "  from(  " +
+            "    select   " +
+            "      date_format(insert_date, '%y-%m-%d') AS yyyymmdd,  " +
+            "      date_format(reserv_end_date, '%y-%m-%d') AS reservEndDate   " +
+            "    from tb_rental_info  " +
+            "    ) al  " +
+            "  group by al.reservEndDate  " +
+            " ) t3 on t1.yyyymmdd = t3.reservEndDate  " +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getBaseList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate
+    );
+*/
+
+/*
+    */
+/**
+     * @param searchDate
+     * @return + 기본통계
+     *//*
+
     @Query(value = "SELECT  " +
             "  t1.yyyymmdd AS dayDate,  " +
             "  DAYOFWEEK(t1.yyyymmdd) AS dw,  " +
@@ -993,5 +1088,6 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "", nativeQuery = true)
     List<Map<String,Object>> getBaseList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate
     );
+*/
 
 }

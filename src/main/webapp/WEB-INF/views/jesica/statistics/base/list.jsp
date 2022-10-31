@@ -123,6 +123,21 @@
                                                 <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td class="bg-light" style="width:10%"><strong>가맹점명 검색</strong></td>
+                                            <td>
+                                                <label>
+                                                    <input type="text" name="storeName" value="${searchValue.storeName}"  class="form-control background-white width-200">
+                                                 </label>
+                                                <label>
+                                                    <span class="btn-group  bg-black-transparent-2 rounded">
+                                                        <a href="/statistics/base/list?&startDate=${searchValue.startDate}&endDate=${now}&selday=${searchValue.selday}&storeTxt=&storeNo=" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
+                                                            <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message code="list.search.searchreset" text="검색 초기화"/>
+                                                        </a>
+                                                    </span>
+                                                </label>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </form>
@@ -147,28 +162,31 @@
                     <thead>
                     <tr class="text-center">
                         <th rowspan="2">날짜</th>
+                        <th rowspan="2">가맹점명</th>
                         <th rowspan="2">요일</th>
                         <th rowspan="2">렌터카대여수</th>
+                        <th rowspan="2">렌터카반납수</th>
                         <th colspan="2">안심번호</th>
-                        <th colspan="2">인수콜</th>
+                       <%-- <th colspan="2">인수콜</th>
                         <th colspan="2">반납콜</th>
-                        <th colspan="2">전체콜</th>
+                        <th colspan="2">전체콜</th>--%>
                     </tr>
                     <tr class="text-center">
                         <th>매핑수</th>
                         <th>%</th>
-                        <th>콜수</th>
-                        <th>%</th>
-                        <th>콜수</th>
-                        <th>%</th>
-                        <th>콜수</th>
-                        <th>%</th>
+                        <%--  <th>콜수</th>
+                         <th>%</th>
+                         <th>콜수</th>
+                         <th>%</th>
+                         <th>콜수</th>
+                         <th>%</th>--%>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="item" items="${timeList}" varStatus="status">
                         <tr class="text-center">
                             <td>${item.dayDate}</td>
+                            <td>${item.storeName}</td>
                             <td>
                                 <c:if test="${item.dw == 1}">일요일</c:if>
                                 <c:if test="${item.dw == 2}">월요일</c:if>
@@ -179,14 +197,15 @@
                                 <c:if test="${item.dw == 7}">토요일</c:if>
                             </td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.rentCnt}"/> 건</td>
+                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.reservEndCnt}"/> 건</td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.safenCnt}"/> 건</td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.safenPer}"/> %</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.takeoverCnt}"/> 건</td>
+      <%--                      <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.takeoverCnt}"/> 건</td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.takeoverPer}"/> %</td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.returnCnt}"/> 건</td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.returnPer}"/> %</td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.totalCnt}"/> 건</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="100"/> %</td>
+                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="100"/> %</td>--%>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -204,7 +223,9 @@
 
 <script src="${path}/assets/plugins/chart.js/dist/Chart.min.js"></script>
 <%--modal search end--%>
-
+<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchStore.jsp" %>
+</div>
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="../../../common/include_common_js.jsp" %>
 <%--<%@include file="../../../common/include_datatables.jsp" %>--%>
@@ -299,6 +320,22 @@
 
         });*/
 
+        $(".storeSel").on("click",function(){
+            var storeNo = $(this).attr("storeNo");
+            var storeName = $(this).attr("storeName");
+            $("input[name=storeNo]").val(storeNo);
+            $(".storeTxt").val(storeName+" ["+storeNo+"]");
+            $(".storeModalCloseBtn").click();
+        });
+        $('.filterText').keyup(function(event) {
+            var val = $(this).val();
+            if (val == "") {
+                $('.filterUL li').hide();
+            } else {
+                $('.filterUL li').hide();
+                $(".filterUL li:contains('"+val+"')").show();
+            }
+        });
         $(".excel_form_btn").click(function() {
             location.href = "${path}/merchant/uploadexcel/excelform";
         });

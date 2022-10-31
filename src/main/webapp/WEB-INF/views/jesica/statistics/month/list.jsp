@@ -128,7 +128,7 @@
                                                     <select class="form-control orderTypeCode" name="orderTypeCode">
                                                         <option value=""<c:if test="${searchValue.orderTypeCode == ''}">selected</c:if>>전체</option>
                                                         <option value="20"<c:if test="${searchValue.orderTypeCode == '20'}">selected</c:if>>인수대행</option>
-                                                        <option value="21"<c:if test="${searchValue.orderTypeCode == '21'}">selected</c:if>>반냅대행</option>
+                                                        <option value="21"<c:if test="${searchValue.orderTypeCode == '21'}">selected</c:if>>반납대행</option>
                                                     </select>
                                                 </label>
                                                 <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>

@@ -52,6 +52,7 @@
 </div>
 <!-- end page container -->
     </div>
+<c:if test="${sessionScope.sessionKey.roleType != 2}">
     <div id="content" class="content" style="background-color: #eee;">
         <!-- begin breadcrumb -->
         <ol class="breadcrumb float-xl-right">
@@ -126,21 +127,21 @@
 
 
         <!-- begin row -->
-      <%--  <div class="m-b-5" style="display: flex">
-            <select class="chart-year form-control" style="width: 80px; height: 25px; padding: 0 5px; margin-left: auto">
-                <c:forEach begin="0" end="10" var="result" step="1">
-                    <option value="<c:out value="${yearStart - result}" />"><c:out value="${yearStart - result}" /></option>
-                </c:forEach>
-            </select>
-            <select class="chart-month form-control m-l-5" style="width: 60px; height: 25px; padding: 0 5px">
-                <c:forEach begin="1" end="12" var="month" step="1">
-                    <option value="<c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if><c:if test="${month >= 10}"><c:out value="${month}" /></c:if>" <c:if test="${month == thisMonth}">selected</c:if>>
-                        <c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if>
-                        <c:if test="${month >= 10}"><c:out value="${month}" /></c:if>
-                    </option>
-                </c:forEach>
-            </select>
-        </div>--%>
+            <%--  <div class="m-b-5" style="display: flex">
+                  <select class="chart-year form-control" style="width: 80px; height: 25px; padding: 0 5px; margin-left: auto">
+                      <c:forEach begin="0" end="10" var="result" step="1">
+                          <option value="<c:out value="${yearStart - result}" />"><c:out value="${yearStart - result}" /></option>
+                      </c:forEach>
+                  </select>
+                  <select class="chart-month form-control m-l-5" style="width: 60px; height: 25px; padding: 0 5px">
+                      <c:forEach begin="1" end="12" var="month" step="1">
+                          <option value="<c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if><c:if test="${month >= 10}"><c:out value="${month}" /></c:if>" <c:if test="${month == thisMonth}">selected</c:if>>
+                              <c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if>
+                              <c:if test="${month >= 10}"><c:out value="${month}" /></c:if>
+                          </option>
+                      </c:forEach>
+                  </select>
+              </div>--%>
         <div class="row">
             <!-- begin col-8 -->
             <div class="col-xl-6 ">
@@ -238,6 +239,8 @@
         </div>
         <!-- end row -->
     </div>
+</c:if>
+
 </div>
 
 <!-- ================== BEGIN BASE JS ================== -->

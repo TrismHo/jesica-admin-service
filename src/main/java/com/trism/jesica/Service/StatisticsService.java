@@ -1,6 +1,7 @@
 package com.trism.jesica.Service;
 
 import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
+import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class StatisticsService {
 
     private final TbCallAllRepository tbCallAllRepository;
+    private final TbRentalInfoRepository tbRentalInfoRepository;
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getTimeList(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day) {
@@ -73,8 +75,16 @@ public class StatisticsService {
         return tbCallAllRepository.getUserList(startDate,endDate);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getBaseList(LocalDateTime startDate,LocalDateTime endDate) {
-        return tbCallAllRepository.getBaseList(startDate,endDate);
+    public List<Map<String,Object>> getBaseList(String storeName ,LocalDateTime startDate,LocalDateTime endDate) {
+        return tbCallAllRepository.getBaseList(storeName,startDate,endDate);
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getSafenNumberList(String storeNo, LocalDateTime startDate,LocalDateTime endDate) {
+        return tbRentalInfoRepository.getSafenNumberList(storeNo,startDate,endDate);
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getSafenNumberListAll(LocalDateTime startDate,LocalDateTime endDate) {
+        return tbRentalInfoRepository.getSafenNumberListAll(startDate,endDate);
     }
 }
 

@@ -224,6 +224,7 @@
                                             <select class="form-control width-200 erpType" name="erpType">
                                                 <option value="INS" <c:if test="${tbStore.erpType == 'INS'}">selected</c:if>>INS</option>
                                                 <option value="REBORN" <c:if test="${tbStore.erpType == 'REBORN'}">selected</c:if>>REBORN</option>
+                                                <option value="GRIM" <c:if test="${tbStore.erpType == 'GRIM'}">selected</c:if>>GRIM</option>
                                             </select>
                                         </label>
                                     </td>
@@ -4278,6 +4279,7 @@
         }
 
         switch (value) {
+            case 'GRIM':
             case 'INS':
                 sysCodeEl.attr('disabled', true);
                 corpCodeEl.attr('disabled', true);

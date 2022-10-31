@@ -1,7 +1,10 @@
 package com.trism.jesica.Controller;
 
+import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.StatisticsService;
 import com.trism.jesica.Util.DateUtil;
+import com.trism.jesica.persistence.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -24,6 +27,7 @@ import java.util.Map;
 @Slf4j
 public class StatisticsController {
     private final StatisticsService statisticsService;
+    private final ApiService apiService;
 
     //시간대별 통계
     @GetMapping("/time/list")
@@ -210,6 +214,69 @@ public class StatisticsController {
         return new ModelAndView("jesica/statistics/week/list");
     }
 
+    //안심번호 할당통게
+    @GetMapping("/safetynumber/list")
+    public ModelAndView listBySafetynumber(@RequestParam Map<String,Object> searchValue,
+                                   Model model) {
+        log.info("@@searchValue {}",searchValue);
+        if (!searchValue.isEmpty()){
+            List<Map<String,Object>> safenList = null;
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (searchValue.get("startDate") != null) {
+                String string = searchValue.get("startDate").toString() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("endDate") != null) {
+                String string = searchValue.get("endDate").toString() + " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            }
+            if ( searchValue.get("storeNo") != "") {
+                safenList =  statisticsService.getSafenNumberList(searchValue.get("storeNo").toString(),startDate,endDate);
+            } else {
+                safenList =  statisticsService.getSafenNumberListAll(startDate,endDate);
+            }
+
+            model.addAttribute("safenList",safenList);
+        } else {
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+            searchValue.put("selectDay", "");
+            searchValue.put("orderTypeCode", "");
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+
+            List<Map<String,Object>> safenNumberList =  statisticsService.getSafenNumberListAll(startDate,endDate);
+
+            model.addAttribute("safenNumberList",safenNumberList);
+
+        }
+
+        List<TbStoreRentalCar> resultList = null;
+        List<TbStore> tbStoreList = apiService.getStoreList();
+
+        model.addAttribute("tbStoreList", tbStoreList);
+        model.addAttribute("searchValue",searchValue);
+
+        return new ModelAndView("jesica/statistics/safetynumber/list");
+    }
+
+
     //월별통계
     @GetMapping("/month/list")
     public ModelAndView listByMonth(@RequestParam Map<String,Object> searchValue,
@@ -272,8 +339,8 @@ public class StatisticsController {
     public ModelAndView listByBase(@RequestParam Map<String,Object> searchValue,
                                    Model model) {
         log.info("@@searchValue {}",searchValue);
+        List<Map<String,Object>> timeList = null;
         if (!searchValue.isEmpty()){
-            List<Map<String,Object>> timeList = null;
             LocalDateTime startDate = null;
             LocalDateTime endDate = null;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -291,8 +358,7 @@ public class StatisticsController {
                 String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
-            timeList =  statisticsService.getBaseList(startDate,endDate);
-            model.addAttribute("timeList",timeList);
+                timeList =  statisticsService.getBaseList("%"+searchValue.get("storeName").toString()+"%", startDate, endDate);
         } else {
             LocalDateTime startDate = null;
             LocalDateTime endDate = null;
@@ -307,11 +373,10 @@ public class StatisticsController {
             startDate = LocalDateTime.parse(string, formatter);
             endDate = LocalDateTime.parse(string1, formatter);
 
-            List<Map<String,Object>> timeList =  statisticsService.getBaseList(startDate,endDate);
-
-            model.addAttribute("timeList",timeList);
-
+            timeList =  statisticsService.getBaseList("",startDate,endDate);
         }
+
+        model.addAttribute("timeList",timeList);
         model.addAttribute("searchValue",searchValue);
         return new ModelAndView("jesica/statistics/base/list");
     }

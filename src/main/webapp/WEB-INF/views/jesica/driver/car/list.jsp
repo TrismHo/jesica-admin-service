@@ -124,8 +124,8 @@
                                                     </c:forEach>
                                                 </select>--%>
                                                <label>
-                                                   <input type="text" data-toggle="modal" data-target="#store_search_modal" value=""  placeholder="<spring:message code="list.search.distributorheadquarters1" text="가맹점"/>" class="form-control background-white storeTxt width-150" readonly>
-                                                   <input type="hidden" name="storeNo" value=""  class="form-control background-white width-100" readonly>
+                                                   <input type="text" data-toggle="modal" data-target="#store_search_modal" value="${searchValue.storeTxt}"  placeholder="<spring:message code="list.search.distributorheadquarters1" text="가맹점"/>" name="storeTxt" class="form-control background-white storeTxt width-150" readonly>
+                                                   <input type="hidden" name="storeNo" value="${searchValue.storeNo}"  class="form-control background-white width-100" readonly>
                                                </label>
                                             </td>
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
