@@ -373,7 +373,7 @@ public class StatisticsController {
             startDate = LocalDateTime.parse(string, formatter);
             endDate = LocalDateTime.parse(string1, formatter);
 
-            timeList =  statisticsService.getBaseList("",startDate,endDate);
+            timeList =  statisticsService.getBaseList("%%",startDate,endDate);
         }
 
         model.addAttribute("timeList",timeList);
