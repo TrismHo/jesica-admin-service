@@ -11,6 +11,7 @@ import com.trism.jesica.persistence.Entitiy.cust.TbStoreCashLog;
 import com.trism.jesica.persistence.Entitiy.cust.TbWorkerCashLog;
 import com.trism.jesica.persistence.type.CatLevel;
 import com.trism.jesica.persistence.type.DataStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class SearchUtil {
 
     public static Specification<?> searchWith(Map<String, Object> searchKeyword) {
@@ -567,8 +569,10 @@ public class SearchUtil {
 
     private static List<Predicate> searchStoreRentalCar(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
+
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
+
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
@@ -895,7 +899,7 @@ public class SearchUtil {
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                if ("dataStatus".equals(key)) {
+                /*if ("dataStatus".equals(key)) {
                     DataStatus dataStatus = null;
                     DataStatus delDataStatus = null;
                     if("".equals(value) || value == null) {
@@ -907,7 +911,7 @@ public class SearchUtil {
                         predicate.add(builder.equal(root.get(key),dataStatus));
                         predicate.add(builder.notEqual(root.get(key),delDataStatus));
                     }
-                } else if ("groupType".equals(key) && value != "") {
+                } else*/ if ("groupType".equals(key) && value != "") {
                     Predicate typeAll = builder.equal(root.get(key),0);
                     Predicate type = builder.equal(root.get(key),value);
                     predicate.add(builder.or(typeAll,type));
@@ -925,6 +929,7 @@ public class SearchUtil {
                }
             }
             predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            predicate.add(builder.equal(root.get("dataStatus"), DataStatus.OK));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1024,11 +1029,7 @@ public class SearchUtil {
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                if (key.equals("dataStatus")) {
-                    if (ObjectUtils.isEmpty(value) || value.equals("OK")) {
-                        predicate.add(builder.equal(root.get(key), 1));
-                    }
-                } else if (key.equals("startDate") && value != "") {
+                if (key.equals("startDate") && value != "") {
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
@@ -1037,12 +1038,15 @@ public class SearchUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     endDate = LocalDateTime.parse(string, formatter);
                 } else {
-                    if (ObjectUtils.isNotEmpty(value)) {
-                        predicate.add(builder.equal(root.get(key), value));
+                    if (!key.equals("dataStatus")) {
+                        if (ObjectUtils.isNotEmpty(value)) {
+                            predicate.add(builder.equal(root.get(key), value));
+                        }
                     }
                 }
             }
             predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            predicate.add(builder.equal(root.get("dataStatus"), 1));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1056,7 +1060,7 @@ public class SearchUtil {
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                if ("dataStatus".equals(key)) {
+                /*if ("dataStatus".equals(key)) {
                     DataStatus dataStatus = null;
                     DataStatus delDataStatus = null;
                     if("".equals(value) || value == null) {
@@ -1068,7 +1072,7 @@ public class SearchUtil {
                         predicate.add(builder.equal(root.get(key),dataStatus));
                         predicate.add(builder.notEqual(root.get(key),delDataStatus));
                     }
-                } else if ("title".equals(key)  && value != "") {
+                } else*/ if ("title".equals(key)  && value != "") {
                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
                 }  else if ("viewYn".equals(key)  && value != "") {
                     predicate.add(builder.equal(root.get(key),value));
@@ -1084,6 +1088,7 @@ public class SearchUtil {
                }
             }
             predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            predicate.add(builder.equal(root.get("dataStatus"), DataStatus.OK));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1982,6 +1987,7 @@ public class SearchUtil {
         LocalDateTime endDate = null;
 
         try {
+            predicate.add(builder.notEqual(root.get("dataStatus"), 0));
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
                 if ("title".equals(key) && value != "") {
@@ -1994,21 +2000,17 @@ public class SearchUtil {
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
-
                 } else if ("dataStatus".equals(key)) {
-                    int dataStatus = 0;
-                    if(ObjectUtils.isEmpty(value)) {
-                        dataStatus = 1;
-                        predicate.add(builder.equal(root.get(key), dataStatus));
+                    if(StringUtils.isEmpty((String)value)) {
+                        predicate.add(builder.notEqual(root.get(key), 0));
                     } else {
-                        if ("OK".equals(value)) {
-                            dataStatus = 1;
-                        } else if ("STOP".equals(value)) {
+                        int dataStatus = 1;
+                        if (!value.equals("OK")) {
                             dataStatus = 2;
                         }
                         predicate.add(builder.equal(root.get(key), dataStatus));
                     }
-                } else {
+                } else if (key.equals("serviceType")) {
                     if (ObjectUtils.isNotEmpty(value)) {
                         predicate.add(builder.equal(root.get(key),value));
                     }
@@ -2030,6 +2032,7 @@ public class SearchUtil {
         String keyword = "";
 
         try {
+            predicate.add(builder.notEqual(root.get("dataStatus"), 0));
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
                 if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")) {
@@ -2052,9 +2055,7 @@ public class SearchUtil {
                     if(ObjectUtils.isEmpty(value)) {
                         predicate.add(builder.notEqual(root.get(key), 0));
                     } else {
-                        if (value.equals("OK")) {
-                            dataStatus = 1;
-                        } else {
+                        if (!value.equals("OK")) {
                             dataStatus = 2;
                         }
                         predicate.add(builder.equal(root.get(key), dataStatus));

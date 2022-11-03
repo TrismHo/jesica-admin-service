@@ -579,7 +579,7 @@
         });
 
         $(".btn_list").click(() => {
-            location.href = "${path}/coupon/management/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title=";
+            location.href = "${path}/coupon/management/list?dataStatus=&startDate=2020-01-01&endDate=${now}&title=";
         });
 
         $(".btn_up").click(() => {
@@ -622,7 +622,7 @@
                             success: function (data) {
                                 if (data.result == 200) {
                                     alert(updatesussmsg);
-                                    location.href="${path}/coupon/management/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="
+                                    location.href="${path}/coupon/management/list?dataStatus=&startDate=2020-01-01&endDate=${now}&title="
                                 } else {
                                     alert(editfailed);
                                     return;
@@ -662,7 +662,7 @@
                         success: (data) => {
                             if (data.result == 200) {
                                 alert(deleted);
-                                location.href = "${path}/coupon/management/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title=";
+                                location.href = "${path}/coupon/management/list?dataStatus=&startDate=2020-01-01&endDate=${now}&title=";
                             } else {
                                 alert(deletionfailed);
                                 return;

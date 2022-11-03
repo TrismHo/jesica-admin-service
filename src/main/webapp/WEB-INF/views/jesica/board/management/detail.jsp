@@ -579,7 +579,7 @@
         });
 
         $(".btn_list").click(() => {
-            location.href = "${path}/board/management/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title=";
+            location.href = "${path}/board/management/list?dataStatus=&startDate=2020-01-01&endDate=${now}&title=";
         });
 
         $(".btn_up").click(() => {

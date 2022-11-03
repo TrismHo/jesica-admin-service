@@ -427,7 +427,7 @@ public class SystemController {
             e.printStackTrace();
         }
 
-        return new ModelAndView("jesica/system/adminuser/detail");
+        return new ModelAndView("jesica/system/adminuser/detail_treever");
     }
 
 

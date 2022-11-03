@@ -3340,12 +3340,14 @@ public class ApiService {
             TbAppBanner appBanner = tbAppBanner.get();
             appBanner.updateDisabledTbAppBanner();
 
-            int viewOrder = appBanner.getViewOrder();
-            List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(1, 1, viewOrder);
+            if (ObjectUtils.isNotEmpty(appBanner.getViewOrder())) {
+                int viewOrder = appBanner.getViewOrder();
+                List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(1, 1, viewOrder);
 
-            for(int i = 0; i < tbAppBannerList.size(); i++) {
-                int index = viewOrder + i;
-                tbAppBannerRepository.updateViewOrder(index, tbAppBannerList.get(i).getBannerNo());
+                for(int i = 0; i < tbAppBannerList.size(); i++) {
+                    int index = viewOrder + i;
+                    tbAppBannerRepository.updateViewOrder(index, tbAppBannerList.get(i).getBannerNo());
+                }
             }
 
             return 1;
