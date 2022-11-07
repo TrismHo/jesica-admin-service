@@ -2906,7 +2906,9 @@ public class ApiController {
         try {
             int result = apiService.insertTbAppBanner(tbAppBannerData, imgFile);
 
+
             if(result == 1) {
+                map.put("serviceType",tbAppBannerData.getServiceType());
                 map.put("result", "200");
                 map.put("message", "등록 되었습니다.");
             } else {
