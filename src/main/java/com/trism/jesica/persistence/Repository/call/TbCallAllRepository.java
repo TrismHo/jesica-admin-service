@@ -513,7 +513,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "      )    " +
             "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
             "      and DAYOFWEEK(IFNULL(finish_date, cancel_date)) = :day    " +
-            "       and order_type_code = :orderTypeCode    " +
+            "      and order_type_code = :orderTypeCode    " +
             "    GROUP BY yyyymmdd    " +
             "  ) dd    " +
             ") a    " +
@@ -522,7 +522,57 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
     List<Map<String,Object>> getDayList(@Param("orderTypeCode") String orderTypeCode,
                                          @Param("startDate") LocalDateTime startDate,
                                          @Param("endDate") LocalDateTime endDate,
-                                         @Param("day") String day);
+                                         @Param("day") String day
+                                         );
+    /**
+     * @param searchDate
+     * @return + 일별통계 통계
+     */
+    @Query(value = "SELECT    " +
+            "  DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as dayDate,    " +
+            "  DAYOFWEEK(yyyymmdd) AS dw,    " +
+            "  totalCall,    " +
+            "  successCall,    " +
+            "  cancelCall,    " +
+            "  ROUND(cancelCall / totalCall * 100, 1) AS cancelPer,    " +
+            "  orderAmt,    " +
+            "  discountAmt,    " +
+            "  totalAmt,    " +
+            "  ROUND((successCall - beforeCall) / beforeCall * 100, 1) AS beforePer    " +
+            "FROM (    " +
+            "  SELECT    " +
+            "    yyyymmdd, (successCall + cancelCall) AS totalCall, successCall, cancelCall, orderAmt, discountAmt, totalAmt,    " +
+            "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
+            "  FROM (    " +
+            "    SELECT    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
+            "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN discount_amt ELSE 0 END) AS discountAmt,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN total_amt ELSE 0 END) AS totalAmt    " +
+            "    FROM    " +
+            "      tb_call_all    " +
+            "    WHERE    " +
+            "      (    " +
+            "        order_status_code = 40 OR    " +
+            "        (order_status_code = 41 AND order_pay_status = 5)    " +
+            "      )    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
+            "      and DAYOFWEEK(IFNULL(finish_date, cancel_date)) = :day    " +
+            "      and order_type_code = :orderTypeCode    " +
+            "      and rental_store_no = :storeNo    " +
+            "    GROUP BY yyyymmdd    " +
+            "  ) dd    " +
+            ") a    " +
+            "ORDER BY yyyymmdd ASC;" +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getDayList(@Param("orderTypeCode") String orderTypeCode,
+                                         @Param("startDate") LocalDateTime startDate,
+                                         @Param("endDate") LocalDateTime endDate,
+                                         @Param("day") String day,
+                                         @Param("storeNo") String storeNo
+                                         );
 
     /**
      * @param searchDate
@@ -568,6 +618,53 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
     List<Map<String,Object>> getDayListAll(
                                         @Param("startDate") LocalDateTime startDate,
                                         @Param("endDate") LocalDateTime endDate
+                                       );
+    /**
+     * @param searchDate
+     * @return + 일별통계 통계
+     */
+    @Query(value = "SELECT    " +
+            "  DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as dayDate,    " +
+            "  DAYOFWEEK(yyyymmdd) AS dw,    " +
+            "  totalCall,    " +
+            "  successCall,    " +
+            "  cancelCall,    " +
+            "  ROUND(cancelCall / totalCall * 100, 1) AS cancelPer,    " +
+            "  orderAmt,    " +
+            "  discountAmt,    " +
+            "  totalAmt,    " +
+            "  ROUND((successCall - beforeCall) / beforeCall * 100, 1) AS beforePer    " +
+            "FROM (    " +
+            "  SELECT    " +
+            "    yyyymmdd, (successCall + cancelCall) AS totalCall, successCall, cancelCall, orderAmt, discountAmt, totalAmt,    " +
+            "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
+            "  FROM (    " +
+            "    SELECT    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
+            "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN discount_amt ELSE 0 END) AS discountAmt,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN total_amt ELSE 0 END) AS totalAmt    " +
+            "    FROM    " +
+            "      tb_call_all    " +
+            "    WHERE    " +
+            "      (    " +
+            "        order_status_code = 40 OR    " +
+            "        (order_status_code = 41 AND order_pay_status = 5)    " +
+            "      )    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
+            "      and order_type_code in (20 ,21)    " +
+            "      and rental_store_no = :storeNo    " +
+            "    GROUP BY yyyymmdd    " +
+            "  ) dd    " +
+            ") a    " +
+            "ORDER BY yyyymmdd ASC;" +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getDayListAll(
+                                        @Param("startDate") LocalDateTime startDate,
+                                        @Param("endDate") LocalDateTime endDate,
+                                        @Param("storeNo") String storeNo
                                        );
 
     /**
@@ -615,6 +712,53 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
                                         @Param("startDate") LocalDateTime startDate,
                                         @Param("endDate") LocalDateTime endDate
                                        );
+    /**
+     * @param searchDate
+     * @return + 일별통계 통계
+     */
+    @Query(value = "SELECT    " +
+            "  DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as dayDate,    " +
+            "  DAYOFWEEK(yyyymmdd) AS dw,    " +
+            "  totalCall,    " +
+            "  successCall,    " +
+            "  cancelCall,    " +
+            "  ROUND(cancelCall / totalCall * 100, 1) AS cancelPer,    " +
+            "  orderAmt,    " +
+            "  discountAmt,    " +
+            "  totalAmt,    " +
+            "  ROUND((successCall - beforeCall) / beforeCall * 100, 1) AS beforePer    " +
+            "FROM (    " +
+            "  SELECT    " +
+            "    yyyymmdd, (successCall + cancelCall) AS totalCall, successCall, cancelCall, orderAmt, discountAmt, totalAmt,    " +
+            "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
+            "  FROM (    " +
+            "    SELECT    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
+            "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN discount_amt ELSE 0 END) AS discountAmt,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN total_amt ELSE 0 END) AS totalAmt    " +
+            "    FROM    " +
+            "      tb_call_all    " +
+            "    WHERE    " +
+            "      (    " +
+            "        order_status_code = 40 OR    " +
+            "        (order_status_code = 41 AND order_pay_status = 5)    " +
+            "      )    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
+            "      and order_type_code = :orderTypeCode    " +
+            "      and rental_store_no=:storeNo    " +
+            "    GROUP BY yyyymmdd    " +
+            "  ) dd    " +
+            ") a    " +
+            "ORDER BY yyyymmdd ASC;" +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getDayListOrderType(@Param("orderTypeCode") String orderTypeCode,
+                                        @Param("startDate") LocalDateTime startDate,
+                                        @Param("endDate") LocalDateTime endDate,
+                                        @Param("storeNo") String storeNo
+                                       );
 
     /**
      * @param searchDate
@@ -651,7 +795,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "        (order_status_code = 41 AND order_pay_status = 5)    " +
             "      )    " +
             "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
-            "      and DAYOFWEEK(car_use_date) = :day    " +
+            "      and DAYOFWEEK(IFNULL(finish_date, cancel_date)) =:day   " +
             "       and order_type_code in (20, 21)    " +
             "    GROUP BY yyyymmdd    " +
             "  ) dd    " +
@@ -662,6 +806,55 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
                                         @Param("startDate") LocalDateTime startDate,
                                         @Param("endDate") LocalDateTime endDate,
                                         @Param("day") String day);
+    /**
+     * @param searchDate
+     * @return + 일별통계 통계
+     */
+    @Query(value = "SELECT    " +
+            "  DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as dayDate,    " +
+            "  DAYOFWEEK(yyyymmdd) AS dw,    " +
+            "  totalCall,    " +
+            "  successCall,    " +
+            "  cancelCall,    " +
+            "  ROUND(cancelCall / totalCall * 100, 1) AS cancelPer,    " +
+            "  orderAmt,    " +
+            "  discountAmt,    " +
+            "  totalAmt,    " +
+            "  ROUND((successCall - beforeCall) / beforeCall * 100, 1) AS beforePer    " +
+            "FROM (    " +
+            "  SELECT    " +
+            "    yyyymmdd, (successCall + cancelCall) AS totalCall, successCall, cancelCall, orderAmt, discountAmt, totalAmt,    " +
+            "    IFNULL(LAG(successCall) OVER (ORDER BY yyyymmdd), '') AS beforeCall    " +
+            "  FROM (    " +
+            "    SELECT    " +
+            "      date_format(IFNULL(finish_date, cancel_date), '%y-%m-%d') AS yyyymmdd,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN 1 ELSE 0 END) AS successCall,    " +
+            "      SUM(CASE WHEN order_status_code = 41 THEN 1 ELSE 0 END) AS cancelCall,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN order_amt ELSE 0 END) AS orderAmt,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN discount_amt ELSE 0 END) AS discountAmt,    " +
+            "      SUM(CASE WHEN order_status_code = 40 THEN total_amt ELSE 0 END) AS totalAmt    " +
+            "    FROM    " +
+            "      tb_call_all    " +
+            "    WHERE    " +
+            "      (    " +
+            "        order_status_code = 40 OR    " +
+            "        (order_status_code = 41 AND order_pay_status = 5)    " +
+            "      )    " +
+            "      and IFNULL(finish_date, cancel_date) BETWEEN :startDate AND :endDate    " +
+            "      and DAYOFWEEK(IFNULL(finish_date, cancel_date)) = :day     " +
+            "       and order_type_code in (20, 21)    " +
+            "       and rental_store_no = :storeNo    " +
+            "    GROUP BY yyyymmdd    " +
+            "  ) dd    " +
+            ") a    " +
+            "ORDER BY yyyymmdd ASC;" +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getDayListDay(
+                                        @Param("startDate") LocalDateTime startDate,
+                                        @Param("endDate") LocalDateTime endDate,
+                                        @Param("day") String day,
+                                        @Param("storeNo") String storeNo
+                                        );
 
 
 

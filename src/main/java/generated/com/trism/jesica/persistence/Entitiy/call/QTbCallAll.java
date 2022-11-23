@@ -59,16 +59,34 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
     public final DateTimePath<java.time.LocalDateTime> carUseDate;
 
     //inherited
+    public final StringPath contractName;
+
+    //inherited
+    public final StringPath contractTel;
+
+    //inherited
+    public final NumberPath<Integer> custDriverName;
+
+    //inherited
+    public final NumberPath<Integer> custDriverTel;
+
+    //inherited
     public final StringPath custMemo;
 
     //inherited
     public final NumberPath<Integer> custNo;
 
     //inherited
+    public final NumberPath<Integer> custPlaceType;
+
+    //inherited
     public final StringPath custTel;
 
     //inherited
     public final StringPath custTel2;
+
+    //inherited
+    public final StringPath defaultFuel;
 
     //inherited
     public final NumberPath<Integer> discountAmt;
@@ -116,7 +134,16 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
     public final StringPath orderTypeCode;
 
     //inherited
+    public final StringPath outboundFlag;
+
+    //inherited
+    public final NumberPath<Integer> passengerNum;
+
+    //inherited
     public final DateTimePath<java.time.LocalDateTime> pickupDate;
+
+    //inherited
+    public final NumberPath<Integer> preCheckIn;
 
     //inherited
     public final NumberPath<Integer> pubCouponNo;
@@ -126,6 +153,12 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
 
     //inherited
     public final NumberPath<Integer> relayStep;
+
+    //inherited
+    public final NumberPath<Integer> rentalCarUnpaid;
+
+    //inherited
+    public final StringPath reservNum;
 
     //inherited
     public final NumberPath<Integer> serviceAmt;
@@ -147,6 +180,9 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
 
     //inherited
     public final NumberPath<Integer> updateScn;
+
+    //inherited
+    public final NumberPath<Integer> useCount;
 
     //inherited
     public final StringPath workerName;
@@ -186,10 +222,16 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
         this.carModel = _super.carModel;
         this.carNum = _super.carNum;
         this.carUseDate = _super.carUseDate;
+        this.contractName = _super.contractName;
+        this.contractTel = _super.contractTel;
+        this.custDriverName = _super.custDriverName;
+        this.custDriverTel = _super.custDriverTel;
         this.custMemo = _super.custMemo;
         this.custNo = _super.custNo;
+        this.custPlaceType = _super.custPlaceType;
         this.custTel = _super.custTel;
         this.custTel2 = _super.custTel2;
+        this.defaultFuel = _super.defaultFuel;
         this.discountAmt = _super.discountAmt;
         this.dlvyAccDate = _super.dlvyAccDate;
         this.dlvyReqDate = _super.dlvyReqDate;
@@ -205,10 +247,15 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
         this.orderPayStatus = _super.orderPayStatus;
         this.orderStatusCode = _super.orderStatusCode;
         this.orderTypeCode = _super.orderTypeCode;
+        this.outboundFlag = _super.outboundFlag;
+        this.passengerNum = _super.passengerNum;
         this.pickupDate = _super.pickupDate;
+        this.preCheckIn = _super.preCheckIn;
         this.pubCouponNo = _super.pubCouponNo;
         this.relayCnt = _super.relayCnt;
         this.relayStep = _super.relayStep;
+        this.rentalCarUnpaid = _super.rentalCarUnpaid;
+        this.reservNum = _super.reservNum;
         this.serviceAmt = _super.serviceAmt;
         this.storeName = _super.storeName;
         this.storeNo = _super.storeNo;
@@ -216,6 +263,7 @@ public class QTbCallAll extends EntityPathBase<TbCallAll> {
         this.totalAmt = _super.totalAmt;
         this.updateDate = _super.updateDate;
         this.updateScn = _super.updateScn;
+        this.useCount = _super.useCount;
         this.workerName = _super.workerName;
         this.workerNo = _super.workerNo;
         this.workerTel = _super.workerTel;

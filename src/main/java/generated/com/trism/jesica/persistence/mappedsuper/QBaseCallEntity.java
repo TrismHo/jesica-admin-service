@@ -44,13 +44,25 @@ public class QBaseCallEntity extends EntityPathBase<BaseCallEntity> {
 
     public final DateTimePath<java.time.LocalDateTime> carUseDate = createDateTime("carUseDate", java.time.LocalDateTime.class);
 
+    public final StringPath contractName = createString("contractName");
+
+    public final StringPath contractTel = createString("contractTel");
+
+    public final NumberPath<Integer> custDriverName = createNumber("custDriverName", Integer.class);
+
+    public final NumberPath<Integer> custDriverTel = createNumber("custDriverTel", Integer.class);
+
     public final StringPath custMemo = createString("custMemo");
 
     public final NumberPath<Integer> custNo = createNumber("custNo", Integer.class);
 
+    public final NumberPath<Integer> custPlaceType = createNumber("custPlaceType", Integer.class);
+
     public final StringPath custTel = createString("custTel");
 
     public final StringPath custTel2 = createString("custTel2");
+
+    public final StringPath defaultFuel = createString("defaultFuel");
 
     public final NumberPath<Integer> discountAmt = createNumber("discountAmt", Integer.class);
 
@@ -83,13 +95,23 @@ public class QBaseCallEntity extends EntityPathBase<BaseCallEntity> {
 
     public final StringPath orderTypeCode = createString("orderTypeCode");
 
+    public final StringPath outboundFlag = createString("outboundFlag");
+
+    public final NumberPath<Integer> passengerNum = createNumber("passengerNum", Integer.class);
+
     public final DateTimePath<java.time.LocalDateTime> pickupDate = createDateTime("pickupDate", java.time.LocalDateTime.class);
+
+    public final NumberPath<Integer> preCheckIn = createNumber("preCheckIn", Integer.class);
 
     public final NumberPath<Integer> pubCouponNo = createNumber("pubCouponNo", Integer.class);
 
     public final NumberPath<Integer> relayCnt = createNumber("relayCnt", Integer.class);
 
     public final NumberPath<Integer> relayStep = createNumber("relayStep", Integer.class);
+
+    public final NumberPath<Integer> rentalCarUnpaid = createNumber("rentalCarUnpaid", Integer.class);
+
+    public final StringPath reservNum = createString("reservNum");
 
     public final NumberPath<Integer> serviceAmt = createNumber("serviceAmt", Integer.class);
 
@@ -105,6 +127,8 @@ public class QBaseCallEntity extends EntityPathBase<BaseCallEntity> {
     public final DateTimePath<java.time.LocalDateTime> updateDate = _super.updateDate;
 
     public final NumberPath<Integer> updateScn = createNumber("updateScn", Integer.class);
+
+    public final NumberPath<Integer> useCount = createNumber("useCount", Integer.class);
 
     public final StringPath workerName = createString("workerName");
 

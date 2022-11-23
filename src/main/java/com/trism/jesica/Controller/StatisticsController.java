@@ -98,6 +98,8 @@ public class StatisticsController {
     public ModelAndView listByDay(@RequestParam Map<String,Object> searchValue,
                                    Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
+        List<TbStore> tbStoreList = apiService.getStoreList();
+
         if (!searchValue.isEmpty()){
             List<Map<String,Object>> timeList = null;
             LocalDateTime startDate = null;
@@ -117,17 +119,32 @@ public class StatisticsController {
                 String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
-            if (searchValue.get("day") != "" && searchValue.get("orderTypeCode") != "") {
-                timeList =  statisticsService.getDayList(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
-            }
-            if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") != "") {
-                timeList =  statisticsService.getDayListOrderType(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
-            }
-            if(searchValue.get("day") != "" && searchValue.get("orderTypeCode") == "") {
-                timeList =  statisticsService.getDayListDay(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
-            }
-            if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") == "") {
-                timeList =  statisticsService.getDayListAll(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+            if( !"-1".equals(searchValue.get("storeNo").toString())) {
+                if (searchValue.get("day") != "" && searchValue.get("orderTypeCode") != "") {
+                    timeList =  statisticsService.getDayList(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString() ,searchValue.get("storeNo").toString());
+                }
+                if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") != "") {
+                    timeList =  statisticsService.getDayListOrderType(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString(),searchValue.get("storeNo").toString());
+                }
+                if(searchValue.get("day") != "" && searchValue.get("orderTypeCode") == "") {
+                    timeList =  statisticsService.getDayListDay(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString(),searchValue.get("storeNo").toString());
+                }
+                if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") == "") {
+                    timeList =  statisticsService.getDayListAll(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString(),searchValue.get("storeNo").toString());
+                }
+            } else {
+                if (searchValue.get("day") != "" && searchValue.get("orderTypeCode") != "") {
+                    timeList =  statisticsService.getDayList(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+                }
+                if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") != "") {
+                    timeList =  statisticsService.getDayListOrderType(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+                }
+                if(searchValue.get("day") != "" && searchValue.get("orderTypeCode") == "") {
+                    timeList =  statisticsService.getDayListDay(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+                }
+                if(searchValue.get("day") == "" && searchValue.get("orderTypeCode") == "") {
+                    timeList =  statisticsService.getDayListAll(searchValue.get("orderTypeCode").toString(),startDate,endDate,searchValue.get("day").toString());
+                }
             }
 
             model.addAttribute("timeList",timeList);
@@ -140,6 +157,7 @@ public class StatisticsController {
             searchValue.put("selectDay", "");
             searchValue.put("orderTypeCode", "");
             searchValue.put("day", "");
+            searchValue.put("storeNo", "-1");
 
             String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
             String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
@@ -152,7 +170,9 @@ public class StatisticsController {
 
             model.addAttribute("timeList",timeList);
 
+
         }
+        model.addAttribute("tbStoreList",tbStoreList);
         model.addAttribute("searchValue",searchValue);
         return new ModelAndView("jesica/statistics/day/list");
     }

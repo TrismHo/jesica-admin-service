@@ -42,16 +42,32 @@ public class StatisticsService {
         return tbCallAllRepository.getDayList(orderTypeCode,startDate,endDate,day);
     }
     @Transactional(readOnly = true)
+    public List<Map<String,Object>> getDayList(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day,String storeNo) {
+        return tbCallAllRepository.getDayList(orderTypeCode,startDate,endDate,day,storeNo);
+    }
+    @Transactional(readOnly = true)
     public List<Map<String,Object>> getDayListAll(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day) {
         return tbCallAllRepository.getDayListAll(startDate,endDate);
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getDayListAll(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day,String storeNo) {
+        return tbCallAllRepository.getDayListAll(startDate,endDate,storeNo);
     }
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getDayListOrderType(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day) {
         return tbCallAllRepository.getDayListOrderType(orderTypeCode,startDate,endDate);
     }
     @Transactional(readOnly = true)
+    public List<Map<String,Object>> getDayListOrderType(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day,String storeNo) {
+        return tbCallAllRepository.getDayListOrderType(orderTypeCode,startDate,endDate,storeNo);
+    }
+    @Transactional(readOnly = true)
     public List<Map<String,Object>> getDayListDay(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day) {
         return tbCallAllRepository.getDayListDay(startDate,endDate,day);
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getDayListDay(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day, String storeNo) {
+        return tbCallAllRepository.getDayListDay(startDate,endDate,day,storeNo);
     }
 
     @Transactional(readOnly = true)

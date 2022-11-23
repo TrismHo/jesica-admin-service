@@ -144,7 +144,7 @@ public class TbStoreData {
     /**
      * 24시 운영어부(true, false)
      */
-    private Boolean alldayOpenYn;
+    private String alldayOpenYn;
 
     /**
      * 매장_타입 (0: 배달전용, 1: 주문배달, 2: 마트, 3: 전통시장)
@@ -292,6 +292,17 @@ public class TbStoreData {
      */
     private String erpCode;
 
+    /**
+     * 주간 결제
+     */
+    private int dayPayType;
+
+    /**
+     * 야간 결제
+     */
+    private int nightPayType;
+
+
 
     public TbStore insertData() {
         return TbStore.builder()
@@ -351,6 +362,8 @@ public class TbStoreData {
                 .safenUseYn(this.safenUseYn)
                 .erpType(this.erpType)
                 .erpCode(this.erpCode)
+                .dayPayType(this.dayPayType)
+                .nightPayType(this.nightPayType)
                 .build();
     }
 
@@ -412,6 +425,8 @@ public class TbStoreData {
                 .safenUseYn(this.safenUseYn)
                 .erpType(this.erpType)
                 .erpCode(this.erpCode)
+                .dayPayType(this.dayPayType)
+                .nightPayType(this.nightPayType)
                 .build();
     }
 

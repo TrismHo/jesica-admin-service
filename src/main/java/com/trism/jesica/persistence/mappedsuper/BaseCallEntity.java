@@ -281,6 +281,79 @@ public abstract class BaseCallEntity extends BaseEntity implements Serializable 
     @Column(name = "car_num")
     private String carNum;
 
+    /**
+     * 고객 장소_구분 (0:일반, 1:제시카존, 2:제주공항, 3:제주여객터미널, 4:제주국제여객터미널)
+     */
+    @Column(name = "cust_place_type")
+    private Integer custPlaceType;
+
+    /**
+     * 계약자명
+     */
+    @Column(name = "contract_name")
+    private String contractName;
+
+    /**
+     * 계약자명
+     */
+    @Column(name = "contract_tel")
+    private String contractTel;
+
+    /**
+     * 인수안내(N : 사용안함, T: 인수안내완료, F: 인수안내 대기)
+     */
+    @Column(name = "outbound_flag")
+    private String outboundFlag;
+
+    /**
+     * 이용횟수
+     */
+    @Column(name = "use_count")
+    private Integer useCount;
+
+    /**
+     * 렌터카예약번호
+     */
+    @Column(name = "reserv_num")
+    private String reservNum;
+
+    /**
+     * 초기주유량(N : 알수없음, 그외 : 랜토카 업체마다 표기값이 다다름)
+     */
+    @Column(name = "default_fuel")
+    private String defaultFuel;
+
+    /**
+     * 사전체크인 여부(0: 알수없음, 1: 사전체크인완료, 2: 사전체크인 안됨)
+     */
+    @Column(name = "pre_check_in")
+    private Integer preCheckIn;
+
+
+    /**
+     * 미납금
+     */
+    @Column(name = "rental_car_unpaid")
+    private Integer rentalCarUnpaid;
+
+    /**
+     * 탑승인원
+     */
+    @Column(name = "passenger_num")
+    private Integer passengerNum;
+
+    /**
+     * 고객 운전자명
+     */
+    @Column(name = "cust_driver_name")
+    private Integer custDriverName;
+
+    /**
+     * 고객 운전자명
+     */
+    @Column(name = "cust_driver_tel")
+    private Integer custDriverTel;
+
 
     /**
      * 배송원_(FK)

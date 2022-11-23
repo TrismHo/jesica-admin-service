@@ -34,7 +34,7 @@ public class QTbStore extends EntityPathBase<TbStore> {
 
     public final StringPath addr5 = createString("addr5");
 
-    public final BooleanPath alldayOpenYn = createBoolean("alldayOpenYn");
+    public final StringPath alldayOpenYn = createString("alldayOpenYn");
 
     public final StringPath authTel = createString("authTel");
 
@@ -68,6 +68,8 @@ public class QTbStore extends EntityPathBase<TbStore> {
 
     public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);
 
+    public final NumberPath<Integer> dayPayType = createNumber("dayPayType", Integer.class);
+
     public final NumberPath<Integer> deposit = createNumber("deposit", Integer.class);
 
     public final NumberPath<Integer> dlvyAreaYn = createNumber("dlvyAreaYn", Integer.class);
@@ -77,6 +79,10 @@ public class QTbStore extends EntityPathBase<TbStore> {
     public final NumberPath<Integer> dlvyNo = createNumber("dlvyNo", Integer.class);
 
     public final NumberPath<Integer> dlvyYn = createNumber("dlvyYn", Integer.class);
+
+    public final StringPath erpCode = createString("erpCode");
+
+    public final StringPath erpType = createString("erpType");
 
     public final StringPath exStoreCd = createString("exStoreCd");
 
@@ -108,6 +114,8 @@ public class QTbStore extends EntityPathBase<TbStore> {
     public final StringPath mngrName = createString("mngrName");
 
     public final EnumPath<com.trism.jesica.persistence.type.MultiType> multiType = createEnum("multiType", com.trism.jesica.persistence.type.MultiType.class);
+
+    public final NumberPath<Integer> nightPayType = createNumber("nightPayType", Integer.class);
 
     public final NumberPath<Integer> openStatus = createNumber("openStatus", Integer.class);
 

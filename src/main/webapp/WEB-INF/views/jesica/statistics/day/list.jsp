@@ -112,7 +112,7 @@
                                         <tbody>
                                         <tr>
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
-                                            <td style="width:50%">
+                                            <td style="width:680px;">
                                                 <label>
                                                     <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
                                                 </label>
@@ -132,7 +132,7 @@
                                             </td>
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="요일"/><%--등록기간--%></strong></td>
                                             <td>
-                                                <select class="form-control width-80 m-l-20" name="day">
+                                                <select class="form-control width-80" name="day">
                                                     <option value=""<c:if test="${searchValue.day == ''}">selected</c:if>>전체</option>
                                                     <option value="2"<c:if test="${searchValue.day == '2'}">selected</c:if>>월</option>
                                                     <option value="3"<c:if test="${searchValue.day == '3'}">selected</c:if>>화</option>
@@ -146,12 +146,23 @@
                                         </tr>
                                         <tr>
                                             <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="주문타입"/></strong></td>
-                                            <td colspan="3">
+                                            <td colspan="1">
                                                 <label>
                                                     <select class="form-control orderTypeCode" name="orderTypeCode">
                                                         <option value=""<c:if test="${searchValue.orderTypeCode == ''}">selected</c:if>>전체</option>
                                                         <option value="20"<c:if test="${searchValue.orderTypeCode == '20'}">selected</c:if>>인수대행</option>
                                                         <option value="21"<c:if test="${searchValue.orderTypeCode == '21'}">selected</c:if>>반납대행</option>
+                                                    </select>
+                                                </label>
+                                            </td>
+                                            <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="가맹점"/></strong></td>
+                                            <td colspan="1">
+                                                <label>
+                                                    <select class="form-control width-150" name="storeNo">
+                                                        <option value="-1" <c:if test="${-1 == searchValue.storeNo}">selected</c:if>>전체</option>
+                                                        <c:forEach var="item"  items="${tbStoreList}"  varStatus="status">
+                                                            <option value="${item.storeNo}"<c:if test="${item.storeNo == searchValue.storeNo}">selected</c:if>>${item.storeName} [${item.storeNo}]</option>
+                                                        </c:forEach>
                                                     </select>
                                                 </label>
                                                     <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>

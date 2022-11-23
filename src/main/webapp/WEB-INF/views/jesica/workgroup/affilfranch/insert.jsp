@@ -212,16 +212,38 @@
                                     </tr>
 --%>
                                     <tr>
-                                        <td class="bg-light height-50"><spring:message code="list.detail.24houroperation" text="24시간운영 여부"/></td>
+                                        <td class="bg-light height-50"><spring:message code="list.detail.24houroperation" text="24시간/야간 운영여부"/></td>
                                         <td>
-                                            <label class="">
-                                                <input type="radio" name="alldayOpenYn" value="false" class="align-bottom alldayOpenYn" checked> <spring:message code="list.detail.parttime" text="시간제"/>
+                                            <label class=" ">
+                                                <input type="radio" name="alldayOpenYn" value="1" class="align-bottom alldayOpenYn" checked> <spring:message code="list.detail.1" text="24시간"/><%--<spring:message code="merchandise.search1.option4" text="default text"/>--%><%--소속--%>
                                             </label>
-                                            <label class="m-l-10 ">
-                                                <input type="radio" name="alldayOpenYn" value="true" class="align-bottom alldayOpenYn" > <spring:message code="list.detail.24hoursoperation" text="24시간 운영"/><%--<spring:message code="merchandise.search1.option4" text="default text"/>--%><%--소속--%>
+                                            <label class="m-l-10">
+                                                <input type="radio" name="alldayOpenYn" value="0" class="align-bottom alldayOpenYn" > <spring:message code="list.detail.1" text="야간"/>
                                             </label>
                                         </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.choosewhetherthestoreisopen24hours" text="매장 24시간 운영여부를 선택하세요."/></td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.choosewhetherthestoreisopen24hours111" text="24시간/야간 운영여부를 설정해주세요."/></td>
+                                    </tr>
+                                    <tr class="weekAcountTr" >
+                                        <td class="bg-light height-50"><spring:message code="list.detail.24houroperation11" text="주간결제 (선/후불) 타입"/></td>
+                                        <td>
+                                            <label class="">
+                                                <input type="radio" name="dayPayType" value="1" class="align-bottom dayPayType" checked> <spring:message code="list.detail.1" text="선불"/>
+                                            </label>
+                                            <label class="m-l-10 ">
+                                                <input type="radio" name="dayPayType" value="2" class="align-bottom dayPayType" > <spring:message code="list.detail.1" text="후불"/><%--<spring:message code="merchandise.search1.option4" text="default text"/>--%><%--소속--%>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light height-50"><spring:message code="list.detail.24houroperation11" text="야간결제 (선/후불) 타입"/></td>
+                                        <td>
+                                            <label class="">
+                                                <input type="radio" name="nightPayType" value="1" class="align-bottom nightPayType" checked> <spring:message code="list.detail.1" text="선불"/>
+                                            </label>
+                                            <label class="m-l-10 ">
+                                                <input type="radio" name="nightPayType" value="2" class="align-bottom nightPayType" > <spring:message code="list.detail.1" text="후불"/><%--<spring:message code="merchandise.search1.option4" text="default text"/>--%><%--소속--%>
+                                            </label>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light height-50"><spring:message code="list.detail.1" text="서비스타입"/></td>
@@ -749,6 +771,17 @@
     }).blur(function(){
         if($(this).val() == ""){
             $(this).val("0");
+        }
+    });
+
+    $(document).on("change","input[name='alldayOpenYn']", function(){
+        var allDayOpenYn = $(this).val();
+        if(allDayOpenYn == 1) {
+            $(".weekAcountTr").show();
+            $("input[name='dayPayType']").attr('disabled',false);
+        } else {
+            $(".weekAcountTr").hide();
+            $("input[name='dayPayType']").attr('disabled',true);
         }
     });
     $(document).on("click","input[name='openStatus']",function(){
@@ -1477,6 +1510,10 @@
             } else if (isNull(args.corpCode)) {
                 return alert_focus("corpCode", "corpCode를 입력해주세요.");
             }
+        }
+
+        if($("input[name='alldayOpenYn']:checked").val() == '1' && $("input[name='dayPayType']:checked").val() == null) {
+            return alert_focus("alldayOpenYn", "주간 선불/후불 결제를 선택해주세요.");
         }
        /* else if (isNull(args.exStoreCd)) {
             return alert_focus("exStoreCd", "외부 가맹점 코드를 입력해주세요.");

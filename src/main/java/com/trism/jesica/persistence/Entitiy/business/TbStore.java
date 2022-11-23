@@ -205,7 +205,7 @@ public class TbStore extends BaseEntity {
      * 24시 운영어부(true, false)
      */
     @Column(name = "allday_open_yn")
-    private Boolean alldayOpenYn;
+    private String alldayOpenYn;
 
     /**
      * 서비스타입 (1: 렌터카, 2: 탁송, 3: 맛집, 4: 마트)
@@ -390,6 +390,18 @@ public class TbStore extends BaseEntity {
     private String cybankOwner;
 
     /**
+     * 주간 결제
+     */
+    @Column(name = "day_pay_type ", length = 20)
+    private int dayPayType;
+
+    /**
+     * 야간 결제
+     */
+    @Column(name = "night_pay_type ", length = 20)
+    private int nightPayType;
+
+    /**
      * 사업자 정보
      */
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "store", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
@@ -446,7 +458,7 @@ public class TbStore extends BaseEntity {
                    String storeTel, String authTel, Integer deposit, Integer cash,
                    Integer cashDefault, String mngrName, String memo, String cybankTypeCode,
                    String cybankAccount, String cybankOwner,String pinNum, String bankTypeCode,
-                   String bankAccount, String bankOwner, Boolean alldayOpenYn,
+                   String bankAccount, String bankOwner, String alldayOpenYn,
                    MultiType multiType, MasterChargeType masterChargeYn,
                    MasterGoodsType masterGoodsYn, Long masterStoreNo,ServiceType serviceType, String poi, BigDecimal lat,
                    BigDecimal lng, String addr1, String addr2, String addr3, String addr4,
@@ -454,7 +466,7 @@ public class TbStore extends BaseEntity {
                    TbStoreBusinessInfo businessInfo, Integer cookingTime, Integer openStatus,
                    Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn, String exStoreCd, String storeUrl,
                    String orderStatusCode, int takeoverUseYn, int returnUseYn, int safenUseYn,
-                   String erpType, String erpCode) {
+                   String erpType, String erpCode, int nightPayType, int dayPayType) {
         this.storeNo = storeNo;
         this.headNo = headNo;
         this.branchNo = branchNo;
@@ -510,6 +522,8 @@ public class TbStore extends BaseEntity {
         this.safenUseYn = safenUseYn;
         this.erpType = erpType;
         this.erpCode = erpCode;
+        this.nightPayType = nightPayType;
+        this.dayPayType = dayPayType;
         if (ObjectUtils.isNotEmpty(businessInfo)) {
             this.businessInfo = businessInfo;
             this.businessInfo.setStore(this);

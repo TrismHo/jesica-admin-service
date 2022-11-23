@@ -191,7 +191,7 @@ public class TbStoreSub extends BaseEntity {
      * 24시 운영어부(true, false)
      */
     @Column(name = "allday_open_yn")
-    private Boolean alldayOpenYn;
+    private String alldayOpenYn;
 
     /**
      * 매장_타입 (0: 배달전용, 1: 주문배달, 2: 마트, 3: 전통시장)
@@ -338,6 +338,17 @@ public class TbStoreSub extends BaseEntity {
     @Column(name = "cybank_owner ", length = 20)
     private String cybankOwner;
 
+    /**
+     * 주간 결제
+     */
+    @Column(name = "day_pay_type ", length = 20)
+    private int dayPayType;
+
+    /**
+     * 야간 결제
+     */
+    @Column(name = "night_pay_type ", length = 20)
+    private int nightPayType;
 
 
     /**
@@ -379,13 +390,15 @@ public class TbStoreSub extends BaseEntity {
                       String storeTel, String authTel, Integer deposit, Integer cash,
                       Integer cashDefault, String mngrName, String memo, String cybankTypeCode,
                       String cybankAccount,String cybankOwner, String pinNum, String bankTypeCode,
-                      String bankAccount, String bankOwner, Boolean alldayOpenYn,
+                      String bankAccount, String bankOwner, String alldayOpenYn,
                       StoreType storeType, MultiType multiType, MasterChargeType masterChargeYn,
                       MasterGoodsType masterGoodsYn, Long masterStoreNo, String poi, BigDecimal lat,
                       BigDecimal lng, String addr1, String addr2, String addr3, String addr4,
                       String addr5, String storeIntro, String imgFileSmall, String imgFile1,
                       Integer cookingTime, Integer openStatus,
-                      Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn
+                      Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn,
+                      int nightPayType, int dayPayType
+
     ) {
         this.storeNo = storeNo;
 /*        this.headNo = headNo;
@@ -433,5 +446,7 @@ public class TbStoreSub extends BaseEntity {
         this.takeoutYn = takeoutYn;
         this.dlvyMinAmt = dlvyMinAmt;
         this.dlvyAreaYn = dlvyAreaYn;
+        this.nightPayType = nightPayType;
+        this.dayPayType = dayPayType;
     }
 }

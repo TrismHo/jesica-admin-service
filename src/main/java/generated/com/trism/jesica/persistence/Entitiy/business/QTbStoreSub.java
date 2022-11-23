@@ -34,7 +34,7 @@ public class QTbStoreSub extends EntityPathBase<TbStoreSub> {
 
     public final StringPath addr5 = createString("addr5");
 
-    public final BooleanPath alldayOpenYn = createBoolean("alldayOpenYn");
+    public final StringPath alldayOpenYn = createString("alldayOpenYn");
 
     public final StringPath authTel = createString("authTel");
 
@@ -63,6 +63,8 @@ public class QTbStoreSub extends EntityPathBase<TbStoreSub> {
     public final StringPath cybankTypeCode = createString("cybankTypeCode");
 
     public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);
+
+    public final NumberPath<Integer> dayPayType = createNumber("dayPayType", Integer.class);
 
     public final NumberPath<Integer> deposit = createNumber("deposit", Integer.class);
 
@@ -100,6 +102,8 @@ public class QTbStoreSub extends EntityPathBase<TbStoreSub> {
     public final StringPath mngrName = createString("mngrName");
 
     public final EnumPath<com.trism.jesica.persistence.type.MultiType> multiType = createEnum("multiType", com.trism.jesica.persistence.type.MultiType.class);
+
+    public final NumberPath<Integer> nightPayType = createNumber("nightPayType", Integer.class);
 
     public final NumberPath<Integer> openStatus = createNumber("openStatus", Integer.class);
 
