@@ -276,13 +276,13 @@
                                                             <input type="radio" name="safenUseYn" value="0" class="align-bottom safenUseYn" checked> <spring:message code="list.detail.1" text="미사용"/>
                                                         </label>
                                                     </td>
-                                                    <td class="border-left-0 border-top-0 border-bottom-0 bg-light width-200"><spring:message code="list.detail.1" text="안심번호 알람통 발송"/></td>
-                                                    <td class="border-0">
+                                                    <td class="safenTalkTd border-left-0 border-top-0 border-bottom-0 bg-light width-200" style="display: none;"><spring:message code="list.detail.1" text="안심번호 알림톡 발송"/></td>
+                                                    <td class="safenTalkTd border-0" style="display: none;">
                                                         <label class="">
                                                             <input type="radio" name="safenTalkYn" value="1" class="align-bottom safenTalkYn" > <spring:message code="list.detail.1" text="사용중"/>
                                                         </label>
                                                         <label class="m-l-10 ">
-                                                            <input type="radio" name="safenTalkYn" value="0" class="align-bottom safenTalkYn" checked> <spring:message code="list.detail.1" text="미사용"/>
+                                                            <input type="radio" name="safenTalkYn" id="safenTalkZero" value="0" class="align-bottom safenTalkYn" checked> <spring:message code="list.detail.1" text="미사용"/>
                                                         </label>
                                                     </td>
                                                 </tr>
@@ -797,6 +797,16 @@
         } else {
             $(".weekAcountTr").hide();
             $("input[name='dayPayType']").attr('disabled',true);
+        }
+    });
+
+    $(document).on("change","input[name='safenUseYn']", function(){
+        var safenUseYn = $(this).val();
+        if(safenUseYn == 1) {
+            $(".safenTalkTd").show();
+        } else {
+            $(".safenTalkTd").hide();
+            $("#safenTalkZero").prop("checked", true);
         }
     });
     $(document).on("click","input[name='openStatus']",function(){
