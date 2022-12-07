@@ -154,10 +154,20 @@
                                             <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어"/><%--검색어 입력--%></strong></td>
                                             <td>
                                                 <label>
-                                                    <select class="form-control">
-                                                        <option><spring:message code="list.search.1" text="차량번호"/><%--상품명--%></option>
+                                                    <select class="form-control selectOption"  >
+                                                        <option value="1" <c:if test="${searchValue.carNum != null}">selected</c:if>><spring:message code="list.search.1" text="차량번호"/><%--상품명--%></option>
+                                                        <option value="2" <c:if test="${searchValue.safenNum != null}">selected</c:if>><spring:message code="list.search.1" text="안심번호"/><%--상품명--%></option>
                                                     </select>
-                                                    <input type="text" class="form-control width-150" name="carNum" value="${searchValue.carNum}" maxlength="150">
+                                                    <c:if test="${searchValue.carNum == null && searchValue.safenNum == null}">
+                                                        <input type="text" class="form-control width-150 inputValue" name="carNum" value="${searchValue.carNum}" maxlength="150">
+                                                    </c:if>
+                                                    <c:if test="${searchValue.carNum != null}">
+                                                        <input type="text" class="form-control width-150 inputValue" name="carNum" value="${searchValue.carNum}" maxlength="150">
+                                                    </c:if>
+                                                    <c:if test="${searchValue.safenNum != null}">
+                                                        <input type="text" class="form-control width-150 inputValue" name="safenNum" value="${searchValue.safenNum}" maxlength="150">
+                                                    </c:if>
+
                                                 </label>
                                                 <label>
                                                     <span class="btn-group  bg-black-transparent-2 rounded">
@@ -359,6 +369,13 @@
             location.href = "${path}/driver/car/insertExcel";
         });
 
+        $(".selectOption").on("change",function(){
+            if($(this).val() == 1){
+                $(".inputValue").attr("name","carNum");
+            } else {
+                $(".inputValue").attr("name","safenNum");
+            }
+        })
 
 
         let date = new Date();

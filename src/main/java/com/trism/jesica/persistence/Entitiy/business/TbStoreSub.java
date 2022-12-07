@@ -350,6 +350,12 @@ public class TbStoreSub extends BaseEntity {
     @Column(name = "night_pay_type ", length = 20)
     private int nightPayType;
 
+    /**
+     * 야간 결제
+     */
+    @Column(name = "safen_talk_yn ", length = 20)
+    private int safenTalkYn;
+
 
     /**
      * 가맹점 카테고리 배달음식 양방향
@@ -397,7 +403,7 @@ public class TbStoreSub extends BaseEntity {
                       String addr5, String storeIntro, String imgFileSmall, String imgFile1,
                       Integer cookingTime, Integer openStatus,
                       Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn,
-                      int nightPayType, int dayPayType
+                      int nightPayType, int dayPayType, int safenTalkYn
 
     ) {
         this.storeNo = storeNo;
@@ -448,5 +454,6 @@ public class TbStoreSub extends BaseEntity {
         this.dlvyAreaYn = dlvyAreaYn;
         this.nightPayType = nightPayType;
         this.dayPayType = dayPayType;
+        this.safenTalkYn = safenTalkYn;
     }
 }

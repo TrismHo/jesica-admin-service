@@ -302,6 +302,8 @@ public class TbStoreData {
      */
     private int nightPayType;
 
+    private int safenTalkYn;
+
 
 
     public TbStore insertData() {
@@ -364,6 +366,7 @@ public class TbStoreData {
                 .erpCode(this.erpCode)
                 .dayPayType(this.dayPayType)
                 .nightPayType(this.nightPayType)
+                .safenTalkYn(this.safenTalkYn)
                 .build();
     }
 
@@ -427,6 +430,7 @@ public class TbStoreData {
                 .erpCode(this.erpCode)
                 .dayPayType(this.dayPayType)
                 .nightPayType(this.nightPayType)
+                .safenTalkYn(this.safenTalkYn)
                 .build();
     }
 

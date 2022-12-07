@@ -274,19 +274,39 @@
                                 </tr>
                                 <tr>
                                     <td class="bg-light height-50"><spring:message code="list.detail.franchiseestatus" text="안심번호 할당 유무"/></td>
-                                    <td>
-                                        <label class="">
-                                            <input type="radio" name="safenUseYn" value="1"
-                                                   class="align-bottom "
-                                                   <c:if test="${tbStore.safenUseYn == '1'}">checked</c:if>><spring:message code="list.detail.1" text="사용중"/>
-                                        </label>
-                                        <label class="m-l-10 ">
-                                            <input type="radio" name="safenUseYn" value="0"
-                                                   class="align-bottom dataStatus"
-                                                   <c:if test="${tbStore.safenUseYn == '0'}">checked</c:if>><spring:message code="list.detail.1" text="미사용"/>
-                                        </label>
                                     </td>
-                                    <td class="text-danger-darker"><spring:message code="list.description.aftercompletingbusinessmessage" text="사업자 인증 완료 후 정상으로 설정하세요."/></td>
+                                    <td class="p-0 ">
+                                        <table class="width-full border-0 height-50">
+                                            <tr>
+                                                <td class="border-left-0 border-top-0 border-bottom-0 width-200">
+                                                    <label class="">
+                                                        <input type="radio" name="safenUseYn" value="1"
+                                                               class="align-bottom "
+                                                               <c:if test="${tbStore.safenUseYn == '1'}">checked</c:if>><spring:message code="list.detail.1" text="사용중"/>
+                                                    </label>
+                                                    <label class="m-l-10 ">
+                                                        <input type="radio" name="safenUseYn" value="0"
+                                                               class="align-bottom dataStatus"
+                                                               <c:if test="${tbStore.safenUseYn == '0'}">checked</c:if>><spring:message code="list.detail.1" text="미사용"/>
+                                                    </label>
+                                                </td>
+                                                <td class="border-left-0 border-top-0 border-bottom-0 bg-light width-200"><spring:message code="list.detail.1" text="안심번호 알람통 발송"/></td>
+                                                <td class="border-0">
+                                                    <label class="">
+                                                        <input type="radio" name="safenTalkYn" value="1"
+                                                               class="align-bottom "
+                                                               <c:if test="${tbStore.safenTalkYn == '1'}">checked</c:if>><spring:message code="list.detail.1" text="사용중"/>
+                                                    </label>
+                                                    <label class="m-l-10 ">
+                                                        <input type="radio" name="safenTalkYn" value="0"
+                                                               class="align-bottom dataStatus"
+                                                               <c:if test="${tbStore.safenTalkYn == '0'}">checked</c:if>><spring:message code="list.detail.1" text="미사용"/>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td class="text-danger-darker"><spring:message code="list.description.1" text="안심번호 할당/발송여부를 설정하세요."/></td>
                                 </tr>
                                 <tr>
                                     <td class="bg-light height-50">기본주문상태</td>

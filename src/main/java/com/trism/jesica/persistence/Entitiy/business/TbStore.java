@@ -451,6 +451,12 @@ public class TbStore extends BaseEntity {
     @Column(name = "erp_code")
     private String erpCode;
 
+    /**
+     * 알람톡 사용여부
+     */
+    @Column(name = "safen_talk_yn")
+    private int safenTalkYn;
+
     @Builder
     public TbStore(Long storeNo, Integer headNo, Integer branchNo, Integer dlvyNo,
                    String insertUserId, String updateUserId, DataStatus dataStatus,
@@ -466,7 +472,7 @@ public class TbStore extends BaseEntity {
                    TbStoreBusinessInfo businessInfo, Integer cookingTime, Integer openStatus,
                    Integer dlvyYn, Integer takeoutYn, Integer dlvyMinAmt, Integer dlvyAreaYn, String exStoreCd, String storeUrl,
                    String orderStatusCode, int takeoverUseYn, int returnUseYn, int safenUseYn,
-                   String erpType, String erpCode, int nightPayType, int dayPayType) {
+                   String erpType, String erpCode, int nightPayType, int dayPayType, int safenTalkYn) {
         this.storeNo = storeNo;
         this.headNo = headNo;
         this.branchNo = branchNo;
@@ -524,6 +530,7 @@ public class TbStore extends BaseEntity {
         this.erpCode = erpCode;
         this.nightPayType = nightPayType;
         this.dayPayType = dayPayType;
+        this.safenTalkYn = safenTalkYn;
         if (ObjectUtils.isNotEmpty(businessInfo)) {
             this.businessInfo = businessInfo;
             this.businessInfo.setStore(this);

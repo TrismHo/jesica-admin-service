@@ -594,6 +594,8 @@ public class SearchUtil {
                     }
                 } else if ("carNum".equals(key)  && value != "") {
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("safenNum".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
                 } else if ("endDate".equals(key) && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
