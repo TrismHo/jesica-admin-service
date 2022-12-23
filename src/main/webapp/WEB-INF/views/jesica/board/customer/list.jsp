@@ -153,21 +153,40 @@
                             <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center">
-                                <c:if test="${item.isMember == 1}">
-                                    <button type="button" data-toggle="modal" data-target="#password_modal" class="btn btn-warning btn-pwd" custNo="${item.custNo}">
+                                <c:if test="${item.isMember == 1 && item.snsToken1 == null && item.snsToken2 == null}">
+                                    <button style="width: 115px;" type="button" data-toggle="modal" data-target="#password_modal" class="btn btn-warning btn-pwd" custNo="${item.custNo}">
                                         <span style="display: flex; align-items: center">
                                             <i class="fa fa-lock"></i>
-                                            <span class="m-l-5"><spring:message code="list.detail.list1" text="비밀번호 변경"/></span>
+                                            <span class="m-l-10"><spring:message code="list.detail.list1" text="비밀번호 변경"/></span>
                                         </span>
                                     </button>
                                 </c:if>
                                 <c:if test="${item.isMember != 1}">
-                                    <button type="button"   class="btn btn-info btn-pwd" style="width: 107px;cursor: auto;">
+                                    <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
                                         <span style="display: flex; align-items: center">
-                                            <i class="fa fa-lock"></i>
+                                                 <i class="fa fa-window-close"></i>
                                             <span class="m-l-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="비회원"/></span>
                                         </span>
                                     </button>
+                                </c:if>
+                                <c:if test="${item.snsToken1 != null || item.snsToken2 != null}">
+                                    <c:if test="${item.snsToken1 == null || item.snsToken2 != null}">
+                                        <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
+                                        <span style="display: flex; align-items: center">
+                                            <i class="fa fa-window-close"></i>
+                                            <span class="m">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Apple회원"/></span>
+                                        </span>
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${item.snsToken1 != null || item.snsToken2 == null}">
+                                        <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
+                                        <span style="display: flex; align-items: center">
+                                            <i class="fa fa-window-close"></i>
+                                            <span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Kakao회원"/></span>
+                                        </span>
+                                        </button>
+                                    </c:if>
+
                                 </c:if>
                             </td>
                         </tr>

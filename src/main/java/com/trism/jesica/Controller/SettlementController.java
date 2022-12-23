@@ -66,13 +66,13 @@ public class SettlementController {
             Calendar c1 = new GregorianCalendar();
             Calendar c2 = new GregorianCalendar();
             c1.add(Calendar.DATE, -30);
-            c2.add(Calendar.DATE, -1);
+            c2.add(Calendar.DATE, 0);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷
             String yesterday = sdf.format(c1.getTime()); // String으로 저장
             String today = sdf.format(c2.getTime()); // String으로 저장
 
             searchValue.put("endDate",today);
-            searchValue.put("startDate",yesterday);
+            searchValue.put("startDate","");
         }
 
         /*List<TbPayCert> tbPayCert = settlementService.getPaymenthistoryList();*/
@@ -267,7 +267,7 @@ public class SettlementController {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
-                searchValue.put("startDate","2020-01-01");
+                searchValue.put("startDate","");
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
             List<TbHeadCashLog> tbHeadCashLog = null;

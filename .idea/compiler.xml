@@ -3,11 +3,15 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.8/448003bc1b234aac04b58e27d7755c12c3ec4236/lombok-1.18.8.jar" />
+        </processorPath>
+        <module name="com.trism.jesica-admin-service.main" />
+      </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="com.trism.jesica-admin-service.main" target="1.8" />
-      <module name="com.trism.jesica-admin-service.querydsl" target="1.8" />
-      <module name="com.trism.jesica-admin-service.test" target="1.8" />
+    <bytecodeTargetLevel target="1.8">
       <module name="com.trism.manna.main" target="1.8" />
       <module name="com.trism.manna.querydsl" target="1.8" />
       <module name="com.trism.manna.test" target="1.8" />

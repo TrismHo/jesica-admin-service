@@ -290,7 +290,7 @@
                                                                <c:if test="${tbStore.safenUseYn == '0'}">checked</c:if>><spring:message code="list.detail.1" text="미사용"/>
                                                     </label>
                                                 </td>
-                                                <td class="safenTalkTd border-left-0 border-top-0 border-bottom-0 bg-light width-200" <c:if test="${tbStore.safenUseYn == '0'}">style="display: none;"</c:if>><spring:message code="list.detail.1" text="안심번호 알람통 발송"/></td>
+                                                <td class="safenTalkTd border-left-0 border-top-0 border-bottom-0 bg-light width-200" <c:if test="${tbStore.safenUseYn == '0'}">style="display: none;"</c:if>><spring:message code="list.detail.1" text="안심번호 알림톡 발송"/></td>
                                                 <td class="safenTalkTd border-0"  <c:if test="${tbStore.safenUseYn == '0'}">style="display: none;"</c:if>>
                                                     <label class="">
                                                         <input type="radio" name="safenTalkYn" value="1"

@@ -354,6 +354,19 @@
         }
     });
 
+    var previous;
+    $(".startDate, .endDate").on("focus",function(){
+        previous = this.value;
+    }).change(function() {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.")
+            $(this).datepicker('setDate', previous);
+            $(this).val(previous);
+        }
+    });
+
     function searchFormBranchFunction() {
         $("#frmSearch").submit();
 

@@ -2,7 +2,10 @@
   <artifact type="war" name="Gradle : com.trism : jesica-admin-service-0.0.1-SNAPSHOT.war">
     <output-path>$PROJECT_DIR$/build/libs</output-path>
     <properties id="gradle-properties">
-      <options external-project-path="$PROJECT_DIR$" />
+      <options external-project-path="$PROJECT_DIR$">
+        <buildTaskPath>:war</buildTaskPath>
+        <cleanTaskPath>:cleanWar</cleanTaskPath>
+      </options>
     </properties>
     <root id="archive" name="jesica-admin-service-0.0.1-SNAPSHOT.war">
       <element id="artifact" artifact-name="Gradle : com.trism : jesica-admin-service-0.0.1-SNAPSHOT.war (exploded)" />

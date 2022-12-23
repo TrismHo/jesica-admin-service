@@ -9,16 +9,59 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aec4658e-3865-438b-b5ed-63b312674a3c" name="Default Changelist" comment="최초커밋">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="aec4658e-3865-438b-b5ed-63b312674a3c" name="Default Changelist" comment="가맹점등록 상세 안심번호 발송여부 0일때 숨김처리 추가">
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_0_0_1_SNAPSHOT_war.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_0_0_1_SNAPSHOT_war.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_0_0_1_SNAPSHOT_war__exploded_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_0_0_1_SNAPSHOT_war__exploded_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war__exploded_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war__exploded_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_core_2_10_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_core_2_10_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_databind_2_10_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_databind_2_10_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.querydsl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.querydsl.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/admin/login/login-info-2022-02-11.0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/admin/login/login-info-2022-02-11.0.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/admin/login/login-info-2022-02-11.0.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/manna.log" beforeDir="false" afterPath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/manna.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trism/jesica/Controller/SettlementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trism/jesica/Controller/SettlementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/call/TbCallAllRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/call/TbCallAllRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/business/QTbStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/business/QTbStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/business/QTbStoreSub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/business/QTbStoreSub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application_local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application_local.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application_real.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application_real.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_custom_js.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_custom_js.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/customer/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/customer/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/consignment/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/consignment/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/rentcar/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/rentcar/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/cashlog/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/cashlog/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/paymenthistory/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/paymenthistory/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/workgroup/affilfranch/detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/workgroup/affilfranch/detail.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
   </component>
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
@@ -77,23 +120,6 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="application" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -278,11 +304,32 @@
       </list>
     </option>
   </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
     <exe-path />
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
+  </component>
+  <component name="JspContextManager">
+    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_kakao_map_js.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/control.jsp" />
+    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_sidebar.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/transfersettlement/detail.jsp" />
+    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_custom_js.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/detail.jsp" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -360,6 +407,7 @@
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1640686916504" />
@@ -370,7 +418,7 @@
     <property name="com.ifengxue.com.ifengxue.plugin.jps-support.repository_directory" value="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/safe" />
     <property name="com.ifengxue.com.ifengxue.plugin.jps-support.repository_package" value="com.trism.jesica.persistence.Repository.safe" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -381,35 +429,36 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.DirectoryMappings" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\cache" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\static\assets\img\logo" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\static\assets\img\control" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\java\com\trism\jesica\Service" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/statistics/safetynumber" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/search" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/workgroup/affiliated" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/statistics/base" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
       <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources" />
       <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\webapp\WEB-INF\views\jesica\safe\number" />
       <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\webapp\WEB-INF\views\jesica\merchant\car" />
       <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\webapp\WEB-INF\views\jesica" />
-      <recent name="D:\inteliJ_workspace\jesica-admin-service\src\main\resources\static\assets\img\logo" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.trism.jesica.persistence.Entitiy.board" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.trism.jesica.persistence.Entitiy.board" />
-      <recent name="com.trism.jesica.persistence.Repository.board" />
-      <recent name="com.trism.jesica.config" />
+      <recent name="com.trism.jesica.persistence.id" />
+      <recent name="com.trism.jesica.Service" />
       <recent name="com.trism.jesica.dto" />
-      <recent name="com.trism.jesica.Util" />
+      <recent name="com.trism.jesica.Controller" />
+      <recent name="com.trism.jesica.persistence.Entitiy.board" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.JesicaApplication">
+  <component name="RunManager" selected="Gradle.manna-admin-service [bootWar]">
     <configuration name="manna-admin-service [bootWar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -533,9 +582,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.manna-admin-service [bootWar]" />
         <item itemvalue="Gradle.manna-admin-service [build]" />
         <item itemvalue="Gradle.manna-admin-service [clean]" />
-        <item itemvalue="Gradle.manna-admin-service [bootWar]" />
         <item itemvalue="Gradle.manna-admin-service [initQuerydslSourcesDir]" />
         <item itemvalue="Gradle.manna-admin-service [querydslClasses]" />
       </list>
@@ -543,7 +592,7 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration" cleanupOnStartRun="true">
-    <configuration>C:\Users\HongJungho\AppData\Roaming\Subversion</configuration>
+    <configuration>$USER_HOME$/.subversion</configuration>
     <supportedVersion>125</supportedVersion>
   </component>
   <component name="TaskManager">
@@ -641,174 +690,159 @@
       <workItem from="1640568876097" duration="58826000" />
       <workItem from="1644543853465" duration="2800000" />
       <workItem from="1644546769271" duration="11779000" />
-    </task>
-    <task id="LOCAL-00077" summary="commit333">
-      <created>1617784131756</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1617784131756</updated>
-    </task>
-    <task id="LOCAL-00078" summary="commit333">
-      <created>1617786078399</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1617786078399</updated>
-    </task>
-    <task id="LOCAL-00079" summary="commit333">
-      <created>1617802961287</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1617802961287</updated>
-    </task>
-    <task id="LOCAL-00080" summary="commit333">
-      <created>1617803532665</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1617803532665</updated>
-    </task>
-    <task id="LOCAL-00081" summary="commit333">
-      <created>1617804809427</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1617804809427</updated>
-    </task>
-    <task id="LOCAL-00082" summary="commit333">
-      <created>1617806550855</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1617806550855</updated>
-    </task>
-    <task id="LOCAL-00083" summary="commit333">
-      <created>1617807311631</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1617807311631</updated>
-    </task>
-    <task id="LOCAL-00084" summary="commit333">
-      <created>1617808943327</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1617808943328</updated>
-    </task>
-    <task id="LOCAL-00085" summary="commit333">
-      <created>1617810038225</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1617810038225</updated>
-    </task>
-    <task id="LOCAL-00086" summary="commit333">
-      <created>1617810500869</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1617810500869</updated>
-    </task>
-    <task id="LOCAL-00087" summary="commit333">
-      <created>1617812300668</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1617812300668</updated>
-    </task>
-    <task id="LOCAL-00088" summary="commit333">
-      <created>1617812502150</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1617812502150</updated>
-    </task>
-    <task id="LOCAL-00089" summary="commit333">
-      <created>1617853677279</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1617853677280</updated>
-    </task>
-    <task id="LOCAL-00090" summary="commit333">
-      <created>1617853780950</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1617853780950</updated>
-    </task>
-    <task id="LOCAL-00091" summary="commit333">
-      <created>1617853912943</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1617853912943</updated>
-    </task>
-    <task id="LOCAL-00092" summary="commit333">
-      <created>1617854790737</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1617854790737</updated>
-    </task>
-    <task id="LOCAL-00093" summary="commit333">
-      <created>1617862179054</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1617862179054</updated>
-    </task>
-    <task id="LOCAL-00094" summary="commit333">
-      <created>1618212496285</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1618212496286</updated>
-    </task>
-    <task id="LOCAL-00095" summary="commit333">
-      <created>1619430947458</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1619430947458</updated>
-    </task>
-    <task id="LOCAL-00096" summary="commit333">
-      <created>1620639792264</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1620639792266</updated>
-    </task>
-    <task id="LOCAL-00097" summary="commit333">
-      <created>1620974407293</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1620974407293</updated>
-    </task>
-    <task id="LOCAL-00098" summary="commit333">
-      <created>1621323634529</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1621323634529</updated>
-    </task>
-    <task id="LOCAL-00099" summary="commit333">
-      <created>1621331360079</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1621331360079</updated>
-    </task>
-    <task id="LOCAL-00100" summary="commit333">
-      <created>1621496950349</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1621496950350</updated>
+      <workItem from="1649726585432" duration="7294000" />
+      <workItem from="1649813676218" duration="16370000" />
+      <workItem from="1649901184883" duration="3841000" />
+      <workItem from="1649905104915" duration="481000" />
+      <workItem from="1649905916874" duration="3329000" />
+      <workItem from="1649920880355" duration="627000" />
+      <workItem from="1650246113881" duration="3455000" />
+      <workItem from="1650252985523" duration="1900000" />
+      <workItem from="1650353580747" duration="7471000" />
+      <workItem from="1650418899405" duration="14398000" />
+      <workItem from="1650504927347" duration="1846000" />
+      <workItem from="1650849858771" duration="6331000" />
+      <workItem from="1650936612673" duration="13548000" />
+      <workItem from="1651022895999" duration="8202000" />
+      <workItem from="1651113641173" duration="16727000" />
+      <workItem from="1651198831685" duration="8970000" />
+      <workItem from="1651413692574" duration="712000" />
+      <workItem from="1651453784952" duration="9832000" />
+      <workItem from="1651628496590" duration="20672000" />
+      <workItem from="1652059685730" duration="19988000" />
+      <workItem from="1652148366680" duration="20459000" />
+      <workItem from="1652231626579" duration="15918000" />
+      <workItem from="1652312582827" duration="22882000" />
+      <workItem from="1652406507756" duration="2443000" />
+      <workItem from="1652433544236" duration="5246000" />
+      <workItem from="1652661563136" duration="20990000" />
+      <workItem from="1652744377439" duration="10417000" />
+      <workItem from="1652830665558" duration="10861000" />
+      <workItem from="1652918224045" duration="20386000" />
+      <workItem from="1652951208729" duration="364000" />
+      <workItem from="1653010113750" duration="11855000" />
+      <workItem from="1653024906675" duration="5914000" />
+      <workItem from="1653267004836" duration="5166000" />
+      <workItem from="1653351695983" duration="16374000" />
+      <workItem from="1653435879188" duration="14675000" />
+      <workItem from="1653528688029" duration="8576000" />
+      <workItem from="1653619377826" duration="1648000" />
+      <workItem from="1653868370301" duration="4956000" />
+      <workItem from="1653955121754" duration="3422000" />
+      <workItem from="1654133810157" duration="2815000" />
+      <workItem from="1654149171103" duration="9427000" />
+      <workItem from="1654565809705" duration="1629000" />
+      <workItem from="1654652023395" duration="2035000" />
+      <workItem from="1654740185465" duration="8918000" />
+      <workItem from="1654848151492" duration="1896000" />
+      <workItem from="1655084103263" duration="18432000" />
+      <workItem from="1655169718205" duration="8090000" />
+      <workItem from="1655256082801" duration="7602000" />
+      <workItem from="1655337402651" duration="8834000" />
+      <workItem from="1655387807188" duration="10847000" />
+      <workItem from="1655683709250" duration="1744000" />
+      <workItem from="1655773929049" duration="1365000" />
+      <workItem from="1655789100258" duration="866000" />
+      <workItem from="1655875359303" duration="2421000" />
+      <workItem from="1655967832912" duration="6827000" />
+      <workItem from="1656040282406" duration="639000" />
+      <workItem from="1656293199183" duration="2731000" />
+      <workItem from="1656318249437" duration="798000" />
+      <workItem from="1656372519587" duration="8817000" />
+      <workItem from="1656493506705" duration="1650000" />
+      <workItem from="1656572882644" duration="1013000" />
+      <workItem from="1656913944731" duration="20000" />
+      <workItem from="1656920152056" duration="1851000" />
+      <workItem from="1656940568263" duration="1170000" />
+      <workItem from="1657589606971" duration="6951000" />
+      <workItem from="1657761589071" duration="5741000" />
+      <workItem from="1657776293050" duration="3972000" />
+      <workItem from="1657875401515" duration="1060000" />
+      <workItem from="1658107624200" duration="8856000" />
+      <workItem from="1658133825199" duration="601000" />
+      <workItem from="1658193694975" duration="1368000" />
+      <workItem from="1658289599432" duration="1134000" />
+      <workItem from="1658392390071" duration="1500000" />
+      <workItem from="1658455779988" duration="742000" />
+      <workItem from="1658711943809" duration="8180000" />
+      <workItem from="1658737936049" duration="2345000" />
+      <workItem from="1658813941420" duration="644000" />
+      <workItem from="1658890690291" duration="1895000" />
+      <workItem from="1659312266716" duration="102000" />
+      <workItem from="1659320679258" duration="1739000" />
+      <workItem from="1659577743588" duration="1323000" />
+      <workItem from="1659595503789" duration="30000" />
+      <workItem from="1659595544320" duration="6872000" />
+      <workItem from="1660607173329" duration="2686000" />
+      <workItem from="1660621632516" duration="863000" />
+      <workItem from="1660784926364" duration="5527000" />
+      <workItem from="1660798068709" duration="5654000" />
+      <workItem from="1661131743995" duration="2426000" />
+      <workItem from="1661218330109" duration="1199000" />
+      <workItem from="1661911146720" duration="12748000" />
+      <workItem from="1662341168753" duration="10718000" />
+      <workItem from="1662429203028" duration="1816000" />
+      <workItem from="1662456860680" duration="1271000" />
+      <workItem from="1662514431522" duration="2318000" />
+      <workItem from="1662528404805" duration="1886000" />
+      <workItem from="1663027630865" duration="6843000" />
+      <workItem from="1663055476495" duration="1383000" />
+      <workItem from="1663120627961" duration="8897000" />
+      <workItem from="1663206220747" duration="4414000" />
+      <workItem from="1663550885920" duration="1781000" />
+      <workItem from="1663638831769" duration="744000" />
+      <workItem from="1663722877859" duration="2844000" />
+      <workItem from="1663897490341" duration="699000" />
+      <workItem from="1663903133199" duration="605000" />
+      <workItem from="1664154868857" duration="5823000" />
+      <workItem from="1664242370943" duration="6851000" />
+      <workItem from="1664332196085" duration="6395000" />
+      <workItem from="1664419153320" duration="8463000" />
+      <workItem from="1665020078025" duration="8833000" />
+      <workItem from="1665126664202" duration="854000" />
+      <workItem from="1665452501867" duration="4918000" />
+      <workItem from="1665552204401" duration="2371000" />
+      <workItem from="1665562382283" duration="1101000" />
+      <workItem from="1665625153108" duration="3017000" />
+      <workItem from="1665971276801" duration="5829000" />
+      <workItem from="1666055755748" duration="2567000" />
+      <workItem from="1666142337620" duration="6647000" />
+      <workItem from="1666230299232" duration="15352000" />
+      <workItem from="1666315444191" duration="2396000" />
+      <workItem from="1666574827244" duration="1828000" />
+      <workItem from="1666676218061" duration="5453000" />
+      <workItem from="1666747350182" duration="2478000" />
+      <workItem from="1666943664042" duration="1310000" />
+      <workItem from="1667177148340" duration="3717000" />
+      <workItem from="1667265563429" duration="4175000" />
+      <workItem from="1667352313551" duration="1272000" />
+      <workItem from="1667369816908" duration="4306000" />
+      <workItem from="1667783365863" duration="7911000" />
+      <workItem from="1667870603617" duration="699000" />
+      <workItem from="1667960182115" duration="10376000" />
+      <workItem from="1668042290494" duration="236000" />
+      <workItem from="1668042619567" duration="2343000" />
+      <workItem from="1668389992951" duration="1931000" />
+      <workItem from="1668557318278" duration="2299000" />
+      <workItem from="1668645187503" duration="3783000" />
+      <workItem from="1668734228858" duration="593000" />
+      <workItem from="1668735043998" duration="3307000" />
+      <workItem from="1668993367769" duration="8168000" />
+      <workItem from="1669081693463" duration="4283000" />
+      <workItem from="1669164574813" duration="4094000" />
+      <workItem from="1669252814926" duration="5518000" />
+      <workItem from="1669599579372" duration="1230000" />
+      <workItem from="1669702335681" duration="610000" />
+      <workItem from="1669869054780" duration="1150000" />
+      <workItem from="1670208933021" duration="3221000" />
+      <workItem from="1670377289120" duration="7452000" />
+      <workItem from="1670462683484" duration="6275000" />
+      <workItem from="1670810478409" duration="1181000" />
+      <workItem from="1670895408184" duration="1072000" />
+      <workItem from="1670981214159" duration="1229000" />
+      <workItem from="1671412499549" duration="1176000" />
+      <workItem from="1671586033010" duration="1217000" />
+      <workItem from="1671671750955" duration="8757000" />
     </task>
     <task id="LOCAL-00101" summary="commit333">
       <created>1621591706837</created>
@@ -985,7 +1019,175 @@
       <option name="project" value="LOCAL" />
       <updated>1640685574710</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="주문관리 변경추가 + 드라이버 상세 컬럼추가">
+      <created>1649646642203</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1649646642203</updated>
+    </task>
+    <task id="LOCAL-00127" summary="회원탈퇴 주석처리">
+      <created>1649647673498</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1649647673498</updated>
+    </task>
+    <task id="LOCAL-00128" summary="렌터카 안심번호 조회추가">
+      <created>1649671009614</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1649671009614</updated>
+    </task>
+    <task id="LOCAL-00129" summary="렌터카 안심번호 조회추가">
+      <created>1650851208647</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1650851208647</updated>
+    </task>
+    <task id="LOCAL-00130" summary="마스터 권한권리 변경">
+      <created>1651025064506</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1651025064507</updated>
+    </task>
+    <task id="LOCAL-00131" summary="마스터 권한권리 변경">
+      <created>1652081089215</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1652081089216</updated>
+    </task>
+    <task id="LOCAL-00132" summary="마스터 권한권리 + 통계 + 안심번호 수정기능 +일부오류수정">
+      <created>1653448427714</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1653448427714</updated>
+    </task>
+    <task id="LOCAL-00133" summary="마스터 권한권리 + 통계 + 안심번호 수정기능 +일부오류수정">
+      <created>1655361690520</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1655361690520</updated>
+    </task>
+    <task id="LOCAL-00134" summary="가상계좌 자동입력추가">
+      <created>1655361954388</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1655361954388</updated>
+    </task>
+    <task id="LOCAL-00135" summary="안심번호 할당정보/렌터카관리 검색조건변&#10;&#10;가상계좌 예금주 추가">
+      <created>1656382495662</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1656382495662</updated>
+    </task>
+    <task id="LOCAL-00136" summary="2번째 페이지부터 스트립트 동작오류 해결">
+      <created>1656572951102</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1656572951103</updated>
+    </task>
+    <task id="LOCAL-00137" summary="통계 및 렌터카 번호조회 방식 변경">
+      <created>1658393169519</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1658393169519</updated>
+    </task>
+    <task id="LOCAL-00138" summary="통계 및 렌터카 번호조회 방식 변경">
+      <created>1659603094948</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1659603094948</updated>
+    </task>
+    <task id="LOCAL-00139" summary="가맹점 안심번호 할당 유무 추가">
+      <created>1660788996270</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1660788996270</updated>
+    </task>
+    <task id="LOCAL-00140" summary="재택용">
+      <created>1661940445935</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1661940445936</updated>
+    </task>
+    <task id="LOCAL-00141" summary="로그인 관련 수정">
+      <created>1664165623661</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1664165623661</updated>
+    </task>
+    <task id="LOCAL-00142" summary="고객관리 / 사용자에 따른 관제 접속기능추가">
+      <created>1665025684918</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1665025684918</updated>
+    </task>
+    <task id="LOCAL-00143" summary="사용자별 통계 비공개/ 기본 통계 변경">
+      <created>1667204281293</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1667204281293</updated>
+    </task>
+    <task id="LOCAL-00144" summary="기본통계 수정">
+      <created>1667273689976</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1667273689977</updated>
+    </task>
+    <task id="LOCAL-00145" summary="배너관리 등록시 서비스타입이 없는현상">
+      <created>1667798927772</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1667798927772</updated>
+    </task>
+    <task id="LOCAL-00146" summary="사용자관리 상세체크버전">
+      <created>1667812170124</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1667812170124</updated>
+    </task>
+    <task id="LOCAL-00147" summary="통계 + 주야간 설정 수정">
+      <created>1669167112927</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1669167112927</updated>
+    </task>
+    <task id="LOCAL-00148" summary="통계 검색기능 안심번호추가 + 가맹점등록 상세 안심번호 발송여부 추가">
+      <created>1670399275153</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1670399275153</updated>
+    </task>
+    <task id="LOCAL-00149" summary="가맹점등록 상세 안심번호 발송여부 0일때 숨김처리 추가">
+      <created>1670401565951</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1670401565951</updated>
+    </task>
+    <option name="localTasksCounter" value="150" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1096,7 +1298,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -1105,16 +1313,34 @@
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
+      <path value="$PROJECT_DIR$/jesica-admin" />
     </ignored-roots>
-    <MESSAGE value="first&#10;" />
-    <MESSAGE value="first2" />
-    <MESSAGE value="first111" />
-    <MESSAGE value="first" />
     <MESSAGE value="first22" />
     <MESSAGE value="first222" />
     <MESSAGE value="commit333" />
     <MESSAGE value="최초커밋" />
-    <option name="LAST_COMMIT_MESSAGE" value="최초커밋" />
+    <MESSAGE value="주문관리 변경추가 + 드라이버 상세 컬럼추가" />
+    <MESSAGE value="회원탈퇴 주석처리" />
+    <MESSAGE value="렌터카 안심번호 조회추가" />
+    <MESSAGE value="마스터 권한권리 변경" />
+    <MESSAGE value="마스터 권한권리 + 통계 + 안심번호 수정기능 +일부오류수정" />
+    <MESSAGE value="가상계좌 자동입력추가" />
+    <MESSAGE value="안심번호 할당정보/렌터카관리 검색조건변&#10;&#10;가상계좌 예금주 추가" />
+    <MESSAGE value="2번째 페이지부터 스트립트 동작오류 해결" />
+    <MESSAGE value="통계 및 렌터카 번호조회 방식 변경" />
+    <MESSAGE value="가맹점 안심번호 할당 유무 추가" />
+    <MESSAGE value="재택용" />
+    <MESSAGE value="로그인 관련 수정" />
+    <MESSAGE value="고객관리 / 사용자에 따른 관제 접속기능추가" />
+    <MESSAGE value="사용자별 통계 비공개/ 기본 통계 변경" />
+    <MESSAGE value="기본통계 수정" />
+    <MESSAGE value="배너관리 등록시 서비스타입이 없는현상" />
+    <MESSAGE value="사용자관리 상세체크버전" />
+    <MESSAGE value="주간 야간 설정/ 통계관련" />
+    <MESSAGE value="통계 + 주야간 설정 수정" />
+    <MESSAGE value="통계 검색기능 안심번호추가 + 가맹점등록 상세 안심번호 발송여부 추가" />
+    <MESSAGE value="가맹점등록 상세 안심번호 발송여부 0일때 숨김처리 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="가맹점등록 상세 안심번호 발송여부 0일때 숨김처리 추가" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1131,7 +1357,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main.jsp</url>
-          <line>25</line>
+          <line>37</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1146,8 +1372,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/trism/jesica/Util/RestTemplateUtil.java</url>
-          <line>27</line>
+          <line>29</line>
           <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/trism/jesica/Service/WorkGroupService.java</url>
+          <line>144</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
