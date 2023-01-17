@@ -145,7 +145,6 @@ spring:
 
 file:
   #기본 이미지 경로
-
   baseImgPath:
     #real
     #path: /data/jesicar
@@ -164,17 +163,16 @@ file:
     path: /license
   careerPath:
     path: /career
-
+  bannerPath:
+    path: /banner
   boardPath:
     path: /images/board
   eventPath:
     path: /event
   platformPath:
     path: /platform
-
   samplePath:
     path: /sample
-
   messageFile:
     #test
     path: /home/rnd/jesicaAdmin/messages/message

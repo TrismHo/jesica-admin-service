@@ -3,18 +3,13 @@ security:
   password: Wwf//in2FRW9bmRDPSTDohaGu7OpIDYvySgTAWfSEp0=
   iv: RWF0c3VkYTIwMjE=
 server:
-  #port: 8080
   port: 9002
-  #port: 9000
-  #port: 8892
-
   servlet:
+    session:
+      timeout: 7200
     jsp:
       init-parameters:
         mappedfile: false
-    session:
-      timeout: 7200
-
   error:
     path: /error
     #오류 응답에 stacktrace 내용을 포함할지 여부 (ALWAYS, NEVER, ON_TRACE_PARAM)
@@ -26,9 +21,6 @@ server:
     #브라우저 요청에 대해 서버 오류시 기본으로 노출할 페이지를 사용할지 여부
     whitelabel:
       enabled: true
-
-
-
 ---
 ### 로그 설정
 logging:
@@ -36,15 +28,8 @@ logging:
   level:
     com.woorien.mobile: info
   file:
-    #local
-    path: Users/home/rnd/jesicaAdmin/log
-    #test
-    #path: /home/rnd/jesicaAdmin/log
-    #real
-    #ath: /data/jesicar/logs/
-
+    path: /home/rnd/jesicaAdmin/log
 ---
-
 spring:
   cache:
     jcache:
@@ -55,12 +40,6 @@ spring:
       jdbc-url: jdbc:mysql://101.55.126.138/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
       username: jesicar01
       password: wptlzk2021
-
-      #real
-      #jdbc-url: jdbc:mysql://trism-db-01.cdq6jmam0fnm.ap-northeast-2.rds.amazonaws.com:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
-      #username: jesicar01
-      #password: wptlzk2021
-      #real
       driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
   jpa:
     show-sql: true
@@ -114,9 +93,7 @@ spring:
         prepStmtCacheSize : 250
         prepStmtCacheSqlLimit : 2048
         useServerPrepStmts : true
-
 ---
-
 spring:
   devtools:
     livereload:
@@ -128,7 +105,6 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-
 ---
 spring:
   servlet:
@@ -140,19 +116,11 @@ spring:
 spring:
   main:
     allow-bean-definition-overriding: true
-
 ---
-
 file:
   #기본 이미지 경로
-
   baseImgPath:
-    #real
-    #path: /data/jesicar
-    #local
-    path: Users/home/rnd
-    #101 server
-    #path: /home/rnd
+    path: /data/jesicar
   servicePath:
     path: /images/driver
   imgPath:
@@ -164,94 +132,40 @@ file:
     path: /license
   careerPath:
     path: /career
-
   boardPath:
     path: /images/board
   eventPath:
     path: /event
+  bannerPath:
+    path: /banner
   platformPath:
     path: /platform
-
   samplePath:
     path: /sample
-
   messageFile:
-    #test
-    path: /home/rnd/jesicaAdmin/messages/message
-    #real
-    #path: /data/jesicar/messages/message
+    path: /data/jesicar/messages/message
   apiServer:
-    #test
     server: http://101.55.126.138:13000/api
-
-    #real
-    #server: https://api.jesicar.co.kr/api
   imgHttp:
-    #local
-    path : http://localhost:9002/api/img/fileLoad?filePath=
-    #test
-    #path: http://101.55.126.138:9002/api/img/fileLoad?filePath=
-    #real
-    #path: http://admin.jesicar.co.kr/api/img/fileLoad?filePath=
-
+    path: http://test.jesicar.co.kr/api/img/fileLoad?filePath=
 spring:
   profiles:
-
-
-
-
 ########################################
 ## dev properties
 ########################################
-
 #spring.config.activate.on-profile: dev
-
 ## accessToken 만료시간 1-day
 ## refreshToken 만료시간 30-day
 security:
   #test
   cert-key-path: keys/jesica-aes-dev.pem
   iv: SmVzaWNhQVBJUHJvZDIwMjEhQCM=
-  #real
-  #cert-key-path: keysReal/jesica-aes-prod.pem
-  #iv: SmVzaWNhX2RsdnlfcHJvZF8yMDIxIQ==
   jwt:
-    #test
     cert-key-path: keys/jesica-jwt-dev.pem
-    #real
-    #cert-key-path: keysReal/jesica-jwt-prod.pem
     access-expiration-hour: 24
     refresh-expiration-hour: 336
-#test
 trism:
   admin:
     key:
       enc: mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=
       plain: TrismDevAdmin2021
-      #real
-      #trism:
-      #admin:
-      #key:
-      #enc: 0T+QQSe2RklYb94k8hvQI2hV5AXZFYkqeBLGL3c2Dko=
-      #plain: TrismProdAdmin2021
-
-
-########################################
-## production properties
-########################################
-
-#spring.config.activate.on-profile: prod
-
-#security:
-#  cert-key-path: keys/jesica-aes-prod.pem
-#  iv: SmVzaWNhX2RsdnlfcHJvZF8yMDIxIQ==
-#  jwt:
-#    cert-key-path: keys/jesica-jwt-prod.pem
-#    access-expiration-hour: 24
-#    refresh-expiration-hour: 336
-
-#trism:
-#  admin:
-#    key:
-#      enc: 0T+QQSe2RklYb94k8hvQI2hV5AXZFYkqeBLGL3c2Dko=
-#      plain: TrismProdAdmin2021

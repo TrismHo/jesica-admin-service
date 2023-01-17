@@ -139,7 +139,6 @@ file:
     path: /platform
   samplePath:
     path: /sample
-
   messageFile:
     path: /data/jesicar/messages/message
   apiServer:
