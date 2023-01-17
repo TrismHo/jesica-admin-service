@@ -371,7 +371,7 @@
           });
 
           $("#testTable_filter").text("");
-          $("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
+          $("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchEvent" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 /*
         $(document).on("click",".detailRow",function(){
             let withdrawNo = $(this).attr("withdrawNo");
@@ -399,8 +399,10 @@
 
 
         let date = new Date();
+        let date2 = new Date();
         let startDate = "${searchValue.startDate}";
         let endDate = "${searchValue.endDate}";
+        var yesterday = new Date(date2.setDate(date2.getDate() - 1));
 
         $(".startDate").datepicker({
             calendarWeeks: false,
@@ -411,10 +413,12 @@
         });
 
         if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
+            $(".startDate").datepicker('setDate', yesterday);
         } else {
             $(".startDate").datepicker('setDate', startDate);
         }
+
+
 
         /*date.setMonth(date.getMonth() + 1, 1);*/
         $(".endDate").datepicker({
@@ -433,7 +437,16 @@
             var groupType = $(".groupType option:selected").val();
             window.open("/settlement/cashlog/search/"+groupType, '_blank', 'width=600, height=570'); return false;
         });
+       /* $(".searchEvent").on("click",function(){
+            let startDate = $(".startDate").val()
+            let endDate = $(".endDate").val()
+            if(getDateDiff(startDate, endDate) > 31) {
+                alert("날짜범위는 최대 31일까지 가능합니다.")
+                return false;
+            }
+        });*/
     });
+
 
     function setName(no,selectName) {
         $(".settleName").html(selectName);
@@ -469,7 +482,17 @@
         }
 
     }
-
+    function searchFormFunction() {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if (getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.")
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            $("#frmSearch").submit();
+        }
+    }
 </script>
 </body>
 </html>

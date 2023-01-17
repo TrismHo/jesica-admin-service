@@ -195,7 +195,8 @@
             location.href = '${path}/board/platform/insert';
         });
 
-        $(".detailRow").click(function() {
+
+        $(document).on("click", ".detailRow", function () {
             let noticeNo = $(this).attr("noticeNo")
             location.href = "${path}/board/platform/detail?noticeNo="+noticeNo;
         });

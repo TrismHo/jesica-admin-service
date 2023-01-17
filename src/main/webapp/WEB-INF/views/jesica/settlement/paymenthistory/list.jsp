@@ -271,7 +271,7 @@
                                     <%--<button type="button" class="insert_btn btn btn-primary float-left m-b-10">
                                         <span class="fa fa-plus"><spring:message code="list.search.registereddeliveryman" text="배송원등록"/></span>
                                     </button>--%>
-                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/> </button>
+                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/> </button>
                                     <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5">
                                         <%--div class="dt-buttons btn-group flex-wrap">
                                             <button class="btn btn-secondary buttons-copy buttons-html5 btn-sm" tabindex="0" aria-controls="data-table-combine" type="button">
@@ -370,6 +370,10 @@
         $("#testTable").DataTable({
             language : lang_set //or lang_eng
         });
+
+
+        //$("#testTable_filter").text("");
+        //$("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 
         //제휴본사 검색
         $(".searchHeadBtn").on("click",function(){
@@ -641,17 +645,14 @@
             language: "kr"
         });
 
-        var date = new Date();
-        var yesterDay = new Date();
-        var d = new Date();
-        var dayOfMonth = d.getDate();
-        d.setDate(dayOfMonth - 30);
-        yesterDay.setDate(yesterDay - 1);
-        var startDate = "${searchValue.startDate}";
-        var endDate = "${searchValue.endDate}";
+        let date = new Date();
+        let date2 = new Date();
+        let startDate = "${searchValue.startDate}";
+        let endDate = "${searchValue.endDate}";
+        var yesterday = new Date(date2.setDate(date2.getDate() - 1));
 
         if(startDate == ""){
-            $(".startDate").datepicker('setDate', d);
+            $(".startDate").datepicker('setDate', yesterday);
         } else {
             $(".startDate").datepicker('setDate', startDate);
         }
@@ -669,22 +670,20 @@
         } else {
             $(".endDate").datepicker('setDate', endDate);
         }
+
     });
-    function searchFormFunction() {
-       /* if($(".storeNo").val() == "" || $(".storeNo").val() == null) {
-            swal({
-                title: "가맹점을 선택해주세요.",
-                icon: "warning",
-                buttons: [
-                    '취소',
-                    '확인'
-                ],
-                dangerMode: true,
-            });
+
+
+    function searchFormFunction(e) {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.")
+            e.preventDefault();
+            e.stopPropagation();
         } else {
             $("#frmSearch").submit();
-        }*/
-        $("#frmSearch").submit();
+        }
     }
 </script>
 </body>

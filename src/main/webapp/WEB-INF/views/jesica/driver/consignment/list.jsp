@@ -363,7 +363,7 @@
                                                 </label>
                                                 <label>
                                                     <span class="btn-group  bg-black-transparent-2 rounded">
-                                                        <a href="${path}/driver/consignment/list?headNo=1000%7D&branchNo=10000&headNo=1000&headNoText=&branchNo=10000&branchNoText=&storeNo=100000&orderStatusCode=40&startDate=2021-01-01&endDate=${now}"
+                                                        <a href="${path}/driver/consignment/list?headNo=1000%7D&branchNo=10000&headNo=1000&headNoText=&branchNo=10000&branchNoText=&storeNo=100000&orderStatusCode=40&startDate=${yesterday}&endDate=${now}"
                                                            class="btn btn-sm btn-white btn-white-without-border searchClick"
                                                            data-change="widget-theme" data-theme="dark">
                                                             <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message
@@ -771,7 +771,6 @@
 
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="../../../common/include_common_js.jsp" %>
-<%--<%@include file="../../../common/include_datatables.jsp" %>--%>
 <!-- ================== END BASE JS ================== -->
 <%-- Custom JS Start--%>
 <%@include file="../../../common/include_custom_js.jsp" %>
@@ -811,7 +810,7 @@
         });
 
         $("#testTable_filter").text("");
-        $("#testTable_filter").append('<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
+        $("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 
         $(document).on("click", ".detailRow", function () {
             let orderNo = $(this).attr("orderNo");
@@ -846,13 +845,32 @@
             autoclose: true,
             format: "yyyy-mm-dd",
             language: "kr"
+
         });
         if(endDate == ""){
             $(".endDate").datepicker('setDate', date);
         } else {
             $(".endDate").datepicker('setDate', endDate);
         }
+
+     
     });
+
+
+
+/*    var previous;
+    $(".startDate, .endDate").on("focus",function(){
+        previous = this.value;
+    }).change(function() {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.")
+            $(this).datepicker('setDate', previous);
+            $(this).val(previous);
+        }
+    });*/
+
 
     function searchFormFunction() {
         var orderStatusValues = "";
@@ -889,7 +907,15 @@
                 dangerMode: true,
             });
         } else {
-            $("#frmSearch").submit();
+            let startDate = $(".startDate").val()
+            let endDate = $(".endDate").val()
+            if(getDateDiff(startDate, endDate) > 31) {
+                alert("날짜범위는 최대 31일까지 가능합니다.")
+                e.preventDefault();
+                e.stopPropagation();
+            } else {
+                $("#frmSearch").submit();
+            }
         }
         /*   $("#frmSearch").submit();*/
     }

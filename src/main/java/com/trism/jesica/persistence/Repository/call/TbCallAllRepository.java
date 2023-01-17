@@ -1178,6 +1178,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "      date_format(insert_date, '%y-%m-%d') AS yyyymmdd,    " +
             "      date_format(reserv_end_date, '%y-%m-%d') AS reservEndDate     " +
             "    from tb_rental_info    " +
+            "    where store_name like :storeName   " +
             "    ) al    " +
             "  group by al.reservEndDate    " +
             " ) t2 on t1.yyyymmdd = t2.reservEndDate  " +
