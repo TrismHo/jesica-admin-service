@@ -73,6 +73,16 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
+                                                <td style="width: 400px">
+                                                    <label>
+                                                        <select class="form-control" name="platformType">
+                                                            <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
+                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="어니언맵"/></option>
+                                                            <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>
+                                                        </select>
+                                                    </label>
+                                                </td>
                                                 <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="등록기간"/><%--등록기간--%></strong></td>
                                                 <td colspan="3">
                                                     <label>
@@ -124,6 +134,7 @@
                         <tr class="text-center">
                             <th width="5%"><spring:message code="list.word.no1" text="번호"/></th>
                             <th width="30%"><spring:message code="list.word.merchant/deliverygroupname1" text="배너 이미지"/></th>
+                            <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
                             <th><spring:message code="list.word.contents1" text="서비스 타입"/></th>
                             <th><spring:message code="list.word.division1" text="게시판 종류"/></th>
                             <th><spring:message code="list.word.registrationdate1" text="등록일"/></th>
@@ -137,6 +148,11 @@
                                 <td class="text-center">${status.index + 1}</td>
                                 <td class="text-center">
                                     <img style="width: 192px; height: 54px" class="storeImg" src="/api/img/fileLoad?filePath=${item.bannerFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >
+                                </td>
+                                <td class="text-center" style="">
+                                    <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
+                                    <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
+                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="어니언맵"/></c:if>
                                 </td>
                                 <td class="text-center">
                                     <c:if test="${item.serviceType == 0}">메인</c:if>
@@ -186,6 +202,7 @@
 <%-- Custom JS End--%>
 <script>
     const searchValueServiceType = ${searchValue.serviceType};
+    const searchValuePlatformType = ${searchValue.platformType}
 
     $(() => {
         getBannerSort();
@@ -256,11 +273,13 @@
             type: "GET",
             url: "${path}/api/banner/sortList",
             data: {
+                platformType: searchValuePlatformType,
                 serviceType: searchValueServiceType,
             },
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
+                console.log(data)
                 let bannerSortList = data.listBannerSort;
                 bannerSortList = bannerSortList.sort((a, b) => a.viewOrder - b.viewOrder);
                 $(".bannerSortList").html("");

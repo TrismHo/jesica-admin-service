@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 관리등록"/></title>
+    <title>Jesicar | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 등록"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -29,9 +29,9 @@
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="이벤트 관리"/><%--가맹점 설정--%></a></li>
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.eventnotice1" text="이벤트 관리"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.eventnoticeregistration" text="이벤트 관리등록"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.eventnoticeregistration" text="이벤트 등록"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.eventnoticeregistration" text="이벤트 관리등록"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.eventnoticeregistration" text="이벤트 등록"/></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
@@ -42,6 +42,23 @@
                             <input type="hidden" name="dataStatus" value="1">
                             <table class="table table-bordered">
                                 <tbody>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
+                                    <td>
+                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" checked>
+                                            <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
+                                        </label>
+                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3">
+                                            <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
+                                        </label>
+                                        <label class="" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3">
+                                            <span><spring:message code="list.detail.deliveryman1" text="어니언맵"/></span>
+                                        </label>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.checkexposure" text="노출여부"/></td>
                                     <td>

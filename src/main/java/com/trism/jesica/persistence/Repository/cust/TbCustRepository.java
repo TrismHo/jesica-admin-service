@@ -27,7 +27,8 @@ public interface TbCustRepository extends JpaRepository<TbCust, Long>, JpaSpecif
             "sms_yn = :smsYn, " +
             "push_order_yn = :pushOrderYn, " +
             "push_notice_yn = :pushNoticeYn, " +
-            "push_marketing_yn = :pushMarketingYn " +
+            "push_marketing_yn = :pushMarketingYn, " +
+            "platform_type = :platformType " +
             "where cust_no = :custNo", nativeQuery = true)
     int updateCust(@Param("custNo") Long custNo,
                    @Param("custName") String custName,
@@ -37,7 +38,8 @@ public interface TbCustRepository extends JpaRepository<TbCust, Long>, JpaSpecif
                    @Param("smsYn") Integer smsYn,
                    @Param("pushOrderYn") Integer pushOrderYn,
                    @Param("pushNoticeYn") Integer pushNoticeYn,
-                   @Param("pushMarketingYn") Integer pushMarketingYn
+                   @Param("pushMarketingYn") Integer pushMarketingYn,
+                   @Param("platformType") Integer platformType
     );
 
     @Query(value = "select count(cust_no) as cnt " +

@@ -16,10 +16,13 @@ public class TbAppBannerData {
     private String bannerFile;
     private Integer dataStatus;
 
+    private Integer platformType;
+
     public TbAppBanner insertData() {
 
         return TbAppBanner.builder()
                 .insertUserId(insertUserId)
+                .platformType(platformType)
                 .serviceType(serviceType)
                 .viewYn(viewYn)
                 .viewOrder(viewOrder)
@@ -34,6 +37,7 @@ public class TbAppBannerData {
 
         return TbAppBanner.builder()
                 .bannerNo(bannerNo)
+                .platformType(platformType)
                 .serviceType(serviceType)
                 .viewYn(viewYn)
                 .boardType(boardType)

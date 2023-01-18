@@ -62,6 +62,17 @@
                                                     </select>
                                                 </label>
                                             </td>
+                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
+                                            <td style="width: 400px">
+                                                <label>
+                                                    <select class="form-control" name="platformType">
+                                                        <option value="" <c:if test="${searchValue.platformType == ''  || searchValue.platformType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
+                                                        <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>
+                                                        <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
+                                                        <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="어니언맵"/></option>
+                                                    </select>
+                                                </label>
+                                            </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.stateofuse12" text="사용상태"/></strong></td>
                                             <td>
                                                 <div class="row">
@@ -86,7 +97,7 @@
                                                 </label>
                                             </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/><%--검색어 입력--%></strong></td>
-                                            <td>
+                                            <td style="border-right: none">
                                                 <label>
                                                     <select class="form-control searchOp" name="keywordType" style="width: 110px">
                                                         <option value="custName" <c:if test="${searchValue.keywordType == 'custName'}">selected</c:if>><spring:message code="list.search.title1" text="이름"/></option>
@@ -123,6 +134,7 @@
                         <th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
                         <th width="10%"><spring:message code="list.word.status12" text="마일리지"/></th>
                         <th width="10%"><spring:message code="list.word.status12" text="회원여부"/></th>
+                        <th width="5%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
                         <th width="10%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
                         <th width="10%"><spring:message code="list.word.modifieddate1" text="수정일"/></th>
                         <th width="10%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
@@ -149,6 +161,11 @@
                             <td class="text-center detailRow" custNo="${item.custNo}">
                                 <c:if test="${item.isMember == 1}"><spring:message code="list.search.all1" text="회원"/></c:if>
                                 <c:if test="${item.isMember == 0}"><spring:message code="list.word.franchisee12" text="비회원"/></c:if>
+                            </td>
+                            <td class="text-center" style="">
+                                <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
+                                <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
+                                <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="어니언맵"/></c:if>
                             </td>
                             <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

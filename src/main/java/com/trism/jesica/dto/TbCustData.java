@@ -15,4 +15,5 @@ public class TbCustData {
     Integer pushOrderYn;
     Integer pushNoticeYn;
     Integer pushMarketingYn;
+    Integer platformType;
 }

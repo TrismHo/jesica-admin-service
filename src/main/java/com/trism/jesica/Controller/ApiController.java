@@ -2836,11 +2836,13 @@ public class ApiController {
     //배너 순서변경 리스트
     @ResponseBody
     @GetMapping("/banner/sortList")
-    public ResponseEntity<?> getSortList(@RequestParam("serviceType") int serviceType) {
+    public ResponseEntity<?> getSortList(@RequestParam("serviceType") Integer serviceType, @RequestParam("platformType") Integer platformType) {
+        log.info("serviceType::{}", serviceType);
+        log.info("platformType::{}", platformType);
 
         Map<String, Object> map = new HashMap();
         try {
-            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList(serviceType);
+            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList(serviceType, platformType);
 
             map.put("listBannerSort", listBannerSort);
         } catch (Exception e) {
@@ -2876,16 +2878,17 @@ public class ApiController {
     //배너 등록 - 게시글 검색
     @ResponseBody
     @GetMapping("/board/search")
-    public ResponseEntity<?> searchBoardList(@RequestParam Integer boardType, @RequestParam(required = false) Long boardNo, @RequestParam(required = false) String keyword) {
-        log.info("boardType:: ", boardType);
-        log.info("boardNo:: ", boardNo);
-        log.info("keyword:: ", keyword);
+    public ResponseEntity<?> searchBoardList(@RequestParam Integer platformType, @RequestParam Integer boardType, @RequestParam(required = false) Long boardNo, @RequestParam(required = false) String keyword) {
+        log.info("platformType::{} ", platformType);
+        log.info("boardType::{} ", boardType);
+        log.info("boardNo::{} ", boardNo);
+        log.info("keyword::{} ", keyword);
 
         Map<String, Object> map = new HashMap<>();
         List<?> boardList;
 
         try {
-            boardList = apiService.searchBoard(boardType, boardNo, keyword);
+            boardList = apiService.searchBoard(platformType, boardType, boardNo, keyword);
             map.put("boardList", boardList);
         } catch (Exception e) {
             e.printStackTrace();

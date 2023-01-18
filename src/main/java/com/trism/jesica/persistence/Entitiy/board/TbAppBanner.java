@@ -84,10 +84,17 @@ public class TbAppBanner {
     @Column(name = "board_no")
     private Long boardNo;
 
+    /**
+     * 플랫폼 타입(0. 사용안함, 1. 제시카, 2. 어니언맵)
+     */
+    @Column(name = "platform_type", nullable = false)
+    private Integer platformType = 0;
+
     @Builder
     public TbAppBanner(
             Long bannerNo,
             String insertUserId,
+            Integer platformType,
             Integer serviceType,
             Integer viewYn,
             Integer boardType,
@@ -97,6 +104,7 @@ public class TbAppBanner {
             Integer dataStatus
     ) {
         this.bannerNo = bannerNo;
+        this.platformType = platformType;
         this.insertUserId = insertUserId;
         this.serviceType = serviceType;
         this.viewYn = viewYn;
