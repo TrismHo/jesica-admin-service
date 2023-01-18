@@ -81,8 +81,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public TbNoticePlatform getTbNoticePlatFormUserDetail(Long noticeNo) {
-        TbNoticePlatform tbNoticePlatForm = tbNoticePlatformRepository.findByNoticeNoAndGroupType(noticeNo, 5);
+    public TbNoticePlatform getTbNoticePlatFormUserDetail(Long noticeNo, Integer platformType) {
+        TbNoticePlatform tbNoticePlatForm = tbNoticePlatformRepository.findByNoticeNoAndGroupTypeAndPlatformType(noticeNo, 5, platformType);
 
         if (ObjectUtils.isEmpty(tbNoticePlatForm)) {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
@@ -165,7 +165,16 @@ public class BoardService {
     @Transactional(readOnly = true)
     public TbEvent getTbEventDetail(Long eventNo) {
         Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findById(eventNo);
-        if(tbNoticePlatForm.isPresent() == false) {
+        if(!tbNoticePlatForm.isPresent()) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+        return tbNoticePlatForm.get();
+    }
+
+    @Transactional(readOnly = true)
+    public TbEvent getTbEventDetail(Long eventNo, Integer platformType) {
+        Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findByEventNoAndPlatformType(eventNo, platformType);
+        if(!tbNoticePlatForm.isPresent()) {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
         return tbNoticePlatForm.get();

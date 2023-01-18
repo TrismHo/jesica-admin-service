@@ -45,6 +45,23 @@
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
+                                    <td>
+                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbEvent.platformType == 0}">checked</c:if>>
+                                            <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
+                                        </label>
+                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbEvent.platformType == 1}">checked</c:if>>
+                                            <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
+                                        </label>
+                                        <label class="" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" <c:if test="${tbEvent.platformType == 2}">checked</c:if>>
+                                            <span><spring:message code="list.detail.deliveryman1" text="어니언맵"/></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td class="bg-light"><spring:message code="list.detail.checkexposure" text="노출여부"/></td>
                                     <td>
                                         <label class="m-r-10 ">

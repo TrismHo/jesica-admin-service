@@ -923,14 +923,19 @@ public class SearchUtil {
                    String string = value.toString() + " 23:59:59";
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    endDate = LocalDateTime.parse(string, formatter);
-               } else if ("startDate".equals(key) && value != "") {
+                } else if ("startDate".equals(key) && value != "") {
                    String string = value.toString() + " 00:00:00";
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
-
-               }
+                } else if ("viewYn".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
+                } else if ("platformType".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
+                }
             }
-            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            if (ObjectUtils.isNotEmpty(startDate) && ObjectUtils.isNotEmpty(endDate)) {
+                predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            }
             predicate.add(builder.equal(root.get("dataStatus"), DataStatus.OK));
         } catch (Exception e){
             e.printStackTrace();
@@ -1039,6 +1044,8 @@ public class SearchUtil {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     endDate = LocalDateTime.parse(string, formatter);
+                } else if ("platformType".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
                 } else {
                     if (!key.equals("dataStatus")) {
                         if (ObjectUtils.isNotEmpty(value)) {
@@ -1087,9 +1094,13 @@ public class SearchUtil {
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-               }
+               } else if ("platformType".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
+                }
             }
-            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            if (ObjectUtils.isNotEmpty(startDate) && ObjectUtils.isNotEmpty(endDate)) {
+                predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            }
             predicate.add(builder.equal(root.get("dataStatus"), DataStatus.OK));
         } catch (Exception e){
             e.printStackTrace();
@@ -2068,6 +2079,8 @@ public class SearchUtil {
                     } else if (ObjectUtils.isNotEmpty(value)) {
                         predicate.add(builder.equal(root.get(key), value));
                     }
+                } else if ("platformType".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
                 } else {
                     if (ObjectUtils.isNotEmpty(value) && !key.equals("testTable_length")) {
                         predicate.add(builder.equal(root.get(key),value));

@@ -3125,9 +3125,9 @@ public class ApiService {
     }
 
     @Transactional(readOnly = true)
-    public List<TbAppBannerDTO> bannerSortList(int serviceType) {
-        List<TbAppBannerDTO> listEvent = tbAppBannerRepository.getSortEventList(serviceType);
-        List<TbAppBannerDTO> listNotice = tbAppBannerRepository.getSortNoticeList(serviceType);
+    public List<TbAppBannerDTO> bannerSortList(Integer serviceType, Integer platformType) {
+        List<TbAppBannerDTO> listEvent = tbAppBannerRepository.getSortEventList(serviceType, platformType);
+        List<TbAppBannerDTO> listNotice = tbAppBannerRepository.getSortNoticeList(serviceType, platformType);
 
         listEvent.addAll(listNotice);
 
@@ -3150,23 +3150,24 @@ public class ApiService {
     }
 
     @Transactional(readOnly = true)
-    public List<?> searchBoard(Integer boardType, Long boardNo, String keyword) {
+    public List<?> searchBoard(Integer platformType, Integer boardType, Long boardNo, String keyword) {
         Map<String,Object> searchValue = new HashMap<>();
         if (ObjectUtils.isNotEmpty(boardNo)) {
             if (boardType == 1) {
                 List<TbEvent> listEvent = new ArrayList<>();
-                TbEvent tbEvent = boardService.getTbEventDetail(boardNo);
+                TbEvent tbEvent = boardService.getTbEventDetail(boardNo, platformType);
                 listEvent.add(tbEvent);
                 return listEvent;
             } else {
                 List<TbNoticePlatform> listNotice = new ArrayList<>();
-                TbNoticePlatform tbNoticePlatform = boardService.getTbNoticePlatFormUserDetail(boardNo);
+                TbNoticePlatform tbNoticePlatform = boardService.getTbNoticePlatFormUserDetail(boardNo, platformType);
                 listNotice.add(tbNoticePlatform);
                 return listNotice;
             }
         } else if (StringUtils.isNotEmpty(keyword)) {
             searchValue.put("title", keyword);
         }
+        searchValue.put("platformType", String.valueOf(platformType));
         //검색조건 이벤트일때
         if (boardType == 1) {
             List<TbEvent> result = boardService.tbEventSearch(searchValue);
@@ -3387,7 +3388,7 @@ public class ApiService {
 
         if (tbCustData.getCustNo() != null) {
             //아이디가 있으면 update
-            tbCustRepository.updateCust(tbCustData.getCustNo(), tbCustData.getCustName(), tbCustData.getCustTel(), tbCustData.getDataStatus(), tbCustData.getGender(), tbCustData.getSmsYn(), tbCustData.getPushOrderYn(), tbCustData.getPushNoticeYn(), tbCustData.getPushMarketingYn());
+            tbCustRepository.updateCust(tbCustData.getCustNo(), tbCustData.getCustName(), tbCustData.getCustTel(), tbCustData.getDataStatus(), tbCustData.getGender(), tbCustData.getSmsYn(), tbCustData.getPushOrderYn(), tbCustData.getPushNoticeYn(), tbCustData.getPushMarketingYn(), tbCustData.getPlatformType());
             result = 1;
         } else {
             //아이디가 없으면 insert

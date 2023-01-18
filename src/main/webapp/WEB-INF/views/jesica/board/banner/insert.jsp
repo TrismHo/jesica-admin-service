@@ -44,6 +44,23 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
+                                        <td>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" checked>
+                                                <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
+                                            </label>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3">
+                                                <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
+                                            </label>
+                                            <label class="" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3">
+                                                <span><spring:message code="list.detail.deliveryman1" text="어니언맵"/></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="노출서비스"/></td>
                                         <td>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
@@ -325,6 +342,7 @@
             let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="검색된 게시글이 존재하지 않습니다."/>";
             let apply = "<spring:message code="list.script.apply1" text="적용"/>";
             // let req = convertFormToObj($('form.board_search_form'));
+            let platformType = $("input[type='radio'][name='platformType']:checked").val();
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
             let keyword = $('#keyword').val();
 
@@ -332,6 +350,7 @@
                 type: "GET",
                 url: "${path}/api/board/search",
                 data: {
+                    platformType,
                     boardType,
                     keyword,
                 },

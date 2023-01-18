@@ -74,5 +74,11 @@ public class TbEvent extends CreatedDateEntity {
     @Column(name = "body")
     private String body = null;
 
+    /**
+     * 플랫폼 타입(0. 사용안함, 1. 제시카, 2. 어니언맵)
+     */
+    @Column(name = "platform_type", nullable = false)
+    private Integer platformType = 0;
+
     
 }

@@ -50,11 +50,30 @@
                                         <%-- <label class="m-r-10 ">
                                              <input type="radio" name="groupType" value="0" class="align-bottom" 객><spring:message code="list.detail.tothewhole" text="전체에게"/>
                                          </label>--%>
-                                        <label class="m-r-10 ">
-                                            <input type="radio" name="groupType" value="5" class="align-bottom" checked><spring:message code="list.detail.affiliate1" text="고객"/>
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="groupType" value="5" class="m-t-1 m-r-3" checked>
+                                            <span><spring:message code="list.detail.affiliate1" text="고객"/></span>
                                         </label>
-                                        <label class="">
-                                            <input type="radio" name="groupType" value="4" class="align-bottom"><spring:message code="list.detail.deliveryman1" text="드라이버"/>
+                                        <label class="" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="groupType" value="4" class="m-t-1 m-r-3">
+                                            <span><spring:message code="list.detail.deliveryman1" text="드라이버"/></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
+                                    <td>
+                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" checked>
+                                            <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
+                                        </label>
+                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3">
+                                            <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
+                                        </label>
+                                        <label class="" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3">
+                                            <span><spring:message code="list.detail.deliveryman1" text="어니언맵"/></span>
                                         </label>
                                     </td>
                                 </tr>
