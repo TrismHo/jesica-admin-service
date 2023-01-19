@@ -311,7 +311,7 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=";
+            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=&platformType=1";
         });
 
         $(".boardType").click((e) => {

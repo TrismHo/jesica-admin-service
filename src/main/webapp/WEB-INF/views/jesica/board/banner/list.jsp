@@ -279,7 +279,6 @@
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
-                console.log(data)
                 let bannerSortList = data.listBannerSort;
                 bannerSortList = bannerSortList.sort((a, b) => a.viewOrder - b.viewOrder);
                 $(".bannerSortList").html("");

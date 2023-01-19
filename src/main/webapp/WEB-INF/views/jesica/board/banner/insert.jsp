@@ -272,14 +272,13 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=";
+            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=&platformType=1";
         });
 
         $(document).on("click", "#selBoardNoBtn", function() {
             $('#board_title').text('');
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
             let boardTitle = $(this).closest("li").find(".board_text").text();
-            console.log(boardTitle)
             let boardNo;
             if (boardType == 1) {
                 boardNo = $(this).attr('eventNo');
