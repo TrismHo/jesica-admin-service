@@ -2405,7 +2405,6 @@ public class ApiController {
                 tbServiceChargeData.setBranchNo3(Integer.parseInt(jsonObj.get("branchNo3").toString()));
                 tbServiceChargeDataList1.add(tbServiceChargeData);
             }
-            System.out.println(tbServiceChargeDataList1);
             result =  apiService.updateServiceChargeGrp(tbServiceChargeDataList1);
 
             if(result > 0 ) {
@@ -2759,6 +2758,7 @@ public class ApiController {
             map.put("getCallAllListType2140" , apiService.getCallAllListType2140(searchDate));
             map.put("getCallAllListType2141" , apiService.getCallAllListType2141(searchDate));
             map.put("getUserCount" , apiService.getUserCount(searchDate));
+
 
         } catch (Exception e) {
             e.printStackTrace();

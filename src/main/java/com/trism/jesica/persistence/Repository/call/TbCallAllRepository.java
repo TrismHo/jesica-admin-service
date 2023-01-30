@@ -51,7 +51,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return + 인수대행완료
      */
-    @Query(value = "select b.yyyymmdd as dayDate, IFNULL(a.cnt, 0) as cnt " +
+    @Query(value = "select b.yyyymmdd as dayDate, IFNULL(a.cnt, 0) as cnt , b.n " +
             "from " +
             "( " +
             "select date_format(finish_date, '%m-%d')as yyyymmdd, count(*) cnt " +
@@ -68,7 +68,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "from (tb_call_all), (select @N\\:=0 from dual ) a  " +
             "limit 30 " +
             ") b on a.yyyymmdd = b.yyyymmdd " +
-            "order by b.yyyymmdd asc"+
+            "order by b.n asc"+
             "", nativeQuery = true)
     List<Map<String,Object>> getCallAllListType2040(@Param("searchDate") String searchDate);
 
@@ -123,7 +123,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return + 신규고객 변화추이
      */
-    @Query(value = "select b.yyyymmdd as dayDate, IFNULL(a.cnt, 0) as cnt " +
+    @Query(value = "select b.yyyymmdd as dayDate, IFNULL(a.cnt, 0) as cnt , b.n " +
             "from " +
             "( " +
             "select date_format(insert_date, '%m-%d')as yyyymmdd, count(*) cnt " +
@@ -132,6 +132,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "and data_status = 1 " +
             "and is_member = 1 "+
             "group by yyyymmdd " +
+            "order by yyyymmdd asc"+
             ") a  " +
             "right join  " +
             "( " +
@@ -140,7 +141,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "from (tb_cust), (select @N\\:=0 from dual ) a  " +
             "limit 30 " +
             ") b on a.yyyymmdd = b.yyyymmdd " +
-            "order by b.yyyymmdd asc"+
+            "order by b.n asc"+
             "", nativeQuery = true)
     List<Map<String,Object>> getUserCount(@Param("searchDate") String searchDate);
 
@@ -178,7 +179,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return+ 반납대행완료
      */
-    @Query(value = "select b.yyyymmdd as dayDate, IFNULL(a.cnt, 0) as cnt " +
+    @Query(value = "select b.yyyymmdd as dayDate, IFNULL(a.cnt, 0) as cnt, b.n " +
             "from " +
             "( " +
             "select date_format(finish_date, '%m-%d')as yyyymmdd, count(*) cnt " +
@@ -195,7 +196,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "from (tb_call_all), (select @N\\:=0 from dual ) a  " +
             "limit 30 " +
             ") b on a.yyyymmdd = b.yyyymmdd " +
-            "order by b.yyyymmdd asc"+
+            "order by b.n asc"+
             "", nativeQuery = true)
     List<Map<String,Object>> getCallAllListType2140(@Param("searchDate") String searchDate);
 
