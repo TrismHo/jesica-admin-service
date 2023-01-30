@@ -46,10 +46,10 @@
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
                                         <td>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbAppBanner.platformType == 0}">checked</c:if>>
                                                 <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
-                                            </label>
+                                            </label>--%>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbAppBanner.platformType == 1}">checked</c:if>>
                                                 <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
@@ -311,7 +311,7 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=";
+            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=&platformType=1";
         });
 
         $(".boardType").click((e) => {
@@ -392,6 +392,7 @@
             let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="검색된 게시글이 존재하지 않습니다."/>";
             let apply = "<spring:message code="list.script.apply1" text="적용"/>";
             // let req = convertFormToObj($('form.board_search_form'));
+            let platformType = $("input[type='radio'][name='platformType']:checked").val();
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
             let keyword = $('#keyword').val();
 
@@ -399,6 +400,7 @@
                 type: "GET",
                 url: "${path}/api/board/search",
                 data: {
+                    platformType,
                     boardType,
                     keyword,
                 },

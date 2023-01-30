@@ -260,6 +260,7 @@ public class BoardController {
                 searchValue.put("startDate","2020-01-01");
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
                 searchValue.put("serviceType", "0");
+                searchValue.put("platformType", "1");
                 searchValue.put("dataStatus", "OK");
             }
             List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);

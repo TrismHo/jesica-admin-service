@@ -46,12 +46,12 @@
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
                                         <td>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" checked>
                                                 <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
-                                            </label>
+                                            </label>--%>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3">
+                                                <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
                                                 <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                             </label>
                                             <label class="" style="display: inline-flex; align-items: center">
@@ -272,14 +272,13 @@
         });
 
         $(".btn_list").click(function() {
-            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=";
+            location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=&platformType=1";
         });
 
         $(document).on("click", "#selBoardNoBtn", function() {
             $('#board_title').text('');
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
             let boardTitle = $(this).closest("li").find(".board_text").text();
-            console.log(boardTitle)
             let boardNo;
             if (boardType == 1) {
                 boardNo = $(this).attr('eventNo');
