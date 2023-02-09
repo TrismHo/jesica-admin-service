@@ -328,7 +328,6 @@
 
         let returnNewUser= []; //신규 유저 데이터
         let userUserLabels = []; // 신규유저 일자 label
-        console.log(searchDate)
         $.ajax({
             type: "POST",
             url: "${path}/api/main/chart/list?searchDate=" + searchDate,
@@ -336,7 +335,6 @@
             async: false,
             dataType: "json",
             success: function(data) {
-                console.log(data);
                 let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2140);
                 receiptComplData = receiptResult.complete;
                 returnComplData = receiptResult.cancel;
@@ -345,7 +343,9 @@
                 let getUserCountList = getUserCount(data.getUserCount);
 
                 returnNewUser = getUserCountList.userCount;
+
                 userUserLabels = getUserCountList.labels;
+
 
              /*   let returnResult = setChartDatas(data.getCallAllListType2140, data.getCallAllListType2141);
                 returnComplData = returnResult.complete;
@@ -422,7 +422,7 @@
 
         $.plot($("#interactive-chart3"), [{
             data: returnNewUser,
-            label: "신규 고객",
+            label: "신규 고객1",
             color: COLOR_BLUE,
             lines: { show: true, fill:false, lineWidth: 2 },
             points: { show: true, radius: 1, fillColor: COLOR_WHITE },

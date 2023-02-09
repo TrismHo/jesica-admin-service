@@ -354,7 +354,7 @@
         }
     });
 
-    var previous;
+   /* var previous;
     $(".startDate, .endDate").on("focus",function(){
         previous = this.value;
     }).change(function() {
@@ -366,9 +366,17 @@
             $(this).val(previous);
         }
     });
-
+*/
     function searchFormBranchFunction() {
-        $("#frmSearch").submit();
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.")
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            $("#frmSearch").submit();
+        }
 
        /* let pleaseselectadistributor = "<spring:message code="list.script.pleaseselectadistributor" text="총판을 선택해주세요."/>";
         let cancel = "<spring:message code="list.script.cancel" text="취소"/>";

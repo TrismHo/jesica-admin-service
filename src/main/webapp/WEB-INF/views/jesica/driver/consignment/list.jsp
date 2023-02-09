@@ -363,7 +363,7 @@
                                                 </label>
                                                 <label>
                                                     <span class="btn-group  bg-black-transparent-2 rounded">
-                                                        <a href="${path}/driver/consignment/list?headNo=1000%7D&branchNo=10000&headNo=1000&headNoText=&branchNo=10000&branchNoText=&storeNo=100000&orderStatusCode=40&startDate=2021-01-01&endDate=${now}"
+                                                        <a href="${path}/driver/consignment/list?headNo=1000%7D&branchNo=10000&headNo=1000&headNoText=&branchNo=10000&branchNoText=&storeNo=100000&orderStatusCode=40&startDate=${yesterday}&endDate=${now}"
                                                            class="btn btn-sm btn-white btn-white-without-border searchClick"
                                                            data-change="widget-theme" data-theme="dark">
                                                             <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message
@@ -853,14 +853,7 @@
             $(".endDate").datepicker('setDate', endDate);
         }
 
-        $(".searchClick").on("click",function(){
-            let startDate = $(".startDate").val()
-            let endDate = $(".endDate").val()
-            if(getDateDiff(startDate, endDate) > 31) {
-                alert("날짜범위는 최대 31일까지 가능합니다.")
-                return false;
-            }
-        });
+     
     });
 
 
