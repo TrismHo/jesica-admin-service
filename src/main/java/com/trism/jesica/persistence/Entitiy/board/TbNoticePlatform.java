@@ -67,7 +67,7 @@ public class TbNoticePlatform extends BaseEntity {
     private String body = null;
 
     /**
-     * 플랫폼 타입(0. 사용안함, 1. 제시카, 2. 어니언맵)
+     * 플랫폼 타입(0. 사용안함, 1. 제시카, 2. 양파오더)
      */
     @Column(name = "platform_type", nullable = false)
     private Integer platformType = 0;

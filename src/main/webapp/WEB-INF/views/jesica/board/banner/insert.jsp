@@ -56,7 +56,7 @@
                                             </label>
                                             <label class="" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3">
-                                                <span><spring:message code="list.detail.deliveryman1" text="어니언맵"/></span>
+                                                <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
                                             </label>
                                         </td>
                                     </tr>

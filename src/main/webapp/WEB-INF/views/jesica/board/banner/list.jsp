@@ -78,7 +78,7 @@
                                                     <label>
                                                         <select class="form-control" name="platformType">
                                                             <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
-                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="어니언맵"/></option>
+                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="양파오더"/></option>
 <%--                                                            <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>--%>
                                                         </select>
                                                     </label>
@@ -152,7 +152,7 @@
                                 <td class="text-center" style="">
                                     <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
                                     <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
-                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="어니언맵"/></c:if>
+                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="양파오더"/></c:if>
                                 </td>
                                 <td class="text-center">
                                     <c:if test="${item.serviceType == 0}">메인</c:if>
