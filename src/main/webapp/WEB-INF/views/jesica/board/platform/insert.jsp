@@ -71,9 +71,13 @@
                                             <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
                                             <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                         </label>
-                                        <label class="" style="display: inline-flex; align-items: center">
+                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3">
                                             <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
+                                        </label>
+                                        <label class="" style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3">
+                                            <span><spring:message code="list.detail.deliveryman1" text="세차히기좋은날"/></span>
                                         </label>
                                     </td>
                                 </tr>

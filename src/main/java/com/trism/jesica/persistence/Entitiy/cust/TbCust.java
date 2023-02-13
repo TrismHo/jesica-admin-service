@@ -139,7 +139,7 @@ public class TbCust extends BaseEntity {
     private Integer isMember;
 
     /**
-     * 플랫폼 타입(0. 사용안함, 1. 제시카, 2. 양파오더)
+     * 플랫폼 타입(0. 사용안함, 1. 제시카, 2. 양파오더, 3. 세날)
      */
     @Column(name = "platform_type", nullable = false)
     private Integer platformType = 1;
