@@ -328,7 +328,7 @@
                             contentType: false,
                             success: function (data) {
                                 if (data.result == 200) {
-                                    location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType="+data.serviceType+"&boardType=";
+                                    location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType="+data.serviceType+"&boardType=&platformType="+req.platformType;
                                 } else {
                                     alert(confirmfailmsg);
                                     return;
