@@ -76,7 +76,7 @@
                                         </label>
                                         <label class="" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 3}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="세차히기좋은날"/></span>
+                                            <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
                                         </label>
                                     </td>
                                 </tr>

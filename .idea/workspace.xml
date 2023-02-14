@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aec4658e-3865-438b-b5ed-63b312674a3c" name="Default Changelist" comment="가맹점등록 상세 안심번호 발송여부 0일때 숨김처리 추가">
+    <list default="true" id="aec4658e-3865-438b-b5ed-63b312674a3c" name="Default Changelist" comment="텍스트 어니언맵 -&gt; 양파오더 변경">
       <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -23,35 +23,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_0_0_1_SNAPSHOT_war.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_0_0_1_SNAPSHOT_war.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_0_0_1_SNAPSHOT_war__exploded_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_0_0_1_SNAPSHOT_war__exploded_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war__exploded_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war__exploded_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_core_2_10_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_core_2_10_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_databind_2_10_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_databind_2_10_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.querydsl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.querydsl.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/admin/login/login-info-2022-02-11.0.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/manna.log" beforeDir="false" afterPath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/manna.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/trism/jesica/Controller/SettlementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trism/jesica/Controller/SettlementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/call/TbCallAllRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/call/TbCallAllRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/board/QTbAppBanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/board/QTbAppBanner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/business/QTbStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/business/QTbStore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/business/QTbStoreSub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/business/QTbStoreSub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/cust/QTbCust.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/Entitiy/cust/QTbCust.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application_local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application_local.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application_real.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application_real.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_custom_js.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_custom_js.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner/detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner/detail.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner/insert.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner/insert.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/banner/list.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/customer/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/customer/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/consignment/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/consignment/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/rentcar/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/driver/rentcar/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/cashlog/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/cashlog/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/paymenthistory/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/paymenthistory/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/workgroup/affilfranch/detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/workgroup/affilfranch/detail.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/event/detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/event/detail.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/event/insert.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/event/insert.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/event/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/event/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/platform/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/board/platform/list.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,6 +107,17 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -320,16 +318,10 @@
       </map>
     </option>
   </component>
-  <component name="JsFlowSettings">
-    <service-enabled>true</service-enabled>
-    <exe-path />
-    <other-services-enabled>true</other-services-enabled>
-    <auto-save>true</auto-save>
-  </component>
   <component name="JspContextManager">
-    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_kakao_map_js.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/control.jsp" />
-    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_sidebar.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/transfersettlement/detail.jsp" />
     <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_custom_js.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/detail.jsp" />
+    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_sidebar.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/transfersettlement/detail.jsp" />
+    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_kakao_map_js.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/control.jsp" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -374,64 +366,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DatabaseDriversLRU" value="mysql" />
-    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5" value="5" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="173" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="172" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="173" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="172" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="173" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="172" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="173" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="172" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="173" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="172" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="173" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5" value="172" />
-    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
-    <property name="RequestMappingsPanelOrder0" value="0" />
-    <property name="RequestMappingsPanelOrder1" value="1" />
-    <property name="RequestMappingsPanelWidth0" value="75" />
-    <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="TODO_SCOPE" value="All Places" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1640686916504" />
-    <property name="com.ifengxue.com.ifengxue.plugin.jps-support.entity_directory" value="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Entitiy/safe" />
-    <property name="com.ifengxue.com.ifengxue.plugin.jps-support.entity_package" value="com.trism.jesica.persistence.Entitiy.safe" />
-    <property name="com.ifengxue.com.ifengxue.plugin.jps-support.exclude_fields" value="" />
-    <property name="com.ifengxue.com.ifengxue.plugin.jps-support.extend_base_class" value="" />
-    <property name="com.ifengxue.com.ifengxue.plugin.jps-support.repository_directory" value="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/Repository/safe" />
-    <property name="com.ifengxue.com.ifengxue.plugin.jps-support.repository_package" value="com.trism.jesica.persistence.Repository.safe" />
-    <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.DirectoryMappings" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/anjun/Documents/Trism Project/Jesica/jesicar-admin-service&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;5aad0e744f161936950c3bfe805724d9&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/statistics/safetynumber" />
@@ -458,7 +410,7 @@
       <recent name="com.trism.jesica.persistence.Entitiy.board" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.manna-admin-service [bootWar]">
+  <component name="RunManager" selected="Spring Boot.JesicaApplication">
     <configuration name="manna-admin-service [bootWar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -565,9 +517,9 @@
       <method v="2" />
     </configuration>
     <configuration name="JesicaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk1.8.0_181\jre" />
       <module name="com.trism.jesica-admin-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.trism.jesica.JesicaApplication" />
-      <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk1.8.0_181\jre" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -582,9 +534,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.manna-admin-service [bootWar]" />
         <item itemvalue="Gradle.manna-admin-service [build]" />
         <item itemvalue="Gradle.manna-admin-service [clean]" />
+        <item itemvalue="Gradle.manna-admin-service [bootWar]" />
         <item itemvalue="Gradle.manna-admin-service [initQuerydslSourcesDir]" />
         <item itemvalue="Gradle.manna-admin-service [querydslClasses]" />
       </list>
@@ -843,27 +795,11 @@
       <workItem from="1671412499549" duration="1176000" />
       <workItem from="1671586033010" duration="1217000" />
       <workItem from="1671671750955" duration="8757000" />
-    </task>
-    <task id="LOCAL-00101" summary="commit333">
-      <created>1621591706837</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1621591706837</updated>
-    </task>
-    <task id="LOCAL-00102" summary="commit333">
-      <created>1621827322971</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1621827322972</updated>
-    </task>
-    <task id="LOCAL-00103" summary="commit333">
-      <created>1621921441511</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1621921441512</updated>
+      <workItem from="1673948501177" duration="421000" />
+      <workItem from="1674088430364" duration="5132000" />
+      <workItem from="1675933032607" duration="1354000" />
+      <workItem from="1676281078019" duration="100000" />
+      <workItem from="1676340610985" duration="311000" />
     </task>
     <task id="LOCAL-00104" summary="commit333">
       <created>1621995527673</created>
@@ -1187,7 +1123,28 @@
       <option name="project" value="LOCAL" />
       <updated>1670401565951</updated>
     </task>
-    <option name="localTasksCounter" value="150" />
+    <task id="LOCAL-00150" summary="commit">
+      <created>1674094906397</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1674094906398</updated>
+    </task>
+    <task id="LOCAL-00151" summary="각 화면 플랫폼타입 사용안함 숨김처리">
+      <created>1674100508237</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1674100508237</updated>
+    </task>
+    <task id="LOCAL-00152" summary="텍스트 어니언맵 -&gt; 양파오더 변경">
+      <created>1675933603958</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1675933603958</updated>
+    </task>
+    <option name="localTasksCounter" value="153" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1315,9 +1272,6 @@
       <path value="$PROJECT_DIR$/.." />
       <path value="$PROJECT_DIR$/jesica-admin" />
     </ignored-roots>
-    <MESSAGE value="first22" />
-    <MESSAGE value="first222" />
-    <MESSAGE value="commit333" />
     <MESSAGE value="최초커밋" />
     <MESSAGE value="주문관리 변경추가 + 드라이버 상세 컬럼추가" />
     <MESSAGE value="회원탈퇴 주석처리" />
@@ -1340,7 +1294,10 @@
     <MESSAGE value="통계 + 주야간 설정 수정" />
     <MESSAGE value="통계 검색기능 안심번호추가 + 가맹점등록 상세 안심번호 발송여부 추가" />
     <MESSAGE value="가맹점등록 상세 안심번호 발송여부 0일때 숨김처리 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="가맹점등록 상세 안심번호 발송여부 0일때 숨김처리 추가" />
+    <MESSAGE value="commit" />
+    <MESSAGE value="각 화면 플랫폼타입 사용안함 숨김처리" />
+    <MESSAGE value="텍스트 어니언맵 -&gt; 양파오더 변경" />
+    <option name="LAST_COMMIT_MESSAGE" value="텍스트 어니언맵 -&gt; 양파오더 변경" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
