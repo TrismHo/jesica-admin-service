@@ -87,6 +87,10 @@ public class StatisticsService {
         return tbCallAllRepository.getWeekListOrderType(orderTypeCode,startDate,endDate);
     }
     @Transactional(readOnly = true)
+    public List<Map<String,Object>> getUserList(LocalDateTime startDate,LocalDateTime endDate,Integer platform) {
+        return tbCallAllRepository.getUserList(startDate,endDate,platform);
+    }
+    @Transactional(readOnly = true)
     public List<Map<String,Object>> getUserList(LocalDateTime startDate,LocalDateTime endDate) {
         return tbCallAllRepository.getUserList(startDate,endDate);
     }

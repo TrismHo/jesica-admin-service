@@ -1114,7 +1114,13 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "    maleCnt ,    " +
             "    ROUND(maleCnt/ (maleCnt+feMaleCnt) * 100, 1) AS malePer ,    " +
             "    feMaleCnt ,    " +
-            "    ROUND(femaleCnt/ (maleCnt+femaleCnt) * 100, 1) AS femalePer     " +
+            "    ROUND(femaleCnt/ (maleCnt+femaleCnt) * 100, 1) AS femalePer,     " +
+            "    platformJesicarCnt ,    " +
+            "    ROUND(platformJesicarCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformJesicarPer ,    " +
+            "    platformAnionCnt ,    " +
+            "    ROUND(platformAnionCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformAnionPer,     " +
+            "    platformNoneCnt ,    " +
+            "    ROUND(platformNoneCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformNonePer     " +
             "    from(    " +
             "        select    " +
             "            date_format(ab.insert_date, '%y-%m-%d') AS yyyymmdd       " +
@@ -1124,6 +1130,9 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "            , SUM(CASE WHEN ab.device_type =2 THEN 1 ELSE 0 END) AS iosCnt       " +
             "            , SUM(CASE WHEN ab.gender = 'M' THEN 1 ELSE 0 END) AS maleCnt       " +
             "            , SUM(CASE WHEN ab.gender = 'F' THEN 1 ELSE 0 END) AS femaleCnt       " +
+            "            , SUM(CASE WHEN ab.platform_type = '0' THEN 1 ELSE 0 END) AS platformNoneCnt       " +
+            "            , SUM(CASE WHEN ab.platform_type = '1' THEN 1 ELSE 0 END) AS platformJesicarCnt       " +
+            "            , SUM(CASE WHEN ab.platform_type = '2' THEN 1 ELSE 0 END) AS platformAnionCnt     " +
             "               from  " +
             "                   (select        " +
             "                           a.cust_no   " +
@@ -1132,11 +1141,67 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "                           ,b.device_type   " +
             "                           ,a.gender   " +
             "                           ,a.insert_date   " +
+            "                           ,a.platform_type  " +
             "                    FROM tb_cust a       " +
             "                   left outer join         " +
             "                   tb_cust_device b        " +
             "                   on a.cust_no = b.cust_no       " +
-            "                   where a.insert_date BETWEEN :startDate AND :endDate       " +
+            "                   where a.insert_date BETWEEN :startDate AND :endDate  " +
+            "                   and a.is_member =1   " +
+            "                   and a.data_status = 1   " +
+            "                   and a.platform_type = :platform   " +
+            "                   group by a.cust_no) ab   " +
+            "           group by yyyymmdd      " +
+            "        )c    " +
+            "    group by yyyymmdd" +
+            "", nativeQuery = true)
+    List<Map<String,Object>> getUserList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate , @Param("platform") Integer platform
+    );
+
+    @Query(value = "select     " +
+            "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
+            "    dw ,    " +
+            "    totalCnt ,    " +
+            "    androidCnt ,    " +
+            "    ROUND(androidCnt/ (androidCnt+iosCnt) * 100, 1) AS androidPer ,    " +
+            "    iosCnt ,    " +
+            "    ROUND(iosCnt/ (androidCnt+iosCnt) * 100, 1) AS iosPer ,    " +
+            "    maleCnt ,    " +
+            "    ROUND(maleCnt/ (maleCnt+feMaleCnt) * 100, 1) AS malePer ,    " +
+            "    feMaleCnt ,    " +
+            "    ROUND(femaleCnt/ (maleCnt+femaleCnt) * 100, 1) AS femalePer,     " +
+            "    platformJesicarCnt ,    " +
+            "    ROUND(platformJesicarCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformJesicarPer ,    " +
+            "    platformAnionCnt ,    " +
+            "    ROUND(platformAnionCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformAnionPer,     " +
+            "    platformNoneCnt ,    " +
+            "    ROUND(platformNoneCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformNonePer     " +
+            "    from(    " +
+            "        select    " +
+            "            date_format(ab.insert_date, '%y-%m-%d') AS yyyymmdd       " +
+            "            , DAYOFWEEK(ab.insert_date) as dw       " +
+            "            , count(1) as totalCnt       " +
+            "            , SUM(CASE WHEN ab.device_type =1 THEN 1 ELSE 0 END) AS androidCnt       " +
+            "            , SUM(CASE WHEN ab.device_type =2 THEN 1 ELSE 0 END) AS iosCnt       " +
+            "            , SUM(CASE WHEN ab.gender = 'M' THEN 1 ELSE 0 END) AS maleCnt       " +
+            "            , SUM(CASE WHEN ab.gender = 'F' THEN 1 ELSE 0 END) AS femaleCnt       " +
+            "            , SUM(CASE WHEN ab.platform_type = '0' THEN 1 ELSE 0 END) AS platformNoneCnt       " +
+            "            , SUM(CASE WHEN ab.platform_type = '1' THEN 1 ELSE 0 END) AS platformJesicarCnt       " +
+            "            , SUM(CASE WHEN ab.platform_type = '2' THEN 1 ELSE 0 END) AS platformAnionCnt     " +
+            "               from  " +
+            "                   (select        " +
+            "                           a.cust_no   " +
+            "                           ,a.cust_name   " +
+            "                           ,a.cust_tel   " +
+            "                           ,b.device_type   " +
+            "                           ,a.gender   " +
+            "                           ,a.insert_date   " +
+            "                           ,a.platform_type  " +
+            "                    FROM tb_cust a       " +
+            "                   left outer join         " +
+            "                   tb_cust_device b        " +
+            "                   on a.cust_no = b.cust_no       " +
+            "                   where a.insert_date BETWEEN :startDate AND :endDate  " +
             "                   and a.is_member =1   " +
             "                   and a.data_status = 1   " +
             "                   group by a.cust_no) ab   " +

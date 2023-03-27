@@ -110,6 +110,14 @@
                                                 <label>
                                                     <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
                                                 </label>
+                                                <label>
+                                                    <select class="form-control" name="paltform" style="margin-right: 30px;" >
+                                                        <option value="">전체</option>
+                                                        <option value="jesicar">제시카</option>
+                                                        <option value="anion">양파오더</option>
+                                                        <option value="none">비플랫폼</option>
+                                                    </select>
+                                                </label>
                                                 <label >
                                                     <div class="btn-group ">
                                                         <a class="btn btn-white select-day <c:if test="${searchValue.selday == '30' || searchValue.selday == '' || searchValue.selday == null}">active</c:if>"   day="30" href="javascript:;">최근 1개월 </a>
@@ -119,6 +127,17 @@
                                                     </div>
                                                 </label>
                                                 <input type="hidden" class="selday"  name="selday" value="${searchValue.selday}">
+                                          </td>
+                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="플랫폼"/><%--등록기간--%></strong></td>
+                                            <td style="width:50%">
+                                                <label>
+                                                    <select class="form-control" name="platform" style="margin-right: 30px;" >
+                                                        <option value="" <c:if test="${searchValue.platform == ''}">selected</c:if>>전체</option>
+                                                        <option value="1" <c:if test="${searchValue.platform == '1'}">selected</c:if>>제시카</option>
+                                                        <option value="2" <c:if test="${searchValue.platform == '2'}">selected</c:if>>양파오더</option>
+                                                        <option value="0" <c:if test="${searchValue.platform == '0'}">selected</c:if>>비플랫폼</option>
+                                                    </select>
+                                                </label>
                                                 <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
                                                 <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
                                             </td>
@@ -161,6 +180,12 @@
                         <th>%</th>
                         <th>여성회원</th>
                         <th>%</th>
+                        <%--<th>제시카</th>
+                        <th>%</th>
+                        <th>양파오더</th>
+                        <th>%</th>
+                        <th>비플랫폼</th>
+                        <th>%</th>--%>
                     </tr>
                     </thead>
                     <tbody>
@@ -185,6 +210,12 @@
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.malePer}"/> %</td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femaleCnt}"/> 명</td>
                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femalePer}"/> %</td>
+                            <%--<td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarCnt}"/> 명</td>
+                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarPer}"/> %</td>
+                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionCnt}"/> 명</td>
+                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionPer}"/> %</td>
+                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNoneCnt}"/> 명</td>
+                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNonePer}"/> %</td>--%>
                         </tr>
                     </c:forEach>
                     </tbody>
