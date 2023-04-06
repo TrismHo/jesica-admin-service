@@ -7,15 +7,49 @@
                 <b>잇수다</b>
                 &lt;%&ndash;<span class="logo"></span> <b><span style="color:#ffa200;">O2O Delivery Flatform</span></b>&ndash;%&gt;
             </a>--%>
-            <a href="${path}/main" class="navbar-brand" > <%--<b>PetView</b>--%>
+           <%-- <a href="${path}/main" class="navbar-brand" > &lt;%&ndash;<b>PetView</b>&ndash;%&gt;
+            </a>--%>
                 <small>
-                    <img class="m-l-20 m-r-20 " style="width: 120px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/140x35.png"/>">
+                    <li class="dropdown navbar-language">
+                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                            <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="jesicar" data-toggle="dropdown" >
+                                <img class="m-l-20 m-r-20 " style="width: 120px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/140x35.png"/>">
+                                <b class="caret"></b>
+                            </a>
+                        </c:if>
+                        <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                            <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="jesicar" data-toggle="dropdown" >
+                                <img class="m-l-20 m-r-20 " style="width: 50px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/yangpa.png"/>">
+                                양파오더
+                                <b class="caret"></b>
+                            </a>
+                        </c:if>
+
+                        <%--
+                                        <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="la" data-toggle="dropdown" style="display: none;">
+                                            <span class="flag-icon flag-icon-la" title="la"></span>
+                                            <span class="name d-none d-sm-inline">LA</span> <b class="caret"></b>
+                                        </a>
+                        --%>
+
+                        <div class="dropdown-menu" style="margin:20px;">
+                            <%--<a href="${servletPath}?lang=ko" class="dropdown-item"><span class="flag-icon flag-icon-kr" title="kr"></span> 한국어</a>
+                            <a href="${servletPath}?lang=en" class="dropdown-item"><span class="flag-icon flag-icon-us" title="us"></span> English</a>
+                            <a href="${servletPath}?lang=lao" class="dropdown-item"><span class="flag-icon flag-icon-la" title="la"></span> ພາສາລາວ</a>
+            --%>
+
+                            <div class="dropdown-item company_btn" company="jesicar" > <i class="fas fa-lg fa-fw m-r-10 fa-caret-right"></i>제사카</div><hr style="margin-top: 5px;margin-bottom: 5px;">
+                                <div class="dropdown-item company_btn" company="yangpa"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right"></i></span>양파오더</div>
+                        </div>
+                    </li>
+
+
                    <%-- <spring:message code="main.logo1" text="default text"/>,
                     <span style="font-size:20px;color:#ffa200;"><spring:message code="main.logo2" text="default text"/></span>
                     <spring:message code="main.logo3" text="default text"/>
                     <spring:message code="header.title" text=""/>--%>
                 </small>
-            </a>
+
             <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>

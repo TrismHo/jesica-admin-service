@@ -22,6 +22,8 @@ public class LoginSession {
 	private Integer roleType;
 	private Integer userType;
 	private LocalDateTime insertTime;
+	private String company;
+
 
 	public static LoginSession from(TbUserStaff tbUserStaff) {
 		LoginSession session = new LoginSession();
@@ -35,7 +37,7 @@ public class LoginSession {
 		session.setInsertTime(tbUserStaff.getInsertDate());
 		session.setRoleType(tbUserStaff.getRoleType());
 		session.setUserType(tbUserStaff.getUserType().ordinal());
-
+		session.setCompany("jesicar");
 		return session;
 	}
 }

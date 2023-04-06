@@ -111,12 +111,13 @@
                                                     <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
                                                 </label>
                                                 <label>
-                                                    <select class="form-control" name="paltform" style="margin-right: 30px;" >
+
+                                                   <%-- <select class="form-control" name="paltform" style="margin-right: 30px;" >
                                                         <option value="">전체</option>
                                                         <option value="jesicar">제시카</option>
                                                         <option value="anion">양파오더</option>
                                                         <option value="none">비플랫폼</option>
-                                                    </select>
+                                                    </select>--%>
                                                 </label>
                                                 <label >
                                                     <div class="btn-group ">
@@ -131,12 +132,22 @@
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="플랫폼"/><%--등록기간--%></strong></td>
                                             <td style="width:50%">
                                                 <label>
-                                                    <select class="form-control" name="platform" style="margin-right: 30px;" >
+                                                    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                        <select class="form-control" name="platformType" style="margin-right: 30px;">
+                                                            <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
+                                                        </select>
+                                                    </c:if>
+                                                    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                        <select class="form-control" name="platformType" style="margin-right: 30px;">
+                                                            <option value="1" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
+                                                        </select>
+                                                    </c:if>
+                                                  <%--  <select class="form-control" name="platform" style="margin-right: 30px;" >
                                                         <option value="" <c:if test="${searchValue.platform == ''}">selected</c:if>>전체</option>
                                                         <option value="1" <c:if test="${searchValue.platform == '1'}">selected</c:if>>제시카</option>
                                                         <option value="2" <c:if test="${searchValue.platform == '2'}">selected</c:if>>양파오더</option>
                                                         <option value="0" <c:if test="${searchValue.platform == '0'}">selected</c:if>>비플랫폼</option>
-                                                    </select>
+                                                    </select>--%>
                                                 </label>
                                                 <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
                                                 <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>

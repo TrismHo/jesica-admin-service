@@ -76,12 +76,22 @@
                                                 <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
                                                 <td style="width: 400px">
                                                     <label>
-                                                        <select class="form-control" name="platformType">
+                                                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                            <select class="form-control" name="platformType">
+                                                                <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
+                                                            </select>
+                                                        </c:if>
+                                                        <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                            <select class="form-control" name="platformType">
+                                                                <option value="1" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
+                                                            </select>
+                                                        </c:if>
+                                                        <%--<select class="form-control" name="platformType">
                                                             <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
                                                             <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="양파오더"/></option>
                                                             <option value="3" <c:if test="${searchValue.platformType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="세날"/></option>
-<%--                                                            <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>--%>
-                                                        </select>
+&lt;%&ndash;                                                            <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>&ndash;%&gt;
+                                                        </select>--%>
                                                     </label>
                                                 </td>
                                                 <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="등록기간"/><%--등록기간--%></strong></td>

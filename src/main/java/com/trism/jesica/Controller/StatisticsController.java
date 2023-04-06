@@ -5,6 +5,7 @@ import com.trism.jesica.Service.StatisticsService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -404,13 +405,24 @@ public class StatisticsController {
     //회원통계
     @GetMapping("/user/list")
     public ModelAndView listByUser(@RequestParam Map<String,Object> searchValue,
+                                   HttpSession session,
                                    Model model) {
         log.info("@@searchValue {}",searchValue);
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
         if (!searchValue.isEmpty()){
+
             List<Map<String,Object>> timeList = null;
             LocalDateTime startDate = null;
             LocalDateTime endDate = null;
             Integer platfromCode = null;
+            if("jesicar".equals(company)) {
+                platfromCode = 1;
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                platfromCode = 2;
+                searchValue.put("platformType","2");
+            }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             if (searchValue.get("startDate") != null) {
                 String string = searchValue.get("startDate").toString() + " 00:00:00";
@@ -426,15 +438,24 @@ public class StatisticsController {
                 String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
-            if (searchValue.get("platform") != null && searchValue.get("platform") != "") {
-                platfromCode = Integer.parseInt(searchValue.get("platform").toString());
+           /* if (searchValue.get("platform") != null && searchValue.get("platform") != "") {
                 timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
             } else {
                 timeList =  statisticsService.getUserList(startDate,endDate );
-            }
-
+            }*/
+            timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
             model.addAttribute("timeList",timeList);
         } else {
+
+            List<Map<String,Object>> timeList = null;
+            Integer platfromCode = null;
+            if("jesicar".equals(company)) {
+                platfromCode = 1;
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                platfromCode = 2;
+                searchValue.put("platformType","2");
+            }
             LocalDateTime startDate = null;
             LocalDateTime endDate = null;
 
@@ -447,9 +468,13 @@ public class StatisticsController {
 
             startDate = LocalDateTime.parse(string, formatter);
             endDate = LocalDateTime.parse(string1, formatter);
-
-            List<Map<String,Object>> timeList =  statisticsService.getUserList(startDate,endDate );
-
+           /* if (searchValue.get("platform") != null && searchValue.get("platform") != "") {
+                platfromCode = Integer.parseInt(searchValue.get("platform").toString());
+                timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
+            } else {
+                timeList =  statisticsService.getUserList(startDate,endDate );
+            }*/
+            timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
             model.addAttribute("timeList",timeList);
 
         }
