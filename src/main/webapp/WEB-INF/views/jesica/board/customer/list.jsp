@@ -72,7 +72,7 @@
                                                     </c:if>
                                                     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                         <select class="form-control" name="platformType">
-                                                            <option value="1" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
+                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
                                                         </select>
                                                     </c:if>
                                                     <%--<select class="form-control" name="platformType">

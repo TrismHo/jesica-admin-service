@@ -50,14 +50,24 @@
                                         <%-- <label class="m-r-10 ">
                                              <input type="radio" name="groupType" value="0" class="align-bottom" 객><spring:message code="list.detail.tothewhole" text="전체에게"/>
                                          </label>--%>
+
+
+                                        <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="groupType" value="5" class="m-t-1 m-r-3" checked>
-                                            <span><spring:message code="list.detail.affiliate1" text="고객"/></span>
-                                        </label>
-                                        <label class="" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="groupType" value="4" class="m-t-1 m-r-3">
-                                            <span><spring:message code="list.detail.deliveryman1" text="드라이버"/></span>
-                                        </label>
+                                                <input type="radio" name="groupType" value="5" class="m-t-1 m-r-3" checked>
+                                                <span><spring:message code="list.detail.affiliate1" text="고객"/></span>
+                                            </label>
+                                        </c:if>
+                                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="groupType" value="5" class="m-t-1 m-r-3" checked>
+                                                <span><spring:message code="list.detail.affiliate1" text="고객"/></span>
+                                            </label>
+                                            <label class="" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="groupType" value="4" class="m-t-1 m-r-3">
+                                                <span><spring:message code="list.detail.deliveryman1" text="드라이버"/></span>
+                                            </label>
+                                        </c:if>
                                     </td>
                                 </tr>
                                 <tr>
@@ -67,7 +77,19 @@
                                             <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" checked>
                                             <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
                                         </label>--%>
-                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                    <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
+                                                    <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
+                                                </label>
+                                            </c:if>
+                                            <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                    <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
+                                                    <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
+                                                </label>
+                                            </c:if>
+                                        <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
                                             <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                         </label>
@@ -78,7 +100,7 @@
                                         <label class="" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3">
                                             <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                        </label>
+                                        </label>--%>
                                     </td>
                                 </tr>
                                 <tr>

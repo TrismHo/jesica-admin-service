@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=별device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Jesicar | 회원통계</title>
     <%@include file="../../../common/include_head.jsp" %>
     <style>
@@ -93,7 +93,7 @@
             </div>
             <!-- end page-header -->
             <!-- begin row -->
-            <form name="frmSearch" id="frmSearch">
+            <form name="frmSearch" id="frmSearch" class="formUserList">
                 <div class="search-box">
                     <div class="inner-search-box p-15">
                         <div class="row">
@@ -139,7 +139,7 @@
                                                     </c:if>
                                                     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                         <select class="form-control" name="platformType" style="margin-right: 30px;">
-                                                            <option value="1" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
+                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
                                                         </select>
                                                     </c:if>
                                                   <%--  <select class="form-control" name="platform" style="margin-right: 30px;" >
@@ -161,7 +161,96 @@
                     </div>
                 </div>
             </form>
-            <%--  <div class="panel-body">
+            <div class="panel-body" >
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
+                            <span class="d-sm-none"><spring:message code="list.detail.basicInformation" text="기본정보"/></span>
+                            <span class="d-sm-block d-none"><spring:message code="list.detail.basicInformation" text="기본정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#default-tab-2" data-toggle="tab" class="nav-link">
+                            <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="통계그래프"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                            <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="통계그래프"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="default-tab-1">
+                        <div class="table-responsive">
+                                <table id="testTable" class="display table table-bordered w-100 table-striped">
+                                    <thead>
+                                    <tr class="text-center">
+                                        <th rowspan="2">날짜</th>
+                                        <th rowspan="2">요일</th>
+                                        <th colspan="10">회원통계</th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th>회원가입수</th>
+                                        <th>Android</th>
+                                        <th>%</th>
+                                        <th>ios</th>
+                                        <th>%</th>
+                                        <th>남성회원</th>
+                                        <th>%</th>
+                                        <th>여성회원</th>
+                                        <th>%</th>
+                                        <%--<th>제시카</th>
+                                        <th>%</th>
+                                        <th>양파오더</th>
+                                        <th>%</th>
+                                        <th>비플랫폼</th>
+                                        <th>%</th>--%>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="item" items="${timeList}" varStatus="status">
+                                        <tr class="text-center">
+                                            <td>${item.yyyymmdd}</td>
+                                            <td>
+                                                <c:if test="${item.dw == 1}">일요일</c:if>
+                                                <c:if test="${item.dw == 2}">월요일</c:if>
+                                                <c:if test="${item.dw == 3}">화요일</c:if>
+                                                <c:if test="${item.dw == 4}">수요일</c:if>
+                                                <c:if test="${item.dw == 5}">목요일</c:if>
+                                                <c:if test="${item.dw == 6}">금요일</c:if>
+                                                <c:if test="${item.dw == 7}">토요일</c:if>
+                                            </td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.totalCnt}"/> 명</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.androidCnt}"/> 명</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.androidPer}"/> %</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.iosCnt}"/> 명</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.iosPer}"/> %</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.maleCnt}"/> 명</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.malePer}"/> %</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femaleCnt}"/> 명</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femalePer}"/> %</td>
+                                                <%--<td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarCnt}"/> 명</td>
+                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarPer}"/> %</td>
+                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionCnt}"/> 명</td>
+                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionPer}"/> %</td>
+                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNoneCnt}"/> 명</td>
+                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNonePer}"/> %</td>--%>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="tab-pane fade" id="default-tab-2" >
+                        <div class="panel-body">
+                            <div class=" mx-auto"  style="display: inline-block; width: 78%" >
+                                <canvas id="line-chart" width="1168" height="300" style="display: block; box-sizing: border-box; height: 342px; width: 684px;"></canvas>
+                            </div>
+                            <div class=" mx-auto"  style="display: inline-block; width: 20%">
+                                <canvas id="radar-chart" width="1026" height="1026" style="display: block; box-sizing: border-box; height: 513px; width: 513px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <%--  <div class="panel-body">
                   <div class="row">
                       <!-- begin col-3 -->
                       <div class="col-xl-6 col-md-6">
@@ -172,66 +261,6 @@
                       </div>
                   </div>
               </div>--%>
-
-            <div class="panel-body" >
-                <table id="testTable" class="display table table-bordered w-100 table-striped">
-                    <thead>
-                    <tr class="text-center">
-                        <th rowspan="2">날짜</th>
-                        <th rowspan="2">요일</th>
-                        <th colspan="10">회원통계</th>
-                    </tr>
-                    <tr class="text-center">
-                        <th>회원가입수</th>
-                        <th>Android</th>
-                        <th>%</th>
-                        <th>ios</th>
-                        <th>%</th>
-                        <th>남성회원</th>
-                        <th>%</th>
-                        <th>여성회원</th>
-                        <th>%</th>
-                        <%--<th>제시카</th>
-                        <th>%</th>
-                        <th>양파오더</th>
-                        <th>%</th>
-                        <th>비플랫폼</th>
-                        <th>%</th>--%>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="item" items="${timeList}" varStatus="status">
-                        <tr class="text-center">
-                            <td>${item.yyyymmdd}</td>
-                            <td>
-                                <c:if test="${item.dw == 1}">일요일</c:if>
-                                <c:if test="${item.dw == 2}">월요일</c:if>
-                                <c:if test="${item.dw == 3}">화요일</c:if>
-                                <c:if test="${item.dw == 4}">수요일</c:if>
-                                <c:if test="${item.dw == 5}">목요일</c:if>
-                                <c:if test="${item.dw == 6}">금요일</c:if>
-                                <c:if test="${item.dw == 7}">토요일</c:if>
-                            </td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.totalCnt}"/> 명</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.androidCnt}"/> 명</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.androidPer}"/> %</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.iosCnt}"/> 명</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.iosPer}"/> %</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.maleCnt}"/> 명</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.malePer}"/> %</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femaleCnt}"/> 명</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femalePer}"/> %</td>
-                            <%--<td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarCnt}"/> 명</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarPer}"/> %</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionCnt}"/> 명</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionPer}"/> %</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNoneCnt}"/> 명</td>
-                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNonePer}"/> %</td>--%>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
         </div>
         <!-- end panel -->
     </div>
@@ -242,7 +271,8 @@
     <!-- end scroll to top btn -->
 </div>
 
-<script src="${path}/assets/plugins/chart.js/dist/Chart.min.js"></script>
+<script src="${path}/assets/plugins/chart.js/dist/Chart.min_new.js"></script>
+<%--<script src="${path}/assets/js/demo/chart-js.demo.js" type="text/javascript"></script>--%>
 <%--modal search end--%>
 
 <!-- ================== BEGIN BASE JS ================== -->
@@ -253,8 +283,195 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
-    $(() => {
 
+    let label = [];
+    let totalCnt = [];
+    let maleCnt = [];
+    let iosTotal =[];
+    let iosCnt =0;
+    let femaleCnt = [];
+    let androidTotal = [];
+    let androidCnt = 0;
+    let phoneTotal = [];
+    searchUserList();
+
+    Chart.defaults.color = COLOR_DARK_LIGHTER
+    Chart.defaults.font.family = 'Nanum Gothic',"나눔 고딕",'NanumGothic',"나눔고딕",'Malgun Gothic','맑은 고딕','MalgunGothic','맑은고딕'
+    Chart.defaults.font.weight = 500;
+
+    var ctx2 = document.getElementById('radar-chart').getContext('2d');
+    var radarChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['os별 구분'],
+            datasets: [{
+                label: 'ios',
+                borderColor: [COLOR_AQUA_TRANSPARENT_7],
+                pointRadius: 4,
+                borderWidth: 2,
+                pointBackgroundColor: [COLOR_AQUA_TRANSPARENT_3],
+                backgroundColor:  [COLOR_AQUA_TRANSPARENT_3],
+                data: iosTotal
+            },{
+                label: 'android',
+                borderColor: [COLOR_GREEN_TRANSPARENT_7],
+                pointRadius: 4,
+                borderWidth: 2,
+                pointBackgroundColor: [COLOR_GREEN_TRANSPARENT_3],
+                backgroundColor:  [COLOR_GREEN_TRANSPARENT_3],
+                data: androidTotal
+            }]
+        },
+        options : {
+            plugins: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 15
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += ' '+context.parsed.y +'대';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: false,
+                        text: '회원가입 구분(남성, 여성)'
+                    },
+                    ticks: {
+                        major: {
+                            enabled: true
+                        },
+                        color: (context) => context.tick && context.tick.major && '#FF0000',
+                        font: function (context) {
+                            if (context.tick && context.tick.major) {
+                                return {
+                                    weight: 'bold'
+                                };
+                            }
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, ticks) {
+                            return value +' 대'
+                        }
+                    }
+                }
+            }
+        }
+    });
+    var ctx = document.getElementById('line-chart').getContext('2d');
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: label,
+            datasets: [{
+                label: '회원가입수',
+                borderColor: COLOR_GREY,
+                pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
+                pointRadius: 4,
+                borderWidth: 2,
+                backgroundColor: COLOR_GREY_TRANSPARENT_1,
+                data: totalCnt,
+            }, {
+                label: '남성회원',
+                borderColor: COLOR_AQUA,
+                pointBackgroundColor: COLOR_AQUA_TRANSPARENT_6,
+                pointRadius: 4,
+                borderWidth: 2,
+                backgroundColor:  COLOR_AQUA_TRANSPARENT_1,
+                data: maleCnt
+            }, {
+                label: '여성회원',
+                borderColor: COLOR_RED_LIGHTER,
+                pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
+                pointRadius: 4,
+                borderWidth: 2,
+                backgroundColor:  COLOR_RED_TRANSPARENT_1,
+                data: femaleCnt
+            }]
+        },
+        options : {
+            plugins: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 15
+                        },
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += ' '+context.parsed.y +'명';
+                            }
+                            return label;
+                        }
+                    }
+                },
+            },
+
+            scales: {
+                x: {
+                    max: 30,
+                    display: true,
+                    title: {
+                        display: false,
+                        text: 'os별 구분'
+                    },
+                    ticks: {
+                        major: {
+                            enabled: true
+                        },
+                        color: (context) => context.tick && context.tick.major && '#FF0000',
+                        font: function (context) {
+                            if (context.tick && context.tick.major) {
+                                return {
+                                    weight: 'bold'
+                                };
+                            }
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, ticks) {
+                            return value +' 명'
+                        }
+                    }
+                }
+            }
+        }
+    });
+    $(() => {
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
             responsive: true,
@@ -343,6 +560,9 @@
             location.href = "${path}/merchant/uploadexcel/excelform";
         });
 
+
+
+
     });
 
     function lastWeek() {
@@ -359,6 +579,47 @@
         return getDateStr(d);
     }
 
+
+
+    function searchUserList() {
+        let req = convertFormToObj($('form.formUserList'));
+        console.log(req);
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/user/chart/list",
+            contentType: "application/json;",
+            async: true,
+            data :JSON.stringify(req),
+            dataType: "json",
+            success: function(data) {
+                console.log(data)
+                for(var i = 0 ; i < data.timeList.length ; i++) {
+                    label.push(data.timeList[i].yyyymmdd)
+                     totalCnt.push(data.timeList[i].totalCnt)
+                     maleCnt.push(data.timeList[i].maleCnt)
+                     femaleCnt.push(data.timeList[i].femaleCnt)
+                    iosCnt = iosCnt+ data.timeList[i].iosCnt;
+                    androidCnt = androidCnt+ data.timeList[i].androidCnt;
+                }
+                iosTotal.push(iosCnt)
+                androidTotal.push(androidCnt)
+
+
+                /*let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2140);
+                receiptComplData = receiptResult.complete;
+                returnComplData = receiptResult.cancel;
+                receiptLabels = receiptResult.labels;
+
+                let getUserCountList = getUserCount(data.getUserCount);
+
+                returnNewUser = getUserCountList.userCount;
+
+                userUserLabels = getUserCountList.labels;*/
+
+
+            }
+        });
+    }
 </script>
 </body>
 </html>

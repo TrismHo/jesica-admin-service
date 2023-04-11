@@ -52,13 +52,22 @@
                                                 <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="서비스 타입"/></strong></td>
                                                 <td>
                                                     <label>
-                                                        <select class="form-control" name="serviceType">
-                                                            <option value="0" <c:if test="${searchValue.serviceType == '0'}">selected</c:if>><spring:message code="list.search.affiliated1" text="메인"/></option>
-                                                            <option value="2" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.distributor1" text="탁송"/></option>
-                                                            <option value="3" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.distributor1" text="맛집"/></option>
-                                                            <option value="4" <c:if test="${searchValue.serviceType == '4'}">selected</c:if>><spring:message code="list.search.distributor1" text="마트"/></option>
-<%--                                                            <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>--%>
-                                                        </select>
+                                                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                            <select class="form-control" name="serviceType">
+                                                                <option value="0" <c:if test="${searchValue.serviceType == '0'}">selected</c:if>><spring:message code="list.search.affiliated1" text="메인"/></option>
+                                                                <option value="2" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.distributor1" text="탁송"/></option>
+                                                                <option value="3" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.distributor1" text="맛집"/></option>
+                                                                <option value="4" <c:if test="${searchValue.serviceType == '4'}">selected</c:if>><spring:message code="list.search.distributor1" text="마트"/></option>
+                                                                    <%--                                                            <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>--%>
+                                                            </select>
+                                                        </c:if>
+                                                        <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                            <select class="form-control" name="serviceType">
+                                                                <option value="0" <c:if test="${searchValue.serviceType == '0'}">selected</c:if>><spring:message code="list.search.affiliated1" text="메인"/></option>
+                                                                    <%--                                                            <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>--%>
+                                                            </select>
+                                                        </c:if>
+
                                                     </label>
                                                 </td>
                                                 <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="게시판 종류"/></strong></td>
@@ -83,7 +92,7 @@
                                                         </c:if>
                                                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                             <select class="form-control" name="platformType">
-                                                                <option value="1" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
+                                                                <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
                                                             </select>
                                                         </c:if>
                                                         <%--<select class="form-control" name="platformType">

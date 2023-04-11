@@ -37,7 +37,7 @@ public class LoginSession {
 		session.setInsertTime(tbUserStaff.getInsertDate());
 		session.setRoleType(tbUserStaff.getRoleType());
 		session.setUserType(tbUserStaff.getUserType().ordinal());
-		session.setCompany("jesicar");
+		session.setCompany("yangpa");
 		return session;
 	}
 }

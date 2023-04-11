@@ -51,12 +51,20 @@
                                         <%-- <label class="m-r-10 ">
                                              <input type="radio" name="groupType" value="0" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 0}">checked</c:if>> <spring:message code="list.detail.tothewhole" text="전체에게"/>
                                          </label>--%>
-                                        <label class="m-r-10 ">
-                                            <input type="radio" name="groupType" value="5" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
-                                        </label>
-                                        <label class="">
-                                            <input type="radio" name="groupType" value="4" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 4}">checked</c:if>> <spring:message code="list.detail.deliveryman1" text="드라이버"/>
-                                        </label>
+
+                                        <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                            <label class="m-r-10 ">
+                                                <input type="radio" name="groupType" value="5" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
+                                            </label>
+                                        </c:if>
+                                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                            <label class="m-r-10 ">
+                                                <input type="radio" name="groupType" value="5" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
+                                            </label>
+                                            <label class="">
+                                                <input type="radio" name="groupType" value="4" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 4}">checked</c:if>> <spring:message code="list.detail.deliveryman1" text="드라이버"/>
+                                            </label>
+                                        </c:if>
                                     </td>
                                 </tr>
                                 <tr>
@@ -66,7 +74,19 @@
                                             <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 0}">checked</c:if>>
                                             <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
                                         </label>--%>
-                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                    <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
+                                                    <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
+                                                </label>
+                                            </c:if>
+                                            <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                    <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
+                                                    <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
+                                                </label>
+                                            </c:if>
+                                        <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 1}">checked</c:if>>
                                             <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                         </label>
@@ -77,7 +97,7 @@
                                         <label class="" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 3}">checked</c:if>>
                                             <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                        </label>
+                                        </label>--%>
                                     </td>
                                 </tr>
                                 <tr>

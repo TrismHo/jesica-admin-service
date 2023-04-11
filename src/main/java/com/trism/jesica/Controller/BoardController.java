@@ -7,6 +7,7 @@ import com.trism.jesica.persistence.Entitiy.board.TbAppBanner;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
+import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
 import com.trism.jesica.persistence.Entitiy.cust.TbCust;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
@@ -44,15 +45,23 @@ public class BoardController {
                                            Model model, HttpSession session) {
 
         log.info("@@searchValue {}",searchValue);
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
             } else {
                 searchValue = getSearchOption(session);
+
                 searchValue.put("startDate","2020-01-01");
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
 
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
+            }
             List<TbNoticePlatform> resultList =  boardService.tbNoticePlatFormSearch(searchValue);
             model.addAttribute("tbNoticePlatformList", resultList);
 
@@ -142,7 +151,6 @@ public class BoardController {
             model.addAttribute("tbNoticeWorkerList", resultList);
 
         } catch (Exception e) {
-            e.printStackTrace();
         }
         model.addAttribute("searchValue", searchValue);
         return new ModelAndView("jesica/board/worker/list");
@@ -173,6 +181,9 @@ public class BoardController {
     public ModelAndView listEvent(@RequestParam Map<String,Object> searchValue,
                                           Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
@@ -180,6 +191,11 @@ public class BoardController {
                 searchValue = getSearchOption(session);
                 searchValue.put("startDate","2020-01-01");
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+            }
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
             }
 
             List<TbEvent> resultList =  boardService.tbEventSearch(searchValue);
@@ -252,16 +268,22 @@ public class BoardController {
     public ModelAndView listAppBanner(@RequestParam Map<String,Object> searchValue,
                                           Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
         try {
             if (ObjectUtils.isNotEmpty(searchValue)) {
-                putSearchOption(session, searchValue);
+
             } else {
                 searchValue = getSearchOption(session);
                 searchValue.put("startDate","2020-01-01");
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
                 searchValue.put("serviceType", "0");
-                searchValue.put("platformType", "1");
                 searchValue.put("dataStatus", "OK");
+            }
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
             }
             List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
             log.info("tbAppBannerList::[{}]", tbAppBannerList);
@@ -375,11 +397,18 @@ public class BoardController {
     @GetMapping("/cust/list")
     public ModelAndView listCust(HttpSession session, @RequestParam Map<String, Object> searchValue, Model model) {
         log.info("@@searchValue::{}", searchValue);
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
 
         try {
             if (ObjectUtils.isNotEmpty(searchValue)) {
                 log.info("searchValue::{}", searchValue);
                 /*putSearchOption(session, searchValue);*/
+                if("jesicar".equals(company)) {
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    searchValue.put("platformType","2");
+                }
                 List<TbCust> tbCustList = boardService.getCustList(searchValue);
 
                 model.addAttribute("custList", tbCustList);
@@ -391,6 +420,11 @@ public class BoardController {
                 searchValue.put("isMember", "");
                 searchValue.put("dataStatus", "");
                 searchValue.put("keywordType", "custName");
+                if("jesicar".equals(company)) {
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    searchValue.put("platformType","2");
+                }
                 List<TbCust> tbCustList = boardService.getCustList(searchValue);
                 model.addAttribute("custList", tbCustList);
             }
@@ -436,6 +470,7 @@ public class BoardController {
 
     private Map<String,Object> getSearchOption(HttpSession session) {
         Map<String,Object> searchValue = new HashMap<>();
+
         if (session == null) return searchValue;
 
         String headNo = (String) session.getAttribute("headNo");

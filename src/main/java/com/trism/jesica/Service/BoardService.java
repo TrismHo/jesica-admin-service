@@ -79,6 +79,14 @@ public class BoardService {
         }
         return tbNoticePlatForm.get();
     }
+    @Transactional(readOnly = true)
+    public TbEvent getTbNoticeEventDetail(Long eventNo) {
+        Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findById(eventNo);
+        if(tbNoticePlatForm.isPresent() == false) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+        return tbNoticePlatForm.get();
+    }
 
     @Transactional(readOnly = true)
     public TbNoticePlatform getTbNoticePlatFormUserDetail(Long noticeNo, Integer platformType) {
@@ -163,6 +171,11 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
+    public List<Map<String,Object>> getUpdateEventListLimit(Integer platformType) {
+        return tbEventRepository.findAllLimit(platformType);
+    }
+
+    @Transactional(readOnly = true)
     public TbEvent getTbEventDetail(Long eventNo) {
         Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findById(eventNo);
         if(!tbNoticePlatForm.isPresent()) {
@@ -227,8 +240,8 @@ public class BoardService {
         return tbNoticeReleaseRepository.findAllLimit();
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getPlatformListLimit() {
-        return tbNoticePlatformRepository.findAllLimit();
+    public List<Map<String,Object>> getPlatformListLimit(Integer platformType ) {
+        return tbNoticePlatformRepository.findAllLimit(platformType);
     }
 
     @Transactional(readOnly = true)

@@ -131,6 +131,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "where insert_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() " +
             "and data_status = 1 " +
             "and is_member = 1 "+
+            "and platform_type = :platformType "+
             "group by yyyymmdd " +
             "order by yyyymmdd asc"+
             ") a  " +
@@ -143,7 +144,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             ") b on a.yyyymmdd = b.yyyymmdd " +
             "order by b.n asc"+
             "", nativeQuery = true)
-    List<Map<String,Object>> getUserCount(@Param("searchDate") String searchDate);
+    List<Map<String,Object>> getUserCount(@Param("platformType") Integer platformType );
 
     /*@Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%Y/%m/%d') as dayDate" +
             " from tb_call_all " +

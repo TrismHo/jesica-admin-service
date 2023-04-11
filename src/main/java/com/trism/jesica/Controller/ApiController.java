@@ -97,16 +97,21 @@ public class ApiController {
 
     private final DriverApplyService driverApplyService;
 
+    private final StatisticsService statisticsService;
+
     //테스트용 API
     @ResponseBody
-    @GetMapping("/test/test")
-    public ResponseEntity<?> test()
-     {
-        log.info("Test::{}", "test");
-        /*log.info("TbHead tbBusinessInfoData::{}", tbBusinessInfoData);*/
+    @PostMapping(value="/company/change")
+    public ResponseEntity<?> companyChange(
+            HttpServletRequest request,
+            @RequestParam("company") String company
+    ) {
+        log.info("company::{}", company);
+        HttpSession session = request.getSession();
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        loginSession.setCompany(company);
         Map<String,Object> map = new HashMap<>();
-        map.put("result","400");
-        map.put("message", "테스트");
+        map.put("result","200");
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
@@ -322,7 +327,7 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
-    //언어팩 수정
+    //언어팩
     @ResponseBody
     @GetMapping("/language/update")
     public ResponseEntity<?> languageUpdate(@RequestParam("tslId") Long tslId,
@@ -2750,14 +2755,93 @@ public class ApiController {
 
     @ResponseBody
     @PostMapping("/main/chart/list")
-    public ResponseEntity<?> chartData(@RequestParam("searchDate") String searchDate)  {
+    public ResponseEntity<?> chartData(@RequestParam("searchDate") String searchDate, HttpSession session)  {
         Map<String,Object> map = new HashMap<>();
         try {
             map.put("getCallAllListType2040" , apiService.getCallAllListType2040(searchDate));
             map.put("getCallAllListType2041" , apiService.getCallAllListType2041(searchDate));
             map.put("getCallAllListType2140" , apiService.getCallAllListType2140(searchDate));
             map.put("getCallAllListType2141" , apiService.getCallAllListType2141(searchDate));
-            map.put("getUserCount" , apiService.getUserCount(searchDate));
+            LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey") ;
+            if("jesicar".equals(loginSession.getCompany())) {
+                map.put("getUserCount" , apiService.getUserCount(1));
+            } else if ("yangpa".equals(loginSession.getCompany())) {
+                map.put("getUserCount" , apiService.getUserCount(2));
+            }
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/user/chart/list")
+    public ResponseEntity<?> chartData(@RequestBody Map<String,Object> searchValue, HttpSession session)  {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+            String company = loginSession.getCompany();
+
+            if (!searchValue.isEmpty()){
+
+                List<Map<String,Object>> timeList = null;
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+                Integer platfromCode = null;
+                if("jesicar".equals(company)) {
+                    platfromCode = 1;
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    platfromCode = 2;
+                    searchValue.put("platformType","2");
+                }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                if (searchValue.get("startDate") != null) {
+                    String string = searchValue.get("startDate").toString() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                }
+                if (searchValue.get("endDate") != null) {
+                    String string = searchValue.get("endDate").toString() + " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                }
+                timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
+                map.put("timeList" , timeList);
+            } else {
+
+                List<Map<String,Object>> timeList = null;
+                Integer platfromCode = null;
+                if("jesicar".equals(company)) {
+                    platfromCode = 1;
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    platfromCode = 2;
+                    searchValue.put("platformType","2");
+                }
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+
+                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                startDate = LocalDateTime.parse(string, formatter);
+                endDate = LocalDateTime.parse(string1, formatter);
+                timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
+                map.put("timeList" , timeList);
+            }
 
 
         } catch (Exception e) {
@@ -2829,7 +2913,6 @@ public class ApiController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 

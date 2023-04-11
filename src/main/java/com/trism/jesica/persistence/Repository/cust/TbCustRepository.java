@@ -45,6 +45,7 @@ public interface TbCustRepository extends JpaRepository<TbCust, Long>, JpaSpecif
     @Query(value = "select count(cust_no) as cnt " +
             "from tb_cust " +
             "where data_status = 1 " +
+            "and platform_type = :platformType"+
             "", nativeQuery = true)
-    List<Map<String,Object>> getCustChart();
+    List<Map<String,Object>> getCustChart(@Param("platformType") Integer platformType);
 }

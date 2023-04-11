@@ -438,11 +438,6 @@ public class StatisticsController {
                 String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
-           /* if (searchValue.get("platform") != null && searchValue.get("platform") != "") {
-                timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
-            } else {
-                timeList =  statisticsService.getUserList(startDate,endDate );
-            }*/
             timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
             model.addAttribute("timeList",timeList);
         } else {
@@ -468,12 +463,6 @@ public class StatisticsController {
 
             startDate = LocalDateTime.parse(string, formatter);
             endDate = LocalDateTime.parse(string1, formatter);
-           /* if (searchValue.get("platform") != null && searchValue.get("platform") != "") {
-                platfromCode = Integer.parseInt(searchValue.get("platform").toString());
-                timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
-            } else {
-                timeList =  statisticsService.getUserList(startDate,endDate );
-            }*/
             timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
             model.addAttribute("timeList",timeList);
 

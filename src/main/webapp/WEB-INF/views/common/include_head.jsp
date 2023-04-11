@@ -1,4 +1,6 @@
 <%@ page import="java.util.Date" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.util.Calendar" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,6 +13,17 @@
 <fmt:formatDate value="${yesterDay}" pattern="yyyy-MM-dd" var="yesterDayStr"/>
 <%--<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>--%>
 
+<%  //한달 전 날짜 구하기
+    DecimalFormat df = new DecimalFormat("00");
+    Calendar currentCalendar = Calendar.getInstance();
+    currentCalendar.add(currentCalendar.DATE, -30);
+    String strYear31   = Integer.toString(currentCalendar.get(Calendar.YEAR));
+    String strMonth31  = df.format(currentCalendar.get(Calendar.MONTH) + 1);
+    String strDay31   = df.format(currentCalendar.get(Calendar.DATE));
+    String strDate31 = strYear31 +"-"+ strMonth31 +"-"+ strDay31;
+%>
+<!-- 한달전 -->
+<c:set var="month" value='<%=strDate31%>' />
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
 <c:set var="date" value="<%=new java.util.Date()%>" />
 <c:set var="now"><fmt:formatDate value="${date}" pattern="yyyy-MM-dd" /></c:set>

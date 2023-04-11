@@ -50,11 +50,19 @@
                                             <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="게시물 구분"/></strong></td>
                                             <td >
                                                 <label>
-                                                    <select class="form-control" name="groupType">
-                                                        <option value="" <c:if test="${searchValue.groupType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
-                                                        <option value="4" <c:if test="${searchValue.groupType == '4'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="드라이버"/></option>
-                                                        <option value="5" <c:if test="${searchValue.groupType == '5'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="고객"/></option>
-                                                    </select>
+
+                                                    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                        <select class="form-control" name="groupType">
+                                                            <option value="" <c:if test="${searchValue.groupType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
+                                                            <option value="4" <c:if test="${searchValue.groupType == '4'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="드라이버"/></option>
+                                                            <option value="5" <c:if test="${searchValue.groupType == '5'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="고객"/></option>
+                                                        </select>
+                                                    </c:if>
+                                                    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                        <select class="form-control" name="groupType">
+                                                            <option value="5" <c:if test="${searchValue.groupType == '5'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="고객"/></option>
+                                                        </select>
+                                                    </c:if>
                                                 </label>
                                             </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>

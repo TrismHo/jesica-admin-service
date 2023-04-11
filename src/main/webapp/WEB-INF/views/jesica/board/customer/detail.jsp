@@ -63,7 +63,19 @@
                                                 <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbCust.platformType == 0}">checked</c:if>>
                                                 <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
                                             </label>--%>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                    <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                        <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
+                                                        <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
+                                                    </label>
+                                                </c:if>
+                                                <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                    <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                        <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
+                                                        <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
+                                                    </label>
+                                                </c:if>
+                                            <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbCust.platformType == 1}">checked</c:if>>
                                                 <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                             </label>
@@ -74,7 +86,7 @@
                                             <label class="" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbCust.platformType == 3}">checked</c:if>>
                                                 <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                            </label>
+                                            </label>--%>
                                         </td>
                                     </tr>
                                     <tr class="height-50">

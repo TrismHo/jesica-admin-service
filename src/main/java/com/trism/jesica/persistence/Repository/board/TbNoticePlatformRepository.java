@@ -26,10 +26,12 @@ public interface TbNoticePlatformRepository extends JpaRepository<TbNoticePlatfo
             ",group_type as groupType " +
             ",insert_user_id as insertUserId " +
             ",insert_date as insertDate " +
+            ",platform_type as platformType "+
             "from " +
             "tb_notice_platform " +
             "where data_status = 1 "+
+            "and platform_type = :platformType "+
             "order by insert_date desc LIMIT 20" +
             "", nativeQuery = true)
-    List<Map<String,Object>> findAllLimit();
+    List<Map<String,Object>> findAllLimit(@Param("platformType") Integer platformType);
 }

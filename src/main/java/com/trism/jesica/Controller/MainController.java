@@ -1,7 +1,6 @@
 package com.trism.jesica.Controller;
 
 import com.google.gson.JsonObject;
-import com.mysql.cj.Session;
 import com.trism.jesica.Service.*;
 import com.trism.jesica.Util.GetClientIp;
 import com.trism.jesica.Util.RestTemplateUtil;
@@ -12,6 +11,7 @@ import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.Entitiy.business.*;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.Entitiy.system.TbSiteMenu;
 import lombok.RequiredArgsConstructor;
@@ -103,7 +103,7 @@ public class MainController {
      * main페이지
      */
     @GetMapping("/main")
-    public ModelAndView main(Model model, Session session) {
+    public ModelAndView main(Model model, HttpSession session) {
 
 
         //신규고객
@@ -119,9 +119,16 @@ public class MainController {
         //반납대행 변화추이(system_code_type OT= 21)
         model.addAttribute("getCallAllListType21",apiService.getCallAllListType21());*/
 
-        //업데이트 내역
         model.addAttribute("updateList",boardService.getUpdateListLimit());
-        model.addAttribute("updatePlatList",boardService.getPlatformListLimit());
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey") ;
+        if("jesicar".equals(loginSession.getCompany())) {
+            model.addAttribute("updateEventList",boardService.getUpdateEventListLimit(1));
+            model.addAttribute("updatePlatList",boardService.getPlatformListLimit(1));
+        } else if ("yangpa".equals(loginSession.getCompany())) {
+            model.addAttribute("updateEventList",boardService.getUpdateEventListLimit(2));
+            model.addAttribute("updatePlatList",boardService.getPlatformListLimit(2));
+        }
+
 
 
         return new ModelAndView("main");
@@ -340,7 +347,6 @@ public class MainController {
 
                     if(isPwdMatch == true) {
                         LoginSession loginSession = LoginSession.from(bm);
-
                         //loginSession.setUserStaffName("마스터");
                         /*loginSession.setUserStaffName(tbUser.get());*/
                         loginSession.setUserRole(0);
@@ -576,6 +582,22 @@ public class MainController {
         }
 */
         return new ModelAndView("/masterFindPassword");
+    }
+
+    /**
+     * 이벤트공지
+     */
+    @GetMapping("/notice/event/{eventNo}")
+    public ModelAndView noticeEventPopup(@PathVariable Long eventNo, Model model){
+        log.info("eventNo :: {}",eventNo);
+        try {
+            TbEvent tbNoticeEvent = boardService.getTbNoticeEventDetail(eventNo);
+
+            model.addAttribute("tbNoticeEvent", tbNoticeEvent);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ModelAndView("/searchPopupEvent");
     }
     /**
      * 플랫폼공지

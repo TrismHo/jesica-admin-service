@@ -3457,7 +3457,7 @@ public class ApiService {
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getCustChart() {
-        return tbCustRepository.getCustChart();
+        return tbCustRepository.getCustChart(1);
     }
 
     @Transactional(readOnly = true)
@@ -3500,8 +3500,8 @@ public class ApiService {
         return tbCallAllRepository.getCallAllListType2141(searchDate);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getUserCount(String searchDate) {
-        return tbCallAllRepository.getUserCount(searchDate);
+    public List<Map<String,Object>> getUserCount( Integer platformType) {
+        return tbCallAllRepository.getUserCount(platformType);
     }
 }
 
