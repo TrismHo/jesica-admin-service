@@ -45,8 +45,8 @@
                             <a href="${servletPath}?lang=lao" class="dropdown-item"><span class="flag-icon flag-icon-la" title="la"></span> ພາສາລາວ</a>
             --%>
 
-                            <div class="dropdown-item company_btn" company="jesicar" > <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i> <b style="font-size: 15px;color: #acaeb2;">제시카</b>&nbsp;</div><hr style="margin-top: 5px;margin-bottom: 5px;">
-                                <div class="dropdown-item company_btn" company="yangpa"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i></span> <b style="font-size: 15px;color: #acaeb2;">양파오더</b>&nbsp;</div>
+                            <div class="dropdown-item company_btn" company="jesicar" style="cursor: pointer;" > <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i> <b style="font-size: 15px;color: #acaeb2;">제시카</b>&nbsp;</div><hr style="margin-top: 5px;margin-bottom: 5px;">
+                            <div class="dropdown-item company_btn" company="yangpa" style="cursor: pointer;"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i></span> <b style="font-size: 15px;color: #acaeb2;">양파오더</b>&nbsp;</div>
                         </div>
                     </li>
 

@@ -30,6 +30,7 @@ import java.util.*;
 @Slf4j
 public class BoardService {
 
+
     private final JesicaProperties jesicaProperties;
 
     private final TbNoticePlatformRepository tbNoticePlatformRepository;
@@ -174,6 +175,8 @@ public class BoardService {
     public List<Map<String,Object>> getUpdateEventListLimit(Integer platformType) {
         return tbEventRepository.findAllLimit(platformType);
     }
+
+
 
     @Transactional(readOnly = true)
     public TbEvent getTbEventDetail(Long eventNo) {

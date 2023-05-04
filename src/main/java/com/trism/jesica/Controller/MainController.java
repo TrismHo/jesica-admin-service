@@ -55,6 +55,8 @@ public class MainController {
     @Autowired
     private CipherService cipherService;
     @Autowired
+    private StatisticsService statisticsService;
+    @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
@@ -127,6 +129,21 @@ public class MainController {
         } else if ("yangpa".equals(loginSession.getCompany())) {
             model.addAttribute("updateEventList",boardService.getUpdateEventListLimit(2));
             model.addAttribute("updatePlatList",boardService.getPlatformListLimit(2));
+
+           /* List<Map<String,Object>> timeList = null;
+            String ordPathCd = "1069";
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+            timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd );
+            map.put("timeList" , timeList);
+            model.addAttribute("storeRentChart",timeList);*/
         }
 
 
@@ -202,6 +219,7 @@ public class MainController {
                 refreshTokenEnd = cookie.getValue();
                 log.info("refreshTokenEnd_first::"+refreshTokenEnd);
             }
+
 
         }
         return new ResponseEntity<>(map, HttpStatus.OK);

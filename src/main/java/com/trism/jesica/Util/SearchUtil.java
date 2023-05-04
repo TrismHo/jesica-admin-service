@@ -283,6 +283,13 @@ public class SearchUtil {
         });
     }
 
+    public static Specification<?> searchMannaAllList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchMannaAllList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+
     private static List<Predicate> getPredicateWithKeyword(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
         for (String key : searchKeyword.keySet()) {
@@ -1614,25 +1621,29 @@ public class SearchUtil {
         List<Predicate> predicate = new ArrayList<>();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
+        String keyword = null;
+        String keywordType = null;
         try {
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                if ("destAddr3".equals(key) && value != "") {
-                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
-                } else if ("storeName".equals(key) && value != ""){
-                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
-                } else if ("custTel".equals(key) && value != ""){
-                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
-                } else if ("workerName".equals(key) && value != ""){
-                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+
+                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")) {
+                    keywordType = (String)value;
+                } else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
+                    keyword = (String)value;
                 }
-                else if ("orderStatusCode".equals(key) && value != "") {
+                if ("ordPathCd".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), value));
+                }
+
+                if ("ordCuTel".equals(key) && value != "") {
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("ordType".equals(key) && value != "") {
                     List<Predicate> list = new ArrayList<Predicate>();
                     if (value == "") {
                         Predicate predicate1 = builder.equal(root.get(key), "99");
                         list.add(predicate1);
                     } else {
-
                         String[] code2 = value.toString().split(",");
                         for (int i = 0; i < code2.length; i++) {
                             Predicate predicate1 = builder.equal(root.get(key), code2[i]);
@@ -1643,37 +1654,26 @@ public class SearchUtil {
                     predicate.add(builder.or(list.toArray(new Predicate[list.size()])));
 
                 }
-                else if ("orderTypeCode".equals(key) && value != "") {
 
-                    List<Predicate> list = new ArrayList<Predicate>();
-                    if (value == "") {
-                        Predicate predicate1 = builder.equal(root.get(key), "none");
-                        list.add(predicate1);
-                    } else {
+                else if ("startDate".equals(key) && value != "") {
 
-                        String[] code3 = value.toString().split(",");
-                        for (int i = 0; i < code3.length; i++) {
-                            Predicate predicate1 = builder.equal(root.get(key), code3[i]);
-                            list.add(predicate1);
-                        }
-                    }
+                    String string = value.toString() + " 00:00:01";
+                    String string2 = value.toString() + " 23:59:59";
 
-                    predicate.add(builder.or(list.toArray(new Predicate[list.size()])));
-
-                }
-                else if ("endDate".equals(key) && value != "") {
-                    String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    endDate = LocalDateTime.parse(string, formatter);
-                } else if ("startDate".equals(key) && value != "") {
-                    String string = value.toString() + " 00:00:00";
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
                     startDate = LocalDateTime.parse(string, formatter);
-
+                    endDate = LocalDateTime.parse(string2, formatter);
                 }
             }
-            //predicate.add(builder.between(root.<LocalDateTime>get("finishDate"),startDate,endDate));
-            predicate.add(builder.or(builder.between(root.<LocalDateTime>get("finishDate"),startDate,endDate),builder.between(root.<LocalDateTime>get("cancelDate"),startDate,endDate)));
+            predicate.add(builder.between(root.<LocalDateTime>get("ordDate"),startDate,endDate));
+
+            if (StringUtils.isNotBlank(keywordType)) {
+                if (StringUtils.isNotBlank(keyword)) {
+                    predicate.add(builder.like(root.get(keywordType), "%" + keyword + "%"));
+                }
+            }
+            //predicate.add(builder.or(builder.between(root.<LocalDateTime>get("ordDate"),startDate,endDate),builder.between(root.<LocalDateTime>get("cancelDate"),startDate,endDate)));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -2098,6 +2098,76 @@ public class SearchUtil {
             e.printStackTrace();
         }
 
+        return predicate;
+    }
+
+    private static List<Predicate>  searchMannaAllList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+                if ("destAddr3".equals(key) && value != "") {
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("storeName".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("custTel".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                } else if ("workerName".equals(key) && value != ""){
+                    predicate.add(builder.like(root.get(key), "%"+value+"%"));
+                }
+                else if ("orderStatus".equals(key) && value != "") {
+                    List<Predicate> list = new ArrayList<Predicate>();
+                    if (value == "") {
+                        Predicate predicate1 = builder.equal(root.get(key), "99");
+                        list.add(predicate1);
+                    } else {
+
+                        String[] code2 = value.toString().split(",");
+                        for (int i = 0; i < code2.length; i++) {
+                            Predicate predicate1 = builder.equal(root.get(key), code2[i]);
+                            list.add(predicate1);
+                        }
+                    }
+
+                    predicate.add(builder.or(list.toArray(new Predicate[list.size()])));
+
+                }
+                else if ("orderTypeCode".equals(key) && value != "") {
+
+                    List<Predicate> list = new ArrayList<Predicate>();
+                    if (value == "") {
+                        Predicate predicate1 = builder.equal(root.get(key), "none");
+                        list.add(predicate1);
+                    } else {
+
+                        String[] code3 = value.toString().split(",");
+                        for (int i = 0; i < code3.length; i++) {
+                            Predicate predicate1 = builder.equal(root.get(key), code3[i]);
+                            list.add(predicate1);
+                        }
+                    }
+
+                    predicate.add(builder.or(list.toArray(new Predicate[list.size()])));
+
+                }
+                else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                }
+            }
+            //predicate.add(builder.between(root.<LocalDateTime>get("finishDate"),startDate,endDate));
+            predicate.add(builder.or(builder.between(root.<LocalDateTime>get("finishDate"),startDate,endDate),builder.between(root.<LocalDateTime>get("cancelDate"),startDate,endDate)));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return predicate;
     }
 }

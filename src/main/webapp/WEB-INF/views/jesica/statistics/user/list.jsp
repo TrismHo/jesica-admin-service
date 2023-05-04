@@ -127,7 +127,14 @@
                                                         <a class="btn btn-white select-day <c:if test="${searchValue.selday == '720'}">active</c:if>" day="720"  href="javascript:;">최근 2년 </a>
                                                     </div>
                                                 </label>
+                                                <label style="margin-left: 30px;" >
+                                                    <div class="btn-group ">
+                                                        <a class="btn btn-white step-day <c:if test="${searchValue.dayType == '2' || searchValue.dayType == '' || searchValue.dayType == null}">active</c:if>" href="javascript:;" day="2">1일 단위 보기 </a>
+                                                        <a class="btn btn-white step-day <c:if test="${searchValue.dayType == '1'}">active</c:if>"   href="javascript:;" day="1">7일 단위 보기 </a>
+                                                    </div>
+                                                </label>
                                                 <input type="hidden" class="selday"  name="selday" value="${searchValue.selday}">
+                                                <input type="hidden" class="dayType"  name="dayType" value="${searchValue.dayType}">
                                           </td>
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="플랫폼"/><%--등록기간--%></strong></td>
                                             <td style="width:50%">
@@ -241,10 +248,10 @@
                     <div class="tab-pane fade" id="default-tab-2" >
                         <div class="panel-body">
                             <div class=" mx-auto"  style="display: inline-block; width: 78%" >
-                                <canvas id="line-chart" width="1168" height="300" style="display: block; box-sizing: border-box; height: 342px; width: 684px;"></canvas>
+                                <canvas id="line-chart" width="1168" height="400" style="display: block; box-sizing: border-box; height: 342px; width: 684px;"></canvas>
                             </div>
                             <div class=" mx-auto"  style="display: inline-block; width: 20%">
-                                <canvas id="radar-chart" width="1026" height="1026" style="display: block; box-sizing: border-box; height: 513px; width: 513px;"></canvas>
+                                <canvas id="radar-chart" height="680" style="display: block; box-sizing: border-box; height: 513px; width: 513px;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -288,11 +295,12 @@
     let totalCnt = [];
     let maleCnt = [];
     let iosTotal =[];
-    let iosCnt =0;
+    let iosCnt = 0;
     let femaleCnt = [];
     let androidTotal = [];
     let androidCnt = 0;
     let phoneTotal = [];
+    let pointSize = 4;
     searchUserList();
 
     Chart.defaults.color = COLOR_DARK_LIGHTER
@@ -389,7 +397,7 @@
                 label: '회원가입수',
                 borderColor: COLOR_GREY,
                 pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
-                pointRadius: 4,
+                pointRadius: pointSize,
                 borderWidth: 2,
                 backgroundColor: COLOR_GREY_TRANSPARENT_1,
                 data: totalCnt,
@@ -397,7 +405,7 @@
                 label: '남성회원',
                 borderColor: COLOR_AQUA,
                 pointBackgroundColor: COLOR_AQUA_TRANSPARENT_6,
-                pointRadius: 4,
+                pointRadius: pointSize,
                 borderWidth: 2,
                 backgroundColor:  COLOR_AQUA_TRANSPARENT_1,
                 data: maleCnt
@@ -405,7 +413,7 @@
                 label: '여성회원',
                 borderColor: COLOR_RED_LIGHTER,
                 pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
-                pointRadius: 4,
+                pointRadius: pointSize,
                 borderWidth: 2,
                 backgroundColor:  COLOR_RED_TRANSPARENT_1,
                 data: femaleCnt
@@ -440,7 +448,6 @@
 
             scales: {
                 x: {
-                    max: 30,
                     display: true,
                     title: {
                         display: false,
@@ -505,6 +512,12 @@
 
             $(".startDate").datepicker('setDate', d);
             $(".selday").val(day);
+
+            $(this).addClass("active");
+        });
+        $(".step-day").on("click",function(){
+            $(".step-day").removeClass("active");
+            $(".dayType").val($(this).attr("day"));
 
             $(this).addClass("active");
         });
@@ -583,16 +596,14 @@
 
     function searchUserList() {
         let req = convertFormToObj($('form.formUserList'));
-        console.log(req);
         $.ajax({
             type: "POST",
             url: "${path}/api/user/chart/list",
             contentType: "application/json;",
-            async: true,
+            async: false,
             data :JSON.stringify(req),
             dataType: "json",
             success: function(data) {
-                console.log(data)
                 for(var i = 0 ; i < data.timeList.length ; i++) {
                     label.push(data.timeList[i].yyyymmdd)
                      totalCnt.push(data.timeList[i].totalCnt)
@@ -603,6 +614,11 @@
                 }
                 iosTotal.push(iosCnt)
                 androidTotal.push(androidCnt)
+                if (data.timeList.length > 40) {
+                    pointSize = 0;
+                } else {
+                    pointSize = 4;
+                }
 
 
                 /*let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2140);

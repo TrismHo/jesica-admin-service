@@ -21,8 +21,10 @@ public class DateUtil {
 	public static String now_yyyymm() {
 		return dateFormat_yyyyMM.format(now());
 	}
-	
+
 	private static final SimpleDateFormat dateFormat_yyyyMMdd = new SimpleDateFormat("yyyyMMdd");
+	private static final SimpleDateFormat dateFormat_yyyyMMdd000000 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+	private static final SimpleDateFormat dateFormat_yyyyMMdd235959 = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
 	private static final SimpleDateFormat dateFormat_yyyy_MM_dd = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * 현재 시간을 yyyyMMdd 포맷으로 리턴한다
@@ -30,6 +32,13 @@ public class DateUtil {
 	 */
 	public static String now_yyyymmdd() {
 		return dateFormat_yyyyMMdd.format(now());
+	}
+
+	public static String now_yyyymmdd000000() {
+		return dateFormat_yyyyMMdd000000.format(now());
+	}
+	public static String now_yyyymmdd235959() {
+		return dateFormat_yyyyMMdd235959.format(now());
 	}
 	/**
 	 * 현재 시간을 yyyy-MM-dd 포맷으로 리턴한다
@@ -109,11 +118,11 @@ public class DateUtil {
 	public static String now_hhmmss() {
 		return dateFormat_hhmmss.format(now());
 	}
-	
+
 	public static String to_hhmmss(Calendar calendar) {
 		return dateFormat_hhmmss.format(calendar.getTime());
 	}
-	
+
 	/**
 	 *  문자열을 날짜로 변환한다
 	 * @param strYMD yyyyMMdd 포맷의 문자열
@@ -148,7 +157,7 @@ public class DateUtil {
 		} catch (Exception e) {
 			return null;
 		}
-		
+
 		List<String> resultList = new ArrayList<>();
 		Calendar curDate = getCalendar(from_yyyymmdd, false);
 		String curYMD = fromYMD;
@@ -168,7 +177,7 @@ public class DateUtil {
 		}
 		return resultList;
 	}
-	
+
 	public static Calendar getCalendar(int yyyymmdd, boolean setEndOfDay) {
 		Calendar calendar = new GregorianCalendar();
 		if (setEndOfDay) {
@@ -179,7 +188,7 @@ public class DateUtil {
 		}
 		return calendar;
 	}
-	
+
 	public static Calendar getCalendar(int yyyymmdd, int hhmmss) {
 		Calendar calendar = new GregorianCalendar();
 		calendar.set((yyyymmdd / 10000), ((yyyymmdd / 100) % 100 - 1), yyyymmdd % 100, hhmmss/10000, (hhmmss / 100) % 100, hhmmss % 100);

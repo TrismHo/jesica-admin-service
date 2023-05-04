@@ -2762,6 +2762,8 @@ public class ApiController {
             map.put("getCallAllListType2041" , apiService.getCallAllListType2041(searchDate));
             map.put("getCallAllListType2140" , apiService.getCallAllListType2140(searchDate));
             map.put("getCallAllListType2141" , apiService.getCallAllListType2141(searchDate));
+
+            //맛집 주문통계 추가
             LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey") ;
             if("jesicar".equals(loginSession.getCompany())) {
                 map.put("getUserCount" , apiService.getUserCount(1));
@@ -2814,7 +2816,16 @@ public class ApiController {
                     String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                     endDate = LocalDateTime.parse(string, formatter);
                 }
-                timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
+                System.out.println(searchValue);
+                if (searchValue.get("dayType") != null) {
+
+                    if("1".equals(searchValue.get("dayType").toString())) {
+                        timeList =  statisticsService.getUserLineWeekList(startDate,endDate, platfromCode );
+                    } else {
+                        timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode );
+                    }
+                }
+
                 map.put("timeList" , timeList);
             } else {
 
@@ -2839,10 +2850,119 @@ public class ApiController {
 
                 startDate = LocalDateTime.parse(string, formatter);
                 endDate = LocalDateTime.parse(string1, formatter);
-                timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
+                timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode );
                 map.put("timeList" , timeList);
             }
 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/manna/order/list")
+    public ResponseEntity<?> mannaOrderData(@RequestBody Map<String,Object> searchValue, HttpSession session)  {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+            String company = loginSession.getCompany();
+
+            if (!searchValue.isEmpty()){
+
+                List<Map<String,Object>> timeList = null;
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+                String ordPathCd = null;
+                if("jesicar".equals(company)) {
+                    ordPathCd = "1063";
+                    searchValue.put("ordPathCd","1069");
+                } else if ("yangpa".equals(company)) {
+                    ordPathCd = "1069";
+                    searchValue.put("ordPathCd","1069");
+                }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                if (searchValue.get("startDate") != null) {
+                    String string = searchValue.get("startDate").toString() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                }
+                if (searchValue.get("endDate") != null) {
+                    String string = searchValue.get("endDate").toString() + " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                }
+                if (searchValue.get("dayType") != null) {
+
+                    if("1".equals(searchValue.get("dayType").toString())) {
+                        timeList =  statisticsService.getMannaLineWeekList(startDate,endDate, ordPathCd );
+                    } else {
+                        timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd );
+                    }
+                }
+
+                map.put("timeList" , timeList);
+            } else {
+
+                List<Map<String,Object>> timeList = null;
+                String ordPathCd = null;
+                if("jesicar".equals(company)) {
+                    ordPathCd = "1063";
+                    searchValue.put("ordPathCd","1069");
+                } else if ("yangpa".equals(company)) {
+                    ordPathCd = "1069";
+                    searchValue.put("ordPathCd","1069");
+                }
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+
+                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                startDate = LocalDateTime.parse(string, formatter);
+                endDate = LocalDateTime.parse(string1, formatter);
+                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd );
+                map.put("timeList" , timeList);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+    @ResponseBody
+    @PostMapping("/manna/order/main")
+    public ResponseEntity<?> mannaOrderMain(@RequestBody Map<String,Object> searchValue, HttpSession session)  {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            List<Map<String,Object>> timeList = null;
+            String ordPathCd = "1069";
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+            System.out.println("-----------------------------------------------------");
+            System.out.println(string);
+            System.out.println(string1);
+            timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd );
+            map.put("timeList" , timeList);
 
         } catch (Exception e) {
             e.printStackTrace();

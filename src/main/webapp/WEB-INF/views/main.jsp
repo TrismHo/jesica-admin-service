@@ -291,17 +291,17 @@
                             </h4>
                             <div class="panel-heading-btn">
                                 <%--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                                <a href="javascript:;" cla화ss="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                             --%>
                                 <div class="stats-link">
-                                    <a href="${path}statistics/user/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                    <a href="${path}statistics/restaurant/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body pr-1">
-                            <div id="nv-line-chart" class="height-sm"></div>
+                            <canvas id="line-chart"  class="height-sm" style="display: block; box-sizing: border-box; height: 342px; width: 684px;"></canvas>
                         </div>
                     </div>
                     <!-- end panel -->
@@ -390,7 +390,6 @@
 </c:if>
 
 </div>
-
 <!-- ================== BEGIN BASE JS ================== -->
 <%@include file="common/include_common_js.jsp" %>
 <%@include file="common/include_datatables.jsp" %>
@@ -400,15 +399,118 @@
 <script src="../assets/plugins/jstree/dist/jstree.min.js" type="text/javascript"></script>
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
     <script src="../assets/plugins/chart.js/dist/Chart.min.js"></script>
-    <script src="../assets/js/demo/chart-js.demo.js"></script>
-    <link href="../assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
+   <%-- <link href="../assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
     <script src="../assets/plugins/d3/d3.min.js"></script>
-    <script src="../assets/plugins/nvd3/build/nv.d3.min.js"></script>
+    <script src="../assets/plugins/nvd3/build/nv.d3.min.js"></script>--%>
+<script src="${path}/assets/plugins/chart.js/dist/Chart.min_new.js"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
 
 <%-- Custom JS End--%>
 
 <script>
+    let label = [];
+    let totalCnt = [];
+    let endCnt = [];
+    let cancelCnt= [];
+    let pointSize = 4;
+    searchUserList();
+
+    Chart.defaults.color = COLOR_DARK_LIGHTER
+    Chart.defaults.font.family = 'Nanum Gothic',"나눔 고딕",'NanumGothic',"나눔고딕",'Malgun Gothic','맑은 고딕','MalgunGothic','맑은고딕'
+    Chart.defaults.font.weight = 500;
+
+    var ctx111 = document.getElementById('line-chart').getContext('2d');
+    var lineChart = new Chart(ctx111, {
+        type: 'line',
+        data: {
+            labels: label,
+            datasets: [{
+                label: '총주문량',
+                borderColor: COLOR_GREY,
+                pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
+                pointRadius: pointSize,
+                borderWidth: 2,
+                backgroundColor: COLOR_GREY_TRANSPARENT_1,
+                data: totalCnt,
+            }, {
+                label: '주문완료',
+                borderColor: COLOR_AQUA,
+                pointBackgroundColor: COLOR_AQUA_TRANSPARENT_6,
+                pointRadius: pointSize,
+                borderWidth: 2,
+                backgroundColor: COLOR_AQUA_TRANSPARENT_1,
+                data: endCnt
+            }, {
+                label: '주문취소',
+                borderColor: COLOR_RED_LIGHTER,
+                pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
+                pointRadius: pointSize,
+                borderWidth: 2,
+                backgroundColor: COLOR_RED_TRANSPARENT_1,
+                data: cancelCnt
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 15
+                        },
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            let label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += ' ' + context.parsed.y + '회';
+                            }
+                            return label;
+                        }
+                    }
+                },
+            },
+
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: false,
+                        text: 'os별 구분'
+                    },
+                    ticks: {
+                        major: {
+                            enabled: true
+                        },
+                        color: (context) => context.tick && context.tick.major && '#FF0000',
+                        font: function (context) {
+                            if (context.tick && context.tick.major) {
+                                return {
+                                    weight: 'bold'
+                                };
+                            }
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, ticks) {
+                            return value + ' 회'
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
     $(() => {
         let dateObj = new Date();
         let month = dateObj.getMonth() + 1;
@@ -634,6 +736,7 @@
             }
         });
 */
+
     }
 
     function setChartDatas(completeDatas, cancelDatas) {
@@ -720,43 +823,77 @@
 
 
 
+    function searchUserList() {
+        let req = convertFormToObj($('form.formUserList'));
+        $.ajax({
+            type: "POST",
+            url: "${path}/api/manna/order/main",
+            contentType: "application/json;",
+            async: false,
+            data :JSON.stringify(req),
+            dataType: "json",
+            success: function(data) {
+                console.log(data)
+                for(var i = 0 ; i < data.timeList.length ; i++) {
+                    label.push(data.timeList[i].yyyymmdd)
+                    totalCnt.push(data.timeList[i].totalCnt)
+                    endCnt.push(data.timeList[i].endCnt)
+                    cancelCnt.push(data.timeList[i].cancelCnt)
+                }
+                if (data.timeList.length > 40) {
+                    pointSize = 0;
+                } else {
+                    pointSize = 4;
+                }
 
-    nv.addGraph(function() {
-        var sin = [], cos = [];
-        for (var i = 0; i < 100; i++) {
-            sin.push({x: i, y:  Math.sin(i/10) });
-            cos.push({x: i, y: .5 * Math.cos(i/10)});
-        }
-        var lineChartData = [
-            { values: sin, key: '주문완료', color: COLOR_AQUA },
-            { values: cos, key: '주문취소', color: COLOR_BLUE }
-        ];
-
-        var lineChart = nv.models.lineChart().options({
-            transitionDuration: 300,
-            useInteractiveGuideline: true
-        });
-
-        //lineChart.xAxis.axisLabel('날짜').tickFormat(d3.format(',.1f'));
-        lineChart.xAxis.axisLabel('날짜').tickFormat();
-        /*lineChart.yAxis.axisLabel('주문량').tickFormat(function(d) {
-            if (d == null) {
-                return 'N/A';
             }
-            return d3.format(',.2f')(d);
-        });*/
-        lineChart.yAxis.axisLabel('주문량').tickFormat(function(d) {
-            if (d == null) {
-                return 'N/A';
-            }
-            return d3.format(',.2f')(d);
         });
+    }
 
-        d3.select('#nv-line-chart').append('svg').datum(lineChartData).call(lineChart);
-        nv.utils.windowResize(lineChart.update);
+    /* nv.addGraph(function() {
+         var sin = [], cos = [];
+         var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
+         sin.push({x: parseDate('2020-10-11 00:50:09'), y:  Math.random()*10 });
+         sin.push({x: parseDate('2020-10-12 00:50:09'), y:  Math.random()*10 });
+         sin.push({x: parseDate('2020-10-13 00:50:09'), y:  Math.random() });
 
-        return lineChart;
-    });
+
+         var lineChartData = [
+             { values: sin, key: '주문완료', color: COLOR_AQUA },
+             { values: cos, key: '주문취소', color: COLOR_BLUE }
+         ];
+
+         var lineChart = nv.models.lineChart().options({
+             transitionDuration: 300,
+             useInteractiveGuideline: true,
+             donut: true
+         });
+
+         //lineChart.xAxis.axisLabel('날짜').tickFormat(d3.format(',.1f'));
+         //lineChart.xAxis.axisLabel('날짜').tickFormat(d3.time.format("%Y-%m-%d %H:%M:%S").parse);
+
+         lineChart.xAxis
+             .tickFormat(function(d) {
+                 return d3.time.format('%Y-%m-%d')(new Date(d))
+             });
+         /!*lineChart.yAxis.axisLabel('주문량').tickFormat(function(d) {
+             if (d == null) {
+                 return 'N/A';
+             }
+             return d3.format(',.2f')(d);
+         });*!/
+         lineChart.yAxis.axisLabel('주문량').tickFormat(function(d) {
+             if (d == null) {
+                 return 'N/A';
+             }
+             return d3.format(',.0f')(d);
+         });
+
+         d3.select('#nv-line-chart').append('svg').datum(lineChartData).call(lineChart);
+         nv.utils.windowResize(lineChart.update);
+
+         return lineChart;
+     });*/
 </script>
 </body>
 </html>
