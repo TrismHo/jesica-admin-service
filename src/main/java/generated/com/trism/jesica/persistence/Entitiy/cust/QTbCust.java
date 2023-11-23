@@ -24,6 +24,8 @@ public class QTbCust extends EntityPathBase<TbCust> {
 
     public final com.trism.jesica.persistence.core.entity.QBaseEntity _super = new com.trism.jesica.persistence.core.entity.QBaseEntity(this);
 
+    public final NumberPath<Integer> accPoint = createNumber("accPoint", Integer.class);
+
     public final NumberPath<Integer> cash = createNumber("cash", Integer.class);
 
     public final QTbCustAddr custAddr;
@@ -42,10 +44,15 @@ public class QTbCust extends EntityPathBase<TbCust> {
 
     public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);
 
+    public final NumberPath<Long> extCustNo = createNumber("extCustNo", Long.class);
+
+    public final StringPath extRecommStCode = createString("extRecommStCode");
+
+    public final StringPath extRecommStName = createString("extRecommStName");
+
     public final EnumPath<com.trism.jesica.persistence.type.GenderType> gender = createEnum("gender", com.trism.jesica.persistence.type.GenderType.class);
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> insertDate = _super.insertDate;
+    public final DateTimePath<java.time.LocalDateTime> insertDate = createDateTime("insertDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Integer> isMember = createNumber("isMember", Integer.class);
 
@@ -54,6 +61,10 @@ public class QTbCust extends EntityPathBase<TbCust> {
     public final StringPath loginPwd = createString("loginPwd");
 
     public final NumberPath<Integer> mileage = createNumber("mileage", Integer.class);
+
+    public final NumberPath<Integer> platformType = createNumber("platformType", Integer.class);
+
+    public final NumberPath<Integer> point = createNumber("point", Integer.class);
 
     public final NumberPath<Integer> pushMarketingYn = createNumber("pushMarketingYn", Integer.class);
 
@@ -67,8 +78,9 @@ public class QTbCust extends EntityPathBase<TbCust> {
 
     public final StringPath snsToken2 = createString("snsToken2");
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updateDate = _super.updateDate;
+    public final DateTimePath<java.time.LocalDateTime> updateDate = createDateTime("updateDate", java.time.LocalDateTime.class);
+
+    public final NumberPath<Integer> useCount = createNumber("useCount", Integer.class);
 
     public QTbCust(String variable) {
         this(TbCust.class, forVariable(variable), INITS);

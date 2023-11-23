@@ -5,7 +5,12 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.1" text="배너 등록"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+         <title>Jesicar |<spring:message code="list.detail.1" text="배너 등록"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order |<spring:message code="list.detail.1" text="배너 등록"/></title>
+    </c:if>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -53,7 +58,7 @@
                                                 <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                     <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                         <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                        <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
+                                                        <span><spring:message code="list.detail.deliveryman1" text="PICK오더"/></span>
                                                     </label>
                                                 </c:if>
                                                 <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
@@ -133,6 +138,10 @@
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시판 종류"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="boardType" value="0" style="margin-right: 5px" checked>
+                                                <span><spring:message code="list.detail.tothewhole1" text="연결안함"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="boardType" value="1" style="margin-right: 5px" checked>
                                                 <span><spring:message code="list.detail.tothewhole1" text="이벤트"/></span>
                                             </label>
@@ -145,6 +154,23 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="게시판 종류를 선택하세요."/>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="주소별 노출사용여부"/></td>
+                                        <td>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="bannerType" value="0" style="margin-right: 5px" checked>
+                                                <span><spring:message code="list.detail.tothewhole1" text="전체"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="bannerType" value="1" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.tothewhole1" text="주소"/></span>
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="주소별 노출사용여부를 선택하세요."/>
+                                        </td>
+                                    </tr>
+                                    <input type="hidden" name="viewOrder" class="form-control viewOrder">
                                     <%--<tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="배너노출순서"/></td>
                                         <td>
@@ -168,6 +194,7 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="연결할 게시글을 검색 후 선택해주세요."/>
                                         </td>
                                     </tr>
+
                                     <tr>
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="배너 이미지"/></td>
                                         <td>
@@ -258,6 +285,7 @@
 
 <script>
     $(() => {
+
         //imgFile
         $(document).on("change", "#imgFile", function(e) {
             e.preventDefault();
@@ -436,7 +464,9 @@
 
     function inputDataCheck(args) {
         if (isNull(args.boardNo)) {
-            return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
+            if(args.boardType != 0) {
+                return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
+            }
         } else if (isNull($("#imgFile")[0].files[0])) {
             return alert_focus("button_base", "배너이미지를 선택해주세요");
         }

@@ -5,9 +5,95 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration12" text="고객 상세"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="list.detail.platformno리ticeregistration12" text="고객 상세"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="list.detail.platformno리ticeregistration12" text="고객 상세"/></title>
+    </c:if>
 
 </head>
+<style>
+    .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+    .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+    .map_wrap {position:relative;width:100%;height:300px;}
+    #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+    .bg_white {background:#fff;}
+    #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+    #menu_wrap .option{text-align: center;}
+    #menu_wrap .option p {margin:10px 0;}
+    #menu_wrap .option button {margin-left:5px;}
+    #placesList li {list-style: none;}
+    #placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+    #placesList .item span {display: block;margin-top:4px;}
+    #placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+    #placesList .item .info{padding:10px 0 10px 55px;}
+    #placesList .info .gray {color:#8a8a8a;}
+    #placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+    #placesList .info .tel {color:#009900;}
+    #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+    #placesList .item .marker_1 {background-position: 0 -10px;}
+    #placesList .item .marker_2 {background-position: 0 -56px;}
+    #placesList .item .marker_3 {background-position: 0 -102px}
+    #placesList .item .marker_4 {background-position: 0 -148px;}
+    #placesList .item .marker_5 {background-position: 0 -194px;}
+    #placesList .item .marker_6 {background-position: 0 -240px;}
+    #placesList .item .marker_7 {background-position: 0 -286px;}
+    #placesList .item .marker_8 {background-position: 0 -332px;}
+    #placesList .item .marker_9 {background-position: 0 -378px;}
+    #placesList .item .marker_10 {background-position: 0 -423px;}
+    #placesList .item .marker_11 {background-position: 0 -470px;}
+    #placesList .item .marker_12 {background-position: 0 -516px;}
+    #placesList .item .marker_13 {background-position: 0 -562px;}
+    #placesList .item .marker_14 {background-position: 0 -608px;}
+    #placesList .item .marker_15 {background-position: 0 -654px;}
+    #pagination {margin:10px auto;text-align: center;}
+    #pagination a {display:inline-block;margin-right:10px;}
+    #pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+    .map_wrap {width: 100%;position: relative;}
+    .modes {position: absolute;top: 10px;left: 10px;z-index: 1;}
+    .getdata{position: absolute;top: 370px;left: 10px;z-index: 1;}
+    #drawingMap,#drawingMapType , #map {width: 100%;height: 648px;}
+    #map {margin-top: 10px;}
+
+    .modal.modal-message .modal-body, .modal.modal-message .modal-footer, .modal.modal-message .modal-header {
+        width: 100%;
+        border: none;
+        margin: 0 auto;
+    }
+
+    .modal .modal-header {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-flex: 0;
+        -ms-flex: 0;
+        flex: 0;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    @media (max-width: 1350px){
+        .modal-content {
+            width: 60%;
+        }
+    }
+
+    @media (max-width: 1920px){
+        .modal-content {
+            width: 60%;
+        }
+    }
+
+    .priceText{
+        text-align: right;
+    }
+    .alignCenter{
+        text-align: center;
+    }
+
+</style>
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>
@@ -66,7 +152,7 @@
                                                 <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                     <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                         <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                        <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
+                                                        <span><spring:message code="list.detail.deliveryman1" text="PICK오더"/></span>
                                                     </label>
                                                 </c:if>
                                                 <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
@@ -97,6 +183,15 @@
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="회원 여부입니다.(변경불가)"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="height-50">
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="추천가맹점명"/></td>
+                                        <td>
+                                            <span style="font-weight: bold; color: red;">${tbCust.extRecommStCode} </span> ${tbCust.extRecommStName}
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="추천가맹점명 입니다."/>
                                         </td>
                                     </tr>
                                     <tr class="height-50">
@@ -147,20 +242,126 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="계정 상태를 선택하세요."/>
                                         </td>
                                     </tr>
+                                  <%--  <tr>
+                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="주소"/></td>
+                                         <td></td>
+                                         <td class="text-danger-darker" style="width:25%">
+                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 주소 정보입니다.(변경불가)"/>
+                                         </td>
+                                    </tr>--%>
                                     <tr>
-                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.map" text="지역"/></td>
+                                        <td><%--
+                                            <select class="form-control selectArea" >
+                                                <c:forEach var="item" items="${sysCodeList}" varStatus="status">
+                                                    <option value="${item.sysCode}" <c:if test="${tbStore.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select class="form-control selectArea2 w-50" >
+                                                    <option value="" >시/도를 선택해주세요.</option>
+                                            </select>
+                                            <input type="button" id="selectAddr" class="btn btn-primary p-t-5 p-b-5 m-l-10" value="<spring:message code="list.detail.addresssearch" text="주소선택"/>">--%>
+
+                                            <%--<input type="hidden" class="addr_1" id="addr_1" name="addr1" value="${tbStore.addr1}">--%>
+                                            <div class="panel-body">
+                                                <table id="testTable" class="display table table-bordered w-100 table-striped ">
+                                                    <thead>
+                                                    <th class="text-center" style="width: 46px"><spring:message code="list.word.no" text="순번"/></th>
+                                                    <th class="text-center" style="width: 84px;">시/도</th>
+                                                    <th class="text-center" style="width: 98px;">시/군/구</th>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e;">
+                                                <ul class="attachList p-0" style="margin-bottom:0px;" >
+                                                        <li >
+                                                            <div class="panel-body">
+                                                                <table id="areaTable" class="display table table-bordered w-100 table-striped ">
+                                                                    <tbody>
+                                                                    <c:choose>
+                                                                        <c:when test="${tbCustLocation.size() > 0}">
+                                                                            <c:forEach items="${tbCustLocation}" var="item" varStatus="status" step="1">
+                                                                                <tr class="" >
+                                                                                    <td style="width:46px;" class="text-center">${status.index + 1}</td>
+                                                                                    <td style="width:84px" class="text-center">${item.codeName1}</td>
+                                                                                    <td style="width:98px;" class="text-center">${item.codeName2}</td>
+                                                                                </tr>
+                                                                            </c:forEach>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <tr class="" >
+                                                                                <td colspan="3" class="text-center"> 데이터가 없습니다. </td>
+                                                                            </tr>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                            </div>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.addresssearchautosettingmessage" text="등록되어있는 시/도 시/군/구입니다 (변경불가)"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.addressdetail" text="주소 상세"/></td>
+                                        <td>
+                                            <label class="m-r-10">
+                                                <input type="text" class="form-control width-400" name="addr5" value="${tbStore.addr5}" maxlength="200">
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.pleaseentertheaddressdetailsifany" text="주소 상세항목이 있으면 입력하세요"/></td>
+                                    </tr>
+                                    <tr>
+                                       <%-- <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
                                         <td><input type="text" class="form-control" value="${tbCust.cash}" readonly></td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 캐쉬입니다.(변경불가)"/>
+                                        </td>--%>
+                                      <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
+                                        <td>
+                                            <table>
+                                               <%-- <tr>
+                                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
+                                                    <td ><input type="text" class="form-control" value="${tbCust.cash}" readonly> Cash</td>
+                                                    <td class="text-danger-darker" style="width:25%">
+                                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 캐쉬입니다.(변경불가)"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="마일리지"/></td>
+                                                    <td ><input type="text" class="form-control" value="${tbCust.mileage}" readonly> Mile</td>
+                                                    <td class="text-danger-darker" style="width:30%">
+                                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 마일리지입니다.(변경불가)"/>
+                                                    </td>
+                                                </tr>--%>
+                                                <tr>
+                                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="잔여포인트"/></td>
+                                                    <td ><input type="text" class="form-control" value="${tbCust.point}" readonly> Point</td>
+                                                    <td class="text-danger-darker" style="width:30%">
+                                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="사용하고 남은 잔여포인트입니다.(변경불가)"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="누적포인트"/></td>
+                                                    <td ><input type="text" class="form-control" value="${tbCust.accPoint}" readonly> Point</td>
+                                                    <td class="text-danger-darker" style="width:30%">
+                                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="현재까지 누적된 포인트입니다.(변경불가)"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text=""/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="마일리지"/></td>
-                                        <td><input type="text" class="form-control" value="${tbCust.mileage}" readonly></td>
+                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="누적주문횟수"/></td>
+                                        <td><input type="text" class="form-control" value="${tbCust.useCount}" readonly> 회</td>
                                         <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 마일리지입니다.(변경불가)"/>
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="누적된 주문횟수입니다."/>
                                         </td>
-                                    </tr>
+                                    </tr>주
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="성별"/></td>
                                         <td  class="height-50">
@@ -181,7 +382,7 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="성별을 선택하세요."/>
                                         </td>
                                     </tr>
-                                    <tr  class="height-50">
+                                    <tr class="height-50">
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="SMS 수신여부"/></td>
                                         <td>
                                             <label class="m-r-10" style="display: inline-flex; align-items: center">
@@ -438,7 +639,7 @@
 <%-- Custom JS Start--%>
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
-
+<%@include file="../../../common/include_kakao_map_js.jsp" %>
 <script>
     $(() => {
         $(".btn_list").click(() => {
@@ -492,6 +693,51 @@
             let couponNo = $(this).attr('couponNo');
             location.href = "${path}/coupon/management/detail?couponNo=" + couponNo;
         });
+
+
+        $("#selectAddr").click(function() {
+            let word = $(".selectArea2 option:checked").text()
+            let code = $(".selectArea2").val();
+
+
+            $("#areaTable").append(
+                " <tr >" +
+                "     <td class=\"store_text\">\n" +
+                word+
+                "     </td>\n" +
+                "     <td class=\"store_text\">\n" +
+                word+
+                "     </td>\n" +
+                "     <td class=\"store_text\">\n" +
+                word+
+                "     </td>\n" +
+                " </tr>"
+            );
+        });
+
+
+
+        $(".selectArea").on("change", function (){
+            // 시/도 선택시
+            $.ajax({
+                type: "POST",
+                url: "${path}/api/system/code/area/list",
+                data: {sysType : "A2", sysCode : $(this).val()+"%"},
+                /*contentType: "application/json;",*/
+                dataType: "json",
+                success: function(data) {
+                    let list = data.systemCodeList;
+                    $(".selectArea2").html("");
+                    for(var i = 0 ; i < list.length ; i++){
+                        $(".selectArea2").append(
+                            "<option value="+list[i].sysCode+">"+list[i].codeName+"</option>"
+                        )
+                    }
+                }
+            });
+        });
+
+
     });
 
     function inputDataCheck(args) {

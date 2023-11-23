@@ -6,11 +6,27 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+    </c:if>
+
 </head>
 <style>
     .dataTables_wrapper.dt-bootstrap4 .dataTables_filter {
         display: block;
+    }
+    .buttons-excel {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .buttons-excel:hover {
+        color: #ddd;
+        background-color: #6c757d;
+        border-color: #6c757d;
     }
 </style>
 <body>
@@ -56,7 +72,7 @@
                                             <td>
                                                 <label>
                                                     <select class="form-control" name="isMember">
-                                                        <option value="" <c:if test="${searchValue.isMember == ''  || searchValue.isMember == null}">selected</c:if>><spring:message code="list.search.all12" text="전체"/></option>
+                                                        <%--<option value="" <c:if test="${searchValue.isMember == ''  || searchValue.isMember == null}">selected</c:if>><spring:message code="list.search.all12" text="전체"/></option>--%>
                                                         <option value="1" <c:if test="${searchValue.isMember == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters12" text="회원"/></option>
                                                         <option value="0" <c:if test="${searchValue.isMember == '0'}">selected</c:if>><spring:message code="list.search.deliverymanname12" text="비회원"/></option>
                                                     </select>
@@ -72,7 +88,7 @@
                                                     </c:if>
                                                     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                         <select class="form-control" name="platformType">
-                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
+                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
                                                         </select>
                                                     </c:if>
                                                     <%--<select class="form-control" name="platformType">
@@ -90,7 +106,7 @@
                                                 </div>
                                                 <label>
                                                     <select class="form-control dataStatus" name="dataStatus">
-                                                        <option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
+                                                        <%--<option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>--%>
                                                         <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal12" text="정상"/></option>
                                                         <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop12" text="정지"/></option>
                                                     </select>
@@ -117,6 +133,13 @@
                                                     <input type="text" class="form-control width-150" name="keyword" value="${searchValue.keyword}" maxlength="150">
                                                 </label>
                                             </td>
+                                            <%--<td class="bg-light"><strong><spring:message code="list.search.searchword1" text="추천가맹점"/>&lt;%&ndash;검색어 입력&ndash;%&gt;</strong></td>
+                                            <td style="width:30%">
+                                                <label>
+                                                    <input type="text" data-toggle="modal" data-target="#store_search_modal" value="${searchValue.storeTxt}"  placeholder="<spring:message code="list.search.distributorheadquarters1" text="가맹점"/>" name="storeTxt" class="form-control background-white storeTxt width-150" readonly>
+                                                    <input type="hidden" name="storeNo" value="${searchValue.storeNo}"  class="form-control background-white width-100" readonly>
+                                                </label>
+                                            </td>--%>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -140,11 +163,15 @@
                         <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
                         <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
                         <th width=""><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
-                        <th width="10%"><spring:message code="list.word.status12" text="성별"/></th>
-                        <th width="10%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
-                        <th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
-                        <th width="10%"><spring:message code="list.word.status12" text="마일리지"/></th>
-                        <th width="10%"><spring:message code="list.word.status12" text="회원여부"/></th>
+                        <th width=""><spring:message code="list.word.contents1" text="시/도"/></th>
+                        <th width=""><spring:message code="list.word.contents1" text="시/군/구"/></th>
+                        <th width="5%"><spring:message code="list.word.status12" text="성별"/></th>
+                        <th width="5%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
+                        <th width="5%"><spring:message code="list.word.serviceclassification1" text="추천가맹점"/></th>
+                        <%--<th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
+                        <th width="8%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
+                        <th width="8%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
+                        <th width="8%"><spring:message code="list.word.status12" text="회원여부"/></th>
                         <th width="5%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
                         <th width="10%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
                         <th width="10%"><spring:message code="list.word.modifieddate1" text="수정일"/></th>
@@ -161,14 +188,18 @@
                                     ${fn:substring(item.custTel,0,3)}-${fn:substring(item.custTel,3,7)}-${fn:substring(item.custTel,7,13)}
                                 </c:if>
                             </td>
+                            <td class="text-center detailRow" custNo="${item.custNo}">${item.addr1}</td>
+                            <td class="text-center detailRow" custNo="${item.custNo}">${item.addr2}</td>
                             <td class="text-center detailRow" custNo="${item.custNo}">
                                 <c:if test="${item.gender == 'M'}"><spring:message code="list.search.all1" text="남성"/></c:if>
                                 <c:if test="${item.gender == 'F'}"><spring:message code="list.word.franchisee12" text="여성"/></c:if>
                                 <c:if test="${item.gender == 'N'}"><spring:message code="list.word.franchisee12" text="알수없음"/></c:if>
                             </td>
                             <td class="text-center detailRow" custNo="${item.custNo}">${item.loginId}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.cash}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.mileage}</td>
+                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extRecommStName}</td>
+                            <%--<td class="text-center detailRow" custNo="${item.custNo}">${item.cash}</td>
+                            <td class="text-center detailRow" custNo="${item.custNo}">${item.mileage}</td>--%>
+                            <td class="text-center detailRow" custNo="${item.custNo}">${item.useCount} 회</td>
                             <td class="text-center detailRow" custNo="${item.custNo}">
                                 <c:if test="${item.isMember == 1}"><spring:message code="list.search.all1" text="회원"/></c:if>
                                 <c:if test="${item.isMember == 0}"><spring:message code="list.word.franchisee12" text="비회원"/></c:if>
@@ -176,7 +207,7 @@
                             <td class="text-center" style="">
                                 <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
                                 <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
-                                <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="양파오더"/></c:if>
+                                <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="PICK오더"/></c:if>
                                 <c:if test="${item.platformType == 3}"><spring:message code="list.word.deliverygroup1" text="세날"/></c:if>
                             </td>
                             <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
@@ -238,6 +269,9 @@
 <div class="modal fade" id="password_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <%@include file="passwordManagement.jsp" %>
 </div>
+<div class="modal fade" id="store_search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchStore.jsp" %>
+</div>
 <%--modal add end--%>
 
 
@@ -250,6 +284,23 @@
 <%-- Custom JS End--%>
 <script>
 
+    $(".storeSel").on("click",function(){
+        var storeNo = $(this).attr("storeNo");
+        var storeName = $(this).attr("storeName");
+        $("input[name=storeNo]").val(storeNo);
+        $(".storeTxt").val(storeName+" ["+storeNo+"]");
+        $(".storeModalCloseBtn").click();
+    });
+    $('.filterText').keyup(function(event) {
+        var val = $(this).val();
+        if (val == "") {
+            $('.filterUL li').hide();
+        } else {
+            $('.filterUL li').hide();
+            $(".filterUL li:contains('"+val+"')").show();
+        }
+    });
+
     $(document).on("click",".detailRow",function() {
         let custNo = $(this).attr("custno");
         location.href = "${path}/board/cust/detail?custNo=" + custNo;
@@ -261,8 +312,21 @@
     });
 
     $(() => {
+       /* $("#testTable").DataTable({
+            language : lang_set, //or lang_eng
+        });*/
+
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
+            responsive: true,
+            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+            buttons: [
+                /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
+                /*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
+                { extend: 'excel',text: '&nbsp; 엑셀 다운로드', className: 'btn-sm fa fa-file-excel' },
+                /*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+            ],
         });
 
         $("#testTable_filter").text("");

@@ -30,6 +30,12 @@ public class TbServiceProperty implements Serializable {
     private String propValue = "0";
 
     /**
+     * 플랫폼타입(0.NONE, 1.JESICAR, 2.ONION_MAP(양파오더), 3.WASH_DAY)
+     */
+    @Column(name = "platform_type")
+    private int platformType;
+
+    /**
      * 데이터_상태 (0: 삭제, 1: 정상)
      */
     @Column(name = "data_status")

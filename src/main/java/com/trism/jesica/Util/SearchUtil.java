@@ -5,10 +5,7 @@ import com.trism.jesica.persistence.Entitiy.business.TbBranch;
 import com.trism.jesica.persistence.Entitiy.business.TbHead;
 import com.trism.jesica.persistence.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
-import com.trism.jesica.persistence.Entitiy.cust.TbBranchCashLog;
-import com.trism.jesica.persistence.Entitiy.cust.TbHeadCashLog;
-import com.trism.jesica.persistence.Entitiy.cust.TbStoreCashLog;
-import com.trism.jesica.persistence.Entitiy.cust.TbWorkerCashLog;
+import com.trism.jesica.persistence.Entitiy.cust.*;
 import com.trism.jesica.persistence.type.CatLevel;
 import com.trism.jesica.persistence.type.DataStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +13,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -1635,6 +1629,12 @@ public class SearchUtil {
                 if ("ordPathCd".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), value));
                 }
+                if ("dvryServiceType".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), value));
+                }
+                if ("ordStatus".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), value));
+                }
 
                 if ("ordCuTel".equals(key) && value != "") {
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
@@ -1655,7 +1655,17 @@ public class SearchUtil {
 
                 }
 
-                else if ("startDate".equals(key) && value != "") {
+                else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+                }
+
+              /*  else if ("startDate".equals(key) && value != "") {
 
                     String string = value.toString() + " 00:00:01";
                     String string2 = value.toString() + " 23:59:59";
@@ -1664,7 +1674,7 @@ public class SearchUtil {
 
                     startDate = LocalDateTime.parse(string, formatter);
                     endDate = LocalDateTime.parse(string2, formatter);
-                }
+                }*/
             }
             predicate.add(builder.between(root.<LocalDateTime>get("ordDate"),startDate,endDate));
 
@@ -2048,7 +2058,11 @@ public class SearchUtil {
             predicate.add(builder.notEqual(root.get("dataStatus"), 0));
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
-                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")) {
+
+                Join<TbCustLocation, TbCust> joinCol =  root.join("custNo");
+               if ("searchText".equals(key) && value != "") {
+                   /*Predicate predicate1 = builder.like(joinCol.get("custNo"), "%" + value + "%");*/
+                  // predicate.add(builder.or(predicate1, builder.like(joinCol.get("custTel"), "%" + value + "%")));
                     keywordType = (String)value;
                 } else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
                     keyword = (String)value;

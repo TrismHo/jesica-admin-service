@@ -5,8 +5,12 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration" text="플랫폼 공지등록"/></title>
-
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration" text="플랫폼 공지등록"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="list.detail.platformnoticeregistration" text="플랫폼 공지등록"/></title>
+    </c:if>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -80,7 +84,7 @@
                                             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                 <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                    <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
+                                                    <span><spring:message code="list.detail.deliveryman1" text="PICK오더"/></span>
                                                 </label>
                                             </c:if>
                                             <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">

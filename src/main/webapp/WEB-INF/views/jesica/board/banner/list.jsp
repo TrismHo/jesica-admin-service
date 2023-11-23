@@ -6,7 +6,13 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/></title>
+
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar |<spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order |<spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/></title>
+    </c:if>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -75,7 +81,8 @@
                                                     <label>
                                                         <select class="form-control" name="boardType">
                                                             <option value="" <c:if test="${searchValue.boardType == ''  || searchValue.groupType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/><%--상품명--%></option>
-                                                            <option value="1" <c:if test="${searchValue.boardType == '1'}">selected</c:if>><spring:message code="list.search.affiliated1" text="이벤트"/><%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
+                                                            <option value="0" <c:if test="${searchValue.boardType == '0'}">selected</c:if>><spring:message code="list.search.distributor1" text="연결안함"/></option>
+                                                            <option value="1" <c:if test="${searchValue.boardType == '1'}">selected</c:if>><spring:message code="list.search.distributor1" text="이벤트"/></option>
                                                             <option value="2" <c:if test="${searchValue.boardType == '2'}">selected</c:if>><spring:message code="list.search.distributor1" text="공지"/></option>
                                                         </select>
                                                     </label>
@@ -92,7 +99,7 @@
                                                         </c:if>
                                                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                             <select class="form-control" name="platformType">
-                                                                <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
+                                                                <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
                                                             </select>
                                                         </c:if>
                                                         <%--<select class="form-control" name="platformType">
@@ -172,7 +179,7 @@
                                 <td class="text-center" style="">
                                     <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
                                     <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
-                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="양파오더"/></c:if>
+                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="PICK오더"/></c:if>
                                     <c:if test="${item.platformType == 3}"><spring:message code="list.word.deliverygroup1" text="세날"/></c:if>
                                 </td>
                                 <td class="text-center">
@@ -183,6 +190,7 @@
                                     <c:if test="${item.serviceType == 5}">맛집예약</c:if>
                                 </td>
                                 <td class="text-center">
+                                    <c:if test="${item.boardType == 0}">연결없음</c:if>
                                     <c:if test="${item.boardType == 1}">이벤트</c:if>
                                     <c:if test="${item.boardType == 2}">공지</c:if>
                                 </td>
@@ -325,6 +333,11 @@
         $("#sortManageTitle").text('');
         $("#sortManageTitle").append(convertServiceType(searchValueServiceType) + '배너목록')
         for (let i = 0; i < bannerSortList.length; i++) {
+            let title = "제목없음"
+            if(bannerSortList[i].title){
+                title =  bannerSortList[i].title;
+            }
+
             let imgPath = '/api/img/fileLoad?filePath=' + bannerSortList[i].bannerFile;
             let html = "<tr id="+bannerSortList[i].bannerNo+">" +
                             "<td>" +
@@ -334,7 +347,7 @@
                                 convertBoardType(bannerSortList[i].boardType) +
                             "</td>" +
                             "<td>" +
-                                bannerSortList[i].title +
+                                        title+
                             "</td>" +
                             "<td>" +
                                 convertInsertDate(bannerSortList[i].insertDate) +
@@ -348,7 +361,16 @@
     }
 
     function convertBoardType(boardType) {
-        return boardType == 1 ? '이벤트' : '공지';
+
+        if(boardType == 1) {
+            return '이벤트';
+        } else if(boardType == 2){
+            return '공지';
+        } else {
+            return '연결없음';
+        }
+
+        //return boardType == 1 ? '이벤트' : '공지';
     }
 
     function convertServiceType(serviceType) {

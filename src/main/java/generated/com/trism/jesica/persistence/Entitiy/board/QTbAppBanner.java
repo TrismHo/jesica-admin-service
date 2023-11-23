@@ -23,6 +23,8 @@ public class QTbAppBanner extends EntityPathBase<TbAppBanner> {
 
     public final NumberPath<Long> bannerNo = createNumber("bannerNo", Long.class);
 
+    public final NumberPath<Integer> bannerType = createNumber("bannerType", Integer.class);
+
     public final NumberPath<Long> boardNo = createNumber("boardNo", Long.class);
 
     public final NumberPath<Integer> boardType = createNumber("boardType", Integer.class);
@@ -32,6 +34,8 @@ public class QTbAppBanner extends EntityPathBase<TbAppBanner> {
     public final DateTimePath<java.time.LocalDateTime> insertDate = createDateTime("insertDate", java.time.LocalDateTime.class);
 
     public final StringPath insertUserId = createString("insertUserId");
+
+    public final NumberPath<Integer> platformType = createNumber("platformType", Integer.class);
 
     public final NumberPath<Integer> serviceType = createNumber("serviceType", Integer.class);
 

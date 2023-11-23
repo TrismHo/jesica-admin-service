@@ -1085,6 +1085,66 @@ public class ApiController {
         }*/
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
+
+    //시/도 검색 - 배너
+    @ResponseBody
+    @PostMapping("/system/code/area/list")
+    public ResponseEntity<?> systemCodeList(@RequestParam("sysType") String sysType,
+                                            @RequestParam("sysCode") String sysCode) {
+        log.info("TbSystemCode systemType::{}", sysType);
+        Map<String,Object> map = new HashMap<>();
+        map.put("systemCodeList",apiService.systemCodeList(sysType,sysCode));
+      /*  if(result > 0) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }*/
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //지역 입력 - 배너
+    @ResponseBody
+    @PostMapping("/banner/location/add")
+    public ResponseEntity<?> bannerLocationAdd(@RequestParam("addr1") String addr1,
+                                            @RequestParam("bannerNo") Long bannerNo,
+                                            @RequestParam("addr2") String addr2) {
+        log.info("TbSystemCode bannerNo::{}", bannerNo);
+        Map<String,Object> map = new HashMap<>();
+        int result = apiService.bannerLocationAreaAdd(bannerNo ,addr1 ,addr2);
+        List<TbAppBannerLocationDTO> tbAppBannerLocation = apiService.getAppBannerLocation(bannerNo);
+        //map.put("systemCodeList",apiService.bannerLocationAreaAdd(bannerNo ,addr1 ,addr2));
+        map.put("bannerList",tbAppBannerLocation);
+      /*  if(result > 0) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }*/
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    //지역 삭제 - 배너
+    @ResponseBody
+    @PostMapping("/banner/location/delete")
+    public ResponseEntity<?> bannerLocationDelete(  @RequestParam("bannerNo") Long bannerNo,@RequestParam("bnrLocNo") Long bnrLocNo) {
+        log.info("TbSystemCode bannerNo::{}", bnrLocNo);
+        Map<String,Object> map = new HashMap<>();
+        apiService.bannerLocationAreaDelete(bnrLocNo,bannerNo);
+        List<TbAppBannerLocationDTO> tbAppBannerLocation = apiService.getAppBannerLocation(bannerNo);
+        map.put("bannerList",tbAppBannerLocation);
+      /*  if(result > 0) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }*/
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
     //가상계좌정보
     @ResponseBody
     @PostMapping("/workGroup/cybankAccount/reset")

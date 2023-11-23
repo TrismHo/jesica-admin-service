@@ -2,19 +2,25 @@ package com.trism.jesica.Service;
 
 import com.trism.jesica.Util.SearchUtil;
 import com.trism.jesica.config.JesicaProperties;
+import com.trism.jesica.dto.TbAppBannerLocationDTO;
 import com.trism.jesica.dto.TbCustCouponDTO;
+import com.trism.jesica.dto.TbCustDTO;
+import com.trism.jesica.dto.TbCustLocationDTO;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.Entitiy.board.*;
 import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
 import com.trism.jesica.persistence.Entitiy.cust.TbCust;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.Entitiy.poinhistory.TbPointHistory;
 import com.trism.jesica.persistence.Repository.board.*;
 import com.trism.jesica.persistence.Repository.coupon.TbCouponPublishRepository;
 import com.trism.jesica.persistence.Repository.coupon.TbCouponRepository;
 import com.trism.jesica.persistence.Repository.cust.TbCustAddrRepository;
+import com.trism.jesica.persistence.Repository.cust.TbCustLocationRepository;
 import com.trism.jesica.persistence.Repository.cust.TbCustRepository;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
+import com.trism.jesica.persistence.Repository.poinhistory.TbPointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -29,6 +35,8 @@ import java.util.*;
 @Service
 @Slf4j
 public class BoardService {
+    private final TbAppBannerLocationRepository tbAppBannerLocationRepository;
+    private final TbCustLocationRepository tbCustLocationRepository;
 
 
     private final JesicaProperties jesicaProperties;
@@ -51,6 +59,7 @@ public class BoardService {
     private final TbCustRepository tbCustRepository;
 
     private final TbCustAddrRepository tbCustAddrRepository;
+    private final TbPointHistoryRepository tbPointHistoryRepository;
 
 
 
@@ -237,6 +246,10 @@ public class BoardService {
 
         return tbAppBanner.get();
     }
+    @Transactional(readOnly = true)
+    public List<TbAppBannerLocationDTO> getAppBannerLocation(Long bannerNo) {
+        return tbAppBannerLocationRepository.findByBannerNo(bannerNo);
+    }
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getUpdateListLimit() {
@@ -262,17 +275,74 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<TbCust> getCustList(Map<String, Object> searchValue) {
-        Specification<TbCust> predicate = null;
+    public List<TbCustDTO> getCustList(Map<String, Object> searchValue) {
 
+        String isMember = "";
+        String platformType = "";
+        String dataStatus = "";
+        String startDate = "";
+        String endDate = "";
+        String keywordType = "";
+        String keyword = "";
         for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            if(key.equals("isMember")) {
+                isMember = value.toString();
+            }
+            if(key.equals("platformType")) {
+                platformType = value.toString();
+            }
+            if(key.equals("dataStatus")) {
+                if(!value.toString().equals("")){
+                    dataStatus = value.toString();
+                    if(dataStatus.equals("OK")) {
+                        dataStatus = "1";
+                     } else if(dataStatus.equals("STOP")) {
+                        dataStatus = "2";
+                    }
+                }
+            }
+            if(key.equals("startDate")) {
+                startDate = value.toString()+ " 00:00:00";
+            }
+            if(key.equals("endDate")) {
+                endDate = value.toString()+ " 23:59:59";
+            }
+            if(key.equals("keywordType")) {
+                keywordType = value.toString();
+            }
+            if(key.equals("keyword")) {
+                keyword = value.toString();
+            }
+
+
+            log.info("@@ key, value = [key]:" + key + ", [value]:" + value);
+
+        }
+
+        if (keyword.equals("")) {
+            return tbCustRepository.getCustList(isMember,platformType, dataStatus ,startDate,endDate);
+        } else if(!keyword.equals("")){
+            if(keywordType.equals("custTel")) {
+                return tbCustRepository.getCustTelList(isMember,platformType, dataStatus ,startDate,endDate,"%"+keyword+"%");
+            } else if(keywordType.equals("custName")) {
+                return tbCustRepository.getCustNameList(isMember,platformType, dataStatus ,startDate,endDate,"%"+keyword+"%");
+            }
+        }
+
+
+       return  tbCustRepository.getCustList(isMember,platformType, dataStatus ,startDate,endDate);
+
+        /*Specification<TbCust> predicate = null;*/
+
+       /* for (String key : searchValue.keySet()) {
             Object value = searchValue.get(key);
             log.info("@@ key, value = [key]:" + key + ", [value]:" + value);
             predicate = (Specification<TbCust>) SearchUtil.searchCustList(searchValue);
         }
 
         return searchValue.isEmpty() ? tbCustRepository.findAll(Sort.by(Sort.Direction.DESC, "insertDate"))
-                : tbCustRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+                : tbCustRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));*/
     }
 
     @Transactional(readOnly = true)
@@ -282,6 +352,9 @@ public class BoardService {
         Optional<TbCust> tbCust = tbCustRepository.findById(custNo);
         List<TbCustCouponDTO> tbCustUsedCoupon = tbCouponPublishRepository.findByCustNoAndUseYn(custNo, 1);
         List<TbCustCouponDTO> tbCustUnUsedCoupon = tbCouponPublishRepository.findByCustNoAndUseYn(custNo, 0);
+        List<TbPointHistory> tbPointHistory = tbPointHistoryRepository.findByUserNo(custNo);
+        List<TbCustLocationDTO> tbCustLocation = tbCustLocationRepository.findByCustNo(custNo);
+
 
         if (tbCust.isPresent()) {
             map.put("tbCust", tbCust.get());
@@ -295,12 +368,23 @@ public class BoardService {
             map.put("tbCustUsedCoupon", null);
         }
 
+        if (ObjectUtils.isNotEmpty(tbCustLocation)) {
+            map.put("tbCustLocation", tbCustLocation);
+        } else {
+            map.put("tbCustLocation", null);
+        }
+
         if (ObjectUtils.isNotEmpty(tbCustUnUsedCoupon)) {
             map.put("tbCustUnUsedCoupon", tbCustUnUsedCoupon);
         } else {
             map.put("tbCustUnUsedCoupon", null);
         }
 
+        if (ObjectUtils.isNotEmpty(tbPointHistory)) {
+            map.put("tbPointHistory", tbPointHistory);
+        } else {
+            map.put("tbPointHistory", null);
+        }
         return map;
     }
     @Transactional(readOnly = true)

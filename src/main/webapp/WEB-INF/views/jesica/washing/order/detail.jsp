@@ -5,7 +5,12 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.detailsofpasorders" text="세차주문내역"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Jesicar | <spring:message code="list.detail.detailsofpasorders" text="세차주문내역"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
+    </c:if>
 </head>
 <style>
     .modal.modal-message .modal-body, .modal.modal-message .modal-footer, .modal.modal-message .modal-header {
@@ -140,38 +145,87 @@
                         <td class="bg-light height-40" style="width:15%"><strong><spring:message code="list.detail.franchisee11" text="주문상태 "/></strong></td>
                         <td >
                             <c:choose>
-                                <c:when test="${callDetail.ordStatus == 1}">
-                                    <span class="text-green"> <spring:message code="list.word.receipt11" text="배달접수"/></span>
-                                </c:when>
-                                <c:when test="${callDetail.ordStatus == 2}">
-                                    <span class="text-green"> <spring:message code="list.word.waiting11" text="배차"/></span>
-                                    ( 배차일시 : <javatime:format value="${callDetail.cthDate}" pattern="yyyy-MM-dd HH:mm:ss"/> )
-                                </c:when>
-                                <c:when test="${callDetail.ordStatus == 3}">
-                                    <span class="text-green">  <spring:message code="list.word.reservation1" text="출발"/></span>
-                                    ( 출발일시 : <javatime:format value="${callDetail.pickupDate}" pattern="yyyy-MM-dd HH:mm:ss"/>)
-                                </c:when>
-                                <c:when test="${callDetail.ordStatus == 4}">
-                                    <span class="text-green"> <spring:message code="list.word.gettingready1" text="완료"/></span>
-                                    ( 완료일시 : <javatime:format value="${callDetail.endDate}" pattern="yyyy-MM-dd HH:mm:ss"/>)
-                                </c:when>
-                                <c:when test="${callDetail.ordStatus == 5}">
-                                    <span class="text-red"><spring:message code="list.word.packingcomplete1" text="취소"/></span>
-                                    ( 취소일시 : <javatime:format value="${callDetail.ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                                    / 취소사유 : ${callDetail.cancelMemo} )
-                                </c:when>
-                                <c:when test="${callDetail.ordStatus == 6}">
-                                    <span class="text-green"><spring:message code="list.word.deliveryrequest1" text="대기"/></span>
-                                </c:when>
-                                <c:when test="${callDetail.ordStatus == 7}">
-                                    <span class="text-green"><spring:message code="list.word.semidispatch1" text="대기예약"/></span>
-                                    <%--( 예약일시 : <javatime:format value="${callDetail.resvDate}" pattern="yyyy-MM-dd HH:mm:ss"/>)--%>
-                                </c:when>
-                                <c:when test="${callDetail.ordStatus == 8}">
-                                    <spring:message code="list.word.dispatch1" text="입장요청"/>
-                                </c:when>
-                                <c:otherwise>
-                                </c:otherwise>
+                                <c:choose>
+                                    <%--   <c:when test="${callDetail.ordStatus == 1}">
+                                           <span class="text-green"> <spring:message code="list.word.receipt11" text="매장 접수요청"/></span>
+                                       </c:when>
+                                       <c:when test="${callDetail.ordStatus == 2}">
+                                           <span class="text-green"> <spring:message code="list.word.waiting11" text="매장 접수완료"/></span>
+                                           ( 배차일시 : <javatime:format value="${callDetail.cthDate}" pattern="yyyy-MM-dd HH:mm:ss"/> )
+                                       </c:when>
+                                       <c:when test="${callDetail.ordStatus == 3}">
+                                           <span class="text-green">  <spring:message code="list.word.reservation1" text="출발"/></span>
+                                           ( 출발일시 : <javatime:format value="${callDetail.pickupDate}" pattern="yyyy-MM-dd HH:mm:ss"/>)
+                                       </c:when>
+                                       <c:when test="${callDetail.ordStatus == 4}">
+                                           <span class="text-green"> <spring:message code="list.word.gettingready1" text="완료"/></span>
+                                           ( 완료일시 : <javatime:format value="${callDetail.endDate}" pattern="yyyy-MM-dd HH:mm:ss"/>)
+                                       </c:when>
+                                       <c:when test="${callDetail.ordStatus == 5}">
+                                           <span class="text-red"><spring:message code="list.word.packingcomplete1" text="취소"/></span>
+                                           ( 취소일시 : <javatime:format value="${callDetail.ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                           / 취소사유 : ${callDetail.cancelMemo} )
+                                       </c:when>
+                                       <c:when test="${callDetail.ordStatus == 6}">
+                                           <span class="text-green"><spring:message code="list.word.deliveryrequest1" text="대기"/></span>
+                                       </c:when>
+                                       <c:when test="${callDetail.ordStatus == 7}">
+                                           <span class="text-green"><spring:message code="list.word.semidispatch1" text="대기예약"/></span>
+                                           &lt;%&ndash;( 예약일시 : <javatime:format value="${callDetail.resvDate}" pattern="yyyy-MM-dd HH:mm:ss"/>)&ndash;%&gt;
+                                       </c:when>
+                                       <c:when test="${callDetail.ordStatus == 8}">
+                                           <spring:message code="list.word.dispatch1" text="입장요청"/>
+                                       </c:when>--%>
+                                    <c:when test="${callDetail.ordStatus == 1}">
+                                        <spring:message code="list.word.receipt11" text="매장 접수요청"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 2}">
+                                        <spring:message code="list.word.waiting11" text="매장 접수완료"/>
+                                        ( 배차일시 : <javatime:format value="${callDetail.cthDate}" pattern="yyyy-MM-dd HH:mm:ss"/> )
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 3}">
+                                        <spring:message code="list.word.reservation1" text="배달 조리중"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 4}">
+                                        <spring:message code="list.word.gettingready1" text="배달 중"/>
+                                        ( 출발일시 : <javatime:format value="${callDetail.pickupDate}" pattern="yyyy-MM-dd HH:mm:ss"/>)
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 5}">
+                                        <span class="text-green"> <spring:message code="list.word.gettingready1" text="완료"/></span>
+                                        ( 완료일시 : <javatime:format value="${callDetail.endDate}" pattern="yyyy-MM-dd HH:mm:ss"/>)
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 6}">
+                                        <spring:message code="list.word.deliveryrequest1" text="조리완료"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 7}">
+                                        <spring:message code="list.word.semidispatch1" text="테이블 주문접수"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 8}">
+                                        <spring:message code="list.word.dispatch1" text="대기"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 9}">
+                                        <spring:message code="list.word.dispatch1" text="호출"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 10}">
+                                        <spring:message code="list.word.dispatch1" text="입장완료"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 11}">
+                                        <spring:message code="list.word.dispatch1" text="예약요청"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 12}">
+                                        <spring:message code="list.word.dispatch1" text="예약확정"/>
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 13}">
+                                        <span class="text-red"><spring:message code="list.word.packingcomplete1" text="취소"/></span>
+                                        ( 취소일시 : <javatime:format value="${callDetail.ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                        / 취소사유 : ${callDetail.cancelMemo} )
+                                    </c:when>
+                                    <c:when test="${callDetail.ordStatus == 14}">
+                                        <spring:message code="list.word.dispatch1" text="노쇼"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:choose>
                         </td>
                         <td class="bg-light height-40" style="width:15%"><strong><spring:message code="list.detail.franchisee1" text="주문일시 (최종 수정일시)"/></strong></td>

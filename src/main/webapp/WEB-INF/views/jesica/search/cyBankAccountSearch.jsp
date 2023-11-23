@@ -4,7 +4,12 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="dashboard.normalaffiliateheadquarters11" text="가상계좌번호 할당"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="dashboard.normalaffiliateheadquarters11" text="가상계좌번호 할당"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="dashboard.normalaffiliateheadquarters11" text="가상계좌번호 할당"/></title>
+    </c:if>
 </head>
 <style>
     ul {

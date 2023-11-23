@@ -5,7 +5,12 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | 영업가맹점 상세<%--<spring:message code="merchandise.detail.title" text="default text"/>--%></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | 영업가맹점 상세<%--<spring:message code="merchandise.detail.title" text="default text"/>--%></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | 영업가맹점 상세<%--<spring:message code="merchandise.detail.title" text="default text"/>--%></title>
+    </c:if>
 </head>
 <body>
 <!-- begin #page-loader -->

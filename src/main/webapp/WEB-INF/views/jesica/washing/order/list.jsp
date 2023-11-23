@@ -6,7 +6,13 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
+    </c:if>
+
 </head>
 <style>
     .dataTables_wrapper.dt-bootstrap4 .dataTables_filter {
@@ -289,29 +295,20 @@
                             <td><fmt:formatNumber value="${item.srvAmt}" pattern="#,###"/><spring:message code="list.word.won" text="원"/></td>
                             <td class="text-center">
                                 <c:choose>
-                                    <c:when test="${item.ordStatus == 1}">
-                                        <spring:message code="list.word.receipt11" text="배달접수"/>
+                                    <c:when test="${item.ordStatus == 10}">
+                                        <spring:message code="list.word.receipt11" text="입장완료"/>
                                     </c:when>
-                                    <c:when test="${item.ordStatus == 2}">
-                                        <spring:message code="list.word.waiting11" text="배차"/>
+                                    <c:when test="${item.ordStatus == 11}">
+                                        <spring:message code="list.word.waiting11" text="예약요청"/>
                                     </c:when>
-                                    <c:when test="${item.ordStatus == 3}">
-                                        <spring:message code="list.word.reservation1" text="출발"/>
+                                    <c:when test="${item.ordStatus == 12}">
+                                        <spring:message code="list.word.reservation1" text="예약확정"/>
                                     </c:when>
-                                    <c:when test="${item.ordStatus == 4}">
-                                        <spring:message code="list.word.gettingready1" text="완료"/>
+                                    <c:when test="${item.ordStatus == 13}">
+                                        <spring:message code="list.word.gettingready1" text="취소"/>
                                     </c:when>
-                                    <c:when test="${item.ordStatus == 5}">
-                                        <spring:message code="list.word.packingcomplete1" text="취소"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 6}">
-                                        <spring:message code="list.word.deliveryrequest1" text="대기"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 7}">
-                                        <spring:message code="list.word.semidispatch1" text="대기예약"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 8}">
-                                        <spring:message code="list.word.dispatch1" text="입장요청"/>
+                                    <c:when test="${item.ordStatus == 14}">
+                                        <spring:message code="list.word.packingcomplete1" text="노쇼"/>
                                     </c:when>
                                     <c:otherwise>
                                     </c:otherwise>
@@ -414,7 +411,7 @@
         $("#ex_chk_all_status").click(function () {
             $(".ordType").prop('checked', this.checked);
         });
-
+셀
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
             responsive: true,

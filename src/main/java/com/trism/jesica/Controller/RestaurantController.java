@@ -37,11 +37,23 @@ public class RestaurantController {
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
+                if(!"".equals(searchValue.get("ordType").toString())){
+                    if(Integer.parseInt(searchValue.get("ordType").toString()) != 1){
+                        searchValue.put("dvryServiceType", "");
+                    }
+                } else {
+                    searchValue.put("dvryServiceType", "");
+                }
+
             } else {
                 searchValue = getSearchOption(session);
-                searchValue.put("startDate", DateUtil.now_yyyy_mm_dd());
+                searchValue.put("startDate", DateUtil.now_yyyy_mm_dd_week() );
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
                 searchValue.put("keywordType", "ordCuTel");
+                searchValue.put("dvryServiceType", "");
+                searchValue.put("ordStatus", "5");
             }
+
             searchValue.put("ordPathCd",ordPathCd);
             List<TbMannaOrder> resultList =  mannaService.tbCallAllList(searchValue);
             //List<TbSystemCode> tbSystemCode = driverApplyService.searchTbSystemCode("OP");

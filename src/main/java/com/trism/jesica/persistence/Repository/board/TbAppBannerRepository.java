@@ -58,6 +58,24 @@ public interface TbAppBannerRepository extends JpaRepository<TbAppBanner, Long>,
             "", nativeQuery = true)
     List<TbAppBannerDTO> getSortNoticeList(@Param("serviceType") Integer serviceType, @Param("platformType") Integer platformType);
 
+    @Query(value = "select " +
+            "tab.banner_no as bannerNo, " +
+            "tab.view_order as viewOrder, " +
+            "tab.banner_file as bannerFile, " +
+            "tab.board_type as boardType, " +
+            "tab.insert_date as insertDate " +
+            "from tb_app_banner as tab " +
+            "where tab.board_type = 0 and " +
+            "tab.data_status = 1 and " +
+            "tab.view_yn = 1 and " +
+            "tab.view_order > 0 and " +
+            "tab.service_type = :serviceType and " +
+            "tab.platform_type = :platformType " +
+            "order by tab.view_order asc" +
+            "", nativeQuery = true)
+    List<TbAppBannerDTO> getSortNoneList(@Param("serviceType") Integer serviceType, @Param("platformType") Integer platformType);
+
+
     @Modifying(clearAutomatically = true)
     @Query(value = "update tb_app_banner set " +
             "view_order = :idx " +

@@ -4,8 +4,13 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8"/>
-    <title>Jesicar | 고객공지등록</title>
     <%@include file="../../../common/include_head.jsp" %>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | 고객공지등록</title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | 고객공지등록</title>
+    </c:if>
 </head>
 <body>
 <!-- begin #page-loader -->

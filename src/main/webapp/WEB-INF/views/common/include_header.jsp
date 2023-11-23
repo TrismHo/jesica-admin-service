@@ -17,7 +17,7 @@
                             </a>
                             <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="yangpa" data-toggle="dropdown" style="text-decoration: none; color: white;" >
 
-                                <b style="font-size: 15px;">양파오더</b>&nbsp;
+                                <b style="font-size: 15px;">PICK오더</b>&nbsp;
                                 <b class="caret"></b>
                             </a>
                         </c:if>
@@ -46,7 +46,7 @@
             --%>
 
                             <div class="dropdown-item company_btn" company="jesicar" style="cursor: pointer;" > <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i> <b style="font-size: 15px;color: #acaeb2;">제시카</b>&nbsp;</div><hr style="margin-top: 5px;margin-bottom: 5px;">
-                            <div class="dropdown-item company_btn" company="yangpa" style="cursor: pointer;"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i></span> <b style="font-size: 15px;color: #acaeb2;">양파오더</b>&nbsp;</div>
+                            <div class="dropdown-item company_btn" company="yangpa" style="cursor: pointer;"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i></span> <b style="font-size: 15px;color: #acaeb2;">PICK오더</b>&nbsp;</div>
                         </div>
                     </li>
 

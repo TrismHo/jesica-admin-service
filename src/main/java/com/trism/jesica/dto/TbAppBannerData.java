@@ -18,6 +18,8 @@ public class TbAppBannerData {
 
     private Integer platformType;
 
+    private Integer bannerType;
+
     public TbAppBanner insertData() {
 
         return TbAppBanner.builder()
@@ -30,6 +32,7 @@ public class TbAppBannerData {
                 .boardNo(boardNo)
                 .bannerFile(bannerFile)
                 .dataStatus(dataStatus)
+                .bannerType(bannerType)
                 .build();
     }
 
@@ -45,6 +48,7 @@ public class TbAppBannerData {
                 .boardNo(boardNo)
                 .bannerFile(bannerFile)
                 .dataStatus(dataStatus)
+                .bannerType(bannerType)
                 .build();
     }
 }

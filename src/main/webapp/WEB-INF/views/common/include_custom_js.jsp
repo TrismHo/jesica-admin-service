@@ -692,8 +692,8 @@
 
         <%--documentURL = "${path}/system/control/view";    //팝업창에 출력될 페이지 URL--%>
         //const documentURL = "http://192.168.0.90:15001/control";    //local 관제
-        const documentURL = "http://ctl-d.jesicar.co.kr:15000/control";    //개발서버 관제 URL
-        //const documentURL = "https://ctl.jesicar.co.kr/control";    //운영서버 관제 URL
+        //const documentURL = "http://ctl-d.jesicar.co.kr:15000/control";    //개발서버 관제 URL
+        const documentURL = "https://ctl.jesicar.co.kr/control";    //운영서버 관제 URL
         windowname = "관제";
         intWidth = screenSizeWidth;
         intHeight = screenSizeHeight;

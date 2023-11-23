@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="맛집주문내역"/></title>
+    <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="맛집주문내역"/></title>
 </head>
 <style>
     .dataTables_wrapper.dt-bootstrap4 .dataTables_filter {
@@ -94,6 +94,9 @@
         height: 23px;
         border: 1px solid #ddd;
     }
+    .dvryServiceTd {
+        display: none;
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -137,21 +140,74 @@
                                             <td class="bg-light" style="width:10%"><strong><spring:message
                                                     code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong>
                                             </td>
-                                            <td style="width:50%">
+                                            <td style="width: 50%">
                                                 <label>
                                                     <input type="text" class="form-control startDate background-white"
                                                            name="startDate" value="${searchValue.startDate}" readonly> <i
                                                         class="fas fa-lg fa-fw fa-calendar-alt date"></i>
                                                 </label>
-                                              <%--  <label>
+                                                <label>
                                                     <input type="text" class="form-control endDate background-white"
                                                            name="endDate" value="${searchValue.endDate}" readonly> <i
                                                         class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                </label>--%>
+                                                </label>
                                             </td>
-                                            <td class="bg-light"><strong><spring:message code="list.search.orderstatus"
-                                                                                         text="주문상태"/></strong></td>
-                                            <td colspan="3">
+
+                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="주문상태"/></strong></td>
+                                            <td style="width: 367px">
+                                                <label>
+                                                    <select class="form-control" name="ordStatus">
+                                                        <option value="" <c:if test="${searchValue.ordStatus == ''}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="전체"/></option>
+                                                        <option value="1" <c:if test="${searchValue.ordStatus == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="접수요청"/></option>
+                                                        <option value="2" <c:if test="${searchValue.ordStatus == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="접수완료"/></option>
+                                                        <option value="3" <c:if test="${searchValue.ordStatus == '3'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="조리중"/></option>
+                                                        <option value="4" <c:if test="${searchValue.ordStatus == '4'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="배달중"/></option>
+                                                        <option value="5" <c:if test="${searchValue.ordStatus == '5'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="완료"/></option>
+                                                        <option value="6" <c:if test="${searchValue.ordStatus == '6'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="조리완료"/></option>
+                                                        <option value="7" <c:if test="${searchValue.ordStatus == '7'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="테이블주문접수"/></option>
+                                                        <option value="8" <c:if test="${searchValue.ordStatus == '8'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="대기"/></option>
+                                                        <option value="9" <c:if test="${searchValue.ordStatus == '9'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="호출"/></option>
+                                                        <option value="10" <c:if test="${searchValue.ordStatus == '10'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="입장완료"/></option>
+                                                        <option value="11" <c:if test="${searchValue.ordStatus == '11'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="예약요청"/></option>
+                                                        <option value="12" <c:if test="${searchValue.ordStatus == '12'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="예약확정"/></option>
+                                                        <option value="13" <c:if test="${searchValue.ordStatus == '13'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="취소"/></option>
+                                                        <option value="14" <c:if test="${searchValue.ordStatus == '14'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="노쇼"/></option>
+                                                    </select>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light"><strong><spring:message code="list.search.orderstatus1"
+                                                                                         text="주문구분"/></strong></td>
+                                            <td style="padding: 0px">
+                                                <table>
+                                                    <tr>
+                                                        <td style="border: none; width: 310px;">
+                                                            <label>
+                                                                <select class="form-control ordTypeSelect" name="ordType">
+                                                                    <option value="" <c:if test="${searchValue.ordType == ''}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="전체"/></option>
+                                                                    <option value="1" <c:if test="${searchValue.ordType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="배달"/></option>
+                                                                    <option value="2" <c:if test="${searchValue.ordType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="포장"/></option>
+                                                                    <option value="2" <c:if test="${searchValue.ordType == '3'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="대기"/></option>
+                                                                    <option value="2" <c:if test="${searchValue.ordType == '4'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="예약"/></option>
+                                                                    <option value="2" <c:if test="${searchValue.ordType == '5'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="테이블"/></option>
+                                                                </select>
+                                                            </label>
+                                                        </td>
+                                                        <td class="bg-light border-top-0 border-bottom-0 dvryServiceTd" <c:if test="${searchValue.ordType == 1}"> style="display:table-cell;" </c:if>  ><strong><spring:message code="list.search.postclassification" text="배달서비스 구분"/></strong></td>
+                                                        <td class="dvryServiceTd border-top-0 border-bottom-0 border-right-0" <c:if test="${searchValue.ordType == 1}"> style="display:table-cell;" </c:if> style="width: 180px">
+                                                            <label>
+                                                                <select class="form-control" name="dvryServiceType">
+                                                                    <option value="" <c:if test="${searchValue.dvryServiceType == ''}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="전체"/></option>
+                                                                    <option value="1" <c:if test="${searchValue.dvryServiceType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="0원배달"/></option>
+                                                                    <option value="2" <c:if test="${searchValue.dvryServiceType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="0순위배달"/></option>
+                                                                </select>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <%--<td >
                                                 <input type="hidden" id="ordType" name="ordType">
                                                 <label class=" m-r-5">
                                                     <div class="checks small m-l-10">
@@ -253,7 +309,7 @@
                                                                                              text="테이블"/></label>
                                                     </div>
                                                 </label>
-                                                <%--<label class=" m-r-5">
+                                                &lt;%&ndash;<label class=" m-r-5">
                                                     <div class="checks small m-l-10">
                                                         <input type="checkbox" class="orderStatusCode" id="ex_chk11"
                                                                value="42"
@@ -264,12 +320,10 @@
                                                         <label for="ex_chk11"><spring:message code="list.search.question"
                                                                                               text="문의"/></label>
                                                     </div>
-                                                </label>--%>
-                                            </td>
-                                        </tr>
-                                        <tr>
+                                                </label>&ndash;%&gt;
+                                            </td>--%>
                                             <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어 입력"/><%--검색어 입력--%></strong></td>
-                                            <td colspan="3">
+                                            <td style="border-right:none;" >
                                                 <label>
                                                     <select class="form-control searchOp" name="keywordType" style="width: 110px">
                                                         <option value="ordCuTel" <c:if test="${searchValue.keywordType == 'ordCuTel'}">selected</c:if>><spring:message code="list.search.title1" text="고객연락처"/></option>
@@ -277,17 +331,17 @@
                                                     </select>
                                                     <input type="text" class="form-control width-150" name="keyword" value="${searchValue.keyword}" maxlength="150">
                                                 </label>
-                                                <label>
+                                            </td>
+                                            <%--<label>
                                                     <span class="btn-group  bg-black-transparent-2 rounded">
-                                                        <a href="${path}/restaurant/order/list?ordType=1&startDate=${now}"
+                                                        <a href="${path}/restaurant/order/list?ordType=1,2,3,4,5&startDate=${now}"
                                                            class="btn btn-sm btn-white btn-white-without-border searchClick"
                                                            data-change="widget-theme" data-theme="dark">
                                                             <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message
                                                                 code="list.search.searchreset" text="검색 초기화"/>
                                                         </a>
                                                     </span>
-                                                </label>
-                                            </td>
+                                            </label>--%>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -305,17 +359,20 @@
                          <th class="align-middle width-40"><spring:message code="list.word.no" text="번호"/>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="주문번호"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="주문날짜"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderno1" text="주문구분"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderno1" text="배달서비스구분"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderno1" text="주문확인"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderno1" text="주문상태"/></th>
                          <%--<th class="align-middle "><spring:message code="list.word.orderno1" text="주문경로"/></th>--%>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="가맹점이름"/></th>
+                         <th class="align-middle "><spring:message code="list.word.orderno1" text="가맹점코드"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderno1" text="가맹점 전화번호"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderno1" text="이용횟수"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="지불금액"/></th>
                         <th class="align-middle "><spring:message code="list.word.orderno1" text="봉사료"/></th>
-                         <th class="align-middle "><spring:message code="list.word.orderno1" text="주문상태"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="고객연락처"/></th>
-                         <th class="align-middle "><spring:message code="list.word.orderno1" text="배달서비스구분"/></th>
-                         <th class="align-middle "><spring:message code="list.word.orderno1" text="가맹점 전화번호"/></th>
-                         <th class="align-middle "><spring:message code="list.word.orderno1" text="주문확인"/></th>
+
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="취소사유"/></th>
-                         <th class="align-middle "><spring:message code="list.word.orderno1" text="주문구분"/></th>
                         <%-- <th class="align-middle "><spring:message code="list.word.orderno1" text="배차일시"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="출발일시"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="완료일시"/></th>
@@ -331,6 +388,102 @@
                             <td class="text-center">${status.index+1}</td>
                             <td class="text-center">${item.ordNo}</td>
                             <td class="text-center"><javatime:format value="${item.ordDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                            <td  class="text-center">
+                                <c:choose>
+                                    <c:when test="${item.ordType == 1}">
+                                        <spring:message code="list.word.1" text="배달"/>
+                                    </c:when>
+                                    <c:when test="${item.ordType == 2}">
+                                        <spring:message code="list.word.1" text="포장"/>
+                                    </c:when>
+                                    <c:when test="${item.ordType == 3}">
+                                        <spring:message code="list.word.1" text="대기"/>
+                                    </c:when>
+                                    <c:when test="${item.ordType == 4}">
+                                        <spring:message code="list.word.1" text="예약"/>
+                                    </c:when>
+                                    <c:when test="${item.ordType == 5}">
+                                        <spring:message code="list.word.1" text="테이블"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td  class="text-center">
+                                <c:choose>
+                                    <c:when test="${item.dvryServiceType == 1}">
+                                        <spring:message code="list.word.1" text="0원배달"/>
+                                    </c:when>
+                                    <c:when test="${item.dvryServiceType == 2}">
+                                        <spring:message code="list.word.1" text="0순위배달"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="text-center">
+                                <c:choose>
+                                    <c:when test="${item.ordConfirmType == 0}">
+                                        <spring:message code="list.word.1" text="미확인"/>
+                                    </c:when>
+                                    <c:when test="${item.ordConfirmType == 1}">
+                                        <spring:message code="list.word.1" text="확인"/>
+                                    </c:when>
+                                    <c:when test="${item.ordConfirmType == 9}">
+                                        <spring:message code="list.word.1" text="무관"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="text-center">
+                                <c:choose>
+                                    <c:when test="${item.ordStatus == 1}">
+                                        <spring:message code="list.word.receipt11" text="접수요청"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 2}">
+                                        <spring:message code="list.word.waiting11" text="접수완료"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 3}">
+                                        <spring:message code="list.word.reservation1" text="조리중"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 4}">
+                                        <spring:message code="list.word.gettingready1" text="배달중"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 5}">
+                                        <spring:message code="list.word.packingcomplete1" text="완료"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 6}">
+                                        <spring:message code="list.word.deliveryrequest1" text="조리완료"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 7}">
+                                        <spring:message code="list.word.semidispatch1" text="테이블 주문접수"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 8}">
+                                        <spring:message code="list.word.dispatch1" text="대기"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 9}">
+                                        <spring:message code="list.word.dispatch1" text="호출"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 10}">
+                                        <spring:message code="list.word.dispatch1" text="입장완료"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 11}">
+                                        <spring:message code="list.word.dispatch1" text="예약요청"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 12}">
+                                        <spring:message code="list.word.dispatch1" text="예약확정"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 13}">
+                                        <spring:message code="list.word.dispatch1" text="취소"/>
+                                    </c:when>
+                                    <c:when test="${item.ordStatus == 14}">
+                                        <spring:message code="list.word.dispatch1" text="노쇼"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                            <%-- <td class="text-center">
                                 <c:choose>
                                     <c:when test="${item.ordPathCd == '1063'}">
@@ -348,86 +501,29 @@
                                 </c:choose>
                             </td>--%>
                             <td class="text-center">${item.stName}</td>
+                            <td class="text-center">${item.ordStCode}</td>
+                            <td class="text-center">
+                                <c:if test="${item.stTel.length() == 11}">
+                                    ${fn:substring(item.stTel, 0, 3)}-${fn:substring(item.stTel, 3, 7)}-${fn:substring(item.stTel, 7, 12)}
+                                </c:if>
+                                <c:if test="${item.stTel.length() == 10}">
+                                    ${fn:substring(item.stTel, 0, 2)}-${fn:substring(item.stTel, 2, 6)}-${fn:substring(item.stTel, 6, 12)}
+                                </c:if>
+                                <c:if test="${item.stTel.length() != 10 && item.stTel.length() != 11}">
+                                    ${item.stTel}
+                                </c:if>
+
+                            </td>
+                            <td class="text-center">${item.totalUseCount} 회</td>
                             <td><fmt:formatNumber value="${item.payAmt}" pattern="#,###"/><spring:message code="list.word.won" text="원"/></td>
                             <td><fmt:formatNumber value="${item.srvAmt}" pattern="#,###"/><spring:message code="list.word.won" text="원"/></td>
                             <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${item.ordStatus == 1}">
-                                        <spring:message code="list.word.receipt11" text="배달접수"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 2}">
-                                        <spring:message code="list.word.waiting11" text="배차"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 3}">
-                                        <spring:message code="list.word.reservation1" text="출발"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 4}">
-                                        <spring:message code="list.word.gettingready1" text="완료"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 5}">
-                                        <spring:message code="list.word.packingcomplete1" text="취소"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 6}">
-                                        <spring:message code="list.word.deliveryrequest1" text="대기"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 7}">
-                                        <spring:message code="list.word.semidispatch1" text="대기예약"/>
-                                    </c:when>
-                                    <c:when test="${item.ordStatus == 8}">
-                                        <spring:message code="list.word.dispatch1" text="입장요청"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                    </c:otherwise>
-                                </c:choose>
+                                    ${fn:substring(item.ordCuTel, 0, 3)}-${fn:substring(item.ordCuTel, 3, 7)}-${fn:substring(item.ordCuTel, 7, 12)}
                             </td>
-                            <td class="text-center">${item.ordCuTel}</td>
-                            <td  class="text-center">
-                                    <c:choose>
-                                        <c:when test="${item.dvryServiceType == 1}">
-                                            <spring:message code="list.word.1" text="일반배달"/>
-                                        </c:when>
-                                        <c:when test="${item.dvryServiceType == 2}">
-                                            <spring:message code="list.word.1" text="빠른배달"/>
-                                        </c:when>
-                                        <c:otherwise>
-                                        </c:otherwise>
-                                    </c:choose>
-                            </td>
-                            <td class="text-center">${item.stTel}</td>
-                            <td class="text-center">
-                                <c:choose>
-                                    <c:when test="${item.ordConfirmType == 0}">
-                                        <spring:message code="list.word.1" text="미확인"/>
-                                    </c:when>
-                                    <c:when test="${item.ordConfirmType == 1}">
-                                        <spring:message code="list.word.1" text="확인"/>
-                                    </c:when>
-                                    <c:when test="${item.ordConfirmType == 9}">
-                                        <spring:message code="list.word.1" text="무관"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
+
+
                             <td class="text-center">${item.cancelMemo}</td>
-                            <td  class="text-center">
-                                <c:choose>
-                                    <c:when test="${item.ordType == 1}">
-                                        <spring:message code="list.word.1" text="배달"/>
-                                    </c:when>
-                                    <c:when test="${item.ordType == 2}">
-                                        <spring:message code="list.word.1" text="포장"/>
-                                    </c:when>
-                                    <c:when test="${item.ordType == 3}">
-                                        <spring:message code="list.word.1" text="대기"/>
-                                    </c:when>
-                                    <c:when test="${item.ordType == 4}">
-                                        <spring:message code="list.word.1" text="예약"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
+
                             <%--<td class="text-center"><img style="width: 100px; height: 54px" class="storeImg" src="${item.stImage}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >--%>
                       <%--      <td class="text-center">${item.takeoutDate}</td>
                             <td  class="text-center"><javatime:format value="${item.pickupDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
@@ -498,13 +594,20 @@
             let ordNo = $(this).attr("ordNo");
             location.href = "${path}/restaurant/order/detail?ordNo=" + ordNo;
         });
+        $(document).on("change", ".ordTypeSelect", function () {
+          let thisVal = $(this).val();
+          if(thisVal == 1){
+              $(".dvryServiceTd").css("display","table-cell");
+          } else {
+              $(".dvryServiceTd").css("display","none");
+          }
+        });
+
 
 
         let date = new Date();
-        let date2 = new Date();
         let startDate = "${searchValue.startDate}";
-        /*let endDate = "${searchValue.endDate}";*/
-        var yesterday = new Date(date2.setDate(date2.getDate() - 1));
+        let endDate = "${searchValue.endDate}";
 
         $(".startDate").datepicker({
             calendarWeeks: false,
@@ -515,25 +618,24 @@
         });
 
         if(startDate == ""){
-            $(".startDate").datepicker('setDate', date);
+            $(".startDate").datepicker('setDate', '2020-01-01');
         } else {
             $(".startDate").datepicker('setDate', startDate);
         }
 
-        /*date.setMonth(date.getMonth() + 1, 1);*/
-    /*    $(".endDate").datepicker({
+        $(".endDate").datepicker({
             calendarWeeks: false,
             todayHighlight: true,
             autoclose: true,
             format: "yyyy-mm-dd",
             language: "kr"
-
         });
-        if(endDate == ""){
+
+        if(endDate == "") {
             $(".endDate").datepicker('setDate', date);
         } else {
             $(".endDate").datepicker('setDate', endDate);
-        }*/
+        }
 
 
     });
@@ -567,8 +669,8 @@
 
         let startDate = $(".startDate").val()
         let endDate = $(".endDate").val()
-        if(getDateDiff(startDate, endDate) > 31) {
-            alert("날짜범위는 최대 31일까지 가능합니다.")
+        if(getDateDiff(startDate, endDate) > 7) {
+            alert("날짜범위는 최대 7일까지 가능합니다.")
             e.preventDefault();
             e.stopPropagation();
         } else {

@@ -90,6 +90,12 @@ public class TbAppBanner {
     @Column(name = "platform_type", nullable = false)
     private Integer platformType = 0;
 
+    /**
+     * 노출방식(0. 전체(기본), 1. 주소)
+     */
+    @Column(name = "banner_type", nullable = false)
+    private Integer bannerType = 0;
+
     @Builder
     public TbAppBanner(
             Long bannerNo,
@@ -101,7 +107,8 @@ public class TbAppBanner {
             Integer viewOrder,
             Long boardNo,
             String bannerFile,
-            Integer dataStatus
+            Integer dataStatus,
+            Integer bannerType
     ) {
         this.bannerNo = bannerNo;
         this.platformType = platformType;
@@ -113,6 +120,7 @@ public class TbAppBanner {
         this.boardNo = boardNo;
         this.bannerFile = bannerFile;
         this.dataStatus = dataStatus;
+        this.bannerType = bannerType;
     }
 
     public void updateDisabledTbAppBanner() {

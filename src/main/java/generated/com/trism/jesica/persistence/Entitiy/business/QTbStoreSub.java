@@ -111,6 +111,8 @@ public class QTbStoreSub extends EntityPathBase<TbStoreSub> {
 
     public final StringPath poi = createString("poi");
 
+    public final NumberPath<Integer> safenTalkYn = createNumber("safenTalkYn", Integer.class);
+
     public final EnumPath<com.trism.jesica.persistence.type.ServiceYn> serviceYn = createEnum("serviceYn", com.trism.jesica.persistence.type.ServiceYn.class);
 
     public final ListPath<com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory, com.trism.jesica.persistence.Entitiy.goods.QTbStoreCategory> storeCategories = this.<com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory, com.trism.jesica.persistence.Entitiy.goods.QTbStoreCategory>createList("storeCategories", com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory.class, com.trism.jesica.persistence.Entitiy.goods.QTbStoreCategory.class, PathInits.DIRECT2);

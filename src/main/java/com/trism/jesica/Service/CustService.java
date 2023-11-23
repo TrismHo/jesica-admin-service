@@ -3,9 +3,11 @@ package com.trism.jesica.Service;
 import com.trism.jesica.Util.SearchUtil;
 import com.trism.jesica.dto.TbCustCouponDTO;
 import com.trism.jesica.persistence.Entitiy.cust.TbCust;
+import com.trism.jesica.persistence.Entitiy.poinhistory.TbPointHistory;
 import com.trism.jesica.persistence.Repository.coupon.TbCouponPublishRepository;
 import com.trism.jesica.persistence.Repository.cust.TbCustAddrRepository;
 import com.trism.jesica.persistence.Repository.cust.TbCustRepository;
+import com.trism.jesica.persistence.Repository.poinhistory.TbPointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -23,6 +25,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class CustService {
+    private final TbPointHistoryRepository tbPointHistoryRepository;
 
     private final TbCustRepository tbCustRepository;
 
@@ -51,6 +54,7 @@ public class CustService {
         Optional<TbCust> tbCust = tbCustRepository.findById(custNo);
         List<TbCustCouponDTO> tbCustUsedCoupon = tbCouponPublishRepository.findByCustNoAndUseYn(custNo, 1);
         List<TbCustCouponDTO> tbCustUnUsedCoupon = tbCouponPublishRepository.findByCustNoAndUseYn(custNo, 0);
+        List<TbPointHistory> tbPointHistory = tbPointHistoryRepository.findByUserNo(custNo);
 
         if (tbCust.isPresent()) {
             map.put("tbCust", tbCust.get());
@@ -69,6 +73,13 @@ public class CustService {
         } else {
             map.put("tbCustUnUsedCoupon", null);
         }
+
+        if (ObjectUtils.isNotEmpty(tbPointHistory)) {
+            map.put("tbPointHistory", tbPointHistory);
+        } else {
+            map.put("tbPointHistory", null);
+        }
+
 
         return map;
     }

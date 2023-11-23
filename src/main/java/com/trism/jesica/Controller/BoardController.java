@@ -3,14 +3,16 @@ package com.trism.jesica.Controller;
 import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.BoardService;
 import com.trism.jesica.Util.DateUtil;
+import com.trism.jesica.dto.TbAppBannerLocationDTO;
+import com.trism.jesica.dto.TbCustDTO;
 import com.trism.jesica.persistence.Entitiy.board.TbAppBanner;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
 import com.trism.jesica.persistence.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
-import com.trism.jesica.persistence.Entitiy.cust.TbCust;
 import com.trism.jesica.persistence.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -313,8 +315,12 @@ public class BoardController {
     }
 
     @GetMapping("/banner/insert")
-    public ModelAndView insertAppBanner() {
+    public ModelAndView insertAppBanner(Model model) {
+        List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
+        List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
 
+        model.addAttribute("sysCodeList" , sysCodeList);
+        model.addAttribute("sysCodeList2" , sysCodeList2);
         return new ModelAndView("jesica/board/banner/insert");
     }
 
@@ -324,10 +330,21 @@ public class BoardController {
 
         try {
             TbAppBanner tbAppBanner = boardService.tbAppBannerDetail(bannerNo);
+            List<TbAppBannerLocationDTO> tbAppBannerLocation = boardService.getAppBannerLocation(bannerNo);
+            List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
+            List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
+
+            model.addAttribute("sysCodeList" , sysCodeList);
+            model.addAttribute("sysCodeList2" , sysCodeList2);
 
             String url = "";
             if (ObjectUtils.isNotEmpty(tbAppBanner.getBannerFile())) {
                 url = URLEncoder.encode(tbAppBanner.getBannerFile(), "UTF-8");
+            }
+            if (ObjectUtils.isNotEmpty(tbAppBannerLocation)) {
+                model.addAttribute("appBannerLocation" , tbAppBannerLocation);
+            } else {
+                model.addAttribute("appBannerLocation" , null);
             }
 
             model.addAttribute("tbAppBanner", tbAppBanner);
@@ -409,9 +426,11 @@ public class BoardController {
                 } else if ("yangpa".equals(company)) {
                     searchValue.put("platformType","2");
                 }
-                List<TbCust> tbCustList = boardService.getCustList(searchValue);
 
+                /*List<TbStore> tbStoreList = apiService.getStoreList();*/
+                List<TbCustDTO> tbCustList = boardService.getCustList(searchValue);
                 model.addAttribute("custList", tbCustList);
+                /*model.addAttribute("tbStoreList", tbStoreList);*/
             } else {
                 getSearchOption(session);
                 searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
@@ -425,7 +444,7 @@ public class BoardController {
                 } else if ("yangpa".equals(company)) {
                     searchValue.put("platformType","2");
                 }
-                List<TbCust> tbCustList = boardService.getCustList(searchValue);
+                List<TbCustDTO> tbCustList = boardService.getCustList(searchValue);
                 model.addAttribute("custList", tbCustList);
             }
         } catch (Exception e) {
@@ -446,10 +465,14 @@ public class BoardController {
 
         try {
             Map<String, Object> map = boardService.getCustDetail(custNo);
+            List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
 
+            model.addAttribute("sysCodeList" , sysCodeList);
             model.addAttribute("tbCust", map.get("tbCust"));
             model.addAttribute("tbCustUsedCouponList", map.get("tbCustUsedCoupon"));
             model.addAttribute("tbCustUnUsedCouponList", map.get("tbCustUnUsedCoupon"));
+            model.addAttribute("tbPointHistoryList", map.get("tbPointHistory"));
+            model.addAttribute("tbCustLocation", map.get("tbCustLocation"));
         } catch (Exception e) {
             e.printStackTrace();
         }

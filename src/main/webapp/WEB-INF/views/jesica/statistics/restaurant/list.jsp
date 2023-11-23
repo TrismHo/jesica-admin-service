@@ -5,8 +5,16 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Jesicar | 맛집주문통계</title>
+
     <%@include file="../../../common/include_head.jsp" %>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | 맛집주문통계</title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | 맛집주문통계</title>
+    </c:if>
+
+
     <style>
         .buttons-csv {
             color: #fff;
@@ -184,12 +192,16 @@
                                     <tr class="text-center">
                                         <th rowspan="2">날짜</th>
                                         <th rowspan="2">요일</th>
-                                        <th colspan="10">맛집주문통계</th>
+                                        <th colspan="11">맛집주문통계</th>
                                     </tr>
                                     <tr class="text-center">
                                         <th>총 주문량</th>
-                                        <th>주문완료</th>
-                                        <th>주문취소</th>
+                                        <th>총 주문완료</th>
+                                        <th>배달</th>
+                                        <th>포장</th>
+                                        <th>대기</th>
+                                        <th>예약</th>
+                                        <th>테이블</th>
                                         <%--<th>제시카</th>
                                         <th>%</th>
                                         <th>양파오더</th>
@@ -212,8 +224,13 @@
                                                 <c:if test="${item.dw == 7}">토요일</c:if>
                                             </td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.totalCnt}"/> 회</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.endCnt}"/> 회</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.cancelCnt}"/> 회</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.sumcount}"/> 회</td>
+                                           <%-- <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.endCnt}"/> 회</td>--%>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.delivery}"/> 회</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.takeout}"/> 회</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.wait}"/> 회</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.reserv}"/> 회</td>
+                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.tables}"/> 회</td>
                                                 <%--<td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarCnt}"/> 명</td>
                                                 <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarPer}"/> %</td>
                                                 <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionCnt}"/> 명</td>
@@ -382,7 +399,7 @@
                 borderWidth: 2,
                 backgroundColor:  COLOR_AQUA_TRANSPARENT_1,
                 data: endCnt
-            }, {
+            }/*, {
                 label: '주문취소',
                 borderColor: COLOR_RED_LIGHTER,
                 pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
@@ -390,7 +407,7 @@
                 borderWidth: 2,
                 backgroundColor:  COLOR_RED_TRANSPARENT_1,
                 data: cancelCnt
-            } ]
+            }*/ ]
         },
         options : {
             plugins: {
@@ -577,10 +594,11 @@
             data :JSON.stringify(req),
             dataType: "json",
             success: function(data) {
+                console.log(data)
                 for(var i = 0 ; i < data.timeList.length ; i++) {
                     label.push(data.timeList[i].yyyymmdd)
                     totalCnt.push(data.timeList[i].totalCnt)
-                     endCnt.push(data.timeList[i].endCnt)
+                     endCnt.push(data.timeList[i].sumcount)
                      cancelCnt.push(data.timeList[i].cancelCnt)
                /*     iosCnt = iosCnt+ data.timeList[i].iosCnt;
                     androidCnt = androidCnt+ data.timeList[i].androidCnt;*/

@@ -25,9 +25,6 @@ public class OrderController {
 
     private final OrderService orderService;
 
-
-
-
     /**
      * 금일 주문내역
      */
@@ -101,9 +98,8 @@ public class OrderController {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷
                 String yesterday = sdf.format(c1.getTime()); // String으로 저장
                 String today = sdf.format(c2.getTime()); // String으로 저장
-
-                searchValue.put("endDate",yesterday);
-                searchValue.put("startDate",today);
+                searchValue.put("endDate",yesterday+ " 00:00:00");
+                searchValue.put("startDate",today+ " 23:59:59");
             }
 
             if(searchValue.get("storeNo") == null) {

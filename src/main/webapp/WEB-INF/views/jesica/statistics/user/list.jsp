@@ -5,8 +5,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Jesicar | 회원통계</title>
     <%@include file="../../../common/include_head.jsp" %>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | 회원통계</title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | 회원통계</title>
+    </c:if>수
+
     <style>
         .buttons-csv {
             color: #fff;
@@ -146,7 +152,7 @@
                                                     </c:if>
                                                     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                         <select class="form-control" name="platformType" style="margin-right: 30px;">
-                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="양파오더"/></option>
+                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
                                                         </select>
                                                     </c:if>
                                                   <%--  <select class="form-control" name="platform" style="margin-right: 30px;" >

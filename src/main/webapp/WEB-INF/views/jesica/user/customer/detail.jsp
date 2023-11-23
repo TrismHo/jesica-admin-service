@@ -5,7 +5,12 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration12" text="고객 상세"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration12" text="고객 상세"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="list.detail.platformnoticeregistration12" text="고객 상세"/></title></title>
+    </c:if>
 
 </head>
 <body>
@@ -114,18 +119,30 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="계정 상태를 선택하세요."/>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
+                                  <%--  <tr>
+                                       <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
                                         <td><input type="text" class="form-control" value="${tbCust.cash}" readonly></td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 캐쉬입니다.(변경불가)"/>
                                         </td>
+                                       &lt;%&ndash;   <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
+                                        <td></td>
+                                          <td class="text-danger-darker" style="width:25%">
+                                              <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 캐쉬입니다.(변경불가)"/>
+                                          </td>&ndash;%&gt;
                                     </tr>
                                     <tr>
                                         <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="마일리지"/></td>
                                         <td><input type="text" class="form-control" value="${tbCust.mileage}" readonly></td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 마일리지입니다.(변경불가)"/>
+                                        </td>
+                                    </tr>--%>
+                                    <tr>
+                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="누적주문횟수"/></td>
+                                        <td><input type="text" class="form-control" value="${tbCust.useCount}" readonly></td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="누적된 주문횟수입니다."/>
                                         </td>
                                     </tr>
                                     <tr>

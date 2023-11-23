@@ -13,5 +13,6 @@ import java.util.List;
 public interface TbSystemCodeRepository extends JpaRepository<TbSystemCode, String>, JpaSpecificationExecutor<TbSystemCode>, TbSystemCodeRepositorySupport {
     List<TbSystemCode> findBySysType(@Param("sysType") String sysType);
     List<TbSystemCode> findBySysTypeAndDataStatus(@Param("sysType") String sysType,@Param("dataStatus") DataStatus dataStatus);
+    List<TbSystemCode> findBySysTypeAndSysCodeLikeAndDataStatus(@Param("sysType") String sysType,@Param("sysCode") String sysCode,@Param("dataStatus") DataStatus dataStatus);
     TbSystemCode findBySysTypeAndSysCode(@Param("sysType") String sysType, @Param("sysCode") String sysCode);
 }

@@ -6,7 +6,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+    </c:if>
 </head>
 <style>
     .dataTables_wrapper.dt-bootstrap4 .dataTables_filter {
@@ -121,9 +126,10 @@
                         <th width=""><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
                         <th width="10%"><spring:message code="list.word.status12" text="성별"/></th>
                         <th width="10%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
-                        <th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
-                        <th width="10%"><spring:message code="list.word.status12" text="마일리지"/></th>
+                      <%--  <th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
+                        <th width="10%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
                         <th width="10%"><spring:message code="list.word.status12" text="회원여부"/></th>
+                        <th width="10%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
                         <th width="10%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
                         <th width="10%"><spring:message code="list.word.modifieddate1" text="수정일"/></th>
                         <th width="10%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
@@ -145,8 +151,9 @@
                                 <c:if test="${item.gender == 'N'}"><spring:message code="list.word.franchisee12" text="알수없음"/></c:if>
                             </td>
                             <td class="text-center detailRow" custNo="${item.custNo}">${item.loginId}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.cash}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.mileage}</td>
+                          <%--  <td class="text-center detailRow" custNo="${item.custNo}">${item.cash}</td>
+                            <td class="text-center detailRow" custNo="${item.custNo}">${item.mileage}</td>--%>
+                            <td class="text-center detailRow" custNo="${item.custNo}">${item.useCount} 회</td>
                             <td class="text-center detailRow" custNo="${item.custNo}">
                                 <c:if test="${item.isMember == 1}"><spring:message code="list.search.all1" text="회원"/></c:if>
                                 <c:if test="${item.isMember == 0}"><spring:message code="list.word.franchisee12" text="비회원"/></c:if>

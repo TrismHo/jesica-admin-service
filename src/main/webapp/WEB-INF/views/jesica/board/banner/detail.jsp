@@ -5,7 +5,13 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.1" text="배너 상세"/></title>
+
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="list.detail.1" text="배너 상세"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="list.detail.1" text="배너 상세"/></title>
+    </c:if>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -53,7 +59,7 @@
                                             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                 <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                    <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
+                                                    <span><spring:message code="list.detail.deliveryman1" text="PICK오더"/></span>
                                                 </label>
                                             </c:if>
                                             <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
@@ -133,6 +139,10 @@
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시판 종류"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="boardType" class="boardType" value="0" style="margin-right: 5px" <c:if test="${tbAppBanner.boardType == 0}">checked</c:if>>
+                                                <span><spring:message code="list.detail.tothewhole1" text="연결안함"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="boardType" class="boardType" value="1" style="margin-right: 5px" <c:if test="${tbAppBanner.boardType == 1}">checked</c:if>>
                                                 <span><spring:message code="list.detail.tothewhole1" text="이벤트"/></span>
                                             </label>
@@ -145,7 +155,9 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="게시판 종류를 선택하세요."/>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <input type="hidden" name="viewOrder" class="form-control viewOrder" value="${tbAppBanner.viewOrder}" readonly>
+
+                                  <%--  <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="배너노출순서"/></td>
                                         <td>
                                             <input type="text" name="viewOrder" class="form-control viewOrder" value="${tbAppBanner.viewOrder}" readonly>
@@ -153,7 +165,7 @@
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="배너 노출순서를 입력하세요."/>
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시글 선택"/></td>
                                         <td>
@@ -167,6 +179,96 @@
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="연결할 게시글을 검색 후 선택해주세요."/>
                                         </td>
+                                    </tr>
+                                    <tr >
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="주소별 노출사용여부"/></td>
+                                        <td>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="bannerType" value="0" style="margin-right: 5px"  <c:if test="${tbAppBanner.bannerType == 0}">checked</c:if>>
+                                                <span><spring:message code="list.detail.tothewhole1" text="전체"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="bannerType" value="1" style="margin-right: 5px"  <c:if test="${tbAppBanner.bannerType == 1}">checked</c:if>>
+                                                <span><spring:message code="list.detail.tothewhole1" text="주소"/></span>
+                                            </label>
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="주소별 노출사용여부를 선택하세요."/>
+                                        </td>
+                                    </tr>
+                                    <tr class="location_tr" <c:if test="${tbAppBanner.bannerType == 0}">style="display: none;"</c:if>>
+                                        <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="지역등록"/></td>
+                                        <td>
+                                            <select class="form-control selectArea" >
+                                                <c:forEach var="item" items="${sysCodeList}" varStatus="status">
+                                                    <option value="${item.sysCode}" >${item.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select class="form-control selectArea2 w-50" >
+                                                <option value="0">전체</option>
+                                                <c:forEach var="item2" items="${sysCodeList2}" varStatus="status">
+                                                    <option value="${item2.sysCode}">${item2.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <input type="button" id="selectAddr" class="btn btn-primary p-t-5 p-b-5 m-l-10" <c:if test="${tbAppBanner.bannerType == 0}">disabled</c:if>  value="<spring:message code="list.detail.addresssearch" text="주소등록"/>">
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.registerapictureofthedeliveryperson12" text="."/></td>
+                                    </tr>
+                                    <tr class="location_tr" <c:if test="${tbAppBanner.bannerType == 0}">style="display: none;"</c:if>>
+                                        <td class="bg-light"><spring:message code="list.detail.map" text="지역"/></td>
+                                        <td><%--
+                                            <select class="form-control selectArea" >
+                                                <c:forEach var="item" items="${sysCodeList}" varStatus="status">
+                                                    <option value="${item.sysCode}" <c:if test="${tbStore.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select class="form-control selectArea2 w-50" >
+                                                    <option value="" >시/도를 선택해주세요.</option>
+                                            </select>
+                                            <input type="button" id="selectAddr" class="btn btn-primary p-t-5 p-b-5 m-l-10" value="<spring:message code="list.detail.addresssearch" text="주소선택"/>">--%>
+
+                                            <%--<input type="hidden" class="addr_1" id="addr_1" name="addr1" value="${tbStore.addr1}">--%>
+                                            <div class="panel-body p-0">
+                                                <table id="testTable" class="display  table table-bordered w-100 table-striped ">
+                                                    <thead>
+                                                    <th class="text-center" style="width: 84px;">시/도</th>
+                                                    <th class="text-center" style="width: 98px;">시/군/구</th>
+                                                    <th class="text-center" style="width: 98px;"></th>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e;">
+                                                <ul class="attachList p-0" style="margin-bottom:0px;" >
+                                                    <li class="p-0">
+                                                        <div class="panel-body p-0" >
+                                                            <table id="areaTable" class="display table table-bordered w-100 table-striped ">
+                                                                <tbody class="areaTbody">
+                                                                <c:choose>
+                                                                    <c:when test="${appBannerLocation.size() > 0}">
+                                                                        <c:forEach items="${appBannerLocation}" var="item" varStatus="status" step="1">
+                                                                            <tr class="" >
+                                                                                <td style="width:84px" >${item.codeName1}</td>
+                                                                                <td style="width:98px;" >${item.codeName2}</td>
+                                                                                <td style="width:98px;" >
+                                                                                    <input  type="button" bnrLocNo="${item.bnrLocNo}"  class="btn-sm btn-danger btn-approval deleteLocation" value="삭제">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </c:forEach>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <tr class="" >
+                                                                            <td colspan="3" class="text-center"> 데이터가 없습니다. </td>
+                                                                        </tr>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.addresssearchautosettingmessage" text="등록되어있는 시/도 시/군/구입니다 (변경불가)"/></td>
                                     </tr>
                                     <tr>
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="배너 이미지"/></td>
@@ -270,6 +372,119 @@
 
 <script>
     $(() => {
+
+        $(document).on("change","[name='bannerType']", function(){
+            let bannerType = $("input[type='radio'][name='bannerType']:checked").val();
+            if(bannerType == 1){
+                $("#selectAddr").attr("disabled",false);
+                $(".location_tr").css("display","" );
+            } else {
+                $("#selectAddr").attr("disabled",true);
+                $(".location_tr").css("display","none");
+            }
+        })
+
+        $(document).on("click", ".deleteLocation", function() {
+            let bnrLocNo = $(this).attr("bnrLocNo");
+
+            $.ajax({
+                type: "POST",
+                url: "${path}/api/banner/location/delete",
+                data: {bnrLocNo : bnrLocNo, bannerNo : ${tbAppBanner.bannerNo}},
+                /*contentType: "application/json;",*/
+                dataType: "json",
+                success: function(data) {
+                    let list = data.bannerList;
+                    $(".areaTbody").html("");
+                    for(var i = 0 ; i < list.length ; i++){
+                     /*   $(".selectArea2").append(
+                            "<option value="+list[i].sysCode+">"+list[i].codeName+"</option>"
+                        )*/
+                        if(!list[i].codeName2) {
+                            list[i].codeName2 = "";
+                        }
+                        $(".areaTbody").append(
+                            " <tr >" +
+                            "     <td style='width:84px' >\n" +
+                            list[i].codeName1+
+                            "     </td>\n" +
+                            "     <td style='width:98px' >\n" +
+                            list[i].codeName2 +
+                            "     </td>\n" +
+                            "     <td style='width:98px' >\n" +
+                            " <input  type=\"button\" bnrLocNo="+list[i].bnrLocNo+" class='btn-sm btn-danger btn-companion deleteLocation' value=\"삭제\"></div>"+
+                            "     </td>\n" +
+                            " </tr>"
+                        );
+                    }
+                }
+            });
+        });
+        $("#selectAddr").click(function() {
+            let word1 = $(".selectArea option:checked").text()
+            let word2 = $(".selectArea2 option:checked").text()
+            let code1 = $(".selectArea").val();
+            let code2 = $(".selectArea2").val();
+
+            $.ajax({
+                type: "POST",
+                url: "${path}/api/banner/location/add",
+                data: {addr1 : code1, addr2 : code2 , bannerNo : ${tbAppBanner.bannerNo}},
+                /*contentType: "application/json;",*/
+                dataType: "json",
+                success: function(data) {
+                    let list = data.bannerList;
+                    $(".areaTbody").html("");
+                    for(var i = 0 ; i < list.length ; i++){
+                     /*   $(".selectArea2").append(
+                            "<option value="+list[i].sysCode+">"+list[i].codeName+"</option>"
+                        )*/
+                        if(!list[i].codeName2) {
+                            list[i].codeName2 = "";
+                        }
+                        $(".areaTbody").append(
+                            " <tr >" +
+                            "     <td style='width:84px' >\n" +
+                            list[i].codeName1+
+                            "     </td>\n" +
+                            "     <td style='width:98px' >\n" +
+                            list[i].codeName2 +
+                            "     </td>\n" +
+                            "     <td style='width:98px' >\n" +
+                            " <input  type=\"button\" bnrLocNo="+list[i].bnrLocNo+" class='btn-sm btn-danger btn-companion deleteLocation' value=\"삭제\"></div>"+
+                            "     </td>\n" +
+                            " </tr>"
+                        );
+                    }
+                }
+            });
+        });
+
+
+        $(".selectArea").on("change", function (){
+            // 시/도 선택시
+            $.ajax({
+                type: "POST",
+                url: "${path}/api/system/code/area/list",
+                data: {sysType : "A2", sysCode : $(this).val()+"%"},
+                /*contentType: "application/json;",*/
+                dataType: "json",
+                success: function(data) {
+                    let list = data.systemCodeList;
+                    $(".selectArea2").html("");
+                    $(".selectArea2").append(
+                        "<option value='0'>전체</option>"
+                    )
+                    for(var i = 0 ; i < list.length ; i++){
+                        $(".selectArea2").append(
+                            "<option value="+list[i].sysCode+">"+list[i].codeName+"</option>"
+                        )
+                    }
+                }
+            });
+        });
+
+
         let platformType = $("input[type='radio'][name='platformType']:checked").val();
         let boardType = $("input[type='radio'][name='boardType']:checked").val();
         let boardNo = $("#boardNo").val();
@@ -285,11 +500,19 @@
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
-                let boardTitle = data.boardList[0].title + "[" + convertInsertDate(data.boardList[0].insertDate) + "]";
+                let boardTitle = "";
+
+                if(boardType == 0){
+                    boardTitle = "";
+                } else {
+                    boardTitle = data.boardList[0].title + "[" + convertInsertDate(data.boardList[0].insertDate) + "]";
+                }
                 if (boardType == 1) {
                     boardNo = data.boardList[0].eventNo;
-                } else {
+                } else if (boardType == 2)  {
                     boardNo = data.boardList[0].noticeNo;
+                } else {
+                    boardNo = ''
                 }
                 $('.selBoardNo').val(boardNo);
                 $('#board_title').text(boardTitle);
@@ -527,7 +750,9 @@
 
     function inputDataCheck(args) {
         if (isNull(args.boardNo)) {
-            return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
+            if(args.boardType != 0) {
+                return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
+            }
         }
         return true;
     }

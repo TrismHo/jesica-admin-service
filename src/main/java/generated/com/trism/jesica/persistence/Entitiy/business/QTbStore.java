@@ -127,6 +127,8 @@ public class QTbStore extends EntityPathBase<TbStore> {
 
     public final NumberPath<Integer> returnUseYn = createNumber("returnUseYn", Integer.class);
 
+    public final NumberPath<Integer> safenTalkYn = createNumber("safenTalkYn", Integer.class);
+
     public final NumberPath<Integer> safenUseYn = createNumber("safenUseYn", Integer.class);
 
     public final EnumPath<com.trism.jesica.persistence.type.ServiceType> serviceType = createEnum("serviceType", com.trism.jesica.persistence.type.ServiceType.class);

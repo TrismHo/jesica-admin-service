@@ -483,7 +483,8 @@ public class SystemController {
                                        LoginSession session,
                                        Model model) {
         log.info("@@searchValue {}",searchValue);
-        model.addAttribute("tbServiceProp", systemPropService.tbSystemProp());
+
+        model.addAttribute("tbServiceProp", systemPropService.tbSystemProp(2));
 
         model.addAttribute("searchValue",searchValue);
 

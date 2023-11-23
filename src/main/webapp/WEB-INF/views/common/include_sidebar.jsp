@@ -58,13 +58,13 @@
         </ul>
         <!-- begin sidebar nav -->
         <ul class="nav">
-
             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                 <c:if test="${sessionScope.sessionKey.roleType == 2}">
                     <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
                         <c:if test="${item.menuLevel == 1 && item.permission != 0 && (item.menuName == '앱 관리'
                         || item.menuName == '통계'
-                        || item.menuName == '맛집')  }">
+                        || item.menuName == '맛집'
+                        )  }">
                             <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
@@ -94,7 +94,7 @@
                         <c:if test="${item.menuLevel == 1 && (item.menuName == '앱 관리'
                         || item.menuName == '통계'
                         || item.menuName == '맛집'
-                                         ) }">
+                        || item.menuName == '시스템 운영') }">
                             <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
@@ -110,7 +110,8 @@
                                          || item2.menuName == '이벤트 관리'
                                          || item2.menuName == '배너 관리'
                                          || item2.menuName == '고객 관리'
-                                         || item2.menuName == '맛집주문내역' )}">
+                                         || item2.menuName == '맛집주문내역'
+                                         || item2.menuName == '시스템 설정' )}">
                                             <li class=<c:if test="${fn:contains(servletPath,item2.menuUrl) }">"active"</c:if>><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
                                         </c:if>
                                     </c:forEach>

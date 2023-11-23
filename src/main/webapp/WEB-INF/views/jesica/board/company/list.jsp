@@ -6,7 +6,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.boardmanagement.affiliatenotice" text="제휴사 공지"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.affiliatenotice" text="제휴사 공지"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.affiliatenotice" text="제휴사 공지"/></title>
+    </c:if>
 </head>
 <body>
 <!-- begin #page-loader -->

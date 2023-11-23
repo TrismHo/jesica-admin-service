@@ -7,7 +7,12 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></title>
+    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+        <title>Jesicar | <spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></title>
+    </c:if>
+    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+        <title>Pick-Order | <spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></title>
+    </c:if>
 
 </head>
 <style>
@@ -103,7 +108,7 @@
                             <p data-animation="number" data-value="${workerApplyChart}"></p>
                         </div>
                         <div class="stats-link">
-                            <a href="${path}/driver/apply/list?&authStatus=1"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+   e                         <a href="${path}/driver/apply/list?&authStatus=1"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -440,7 +445,7 @@
                 borderWidth: 2,
                 backgroundColor: COLOR_AQUA_TRANSPARENT_1,
                 data: endCnt
-            }, {
+            } /*{
                 label: '주문취소',
                 borderColor: COLOR_RED_LIGHTER,
                 pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
@@ -448,7 +453,7 @@
                 borderWidth: 2,
                 backgroundColor: COLOR_RED_TRANSPARENT_1,
                 data: cancelCnt
-            }]
+            }*/]
         },
         options: {
             plugins: {
@@ -837,8 +842,8 @@
                 for(var i = 0 ; i < data.timeList.length ; i++) {
                     label.push(data.timeList[i].yyyymmdd)
                     totalCnt.push(data.timeList[i].totalCnt)
-                    endCnt.push(data.timeList[i].endCnt)
-                    cancelCnt.push(data.timeList[i].cancelCnt)
+                    endCnt.push(data.timeList[i].sumcount)
+            /*        cancelCnt.push(data.timeList[i].cancelCnt)*/
                 }
                 if (data.timeList.length > 40) {
                     pointSize = 0;

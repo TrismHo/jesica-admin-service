@@ -35,6 +35,7 @@ import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
 import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
 import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
 import com.trism.jesica.persistence.Repository.coupon.TbCouponRepository;
+import com.trism.jesica.persistence.Repository.cust.TbCustLocationRepository;
 import com.trism.jesica.persistence.Repository.cust.TbCustRepository;
 import com.trism.jesica.persistence.Repository.event.TbEventRepository;
 import com.trism.jesica.persistence.Repository.goods.*;
@@ -83,6 +84,8 @@ import java.util.*;
 @Service
 @Slf4j
 public class ApiService {
+    private final TbAppBannerLocationRepository tbAppBannerLocationRepository;
+    private final TbCustLocationRepository tbCustLocationRepository;
 
     @Autowired
     private final JesicaProperties jesicaProperties;
@@ -1175,6 +1178,21 @@ public class ApiService {
     }
 
     @Transactional
+    public int bannerLocationAreaAdd(Long bannerNo, String addr1, String addr2) {
+        return tbAppBannerLocationRepository.bannerLocationAreaAdd(bannerNo, addr1, addr2);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbAppBannerLocationDTO> getAppBannerLocation(Long bannerNo) {
+        return tbAppBannerLocationRepository.findByBannerNo(bannerNo);
+    }
+
+    @Transactional
+    public int bannerLocationAreaDelete(Long bnrLocNo, Long bannerNo) {
+        return tbAppBannerLocationRepository.bannerLocationAreaDelete(bnrLocNo,bannerNo);
+    }
+
+    @Transactional
     public int deleteStoreCategoryGoods(Long storeCatNo, Long storeGoodsNo) {
         return tbStoreCategoryGoodsRepository.deleteStoreCategoryGoods(storeCatNo, storeGoodsNo);
     }
@@ -1206,6 +1224,10 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<TbSystemCode> systemCodeList(String sysType) {
         return tbSystemCodeRepository.findBySysTypeAndDataStatus(sysType,DataStatus.OK);
+    }
+    @Transactional(readOnly = true)
+    public List<TbSystemCode> systemCodeList(String sysType,String sysCode) {
+        return tbSystemCodeRepository.findBySysTypeAndSysCodeLikeAndDataStatus(sysType,sysCode,DataStatus.OK);
     }
     @Transactional
     public List<TbVacsVact> cybankAccountReset(String bankCode, String no, Integer type, String oldBankCode, String oldNo,String owner) {
@@ -1592,8 +1614,6 @@ public class ApiService {
 
         TbUserWorker tbUserWorker = null;
         try {
-
-
             SimpleDateFormat format = new SimpleDateFormat ( "yyyy");
             SimpleDateFormat format2 = new SimpleDateFormat ( "MM");
             Date time = new Date();
@@ -3128,8 +3148,10 @@ public class ApiService {
     public List<TbAppBannerDTO> bannerSortList(Integer serviceType, Integer platformType) {
         List<TbAppBannerDTO> listEvent = tbAppBannerRepository.getSortEventList(serviceType, platformType);
         List<TbAppBannerDTO> listNotice = tbAppBannerRepository.getSortNoticeList(serviceType, platformType);
+        List<TbAppBannerDTO> listNone = tbAppBannerRepository.getSortNoneList(serviceType, platformType);
 
         listEvent.addAll(listNotice);
+        listEvent.addAll(listNone);
 
         return listEvent;
     }
@@ -3228,13 +3250,18 @@ public class ApiService {
 
             if (tbAppBannerData.getViewYn() == 1) {
                 if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
-                    int viewOrder = tbAppBannerList.get(0).getViewOrder();
-                    for (TbAppBanner tbAppBanner: tbAppBannerList) {
-                        if (tbAppBanner.getViewOrder() > viewOrder) {
-                            viewOrder = tbAppBanner.getViewOrder();
+                    if(ObjectUtils.isNotEmpty(tbAppBannerList.get(0).getViewOrder())) {
+                        tbAppBannerData.setViewOrder(1);
+                    } else {
+                        int viewOrder = tbAppBannerList.get(0).getViewOrder();
+                        for (TbAppBanner tbAppBanner: tbAppBannerList) {
+                            if (tbAppBanner.getViewOrder() > viewOrder) {
+                                viewOrder = tbAppBanner.getViewOrder();
+                            }
                         }
+                        tbAppBannerData.setViewOrder(viewOrder + 1);
                     }
-                    tbAppBannerData.setViewOrder(viewOrder + 1);
+
                 } else {
                     tbAppBannerData.setViewOrder(1);
                 }
@@ -3294,7 +3321,11 @@ public class ApiService {
                 }
 
                 if (tbAppBannerData.getViewYn() == 0) {
-                    int viewOrder = tbAppBannerData.getViewOrder();
+                    int viewOrder = 1;
+                    if (ObjectUtils.isNotEmpty(tbAppBannerData.getViewOrder())){
+                         viewOrder = tbAppBannerData.getViewOrder();
+                    }
+
                     List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(1, 1, viewOrder);
 
                     for(int i = 0; i < tbAppBannerList.size(); i++) {
@@ -3314,8 +3345,13 @@ public class ApiService {
                             int viewOrder = tbAppBannerList.get(0).getViewOrder();
 
                             for (TbAppBanner tbAppBanner: tbAppBannerList) {
-                                if (tbAppBanner.getViewOrder() > viewOrder) {
-                                    viewOrder = tbAppBanner.getViewOrder();
+
+                                if(ObjectUtils.isEmpty(tbAppBanner.getViewOrder())){
+                                    viewOrder = 0;
+                                } else {
+                                    if (tbAppBanner.getViewOrder() > viewOrder) {
+                                        viewOrder = tbAppBanner.getViewOrder();
+                                    }
                                 }
                             }
                             tbAppBannerData.setViewOrder(viewOrder + 1);

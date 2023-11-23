@@ -3,6 +3,7 @@ package com.trism.jesica.persistence.Entitiy.manna;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -265,7 +266,7 @@ public class TbMannaOrder  {
      * 배달거리
      */
     @Column(name = "dvry_distance")
-    private Long dvryDistance = null;
+    private BigDecimal dvryDistance = null;
 
     /**
      * 고객 요청사항
@@ -285,6 +286,11 @@ public class TbMannaOrder  {
     @Column(name = "ord_cu_name")
     private String ordCuName = null;
 
+    /**
+     * 누적주문횟수
+     */
+    @Column(name = "total_use_count")
+    private String totalUseCount = null;
 
 
 

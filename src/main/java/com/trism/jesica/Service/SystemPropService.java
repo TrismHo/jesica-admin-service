@@ -18,8 +18,8 @@ public class SystemPropService {
 
 
     @Transactional(readOnly = true)
-    public List<TbServiceProperty> tbSystemProp() {
-        return tbServicePropertyRepository.findAll();
+    public List<TbServiceProperty> tbSystemProp(int roleType) {
+        return tbServicePropertyRepository.findByPlatformType(roleType);
     }
 
     @Transactional

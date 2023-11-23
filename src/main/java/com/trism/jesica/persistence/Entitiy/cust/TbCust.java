@@ -12,6 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -139,11 +140,46 @@ public class TbCust extends BaseEntity {
     private Integer isMember;
 
     /**
+     * 이용횟수
+     */
+    @Column(name = "use_count")
+    private Integer useCount;
+
+    /**
+     * 잔여포인트
+     */
+    @Column(name = "point")
+    private Integer point;
+
+    /**
+     * 누적포인트
+     */
+    @Column(name = "acc_point")
+    private Integer accPoint;
+
+    /**
+     * 외부연동 Id
+     */
+    @Column(name = "ext_cust_no")
+    private Long extCustNo;
+
+    /**
      * 플랫폼 타입(0. 사용안함, 1. 제시카, 2. 양파오더, 3. 세날)
      */
     @Column(name = "platform_type", nullable = false)
     private Integer platformType = 1;
 
+    /**
+     * 추천 가맹점 코드
+     */
+    @Column(name = "ext_recomm_st_code")
+    private String extRecommStCode;
+
+    /**
+     * 추천 가맹점명
+     */
+    @Column(name = "ext_recomm_st_name")
+    private String extRecommStName;
     /**
      * 고객 단골매장 양방향
      */
@@ -165,6 +201,24 @@ public class TbCust extends BaseEntity {
     @Where(clause = "dataStatus = 1")
     @JsonBackReference
     private List<TbCustAddr> custAddrs;
+
+
+ /*   @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "cust_no", foreignKey = @ForeignKey(name="cust_no") ,nullable = true, insertable = false ,updatable = false)
+    @JsonManagedReference
+    private TbCustLocation custLocation;*/
+
+
+    /**
+     * 수정일
+     */
+    private LocalDateTime updateDate;
+
+    /**
+     * 등록일
+     */
+    private LocalDateTime insertDate;
 
     @PrePersist
     private void init() {
