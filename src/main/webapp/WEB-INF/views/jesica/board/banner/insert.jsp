@@ -6,10 +6,10 @@
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-         <title>Jesicar |<spring:message code="list.detail.1" text="배너 등록"/></title>
+         <title>Jesicar |<spring:message code="list.detail.1" text="배너 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order |<spring:message code="list.detail.1" text="배너 등록"/></title>
+        <title>Pick-Order |<spring:message code="list.detail.1" text="배너 관리"/></title>
     </c:if>
 </head>
 <body>
@@ -135,6 +135,19 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="언어선택"/></td>
+                                        <td>
+                                            <select name="langCode" class="form-control w-25" >
+                                                <c:forEach var="item2" items="${sysLangCode}" varStatus="status">
+                                                    <option value="${item2.sysCode}">${item2.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="언어를를 선택하세요."/>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시판 종류"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
@@ -148,6 +161,10 @@
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="boardType" value="2" style="margin-right: 5px">
                                                 <span><spring:message code="list.detail.affiliate1" text="공지"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="boardType" value="3" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate1" text="앱화면"/></span>
                                             </label>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
@@ -170,6 +187,80 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="주소별 노출사용여부를 선택하세요."/>
                                         </td>
                                     </tr>
+                                    <tr class="location_tr" style="display: none;">
+                                        <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="지역등록"/></td>
+                                        <td>
+                                            <select class="form-control selectArea" >
+                                                <c:forEach var="item" items="${sysCodeList}" varStatus="status">
+                                                    <option value="${item.sysCode}" code1Name="${item.codeName}">${item.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select class="form-control selectArea2 w-50" >
+                                                <option value="0">전체</option>
+                                                <c:forEach var="item2" items="${sysCodeList2}" varStatus="status">
+                                                    <option value="${item2.sysCode}" code2Name="${item2.codeName}" >${item2.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <input type="button" id="selectAddr" class="btn btn-primary p-t-5 p-b-5 m-l-10"  value="<spring:message code="list.detail.addresssearch" text="주소등록"/>">
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.registerapictureofthedeliveryperson12" text="."/></td>
+                                    </tr>
+                                    <tr class="location_tr" style="display: none;">
+                                        <td class="bg-light"><spring:message code="list.detail.map" text="지역"/></td>
+                                        <td><%--
+                                            <select class="form-control selectArea" >
+                                                <c:forEach var="item" items="${sysCodeList}" varStatus="status">
+                                                    <option value="${item.sysCode}" <c:if test="${tbStore.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select class="form-control selectArea2 w-50" >
+                                                    <option value="" >시/도를 선택해주세요.</option>
+                                            </select>
+                                            <input type="button" id="selectAddr" class="btn btn-primary p-t-5 p-b-5 m-l-10" value="<spring:message code="list.detail.addresssearch" text="주소선택"/>">--%>
+
+                                            <%--<input type="hidden" class="addr_1" id="addr_1" name="addr1" value="${tbStore.addr1}">--%>
+                                            <div class="panel-body p-0">
+                                                <table id="testTable" class="display  table table-bordered w-100 table-striped ">
+                                                    <thead>
+                                                    <th class="text-center" style="width: 84px;">시/도</th>
+                                                    <th class="text-center" style="width: 98px;">시/군/구</th>
+                                                    <th class="text-center" style="width: 98px;"></th>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; max-height: 150px">
+                                                <ul class="attachList p-0" style="margin-bottom:0px;" >
+                                                    <li class="p-0">
+                                                        <div class="panel-body p-0" >
+                                                            <table id="areaTable" class="display table table-bordered w-100 table-striped ">
+                                                                <tbody class="areaTbody">
+                                                                <c:choose>
+                                                                    <c:when test="${appBannerLocation.size() > 0}">
+                                                                        <c:forEach items="${appBannerLocation}" var="item" varStatus="status" step="1">
+                                                                            <tr class="" >
+                                                                                <td style="width:84px" >${item.codeName1}</td>
+                                                                                <td style="width:98px;" >${item.codeName2}</td>
+                                                                                <td style="width:98px;" >
+                                                                                    <input  type="button" bnrLocNo="${item.bnrLocNo}"  class="btn-sm btn-danger btn-approval deleteLocation" value="삭제">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </c:forEach>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <tr class="" >
+                                                                            <td colspan="3" class="text-center"> 데이터가 없습니다. </td>
+                                                                        </tr>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.addresssearchautosettingmessage" text="등록되어있는 시/도 시/군/구입니다 (변경불가)"/></td>
+                                    </tr>
                                     <input type="hidden" name="viewOrder" class="form-control viewOrder">
                                     <%--<tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="배너노출순서"/></td>
@@ -180,7 +271,7 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage" text="배너 노출순서를 입력하세요."/>
                                         </td>
                                     </tr>--%>
-                                    <tr>
+                                    <tr class="boardSelect">
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시글 선택"/></td>
                                         <td>
                                             <input type="hidden" name="boardNo" class="selBoardNo">
@@ -192,6 +283,15 @@
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="연결할 게시글을 검색 후 선택해주세요."/>
+                                        </td>
+                                    </tr>
+                                    <tr class="appScheme" style="display: none">
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱스키마 URL"/></td>
+                                        <td>
+                                            <input type="text" class="form-control w-25"  name="schemeUrl">
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="앱스키마 URL을 입력해주세요."/>
                                         </td>
                                     </tr>
 
@@ -328,6 +428,33 @@
             location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType=&platformType=1";
         });
 
+
+        $(document).on("change","[name='bannerType']", function(){
+            let bannerType = $("input[type='radio'][name='bannerType']:checked").val();
+            if(bannerType == 1){
+                $("#selectAddr").attr("disabled",false);
+                $(".location_tr").css("display","" );
+            } else {
+                $("#selectAddr").attr("disabled",true);
+                $(".location_tr").css("display","none");
+            }
+        })
+
+        $(document).on("change", "input[name='boardType']", function() {
+           if($(this).val() == 3 ){
+               $(".boardSelect").css("display","none");
+               $(".appScheme").css("display","");
+           } else {
+               if($(this).val() == 0){
+                   $(".boardSelect").css("display","none");
+                   $(".appScheme").css("display","none");
+               } else {
+                   $(".boardSelect").css("display","");
+                   $(".appScheme").css("display","none");
+               }
+
+           }
+        });
         $(document).on("click", "#selBoardNoBtn", function() {
             $('#board_title').text('');
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
@@ -335,8 +462,10 @@
             let boardNo;
             if (boardType == 1) {
                 boardNo = $(this).attr('eventNo');
-            } else {
+            } else if(boardType == 2){
                 boardNo = $(this).attr('noticeNo');
+            } else if(boardType == 3){
+                boardNo = "";
             }
             $('.selBoardNo').val(boardNo);
             $('#board_title').text(boardTitle);
@@ -387,6 +516,102 @@
                     }
                 });
             }
+        });
+        let areaList = [];
+        $("#selectAddr").click(function() {
+            let word1 = $(".selectArea option:checked").text()
+            let word2 = $(".selectArea2 option:checked").text()
+            let code1 = $(".selectArea").val();
+            let code1Name = $(".selectArea option:checked").attr("code1Name");
+            let code2 = $(".selectArea2").val();
+            let code2Name = $(".selectArea2 option:checked").attr("code2Name");
+            let bnrLocNo = $(".selectArea2 option:checked").attr("bnrLocNo");
+
+            let areaMap = { "code1" : code1, "code2": code2};
+            let include = false;
+            for (let i = 0; i < areaList.length < i++; ){
+                console.log(areaList[i])
+                console.log(areaMap)
+                if(JSON.stringify(areaList[i]) == JSON.stringify(areaMap)){
+                    include = true;
+                }
+            }
+            areaList.push(areaMap);
+            areaList.push(areaMap);
+            console.log(areaList)
+            console.log(include)
+
+
+
+            $(".areaTbody").append(
+                " <tr >" +
+                "     <td style='width:84px' >\n" +
+                word1+
+                "     </td>\n" +
+                "     <td style='width:98px' >\n" +
+                word2 +
+                "     </td>\n" +
+                "     <td style='width:98px' >\n" +
+                " <input  type=\"button\" bnrLocNo="+bnrLocNo+" class='btn-sm btn-danger btn-companion deleteLocation' value=\"삭제\"></div>"+
+                "     </td>\n" +
+                " </tr>"
+            );
+
+           /* $.ajax({
+                type: "POST",
+                url: "${path}/api/banner/location/add",
+                data: {addr1 : code1, addr2 : code2 , bannerNo : ${tbAppBanner.bannerNo}},
+                /!*contentType: "application/json;",*!/
+                dataType: "json",
+                success: function(data) {
+                    let list = data.bannerList;
+                    $(".areaTbody").html("");
+                    for(var i = 0 ; i < list.length ; i++){
+                        /!*   $(".selectArea2").append(
+                               "<option value="+list[i].sysCode+">"+list[i].codeName+"</option>"
+                           )*!/
+                        if(!list[i].codeName2) {
+                            list[i].codeName2 = "";
+                        }
+                        $(".areaTbody").append(
+                            " <tr >" +
+                            "     <td style='width:84px' >\n" +
+                            list[i].codeName1+
+                            "     </td>\n" +
+                            "     <td style='width:98px' >\n" +
+                            list[i].codeName2 +
+                            "     </td>\n" +
+                            "     <td style='width:98px' >\n" +
+                            " <input  type=\"button\" bnrLocNo="+list[i].bnrLocNo+" class='btn-sm btn-danger btn-companion deleteLocation' value=\"삭제\"></div>"+
+                            "     </td>\n" +
+                            " </tr>"
+                        );
+                    }
+                }
+            });*/
+        });
+
+        $(".selectArea").on("change", function (){
+            // 시/도 선택시
+            $.ajax({
+                type: "POST",
+                url: "${path}/api/system/code/area/list",
+                data: {sysType : "A2", sysCode : $(this).val()+"%"},
+                /*contentType: "application/json;",*/
+                dataType: "json",
+                success: function(data) {
+                    let list = data.systemCodeList;
+                    $(".selectArea2").html("");
+                    $(".selectArea2").append(
+                        "<option value='0'>전체</option>"
+                    )
+                    for(var i = 0 ; i < list.length ; i++){
+                        $(".selectArea2").append(
+                            "<option value="+list[i].sysCode+">"+list[i].codeName+"</option>"
+                        )
+                    }
+                }
+            });
         });
 
         //게시글 검색
@@ -461,14 +686,17 @@
     });
 
 
-
     function inputDataCheck(args) {
         if (isNull(args.boardNo)) {
-            if(args.boardType != 0) {
+            if(args.boardType != 0 && args.boardType != 3) {
                 return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
             }
         } else if (isNull($("#imgFile")[0].files[0])) {
             return alert_focus("button_base", "배너이미지를 선택해주세요");
+        }
+
+        if(args.boardType == 3 && args.schemeUrl == "") {
+            return alert_focus("board-search-btn", "앱스키마 URL을 입력해주세요");
         }
         return true;
     }
@@ -501,13 +729,13 @@
         $(".searchBoardList").html("");
     }
 
-    function getToday() {
+   /* function getToday() {
         let dateObj = new Date();
         let year = dateObj.getFullYear();
         let month = dateObj.getMonth() + 1 < 10 ? '0' + (dateObj.getMonth() + 1) : (dateObj.getMonth() + 1);
         let date = dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate();
         return year + '-' + month + '-' + date;
-    }
+    }*/
 </script>
 </body>
 </html>

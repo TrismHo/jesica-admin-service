@@ -273,7 +273,6 @@ public class MainController {
                     refreshTokenEnd = cookie.getValue();
                     log.info("refreshTokenEnd_first::"+refreshTokenEnd);
                 }
-
             }
 
             //클라이언트 아이디/코드가 널이면 정보세팅 + 만료일이 다가오면 다시 세팅
@@ -637,10 +636,19 @@ public class MainController {
      * 업데이트공지
      */
     @GetMapping("/notice/update/{noticeNo}")
-    public ModelAndView noticeUpdatePopup(@PathVariable Long noticeNo, Model model){
+    public ModelAndView noticeUpdatePopup(@PathVariable Long noticeNo, Model model, HttpSession session){
         log.info("noticeNo :: {}",noticeNo);
         try {
-            TbNoticeRelease tbNoticeRelease = boardService.getTbReleaseDetail(noticeNo);
+            LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+            String company = loginSession.getCompany();
+            int platformType = 0;
+            if("jesicar".equals(company)) {
+                platformType = 1;
+            } else if ("yangpa".equals(company)) {
+                platformType = 2;
+            }
+
+            TbNoticeRelease tbNoticeRelease = boardService.getTbReleaseDetail(noticeNo,platformType);
             model.addAttribute("tbNoticeRelease", tbNoticeRelease);
         } catch (Exception e){
             e.printStackTrace();

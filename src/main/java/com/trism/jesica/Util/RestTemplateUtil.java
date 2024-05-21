@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -234,6 +235,34 @@ public class RestTemplateUtil {
 	}
 
 
+	//멤버쉽 API 상세 호출
+	public ResponseEntity<Map> getCouponDetailApi(Integer cpnNo) {
+		Map<String,Object> requestDto = new HashMap<>();
+		requestDto.put("cpnNo",cpnNo);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+		headers.add("Content-Type", "application/json");
+		String url = "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/detail/"+cpnNo;
 
+		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
+		return restTemplate.exchange(url, HttpMethod.GET,entity,Map.class);
+	}
+
+	//멤버쉽 API 쿠폰일괄등록
+	public ResponseEntity<Map> getCouponAddApi(Integer cpnNo, String ordPathCd ,BigDecimal[] extCustNo, String cpnReason) {
+		Map<String,Object> requestDto = new HashMap<>();
+		String[] arr = {};
+		requestDto.put("cpnNo",cpnNo);
+		requestDto.put("ordPathCd",ordPathCd);
+		requestDto.put("custNo",arr);
+		requestDto.put("extCustNo",extCustNo);
+		requestDto.put("cpnReason",cpnReason);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+		headers.add("Content-Type", "application/json");
+		String url = "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon";
+		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}
 
 }

@@ -36,6 +36,8 @@ public class QTbCust extends EntityPathBase<TbCust> {
 
     public final ListPath<TbCustFavorite, QTbCustFavorite> custFavorites = this.<TbCustFavorite, QTbCustFavorite>createList("custFavorites", TbCustFavorite.class, QTbCustFavorite.class, PathInits.DIRECT2);
 
+    public final QTbCustLocation custLocation;
+
     public final StringPath custName = createString("custName");
 
     public final NumberPath<Long> custNo = createNumber("custNo", Long.class);
@@ -44,7 +46,11 @@ public class QTbCust extends EntityPathBase<TbCust> {
 
     public final EnumPath<com.trism.jesica.persistence.type.DataStatus> dataStatus = createEnum("dataStatus", com.trism.jesica.persistence.type.DataStatus.class);
 
+    public final StringPath extBrCode = createString("extBrCode");
+
     public final NumberPath<Long> extCustNo = createNumber("extCustNo", Long.class);
+
+    public final StringPath extMasterStCode = createString("extMasterStCode");
 
     public final StringPath extRecommStCode = createString("extRecommStCode");
 
@@ -71,6 +77,16 @@ public class QTbCust extends EntityPathBase<TbCust> {
     public final NumberPath<Integer> pushNoticeYn = createNumber("pushNoticeYn", Integer.class);
 
     public final NumberPath<Integer> pushOrderYn = createNumber("pushOrderYn", Integer.class);
+
+    public final StringPath recommCode = createString("recommCode");
+
+    public final NumberPath<Integer> recommCount = createNumber("recommCount", Integer.class);
+
+    public final QTbCust recommCust;
+
+    public final StringPath recommCustNo = createString("recommCustNo");
+
+    public final StringPath recommCustTel = createString("recommCustTel");
 
     public final NumberPath<Integer> smsYn = createNumber("smsYn", Integer.class);
 
@@ -101,6 +117,8 @@ public class QTbCust extends EntityPathBase<TbCust> {
     public QTbCust(Class<? extends TbCust> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.custAddr = inits.isInitialized("custAddr") ? new QTbCustAddr(forProperty("custAddr"), inits.get("custAddr")) : null;
+        this.custLocation = inits.isInitialized("custLocation") ? new QTbCustLocation(forProperty("custLocation")) : null;
+        this.recommCust = inits.isInitialized("recommCust") ? new QTbCust(forProperty("recommCust"), inits.get("recommCust")) : null;
     }
 
 }

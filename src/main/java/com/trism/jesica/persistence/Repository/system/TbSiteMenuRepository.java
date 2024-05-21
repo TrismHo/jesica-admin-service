@@ -29,4 +29,6 @@ public interface TbSiteMenuRepository extends JpaRepository<TbSiteMenu, Integer>
             " order by tsm.menu_no asc", nativeQuery = true)
     //List<Map<String, Object>> getTbSiteMenuAclList(@Param("staffNo") Long staffNo);
     List<Map<String, Object>>  getTbSiteMenuAclList(@Param("staffNo") Long staffNo);
+
+    List<TbSiteMenu> findByDataStatus(@Param("dataStatus") Integer dataStatus);
 }

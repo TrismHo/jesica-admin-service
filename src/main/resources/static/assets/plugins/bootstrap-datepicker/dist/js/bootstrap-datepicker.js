@@ -1725,7 +1725,7 @@
 	];
 	$.fn.datepicker.Constructor = Datepicker;
 	var dates = $.fn.datepicker.dates = {
-		en: {
+		/*en: {
 			days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 			daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
 			daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
@@ -1734,6 +1734,16 @@
 			today: "Today",
 			clear: "Clear",
 			titleFormat: "MM yyyy"
+		}*/
+		en: {
+			days: ['일', '월', '화', '수', '목', '금', '토'],
+			daysShort: ['일', '월', '화', '수', '목', '금', '토'],
+			daysMin: ['일', '월', '화', '수', '목', '금', '토'],
+			months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			today: "오늘",
+			clear: "Clear",
+			titleFormat: "yyyy년 MM"
 		}
 	};
 

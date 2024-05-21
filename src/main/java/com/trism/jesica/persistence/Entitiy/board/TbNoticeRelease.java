@@ -66,5 +66,18 @@ public class TbNoticeRelease implements Serializable {
     @Column(name = "body")
     private String body = null;
 
-    
+    /**
+     * 플랫폼 : 1제시카 2픽오더
+     */
+    @Column(name = "platform_type")
+    private Integer platformType = null;
+
+
+    /**
+     * 프로그램: 1관리자 2고객앱
+     */
+    @Column(name = "program_type")
+    private Integer programType = null;
+
+
 }

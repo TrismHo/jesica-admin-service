@@ -96,6 +96,18 @@ public class TbAppBanner {
     @Column(name = "banner_type", nullable = false)
     private Integer bannerType = 0;
 
+    /**
+     * 적용 언어코드(sys_type=LANG)
+     */
+    @Column(name = "lang_code", nullable = false)
+    private String langCode = "";
+
+    /**
+     * 앱스키마 URL
+     */
+    @Column(name = "scheme_url", nullable = false)
+    private String schemeUrl = "";
+
     @Builder
     public TbAppBanner(
             Long bannerNo,
@@ -108,7 +120,9 @@ public class TbAppBanner {
             Long boardNo,
             String bannerFile,
             Integer dataStatus,
-            Integer bannerType
+            Integer bannerType,
+            String langCode,
+            String schemeUrl
     ) {
         this.bannerNo = bannerNo;
         this.platformType = platformType;
@@ -121,6 +135,8 @@ public class TbAppBanner {
         this.bannerFile = bannerFile;
         this.dataStatus = dataStatus;
         this.bannerType = bannerType;
+        this.langCode = langCode;
+        this.schemeUrl = schemeUrl;
     }
 
     public void updateDisabledTbAppBanner() {

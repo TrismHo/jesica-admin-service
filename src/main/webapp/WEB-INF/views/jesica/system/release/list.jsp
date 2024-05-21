@@ -9,9 +9,6 @@
     <title>Jesicar | <spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 내역"/></title>
 </head>
 <style>
-    .page-header-fixed {
-        padding-top: 32px;
-    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -36,7 +33,7 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement1" text="시스템 운영"/></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/release/list"><spring:message code="sidemenu.boardmanagement1" text="시스템 운영"/></a></li>
                     <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 내역"/></li>
                 </ol>
                 <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="업데이트 내역"/><%--<spring:message code="side.main2.sub5" text="default text"/>--%></h3>
@@ -45,7 +42,7 @@
             <!-- begin row -->
             <form name="frmSearch" id="frmSearch">
                 <div class="search-box">
-                    <div class="inner-search-box p-5">
+                    <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
@@ -54,11 +51,27 @@
                                             <div class="row">
                                                 <div class="col-xl-12 col-md-12 ">
                                                     <form name="frmSearch" id="frmSearch">
+                                                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                            <input type="hidden" name="platformType" value="1">
+                                                        </c:if>
+                                                        <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                            <input type="hidden" name="platformType" value="2">
+                                                        </c:if>
                                                         <table class="table table-condensed table-bordered">
                                                             <tbody>
                                                             <tr >
+                                                              <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                                    <select class="form-control" name="flatformType">
+                                                                        <option value="1" <c:if test="${searchValue.platformType == 1}">selected</c:if>><spring:message code="list.search.affiliated1" text="제시카"/></option>
+                                                                    </select>
+                                                                </c:if>
+                                                                <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                                    <select class="form-control" name="platformType">
+                                                                        <option value="2" <c:if test="${searchValue.platformType == 2}">selected</c:if>><spring:message code="list.search.affiliated1" text="픽오더"/></option>
+                                                                    </select>
+                                                                </c:if>--%>
                                                                 <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
-                                                                <td colspan="3" >
+                                                                <td colspan="1" >
                                                                     <div class="row">
                                                                     </div>
                                                                     <label>
@@ -68,6 +81,15 @@
                                                                             <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop" text="정지"/></option>
                                                                         </select>
                                                                     </label>
+                                                                </td>
+                                                                <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="프로그램"/></strong></td>
+                                                                <td>
+                                                                    <select class="form-control" name="programType">
+                                                                        <option value="" <c:if test="${searchValue.programType == ''}">selected</c:if>><spring:message code="list.search.affiliated1" text="전체"/></option>
+                                                                        <option value="1" <c:if test="${searchValue.programType == 1}">selected</c:if>><spring:message code="list.search.affiliated1" text="관리자"/></option>
+                                                                        <option value="2" <c:if test="${searchValue.programType == 2}">selected</c:if>><spring:message code="list.search.distributor1" text="고객앱"/></option>
+                                                                        <%--                                                            <option value="5" <c:if test="${searchValue.serviceType == '5'}">selected</c:if>><spring:message code="list.search.distributor" text="맛집예약"/></option>--%>
+                                                                    </select>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -116,6 +138,7 @@
                     <thead>
                     <tr class="text-center">
                         <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
+                        <th width="5%"><spring:message code="list.word.no" text="프로그램"/></th>
                         <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
                         <th width=""><spring:message code="list.word.contents" text="내용"/></th>
                         <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
@@ -126,6 +149,10 @@
                     <c:forEach var="item"  items="${tbNoticeReleaseList}"  varStatus="status">
                         <tr class="detailRow" noticeNo="${item.noticeNo}">
                             <td class="text-center">${status.index + 1}</td>
+                            <td class="text-center">
+                                   <c:if test="${item.programType == 1}">관리자</c:if>
+                                   <c:if test="${item.programType == 2}">고객앱</c:if>
+                            </td>
                             <td class="text-center">${item.title}</td>
                             <td class="text-center">
                                 <div style="overflow: hidden;
@@ -133,6 +160,7 @@
                                           text-overflow: ellipsis;
                                           white-space: nowrap;
                                           width: 250px;
+                                          font-weight: 200;
                                           display: block;">  ${item.body}</div>
                             </td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
@@ -176,41 +204,7 @@
             location.href = '${path}/system/release/insert';
         });
 
-
-
-
-
-        let date = new Date();
-        let startDate = "${searchValue.startDate}";
-        let endDate = "${searchValue.endDate}";
-
-        $(".startDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-
-        if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
-        } else {
-            $(".startDate").datepicker('setDate', startDate);
-        }
-
-        /*date.setMonth(date.getMonth() + 1, 1);*/
-        $(".endDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-        if(endDate == ""){
-            $(".endDate").datepicker('setDate', date);
-        } else {
-            $(".endDate").datepicker('setDate', endDate);
-        }
+        dateSetting();
     });
     $(document).on("click",".detailRow",function(){
         let noticeNo = $(this).attr("noticeNo");

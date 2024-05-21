@@ -11,7 +11,7 @@
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
         <title>Pick-Order | 회원통계</title>
-    </c:if>수
+    </c:if>
 
     <style>
         .buttons-csv {
@@ -65,6 +65,9 @@
             width: 150px;
             height: 23px;
             border: 1px solid #ddd;
+        }
+        .page-header-fixed {
+            padding-top: 32px;
         }
     </style>
 </head>
@@ -142,10 +145,11 @@
                                                 <input type="hidden" class="selday"  name="selday" value="${searchValue.selday}">
                                                 <input type="hidden" class="dayType"  name="dayType" value="${searchValue.dayType}">
                                           </td>
-                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="플랫폼"/><%--등록기간--%></strong></td>
+                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/><%--등록기간--%></strong></td>
                                             <td style="width:50%">
+                                                <input type="hidden" name="platformType" value="${searchValue.platformType}">
                                                 <label>
-                                                    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                  <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
                                                         <select class="form-control" name="platformType" style="margin-right: 30px;">
                                                             <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
                                                         </select>
@@ -154,15 +158,15 @@
                                                         <select class="form-control" name="platformType" style="margin-right: 30px;">
                                                             <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
                                                         </select>
-                                                    </c:if>
-                                                  <%--  <select class="form-control" name="platform" style="margin-right: 30px;" >
-                                                        <option value="" <c:if test="${searchValue.platform == ''}">selected</c:if>>전체</option>
-                                                        <option value="1" <c:if test="${searchValue.platform == '1'}">selected</c:if>>제시카</option>
-                                                        <option value="2" <c:if test="${searchValue.platform == '2'}">selected</c:if>>양파오더</option>
-                                                        <option value="0" <c:if test="${searchValue.platform == '0'}">selected</c:if>>비플랫폼</option>
-                                                    </select>--%>
-                                                </label>
-                                                <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
+                                                    </c:if>--%>
+                                                   <select class="form-control" name="extBrCode" style="margin-right: 30px;" >
+                                                       <option value="">전체</option>
+                                                       <c:forEach var="item" items="${brCodeList}" varStatus="status">
+                                                           <option <c:if test="${item.brCode == searchValue.extBrCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
+                                                       </c:forEach>
+                                                   </select>
+
+                                                   <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
                                                 <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
                                             </td>
                                         </tr>
@@ -217,8 +221,8 @@
                                         <th>%</th>--%>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <c:forEach var="item" items="${timeList}" varStatus="status">
+                                    <tbody id="userTbody">
+                                   <%-- <c:forEach var="item" items="${timeList}" varStatus="status">
                                         <tr class="text-center">
                                             <td>${item.yyyymmdd}</td>
                                             <td>
@@ -239,14 +243,14 @@
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.malePer}"/> %</td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femaleCnt}"/> 명</td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femalePer}"/> %</td>
-                                                <%--<td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarCnt}"/> 명</td>
+                                                &lt;%&ndash;<td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarCnt}"/> 명</td>
                                                 <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarPer}"/> %</td>
                                                 <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionCnt}"/> 명</td>
                                                 <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionPer}"/> %</td>
                                                 <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNoneCnt}"/> 명</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNonePer}"/> %</td>--%>
+                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNonePer}"/> %</td>&ndash;%&gt;
                                         </tr>
-                                    </c:forEach>
+                                    </c:forEach>--%>
                                     </tbody>
                                 </table>
                             </div>
@@ -610,6 +614,7 @@
             data :JSON.stringify(req),
             dataType: "json",
             success: function(data) {
+                $("#userTbody").html();
                 for(var i = 0 ; i < data.timeList.length ; i++) {
                     label.push(data.timeList[i].yyyymmdd)
                      totalCnt.push(data.timeList[i].totalCnt)
@@ -617,6 +622,69 @@
                      femaleCnt.push(data.timeList[i].femaleCnt)
                     iosCnt = iosCnt+ data.timeList[i].iosCnt;
                     androidCnt = androidCnt+ data.timeList[i].androidCnt;
+
+
+                    let dw = ''
+                    if(data.timeList[i].dw == 1){
+                        dw = '일요일';
+                    } else if(data.timeList[i].dw == 2) {
+                        dw = '월요일';
+                    } else if(data.timeList[i].dw == 3) {
+                        dw = '화요일';
+                    } else if(data.timeList[i].dw == 4) {
+                        dw = '수요일';
+                    } else if(data.timeList[i].dw == 5) {
+                        dw = '목요일';
+                    } else if(data.timeList[i].dw == 6) {
+                        dw = '금요일';
+                    } else if(data.timeList[i].dw == 7) {
+                        dw = '토요일';
+                    }
+                    let yyyymmdd = '';
+                    if(data.timeList[i].start && data.timeList[i].end){
+                       yyyymmdd = data.timeList[i].start +" ~ "+ data.timeList[i].end;
+                    } else {
+                       yyyymmdd = data.timeList[i].yyyymmdd;
+                    }
+
+                    let androidPer = '';
+                    if(data.timeList[i].androidPer != null) {
+                        androidPer = data.timeList[i].androidPer
+                    }
+
+                    let iosPer = '';
+                    if(data.timeList[i].iosPer != null) {
+                        iosPer = data.timeList[i].iosPer
+                    }
+
+                    let malePer = '';
+                    if(data.timeList[i].malePer != null) {
+                        malePer = data.timeList[i].malePer
+                    }
+
+                    let femalePer = '';
+                    if(data.timeList[i].femalePer != null) {
+                        femalePer = data.timeList[i].femalePer
+                    }
+
+
+
+                    $("#userTbody").append(
+                        "<tr class='text-center'>"+
+                        "    <td>" +yyyymmdd+ "</td>"+
+                        "    <td>"+ dw +"</td>"+
+                        "    <td>"+data.timeList[i].totalCnt+" 명</td>"+
+                        "    <td>"+data.timeList[i].androidCnt+ "명</td>"+
+                        "    <td>"+androidPer+" %</td>"+
+                        "    <td>"+data.timeList[i].iosCnt+"명</td>"+
+                        "    <td>"+iosPer+"%</td>"+
+                        "    <td>"+data.timeList[i].maleCnt+" 명</td>"+
+                        "    <td>"+malePer+" %</td>"+
+                        "    <td>"+data.timeList[i].femaleCnt+" 명</td>"+
+                        "    <td>"+femalePer+" %</td>"+
+                        "</tr>"
+                    )
+
                 }
                 iosTotal.push(iosCnt)
                 androidTotal.push(androidCnt)
@@ -625,6 +693,9 @@
                 } else {
                     pointSize = 4;
                 }
+
+
+
 
 
                 /*let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2140);

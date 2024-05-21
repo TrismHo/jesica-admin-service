@@ -38,7 +38,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public List<TbSiteMenu> getTbSiteMenuList() {
-        return tbSiteMenuRepository.findAll();
+        return tbSiteMenuRepository.findByDataStatus(1);
     }
     @Transactional(readOnly = true)
     public List<Map<String, Object>>  getTbSiteMenuAclList(Long staffNo) {

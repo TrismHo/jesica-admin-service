@@ -35,7 +35,11 @@ public class QTbAppBanner extends EntityPathBase<TbAppBanner> {
 
     public final StringPath insertUserId = createString("insertUserId");
 
+    public final StringPath langCode = createString("langCode");
+
     public final NumberPath<Integer> platformType = createNumber("platformType", Integer.class);
+
+    public final StringPath schemeUrl = createString("schemeUrl");
 
     public final NumberPath<Integer> serviceType = createNumber("serviceType", Integer.class);
 

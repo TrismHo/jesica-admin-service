@@ -55,8 +55,8 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.workgroupmanagement1" text="시스템 운영"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="/workgroup/affilfranch/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="사용자 관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.workgroupmanagement1" text="시스템 운영"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="사용자 관리"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration1" text="사용자 등록"/><%--상품등록--%></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.search.franchiseeregistration1" text="사용자 등록"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
@@ -108,7 +108,7 @@
                                         </tr>
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.userphone" text="사용자 전화번호"/></td>
-                                            <td><input type="text" class="form-control width-full phone" name="phone" value="" placeholder="<spring:message code="list.description.pleaseenteryourphonenumber" text="사용자 전화번호를 입력해주세요"/>" maxlength="20" numberOnly="true"></td>
+                                            <td><input type="text" class="form-control width-full phone" name="phone" id="phoneNum"   value="" placeholder="<spring:message code="list.description.pleaseenteryourphonenumber" text="사용자 전화번호를 입력해주세요"/>" maxlength="20" numberOnly="true"></td>
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourphonenumber" text="사용자 전화번호를 입력해주세요"/></td>
                                         </tr>
                                         <tr>
@@ -286,6 +286,12 @@
         }
         return true;
     }
+
+   /* var phoneNum = document.getElementById('phoneNum');
+
+    phoneNum.onkeyup = function(){
+        this.value = autoHypenPhone( this.value ) ;
+    }*/
 </script>
 </body>
 </html>

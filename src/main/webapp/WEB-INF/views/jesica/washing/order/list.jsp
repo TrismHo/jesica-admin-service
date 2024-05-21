@@ -24,7 +24,7 @@
     .testTable_wrapper .row {
         width: 3000px;
     }
-
+일
     .overflow-x-auto .table {
         width: auto !important;
         table-layout: fixed;
@@ -133,7 +133,7 @@
             <!-- begin row -->
 
                 <div class="search-box">
-                    <div class="inner-search-box p-5">
+                    <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
@@ -254,7 +254,7 @@
                         <th class="align-middle "><spring:message code="list.word.orderno1" text="봉사료"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="주문상태"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="고객연락처"/></th>
-                         <th class="align-middle "><spring:message code="list.word.orderno1" text="배달서비스구분"/></th>
+                         <th class="align-middle "><spring:message code="list.word.orderno1" text="배달서비스"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="가맹점 전화번호"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="주문확인"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="취소사유"/></th>

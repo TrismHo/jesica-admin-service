@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.systemproductdetails" text="시스템 상품상세"/></title>
+    <title>Jesicar | <spring:message code="list.detail.systemproductdetails" text="사용자 관리"/></title>
 </head>
 <style>
     .background-eee{
@@ -34,8 +34,8 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.system1" text="시스템 운영"/></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.system.systemmerchandise1" text="사용자 관리"/></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.system1" text="시스템 운영"/></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.system.systemmerchandise1" text="사용자 관리"/></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.systemproductdetails1" text="사용자 상세"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.detail.systemproductdetails1" text="사용자 상세"/></h3>
@@ -146,7 +146,7 @@
                             </form>
                             <div class="m-l-5">
                                 <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
-                                <c:if test="${tbUserStaff.roleType != 1}"><button type="button" class="btn btn-primary btn_update float-left m-t-5 m-b-5 m-r-5" onclick="udt_btn()"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button></c:if>
+                                <c:if test="${tbUserStaff.roleType != 2}"><button type="button" class="btn btn-primary btn_update float-left m-t-5 m-b-5 m-r-5" onclick="udt_btn()"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button></c:if>
                             </div>
                         </div>
                     </div>
@@ -157,7 +157,12 @@
                     <div class="table-responsive">
                         <form id="update_form2" name="update_form2">
                             <table class="table table-condensed table-bordered">
-                                <tr>
+                                <thead>
+                                    <th class="width-50"></th>
+                                    <th> 메뉴레벨 1   <br> <span class="text-red">(* 해당 권한이 없으면 하위메뉴를 사용할수 없습니다.)</span></th>
+                                    <th> 메뉴레벨 2 <br> &nbsp; </th>
+                                </thead>
+                               <%-- <tr>
                                     <td class="bg-light width-50" ></td>
                                     <td class="border-right-0 bg-light width-150" >
                                         메뉴레벨 1   <br> <span class="text-red">(* 해당 권한이 없으면 하위메뉴를 사용할수 없습니다.)</span>
@@ -165,7 +170,7 @@
                                     <td class="border-right-0 bg-light" >
                                         메뉴레벨 2
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td class="bg-light" rowspan="${tbSiteMenus.size()+1}"><spring:message code="list.detail.accountholder1" text="메뉴별 사용여부"/></td>
                                 </tr>
@@ -173,23 +178,25 @@
 
                                     <%-- 관제는 따로 --%>
                                     <c:if test="${item.menuLevel == 10}">
-                                        <td class="width-150 " colspan="2">
-                                            <div class="checks small m-l-10">
-                                                <input type="checkbox" class="menuUseChk menuLevelOne" menugroup="${item.menuGroup}" id="ex_chk${item.menuNo}"
-                                                       value="${item.menuNo}"
-                                                <c:forEach items="${tbSiteAclList}" var="itemChk">
-                                                    <c:choose>
-                                                        <c:when test="${itemChk.menuNo == item.menuNo}">
-                                                               checked
-                                                        </c:when>
-                                                        <c:when test="${itemChk == '' || itemChk == null }">
-                                                        </c:when>
-                                                    </c:choose>
-                                                </c:forEach>
-                                                >
-                                                <label for="ex_chk${item.menuNo}"> ${item.menuName}</label><br>
-                                            </div>
-                                        </td>
+                                        <tr>
+                                            <td class="width-150 " colspan="2">
+                                                <div class="checks small m-l-10">
+                                                    <input type="checkbox" class="menuUseChk menuLevelOne" menugroup="${item.menuGroup}" id="ex_chk${item.menuNo}"
+                                                           value="${item.menuNo}"
+                                                    <c:forEach items="${tbSiteAclList}" var="itemChk">
+                                                        <c:choose>
+                                                            <c:when test="${itemChk.menuNo == item.menuNo}">
+                                                                   checked
+                                                            </c:when>
+                                                            <c:when test="${itemChk == '' || itemChk == null }">
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </c:forEach>
+                                                    >
+                                                    <label for="ex_chk${item.menuNo}"> ${item.menuName}</label><br>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </c:if>
                                     <c:if test="${item.menuLevel == 1}">
                                         <tr>

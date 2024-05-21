@@ -28,9 +28,9 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5" text="시스템 운영"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5.sub1" text="업데이트 내역 등록"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active">등록<%--<spring:message code="merchandise.insert.title" text="default text"/>--%><%--상품등록--%></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/release/list"><spring:message code="side.main5" text="시스템 운영"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/release/list"><spring:message code="side.main5.sub1" text="업데이트 내역"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item active">업데이트 내역 등록<%--<spring:message code="merchandise.insert.title" text="default text"/>--%><%--상품등록--%></li>
                 </ol>
                 <h3 class="rix-title p-b-5">업데이트 내역 등록<%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
             </div>
@@ -44,6 +44,25 @@
                             <input type="hidden" name="dataStatus" value="1">
                             <table class="table table-condensed table-bordered">
                                 <tbody>
+                                <tr>
+                                    <td class="bg-light ">
+                                      플랫폼명
+                                    </td>
+                                    <td><input type="text" class="form-control width-100" readonly value="<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">제시카</c:if><c:if test="${sessionScope.sessionKey.company == 'yangpa'}">PICK오더</c:if>" maxlength="150">
+                                        <input type="hidden" class="form-control width-100" name="platformType" readonly value="<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">1</c:if><c:if test="${sessionScope.sessionKey.company == 'yangpa'}">2</c:if>">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light ">
+                                        업데이트 공지 타입
+                                    </td>
+                                    <td>
+                                        <select class="form-control" name="programType">
+                                            <option value="1">관리자</option>
+                                            <option value="2">오더앱</option>
+                                        </select>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td class="bg-light ">제목<%--<spring:message code="merchandise.insert.merchanname" text="default text"/>--%><%--상품명--%></td>
                                     <td><input type="text" class="form-control width-full title" name="title" value="" maxlength="150"></td>
@@ -122,7 +141,7 @@
                             success: function (data) {
                                 if (data.result == 200) {
                                     alert(registrationwassuccessful);
-                                    location.href="${path}/system/release/list?dataStatus=OK"
+                                    location.href="${path}/system/release/list";
                                 } else {
                                     alert(confirmfailmsg);
                                     return;

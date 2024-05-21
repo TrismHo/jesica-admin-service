@@ -54,6 +54,9 @@ public class SystemController {
 
     private final SystemPropService systemPropService;
 
+    private final BrCodeService brCodeService;
+
+
     @GetMapping("/coopcompany/list")
     public ModelAndView listCooperativeCompany() {
 
@@ -435,6 +438,8 @@ public class SystemController {
     public ModelAndView releaseList(@RequestParam Map<String,Object> searchValue,
                                     Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
         try {
             if (!searchValue.isEmpty()) {
                 //putSearchOption(session, searchValue);
@@ -443,6 +448,11 @@ public class SystemController {
                 searchValue.put("title", "");
                 searchValue.put("dataStatus", "OK");
                 searchValue.put("startDate", "2020-01-01");
+                if("jesicar".equals(company)) {
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    searchValue.put("platformType","2");
+                }
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
 
             }
@@ -457,10 +467,19 @@ public class SystemController {
     }
 
     @GetMapping("/release/detail")
-    public ModelAndView detailRelease(@RequestParam("noticeNo") Long noticeNo , Model model) {
+    public ModelAndView detailRelease(@RequestParam("noticeNo") Long noticeNo , Model model ,HttpSession session ) {
         log.info("noticeNo :: {}",noticeNo);
         try {
-            TbNoticeRelease tbNoticeRelease = boardService.getTbReleaseDetail(noticeNo);
+            LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+            String company = loginSession.getCompany();
+            int platformType = 0;
+            if("jesicar".equals(company)) {
+                platformType = 1;
+            } else if ("yangpa".equals(company)) {
+                platformType = 2;
+            }
+
+            TbNoticeRelease tbNoticeRelease = boardService.getTbReleaseDetail(noticeNo, platformType);
             model.addAttribute("tbNoticeRelease", tbNoticeRelease);
         } catch (Exception e){
             e.printStackTrace();
@@ -480,17 +499,56 @@ public class SystemController {
     @GetMapping("/systemprop/list")
     public ModelAndView systempropList(Locale locale, HttpServletRequest request,
                                        @RequestParam Map<String,Object> searchValue,
-                                       LoginSession session,
+                                       HttpSession session,
                                        Model model) {
         log.info("@@searchValue {}",searchValue);
 
-        model.addAttribute("tbServiceProp", systemPropService.tbSystemProp(2));
+        LoginSession loginSession = (LoginSession) session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+        Integer platfromCode = null;
+
+        if("jesicar".equals(company)) {
+            platfromCode = 1;
+        } else if ("yangpa".equals(company)) {
+            platfromCode = 2;
+        }
+
+        model.addAttribute("tbServiceProp", systemPropService.tbSystemProp(platfromCode));
 
         model.addAttribute("searchValue",searchValue);
 
 
 
         return new ModelAndView("/jesica/system/systemprop/list");
+    }
+
+    /**
+     * 총판코드 리스트
+     */
+    @GetMapping("/brcode/list")
+    public ModelAndView brCodeList(HttpServletRequest request,
+                                       @RequestParam Map<String,Object> searchValue,
+                                       HttpSession session,
+                                       Model model) {
+        log.info("@@searchValue {}",searchValue);
+
+        LoginSession loginSession = (LoginSession) session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+        Integer platfromCode = null;
+
+        if("jesicar".equals(company)) {
+            platfromCode = 1;
+        } else if ("yangpa".equals(company)) {
+            platfromCode = 2;
+        }
+
+        model.addAttribute("brCodeList", brCodeService.getBrCodeSystemList());
+
+        model.addAttribute("searchValue",searchValue);
+
+
+
+        return new ModelAndView("/jesica/system/brcode/list");
     }
 
 

@@ -32,7 +32,7 @@
             <!-- begin page-header -->
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><spring:message code="sidemenu.workgroupmanagement1" text="시스템 운영"/></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.workgroupmanagement1" text="시스템 운영"/></a></li>
                     <li class="breadcrumb-item active"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="사용자 관리"/></li>
                 </ol>
                 <h3 class="rix-title"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="사용자 관리"/></h3>
@@ -172,7 +172,17 @@
                             </td>
                             <td class="text-center"><span class="orangeColor d-block">${item.userId}</span></td>
                             <td class="text-center">${item.name}</td>
-                            <td class="text-center">${item.phone}</td>
+                            <td class="text-center">
+                                <c:if test="${item.phone.length() == 11}">
+                                    ${fn:substring(item.phone, 0, 3)}-${fn:substring(item.phone, 3, 7)}-${fn:substring(item.phone, 7, 12)}
+                                </c:if>
+                                <c:if test="${item.phone.length() == 10}">
+                                    ${fn:substring(item.phone, 0, 2)}-${fn:substring(item.phone, 2, 6)}-${fn:substring(item.phone, 6, 12)}
+                                </c:if>
+                                <c:if test="${item.phone.length() != 10 && item.phone.length() != 11}">
+                                    ${item.phone}
+                                </c:if>
+                            </td>
                             <td class="text-center"><javatime:format value="${item.lastLoginDtm}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                         </tr>

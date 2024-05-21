@@ -1,17 +1,18 @@
 package com.trism.jesica.persistence.Entitiy.cust;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trism.jesica.persistence.core.entity.BaseEntity;
 import com.trism.jesica.persistence.type.DataStatus;
 import com.trism.jesica.persistence.type.GenderType;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 @ToString(callSuper = true, exclude = {"custFavorites", "custDevices", "custAddrs"})
 @EqualsAndHashCode(callSuper = true)
 @DynamicInsert
@@ -97,10 +99,24 @@ public class TbCust extends BaseEntity {
     /**
      * 고객 주소 (기본주소) (FK)
      */
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cust_addr_no", referencedColumnName = "cust_addr_no")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "cust_addr_no", referencedColumnName = "cust_no")
     @JsonManagedReference
     private TbCustAddr custAddr;
+
+    /**
+     * 고객 주소 (기본주소) (FK)
+     */
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "recomm_cust_no", referencedColumnName = "cust_no" , insertable = false, updatable = false)
+    @JsonManagedReference
+    private TbCust recommCust;
+
+
 
     /**
      * 성별 (N: 알수없음, M: 남성, F: 여성)
@@ -173,13 +189,53 @@ public class TbCust extends BaseEntity {
      * 추천 가맹점 코드
      */
     @Column(name = "ext_recomm_st_code")
-    private String extRecommStCode;
+    private String extRecommStCode = null;
 
     /**
      * 추천 가맹점명
      */
     @Column(name = "ext_recomm_st_name")
     private String extRecommStName;
+
+    /**
+     * 추천 총판코드
+     */
+    @Column(name = "ext_br_code")
+    private String extBrCode = null;
+
+    /**
+     * 추천 마스터가맹점 코드
+     */
+    @Column(name = "ext_master_st_code")
+    private String extMasterStCode = null;
+
+
+    /**
+     * 추천인코드
+     */
+    @Column(name = "recomm_code")
+    private String recommCode = null;
+
+    /**
+     * 추천인수
+     */
+    @Column(name = "recomm_count")
+    private Integer recommCount;
+
+    /**
+     * 추천인
+     */
+    @Column(name = "recomm_cust_no")
+    private String recommCustNo = null;
+
+
+    /**
+     * 추천인 전화번호
+     */
+    @Column(name = "recomm_cust_tel")
+    private String recommCustTel = null;
+
+
     /**
      * 고객 단골매장 양방향
      */
@@ -203,12 +259,16 @@ public class TbCust extends BaseEntity {
     private List<TbCustAddr> custAddrs;
 
 
- /*   @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "cust_no", foreignKey = @ForeignKey(name="cust_no") ,nullable = true, insertable = false ,updatable = false)
-    @JsonManagedReference
-    private TbCustLocation custLocation;*/
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "cust_no", referencedColumnName = "cust_no", insertable = false, updatable = false)
+    @JsonManagedReference
+    private TbCustLocation custLocation;
+
+    @Transient
+    private String recommCustName;
 
     /**
      * 수정일

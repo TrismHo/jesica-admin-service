@@ -434,4 +434,165 @@
             alert(result.errors[0].reason);
         }*/
     }
+
+    function dataSrcFunction(res, type) {
+        console.log(type)
+        var data= res.data;
+        if(type == "A2"){
+            // 리스트번호
+            for (let i = 0; i < data.length; i++) {
+                data[i].listIndex = i + 1
+                data[i]["number"] = i;
+            }
+        } else if(type == "A1"){
+            var a1= res.a1;
+            var a2= res.a2;
+            // 리스트번호
+            for (let i = 0; i < data.length; i++) {
+                data[i].listIndex = i + 1
+                data[i]["number"] = i;
+                if(data[i]["isMember"] != 1){
+                    //비회원
+                    data[i]["memberType"] = { type: 0 };
+                }
+                if(data[i]["isMember"] == 1 && data[i]["snsToken1"] == null && data[i]["snsToken2"] == null){
+                    //회원
+                    data[i]["memberType"] = { type: 1 , custNo: data[i].custNo};
+                }
+                if(data[i]["snsToken1"] != null || data[i]["snsToken2"] != null){
+                    if(data[i]["snsToken1"] == null || data[i]["snsToken2"] != null){
+                        //Apple회원
+                        data[i]["memberType"] = { type: 2 };
+                    }
+                    if(data[i]["snsToken1"] != null || data[i]["snsToken2"] == null){
+                        //Kakao회원
+                        data[i]["memberType"] = { type: 3 };
+                    }
+                }
+                if(data[i]["recommCust"]){
+                    data[i]["recommCustName"] =data[i]["recommCust"]["custName"] +"("+ phoneHyphen(data[i]["recommCust"]["custTel"]) +")";
+                }
+                if(data[i]["custLocation"]) {
+                    for(var j = 0; j < a1.length ; j++) {
+                        if(data[i]["custLocation"]["addr1"] == a1[j].sysCode) {
+                            data[i]["custLocation"]["addr1"] = a1[j].codeName;
+                        }
+                    }
+                    for(var h = 0; h < a2.length ; h++) {
+                        if(data[i]["custLocation"]["addr2"] == a2[h].sysCode) {
+                            data[i]["custLocation"]["addr2"] = a2[h].codeName;
+                        }
+                    }
+                } else {
+                    data[i]["custLocation"] = {addr1 : "", addr2: ""};
+                }
+            }
+        }
+        return data;
+    }
+
+
+    function getToday(){
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = ("0" + (1 + date.getMonth())).slice(-2);
+        var day = ("0" + date.getDate()).slice(-2);
+        return year + month + day;
+    }
+
+    function dateSetting() {
+        let date = new Date();
+        let startDate = "${searchValue.startDate}";
+        let endDate = "${searchValue.endDate}";
+
+        $(".startDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
+
+        if(startDate == ""){
+            $(".startDate").datepicker('setDate', '2020-01-01');
+        } else {
+            $(".startDate").datepicker('setDate', startDate);
+        }
+
+        $(".endDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
+        if(endDate == ""){
+            $(".endDate").datepicker('setDate', date);
+        } else {
+            $(".endDate").datepicker('setDate', endDate);
+        }
+    }
+
+    //datatables 공통화
+    $.fn.ajaxDataTable = function (url, data,  dataSrcType, init, error = null) {
+        var setting = {
+            "serverSide": true,
+            "filter": false,
+            "lengthChange": true,
+            "paging": true,
+            "pagingType": "full_numbers",
+            "language": {
+                "infoEmpty" : "검색결과가 없습니다.",
+                "zeroRecords" : "검색결과가 없습니다.",
+                "emptyTable": "검색결과가 없습니다.",
+                "lengthMenu": "_MENU_",
+            },
+            "bInfo": false,
+            "bLengthChange": true, // n개씩보기
+            "lengthMenu": [[10, 20, 30], ["10개 보기", "20개 보기", "30개 보기"]], // 10/20/30 개씩보기
+            "order": [[0, "desc"]],
+            "searching": false,
+            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+            buttons: [
+               /* { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },
+                { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
+                { extend: 'excel',
+                    text: '&nbsp; 엑셀 다운로드',
+                    className: 'btn-sm fa fa-file-excel'
+                    ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
+                    ,title: ''
+                    ,action: newExportAction
+                },
+                /*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+            ],
+
+            "ajax": {
+                url: url,
+                type: "POST",
+                data : function(res){
+                    var formData = objectifyForm($("#frmSearch").serializeArray());
+                    var param = formData;
+
+                    param["draw"] = res.draw;
+                    param["length"] = res.length;
+                    param["start"] = res.start;
+                    return param;
+                },
+                "dataSrc": function (res) {
+                    return dataSrcFunction(res,dataSrcType);
+                },
+                error: function(xhr, status, err) {
+                    if (error) {
+                        error(status);
+                    } else {
+                        alert('통신 실패!!!');
+                    }
+                }
+            },
+        };
+
+        var val = $.extend(true, setting, init);
+        return $(this).DataTable(val);
+    };
 </script>

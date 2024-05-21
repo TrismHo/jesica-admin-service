@@ -45,7 +45,7 @@
             <!-- begin row -->
             <form name="frmSearch" id="frmSearch">
                 <div class="search-box">
-                    <div class="inner-search-box p-5">
+                    <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
@@ -169,6 +169,7 @@
                                           text-overflow: ellipsis;
                                           white-space: nowrap;
                                           width: 250px;
+                                          font-weight: 200;
                                           display: block;">  ${item.title}
                                 </div>
                             </td>

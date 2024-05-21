@@ -28,6 +28,14 @@
 	.login.login-v2 {
 		top: 40px;
 	}
+	.layer-box ul, li, div, .layer-box-nocls ul {
+		letter-spacing: 0px;
+		margin: 0;
+		font-size: 12px;
+		font-family: GmarketSansTTFMedium;
+		/* font-family: 'Nanum Gothic', "나눔 고딕", 'NanumGothic', "나눔고딕", 'Malgun Gothic', '맑은 고딕', 'MalgunGothic', '맑은고딕', sans-serif; */
+	}
+
 </style>
 <body class="pace-top">
 <!-- begin #page-loader -->
@@ -36,7 +44,7 @@
 
 <!-- begin login-cover -->
 <div class="login-cover">
-	<div class="login-cover-image" style="background-image: url(../assets/img/login-bg/login_bg-23.jpg)" data-id="login-cover-image"></div>
+	<div class="login-cover-image" style="" data-id="login-cover-image"></div>
 	<div class="login-cover-bg"></div>
 </div>
 <ul class="navbar-nav navbar-right">
@@ -80,7 +88,14 @@
 			<div class="brand" style="text-align: center">
 				<%--<span class="logo"></span>--%>
 				<%--<img style="margin: auto;display: block; width: 70%;margin-bottom: 27px;"  src="${path}<spring:message code="login.logoimg" text="/assets/img/logo/itsuda_nagative.png"/>">--%>
-					<h1>제시카 Manager</h1>
+					<h1><img  style="width: 350px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/pick_order_3.png"/>"></h1><br>
+					<h1 style="position: absolute;
+				    margin: auto;
+					top: 111px;
+					 font-family: GmarketSansTTFBold;
+					 text-shadow: -1px 0 #8f98ff, 0 1px  #8f98ff, 1px 0  #8f98ff, 0 -1px  #8f98ff;
+					 color: #e2e2e2;
+					right: 25px;">Manager</h1>
 			</div>
 			<div class="icon">
 				<%--<i class="fa fa-lock"></i>--%>
@@ -102,12 +117,12 @@
 				<div class="checkbox checkbox-css m-b-20">
 					<input type="checkbox" id="remember_checkbox" />
 					<label for="remember_checkbox">
-						Remember ID
+						아이디 저장
 					</label>
 
 				</div>
 				<div class="login-buttons">
-					<input type="button" class="btn btn-success btn-block btn-lg login_btn" value="<spring:message code="login.signin" text="Sign In"/>">
+					<input type="button" style="" class="btn btn-success btn-block btn-lg login_btn" value="<spring:message code="login.signin" text="로 그 인"/>">
 				</div>
 				<br>
 				<p class="text-center text-grey-darker mb-0">
@@ -116,7 +131,7 @@
 				<%--<div class="m-t-20">
 					Not a member yet? Click <a href="javascript:;">here</a> to register.
 				</div>--%>
-				<div style="margin: 20px; width: 76%; text-align: center; position: absolute; bottom: 0"> <spring:message code="login.servicearea" text="Mobility Service in Jeju"/></div>
+				<%--<div style="margin: 20px; width: 76%; text-align: center; position: absolute; bottom: 0"> <spring:message code="login.servicearea" text="Mobility Service in Jeju"/></div>--%>
 			</form>
 
 		</div>
@@ -272,10 +287,10 @@
 		var todayDate = new Date();
 		todayDate.setTime(todayDate.getTime() + 0);
 		if(todayDate > expiredays){
-			document.cookie = name + "=" + escape(value) + "; path=/; expires=" + expiredays + ";";
+			document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 		}else if(todayDate < expiredays){
-			todayDate.setDate(todayDate.getDate() + expiredays);
-			document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+			todayDate.setMonth(todayDate.getMonth() +1);
+			document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate + ";";
 		}
 
 
@@ -305,12 +320,11 @@
 	function saveid() {
 		var expdate = new Date();
 		if ($("#remember_checkbox").is(":checked")){
-			expdate.setTime(expdate.getTime() + 1000 * 3600 * 24 * 30);
+			expdate.setTime(expdate.getTime() + 30*24*60*60*1000);
 			setCookie("saveid", $("#bmLoginId").val(), expdate);
 		}else{
-			expdate.setTime(expdate.getTime() - 1000 * 3600 * 24 * 30);
+			expdate.setTime(expdate.getTime() + -1*24*60*60*1000);
 			setCookie("saveid", $("#bmLoginId").val(), expdate);
-
 		}
 	}
 

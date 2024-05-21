@@ -1,6 +1,10 @@
 package com.trism.jesica.persistence.Entitiy.manna;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.trism.jesica.persistence.Entitiy.cust.TbCust;
 import lombok.Data;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -23,12 +27,21 @@ public class TbMannaOrder  {
     @Column(name = "ord_no", insertable = false, nullable = false)
     private Long ordNo;
 
+    /**
+     * 회원번호
+     */
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "uid",  referencedColumnName = "cust_no",  nullable = true)
+    private TbCust tbCust;
 
     /**
      * 회원번호
      */
-    @Column(name = "uid", nullable = false)
-    private String uid = null;
+/*    @Column(name = "uid", nullable = false)
+    private String uid = null;*/
+
 
     /**
      * 주문날짜
@@ -79,13 +92,11 @@ public class TbMannaOrder  {
     @Column(name = "coupon_amt")
     private Long couponAmt = null;
 
-
     /**
      * 이벤트 할인
      */
     @Column(name = "event_amt")
     private Long eventAmt = null;
-
 
     /**
      * 지불금액
@@ -293,8 +304,23 @@ public class TbMannaOrder  {
     private String totalUseCount = null;
 
 
+    /**
+     * 총판코드
+     */
+    @Column(name = "br_code")
+    private String brCode = null;
 
+    /**
+     * 마스터 가맹점코드
+     */
+    @Column(name = "master_st_code")
+    private String masterStCode = null;
 
-
+    @Transient
+    private String extBrCode = null;
+    @Transient
+    private String extMasterStCode = null;
+    @Transient
+    private String extRecommStCode = null;
 
 }

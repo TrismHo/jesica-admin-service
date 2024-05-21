@@ -1,5 +1,6 @@
 package com.trism.jesica.Controller;
 
+import com.trism.jesica.Service.BrCodeService;
 import com.trism.jesica.Service.MannaService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.dto.TbMannaOrderGoodsDTO;
@@ -24,6 +25,8 @@ import java.util.Map;
 @Slf4j
 public class RestaurantController {
     private final MannaService mannaService;
+
+    private final BrCodeService brCodeService;
     private String ordPathCd = "1069";
 
     /**
@@ -34,6 +37,10 @@ public class RestaurantController {
                                   Model model, HttpSession session) {
 
         log.info("@@searchValue {}",searchValue);
+        List<Map<String,Object>> brCodeList = null;
+        // 총판 리스트 조회
+        brCodeList = brCodeService.getBrCodeList();
+
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
@@ -54,16 +61,17 @@ public class RestaurantController {
                 searchValue.put("ordStatus", "5");
             }
 
-            searchValue.put("ordPathCd",ordPathCd);
+          /*  searchValue.put("ordPathCd",ordPathCd);
             List<TbMannaOrder> resultList =  mannaService.tbCallAllList(searchValue);
             //List<TbSystemCode> tbSystemCode = driverApplyService.searchTbSystemCode("OP");
             //model.addAttribute("tbSystemCode", tbSystemCode);
-            model.addAttribute("orderList", resultList);
+            model.addAttribute("orderList", resultList);*/
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         model.addAttribute("searchValue", searchValue);
+        model.addAttribute("brCodeList", brCodeList);
 
         return new ModelAndView("/jesica/restaurant/order/list");
 

@@ -24,6 +24,8 @@ import com.trism.jesica.persistence.Repository.poinhistory.TbPointHistoryReposit
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -206,8 +208,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public TbNoticeRelease getTbReleaseDetail(Long noticeId) {
-        Optional<TbNoticeRelease> tbNoticeRelease = tbNoticeReleaseRepository.findById(noticeId);
+    public TbNoticeRelease getTbReleaseDetail(Long noticeId,Integer platformType) {
+        Optional<TbNoticeRelease> tbNoticeRelease = tbNoticeReleaseRepository.findByNoticeNoAndPlatformType(noticeId,platformType);
         if(tbNoticeRelease.isPresent() == false) {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
@@ -274,8 +276,9 @@ public class BoardService {
         return searchValue.isEmpty() ? null : tbCouponRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    @Transactional(readOnly = true)
-    public List<TbCustDTO> getCustList(Map<String, Object> searchValue) {
+    public Map<String, Object> getCustListPop(Map<String,Object> searchValue, Pageable pageable) {
+        Specification<TbCust> predicate = null;
+        Map<String, Object> map = new HashMap<>();
 
         String isMember = "";
         String platformType = "";
@@ -297,7 +300,7 @@ public class BoardService {
                     dataStatus = value.toString();
                     if(dataStatus.equals("OK")) {
                         dataStatus = "1";
-                     } else if(dataStatus.equals("STOP")) {
+                    } else if(dataStatus.equals("STOP")) {
                         dataStatus = "2";
                     }
                 }
@@ -320,47 +323,73 @@ public class BoardService {
 
         }
 
-        if (keyword.equals("")) {
-            return tbCustRepository.getCustList(isMember,platformType, dataStatus ,startDate,endDate);
-        } else if(!keyword.equals("")){
-            if(keywordType.equals("custTel")) {
-                return tbCustRepository.getCustTelList(isMember,platformType, dataStatus ,startDate,endDate,"%"+keyword+"%");
-            } else if(keywordType.equals("custName")) {
-                return tbCustRepository.getCustNameList(isMember,platformType, dataStatus ,startDate,endDate,"%"+keyword+"%");
-            }
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbCust>) SearchUtil.searchCustListPop(searchValue);
         }
+        Page<TbCustDTO> custPage = tbCustRepository.getCustListPop(predicate, pageable);
+        ;
+        /*List<TbMannaOrder> list = searchValue.isEmpty() ? null
+                : tbMannaOrderRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "ordDate"));*/
 
+        map.put("custList",custPage.getContent());
+        map.put("totalPage",custPage.getTotalPages());
+        map.put("totalElement",custPage.getTotalElements());
+        return map;
+    }
 
-       return  tbCustRepository.getCustList(isMember,platformType, dataStatus ,startDate,endDate);
+    @Transactional(readOnly = true)
+    public List<TbCust> getCustAll(Map<String, Object> searchValue) {
+        Specification<TbCust> predicate = null;
 
-        /*Specification<TbCust> predicate = null;*/
-
-       /* for (String key : searchValue.keySet()) {
+        for (String key : searchValue.keySet()) {
             Object value = searchValue.get(key);
             log.info("@@ key, value = [key]:" + key + ", [value]:" + value);
             predicate = (Specification<TbCust>) SearchUtil.searchCustList(searchValue);
         }
 
         return searchValue.isEmpty() ? tbCustRepository.findAll(Sort.by(Sort.Direction.DESC, "insertDate"))
-                : tbCustRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));*/
+                : tbCustRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+    }
+
+    public Map<String, Object> getCustList(Map<String,Object> searchValue, Pageable pageable) {
+        Specification<TbCust> predicate = null;
+        Map<String, Object> map = new HashMap<>();
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbCust>) SearchUtil.searchCustList(searchValue);
+        }
+        Page<TbCust> custPage = tbCustRepository.findAll(predicate, pageable);
+        ;
+        /*List<TbMannaOrder> list = searchValue.isEmpty() ? null
+                : tbMannaOrderRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "ordDate"));*/
+
+        map.put("custList",custPage.getContent());
+        map.put("totalPage",custPage.getTotalPages());
+        map.put("totalElement",custPage.getTotalElements());
+        return map;
     }
 
     @Transactional(readOnly = true)
     public Map<String, Object> getCustDetail(Long custNo) {
         Map<String, Object> map = new HashMap<>();
 
-        Optional<TbCust> tbCust = tbCustRepository.findById(custNo);
+        Map<String,Object> tbCust = tbCustRepository.getCustDetail(custNo);
         List<TbCustCouponDTO> tbCustUsedCoupon = tbCouponPublishRepository.findByCustNoAndUseYn(custNo, 1);
         List<TbCustCouponDTO> tbCustUnUsedCoupon = tbCouponPublishRepository.findByCustNoAndUseYn(custNo, 0);
         List<TbPointHistory> tbPointHistory = tbPointHistoryRepository.findByUserNo(custNo);
         List<TbCustLocationDTO> tbCustLocation = tbCustLocationRepository.findByCustNo(custNo);
 
-
-        if (tbCust.isPresent()) {
+        map.put("tbCust", tbCust);
+       /* if (tbCust.isPresent()) {
             map.put("tbCust", tbCust.get());
         } else {
             map.put("tbCust", null);
-        }
+        }*/
 
         if (ObjectUtils.isNotEmpty(tbCustUsedCoupon)) {
             map.put("tbCustUsedCoupon", tbCustUsedCoupon);
@@ -386,6 +415,20 @@ public class BoardService {
             map.put("tbPointHistory", null);
         }
         return map;
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getFriends(Long custNo) {
+        Map<String, Object> map = new HashMap<>();
+
+        List<Map<String,Object>> friends = tbCustRepository.getFriends(custNo);
+
+
+       /* if (tbCust.isPresent()) {
+            map.put("tbCust", tbCust.get());
+        } else {
+            map.put("tbCust", null);
+        }*/
+        return friends;
     }
     @Transactional(readOnly = true)
     public Map<String, Object> getCouponDetail(Long couponNo) {

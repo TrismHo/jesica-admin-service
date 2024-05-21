@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
-<html lang="ko">역
+<html lang="ko">
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
     <title>Jesicar | <spring:message code="list.detail.1" text="업데이트 내역"/></title>
-
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -29,8 +28,8 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main51" text="시스템 운영"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="side.main5.sub41" text="업데이트 내역"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/release/list"><spring:message code="side.main51" text="시스템 운영"/><%--가맹점 설정--%></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/release/list"><spring:message code="side.main5.sub41" text="업데이트 내역"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.shippernoticedetails1" text="업데이트 내역상세"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.detail.shippernoticedetails1" text="업데이트 내역상세"/></h3>
@@ -46,6 +45,25 @@
                             <input type="hidden" name="dataStatus" value="${tbNoticeRelease.dataStatus}">
                             <table class="table table-condensed table-bordered">
                                 <tbody>
+                                <tr>
+                                    <td class="bg-light ">
+                                        플랫폼명
+                                    </td>
+                                    <td><input type="text" class="form-control width-100" readonly value="<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">제시카</c:if><c:if test="${sessionScope.sessionKey.company == 'yangpa'}">PICK오더</c:if>" maxlength="150">
+                                        <input type="hidden" class="form-control width-100" name="platformType" readonly value="<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">1</c:if><c:if test="${sessionScope.sessionKey.company == 'yangpa'}">2</c:if>">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light ">
+                                       업데이트 프로그램
+                                    </td>
+                                    <td>
+                                        <select class="form-control" name="programType">
+                                            <option <c:if test="${tbNoticeRelease.programType == 1}">selected</c:if> value="1">관리자</option>
+                                            <option <c:if test="${tbNoticeRelease.programType == 2}">selected</c:if> value="2">오더앱</option>
+                                        </select>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td class="bg-light "><spring:message code="list.detail.title" text="제목"/></td>
                                     <td><input type="text" class="form-control width-full title" name="title" value="${tbNoticeRelease.title}" maxlength="150"></td>

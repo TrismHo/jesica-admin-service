@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <div id="topbar">
     <div id="header" class="header navbar-default">
-        <div class="navbar-header" style="background-color: #2d353c;">
+        <div class="navbar-header">
          <%--   <a href="${path}/main" class="navbar-brand" style="padding: 10px 0px; padding-left: 20px;">
-                <img src="${path}/assets/img/logo/itsuda_one_color2.png">
-                <b>잇수다</b>
+                <img src="${path}/assets/img/logo/itsuda_one_color2.png">h
+
                 &lt;%&ndash;<span class="logo"></span> <b><span style="color:#ffa200;">O2O Delivery Flatform</span></b>&ndash;%&gt;
             </a>--%>
            <%-- <a href="${path}/main" class="navbar-brand" > &lt;%&ndash;<b>PetView</b>&ndash;%&gt;
@@ -13,23 +13,24 @@
                     <li class="dropdown navbar-language">
                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                             <a href="${path}/main">
-                                <img class="m-l-5 " style="width: 110px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/onion_logo_two.png"/>">
+                                <img  style="width: 100px; margin-left: 40px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/pick_order_3.png"/>">
+                                <%--<b style="text-shadow: -1px 0 #8f98ff, 0 1px #8f98ff, 1px 0 #8f98ff, 0 -1px #8f98ff;
+                                font-size: 14px;">Manager</b>--%>
                             </a>
                             <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="yangpa" data-toggle="dropdown" style="text-decoration: none; color: white;" >
-
-                                <b style="font-size: 15px;">PICK오더</b>&nbsp;
-                                <b class="caret"></b>
+                                <%--<b style="font-size: 15px;"></b>&nbsp;
+                                <b class="caret"></b>--%>
                             </a>
                         </c:if>
-                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                       <%-- <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
                             <a href="${path}/main">
-                                <img class="m-l-10 m-r-10 " style="width: 100px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/140x35.png"/>">
+                                <img  style="width: 100px; margin-left: 40px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/140x35.png"/>">
                             </a>
                             <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="jesicar" data-toggle="dropdown" style="text-decoration: none; color: white;">
-                                <b style="font-size: 15px;">제시카</b>&nbsp;
+                                <b style="font-size: 15px;"></b>&nbsp;
                                 <b class="caret"></b>
                             </a>
-                        </c:if>
+                        </c:if>--%>
 
 
                         <%--
@@ -39,13 +40,13 @@
                                         </a>
                         --%>
 
-                        <div class="dropdown-menu" style="margin:19px 0px 0px -120px; width: 217px; background-color: #2e353c; border-radius: 0px">
+                        <div class="dropdown-menu" style="margin:19px 0px 0px -140px; width: 217px; background-color: #2e353c; border-radius: 0px">
                             <%--<a href="${servletPath}?lang=ko" class="dropdown-item"><span class="flag-icon flag-icon-kr" title="kr"></span> 한국어</a>
                             <a href="${servletPath}?lang=en" class="dropdown-item"><span class="flag-icon flag-icon-us" title="us"></span> English</a>
                             <a href="${servletPath}?lang=lao" class="dropdown-item"><span class="flag-icon flag-icon-la" title="la"></span> ພາສາລາວ</a>
             --%>
 
-                            <div class="dropdown-item company_btn" company="jesicar" style="cursor: pointer;" > <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i> <b style="font-size: 15px;color: #acaeb2;">제시카</b>&nbsp;</div><hr style="margin-top: 5px;margin-bottom: 5px;">
+                            <%--<div class="dropdown-item company_btn" company="jesicar" style="cursor: pointer;" > <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i> <b style="font-size: 15px;color: #acaeb2;">제시카</b>&nbsp;</div><hr style="margin-top: 5px;margin-bottom: 5px;">카--%>
                             <div class="dropdown-item company_btn" company="yangpa" style="cursor: pointer;"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i></span> <b style="font-size: 15px;color: #acaeb2;">PICK오더</b>&nbsp;</div>
                         </div>
                     </li>
@@ -78,17 +79,17 @@
                         <i class="fas fa-lg fa-fw m-r-10 fa-language"></i><spring:message code="header.language.setting" text="Language"/>
                     </a>
                 </span>
-                    <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+                    <%--<span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                     <a class="btn btn-sm btn-white btn-white-without-border new-control-btn" data-change="widget-theme" data-theme="dark"><spring:message code="list.detail.control" text="관제 바로가기"/></a>
                       </a>
-                    </span>
+                    </span>--%>
                 </c:if>
                 <c:if test="${sessionScope.sessionKey.roleType == 2}">
                     <c:if test="${sessionScope.sessionKey.userType == 1 || sessionScope.sessionKey.userType == 2 || sessionScope.sessionKey.userType == 3 ||sessionScope.sessionKey.userType == 4 ||sessionScope.sessionKey.userType == 5}">
-                      <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+                     <%-- <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                         <a class="btn btn-sm btn-white btn-white-without-border new-control-btn" data-change="widget-theme" data-theme="dark"><spring:message code="list.detail.control" text="관제 바로가기"/></a>
                          </a>
-                    </span>
+                    </span>--%>
                     </c:if>
                     <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
                        <c:if test="${item.menuLevel == 10}">

@@ -6,10 +6,10 @@
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-        <title>Jesicar | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 등록"/></title>
+        <title>Jesicar | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 등록"/></title>
+        <title>Pick-Order | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 관리"/></title>
     </c:if>
 </head>
 <body>

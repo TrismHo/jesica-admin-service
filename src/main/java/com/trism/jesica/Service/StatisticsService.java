@@ -2,6 +2,7 @@ package com.trism.jesica.Service;
 
 import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
 import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
+import com.trism.jesica.persistence.Repository.manna.TbMannaBrCodeRepository;
 import com.trism.jesica.persistence.Repository.manna.TbMannaOrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ public class StatisticsService {
 
     private final TbCallAllRepository tbCallAllRepository;
     private final TbRentalInfoRepository tbRentalInfoRepository;
+
+    private final TbMannaBrCodeRepository tbMannaBrCodeRepository;
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getTimeList(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate,String day) {
@@ -88,29 +91,29 @@ public class StatisticsService {
     public List<Map<String,Object>> getWeekListOrderType(String orderTypeCode ,LocalDateTime startDate,LocalDateTime endDate) {
         return tbCallAllRepository.getWeekListOrderType(orderTypeCode,startDate,endDate);
     }
-    @Transactional(readOnly = true)
+   /* @Transactional(readOnly = true)
     public List<Map<String,Object>> getUserList(LocalDateTime startDate,LocalDateTime endDate,Integer platform) {
         return tbCallAllRepository.getUserList(startDate,endDate,platform);
+    }*/
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getMannaOrderList(LocalDateTime startDate,LocalDateTime endDate,String ordPathCd, String brCode) {
+        return tbMannaOrderRepository.getMannaOrderList(startDate,endDate,ordPathCd,brCode);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getMannaOrderList(LocalDateTime startDate,LocalDateTime endDate,String ordPathCd) {
-        return tbMannaOrderRepository.getMannaOrderList(startDate,endDate,ordPathCd);
+    public List<Map<String,Object>> getMannaLineDayList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String ordStatus) {
+        return tbMannaOrderRepository.getMannaLineDayList(startDate,endDate,ordPathCd,brCode,ordStatus);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getMannaLineDayList(LocalDateTime startDate,LocalDateTime endDate,String ordPathCd) {
-        return tbMannaOrderRepository.getMannaLineDayList(startDate,endDate,ordPathCd);
+    public List<Map<String,Object>> getMannaLineWeekList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String ordStatus) {
+        return tbMannaOrderRepository.getMannaLineWeekList(startDate,endDate,ordPathCd,brCode,ordStatus);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getMannaLineWeekList(LocalDateTime startDate,LocalDateTime endDate,String ordPathCd) {
-        return tbMannaOrderRepository.getMannaLineWeekList(startDate,endDate,ordPathCd);
+    public List<Map<String,Object>> getUserLineWeekList(LocalDateTime startDate,LocalDateTime endDate,Integer platform,String extBrCode) {
+        return tbCallAllRepository.getUserLineWeekList(startDate,endDate,platform,extBrCode);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getUserLineWeekList(LocalDateTime startDate,LocalDateTime endDate,Integer platform) {
-        return tbCallAllRepository.getUserLineWeekList(startDate,endDate,platform);
-    }
-    @Transactional(readOnly = true)
-    public List<Map<String,Object>> getUserLineDayList(LocalDateTime startDate,LocalDateTime endDate,Integer platform) {
-        return tbCallAllRepository.getUserLineDayList(startDate,endDate,platform);
+    public List<Map<String,Object>> getUserLineDayList(LocalDateTime startDate,LocalDateTime endDate,Integer platform, String extBrCode) {
+        return tbCallAllRepository.getUserLineDayList(startDate,endDate,platform,extBrCode);
     }
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getBaseList(String storeName ,LocalDateTime startDate,LocalDateTime endDate) {

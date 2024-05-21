@@ -110,8 +110,8 @@
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr>
-                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
-                                            <td style="width:50%">
+                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
+                                            <td style="width:30%">
                                                 <label>
                                                     <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
                                                 </label>
@@ -157,8 +157,51 @@
                                                         <option value="0" <c:if test="${searchValue.platform == '0'}">selected</c:if>>비플랫폼</option>
                                                     </select>--%>
                                                 </label>
-                                                <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
-                                                <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
+                                            </td>
+                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/><%--등록기간--%></strong></td>
+                                            <td style="width:5%">
+                                                <input type="hidden" name="platformType" value="${searchValue.platformType}">
+                                                <label>
+                                                    <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                          <select class="form-control" name="platformType" style="margin-right: 30px;">
+                                                              <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
+                                                          </select>
+                                                      </c:if>
+                                                      <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                          <select class="form-control" name="platformType" style="margin-right: 30px;">
+                                                              <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
+                                                          </select>
+                                                      </c:if>--%>
+                                                <select class="form-control" name="brCode" style="margin-right: 30px;" >
+                                                    <option value="">전체</option>
+                                                    <c:forEach var="item" items="${brCodeList}" varStatus="status">
+                                                        <option <c:if test="${item.brCode == searchValue.brCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </td>
+                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="완료/취소"/><%--등록기간--%></strong></td>
+                                            <td style="width:10%">
+                                                <input type="hidden" name="platformType" value="${searchValue.platformType}">
+                                                <label>
+                                                    <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                          <select class="form-control" name="platformType" style="margin-right: 30px;">
+                                                              <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
+                                                          </select>
+                                                      </c:if>
+                                                      <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                          <select class="form-control" name="platformType" style="margin-right: 30px;">
+                                                              <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
+                                                          </select>
+                                                      </c:if>--%>
+                                                    <select class="form-control" name="ordStatus" style="margin-right: 30px;" >
+                                                        <option value="">전체</option>
+                                                        <option value="5" <c:if test="${'5' == searchValue.ordStatus}">selected</c:if>>완료</option>
+                                                        <option value="13" <c:if test="${'13' == searchValue.ordStatus}">selected</c:if>>취소</option>
+                                                    </select>
+
+                                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
+                                                    <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
+
                                             </td>
                                         </tr>
                                         </tbody>
@@ -210,8 +253,8 @@
                                         <th>%</th>--%>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <c:forEach var="item" items="${timeList}" varStatus="status">
+                                    <tbody id="restaurantBody">
+                                    <%--<c:forEach var="item" items="${timeList}" varStatus="status">
                                         <tr class="text-center">
                                             <td>${item.yyyymmdd}</td>
                                             <td>
@@ -225,20 +268,13 @@
                                             </td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.totalCnt}"/> 회</td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.sumcount}"/> 회</td>
-                                           <%-- <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.endCnt}"/> 회</td>--%>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.delivery}"/> 회</td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.takeout}"/> 회</td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.wait}"/> 회</td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.reserv}"/> 회</td>
                                             <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.tables}"/> 회</td>
-                                                <%--<td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarCnt}"/> 명</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarPer}"/> %</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionCnt}"/> 명</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionPer}"/> %</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNoneCnt}"/> 명</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNonePer}"/> %</td>--%>
                                         </tr>
-                                    </c:forEach>
+                                    </c:forEach>--%>
                                     </tbody>
                                 </table>
                             </div>
@@ -297,87 +333,6 @@
     Chart.defaults.font.family = 'Nanum Gothic',"나눔 고딕",'NanumGothic',"나눔고딕",'Malgun Gothic','맑은 고딕','MalgunGothic','맑은고딕'
     Chart.defaults.font.weight = 500;
 
-   /* var ctx2 = document.getElementById('radar-chart').getContext('2d');
-    var radarChart = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: ['os별 구분'],
-            datasets: [{
-                label: 'ios',
-                borderColor: [COLOR_AQUA_TRANSPARENT_7],
-                pointRadius: 4,
-                borderWidth: 2,
-                pointBackgroundColor: [COLOR_AQUA_TRANSPARENT_3],
-                backgroundColor:  [COLOR_AQUA_TRANSPARENT_3],
-                data: iosTotal
-            },{
-                label: 'android',
-                borderColor: [COLOR_GREEN_TRANSPARENT_7],
-                pointRadius: 4,
-                borderWidth: 2,
-                pointBackgroundColor: [COLOR_GREEN_TRANSPARENT_3],
-                backgroundColor:  [COLOR_GREEN_TRANSPARENT_3],
-                data: androidTotal
-            }]
-        },
-        options : {
-            plugins: {
-                legend: {
-                    labels: {
-                        // This more specific font property overrides the global property
-                        font: {
-                            size: 15
-                        }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-
-                            if (label) {
-                                label += ': ';
-                            }
-                            if (context.parsed.y !== null) {
-                                label += ' '+context.parsed.y +'대';
-                            }
-                            return label;
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    display: true,
-                    title: {
-                        display: false,
-                        text: '회원가입 구분(남성, 여성)'
-                    },
-                    ticks: {
-                        major: {
-                            enabled: true
-                        },
-                        color: (context) => context.tick && context.tick.major && '#FF0000',
-                        font: function (context) {
-                            if (context.tick && context.tick.major) {
-                                return {
-                                    weight: 'bold'
-                                };
-                            }
-                        }
-                    }
-                },
-                y: {
-                    ticks: {
-                        // Include a dollar sign in the ticks
-                        callback: function (value, index, ticks) {
-                            return value +' 대'
-                        }
-                    }
-                }
-            }
-        }
-    });*/
     var ctx = document.getElementById('line-chart').getContext('2d');
     var lineChart = new Chart(ctx, {
         type: 'line',
@@ -399,15 +354,7 @@
                 borderWidth: 2,
                 backgroundColor:  COLOR_AQUA_TRANSPARENT_1,
                 data: endCnt
-            }/*, {
-                label: '주문취소',
-                borderColor: COLOR_RED_LIGHTER,
-                pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
-                pointRadius: pointSize,
-                borderWidth: 2,
-                backgroundColor:  COLOR_RED_TRANSPARENT_1,
-                data: cancelCnt
-            }*/ ]
+            }]
         },
         options : {
             plugins: {
@@ -594,7 +541,6 @@
             data :JSON.stringify(req),
             dataType: "json",
             success: function(data) {
-                console.log(data)
                 for(var i = 0 ; i < data.timeList.length ; i++) {
                     label.push(data.timeList[i].yyyymmdd)
                     totalCnt.push(data.timeList[i].totalCnt)
@@ -602,6 +548,44 @@
                      cancelCnt.push(data.timeList[i].cancelCnt)
                /*     iosCnt = iosCnt+ data.timeList[i].iosCnt;
                     androidCnt = androidCnt+ data.timeList[i].androidCnt;*/
+
+                    let yyyymmdd = '';
+                    if(data.timeList[i].start && data.timeList[i].end){
+                        yyyymmdd = data.timeList[i].start +" ~ "+ data.timeList[i].end;
+                    } else {
+                        yyyymmdd = data.timeList[i].yyyymmdd;
+                    }
+
+                    let dw = ''
+                    if(data.timeList[i].dw == 1){
+                        dw = '일요일';
+                    } else if(data.timeList[i].dw == 2) {
+                        dw = '월요일';
+                    } else if(data.timeList[i].dw == 3) {
+                        dw = '화요일';
+                    } else if(data.timeList[i].dw == 4) {
+                        dw = '수요일';
+                    } else if(data.timeList[i].dw == 5) {
+                        dw = '목요일';
+                    } else if(data.timeList[i].dw == 6) {
+                        dw = '금요일';
+                    } else if(data.timeList[i].dw == 7) {
+                        dw = '토요일';
+                    }
+
+                    $("#restaurantBody").append(
+                        "<tr class='text-center'>"+
+                        "    <td>" +yyyymmdd+ "</td>"+
+                        "    <td>"+ dw +"</td>"+
+                        "    <td>"+data.timeList[i].totalCnt+" 회</td>"+
+                        "    <td>"+data.timeList[i].sumcount+ " 회</td>"+
+                        "    <td>"+data.timeList[i].delivery+" 회</td>"+
+                        "    <td>"+data.timeList[i].takeout+" 회</td>"+
+                        "    <td>"+data.timeList[i].wait+" 회</td>"+
+                        "    <td>"+data.timeList[i].reserv+" 회</td>"+
+                        "    <td>"+data.timeList[i].tables+" 회</td>"+
+                        "</tr>"
+                    )
                 }
     /*            iosTotal.push(iosCnt)
                 androidTotal.push(androidCnt)*/

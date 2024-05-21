@@ -3,6 +3,8 @@
 
 <script>
     $(() => {
+
+
         $(document).on("click",".lang_btn",function(){
             let lang = $(this).attr("lang");
             let search ="";
@@ -731,6 +733,168 @@
             /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
             "$1-$2-$3"
         );
+    }
+
+    function dateFormat(dateFormat) {
+        let date = new Date(dateFormat);
+
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let second = date.getSeconds();
+
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+        hour = hour >= 10 ? hour : '0' + hour;
+        minute = minute >= 10 ? minute : '0' + minute;
+        second = second >= 10 ? second : '0' + second;
+
+        return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+    }
+
+    function countString (code, str) {
+        if(code){
+            return code + " "+str;
+        } else {
+            return "";
+        }
+
+    }
+
+    function enumString (code) {
+        let enumStr = {}
+        if(code){
+            for(let i = 0 ; i < code.length() ; i++ ){
+                enumStr.push({})
+            }
+
+        }
+
+    }
+
+    function orderType(code) {
+        switch (code) {
+            case "1":
+                return "배달";
+                break;
+            case "2":
+                return "포장";
+                break;
+            case "3":
+                return "대기";
+                break;
+            case "4":
+                return "예약";
+                break;
+            case "5":
+                return "테이블";
+                break;
+            default:
+                return "-";
+        }
+    }
+
+    function orderStatus(code) {
+        switch (code) {
+            case 1:
+                return "접수요청";
+                break;
+            case 2:
+                return "접수완료";
+                break;
+            case 3:
+                return "조리중";
+                break;
+            case 4:
+                return "배달중";
+                break;
+            case 5:
+                return "완료";
+                break;
+            case 6:
+                return "조리완료";
+                break;
+            case 7:
+                return "테이블 주문접수";
+                break;
+            case 8:
+                return "대기";
+                break;
+            case 9:
+                return "호출";
+                break;
+            case 10:
+                return "입장완료";
+                break;
+            case 11:
+                return "예약요청";
+                break;
+            case 12:
+                return "예약확정";
+                break;
+            case 13:
+                return "취소";
+                break;
+            case 14:
+                return "노쇼";
+                break;
+            default:
+                return "-";
+        }
+    }
+
+    function phoneHyphen(data) {
+        if(data) {
+            if(data.substring(0,2) == '02'){
+                return data.substring(0, 2) + "-" +data.substring(2, 6) + "-" + data.substring( 6, 11);
+            } else {
+                if(data.substring(0,3) == '010'){
+                    return data.substring(0, 3) + "-" +data.substring(3, 7) + "-" + data.substring( 7, 12);
+                } else {
+                    return data.substring(0, 3) + "-" +data.substring(3, 6) + "-" + data.substring( 6, 11);
+                }
+            }
+        } else {
+            return "";
+        }
+    }
+
+    function objectifyForm(formArray) {
+        //serialize data function
+        var returnArray = {};
+        for (var i = 0; i < formArray.length; i++){
+            returnArray[formArray[i]['name']] = formArray[i]['value'];
+        }
+        return returnArray;
+    }
+    function autoHypenPhone(str){
+        str = str.replace(/[^0-9]/g, '');
+        var tmp = '';
+        if( str.length < 4){
+            return str;
+        }else if(str.length < 7){
+            tmp += str.substr(0, 3);
+            tmp += '-';
+            tmp += str.substr(3);
+            return tmp;
+        }else if(str.length < 11){
+            tmp += str.substr(0, 3);
+            tmp += '-';
+            tmp += str.substr(3, 3);
+            tmp += '-';
+            tmp += str.substr(6);
+            return tmp;
+        }else{
+            tmp += str.substr(0, 3);
+            tmp += '-';
+            tmp += str.substr(3, 4);
+            tmp += '-';
+            tmp += str.substr(7);
+            return tmp;
+        }
+
+        return str;
     }
 
     let checkPageUrl = (function(currentPage, table) {

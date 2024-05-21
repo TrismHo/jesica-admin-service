@@ -1,7 +1,6 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.MannaService;
-import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.dto.TbMannaOrderGoodsDTO;
 import com.trism.jesica.persistence.Entitiy.manna.TbMannaOrder;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class WashingController {
     /**
      * 주문내역
      */
-    @GetMapping("/order/list")
+    /*@GetMapping("/order/list")
     public ModelAndView orderList(@RequestParam Map<String,Object> searchValue,
                                         Model model, HttpSession session) {
 
@@ -55,7 +54,7 @@ public class WashingController {
 
         return new ModelAndView("/jesica/washing/order/list");
 
-    }
+    }*/
 
     /**
      * 주문내역 상세

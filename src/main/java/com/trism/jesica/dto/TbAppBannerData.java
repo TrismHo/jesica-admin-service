@@ -19,6 +19,9 @@ public class TbAppBannerData {
     private Integer platformType;
 
     private Integer bannerType;
+    private String langCode;
+
+    private String schemeUrl;
 
     public TbAppBanner insertData() {
 
@@ -33,6 +36,8 @@ public class TbAppBannerData {
                 .bannerFile(bannerFile)
                 .dataStatus(dataStatus)
                 .bannerType(bannerType)
+                .langCode(langCode)
+                .schemeUrl(schemeUrl)
                 .build();
     }
 
@@ -49,6 +54,8 @@ public class TbAppBannerData {
                 .bannerFile(bannerFile)
                 .dataStatus(dataStatus)
                 .bannerType(bannerType)
+                .langCode(langCode)
+                .schemeUrl(schemeUrl)
                 .build();
     }
 }

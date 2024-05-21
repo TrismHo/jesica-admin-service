@@ -22,7 +22,7 @@
 <link href="${path}/assets/plugins/tag-it/css/jquery.tagit.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
 <link href="${path}/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
-<link link rel="shortcut icon" href="${path}/assets/img/icon/icon.png"/>
+<link rel="shortcut icon" href="${path}/static/assets/img/icon/icon.png"/>
 
 
 <link href="${path}/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.css" rel="stylesheet" />
@@ -108,6 +108,12 @@
                  </div>--%>
                 <div class="list" style="">
                     <table class="table table-condensed table-bordered">
+                     <%--   <thead>
+                        <tr>
+                            <th scope="cols">제목</th>
+                            <th scope="cols">내용</th>
+                        </tr>
+                        </thead>--%>
                         <tbody>
                         <tr>
                             <td class="bg-light ">제목</td>

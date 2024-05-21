@@ -40,7 +40,7 @@
                         <i class="fa fa-power-off" style="margin-right: 5px;"></i>
                             <small>Log out</small>
                         </a>
-                        ${sessionScope.sessionKey.userStaffName} &nbsp;<a href="/newPassWord" onclick="window.open(this.href, '_blank', 'width=500, height=280'); return false;"><i class="fas fa-fw m-r-10 fa-key" style="font-size: 5px"></i></a>
+                        ${sessionScope.sessionKey.userStaffName} &nbsp;<a href="/newPassWord" onclick="window.open(this.href, '_blank', 'width=500, height=280'); return false;"><i class="fas fa-fw m-r-10 fa-key" style="font-size: 10px"></i></a>
                         <small>
                             <c:if test="${sessionScope.sessionKey.roleType == 1}">
                                 <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="마스터"/>
@@ -65,7 +65,7 @@
                         || item.menuName == '통계'
                         || item.menuName == '맛집'
                         )  }">
-                            <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
+                            <li class="has-sub">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
                                     <i class="fa ${item.menuIcon}"></i>
@@ -81,7 +81,7 @@
                                          || item2.menuName == '배너 관리'
                                          || item2.menuName == '고객 관리'
                                          || item2.menuName == '맛집주문내역' )}">
-                                            <li class=<c:if test="${fn:contains(servletPath,item2.menuUrl) }">"active"</c:if>><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
+                                            <li><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
                                         </c:if>
                                     </c:forEach>
                                 </ul>
@@ -94,8 +94,9 @@
                         <c:if test="${item.menuLevel == 1 && (item.menuName == '앱 관리'
                         || item.menuName == '통계'
                         || item.menuName == '맛집'
+                        || item.menuName == '멤버십'
                         || item.menuName == '시스템 운영') }">
-                            <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
+                            <li class="has-sub">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
                                     <i class="fa ${item.menuIcon}"></i>
@@ -106,13 +107,18 @@
                                         <c:if test="${item2.menuLevel == 2 && (item.menuGroup == item2.menuGroup)
                                          && (item2.menuName == '회원통계'
                                          || item2.menuName == '맛집주문통계'
+                                         || item2.menuName == '사용자 관리'
                                          || item2.menuName == '플랫폼 공지'
                                          || item2.menuName == '이벤트 관리'
                                          || item2.menuName == '배너 관리'
                                          || item2.menuName == '고객 관리'
+                                         || item2.menuName == '쿠폰 관리'
                                          || item2.menuName == '맛집주문내역'
-                                         || item2.menuName == '시스템 설정' )}">
-                                            <li class=<c:if test="${fn:contains(servletPath,item2.menuUrl) }">"active"</c:if>><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
+                                         || item2.menuName == '시스템 설정'
+                                         || item2.menuName == '이벤트 발송현황'
+                                         || item2.menuName == '총판코드 설정'
+                                         || item2.menuName == '업데이트 내역')}">
+                                            <li class=""><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
                                         </c:if>
                                     </c:forEach>
                                 </ul>

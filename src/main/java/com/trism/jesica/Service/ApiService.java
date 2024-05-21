@@ -1223,7 +1223,7 @@ public class ApiService {
 
     @Transactional(readOnly = true)
     public List<TbSystemCode> systemCodeList(String sysType) {
-        return tbSystemCodeRepository.findBySysTypeAndDataStatus(sysType,DataStatus.OK);
+        return tbSystemCodeRepository.findBySysTypeAndDataStatusOrderByViewOrderAsc(sysType,DataStatus.OK);
     }
     @Transactional(readOnly = true)
     public List<TbSystemCode> systemCodeList(String sysType,String sysCode) {
@@ -3358,7 +3358,9 @@ public class ApiService {
                         }
                     }
                 }
-
+                if(tbAppBannerData.getBoardType() != 3){
+                    tbAppBannerData.setSchemeUrl(null);
+                }
                 tbAppBannerRepository.save(tbAppBannerData.updateData());
                 result = 1;
             } catch (Exception e) {

@@ -4,7 +4,6 @@ import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.BoardService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.dto.TbAppBannerLocationDTO;
-import com.trism.jesica.dto.TbCustDTO;
 import com.trism.jesica.persistence.Entitiy.board.TbAppBanner;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
@@ -236,6 +235,15 @@ public class BoardController {
         return new ModelAndView("jesica/board/event/detail");
     }
 
+    @GetMapping("/eventpush/list")
+    public ModelAndView listPushEvent(@RequestParam Map<String,Object> searchValue,
+                                  Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        model.addAttribute("searchValue", searchValue);
+        return new ModelAndView("jesica/board/eventpush/list");
+    }
+
+
     @GetMapping("/platforminquiry/list")
     public ModelAndView listPlatformInquiry() {
 
@@ -309,7 +317,10 @@ public class BoardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
         model.addAttribute("searchValue", searchValue);
+
 
         return new ModelAndView("jesica/board/banner/list");
     }
@@ -318,9 +329,11 @@ public class BoardController {
     public ModelAndView insertAppBanner(Model model) {
         List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
         List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
+        List<TbSystemCode> sysLangCode = apiService.systemCodeList("LANG");
 
         model.addAttribute("sysCodeList" , sysCodeList);
         model.addAttribute("sysCodeList2" , sysCodeList2);
+        model.addAttribute("sysLangCode",sysLangCode);
         return new ModelAndView("jesica/board/banner/insert");
     }
 
@@ -333,9 +346,11 @@ public class BoardController {
             List<TbAppBannerLocationDTO> tbAppBannerLocation = boardService.getAppBannerLocation(bannerNo);
             List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
             List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
+            List<TbSystemCode> sysLangCode = apiService.systemCodeList("LANG");
 
             model.addAttribute("sysCodeList" , sysCodeList);
             model.addAttribute("sysCodeList2" , sysCodeList2);
+            model.addAttribute("sysLangCode",sysLangCode);
 
             String url = "";
             if (ObjectUtils.isNotEmpty(tbAppBanner.getBannerFile())) {
@@ -417,24 +432,26 @@ public class BoardController {
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String company = loginSession.getCompany();
 
-        try {
+        searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
+        searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+
+     /*   try {
             if (ObjectUtils.isNotEmpty(searchValue)) {
                 log.info("searchValue::{}", searchValue);
-                /*putSearchOption(session, searchValue);*/
+                *//*putSearchOption(session, searchValue);*//*
                 if("jesicar".equals(company)) {
                     searchValue.put("platformType","1");
                 } else if ("yangpa".equals(company)) {
                     searchValue.put("platformType","2");
                 }
 
-                /*List<TbStore> tbStoreList = apiService.getStoreList();*/
+                *//*List<TbStore> tbStoreList = apiService.getStoreList();*//*
                 List<TbCustDTO> tbCustList = boardService.getCustList(searchValue);
                 model.addAttribute("custList", tbCustList);
-                /*model.addAttribute("tbStoreList", tbStoreList);*/
+                *//*model.addAttribute("tbStoreList", tbStoreList);*//*
             } else {
                 getSearchOption(session);
-                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
-                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+
                 searchValue.put("testTable_length", "10");
                 searchValue.put("isMember", "");
                 searchValue.put("dataStatus", "");
@@ -449,7 +466,7 @@ public class BoardController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         model.addAttribute("searchValue", searchValue);
 
@@ -465,9 +482,11 @@ public class BoardController {
 
         try {
             Map<String, Object> map = boardService.getCustDetail(custNo);
+            List<Map<String,Object>> friends = boardService.getFriends(custNo);
             List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
 
             model.addAttribute("sysCodeList" , sysCodeList);
+            model.addAttribute("friends" , friends);
             model.addAttribute("tbCust", map.get("tbCust"));
             model.addAttribute("tbCustUsedCouponList", map.get("tbCustUsedCoupon"));
             model.addAttribute("tbCustUnUsedCouponList", map.get("tbCustUnUsedCoupon"));

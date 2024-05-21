@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface TbNoticeReleaseRepository extends JpaRepository<TbNoticeRelease, Long>, JpaSpecificationExecutor<TbNoticeRelease> {
 
@@ -23,6 +24,8 @@ public interface TbNoticeReleaseRepository extends JpaRepository<TbNoticeRelease
             ",title as title " +
             ",body as body " +
             ",insert_user_id as insertUserId " +
+            ",platform_type as platformType " +
+            ",program_type as programType " +
             ",insert_date as insertDate " +
             "from " +
             "tb_notice_release " +
@@ -30,4 +33,6 @@ public interface TbNoticeReleaseRepository extends JpaRepository<TbNoticeRelease
             "order by insert_date desc LIMIT 20" +
             "", nativeQuery = true)
     List<Map<String,Object>> findAllLimit();
+    Optional<TbNoticeRelease> findByNoticeNoAndPlatformType(Long noticeNo, Integer platformType);
+
 }

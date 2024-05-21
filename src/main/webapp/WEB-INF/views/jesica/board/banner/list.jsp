@@ -47,7 +47,7 @@
             <!-- begin row -->
             <form name="frmSearch" id="frmSearch">
                 <div class="search-box">
-                    <div class="inner-search-box p-5">
+                    <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
@@ -162,6 +162,7 @@
                             <th width="5%"><spring:message code="list.word.no1" text="번호"/></th>
                             <th width="30%"><spring:message code="list.word.merchant/deliverygroupname1" text="배너 이미지"/></th>
                             <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
+                            <th width="10%"><spring:message code="list.word.serviceclassification11" text="언어"/></th>
                             <th><spring:message code="list.word.contents1" text="서비스 타입"/></th>
                             <th><spring:message code="list.word.division1" text="게시판 종류"/></th>
                             <th><spring:message code="list.word.registrationdate1" text="등록일"/></th>
@@ -182,6 +183,12 @@
                                     <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="PICK오더"/></c:if>
                                     <c:if test="${item.platformType == 3}"><spring:message code="list.word.deliverygroup1" text="세날"/></c:if>
                                 </td>
+                                <td class="text-center" style="">
+                                    <c:if test="${item.langCode == 'ko'}">한국어</c:if>
+                                    <c:if test="${item.langCode == 'en'}">영어</c:if>
+                                    <c:if test="${item.langCode == 'zh-CN'}">중국어</c:if>
+                                    <c:if test="${item.langCode == 'ms'}">말레이어</c:if>
+                                </td>
                                 <td class="text-center">
                                     <c:if test="${item.serviceType == 0}">메인</c:if>
                                     <c:if test="${item.serviceType == 2}">탁송</c:if>
@@ -193,6 +200,7 @@
                                     <c:if test="${item.boardType == 0}">연결없음</c:if>
                                     <c:if test="${item.boardType == 1}">이벤트</c:if>
                                     <c:if test="${item.boardType == 2}">공지</c:if>
+                                    <c:if test="${item.boardType == 3}">앱화면</c:if>
                                 </td>
                                 <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
                                 <td class="text-center">

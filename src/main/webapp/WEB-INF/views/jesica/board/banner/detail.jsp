@@ -7,10 +7,10 @@
     <%@include file="../../../common/include_head.jsp" %>
 
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-        <title>Jesicar | <spring:message code="list.detail.1" text="배너 상세"/></title>
+        <title>Jesicar | <spring:message code="list.detail.1" text="배너 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="list.detail.1" text="배너 상세"/></title>
+        <title>Pick-Order | <spring:message code="list.detail.1" text="배너 관리"/></title>
     </c:if>
 </head>
 <body>
@@ -136,6 +136,19 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="언어선택"/></td>
+                                        <td>
+                                            <select name="langCode" class="form-control w-25" >
+                                                <c:forEach var="item2" items="${sysLangCode}" varStatus="status">
+                                                    <option value="${item2.sysCode}" <c:if test="${tbAppBanner.langCode == item2.sysCode}">selected</c:if>> ${item2.codeName}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="언어를 선택하세요."/>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시판 종류"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
@@ -149,6 +162,10 @@
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="boardType" class="boardType" value="2" style="margin-right: 5px" <c:if test="${tbAppBanner.boardType == 2}">checked</c:if>>
                                                 <span><spring:message code="list.detail.affiliate1" text="공지"/></span>
+                                            </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="boardType" class="boardType" value="3" style="margin-right: 5px" <c:if test="${tbAppBanner.boardType == 3}">checked</c:if>>
+                                                <span><spring:message code="list.detail.affiliate1" text="앱화면"/></span>
                                             </label>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
@@ -166,7 +183,7 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="배너 노출순서를 입력하세요."/>
                                         </td>
                                     </tr>--%>
-                                    <tr>
+                                    <tr class="boardSelect" <c:if test="${tbAppBanner.boardType == 3 || tbAppBanner.boardType == 0}"> style="display: none" </c:if>>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시글 선택"/></td>
                                         <td>
                                             <input type="hidden" name="boardNo" class="selBoardNo" id="boardNo" value="${tbAppBanner.boardNo}">
@@ -178,6 +195,15 @@
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="연결할 게시글을 검색 후 선택해주세요."/>
+                                        </td>
+                                    </tr>
+                                   <tr class="appScheme" <c:if test="${tbAppBanner.boardType != 3}"> style="display: none" </c:if>>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱스키마 URL"/></td>
+                                        <td>
+                                            <input type="text" name="schemeUrl" class="form-control w-25" value="${tbAppBanner.schemeUrl}">
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="앱스키마 URL을 입력해주세요."/>
                                         </td>
                                     </tr>
                                     <tr >
@@ -237,7 +263,7 @@
                                                     </thead>
                                                 </table>
                                             </div>
-                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e;">
+                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; max-height: 150px">
                                                 <ul class="attachList p-0" style="margin-bottom:0px;" >
                                                     <li class="p-0">
                                                         <div class="panel-body p-0" >
@@ -277,7 +303,7 @@
                                                 <ul class="sort_list">
                                                     <li>
                                                         <div class="sort_body1" id="sort_body1">
-                                                            <img class="width-full" style="width: 192px; height: 54px" src="/api/img/fileLoad?filePath=${imgFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
+                                                            <img class="width-full" style=" max-height: 300px" src="/api/img/fileLoad?filePath=${imgFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
                                                         </div>
                                                     </li>
                                                     <li>
@@ -384,6 +410,21 @@
             }
         })
 
+        $(document).on("change", "input[name='boardType']", function() {
+            if($(this).val() == 3 ){
+                $(".boardSelect").css("display","none");
+                $(".appScheme").css("display","");
+            } else {
+                if($(this).val() == 0){
+                    $(".boardSelect").css("display","none");
+                    $(".appScheme").css("display","none");
+                } else {
+                    $(".boardSelect").css("display","");
+                    $(".appScheme").css("display","none");
+                }
+            }
+        });
+
         $(document).on("click", ".deleteLocation", function() {
             let bnrLocNo = $(this).attr("bnrLocNo");
 
@@ -460,7 +501,6 @@
             });
         });
 
-
         $(".selectArea").on("change", function (){
             // 시/도 선택시
             $.ajax({
@@ -502,7 +542,7 @@
             success: function (data) {
                 let boardTitle = "";
 
-                if(boardType == 0){
+                if(boardType == 0 || boardType == 3){
                     boardTitle = "";
                 } else {
                     boardTitle = data.boardList[0].title + "[" + convertInsertDate(data.boardList[0].insertDate) + "]";
@@ -599,6 +639,9 @@
             let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="수정 하시겠습니까?"/>";
             let confirm = "<spring:message code="list.script.enrollment1" text="수정"/>";
             let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
+
+
+            console.log(req)
 
            if (inputDataCheck(req)) {
                 swal({
@@ -749,10 +792,14 @@
 
 
     function inputDataCheck(args) {
+        console.log(args)
         if (isNull(args.boardNo)) {
-            if(args.boardType != 0) {
+            if(args.boardType != 0 && args.boardType != 3) {
                 return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
             }
+        }
+        if(args.boardType == 3 && args.schemeUrl == "") {
+            return alert_focus("board-search-btn", "앱스키마 URL을 입력해주세요");
         }
         return true;
     }
@@ -784,13 +831,13 @@
     function resetSearchResult() {
         $(".searchBoardList").html("");
     }
-    function getToday() {
+    /*function getToday() {
         let dateObj = new Date();
         let year = dateObj.getFullYear();
         let month = dateObj.getMonth() + 1 < 10 ? '0' + (dateObj.getMonth() + 1) : (dateObj.getMonth() + 1);
         let date = dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate();
         return year + '-' + month + '-' + date;
-    }
+    }*/
 </script>
 </body>
 </html>

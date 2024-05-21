@@ -6,10 +6,10 @@
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-        <title>Jesicar | <spring:message code="list.detail.platformnoticedetail" text="플랫폼공지 상세"/></title>
+        <title>Jesicar | <spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="list.detail.platformnoticedetail" text="플랫폼공지 상세"/></title>
+        <title>Pick-Order | <spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지"/></title>
     </c:if>
 </head>
 <body>
@@ -35,9 +35,9 @@
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/><%--가맹점 설정--%></a></li>
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.platformnoticedetail" text="플랫폼공지 상세"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지 상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.platformnoticedetail" text="플랫폼공지 상세"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지 상세"/></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">

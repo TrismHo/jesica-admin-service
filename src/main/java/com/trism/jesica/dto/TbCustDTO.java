@@ -37,54 +37,26 @@ public interface TbCustDTO {
      */
      String getSnsToken2();
 
-
-
      String getCustName();
-
-
 
      String getCustTel();
 
-
-
-
      Integer getCash();
-
-
-
 
      Integer getMileage();
 
-
-
-
      GenderType getGender();
-
-
-
      Integer getSmsYn();
-
-
 
      Integer getPushOrderYn();
 
-
-
      Integer getPushNoticeYn();
-
-
 
      Integer getPushMarketingYn();
 
-
      Integer getIsMember();
 
-
-
      Integer getUseCount();
-
-
-
 
      Integer getPoint();
 
@@ -93,28 +65,13 @@ public interface TbCustDTO {
 
      Integer getAccPoint();
 
-
-
-
      Long getExtCustNo();
-
-
-
 
      Integer getPlatformType();
 
-
-
-
      String getExtRecommStCode();
 
-
-
-
      String getExtRecommStName();
-
-
-
 
 
      String getAddr1();
@@ -124,12 +81,22 @@ public interface TbCustDTO {
 
      String getAddr2();
 
+     String getExtBrCode();
+
+     String getExtMasterStCode();
 
 
+    String getRecommCode();
 
-     LocalDateTime getUpdateDate();
+    String getRecommCount();
 
+    String getRecommCustNo();
 
+    String getRecommCustName();
+
+    String getRecommCustTel();
+
+    LocalDateTime getUpdateDate();
 
 
      LocalDateTime getInsertDate();

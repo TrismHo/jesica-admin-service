@@ -1104,7 +1104,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "", nativeQuery = true)
     List<Map<String,Object>> getUserList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate
     );*/
-    @Query(value = "select     " +
+    /*@Query(value = "select     " +
             "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
             "    dw ,    " +
             "    totalCnt ,    " +
@@ -1158,9 +1158,30 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "", nativeQuery = true)
     List<Map<String,Object>> getUserList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate , @Param("platform") Integer platform
     );
-
+*/
     @Query(value =
             "        select    " +
+            "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
+            "    dw ,    " +
+            "    totalCnt ,    " +
+            "    androidCnt ,    " +
+            "    ROUND(androidCnt/ (androidCnt+iosCnt) * 100, 1) AS androidPer ,    " +
+            "    iosCnt ,    " +
+            "    ROUND(iosCnt/ (androidCnt+iosCnt) * 100, 1) AS iosPer ,    " +
+            "    maleCnt ,    " +
+            "    ROUND(maleCnt/ (maleCnt+feMaleCnt) * 100, 1) AS malePer ,    " +
+            "    femaleCnt ,    " +
+            "    ROUND(femaleCnt/ (maleCnt+femaleCnt) * 100, 1) AS femalePer,     " +
+            "    platformJesicarCnt ,    " +
+            "    ROUND(platformJesicarCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformJesicarPer ,    " +
+            "    platformAnionCnt ,    " +
+            "    ROUND(platformAnionCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformAnionPer,     " +
+            "    platformNoneCnt ,    " +
+            "    ROUND(platformNoneCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformNonePer ,    " +
+            "    start, "+
+            "    end "+
+            "    from(    " +
+            "            select "+
             "            date_format(ab.insert_date, '%Y/%m/%d') AS yyyymmdd       " +
             "            , DAYOFWEEK(ab.insert_date) as dw       " +
             "            , count(1) as totalCnt       " +
@@ -1191,14 +1212,36 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "                   and a.is_member =1   " +
             "                   and a.data_status = 1   " +
             "                   and a.platform_type = :platform   " +
+            "                   and ((:extBrCode is null and 1=1) or (:extBrCode is not null and a.ext_br_code = :extBrCode))"+
             "                   group by a.cust_no) ab   " +
             "           group by WEEK(yyyymmdd)      " +
             "           order by weekdate      " +
+            "        )c    " +
+            "    group by yyyymmdd" +
             "", nativeQuery = true)
-    List<Map<String,Object>> getUserLineWeekList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("platform") Integer platform
+    List<Map<String,Object>> getUserLineWeekList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("platform") Integer platform, @Param("extBrCode") String extBrCode
     );
 
     @Query(value =
+            "        select    " +
+            "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
+            "    dw ,    " +
+            "    totalCnt ,    " +
+            "    androidCnt ,    " +
+            "    ROUND(androidCnt/ (androidCnt+iosCnt) * 100, 1) AS androidPer ,    " +
+            "    iosCnt ,    " +
+            "    ROUND(iosCnt/ (androidCnt+iosCnt) * 100, 1) AS iosPer ,    " +
+            "    maleCnt ,    " +
+            "    ROUND(maleCnt/ (maleCnt+feMaleCnt) * 100, 1) AS malePer ,    " +
+            "    femaleCnt ,    " +
+            "    ROUND(femaleCnt/ (maleCnt+femaleCnt) * 100, 1) AS femalePer,     " +
+            "    platformJesicarCnt ,    " +
+            "    ROUND(platformJesicarCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformJesicarPer ,    " +
+            "    platformAnionCnt ,    " +
+            "    ROUND(platformAnionCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformAnionPer,     " +
+            "    platformNoneCnt ,    " +
+            "    ROUND(platformNoneCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformNonePer     " +
+            "    from(    " +
             "        select    " +
             "            date_format(ab.insert_date, '%Y/%m/%d') AS yyyymmdd       " +
             "            , DAYOFWEEK(ab.insert_date) as dw       " +
@@ -1227,11 +1270,14 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "                   and a.is_member =1   " +
             "                   and a.data_status = 1   " +
             "                   and a.platform_type = :platform   " +
+            "                   and ((:extBrCode is null and 1=1) or (:extBrCode is not null and a.ext_br_code = :extBrCode))"+
             "                   group by a.cust_no) ab   " +
             "           group by yyyymmdd      " +
             "           order by yyyymmdd      " +
+            "        )c    " +
+            "    group by yyyymmdd" +
             "", nativeQuery = true)
-    List<Map<String,Object>> getUserLineDayList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("platform") Integer platform
+    List<Map<String,Object>> getUserLineDayList(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("platform") Integer platform, @Param("extBrCode") String extBrCode
     );
 
 

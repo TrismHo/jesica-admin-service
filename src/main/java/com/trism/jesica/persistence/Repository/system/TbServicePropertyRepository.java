@@ -34,5 +34,5 @@ public interface TbServicePropertyRepository extends JpaRepository<TbServiceProp
             "from manna_order_goods_opt  " +
             "where ord_no = :ordNo " +
             "" , nativeQuery = true)*/
-    List<TbServiceProperty> findByPlatformType(@Param("platfromType") int platfromType);
+    List<TbServiceProperty> findByPlatformTypeAndDataStatus(@Param("platfromType") int platfromType, @Param("dataStatus") int dataStatus);
 }
