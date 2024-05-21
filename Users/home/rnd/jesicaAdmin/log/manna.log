@@ -32,7 +32,7 @@
 22-12-2022 16:25:51.913 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-9002"]
 22-12-2022 16:25:51.939 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 9002 (http) with context path ''
 22-12-2022 16:25:51.941 [restartedMain] INFO  com.trism.jesica.JesicaApplication.logStarted - Started JesicaApplication in 6.944 seconds (JVM running for 7.293)
-22-12-2022 16:25:51.942 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run - 
+22-12-2022 16:25:51.942 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run -
 
 =========================================================
 Using cache manager: org.springframework.cache.concurrent.ConcurrentMapCacheManager
@@ -884,7 +884,7 @@ java.lang.ClassCastException: [Ljava.lang.StackTraceElement; cannot be cast to j
 22-12-2022 17:31:49.194 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-9002"]
 22-12-2022 17:31:49.209 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 9002 (http) with context path ''
 22-12-2022 17:31:49.211 [restartedMain] INFO  com.trism.jesica.JesicaApplication.logStarted - Started JesicaApplication in 5.475 seconds (JVM running for 5.882)
-22-12-2022 17:31:49.212 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run - 
+22-12-2022 17:31:49.212 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run -
 
 =========================================================
 Using cache manager: org.springframework.cache.concurrent.ConcurrentMapCacheManager
@@ -1080,7 +1080,7 @@ java.lang.ClassCastException: [Ljava.lang.StackTraceElement; cannot be cast to j
 22-12-2022 17:35:08.095 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-9002"]
 22-12-2022 17:35:08.109 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 9002 (http) with context path ''
 22-12-2022 17:35:08.111 [restartedMain] INFO  com.trism.jesica.JesicaApplication.logStarted - Started JesicaApplication in 5.431 seconds (JVM running for 5.946)
-22-12-2022 17:35:08.112 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run - 
+22-12-2022 17:35:08.112 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run -
 
 =========================================================
 Using cache manager: org.springframework.cache.concurrent.ConcurrentMapCacheManager
@@ -1246,7 +1246,7 @@ java.lang.ClassCastException: [Ljava.lang.StackTraceElement; cannot be cast to j
 22-12-2022 17:35:51.915 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-9002"]
 22-12-2022 17:35:51.929 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 9002 (http) with context path ''
 22-12-2022 17:35:51.931 [restartedMain] INFO  com.trism.jesica.JesicaApplication.logStarted - Started JesicaApplication in 5.413 seconds (JVM running for 5.667)
-22-12-2022 17:35:51.932 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run - 
+22-12-2022 17:35:51.932 [restartedMain] INFO  c.t.jesica.config.CacheManagerCheck.run -
 
 =========================================================
 Using cache manager: org.springframework.cache.concurrent.ConcurrentMapCacheManager
