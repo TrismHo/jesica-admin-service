@@ -8,55 +8,60 @@ import com.trism.jesica.config.Data;
 import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
-import com.trism.jesica.persistence.Entitiy.block.TbDlvyArea;
-import com.trism.jesica.persistence.Entitiy.block.TbDlvyAreaGeo;
-import com.trism.jesica.persistence.Entitiy.board.*;
-import com.trism.jesica.persistence.Entitiy.business.*;
-import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
-import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
-import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
-import com.trism.jesica.persistence.Entitiy.event.TbEvent;
-import com.trism.jesica.persistence.Entitiy.goods.*;
-import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
-import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
-import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
-import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
-import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
-import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
-import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
-import com.trism.jesica.persistence.Entitiy.vacs.TbVacsVact;
-import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
-import com.trism.jesica.persistence.Repository.block.TbDlvyAreaGeoRepository;
-import com.trism.jesica.persistence.Repository.block.TbDlvyAreaRepository;
-import com.trism.jesica.persistence.Repository.board.*;
-import com.trism.jesica.persistence.Repository.business.*;
-import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
-import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
-import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
-import com.trism.jesica.persistence.Repository.cash.TbCashWithdrawRepository;
-import com.trism.jesica.persistence.Repository.coupon.TbCouponRepository;
-import com.trism.jesica.persistence.Repository.cust.TbCustLocationRepository;
-import com.trism.jesica.persistence.Repository.cust.TbCustRepository;
-import com.trism.jesica.persistence.Repository.event.TbEventRepository;
-import com.trism.jesica.persistence.Repository.goods.*;
-import com.trism.jesica.persistence.Repository.safe.TbSafenMappingRepository;
-import com.trism.jesica.persistence.Repository.service.TbServiceChargeGroupRepository;
-import com.trism.jesica.persistence.Repository.service.TbServiceChargeRepository;
-import com.trism.jesica.persistence.Repository.service.TbStoreServiceChargeRepository;
-import com.trism.jesica.persistence.Repository.storedlvy.TbStoreDlvyChargeRepository;
-import com.trism.jesica.persistence.Repository.storedlvy.TbStoreMngChargeRepository;
-import com.trism.jesica.persistence.Repository.street.TbDlvyPriceChargeRepository;
-import com.trism.jesica.persistence.Repository.street.TbDlvyPriceRepository;
-import com.trism.jesica.persistence.Repository.system.TbSiteAclRepository;
-import com.trism.jesica.persistence.Repository.system.TbSystemCodeRepository;
-import com.trism.jesica.persistence.Repository.vacs.TbVacsVactRepository;
-import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyAttachRepository;
-import com.trism.jesica.persistence.Repository.worker.TbWorkerApplyRepository;
-import com.trism.jesica.persistence.Repository.worker.TbWorkerChargeRepository;
-import com.trism.jesica.persistence.type.AttendStatusType;
-import com.trism.jesica.persistence.type.DataStatus;
-import com.trism.jesica.persistence.type.ServiceType;
-import com.trism.jesica.persistence.type.UserType;
+import com.trism.jesica.exception.ErrorCode;
+import com.trism.jesica.exception.ServiceException;
+import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyArea;
+import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyAreaGeo;
+import com.trism.jesica.persistence.mysql.Entitiy.board.*;
+import com.trism.jesica.persistence.mysql.Entitiy.business.*;
+import com.trism.jesica.persistence.mysql.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.mysql.Entitiy.cash.TbCashWithdraw;
+import com.trism.jesica.persistence.mysql.Entitiy.coupon.TbCoupon;
+import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.mysql.Entitiy.goods.*;
+import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaCouponRegist;
+import com.trism.jesica.persistence.mysql.Entitiy.service.TbServiceChargeGroup;
+import com.trism.jesica.persistence.mysql.Entitiy.service.TbStoreServiceCharge;
+import com.trism.jesica.persistence.mysql.Entitiy.storedlvy.TbStoreDlvyCharge;
+import com.trism.jesica.persistence.mysql.Entitiy.storedlvy.TbStoreMngCharge;
+import com.trism.jesica.persistence.mysql.Entitiy.street.TbDlvyPrice;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.mysql.Entitiy.vacs.TbVacsVact;
+import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.mysql.Repository.block.TbDlvyAreaGeoRepository;
+import com.trism.jesica.persistence.mysql.Repository.block.TbDlvyAreaRepository;
+import com.trism.jesica.persistence.mysql.Repository.board.*;
+import com.trism.jesica.persistence.mysql.Repository.business.*;
+import com.trism.jesica.persistence.mysql.Repository.call.TbCallAllRepository;
+import com.trism.jesica.persistence.mysql.Repository.car.TbRentalInfoRepository;
+import com.trism.jesica.persistence.mysql.Repository.car.TbStoreRentalCarRepository;
+import com.trism.jesica.persistence.mysql.Repository.cash.TbCashWithdrawRepository;
+import com.trism.jesica.persistence.mysql.Repository.coupon.TbCouponRepository;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustLocationRepository;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustRepository;
+import com.trism.jesica.persistence.mysql.Repository.event.TbEventRepository;
+import com.trism.jesica.persistence.mysql.Repository.goods.*;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaCouponPublishRepository;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaCouponRegistRepository;
+import com.trism.jesica.persistence.mysql.Repository.safe.TbSafenMappingRepository;
+import com.trism.jesica.persistence.mysql.Repository.service.TbServiceChargeGroupRepository;
+import com.trism.jesica.persistence.mysql.Repository.service.TbServiceChargeRepository;
+import com.trism.jesica.persistence.mysql.Repository.service.TbStoreServiceChargeRepository;
+import com.trism.jesica.persistence.mysql.Repository.storedlvy.TbStoreDlvyChargeRepository;
+import com.trism.jesica.persistence.mysql.Repository.storedlvy.TbStoreMngChargeRepository;
+import com.trism.jesica.persistence.mysql.Repository.street.TbDlvyPriceChargeRepository;
+import com.trism.jesica.persistence.mysql.Repository.street.TbDlvyPriceRepository;
+import com.trism.jesica.persistence.mysql.Repository.system.TbSiteAclRepository;
+import com.trism.jesica.persistence.mysql.Repository.system.TbSystemCodeRepository;
+import com.trism.jesica.persistence.mysql.Repository.vacs.TbVacsVactRepository;
+import com.trism.jesica.persistence.mysql.Repository.worker.TbWorkerApplyAttachRepository;
+import com.trism.jesica.persistence.mysql.Repository.worker.TbWorkerApplyRepository;
+import com.trism.jesica.persistence.mysql.Repository.worker.TbWorkerChargeRepository;
+import com.trism.jesica.persistence.mysql.type.AttendStatusType;
+import com.trism.jesica.persistence.mysql.type.DataStatus;
+import com.trism.jesica.persistence.mysql.type.ServiceType;
+import com.trism.jesica.persistence.mysql.type.UserType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -84,6 +89,7 @@ import java.util.*;
 @Service
 @Slf4j
 public class ApiService {
+    private final TbMannaCouponPublishRepository tbMannaCouponPublishRepository;
     private final TbAppBannerLocationRepository tbAppBannerLocationRepository;
     private final TbCustLocationRepository tbCustLocationRepository;
 
@@ -258,6 +264,10 @@ public class ApiService {
 
     @Autowired
     private final TbRentalInfoRepository tbRentalInfoRepository;
+
+    @Autowired
+    private final TbMannaCouponRegistRepository tbMannaCouponRegistRepository;
+
 
 
 
@@ -2985,7 +2995,7 @@ public class ApiService {
                         tbWorkerApply.setAuthStatus(1);
                     }
                     tbWorkerApplyRepository.save(tbWorkerApply);
-                    restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
+                    //restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
 
                 } else {
                     throw new Exception();
@@ -3030,7 +3040,7 @@ public class ApiService {
                         tbWorkerApply.setCareerAuthStatus(3);
                     }*/
                     tbWorkerApplyRepository.save(tbWorkerApply);
-                    restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
+                    //restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
                 }
                 //경력확인서일경우
             } else if (authStatus == 3 && applyAttachType == 3){
@@ -3049,7 +3059,7 @@ public class ApiService {
                     title = "경력확인서가 반려되었습니다.";
                     contents = "경력확인서가 반려되었습니다.";
 
-                    restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
+                    //restTemplateUtil.pushMessage("jsdr",pushKey,title,contents,session,data);
                 }
             }
             result = 1;
@@ -3426,7 +3436,16 @@ public class ApiService {
 
         if (tbCustData.getCustNo() != null) {
             //아이디가 있으면 update
-            tbCustRepository.updateCust(tbCustData.getCustNo(), tbCustData.getCustName(), tbCustData.getCustTel(), tbCustData.getDataStatus(), tbCustData.getGender(), tbCustData.getSmsYn(), tbCustData.getPushOrderYn(), tbCustData.getPushNoticeYn(), tbCustData.getPushMarketingYn(), tbCustData.getPlatformType());
+            tbCustRepository.updateCust(tbCustData.getCustNo(),
+                    tbCustData.getCustName(),
+                    tbCustData.getCustTel(),
+                    tbCustData.getDataStatus(),
+                    tbCustData.getGender(),
+                    /*tbCustData.getSmsYn(),*/
+                    tbCustData.getPushOrderYn(),
+                   /* tbCustData.getPushNoticeYn(),*/
+                    tbCustData.getPushMarketingYn(),
+                    tbCustData.getPlatformType());
             result = 1;
         } else {
             //아이디가 없으면 insert
@@ -3464,6 +3483,38 @@ public class ApiService {
         return result;
     }
 
+    @Transactional
+    public int membershipCouponUpdate(Map<String , String> map) {
+        int result = 0;
+        String cpnCode = "";
+        String cpnStatus = "";
+        String stCode = "";
+        Long registMax = Long.parseLong("0");
+        Long totalRegistMax = Long.parseLong("0");
+        if(map.get("cpnCode") != null) {
+            cpnCode = map.get("cpnCode").toString();
+        }
+        if(map.get("cpnStatus") != null) {
+            cpnStatus = map.get("cpnStatus").toString();
+        }
+        if(map.get("stCode") != null) {
+            stCode = map.get("stCode").toString();
+        }
+        if(map.get("registMax") != null) {
+            registMax = Long.parseLong(map.get("registMax").toString());
+        }
+        if(map.get("totalRegistMax") != null) {
+            totalRegistMax = Long.parseLong(map.get("totalRegistMax").toString());
+        }
+
+        try {
+            tbMannaCouponPublishRepository.updateInfo(cpnCode,cpnStatus,stCode,registMax,totalRegistMax);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
     @Transactional
     public int systemMenuInsert(Long menuNo, Long userNo) {
         int result = 0;
@@ -3540,6 +3591,14 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getUserCount( Integer platformType) {
         return tbCallAllRepository.getUserCount(platformType);
+    }
+    @Transactional(readOnly = true)
+    public TbMannaCouponRegist getMembershipCouponInfo(Long publishNo) {
+        Optional<TbMannaCouponRegist> tbMannaCouponRegist = tbMannaCouponRegistRepository.findByPublishNo(publishNo);
+        if(tbMannaCouponRegist.isPresent() == false) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+        return tbMannaCouponRegist.get();
     }
 }
 

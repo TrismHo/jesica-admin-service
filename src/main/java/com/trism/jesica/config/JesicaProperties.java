@@ -25,8 +25,9 @@ public class JesicaProperties {
     private BannerPath bannerPath;
     private PlatFormPath platFormPath;
     private ImgHttp imgHttp;
-
     private SamplePath samplePath;
+    private MomPosServer momPosServer;
+    private OrdPathCd ordPathCd;
 
 
 
@@ -101,5 +102,16 @@ public class JesicaProperties {
     @Data
     public static class SamplePath {
         private String path;
+    }
+    @Data
+    public static class MomPosServer {
+        private String server;
+        private String authKey;
+    }
+
+    @Data
+    public static class OrdPathCd {
+        private String jesicar;
+        private String pickOrder;
     }
 }

@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
 
 </head>
@@ -43,9 +43,9 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement12" text="사용자 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->

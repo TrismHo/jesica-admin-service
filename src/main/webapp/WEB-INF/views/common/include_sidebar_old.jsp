@@ -108,7 +108,7 @@
                     <li class=<c:if test="${fn:contains(servletPath,'board/event') }">"active"</c:if>><a href="${path}/board/event/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&title="><spring:message code="sidemenu.boardmanagement.eventnotice2" text="이벤트 관리"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'board/banner') }">"active"</c:if>><a href="${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType=0&boardType="><spring:message code="sidemenu.boardmanagement.eventnotice2" text="배너 관리"/></a></li>
                     <li class=<c:if test="${fn:contains(servletPath,'board/management') || fn:contains(servletPath,'board/management/detail') || fn:contains(servletPath,'board/management/insert') }">"active"</c:if>><a href="${path}/board/management/list?serviceType=&dataStatus=&startDate=2020-01-01&endDate=${now}&title="><spring:message code="sidemenu.couponmanagement.coupon" text="쿠폰관리"/></a></li>
-                    <li class=<c:if test="${fn:contains(servletPath,'board/cust') }">"active"</c:if>><a href="${path}/board/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName=&custTel="><spring:message code="sidemenu.orderhistory.123" text="고객 관리"/></a></li>
+                    <li class=<c:if test="${fn:contains(servletPath,'board/cust') }">"active"</c:if>><a href="${path}/board/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName=&custTel="><spring:message code="sidemenu.orderhistory.123" text="회원 관리"/></a></li>
                 </ul>
             </li>
            <li class="has-sub <c:if test="${fn:contains(servletPath,'settlement') }">active</c:if>">

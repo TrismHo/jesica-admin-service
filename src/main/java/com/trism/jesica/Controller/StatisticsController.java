@@ -4,9 +4,9 @@ import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.BrCodeService;
 import com.trism.jesica.Service.StatisticsService;
 import com.trism.jesica.Util.DateUtil;
-import com.trism.jesica.persistence.Entitiy.business.TbStore;
-import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
-import com.trism.jesica.persistence.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.mysql.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -487,6 +487,88 @@ public class StatisticsController {
         return new ModelAndView("jesica/statistics/user/list");
     }
 
+
+
+    //회원통계
+    @GetMapping("/location/list")
+    public ModelAndView listByUserLocation(@RequestParam Map<String,Object> searchValue,
+                                   HttpSession session,
+                                   Model model) {
+        log.info("@@searchValue {}",searchValue);
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+        List<Map<String,Object>> brCodeList = null;
+        // 총판 리스트 조회
+        brCodeList = brCodeService.getBrCodeList();
+
+        // cust extBrCode 조회
+
+        if (!searchValue.isEmpty()){
+
+            List<Map<String,Object>> timeList = null;
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+            Integer platfromCode = null;
+            String extBrCode = null;
+            if("jesicar".equals(company)) {
+                platfromCode = 1;
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                platfromCode = 2;
+                searchValue.put("platformType","2");
+            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (searchValue.get("startDate") != null) {
+                String string = searchValue.get("startDate").toString() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                startDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("endDate") != null) {
+                String string = searchValue.get("endDate").toString() + " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            } else {
+                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                endDate = LocalDateTime.parse(string, formatter);
+            }
+            if (searchValue.get("extBrCode") != null) {
+                extBrCode = searchValue.get("extBrCode").toString();
+            } else {
+                extBrCode = "";
+            }
+            model.addAttribute("timeList",timeList);
+        } else {
+
+            List<Map<String,Object>> timeList = null;
+            Integer platfromCode = null;
+            if("jesicar".equals(company)) {
+                platfromCode = 1;
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                platfromCode = 2;
+                searchValue.put("platformType","2");
+            }
+            LocalDateTime startDate = null;
+            LocalDateTime endDate = null;
+
+            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+
+            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            startDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(string1, formatter);
+            model.addAttribute("timeList",timeList);
+
+        }
+        model.addAttribute("searchValue",searchValue);
+        model.addAttribute("brCodeList",brCodeList);
+        return new ModelAndView("jesica/statistics/location/list");
+    }
+
     @GetMapping("/washing/list")
     public ModelAndView listByWashing(@RequestParam Map<String,Object> searchValue,
                                    HttpSession session,
@@ -502,6 +584,7 @@ public class StatisticsController {
             Integer platfromCode = null;
             String brCode = null;
             String ordPathCd = null;
+            String ordStatus = null;
             if("jesicar".equals(company)) {
                 ordPathCd = "1063";
                 searchValue.put("ordPathCd","1063");
@@ -524,13 +607,14 @@ public class StatisticsController {
                 String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                 endDate = LocalDateTime.parse(string, formatter);
             }
-            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd ,brCode);
+            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd ,brCode, ordStatus);
             model.addAttribute("timeList",timeList);
         } else {
 
             List<Map<String,Object>> timeList = null;
             String ordPathCd = null;
             String brCode = null;
+            String ordStatus = null;
             if("jesicar".equals(company)) {
                 ordPathCd = "1063";
                 searchValue.put("ordPathCd","1063");
@@ -550,14 +634,14 @@ public class StatisticsController {
 
             startDate = LocalDateTime.parse(string, formatter);
             endDate = LocalDateTime.parse(string1, formatter);
-            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd ,brCode);
+            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd ,brCode,ordStatus);
             model.addAttribute("timeList",timeList);
 
         }
         model.addAttribute("searchValue",searchValue);
         return new ModelAndView("jesica/statistics/washing/list");
     }
-    @GetMapping("/restaurant/list")
+    @GetMapping("/order/list")
     public ModelAndView listByRestaurant(@RequestParam Map<String,Object> searchValue,
                                    HttpSession session,
                                    Model model) {
@@ -575,6 +659,7 @@ public class StatisticsController {
             LocalDateTime endDate = null;
             String ordPathCd = null;
             String brCode = null;
+            String ordStatus = null;
             if("jesicar".equals(company)) {
                 ordPathCd = "1063";
                 searchValue.put("ordPathCd","1063");
@@ -600,13 +685,17 @@ public class StatisticsController {
             if (searchValue.get("brCode") != null) {
                 brCode = searchValue.get("brCode").toString();
             }
-            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd, brCode);
+            if (searchValue.get("ordStatus") != null) {
+                ordStatus = searchValue.get("ordStatus").toString();
+            }
+            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd, brCode, ordStatus);
             model.addAttribute("timeList",timeList);
         } else {
 
             List<Map<String,Object>> timeList = null;
             String ordPathCd = null;
             String brCode = null;
+            String ordStatus = null;
             if("jesicar".equals(company)) {
                 ordPathCd = "1063";
                 searchValue.put("ordPathCd","1063");
@@ -626,21 +715,16 @@ public class StatisticsController {
 
             startDate = LocalDateTime.parse(string, formatter);
             endDate = LocalDateTime.parse(string1, formatter);
-            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd, brCode );
+            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd, brCode , ordStatus);
             model.addAttribute("timeList",timeList);
 
         }
         model.addAttribute("searchValue",searchValue);
         model.addAttribute("brCodeList",brCodeList);
-        return new ModelAndView("jesica/statistics/restaurant/list");
+        return new ModelAndView("jesica/statistics/order/list");
     }
 
 
-    //지역별통계(추후진행)
-    @GetMapping("/location/list")
-    public ModelAndView listByLocation() {
-        return new ModelAndView("jesica/statistics/location/list");
-    }
 
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {
         session.setAttribute("headNo", searchValue.get("headNo"));

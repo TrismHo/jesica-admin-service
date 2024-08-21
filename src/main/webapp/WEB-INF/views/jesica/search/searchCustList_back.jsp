@@ -7,10 +7,6 @@
     /*.modal-body {
         background: #e0e0e0;
     }*/
-    .list li {
-        padding: 5px;
-        background: #F9F9F9;
-    }
     .list {height: 550px; overflow-y: auto;}
     .modal-footer {display: block;}
     a.page-link {padding: 5px 10px;}

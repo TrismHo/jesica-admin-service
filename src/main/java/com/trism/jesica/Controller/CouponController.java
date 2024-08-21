@@ -1,7 +1,7 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.CouponService;
-import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
+import com.trism.jesica.persistence.mysql.Entitiy.coupon.TbCoupon;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;

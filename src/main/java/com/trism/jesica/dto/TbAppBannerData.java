@@ -1,6 +1,6 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.board.TbAppBanner;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbAppBanner;
 import lombok.Data;
 
 @Data

@@ -216,7 +216,7 @@
                                                 </label>
                                             </span>
                                             <span>
-                                                <input type="text" class="form-control dcAmt" name="dcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.dcAmt}">
+                                                <input type="text" class="form-control dcAmt" name="dcAmt" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.dcAmt}">
                                                 <span id="amt-form" <c:if test="${tbCoupon.dcRateType == 2}">style="display: none"</c:if>>원</span>
                                                 <span id="rate-form" <c:if test="${tbCoupon.dcRateType == 1}">style="display: none"</c:if>>%</span>
                                             </span>
@@ -229,7 +229,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title1" text="최대할인금액"/></td>
                                     <td>
-                                        <input type="text" name="maxDcAmt" class="form-control maxDcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxDcAmt}">
+                                        <input type="text" name="maxDcAmt" class="form-control maxDcAmt" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxDcAmt}">
                                         <span>원</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -239,7 +239,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title1" text="최소결제금액"/></td>
                                     <td>
-                                        <input type="text" name="minPayAmt" class="form-control minPayAmt"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.minPayAmt}">
+                                        <input type="text" name="minPayAmt" class="form-control minPayAmt"oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.minPayAmt}">
                                         <span>원</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -249,7 +249,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title1" text="최대발급개수"/></td>
                                     <td>
-                                        <input type="text" name="maxPublishCount" class="form-control maxPublishCount"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxPublishCount}">
+                                        <input type="text" name="maxPublishCount" class="form-control maxPublishCount"oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.maxPublishCount}">
                                         <span>개</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -259,7 +259,7 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title1" text="동일고객 중복발급가능개수"/></td>
                                     <td>
-                                        <input type="text" name="multiPublishCount" class="form-control multiPublishCount"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.multiPublishCount}">
+                                        <input type="text" name="multiPublishCount" class="form-control multiPublishCount"oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="${tbCoupon.multiPublishCount}">
                                         <span>개</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -390,61 +390,59 @@
                                 <tr class="border-0" >
                                     <td colspan="2" class="p-0" style="border: 0;">
                                         <div class="tab-pane fade active show" >
-                                            <form id="update_form3" style="width: 100%;" class="p-0">
-                                                <div class="panel panel-inverse">
-                                                    <div class="border">
-                                                        <input type="hidden"  class="viewOrder" value="">
-                                                        <table class="table table-bordered border-bottom text-center border-0">
-                                                            <thead>
-                                                            <tr>
-                                                                <th class="bg-light" style="width:5%"><spring:message code="list.detail.number1" text="번호"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="아이디"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.username1" text="사용자 이름"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone1" text="사용자 전화번호"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="발급일자"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="만료일자"/></th>
-                                                                <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="사용일자"/></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <c:forEach var="item" items="${usedUsers}"  varStatus="status">
-                                                                    <tr class="detailRow">
-                                                                        <td class="text-center">${status.index + 1}</td>
-                                                                        <td class="text-center">
-                                                                            <div style="overflow: hidden;
-                                                  margin: auto;
-                                                  text-overflow: ellipsis;
-                                                  white-space: nowrap;
-                                                  width: 250px;
-                                                  display: block;">${item.loginId}</div>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <div style="overflow: hidden;
-                                                  margin: auto;
-                                                  text-overflow: ellipsis;
-                                                  white-space: nowrap;
-                                                  width: 250px;
-                                                  display: block;"> ${item.custName}</div>
-                                                                        </td>
-                                                                        <td class="text-center" style="">
-                                                                            ${item.custTel}
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            ${item.insertDate}
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            ${item.expireDate}
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            ${item.useDate}
-                                                                        </td>
-                                                                    </tr>
-                                                                </c:forEach>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                            <div class="panel panel-inverse">
+                                                <div class="border">
+                                                    <input type="hidden"  class="viewOrder" value="">
+                                                    <table class="table table-bordered border-bottom text-center border-0">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="bg-light" style="width:5%"><spring:message code="list.detail.number1" text="번호"/></th>
+                                                            <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="아이디"/></th>
+                                                            <th class="bg-light" style="width:15%"><spring:message code="list.detail.username1" text="사용자 이름"/></th>
+                                                            <th class="bg-light" style="width:15%"><spring:message code="list.detail.userphone1" text="사용자 전화번호"/></th>
+                                                            <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="발급일자"/></th>
+                                                            <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="만료일자"/></th>
+                                                            <th class="bg-light" style="width:15%"><spring:message code="list.detail.id1" text="사용일자"/></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach var="item" items="${usedUsers}"  varStatus="status">
+                                                                <tr class="detailRow">
+                                                                    <td class="text-center">${status.index + 1}</td>
+                                                                    <td class="text-center">
+                                                                        <div style="overflow: hidden;
+                                              margin: auto;
+                                              text-overflow: ellipsis;
+                                              white-space: nowrap;
+                                              width: 250px;
+                                              display: block;">${item.loginId}</div>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <div style="overflow: hidden;
+                                              margin: auto;
+                                              text-overflow: ellipsis;
+                                              white-space: nowrap;
+                                              width: 250px;
+                                              display: block;"> ${item.custName}</div>
+                                                                    </td>
+                                                                    <td class="text-center" style="">
+                                                                        ${item.custTel}
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        ${item.insertDate}
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        ${item.expireDate}
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        ${item.useDate}
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>

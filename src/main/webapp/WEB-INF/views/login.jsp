@@ -45,7 +45,7 @@
 <!-- begin login-cover -->
 <div class="login-cover">
 	<div class="login-cover-image" style="" data-id="login-cover-image"></div>
-	<div class="login-cover-bg"></div>
+	<div class="login-cover-bg" style="background-color: black;"></div>
 </div>
 <ul class="navbar-nav navbar-right">
 	<li class="dropdown navbar-language">

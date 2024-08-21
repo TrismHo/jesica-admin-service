@@ -1,6 +1,6 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.cash.TbCashWithdraw;
+import com.trism.jesica.persistence.mysql.Entitiy.cash.TbCashWithdraw;
 import lombok.Data;
 
 import java.time.LocalDateTime;

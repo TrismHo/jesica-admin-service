@@ -1,7 +1,7 @@
 package com.trism.jesica.Service;
 
-import com.trism.jesica.persistence.Entitiy.system.TbServiceProperty;
-import com.trism.jesica.persistence.Repository.system.TbServicePropertyRepository;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbServiceProperty;
+import com.trism.jesica.persistence.mysql.Repository.system.TbServicePropertyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

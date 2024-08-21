@@ -2,7 +2,7 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.MannaService;
 import com.trism.jesica.dto.TbMannaOrderGoodsDTO;
-import com.trism.jesica.persistence.Entitiy.manna.TbMannaOrder;
+import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaOrder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;

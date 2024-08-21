@@ -1,9 +1,9 @@
 package com.trism.jesica.Service;
 
-import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
-import com.trism.jesica.persistence.Entitiy.system.TbSiteMenu;
-import com.trism.jesica.persistence.Repository.system.TbSiteAclRepository;
-import com.trism.jesica.persistence.Repository.system.TbSiteMenuRepository;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
+import com.trism.jesica.persistence.mysql.Repository.system.TbSiteAclRepository;
+import com.trism.jesica.persistence.mysql.Repository.system.TbSiteMenuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -42,7 +42,198 @@
             <div class="panel-heading ui-sortable-handle"><h4 class="panel-title">가입신청내역</h4>
                 <div class="panel-heading-btn"><a href="javascript:;"
                                                   class="btn btn-xs btn-icon btn-circle btn-danger"
-                                                  data-dismiss="modal" aria-label="Close">
+                                                  data-dismiss="modal" aria-label></a>
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="panel panel-inverse">
+                                <div class="panel-heading ui-sortable-handle"><h4 class="panel-title">가입신청내역</h4>
+                                    <div class="panel-heading-btn"><a href="javascript:;"
+                                                                      class="btn btn-xs btn-icon btn-circle btn-danger"
+                                                                      data-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-times"></i></a></div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="applyNo" value="">
+                            <input type="hidden" class="pushKey" value="">
+                            <div class="modal-body" style="padding: 5px;">
+                                <form class="store_search_form">
+                                    <div class="row">
+                                        <div class="col-xl-12 ui-sortable">
+                                            <div class="panel-body">
+                                                <div class="nav-wizards-container" style="height: 100px;">
+                                                    <nav class="nav nav-wizards-1 mb-2" style="width: 25%;float: left;">
+                                                        <table id="user" class="table table-bordered table-panel mb-0">
+                                                            <tr>
+                                                                <td><img style="width: 177px;height: 95px;" class="profileImg" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>프로필 사진</td>
+                                                            </tr>
+                                                        </table>
+                                                    </nav>
+                                                    <nav class="nav nav-wizards-1 mb-2" style="width: 75%;float: right;">
+                                                        <div class="nav-item col">
+                                                            <a class="nav-link completed enrollment_1" href="#">
+                                                                <div class="nav-no">1</div>
+                                                                <div class="nav-text">미등록</div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="nav-item col">
+                                                            <a class="nav-link active enrollment_2" href="#">
+                                                                <div class="nav-no">2</div>
+                                                                <div class="nav-text">신청</div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="nav-item col">
+                                                            <a class="nav-link disabled enrollment_3" href="#">
+                                                                <div class="nav-no">3</div>
+                                                                <div class="nav-text">승인</div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="nav-item col">
+                                                            <a class="nav-link disabled enrollment_4" href="#">
+                                                                <div class="nav-no">4</div>
+                                                                <div class="nav-text ">반려</div>
+                                                            </a>
+                                                        </div>
+                                                    </nav>
+                                                    <nav class="nav nav-wizards-1 mb-2" style="width: 75%;float: right;">
+                                                        <div class="nav-item col" style="padding-left: 20px;padding-right: 20px;">
+                                                            <table id="testTable" class="display table table-bordered w-100 table-striped ">
+                                                                <thead>
+                                                                </th>
+                                                                <th class="text-center" style="width: 10%;">계정생성여부</th>
+                                                                <th class="text-center" style="width: 8%;">이름</th>
+                                                                <th class="text-center" style="width: 12%;">SMS수신여부</th>
+                                                                <th class="text-center" style="width: 12%;">프로필 승인여부</th>
+                                                                <th class="text-center" style="width: 14%;">경력확인서 승인여부</th>
+                                                                <th class="text-center" style="width: 14%;">면허증 승인여부</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr class="">
+                                                                    <td class="text-center signYn"></td>
+                                                                    <td class="text-center name"></td>
+                                                                    <td class="text-center smsYn"></td>
+                                                                    <td class="text-center profileAuthStatus"></td>
+                                                                    <td class="text-center careerAuthStatus"></td>
+                                                                    <td class="text-center licenseAuthStatus"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 ui-sortable">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-xl-6 ui-sortable">
+                                                        <div class="card">
+                                                            <div class="card-bod">
+                                                                <div class="panel-body">
+                                                                    <div class="table-responsive">
+                                                                        <table id="user" class="table table-bordered table-panel mb-0">
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <td class="bg-light" width="30%;">업종</td>
+                                                                                <td><span class="serviceType"></span></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="bg-light">주민번호</td>
+                                                                                <td><span class="residentNum"></span>-*******</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="bg-light">휴대폰번호</td>
+                                                                                <td><span class="phone"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="bg-light">면허증사진</td>
+                                                                                <td><img style="height: 88px;" class="licenseFile" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'"></td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 ui-sortable">
+                                                        <div class="card">
+                                                            <div class="card-bod">
+                                                                <div class="panel-body">
+                                                                    <div class="table-responsive">
+                                                                        <table id="user" class="table table-bordered table-panel mb-0">
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <td class="bg-light" width="30%;">면허번호</td>
+                                                                                <td><span class="licenseNum"></span></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="bg-light">면허종류</td>
+                                                                                <td><span class="licenseType"></span></td>
+                                                                            </tr>
+                                                                            <td class="bg-light">면허갱신마감일</td>
+                                                                            <td><span class="licenseExpDate"></span></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="bg-light" >경력확인서 파일</td>
+                                                                                <td><span class="careerFileDown m-r-5"></span>
+                                                                                    <a class="careerFile"><i class="fas fa-lg fa-fw me-10px fa-download" style="cursor: pointer;">
+                                                                                    </i></a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="bg-light">등록일시</td>
+                                                                                <td><span class="insertDate m-r-5"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="bg-light">최종승인일</td>
+                                                                                <td><span class="authDate m-r-5"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body p-t-20">
+                                        <table id="testTable" class="display table table-bordered w-100 table-striped ">
+                                            <thead>
+                                            <th class="text-center" style="width: 46px"><spring:message code="list.word.no" text="순번"/></th>
+                                            <th class="text-center" style="width: 70px">제출서류구분</th>
+                                            <th class="text-center" style="width: 48px">승인상태</th>
+                                            <th class="text-center" style="width: 90px">프로필/면허증 이미지</th>
+                                            <th class="text-center" style="width: 54px;">승인/반려자</th>
+                                            <th class="text-center" style="width: 110px;">면허번호/면허종류/만료일</th>
+                                            <th class="text-center" style="width: 85px;">승인/반려일시</th>
+                                            <th class="text-center" style="width: 84px;">등록일시</th>
+                                            <th class="text-center" style="width: 98px;"></th>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e;">
+                                        <ul class="attachList p-0" >
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn_remove float-right m-l-5" phone="${tbNoticeCompany.onticeNo}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
+                                <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    el="Close">
                     <i class="fa fa-times"></i></a></div>
             </div>
         </div>

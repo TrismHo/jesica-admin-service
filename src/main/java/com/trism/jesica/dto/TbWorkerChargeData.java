@@ -1,6 +1,6 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.worker.TbWorkerCharge;
+import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerCharge;
 import lombok.Data;
 
 import java.math.BigDecimal;

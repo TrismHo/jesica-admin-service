@@ -1,6 +1,6 @@
 package com.trism.jesica.config;
 
-import com.trism.jesica.persistence.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

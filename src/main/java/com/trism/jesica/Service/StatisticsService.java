@@ -1,9 +1,9 @@
 package com.trism.jesica.Service;
 
-import com.trism.jesica.persistence.Repository.call.TbCallAllRepository;
-import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
-import com.trism.jesica.persistence.Repository.manna.TbMannaBrCodeRepository;
-import com.trism.jesica.persistence.Repository.manna.TbMannaOrderRepository;
+import com.trism.jesica.persistence.mysql.Repository.call.TbCallAllRepository;
+import com.trism.jesica.persistence.mysql.Repository.car.TbRentalInfoRepository;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaBrCodeRepository;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaOrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -96,8 +96,8 @@ public class StatisticsService {
         return tbCallAllRepository.getUserList(startDate,endDate,platform);
     }*/
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getMannaOrderList(LocalDateTime startDate,LocalDateTime endDate,String ordPathCd, String brCode) {
-        return tbMannaOrderRepository.getMannaOrderList(startDate,endDate,ordPathCd,brCode);
+    public List<Map<String,Object>> getMannaOrderList(LocalDateTime startDate,LocalDateTime endDate,String ordPathCd, String brCode, String ordStatus) {
+        return tbMannaOrderRepository.getMannaOrderList(startDate,endDate,ordPathCd,brCode,ordStatus);
     }
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getMannaLineDayList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String ordStatus) {
@@ -107,13 +107,24 @@ public class StatisticsService {
     public List<Map<String,Object>> getMannaLineWeekList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String ordStatus) {
         return tbMannaOrderRepository.getMannaLineWeekList(startDate,endDate,ordPathCd,brCode,ordStatus);
     }
+
+    /*@Transactional(readOnly = true)
+    public List<Map<String,Object>> getLocationLineWeekList(LocalDateTime startDate,LocalDateTime endDate,Integer platform,String extBrCode) {
+        return tbCallAllRepository.getLocationLineWeekList(startDate,endDate,platform,extBrCode);
+    }*/
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getUserLineWeekList(LocalDateTime startDate,LocalDateTime endDate,Integer platform,String extBrCode) {
-        return tbCallAllRepository.getUserLineWeekList(startDate,endDate,platform,extBrCode);
+    public List<Map<String,Object>> getLocationLineDayList(LocalDateTime startDate,LocalDateTime endDate,Integer platform) {
+        return tbCallAllRepository.getLocationLineDayList(startDate,endDate,platform);
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getUserLineWeekList(LocalDateTime startDate,LocalDateTime endDate,Integer platform,String extBrCode,String addrCode) {
+        return tbCallAllRepository.getUserLineWeekList(startDate,endDate,platform,extBrCode,addrCode);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getUserLineDayList(LocalDateTime startDate,LocalDateTime endDate,Integer platform, String extBrCode) {
-        return tbCallAllRepository.getUserLineDayList(startDate,endDate,platform,extBrCode);
+    public List<Map<String,Object>> getUserLineDayList(LocalDateTime startDate,LocalDateTime endDate,Integer platform, String extBrCode,String addrCode) {
+        return tbCallAllRepository.getUserLineDayList(startDate,endDate,platform,extBrCode,addrCode);
     }
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getBaseList(String storeName ,LocalDateTime startDate,LocalDateTime endDate) {

@@ -2,11 +2,10 @@
 package com.trism.jesica.Service;
 
 import com.trism.jesica.dto.LangUpdateProperty;
-import com.trism.jesica.persistence.Entitiy.system.TbSiteLang;
-import com.trism.jesica.persistence.Repository.TbSiteLangRepository;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteLang;
+import com.trism.jesica.persistence.mysql.Repository.TbSiteLangRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,16 +17,15 @@ import java.util.List;
 @Slf4j
 public class LangService {
 
-    @Autowired
     private final TbSiteLangRepository tblSiteLangRepository;
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbSiteLang> tblSiteLang() {
         return tblSiteLangRepository.getAllAndActive();
     }
 
-    @Transactional
+    @Transactional(value = "mysqlTransactionManager" )
     public int updateLang(Long tslId ,
                                         String langName ,
                                         String langKey ,
@@ -71,7 +69,6 @@ public class LangService {
                 langEn,
                 langKh);
     }
-
     public LangUpdateProperty getLastUpdated() {
         return tblSiteLangRepository.getByMaxUpdateTime();
     }
@@ -79,7 +76,6 @@ public class LangService {
     public List<LangUpdateProperty> getUpdateProperty(LocalDateTime lastDateTime) {
         return tblSiteLangRepository.getUpdateProperty(lastDateTime);
     }
-
     public List<LangUpdateProperty> getAll() {
         return tblSiteLangRepository.getAllList();
     }

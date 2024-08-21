@@ -2,6 +2,7 @@ package com.trism.jesica.Controller;
 
 /*import com.trism.manna.Service.LangService;*/
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonObject;
 import com.trism.jesica.Service.*;
 import com.trism.jesica.Util.DateUtil;
@@ -10,23 +11,23 @@ import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
-import com.trism.jesica.persistence.Entitiy.block.TbDlvyArea;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
-import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
-import com.trism.jesica.persistence.Entitiy.common.LoginSession;
-import com.trism.jesica.persistence.Entitiy.cust.TbCust;
-import com.trism.jesica.persistence.Entitiy.event.TbEvent;
-import com.trism.jesica.persistence.Entitiy.goods.*;
-import com.trism.jesica.persistence.Entitiy.manna.TbMannaEventPush;
-import com.trism.jesica.persistence.Entitiy.manna.TbMannaOrder;
-import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
-import com.trism.jesica.persistence.Entitiy.street.TbDlvyPrice;
-import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
-import com.trism.jesica.persistence.Entitiy.vacs.TbVacsVact;
-import com.trism.jesica.persistence.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyArea;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeCompany;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticePlatform;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeRelease;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeWorker;
+import com.trism.jesica.persistence.mysql.Entitiy.business.TbUserWorker;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbCust;
+import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.mysql.Entitiy.goods.*;
+import com.trism.jesica.persistence.mysql.Entitiy.manna.*;
+import com.trism.jesica.persistence.mysql.Entitiy.safe.TbSafenMapping;
+import com.trism.jesica.persistence.mysql.Entitiy.street.TbDlvyPrice;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.mysql.Entitiy.vacs.TbVacsVact;
+import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.oracle.Entity.MnA1Today;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -47,6 +48,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +66,7 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -78,6 +81,8 @@ public class ApiController {
     private final LangService langService;
     private final JesicaProperties jesicaProperties;
     HttpSession session;
+
+    private final RabbitMqService rabbitMqService;
 
     private final MannaService mannaService;
     private final ApiService apiService;
@@ -112,6 +117,10 @@ public class ApiController {
 
     private final BoardService boardService;
 
+    private final OracleService oracleService;
+
+    private JdbcTemplate jdbcTemplate;
+
     //테스트용 API
     @ResponseBody
     @PostMapping(value="/company/change")
@@ -128,7 +137,51 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
-    //현재 토큰정보 확인 1번
+    @GetMapping(value="/test")
+    public String test() {
+        List<LangUpdateProperty> result = langService.getAll();
+        System.out.println(result.get(0).getTslId());
+        return "a";
+    }
+
+    @GetMapping(value="/oracletest")
+    public String testoracle() {
+        MnA1Today mnA1Today = oracleService.oracleTest();
+        System.out.println(mnA1Today.getOrdNo());
+        System.out.println(mnA1Today.getPutDate());
+        return "a";
+    }
+
+    @GetMapping(value="/testoracleProdecual")
+    public String testoracleProdecual() throws SQLException, JsonProcessingException {
+        MnA1Today mnA1Today = oracleService.oracleTest();
+        System.out.println(mnA1Today.getOrdNo());
+        System.out.println(mnA1Today.getPutDate());
+
+        //String result = oracleService.getCouponDetail("490","1069");
+        Map<String, Object> inputParams = new HashMap<>();
+        inputParams.put("in_REQ_NUM", "MS_01_03_01_V01");
+        inputParams.put("in_LANGUAGE", "0001");
+        inputParams.put("in_DEVICE", "TFA");
+        inputParams.put("in_SERVICE_YN", "N");
+        inputParams.put("in_VALUE", null);
+        inputParams.put("in_INFO", "");
+        inputParams.put("in_ARRAY_STR1", null);
+        inputParams.put("in_ARRAY_STR2", null);
+        inputParams.put("in_ARRAY_STR3", null);
+        inputParams.put("in_ARRAY_NUM1", null);
+        inputParams.put("in_ARRAY_NUM2", null);
+        inputParams.put("in_ARRAY_NUM3", null);
+        Map<String ,Object> result2 = oracleService.callProcedure(inputParams);
+        System.out.println(result2);
+       /* String sql = "{call SP_SV_API_APP_CU_MS.BD_GET_COUPON_LIST_V01(?, ?, ?)}";
+        jdbcTemplate.call(sql, "490", "1069");*/
+
+
+        return "a";
+    }
+
+        //현재 토큰정보 확인 1번
     //최초1회 실행
     /*@ResponseBody
     @GetMapping("/token/info")
@@ -250,7 +303,7 @@ public class ApiController {
             }
 
             //토큰 갱신
-            ResponseEntity<Map> tokenMap2 = restTemplateUtil.refreshTokenVue(refreshToken,code,clientId,accessToken);
+           /* ResponseEntity<Map> tokenMap2 = restTemplateUtil.refreshTokenVue(refreshToken,code,clientId,accessToken);
             Map<String,Object> codeMap2 = (Map)tokenMap2.getBody();
             String resultAccessToken = (String)((Map) tokenMap2.getBody().get("data")).get("accessToken");
 
@@ -260,7 +313,7 @@ public class ApiController {
                 log.info("cache4::" + resultAccessToken);
                 map.put("accessToken", resultAccessToken);
                 session.setAttribute("accessToken",resultAccessToken);
-            }
+            }*/
 
 
         } catch (Exception e) {
@@ -318,15 +371,17 @@ public class ApiController {
     }
 
 
+
+
     //지역검색
-    @ResponseBody
+   /* @ResponseBody
     @GetMapping("/location/getLocation")
     public ResponseEntity<?> getLocation(@RequestParam("type") String type,HttpSession session)
     {
         ResponseEntity<Map> map = restTemplateUtil.getLocation(session,type);
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
-
+*/
 
 
     //테스트용 API
@@ -1259,7 +1314,7 @@ public class ApiController {
             }
 
             tbUserWorker =  apiService.insertTbUserWork(tbUserWorkerData, imgFile,imgFile2, session);
-            if (tbUserWorker != null) {
+            /*if (tbUserWorker != null) {
                 if(tbUserWorker.getUserNo() != null){
                     ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorker.getUserNo(), session);
                     Map<String, Object> codeMap2 = (Map) tokenMap.getBody();//아이디가 있으면 update
@@ -1270,7 +1325,7 @@ public class ApiController {
                         log.info("driverStatusError");
                     }
                 }
-            }
+            }*/
         } catch (DataIntegrityViolationException e) {
             result = 500;
         } catch (Exception e){
@@ -1454,7 +1509,7 @@ public class ApiController {
             log.error("error :"+e.getMessage());
         }
 
-        if(result == 1){
+        /*if(result == 1){
             ResponseEntity<Map> tokenMap = restTemplateUtil.driverStatusInit(tbUserWorkerData.getUserNo(), session);
             Map<String,Object> codeMap2 = (Map)tokenMap.getBody();//아이디가 있으면 update
             if("OK".equals(codeMap2.get("serviceStatus"))){
@@ -1463,7 +1518,7 @@ public class ApiController {
             } else {
                 log.info("driverStatusError");
             }
-        }
+        }*/
 
         Map<String,Object> map = new HashMap<>();
         if(result > 0 ) {
@@ -2769,7 +2824,7 @@ public class ApiController {
             tbRentalInfoData.setReservStartDate(reservStartDate);
             tbRentalInfoData.setReservEndDate(reservEndDate);
 
-            ResponseEntity<Map> resultMap = restTemplateUtil.insertCarRent(tbRentalInfoData,session);
+           /* ResponseEntity<Map> resultMap = restTemplateUtil.insertCarRent(tbRentalInfoData,session);
             Map<String,Object> bodyMap = (Map)resultMap.getBody();
             log.info("result ::"+bodyMap);
             if(!"OK".equals(bodyMap.get("serviceStatus"))){
@@ -2778,7 +2833,7 @@ public class ApiController {
             }else {
                 log.info("result :: 성공");
                 map.put("result", 200);
-            }
+            }*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -2799,7 +2854,7 @@ public class ApiController {
 
         try {
 
-            ResponseEntity<Map<String, Object>> resultMap = restTemplateUtil.resetSafenNum(Long.parseLong(rentalNo),session);
+           /* ResponseEntity<Map<String, Object>> resultMap = restTemplateUtil.resetSafenNum(Long.parseLong(rentalNo),session);
             Map<String,Object> bodyMap = (Map)resultMap.getBody();
             log.info("result ::"+bodyMap);
             if(!"OK".equals(bodyMap.get("serviceStatus"))){
@@ -2809,18 +2864,18 @@ public class ApiController {
                 log.info("result :: 성공");
                 map.put("result", 200);
                 //성공하면 다시 update
-             /*   Map<String,String> safunDate = (Map)resultMap.getBody().get("data");
-                log.info("safenNo ::"+safunDate.get("safen_no"));*/
-               /* int result = apiService.updateTbRentalInfoSafenNum(Integer.parseInt(rentalNo),safunDate.get("safen_no"));*/
-                /*if(result == 1){
+             *//*   Map<String,String> safunDate = (Map)resultMap.getBody().get("data");
+                log.info("safenNo ::"+safunDate.get("safen_no"));*//*
+               *//* int result = apiService.updateTbRentalInfoSafenNum(Integer.parseInt(rentalNo),safunDate.get("safen_no"));*//*
+                *//*if(result == 1){
                     log.info("result :: 성공");
                     map.put("result", 200);
                 } else {
                     log.info("result :: 오류 600");
                     map.put("result", 600);
-                }*/
+                }*//*
             }
-
+*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2870,6 +2925,7 @@ public class ApiController {
                 LocalDateTime endDate = null;
                 Integer platfromCode = null;
                 String extBrCode = null;
+                String addrCode = null;
                 if("jesicar".equals(company)) {
                     platfromCode = 1;
                     searchValue.put("platformType","1");
@@ -2897,12 +2953,16 @@ public class ApiController {
                 } else {
                     extBrCode = null;
                 }
+                if (searchValue.get("addrCode") != null && searchValue.get("addrCode") != "") {
+                    addrCode = searchValue.get("addrCode").toString();
+                } else {
+                    addrCode = null;
+                }
                 if (searchValue.get("dayType") != null) {
-
                     if("1".equals(searchValue.get("dayType").toString())) {
-                        timeList =  statisticsService.getUserLineWeekList(startDate,endDate, platfromCode, extBrCode );
+                        timeList =  statisticsService.getUserLineWeekList(startDate,endDate, platfromCode, extBrCode, addrCode );
                     } else {
-                        timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode );
+                        timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode, addrCode );
                     }
                 }
 
@@ -2912,6 +2972,106 @@ public class ApiController {
                 List<Map<String,Object>> timeList = null;
                 Integer platfromCode = null;
                 String extBrCode = null;
+                String addrCode = null;
+                if("jesicar".equals(company)) {
+                    platfromCode = 1;
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    platfromCode = 2;
+                    searchValue.put("platformType","2");
+                }
+                if (searchValue.get("extBrCode") != null && searchValue.get("extBrCode") != "") {
+                    extBrCode = searchValue.get("extBrCode").toString();
+                } else {
+                    extBrCode = null;
+                }
+                if (searchValue.get("addrCode") != null && searchValue.get("addrCode") != "") {
+                    addrCode = searchValue.get("addrCode").toString();
+                } else {
+                    addrCode = null;
+                }
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+
+                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                startDate = LocalDateTime.parse(string, formatter);
+                endDate = LocalDateTime.parse(string1, formatter);
+                timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode,addrCode);
+                map.put("timeList" , timeList);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/location/chart/list")
+    public ResponseEntity<?> chartDataLocation(@RequestBody Map<String,Object> searchValue, HttpSession session)  {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+            String company = loginSession.getCompany();
+
+            if (!searchValue.isEmpty()){
+
+                List<Map<String,Object>> timeList = null;
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+                Integer platfromCode = null;
+                String extBrCode = null;
+
+                if("jesicar".equals(company)) {
+                    platfromCode = 1;
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    platfromCode = 2;
+                    searchValue.put("platformType","2");
+                }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                if (searchValue.get("startDate") != null) {
+                    String string = searchValue.get("startDate").toString() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                }
+                if (searchValue.get("endDate") != null) {
+                    String string = searchValue.get("endDate").toString() + " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                }
+                if (searchValue.get("extBrCode") != null && searchValue.get("extBrCode") != "") {
+                    extBrCode = searchValue.get("extBrCode").toString();
+                } else {
+                    extBrCode = null;
+                }
+                timeList =  statisticsService.getLocationLineDayList(startDate,endDate, platfromCode );
+                /*if (searchValue.get("dayType") != null) {
+                    if("1".equals(searchValue.get("dayType").toString())) {
+                        timeList =  statisticsService.getLocationLineWeekList(startDate,endDate, platfromCode, extBrCode );
+                    } else {
+
+                    }
+                }*/
+                map.put("timeList" , timeList);
+            } else {
+
+                List<Map<String,Object>> timeList = null;
+                Integer platfromCode = null;
+                String extBrCode = null;
+                String addrCode = null;
                 if("jesicar".equals(company)) {
                     platfromCode = 1;
                     searchValue.put("platformType","1");
@@ -2936,7 +3096,7 @@ public class ApiController {
 
                 startDate = LocalDateTime.parse(string, formatter);
                 endDate = LocalDateTime.parse(string1, formatter);
-                timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode);
+                timeList =  statisticsService.getLocationLineDayList(startDate,endDate, platfromCode);
                 map.put("timeList" , timeList);
             }
 
@@ -2966,7 +3126,7 @@ public class ApiController {
                 String ordStatus = null;
                 if("jesicar".equals(company)) {
                     ordPathCd = "1063";
-                    searchValue.put("ordPathCd","1069");
+                    searchValue.put("ordPathCd","1063");
                 } else if ("yangpa".equals(company)) {
                     ordPathCd = "1069";
                     searchValue.put("ordPathCd","1069");
@@ -3009,7 +3169,7 @@ public class ApiController {
                 String ordStatus = null;
                 if("jesicar".equals(company)) {
                     ordPathCd = "1063";
-                    searchValue.put("ordPathCd","1069");
+                    searchValue.put("ordPathCd","1063");
                 } else if ("yangpa".equals(company)) {
                     ordPathCd = "1069";
                     searchValue.put("ordPathCd","1069");
@@ -3043,11 +3203,11 @@ public class ApiController {
         Map<String,Object> map = new HashMap<>();
         try {
             List<Map<String,Object>> timeList = null;
-            String ordPathCd = "1069";
+            String ordPathCd = jesicaProperties.getOrdPathCd().getPickOrder();
             LocalDateTime startDate = null;
             LocalDateTime endDate = null;
             String brCode =null;
-            String ordStatus =null;
+            String ordStatus ="5";
 
             String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
             String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
@@ -3646,7 +3806,110 @@ public class ApiController {
                 .build();
     }
 
+    @ResponseBody
+    @PostMapping("/membership/coupon/publish/list")
+    public DataTableModel getCouponPublishList(HttpServletRequest request, DataTableDTO paging,
+                                                @RequestParam Map<String,Object> searchValue){
 
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength(); //Calculate page number
+
+        Map<String, Object> resultMap = null;
+
+        Pageable pageable;
+        pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("insertDate").descending()
+        ) ;
+        try {
+            getSearchOption(session);
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
+            }
+            resultMap = mannaService.getCouponPublishList(searchValue, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<TbMannaCouponPublish> list = (List<TbMannaCouponPublish>) resultMap.get("couponPublishList");
+        // paging 객체 Set
+
+
+        // 응답값 Set
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
+    @ResponseBody
+    @PostMapping("/membership/coupon/regist/list")
+    public DataTableModel getCouponRegistList(HttpServletRequest request, DataTableDTO paging,
+                                               @RequestParam Map<String,Object> searchValue){
+
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength(); //Calculate page number
+
+        Map<String, Object> resultMap = null;
+
+        Pageable pageable;
+        pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("regDate").descending()
+        ) ;
+        try {
+            getSearchOption(session);
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
+            }
+            resultMap = mannaService.getCouponRegistList(searchValue, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<TbMannaCouponRegist> list = (List<TbMannaCouponRegist>) resultMap.get("couponRegistList");
+        // paging 객체 Set
+
+
+        // 응답값 Set
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
+
+    // 쿠폰정보 수정
+    @ResponseBody
+    @PostMapping("/membership/coupon/update")
+    public ResponseEntity<?> membershipCouponUpdate(
+            @RequestParam Map<String, String> searchValue
+    ) {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            apiService.membershipCouponUpdate(searchValue);
+            map.put("resultCode",200);
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("resultCode",400);
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
     // 고객리스트 (페이징 x)
     @ResponseBody
     @PostMapping("/cust/all")
@@ -3668,8 +3931,8 @@ public class ApiController {
 
     @ResponseBody
     @PostMapping("/cust/list/pop")
-    public DataTableModelCustPop getCustListPop(HttpServletRequest request, DataTableDTO paging,
-                                         @RequestParam Map<String,Object> searchValue){
+    public DataTableModel2 getCustListPop(HttpServletRequest request, DataTableDTO paging,
+                                          @RequestParam Map<String,Object> searchValue){
 
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String company = loginSession.getCompany();
@@ -3698,14 +3961,14 @@ public class ApiController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<TbCustDTO> list = (List<TbCustDTO>) resultMap.get("custList");
+        List<TbCust> list = (List<TbCust>) resultMap.get("custList");
         // paging 객체 Set
 
         List<TbSystemCode> A1List = apiService.systemCodeList("A1");
         List<TbSystemCode> A2List = apiService.systemCodeList("A2");
 
         // 응답값 Set
-        return DataTableModelCustPop.builder()
+        return DataTableModel2.builder()
                 .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
                 .data(list)
                 .a1(A1List)
@@ -3718,7 +3981,7 @@ public class ApiController {
     // 고객리스트 페이징
     @ResponseBody
     @RequestMapping(value = {"/cust/list"})
-    public DataTableModelNative custList(HttpServletRequest request, DataTableDTO paging,
+    public DataTableModel2 custList(HttpServletRequest request, DataTableDTO paging,
                                @RequestParam Map<String,Object> searchValue){
 
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
@@ -3755,7 +4018,7 @@ public class ApiController {
         List<TbSystemCode> A2List = apiService.systemCodeList("A2");
 
         // 응답값 Set
-        return DataTableModelNative.builder()
+        return DataTableModel2.builder()
                 .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
                 .data(list)
                 .a1(A1List)
@@ -3767,7 +4030,7 @@ public class ApiController {
     // 맛집주문내역 페이징
     @ResponseBody
     @RequestMapping(value = {"/eventpush/list"})
-    public DataTablePushModel pushList(HttpServletRequest request, DataTableDTO paging,
+    public DataTableModel pushList(HttpServletRequest request, DataTableDTO paging,
                                @RequestParam Map<String,Object> searchValue){
 
         paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
@@ -3789,7 +4052,7 @@ public class ApiController {
         List<TbMannaEventPush> list = (List<TbMannaEventPush>) resultMap.get("eventPushList");
 
         // 응답값 Set
-        return DataTablePushModel.builder()
+        return DataTableModel.builder()
                 .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
                 .data(list)
                 .build();
@@ -3798,7 +4061,7 @@ public class ApiController {
     // 맛집주문내역 페이징
     @ResponseBody
     @RequestMapping(value = {"/eventpust/log/list"})
-    public DataTablePushModel pushLogList(HttpServletRequest request, DataTableDTO paging,
+    public DataTableModel pushLogList(HttpServletRequest request, DataTableDTO paging,
                                        @RequestParam Map<String,Object> searchValue){
 
         paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
@@ -3820,7 +4083,7 @@ public class ApiController {
         List<TbMannaEventPush> list = (List<TbMannaEventPush>) resultMap.get("eventPushLogList");
 
         // 응답값 Set
-        return DataTablePushModel.builder()
+        return DataTableModel.builder()
                 .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
                 .data(list)
                 .build();
@@ -3843,6 +4106,112 @@ public class ApiController {
 
         return new ResponseEntity<>(codeMap2,HttpStatus.OK);
     }
+    @ResponseBody
+    @PostMapping("/send/message")
+    public ResponseEntity<?> sendMessage(
+            @RequestParam(value = "custList") BigDecimal[] custList,
+            @RequestParam(value = "couponText") String couponText,
+            @RequestParam(value = "pushTitle") String pushTitle,
+            @RequestParam(value = "pushContents") String pushContents
+
+    ) {
+        Map<String,String> map = new HashMap<>();
+        try {
+            this.rabbitMqService.sendMessage(custList, couponText, pushTitle, pushContents);
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        } catch (Exception e){
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/manna/coupon/save")
+    public ResponseEntity<?> mannaCouponSave(
+            @RequestBody TbMannaCoupon tbMannaCoupon
+    ) {
+        log.info("cpnNo::{}", tbMannaCoupon.getCpnNo());
+
+   /*     String dateFormat = tbMannaCoupon.getPeriodE().format(DateTimeFormatter.ofPattern("yyyy-MM-dd 23:59:59"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 23:59:59");
+        LocalDateTime date = LocalDateTime.parse(dateFormat, formatter);*/
+
+     /*   tbMannaCoupon.setPeriodE(dateFormat);*/
+
+        TbMannaCoupon result =  mannaService.saveMannaCoupon(tbMannaCoupon);
+        Map<String,Object> map = new HashMap<>();
+
+        if(result.getCpnNo() != null) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    /**
+     * 쿠폰 regist 상세 (사용X)
+     */
+    @ResponseBody
+    @PostMapping("membership/couponregist/info")
+    public ResponseEntity<?> membershipCouponInfo(@RequestParam("publishNo") String publishNo) {
+        log.info("publishNo:: ''", publishNo);
+
+        Map map = new HashMap();
+
+        try {
+            TbMannaCouponRegist mannaCouponRegist =  apiService.getMembershipCouponInfo(Long.parseLong(publishNo));
+            map.put("mannaCouponRegist", mannaCouponRegist);
+            map.put("resultCode", 200);
+        } catch (Exception e) {
+            map.put("resultCode", 400);
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/manna/couponpublish/save")
+    public ResponseEntity<?> mannaCouponPublishSave(
+           @RequestParam(value="publishCount") String publishCount,
+           @RequestParam(value="cpnNo") Long cpnNo,
+           HttpSession session
+    ) {
+        log.info("cpnNo::{}", cpnNo);
+
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+
+        int result =  mannaService.saveMannaCouponPublish(
+                cpnNo,loginSession.getUserLoginId(),Integer.parseInt(publishCount));
+        Map<String,Object> map = new HashMap<>();
+
+        if(result == Integer.parseInt(publishCount)) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/coupon/cust/concunosearch")
+    public ResponseEntity<?> concunosearch(
+            @RequestParam(value="conCuNoList") String[] resultList
+    ) {
+        List<Map<String,Object>> custList =  mannaService.getCustList(resultList);
+        Map<String,Object> map = new HashMap<>();
+        map.put("custList", custList);
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+
 
     /**
      * 전달된 파라미터에 맞게 난수를 생성한다

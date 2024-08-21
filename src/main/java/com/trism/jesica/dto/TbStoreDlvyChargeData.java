@@ -1,6 +1,6 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
+import com.trism.jesica.persistence.mysql.Entitiy.storedlvy.TbStoreDlvyCharge;
 import lombok.Data;
 
 

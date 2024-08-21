@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.mysql.cj.xdevapi.JsonArray;
-import com.trism.jesica.persistence.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -2,10 +2,10 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.SafeService;
 import com.trism.jesica.config.KeyGeneratorConfig;
-import com.trism.jesica.persistence.Entitiy.car.TbStoreRentalCar;
-import com.trism.jesica.persistence.Entitiy.common.LoginSession;
-import com.trism.jesica.persistence.Entitiy.safe.TbSafenMapping;
-import com.trism.jesica.persistence.Entitiy.safe.TbSafenMappingLog;
+import com.trism.jesica.persistence.mysql.Entitiy.car.TbStoreRentalCar;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.safe.TbSafenMapping;
+import com.trism.jesica.persistence.mysql.Entitiy.safe.TbSafenMappingLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

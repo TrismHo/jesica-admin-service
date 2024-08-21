@@ -8,8 +8,8 @@
         background: #e0e0e0;
     }*/
     .list li {
-        padding: 5px;
-        background: #F9F9F9;
+       /* padding: 5px;
+        background: #F9F9F9;*/
     }
     .list {height: 550px; overflow-y: auto;}
     .modal-footer {display: block;}
@@ -72,7 +72,7 @@
                     <div class="col-xl-12 ui-sortable">
                         <div class="panel-body">
                             <div class="m-l-15">
-                                사용할 쿠폰
+                                지급할 쿠폰
                                 <input type="text" class="form-control width-250">
                                 <label class=" m-l-10">
                                     <button type="button" class="insert_btn btn btn-primary searchCouponText">

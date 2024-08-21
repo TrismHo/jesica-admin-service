@@ -684,6 +684,8 @@
         var popUrl = "${path}/system/control/view";
         window.open(popUrl, '관제', 'status=no,toolbar=no,scrollbars=no,location=no, fullscreen=yes');
     }*/
+
+
     function windowPopup(Option) {
 
         var screenSizeWidth,screenSizeHeight;
@@ -696,6 +698,8 @@
         //const documentURL = "http://192.168.0.90:15001/control";    //local 관제
         //const documentURL = "http://ctl-d.jesicar.co.kr:15000/control";    //개발서버 관제 URL
         const documentURL = "https://ctl.jesicar.co.kr/control";    //운영서버 관제 URL
+
+
         windowname = "관제";
         intWidth = screenSizeWidth;
         intHeight = screenSizeHeight;
@@ -736,6 +740,43 @@
     }
 
     function dateFormat(dateFormat) {
+        if(dateFormat){
+            let date = new Date(dateFormat);
+
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            let hour = date.getHours();
+            let minute = date.getMinutes();
+            let second = date.getSeconds();
+
+            month = month >= 10 ? month : '0' + month;
+            day = day >= 10 ? day : '0' + day;
+            hour = hour >= 10 ? hour : '0' + hour;
+            minute = minute >= 10 ? minute : '0' + minute;
+            second = second >= 10 ? second : '0' + second;
+
+            return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+        } else {
+            return "-";
+
+        }
+    }
+
+
+
+    function dateFormat000000(dateFormat) {
+        let date = new Date(dateFormat);
+
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+
+        return date.getFullYear() + '-' + month + '-' + day  + " 00:00:00";
+    }
+
+    function dateFormatYYYYMMDD(dateFormat) {
         let date = new Date(dateFormat);
 
         let month = date.getMonth() + 1;
@@ -746,20 +787,64 @@
 
         month = month >= 10 ? month : '0' + month;
         day = day >= 10 ? day : '0' + day;
-        hour = hour >= 10 ? hour : '0' + hour;
-        minute = minute >= 10 ? minute : '0' + minute;
-        second = second >= 10 ? second : '0' + second;
 
-        return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+        return date.getFullYear() + '-' + month + '-' + day;
     }
 
     function countString (code, str) {
-        if(code){
+
+        if(code || code == 0){
             return code + " "+str;
         } else {
             return "";
         }
 
+    }
+    function useYn (data){
+        if (data) {
+            if (data == 'Y') {
+                return "사용";
+            } else if (data == 'N') {
+                return "미사용";
+            } else {
+                return "-";
+            }
+        } else {
+            return "";
+        }
+    }
+
+    function useYnLimit (data){
+        if(data){
+            let now = new Date();
+
+            let month = now.getMonth() + 1;
+            let day = now.getDate();
+
+            month = month >= 10 ? month : '0' + month;
+            day = day >= 10 ? day : '0' + day;
+
+            let nowNumber = Number(now.getFullYear()+""+month+""+day)
+            let limitDate = Number(data.validateTo.replaceAll("-","").replaceAll("-",""))
+
+            if(nowNumber > limitDate && data.useYn == 'N') {
+                return "만료";
+            } else {
+                if (data.useYn) {
+                    if (data.useYn == 'Y') {
+                        return "사용";
+                    } else if (data.useYn == 'N') {
+                        return "미사용";
+                    } else {
+                        return "-";
+                    }
+                } else {
+                    return "";
+                }
+            }
+        } else {
+            return "";
+        }
     }
 
     function enumString (code) {
@@ -838,6 +923,9 @@
                 break;
             case 14:
                 return "노쇼";
+                break;
+            case 15:
+                return "배차";
                 break;
             default:
                 return "-";

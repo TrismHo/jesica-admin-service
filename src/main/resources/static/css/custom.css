@@ -1347,3 +1347,8 @@ panel-heading {
         margin-left: 60px;
     }
 }*/
+
+.dataTables_wrapper.dt-bootstrap4 .dt-buttons {
+    float: right;
+}
+

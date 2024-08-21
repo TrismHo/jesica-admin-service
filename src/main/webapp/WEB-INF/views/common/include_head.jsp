@@ -69,6 +69,12 @@
 <link href="${path}/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
 <link rel="icon" href="${path}/assets/img/icon/icon.png"/>
 
+<%--운영--%>
+<c:set var="documentURL" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
+
+<%--태스트--%>
+<c:set var="servletPath" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
+
 
 <link href="${path}/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.css" rel="stylesheet" />
 <link href="${path}/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />

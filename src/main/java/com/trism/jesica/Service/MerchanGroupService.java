@@ -1,12 +1,12 @@
 package com.trism.jesica.Service;
 
 import com.trism.jesica.Util.SearchUtil;
-import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategory;
-import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreDlvyCharge;
-import com.trism.jesica.persistence.Entitiy.storedlvy.TbStoreMngCharge;
-import com.trism.jesica.persistence.Repository.goods.TbStoreCategoryRepository;
-import com.trism.jesica.persistence.Repository.storedlvy.TbStoreDlvyChargeRepository;
-import com.trism.jesica.persistence.Repository.storedlvy.TbStoreMngChargeRepository;
+import com.trism.jesica.persistence.mysql.Entitiy.goods.TbStoreCategory;
+import com.trism.jesica.persistence.mysql.Entitiy.storedlvy.TbStoreDlvyCharge;
+import com.trism.jesica.persistence.mysql.Entitiy.storedlvy.TbStoreMngCharge;
+import com.trism.jesica.persistence.mysql.Repository.goods.TbStoreCategoryRepository;
+import com.trism.jesica.persistence.mysql.Repository.storedlvy.TbStoreDlvyChargeRepository;
+import com.trism.jesica.persistence.mysql.Repository.storedlvy.TbStoreMngChargeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

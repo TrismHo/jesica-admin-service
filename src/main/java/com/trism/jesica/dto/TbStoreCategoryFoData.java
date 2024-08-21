@@ -1,7 +1,7 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.goods.TbStoreCategoryFo;
-import com.trism.jesica.persistence.type.CatLevel;
+import com.trism.jesica.persistence.mysql.Entitiy.goods.TbStoreCategoryFo;
+import com.trism.jesica.persistence.mysql.type.CatLevel;
 import lombok.Data;
 
 @Data

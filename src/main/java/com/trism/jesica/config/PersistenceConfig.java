@@ -1,3 +1,6 @@
+/*
+
+
 package com.trism.jesica.config;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -10,4 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaAuditing
 public class PersistenceConfig {
+
 }
+*/
+
+

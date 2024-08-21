@@ -1,8 +1,8 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.business.TbHead;
-import com.trism.jesica.persistence.type.DataStatus;
-import com.trism.jesica.persistence.type.ServiceYn;
+import com.trism.jesica.persistence.mysql.Entitiy.business.TbHead;
+import com.trism.jesica.persistence.mysql.type.DataStatus;
+import com.trism.jesica.persistence.mysql.type.ServiceYn;
 import lombok.Data;
 
 @Data

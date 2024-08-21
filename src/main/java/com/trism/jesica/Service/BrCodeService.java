@@ -1,6 +1,6 @@
 package com.trism.jesica.Service;
 
-import com.trism.jesica.persistence.Repository.manna.TbMannaBrCodeRepository;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaBrCodeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

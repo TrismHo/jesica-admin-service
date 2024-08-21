@@ -106,6 +106,14 @@
                                             <input type="radio" name="issuedCondition" class="issuedCondition" value="R" style="margin-right: 5px" >
                                             <span><spring:message code="list.detail.affiliate1" text="회원가입완료"/></span>
                                         </label>
+                                        <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="issuedCondition" class="issuedCondition" value="F" style="margin-right: 5px" >
+                                            <span><spring:message code="list.detail.affiliate1" text="친구초대"/></span>
+                                        </label>
+                                        <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                            <input type="radio" name="issuedCondition" class="issuedCondition" value="B" style="margin-right: 5px" >
+                                            <span><spring:message code="list.detail.affiliate1" text="일괄지급"/></span>
+                                        </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
                                         <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰 발급조건을 선택하세요."/>
@@ -124,7 +132,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light height-50"><spring:message code="list.detail.postclassification1" text="쿠폰 사용기간 구분"/></td>
+                                    <td class="bg-light height-50"><spring:message code="list.detail.postclassification1" text="쿠폰 유효기간 구분"/></td>
                                     <td>
                                         <label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="cpnPeriodType" class="cpnPeriodType" value="D" style="margin-right: 5px"  checked>
@@ -132,15 +140,15 @@
                                         </label>
                                         <label style="display: inline-flex; align-items: center">
                                             <input type="radio" name="cpnPeriodType" class="cpnPeriodType" value="S" style="margin-right: 5px" >
-                                            <span><spring:message code="list.detail.affiliate1" text="발급일로부터"/></span>
+                                            <span><spring:message code="list.detail.affiliate1" text="앱 등록일로부터"/></span>
                                         </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰 사용기간 구분을 선택하세요."/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰 유효기간 구분을 선택하세요."/>
                                     </td>
                                 </tr>
                                 <tr id="cpnPeriod-form" >
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="쿠폰 사용기간"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="쿠폰 유효기간"/></td>
                                     <td>
                                         <label>
                                             <input type="text" class="form-control cpnPeriodS background-white"  name="cpnPeriodS" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>
@@ -154,10 +162,10 @@
                                     </td>
                                 </tr>
                                 <tr id="cpnPeriodLimit-form" style="display: none;">
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="쿠폰 사용기간"/></td>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="쿠폰 유효기간"/></td>
                                     <td>
                                         <label>
-                                            <input type="text" class="form-control validDay background-white"  name="cpnPeriodLimit" value="${body.data.cpnPeriodLimit}">
+                                            <input type="text" class="form-control validDay background-white"  name="cpnPeriodLimit" value="1">
                                             <span>일 후 만료</span>
                                         </label>
                                     </td>
@@ -165,7 +173,7 @@
                                         <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰의 사용기간를 작성하세요."/>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr  >
                                     <td class="bg-light"><spring:message code="list.detail.postclassification1" text="쿠폰 발급 시작/종료"/></td>
                                     <td>
                                         <label>
@@ -173,6 +181,17 @@
                                         </label>
                                         <label>
                                             <input type="text" class="form-control periodE background-white" name="periodE" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
+                                        </label>
+                                    </td>
+                                    <td class="text-danger-darker" style="width:25%">
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰의 발급가능기간을 선택하세요."/>
+                                    </td>
+                                </tr>
+                                <tr  id="periodSTr-form" style="display: none">
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="지정한 시점 날짜"/></td>
+                                    <td>
+                                        <label>
+                                            <input type="text" class="form-control issuedDate background-white" name="issuedDate" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i>
                                         </label>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -194,7 +213,7 @@
                                                 </label>
                                             </span>
                                             <span>
-                                                <input type="text" class="form-control discountAmt" name="discountAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">
+                                                <input type="text" class="form-control discountAmt" name="discountAmt" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="0">
                                                 <span id="amt-form" >원</span>
                                                 <span id="rate-form" style="display: none">%</span>
                                             </span>
@@ -207,17 +226,17 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title1" text="쿠폰 사용가능 주문 금액"/></td>
                                     <td>
-                                        <input type="text" name="cpnUseLimit" class="form-control cpnUseLimit" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">
+                                        <input type="text" name="cpnUseLimit" class="form-control cpnUseLimit" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="0">
                                         <span>원</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
                                         <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰 사용가능 주문 금액을 입력하세요."/>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr id="ordCnt-form">
                                     <td class="bg-light"><spring:message code="list.detail.title1" text="쿠폰 적용 주문 횟수"/></td>
                                     <td>
-                                        <input type="text" name="ordCnt" class="form-control ordCnt"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">
+                                        <input type="text" name="ordCnt" class="form-control ordCnt"oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="0">
                                         <span>개</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -227,11 +246,11 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title1" text="최대 할인 금액"/></td>
                                     <td>
-                                        <input type="text" name="maxDisAmt" class="form-control maxDisAmt"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">
+                                        <input type="text" name="maxDisAmt" class="form-control maxDisAmt"oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="0" disabled="true">
                                         <span>원</span>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
-                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰 적용 주문 횟수를 입력해주세요"/>
+                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="최대 할인 금액을 입력해주세요."/>
                                     </td>
                                 </tr>
 
@@ -249,7 +268,7 @@
                         <span style="display: flex; align-items: center; margin-left: auto">
                             <button type="button" class="btn btn-primary btn_up m-r-5" style="display: flex; align-items: center">
                                 <i class="fa fa-check"></i>
-                                <span class="m-l-5"><spring:message code="list.detail.enrollment1" text="등록"/></span>
+                                <span class="m-l-5"><spring:message code="list.detail.enrollment1" text="생성"/></span>
                             </button>
                         </span>
                     </div>
@@ -288,7 +307,7 @@
 
 <script>
     const date = new Date(); //각 날짜 초기 세팅 date객체
-    const dateClasses = [ '.periodS', '.periodE', '.cpnPeriodS', '.cpnPeriodE'];
+    const dateClasses = [ '.periodS', '.periodE', '.cpnPeriodS', '.cpnPeriodE', '.issuedDate'];
 
     $(() => {
         /**
@@ -313,25 +332,40 @@
                 date_ = date;
             } else if (dateClass.includes('cpnPeriodE')){
                 date_ = date;
+            } else if (dateClass.includes('issuedDate')){
+                date_ = date;
             }
             //date_ = date_.substring(0, 11);
             $(dateClass).datepicker('setDate', date_);
         });
 
 
-        //쿠폰 발급기준 - 조건충족시 발급조건 추가
-        $(".issuedType").click((e) => {
+          $(".issuedType").click((e) => {
             let value = e.target.value;
             let issuedConditionForm = document.getElementById('issuedCondition-form');
+            let periodSTrForm = document.getElementById('periodSTr-form');
+            let issuedCondition = $("[name=issuedCondition]:checked").val();
+            let ordCntForm = document.getElementById('ordCnt-form');
             switch (value) {
                 case 'D':
+                    periodSTrForm.style.display = 'none';
                     issuedConditionForm.style.display = 'table-row'
+                    if(issuedCondition == 'D'){
+                        ordCntForm.style.display = 'table-row'
+                    } else {
+                        ordCntForm.style.display = 'none'
+                    }
+
                     break;
                 case 'T':
-                    issuedConditionForm.style.display = 'none'
+                    issuedConditionForm.style.display = 'none';
+                    ordCntForm.style.display = 'none';
+                    periodSTrForm.style.display = 'table-row';
                     break;
             }
         });
+
+
 
         //할인방식에 따른 form(원, %) 노출 선택
         $(".disType").click((e) => {
@@ -345,6 +379,8 @@
                     rateForm.style.display = 'none';
                     $(".discountAmt").attr("maxlength", 15);
                     $(".discountAmt").removeClass("rate-limit");
+                    $(".maxDisAmt").attr("disabled", true);
+                    $(".maxDisAmt").val("0");
                     break;
                 case 2:
                     amtForm.style.display = 'none'
@@ -354,12 +390,16 @@
                     }
                     $(".discountAmt").attr("maxlength", 3);
                     $(".discountAmt").addClass("rate-limit");
+                    $(".maxDisAmt").val("0");
+                    $(".maxDisAmt").attr("disabled", false);
                     break;
             }
         });
 
 
-        //쿠폰 사용기간 구분
+
+
+        //쿠폰 유효기간 구분
         $(".cpnPeriodType").click((e) => {
             let value = e.target.value;
             let cpnPeriodForm = document.getElementById('cpnPeriod-form');
@@ -377,6 +417,19 @@
             }
         });
 
+        //쿠폰 주문횟수충족 선택시 보이게
+        $(".issuedCondition").click((e) => {
+            let value = e.target.value;
+            let ordCntForm = document.getElementById('ordCnt-form');
+            let issuedType = $("[name=issuedType]:checked").val();
+
+            if(value == 'D' && issuedType == 'D'){
+                ordCntForm.style.display = 'table-row';
+            }else {
+                ordCntForm.style.display = 'none';
+            }
+        });
+
         $(".btn_list").click(() => {
             location.href = "${path}/membership/coupon/list";
         });
@@ -385,22 +438,34 @@
             let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate1" text="등록 하시겠습니까?"/>";
             let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
             let update = "<spring:message code="list.script.update1" text="등록"/>";
-            let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful1" text="등록에 성공하였습니다."/>";
-            let editfailed = "<spring:message code="list.script.editfailed1" text="수정에 실패하였습니다."/>";
+            let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful1" text="등록되었습니다."/>";
+            let editfailed = "<spring:message code="list.script.editfailed1" text="등록에 실패하였습니다."/>";
 
             let _forms = $('#update_form');
             let req = convertFormToObj(_forms);
+            let cpnPeriodSPick = req.cpnPeriodS + "T00:00:00";
+            let cpnPeriodEPick = req.cpnPeriodE + "T23:59:59";
+
             req.discountAmt = Number(req.discountAmt);
             req.ordCnt = Number(req.ordCnt);
             req.cpnUseLimit = Number(req.cpnUseLimit);
-            req.maxDisAmt = Number(req.maxDisAmt);
+            if(!req.maxDisAmt) {
+                req.maxDisAmt = Number(0);
+            }else {
+                req.maxDisAmt = Number(req.maxDisAmt);
+            }
             req.cpnPeriodLimit = Number(req.cpnPeriodLimit);
             req.periodS = req.periodS.replaceAll("-","").replaceAll("-","");
             req.periodE = req.periodE.replaceAll("-","").replaceAll("-","");
             req.cpnPeriodS = req.cpnPeriodS.replaceAll("-","").replaceAll("-","");
             req.cpnPeriodE = req.cpnPeriodE.replaceAll("-","").replaceAll("-","");
-            req.ordPathCd = '1069';
-
+            if(req.issuedDate) {
+                req.issuedDate = req.issuedDate.replaceAll("-","").replaceAll("-","");
+            } else {
+                req.issuedDate = "";
+            }
+            req.ordPathCd = "<spring:eval expression="@environment.getProperty('file.ordPathCd.pickOrder')" />";
+            let cpnNo = null;
             if (inputDataCheck(req)) {
                 swal({
                     title: wouldyouliketoupdate,
@@ -411,21 +476,45 @@
                     ],
                     dangerMode: true,
                 }).then(function (isConfirm) {
+                    console.log(req)
                     if (isConfirm) {
                         $.ajax({
                             type: "POST",
-                            url: "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/coupon",
+                            /*url: "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/coupon",
+                            url: "https://frapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/coupon",*/
+                            url:"<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon-manage/coupon",
                             data: req,
+                            async:false,
                             contentType: "application/json",
                             dataType: "json",
                             beforeSend: function (xhr) {
-                                xhr.setRequestHeader("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+                                xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
                                 xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                             },
                             success: function (data) {
                                 if (data.resCode == 0000) {
-                                    alert(updatesussmsg);
-                                    location.href="${path}/membership/coupon/list";
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "${path}/api/manna/coupon/save",
+                                        data: JSON.stringify ({
+                                            cpnNo: data.data.cpnNo,
+                                            cpnUseYn: req.cpnUseYn,
+                                            cpnTitle: req.cpnTitle,
+                                            periodS: cpnPeriodSPick,
+                                            periodE: cpnPeriodEPick,
+                                        }),
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        success: function (data) {
+                                            if (data.result == "200") {
+                                                alert(updatesussmsg);
+                                                location.href="${path}/membership/coupon/list";
+                                            } else {
+                                                alert(editfailed);
+                                                return;
+                                            }
+                                        }
+                                    });
                                 } else {
                                     alert(editfailed);
                                     return;
@@ -448,8 +537,8 @@
         let emptyTitleMsg = "<spring:message code="list.script.pleaseenteransubject1" text="쿠폰명을 입력해주세요"/>";
         let emptyDiscountAmtMsg = "<spring:message code="list.script.pleaseenterantitle1" text="할인금액 또는 할인율을 입력해주세요"/>";
         let emptyCpnUseLimitMsg = "<spring:message code="list.script.pleaseenteransubject1" text="쿠폰 사용가능 주문 금액을 입력해주세요"/>";
-        let emptyOrdCntMsg = "<spring:message code="list.script.pleaseenteransubject1" text="ㅌㅇㄴㅇ 횟수를 입력해주세요."/>";
-        let emptyCpnPeriodTypeMsg = "<spring:message code="list.script.pleaseenteransubject1" text="쿠폰 사용기간을 입력해주세요"/>";
+        let emptyOrdCntMsg = "<spring:message code="list.script.pleaseenteransubject1" text=" 횟수를 입력해주세요."/>";
+        let emptyCpnPeriodTypeMsg = "<spring:message code="list.script.pleaseenteransubject1" text="쿠폰 유효기간을 입력해주세요"/>";
         let emptyMaxDisAmtMsg = "<spring:message code="list.script.pleaseenteransubject1" text="최대 할인금액을 입력해주세요"/>";
 
         if (isNull(args.cpnPeriodLimit) && args.cpnPeriodType == 'S') {
@@ -464,6 +553,10 @@
             return alert_focus("ordCnt", emptyOrdCntMsg);
         } else if (isNull(args.maxDisAmt)) {
             return alert_focus("maxDisAmt", emptyMaxDisAmtMsg);
+        }
+
+        if(args.discountAmt < "1"){
+            return alert_focus("discountAmt", "할인금액/할인률은 1이상 가능합니다.");
         }
 
         return true;

@@ -2,10 +2,10 @@ package com.trism.jesica.Service;
 
 import com.trism.jesica.Util.SearchUtil;
 import com.trism.jesica.dto.TbStoreRentalCarDTO;
-import com.trism.jesica.persistence.Entitiy.car.TbRentalInfo;
-import com.trism.jesica.persistence.Repository.car.TbRentalInfoRepository;
-import com.trism.jesica.persistence.Repository.car.TbStoreRentalCarRepository;
-import com.trism.jesica.persistence.type.DataStatus;
+import com.trism.jesica.persistence.mysql.Entitiy.car.TbRentalInfo;
+import com.trism.jesica.persistence.mysql.Repository.car.TbRentalInfoRepository;
+import com.trism.jesica.persistence.mysql.Repository.car.TbStoreRentalCarRepository;
+import com.trism.jesica.persistence.mysql.type.DataStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

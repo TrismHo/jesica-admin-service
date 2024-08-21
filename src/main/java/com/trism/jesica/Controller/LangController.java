@@ -7,7 +7,7 @@ import com.trism.manna.persistence.Entitiy.Common.LoginSession;*/
 import com.trism.manna.persistence.Entitiy.TblSiteLang;*/
 
 import com.trism.jesica.Service.LangService;
-import com.trism.jesica.persistence.Entitiy.system.TbSiteLang;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteLang;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;

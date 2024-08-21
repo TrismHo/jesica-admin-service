@@ -1,9 +1,9 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.OrderService;
-import com.trism.jesica.persistence.Entitiy.order.TbOrderAll;
-import com.trism.jesica.persistence.Entitiy.order.TbOrderDay;
-import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.mysql.Entitiy.order.TbOrderAll;
+import com.trism.jesica.persistence.mysql.Entitiy.order.TbOrderDay;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;

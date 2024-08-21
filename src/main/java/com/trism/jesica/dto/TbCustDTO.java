@@ -1,7 +1,7 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.type.DataStatus;
-import com.trism.jesica.persistence.type.GenderType;
+import com.trism.jesica.persistence.mysql.type.DataStatus;
+import com.trism.jesica.persistence.mysql.type.GenderType;
 
 import java.time.LocalDateTime;
 

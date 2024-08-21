@@ -7,8 +7,8 @@
     /*.modal-body {
         background: #e0e0e0;
     }*/
-    .list li {
-        padding: 5px;
+    .dataTables_paginate li {
+        padding: 0px;
         background: #F9F9F9;
     }
     .list {height: 550px; overflow-y: auto;}
@@ -53,6 +53,11 @@
         background-color: #6c757d;
         border-color: #6c757d;
     }
+    table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+        border-bottom-width: 1px;
+    }
+
+
     .offcanvas{transition:none}}.offcanvas-header{display:flex;align-items:center;justify-content:space-between;padding:.9375rem .9375rem}.offcanvas-header .btn-close{padding:.46875rem .46875rem;margin-top:-.46875rem;margin-right:-.46875rem;margin-bottom:-.46875rem}.offcanvas-title{margin-bottom:0;line-height:1.5}.offcanvas-body{flex-grow:1;padding:.9375rem .9375rem;overflow-y:auto}.offcanvas-start{top:0;left:0;width:400px;border-right:0 solid rgba(0,0,0,.2);transform:translateX(-100%)}.offcanvas-end{top:0;right:0;width:400px;border-left:0 solid rgba(0,0,0,.2);transform:translateX(100%)}.offcanvas-top{top:0;right:0;left:0;height:30vh;max-height:100%;border-bottom:0 solid rgba(0,0,0,.2);transform:translateY(-100%)}.offcanvas-bottom{right:0;left:0;height:30vh;max-height:100%;border-top:0 solid rgba(0,0,0,.2);transform:translateY(100%);}.offcanvas.show{transform:none}.clearfix::after{display:block;clear:both;content:""}.link-default{color:#e9ecef}.link-default:focus,.link-default:hover{color:#edf0f2}.link-inverse{color:#2d353c}.link-inverse:focus,.link-inverse:hover{color:#242a30}.link-primary{color:#00acac}.link-primary:focus,.link-primary:hover{color:#33bdbd}
 </style>
 
@@ -67,162 +72,175 @@
             </div>
         </div>
         <div class="modal-body" style="padding: 5px;">
-            <form class="form-coupon-search">
-                <div class="row">
-                    <div class="col-xl-12 ui-sortable">
-                        <div class="panel-body">
-                            <div class="m-l-15">
-                                사용할 쿠폰
+            <div class="row">
+                <div class="col-xl-12 ui-sortable">
+                    <div class="panel-body">
+                        <div class="m-l-15">
+                           지급할 쿠폰
+                            <%--<input type="text" class="form-control width-250" readonly placeholder="사용할 쿠폰을 선택해주세요.">--%>
+                            <label class=" m-l-10">
+                                <select class="form-control width-250 selectCoupon">
+                                    <option>쿠폰을 선택해주세요.</option>
+                                </select>
+                                <%--<button type="button" data-toggle="modal" data-target="#select_coupon_list" class="insert_btn btn btn-primary">
+                                    <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰검색"/></span>
+                                </button>--%>
+                                <%--<button type="button" data-toggle="modal" data-target="#select_coupon_list" class="insert_btn btn btn-primary">
+                                    <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰검색"/></span>
+                                </button>--%>
+                            </label>
 
-
-                                <%--<input type="text" class="form-control width-250" readonly placeholder="사용할 쿠폰을 선택해주세요.">--%>
-                                <label class=" m-l-10">
-                                    <select class="form-control width-250 selectCoupon">
-                                        <option>쿠폰을 선택해주세요.</option>
-                                    </select>
-                                    <%--<button type="button" data-toggle="modal" data-target="#select_coupon_list" class="insert_btn btn btn-primary">
-                                        <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰검색"/></span>
-                                    </button>--%>
-                                    <%--<button type="button" data-toggle="modal" data-target="#select_coupon_list" class="insert_btn btn btn-primary">
-                                        <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰검색"/></span>
-                                    </button>--%>
-                                </label>
-
-                            </div>
-
-                                <div style="width: 100%;">
-                                    <div class="search-box">
-                                        <div class="inner-search-box p-15">
-                                            <div class="row">
-                                                <div class="col-xl-12 col-md-12 ">
-                                                        <table class="table table-condensed table-bordered">
-                                                            <tbody>
-                                                            <tr >
-                                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="회원여부"/></strong></td>
-                                                                <td>
-                                                                    <label>
-                                                                        <select class="form-control" name="isMember">
-                                                                            <%--<option value="" <c:if test="${searchValue.isMember == ''  || searchValue.isMember == null}">selected</c:if>><spring:message code="list.search.all12" text="전체"/></option>--%>
-                                                                            <option value="1" <c:if test="${searchValue.isMember == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters12" text="회원"/></option>
-                                                                            <option value="0" <c:if test="${searchValue.isMember == '0'}">selected</c:if>><spring:message code="list.search.deliverymanname12" text="비회원"/></option>
-                                                                        </select>
-                                                                    </label>
-                                                                </td>
-                                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
-                                                                <td style="width: 400px">
-                                                                    <label>
-                                                                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-                                                                            <select class="form-control" name="platformType">
-                                                                                <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
-                                                                            </select>
-                                                                        </c:if>
-                                                                        <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                                                            <select class="form-control" name="platformType">
-                                                                                <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
-                                                                            </select>
-                                                                        </c:if>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="가입기간"/><%--등록기간--%></strong></td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                                                    </label>
-                                                                    <label>
-                                                                        <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                                    </label>
-                                                                </td>
-                                                                <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/><%--검색어 입력--%></strong></td>
-                                                                <td style="border-right: none">
-                                                                    <label>
-                                                                        <select class="form-control searchOp" name="keywordType" style="width: 110px">
-                                                                            <option value="custName" <c:if test="${searchValue.keywordType == 'custName'}">selected</c:if>><spring:message code="list.search.title1" text="이름"/></option>
-                                                                            <option value="custTel" <c:if test="${searchValue.keywordType == 'custTel'}">selected</c:if>><spring:message code="list.search.title2" text="전화번호"/></option>
-                                                                        </select>
-                                                                        <input type="text" class="form-control width-150" name="keyword" value="${searchValue.keyword}" maxlength="150">
-                                                                        <input type="button" class="btn btn-primary searchCustCouponList" style="margin-bottom: 3px;" value="검색">
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="list m-t-10">
-                                    <div class="col-xl-12 ui-sortable">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-xl-6 ui-sortable">
-                                                    <div class="card">
-                                                        <div class="card-bod">
-                                                            <div class="panel-body p-t-20">
-                                                                <table id="testTable" class="display table table-bordered w-100 table-striped ">
-                                                                    <thead>
-                                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no" text="이름"/></th>
-                                                                        <th class="text-center" ><spring:message code="list.word.no" text="연락처"/></th>
-                                                                        <th class="text-center" style="width: 70px"></th>
-                                                                    </thead>
-                                                                </table>
-                                                            </div>
-                                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; height: 500px;">
-                                                                <ul class=" p-0" >
-                                                                    <li class="p-0">
-                                                                        <div class="panel-body">
-                                                                            <table class="display table  w-100 table-striped cust-list ">
-                                                                                <tbody id="cust-none-select">
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 ui-sortable">
-                                                    <div class="card">
-                                                        <div class="card-bod">
-                                                            <div class="panel-body p-t-20">
-                                                                <table id="testTable" class="display table table-bordered w-100 table-striped ">
-                                                                    <thead>
-                                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no" text="이름"/></th>
-                                                                        <th class="text-center" ><spring:message code="list.word.no" text="쿠폰이 지급될 리스트"/></th>
-                                                                        <th class="text-center" style="width: 70px"></th>
-                                                                    </thead>
-                                                                </table>
-                                                            </div>
-                                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; height: 500px;">
-                                                                <ul class="attachList p-0" >
-                                                                    <li class="p-0">
-                                                                        <div class="panel-body">
-                                                                            <table  class="display table  w-100 table-striped cust-list ">
-                                                                                <tbody id="cust-select">
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                         </div>
-                    </div>
+                        <div style="width: 100%;">
+                            <form class="form-coupon-search">
+                                <div class="search-box">
+                                    <div class="inner-search-box p-15">
+                                        <div class="row">
+                                            <div class="col-xl-12 col-md-12 ">
+                                                    <table  class="table table-condensed table-bordered">
+                                                        <tbody>
+                                                        <tr >
+                                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="이용횟수"/></strong></td>
+                                                            <td colspan="3">
+                                                                <label>
 
+                                                                    <select class="form-control maxMin " name="maxMin">
+                                                                        <option value="" <c:if test="${searchValue.maxMin == ''  || searchValue.maxMin == null}">selected</c:if>><spring:message code="list.search.all12" text="전체"/></option>
+                                                                        <option value="1" <c:if test="${searchValue.maxMin == '1'}">useCount</c:if>>이상만 조회</option>
+                                                                        <option value="2" <c:if test="${searchValue.maxMin == '2'}">useCount</c:if>>이하만 조회</option>
+                                                                        <option value="3" <c:if test="${searchValue.maxMin == '3'}">useCount</c:if>>동일만 조회</option>
+                                                                    </select>
+                                                                    <input type="text" name="useCount" class="form-control numberOnly useCount" value="${searchValue.useCount == '' || searchValue.useCount == null ? 0 : searchValue.useCount}" numberOnly> 건
+                                                                </label>
+                                                            </td>
+                                                            <%--<td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
+                                                            <td style="width: 400px">
+                                                                <label>
+                                                                    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                                        <select class="form-control" name="platformType">
+                                                                            <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
+                                                                        </select>
+                                                                    </c:if>
+                                                                    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                                        <select class="form-control" name="platformType">
+                                                                            <option value="2" <c:if test="${searchValue.platformType =간= '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
+                                                                        </select>
+                                                                    </c:if>
+                                                                </label>
+                                                            </td>--%>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="가입기간"/><%--등록기간--%></strong></td>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="text" class="form-control startDate custStartDate background-white"  name="custStartDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
+                                                                </label>
+                                                                <label>
+                                                                    <input type="text" class="form-control endDate custEndDate background-white" name="custEndDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
+                                                                </label>
+                                                            </td>
+                                                            <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/><%--검색어 입력--%></strong></td>
+                                                            <td style="border-right: none">
+                                                                <label>
+                                                                    <select class="form-control keywordPopType" name="keywordPopType" style="width: 110px">
+                                                                        <option value="custName" <c:if test="${searchValue.keywordPopType == 'custName'}">selected</c:if>><spring:message code="list.search.title1" text="이름"/></option>
+                                                                        <option value="custTel" <c:if test="${searchValue.keywordPopType == 'custTel'}">selected</c:if>><spring:message code="list.search.title2" text="전화번호"/></option>
+                                                                    </select>
+                                                                    <input type="text" class="form-control width-150" name="keywordPop" value="${searchValue.keywordPop}" maxlength="150">
+                                                                    <input type="button" class="btn btn-primary searchCustCouponList" style="margin-bottom: 3px;" value="검색">
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="m-l-15">
+                            <input type="button" class="btn btn-info" id="couponAllRightBtn" value="일괄선택">
+                            <input type="button" class="btn btn-danger" id="couponAllLeftBtn" value="일괄헤제">
+                        </div>
+                        <div class="list m-t-5">
+                                <div class="col-xl-12 ui-sortable">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xl-6 ui-sortable">
+                                                <div class="card">
+                                                    <div class="card-bod">
+                                                        <div class="panel-body p-t-20">
+                                                            <table id="searchCustTable" class="display table table-bordered w-100 table-striped cust-list ">
+                                                                <thead>
+                                                                    <th class="text-center" style="width: 50px;" >
+                                                                        회원번호
+                                                                       <%-- <input type="checkbox" id="check1">
+                                                                        <label for="check1"></label>
+                                                                        <spring:message code="list.word.no" text="선택"/>--%></th>
+                                                                    <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="이름"/></th>
+                                                                    <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="연락처"/></th>
+                                                                    <th class="text-center" style="width: 70px"></th>
+                                                                </thead>
+                                                                <tbody id="cust-none-select" class="" style="">
+                                                                    <tr><td colspan="4" style="text-align: center; background-color: #e4e4e4; border:1px solid #9e9e9e; height: 498px;">검색된 데이터가 없습니다.</td></tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                       <%-- <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; height: 500px;">
+                                                            <ul class=" p-0" >
+                                                                <li class="p-0">
+                                                                    <div class="panel-body">
+                                                                        <table class="display table  w-100 table-striped cust-list ">
+                                                                            <tbody id="cust-none-select">
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>--%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 ui-sortable">
+                                                <div class="card">
+                                                    <div class="card-bod">
+                                                        <div class="panel-body p-t-20">
+                                                            <table id="testTable" class="display table table-bordered w-100 table-striped ">
+                                                                <thead>
+                                                                    <th class="text-center" style="width: 50px;" ><spring:message code="list.word.no1" text="번호"/></th>
+                                                                    <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="이름"/></th>
+                                                                    <th class="text-center" ><spring:message code="list.word.no1" text="쿠폰이 지급될 리스트"/></th>
+                                                                    <th class="text-center" style="width: 70px"></th>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                        <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; height: 500px;">
+                                                            <ul class="attachList p-0" >
+                                                                <li class="p-0">
+                                                                    <div class="panel-body">
+                                                                        <table  class="display table  w-100 table-striped cust-list ">
+                                                                            <tbody id="cust-select">
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="modal-footer">
+            <button type="button" data-toggle="modal" data-target="#select_push_template" class="btn btn-info" style="width: 115px;cursor: auto;" custno="269"><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="지급알림발송"/></span></button>
+            <%--<input type="button" class="btn btn-info m-r-15 float-right" id="cpnAlarmBtn" value="지급알림발송">--%>
             <button type="button" class="btn btn-info btn_remove float-right m-l-5 cpnAllBtn" ><i class="fa fa-plus-circle m-r-3"></i> <spring:message code="list.detail.delete" text="쿠폰일괄지급"/></button>
             <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal">닫기</button>
         </div>

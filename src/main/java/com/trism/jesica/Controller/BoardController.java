@@ -4,14 +4,14 @@ import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.BoardService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.dto.TbAppBannerLocationDTO;
-import com.trism.jesica.persistence.Entitiy.board.TbAppBanner;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeCompany;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeWorker;
-import com.trism.jesica.persistence.Entitiy.common.LoginSession;
-import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
-import com.trism.jesica.persistence.Entitiy.event.TbEvent;
-import com.trism.jesica.persistence.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbAppBanner;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeCompany;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticePlatform;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeWorker;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.coupon.TbCoupon;
+import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -235,13 +235,7 @@ public class BoardController {
         return new ModelAndView("jesica/board/event/detail");
     }
 
-    @GetMapping("/eventpush/list")
-    public ModelAndView listPushEvent(@RequestParam Map<String,Object> searchValue,
-                                  Model model, HttpSession session) {
-        log.info("@@searchValue {}",searchValue);
-        model.addAttribute("searchValue", searchValue);
-        return new ModelAndView("jesica/board/eventpush/list");
-    }
+
 
 
     @GetMapping("/platforminquiry/list")
@@ -430,7 +424,7 @@ public class BoardController {
     public ModelAndView listCust(HttpSession session, @RequestParam Map<String, Object> searchValue, Model model) {
         log.info("@@searchValue::{}", searchValue);
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String company = loginSession.getCompany();
+        //String company = loginSession.getCompany();
 
         searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
         searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());

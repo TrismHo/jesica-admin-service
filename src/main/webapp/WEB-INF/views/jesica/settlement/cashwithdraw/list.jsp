@@ -291,7 +291,7 @@
         $("#testTable").DataTable({
             language : lang_set, //or lang_eng
             responsive: true,
-            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            dom: '<"row"<"col-sm-12"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
             buttons: [
 
               /*  { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/

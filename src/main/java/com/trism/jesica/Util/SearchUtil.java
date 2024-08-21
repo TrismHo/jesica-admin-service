@@ -1,14 +1,17 @@
 package com.trism.jesica.Util;
 
 
-import com.trism.jesica.persistence.Entitiy.business.TbBranch;
-import com.trism.jesica.persistence.Entitiy.business.TbHead;
-import com.trism.jesica.persistence.Entitiy.business.TbStore;
-import com.trism.jesica.persistence.Entitiy.business.TbUserWorker;
-import com.trism.jesica.persistence.Entitiy.cust.*;
-import com.trism.jesica.persistence.Entitiy.manna.TbMannaOrder;
-import com.trism.jesica.persistence.type.CatLevel;
-import com.trism.jesica.persistence.type.DataStatus;
+import com.trism.jesica.persistence.mysql.Entitiy.business.TbBranch;
+import com.trism.jesica.persistence.mysql.Entitiy.business.TbHead;
+import com.trism.jesica.persistence.mysql.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.mysql.Entitiy.business.TbUserWorker;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbBranchCashLog;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbHeadCashLog;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbStoreCashLog;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbWorkerCashLog;
+import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaOrder;
+import com.trism.jesica.persistence.mysql.type.CatLevel;
+import com.trism.jesica.persistence.mysql.type.DataStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -189,6 +192,18 @@ public class SearchUtil {
     public static Specification<?> searchEventPushLog(Map<String, Object> searchKeyword) {
         return (Specification<?>) ((root, query, builder) -> {
             List<Predicate> predicate = searchEventPushLog(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+    public static Specification<?> searchMannaCouponPublish(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchMannaCouponPublish(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
+    public static Specification<?> searchMannaCouponRegist(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchMannaCouponRegist(searchKeyword, root, builder);
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
@@ -1197,6 +1212,91 @@ public class SearchUtil {
         }
         return predicate;
     }
+    private static List<Predicate>  searchMannaCouponPublish(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        String keywordType = null;
+        String keyword = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+
+                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")) {
+                    keywordType = (String)value;
+                } else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
+                    keyword = (String)value;
+                }  else if ("cpnNo".equals(key)  && value != "") {
+                    predicate.add(builder.equal(root.get(key),value));
+                }  else if ("endDate".equals(key) && value != "") {
+                   String string = value.toString() + " 23:59:59";
+                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                   endDate = LocalDateTime.parse(string, formatter);
+               } else if ("startDate".equals(key) && value != "") {
+                   String string = value.toString() + " 00:00:00";
+                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                   startDate = LocalDateTime.parse(string, formatter);
+
+               }
+            }
+            if (ObjectUtils.isNotEmpty(startDate) && ObjectUtils.isNotEmpty(endDate)) {
+                predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+            }
+
+            if (StringUtils.isNotBlank(keywordType)) {
+                if (StringUtils.isNotBlank(keyword)) {
+                    predicate.add(builder.like(root.get(keywordType), "%" + keyword + "%"));
+                }
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
+
+    private static List<Predicate>  searchMannaCouponRegist(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        String keywordType = null;
+        String keyword = null;
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+
+                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")) {
+                    keywordType = (String)value;
+                } else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
+                    keyword = (String)value;
+                }  else if ("publishNo".equals(key)  && value != "") {
+                    predicate.add(builder.equal(root.get(key),value));
+                }  else if ("endDate".equals(key) && value != "") {
+                   String string = value.toString() + " 23:59:59";
+                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                   endDate = LocalDateTime.parse(string, formatter);
+               } else if ("startDate".equals(key) && value != "") {
+                   String string = value.toString() + " 00:00:00";
+                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                   startDate = LocalDateTime.parse(string, formatter);
+
+               }
+            }
+            if (ObjectUtils.isNotEmpty(startDate) && ObjectUtils.isNotEmpty(endDate)) {
+                predicate.add(builder.between(root.<LocalDateTime>get("regDate"),startDate,endDate));
+            }
+
+            if (StringUtils.isNotBlank(keywordType)) {
+                if (StringUtils.isNotBlank(keyword)) {
+                    predicate.add(builder.like(root.get(keywordType), "%" + keyword + "%"));
+                }
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return predicate;
+    }
     private static List<Predicate>  searchRelese(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
         LocalDateTime startDate = null;
@@ -2153,7 +2253,7 @@ public class SearchUtil {
         String keyword = "";
 
         try {
-            predicate.add(builder.notEqual(root.get("dataStatus"), 0));
+          /*  predicate.add(builder.notEqual(root.get("dataStatus"), 0));*/
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
 
@@ -2182,8 +2282,13 @@ public class SearchUtil {
                     if(ObjectUtils.isEmpty(value)) {
                         predicate.add(builder.notEqual(root.get(key), 0));
                     } else {
-                        if (!value.equals("OK")) {
+
+                        if (value.equals("OK")) {
+                            dataStatus = 1;
+                        } else if (value.equals("STOP")) {
                             dataStatus = 2;
+                        }else if (value.equals("DELETE")) {
+                            dataStatus = 0;
                         }
                         predicate.add(builder.equal(root.get(key), dataStatus));
                     }
@@ -2212,8 +2317,6 @@ public class SearchUtil {
             predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
 
 
-
-
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -2226,25 +2329,28 @@ public class SearchUtil {
 
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
-        String keywordType = "";
-        String keyword = "";
+        String keywordPopType = "";
+        String keywordPop = "";
+        String useCount = "";
+        String maxMin = "";
 
         try {
             predicate.add(builder.notEqual(root.get("dataStatus"), 0));
+            predicate.add(builder.isNotNull(root.get("extCustNo")));
             for (String key : searchKeyword.keySet()) {
                 Object value = searchKeyword.get(key);
 
-                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")){
-                    keywordType = (String)value;
-                }else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
-                    keyword = (String)value;
+                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordPopType")){
+                    keywordPopType = (String)value;
+                }else if (ObjectUtils.isNotEmpty(value) && key.equals("keywordPop")) {
+                    keywordPop = (String)value;
                 } else if (ObjectUtils.isNotEmpty(value) && key.equals("custTel")) {
                     predicate.add(builder.like(root.get(key), "%" + value + "%"));
-                } else if ("endDate".equals(key) && value != "") {
+                } else if ("custEndDate".equals(key) && value != "") {
                     String string = value.toString() + " 23:59:59";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     endDate = LocalDateTime.parse(string, formatter);
-                } else if ("startDate".equals(key) && value != "") {
+                } else if ("custStartDate".equals(key) && value != "") {
                     String string = value.toString() + " 00:00:00";
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     startDate = LocalDateTime.parse(string, formatter);
@@ -2259,26 +2365,39 @@ public class SearchUtil {
                         }
                         predicate.add(builder.equal(root.get(key), dataStatus));
                     }
-                } else if ("isMember".equals(key)) {
-                    if(ObjectUtils.isEmpty(value)) {
-                        predicate.add(builder.or(builder.equal(root.get(key), "0"), builder.equal(root.get(key), "1")));
-                    } else if (ObjectUtils.isNotEmpty(value)) {
-                        predicate.add(builder.equal(root.get(key), value));
-                    }
                 } else if ("platformType".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
-                }
-                else {
+                } else if ("maxMin".equals(key) && value != "") {
+                   maxMin = (String)value;
+                } else if ("useCount".equals(key) && value != "") {
+                   useCount = (String)value;
+                } else {
                    /* if (ObjectUtils.isNotEmpty(value) && !key.equals("testTable_length")) {
                         predicate.add(builder.equal(root.get(key),value));
                     }*/
                 }
             }
-            if (StringUtils.isNotBlank(keywordType)) {
-                if (StringUtils.isNotBlank(keyword)) {
-                    predicate.add(builder.like(root.get(keywordType), "%" + keyword + "%"));
+            if (StringUtils.isNotBlank(keywordPopType)) {
+                if (StringUtils.isNotBlank(keywordPop)) {
+                    predicate.add(builder.like(root.get(keywordPopType), "%" + keywordPop + "%"));
                 }
             }
+            if (StringUtils.isNotBlank(maxMin)) {
+                if (StringUtils.isNotBlank(useCount)) {
+                    if("1".equals(maxMin)) {
+                        predicate.add(builder.greaterThanOrEqualTo(root.get("useCount"),  Integer.parseInt(useCount)));
+                    } else if("2".equals(maxMin)){
+                        predicate.add(builder.lessThanOrEqualTo(root.get("useCount"),  Integer.parseInt(useCount)));
+                    } else if("3".equals(maxMin)){
+                        predicate.add(builder.equal(root.get("useCount"),  Integer.parseInt(useCount)));
+                    }
+                }
+            }
+           /* if (StringUtils.isNotBlank(keywordPopType)) {
+                if (StringUtils.isNotBlank(keywordPop)) {
+                    predicate.add(builder.like(root.get(keywordPopType), "%" + keywordPop + "%"));
+                }
+            }*/
             predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
 
         } catch (Exception e){

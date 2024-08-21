@@ -4,24 +4,15 @@ import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.CipherService;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.Util.Secure.token.AuthTokenProvider;
-import com.trism.jesica.Util.Secure.token.Token;
-import com.trism.jesica.persistence.Entitiy.common.LoginSession;
-import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
-import com.trism.jesica.persistence.Entitiy.system.TbSiteMenu;
-import io.jsonwebtoken.Claims;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 @Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -51,15 +42,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 
 
-        int userRole = 0;
+        /*int userRole = 0;
         String parentMenuId = "";
         String parentparentMenuId = "";
         String menuId = "";
-        /*log.info(" Servlet URI \t:  " + sessionObj);*/
+        *//*log.info(" Servlet URI \t:  " + sessionObj);*//*
 
-      /*  if(sessionObj != null) {
+      *//*  if(sessionObj != null) {
             userRole = sessionObj.getUserRole();
-        }*/
+        }*//*
 
         String servletPath = request.getServletPath();
 
@@ -111,7 +102,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         boolean result = false;
 
-        /*String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);*/
+        *//*String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);*//*
         //String authorization = "Bearer +2UQDyNvYSgPLhdF6kBOV/7ENBFgsuTGQpX0TnpQe89arDVhc77v1kfsOm0HFbC6Jm3/9raFPBOEFJSeKGdry4QNkvVFaGj1CeBUP/J3fJe8pJBJeLQyZehx9X9HzafXKAsvWdtsObaEj2gLp6X8+dB7MZZmjzcQRmmuZETwOXTguxZcVSFRETgfGrun0vJo6hmaH8o7AnZeNQmLatTe26SHQk/XFkEwh9C/GXu1qeGveNNrbO+PMXIHO1DB6pTvEIvFEAOQey3FljQiuZnM8xRs8aOrjD/BT1EY/529POQn+nK2S4IH50XzvrCqyBE3kQ1muz49/RT5X9bdCyKqWrPkiJ30tk5VHlg3eWXTjL1iV05/ouOi2gd9eoIakB1ThxlI4ZGSTdGlg/heLICIYodJVDAUOnk14ctDsW4sNOXaP9JBv4Dg4q/nS3hYGa4e6OoXMBx8spCTKnWWGIFMY2wnjTigcgf43OEn4DfdqqcALRdPQdKhKP3dLglsJxGhuGGio2xpgNpwfElB/DQGEmgjUC3dW70jIl+PD2g29x2cLo6U0yIR8LUe5yJpY6LTCFRBNXOTsJ/2iTIjkJhBSJ5cdJNrkjw/bGY+Tbuu8YbOg/oqkcVnbK7WVzeC2E9iDVAUaXtX4O2/mbBou8tL0yHZ/dH93rjACKf2dTOxXvNvcgtyxpaDHNHs8oIWvoVRSCNT+OfmzZF/eeDcadQJ0aoh7uLHpI65jjkM+tXXVHA=";
         //세션으로 호출
         String bearer = "Bearer ";
@@ -124,7 +115,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         }else {
             log.info("errorType4");
         }
-       /* String a = null;
+       *//* String a = null;
         String b = null;
         String c = null;
         String d = null;
@@ -143,7 +134,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 d = cookie.getValue();
                 log.info("refreshTokenEnd_first_inter::"+d);
             }
-        }*/
+        }*//*
 
 
         if (StringUtils.isNotBlank(authorization) && authorization.startsWith("Bearer ")) {
@@ -179,7 +170,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     }
                 }
                 //리프레쉬토큰이 있으면 갱신 없으면 재로그인
-                if(refreshToken != null){
+                *//*if(refreshToken != null){
                     //토큰 갱신
                     HttpSession sesssion = request.getSession();
                     ResponseEntity<Map> tokenMap = restTemplateUtil.refreshToken(sesssion,clientId,code,refreshToken);
@@ -197,7 +188,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     }
                 } else {
                     return false;
-                }
+                }*//*
 
 //                log.error("INVALID_ACCESS_TOKEN");
                 //TODO
@@ -222,7 +213,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     }
                 }
                 //리프레쉬토큰이 있으면 갱신 없으면 재로그인
-                if(refreshToken != null){
+                *//*if(refreshToken != null){
                     //토큰 갱신
                     HttpSession sesssion = request.getSession();
                     ResponseEntity<Map> tokenMap = restTemplateUtil.refreshToken(sesssion,clientId,code,refreshToken);
@@ -240,7 +231,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     }
                 } else {
                     return false;
-                }
+                }*//*
 
                 //TODO
 //                log.error("CREDENTIAL_EXPIRED_TOKEN");
@@ -258,7 +249,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             }
         }else {
             log.info("errorType3");
-        }
+        }*/
+
+        boolean result= true;
         return result;
     }
 

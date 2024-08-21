@@ -1,20 +1,15 @@
 package com.trism.jesica.Util;
 
-import com.trism.jesica.config.Data;
 import com.trism.jesica.config.JesicaProperties;
-import com.trism.jesica.dto.TbRentalInfoData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,16 +24,16 @@ public class RestTemplateUtil {
 	private JesicaProperties jesicaProperties;
 
 	//클리이언트 정보/코드 획득
-	public ResponseEntity<Map> authorizeToken() {
+	/*public ResponseEntity<Map> authorizeToken() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/token/authorize";
-		/*String url = "http://101.55.126.138:13000/api/v1/token/authorize";*/
+		*//*String url = "http://101.55.126.138:13000/api/v1/token/authorize";*//*
 		return restTemplate.getForEntity(url, Map.class);
-	}
+	}*/
 
 	//지도정보
-	public ResponseEntity<Map> getLocation(HttpSession session,String type) {
+	/*public ResponseEntity<Map> getLocation(HttpSession session,String type) {
 		HttpHeaders headers = new HttpHeaders();
 		String authorization = "";
 		if (session.getAttribute("accessToken") != null ){
@@ -47,14 +42,14 @@ public class RestTemplateUtil {
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/dlvy/workers/locations?type="+type;
-		/*String url = "http://101.55.126.138:13300/api/v1/dlvy/workers/locations?type="+type;*/
+		*//*String url = "http://101.55.126.138:13300/api/v1/dlvy/workers/locations?type="+type;*//*
 		Map<String,Object> requestDto = new HashMap<>();
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
 		return restTemplate.exchange(url, HttpMethod.GET,entity,Map.class);
-	}
+	}*/
 
 	//토큰 만료되었을때
-	public ResponseEntity<Map> refreshToken(HttpSession session ,String clientId, String code, String refreshToken ) {
+	/*public ResponseEntity<Map> refreshToken(HttpSession session ,String clientId, String code, String refreshToken ) {
 		Map<String,String> requestDto = new HashMap<>();
 		requestDto.put("grantType","REFRESH_TOKEN");
 		requestDto.put("refreshToken",refreshToken);
@@ -71,12 +66,12 @@ public class RestTemplateUtil {
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/token";
-		/*String url = "http://101.55.126.138:13000/api/v1/token";*/
+		*//*String url = "http://101.55.126.138:13000/api/v1/token";*//*
 		return restTemplate.postForEntity(url, entity, Map.class);
-	}
+	}*/
 
 	//토큰 만료되었을때Vue용
-	public ResponseEntity<Map> refreshTokenVue(String refreshToken, String code, String clientId, String accessToken ) {
+	/*public ResponseEntity<Map> refreshTokenVue(String refreshToken, String code, String clientId, String accessToken ) {
 		Map<String,String> requestDto = new HashMap<>();
 		requestDto.put("grantType","REFRESH_TOKEN");
 		requestDto.put("refreshToken",refreshToken);
@@ -90,38 +85,41 @@ public class RestTemplateUtil {
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/token";
-		/*String url = "http://101.55.126.138:13000/api/v1/token";*/
+		*//*String url = "http://101.55.126.138:13000/api/v1/token";*//*
 		return restTemplate.postForEntity(url, entity, Map.class);
-	}
+	}*/
 
 	//accessToken으로 정보조회
-	public ResponseEntity<Map> getAccessInfo(String accessToken) {
+	/*public ResponseEntity<Map> getAccessInfo(String accessToken) {
 		HttpHeaders headers = new HttpHeaders();
 		String authorization ="Bearer "+accessToken;
 		log.info("authorization+"+authorization);
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
-		/*String url = "http://101.55.126.138:13000/api/v1/token/info";*/
+		*//*String url = "http://101.55.126.138:13000/api/v1/token/info";*//*
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/token/info";
 		Map<String,Object> requestDto = new HashMap<>();
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
 		return restTemplate.exchange(url, HttpMethod.GET,entity,Map.class);
-	}
+	}*/
 
 	//토큰 - 로그인시 사용
-	public ResponseEntity<Map> loginAuth(String clientId, String code, String uuid, String loginId ,String pass) {
+	public ResponseEntity<Map> loginAuth(String uuid, String loginId ,String pass) {
 		Map<String,String> requestDto = new HashMap<>();
 		requestDto.put("userId",loginId);
 		requestDto.put("password",pass);
 		requestDto.put("loginType","DEFAULT");
-		requestDto.put("role","UT_CONSULTANT");
+		requestDto.put("role","UT_MANAGEMENT");
 		requestDto.put("deviceType","WEB");
 		requestDto.put("deviceId",uuid);
+		requestDto.put("appVer","1");
+		requestDto.put("appCode","STF");
+		requestDto.put("pushKey","");
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		headers.add("clientId", clientId);
-		headers.add("code", code);
+	/*	headers.add("clientId", clientId);
+		headers.add("code", code);*/
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
 		/*String url = "http://101.55.126.138:13000/api/v1/auth/login";*/
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/auth/login";
@@ -129,10 +127,10 @@ public class RestTemplateUtil {
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
 	//차량 대여정보 등록
-	public ResponseEntity<Map> insertCarRent(TbRentalInfoData tbRentalInfo, HttpSession session) {
+	/*public ResponseEntity<Map> insertCarRent(TbRentalInfoData tbRentalInfo, HttpSession session) {
 		Map<String,String> requestDto = new HashMap<>();
 
-		/*String rentApiKey = "mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=";*/
+		*//*String rentApiKey = "mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=";*//*
 
 		requestDto.put("reservNum",tbRentalInfo.getReservNum());
 		requestDto.put("storeName",tbRentalInfo.getStoreName());
@@ -152,15 +150,15 @@ public class RestTemplateUtil {
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		/*headers.add("RentApiKey", rentApiKey);*/
+		*//*headers.add("RentApiKey", rentApiKey);*//*
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
-		/*String url = "http://101.55.126.138:13000/api/v1/rents/reserv";*/
+		*//*String url = "http://101.55.126.138:13000/api/v1/rents/reserv";*//*
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/rents/reserv";
 		return restTemplate.postForEntity(url, entity, Map.class);
-	}
+	}*/
 
 	//차량 대여정보 등록
-	public ResponseEntity<Map<String, Object>> resetSafenNum(Long rentalNo, HttpSession session) {
+	/*public ResponseEntity<Map<String, Object>> resetSafenNum(Long rentalNo, HttpSession session) {
 		Map<String,Long> requestDto = new HashMap<>();
 
 
@@ -175,21 +173,21 @@ public class RestTemplateUtil {
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		headers.add("Content-Type", "application/json; charset=utf-8");
-		/*headers.add("RentApiKey", rentApiKey);*/
+		*//*headers.add("RentApiKey", rentApiKey);*//*
 		HttpEntity<Map<String,Long>> entity = new HttpEntity<>(headers);
-		/*String url = "http://101.55.126.138:13000/api/v1/rents/reserv";*/
+		*//*String url = "http://101.55.126.138:13000/api/v1/rents/reserv";*//*
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/rents/reserv/safen";
 		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
 						.queryParam("rentalNo", rentalNo);
 		return restTemplate.exchange(builder.toUriString(), HttpMethod.PUT, entity, new ParameterizedTypeReference<Map<String, Object>>() {});
-		/*ResponseEntity<Map<String, Object>> response = restTemplate.exchange(builder.toUriString(), HttpMethod.PUT, entity, new ParameterizedTypeReference<Map<String, Object>>() {});
+		*//*ResponseEntity<Map<String, Object>> response = restTemplate.exchange(builder.toUriString(), HttpMethod.PUT, entity, new ParameterizedTypeReference<Map<String, Object>>() {});
 
-		response.getBody();*/
-	}
+		response.getBody();*//*
+	}*/
 
 
 	//드라이버 수정이나 등록시 상태갱신
-	public ResponseEntity<Map> driverStatusInit(Long workerNo,HttpSession session) {
+	/*public ResponseEntity<Map> driverStatusInit(Long workerNo,HttpSession session) {
 		Map<String,Integer> requestDto = new HashMap<>();
 		HttpHeaders headers = new HttpHeaders();
 
@@ -201,13 +199,13 @@ public class RestTemplateUtil {
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		HttpEntity<Map<String,Integer>> entity = new HttpEntity<>(requestDto, headers);
-		/*String url = "http://101.55.126.138:13000/api/v1/dlvy/workers/sync/"+workerNo;*/
+		*//*String url = "http://101.55.126.138:13000/api/v1/dlvy/workers/sync/"+workerNo;*//*
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/dlvy/workers/sync/"+workerNo;
 		return restTemplate.exchange(url, HttpMethod.PUT,entity,Map.class);
-	}
+	}*/
 
 	//푸시메시지
-	public ResponseEntity<Map> pushMessage(String appcode, String receiver, String title, String contents, HttpSession session, Data data ) {
+	/*public ResponseEntity<Map> pushMessage(String appcode, String receiver, String title, String contents, HttpSession session, Data data ) {
 		Map<String,Object> requestDto = new HashMap<>();
 		requestDto.put("appcode",appcode);
 		requestDto.put("receiver",receiver);
@@ -229,10 +227,10 @@ public class RestTemplateUtil {
 		headers.add("Content-Type", "application/json");
 		headers.add(HttpHeaders.AUTHORIZATION, authorization);
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<>(requestDto, headers);
-		/*String url = "http://101.55.126.138:13000/api/v1/auth/login";*/
+		*//*String url = "http://101.55.126.138:13000/api/v1/auth/login";*//*
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/auth/push/req";
 		return restTemplate.postForEntity(url, entity, Map.class);
-	}
+	}*/
 
 
 	//멤버쉽 API 상세 호출
@@ -240,9 +238,13 @@ public class RestTemplateUtil {
 		Map<String,Object> requestDto = new HashMap<>();
 		requestDto.put("cpnNo",cpnNo);
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+		headers.add("authKey",  jesicaProperties.getMomPosServer().getAuthKey());
 		headers.add("Content-Type", "application/json");
-		String url = "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/detail/"+cpnNo;
+
+		String url = jesicaProperties.getMomPosServer().getServer()+"/v1/coupon-manage/detail/"+cpnNo;
+
+		//String url = "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/detail/"+cpnNo;
+		//String url = "http://frapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/detail/"+cpnNo; //운영
 
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
 		return restTemplate.exchange(url, HttpMethod.GET,entity,Map.class);
@@ -258,9 +260,12 @@ public class RestTemplateUtil {
 		requestDto.put("extCustNo",extCustNo);
 		requestDto.put("cpnReason",cpnReason);
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+		headers.add("authKey",  jesicaProperties.getMomPosServer().getAuthKey());
 		headers.add("Content-Type", "application/json");
-		String url = "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon";
+
+		String url = jesicaProperties.getMomPosServer().getServer()+"/v1/coupon";
+		//String url = "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon"; //테스트
+		//String url = "http://frapp.mompos.co.kr:8443/api-ms/v1/coupon";  //운영
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}

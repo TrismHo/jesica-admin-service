@@ -1,7 +1,7 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.business.TbStore;
-import com.trism.jesica.persistence.type.*;
+import com.trism.jesica.persistence.mysql.Entitiy.business.TbStore;
+import com.trism.jesica.persistence.mysql.type.*;
 import lombok.Data;
 
 import java.math.BigDecimal;

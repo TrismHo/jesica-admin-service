@@ -2,12 +2,12 @@ package com.trism.jesica.Service;
 
 import com.trism.jesica.Util.SearchUtil;
 import com.trism.jesica.dto.TbCustCouponDTO;
-import com.trism.jesica.persistence.Entitiy.cust.TbCust;
-import com.trism.jesica.persistence.Entitiy.poinhistory.TbPointHistory;
-import com.trism.jesica.persistence.Repository.coupon.TbCouponPublishRepository;
-import com.trism.jesica.persistence.Repository.cust.TbCustAddrRepository;
-import com.trism.jesica.persistence.Repository.cust.TbCustRepository;
-import com.trism.jesica.persistence.Repository.poinhistory.TbPointHistoryRepository;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbCust;
+import com.trism.jesica.persistence.mysql.Entitiy.poinhistory.TbPointHistory;
+import com.trism.jesica.persistence.mysql.Repository.coupon.TbCouponPublishRepository;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustAddrRepository;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustRepository;
+import com.trism.jesica.persistence.mysql.Repository.poinhistory.TbPointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;

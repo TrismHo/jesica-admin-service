@@ -1,7 +1,7 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.goods.TbStoreGoodsItem;
-import com.trism.jesica.persistence.type.ItemStatus;
+import com.trism.jesica.persistence.mysql.Entitiy.goods.TbStoreGoodsItem;
+import com.trism.jesica.persistence.mysql.type.ItemStatus;
 import lombok.Data;
 
 

@@ -1,6 +1,6 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.type.DataStatus;
+import com.trism.jesica.persistence.mysql.type.DataStatus;
 
 public interface TbStoreOptionDTO {
 

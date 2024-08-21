@@ -1,6 +1,6 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.block.TbDlvyArea;
+import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyArea;
 import lombok.Data;
 
 

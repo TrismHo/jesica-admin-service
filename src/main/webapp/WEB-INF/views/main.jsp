@@ -301,7 +301,7 @@
                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                                     --%>
                                     <div class="stats-link">
-                                        <a href="${path}statistics/restaurant/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                        <a href="${path}statistics/order/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -466,7 +466,7 @@
                 borderWidth: 2,
                 backgroundColor: COLOR_GREY_TRANSPARENT_1,
                 data: totalCnt,
-            }, {
+            }/*, {
                 label: '주문완료',
                 borderColor: COLOR_AQUA,
                 pointBackgroundColor: COLOR_AQUA_TRANSPARENT_6,
@@ -474,7 +474,7 @@
                 borderWidth: 2,
                 backgroundColor: COLOR_AQUA_TRANSPARENT_1,
                 data: endCnt
-            } /*{
+            }*/ /*{
                 label: '주문취소',
                 borderColor: COLOR_RED_LIGHTER,
                 pointBackgroundColor: COLOR_RED_TRANSPARENT_6,

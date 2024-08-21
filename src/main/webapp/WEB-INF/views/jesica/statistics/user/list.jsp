@@ -69,6 +69,14 @@
         .page-header-fixed {
             padding-top: 32px;
         }
+        #map { height: 600px; }
+
+        .border-right-bold{
+            border-right: 2px solid #0a0a0a !important;
+        }
+        .border-left-bold{
+            border-left: 2px solid #0a0a0a !important;
+        }
     </style>
 </head>
 <body>
@@ -139,14 +147,14 @@
                                                 <label style="margin-left: 30px;" >
                                                     <div class="btn-group ">
                                                         <a class="btn btn-white step-day <c:if test="${searchValue.dayType == '2' || searchValue.dayType == '' || searchValue.dayType == null}">active</c:if>" href="javascript:;" day="2">1일 단위 보기 </a>
-                                                        <a class="btn btn-white step-day <c:if test="${searchValue.dayType == '1'}">active</c:if>"   href="javascript:;" day="1">7일 단위 보기 </a>
+                                                        <a class="btn btn-white step-day <c:if test="${searchValue.dayType=='1'}">active</c:if>"   href="javascript:;" day="1">7일 단위 보기 </a>
                                                     </div>
                                                 </label>
                                                 <input type="hidden" class="selday"  name="selday" value="${searchValue.selday}">
                                                 <input type="hidden" class="dayType"  name="dayType" value="${searchValue.dayType}">
                                           </td>
-                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/><%--등록기간--%></strong></td>
-                                            <td style="width:50%">
+                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/><%--등록기간--%></strong></td>
+                                            <td style="width:40%">
                                                 <input type="hidden" name="platformType" value="${searchValue.platformType}">
                                                 <label>
                                                   <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
@@ -165,10 +173,22 @@
                                                            <option <c:if test="${item.brCode == searchValue.extBrCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
                                                        </c:forEach>
                                                    </select>
-
-                                                   <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
+                                                      <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
+                                                      <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
                                                 <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
                                             </td>
+                                            <%--<td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="지역코드"/>&lt;%&ndash;등록기간&ndash;%&gt;</strong></td>
+                                            <td style="width:40%">
+                                                <label>
+                                                    <select class="form-control" name="addrCode" style="margin-right: 30px;" >
+                                                        <option value="">전체</option>
+                                                        <c:forEach var="item" items="${brCodeList}" varStatus="status">
+                                                            <option <c:if test="${item.brCode == searchValue.extBrCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
+                                                        </c:forEach>
+                                                    </select>
+
+
+                                            </td>--%>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -186,12 +206,18 @@
                             <span class="d-sm-block d-none"><spring:message code="list.detail.basicInformation" text="기본정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                   <li class="nav-item">
                         <a href="#default-tab-2" data-toggle="tab" class="nav-link">
-                            <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="통계그래프"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
-                            <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="통계그래프"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                            <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="통계그래프"/></span>
+                            <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="통계그래프"/></span>
                         </a>
                     </li>
+                 <%--  <li class="nav-item">
+                        <a href="#default-tab-3" data-toggle="tab" class="nav-link ">
+                            <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="지역별그래프"/></span>
+                            <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="지역별그래프"/></span>
+                        </a>
+                    </li>--%>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade active show" id="default-tab-1">
@@ -204,15 +230,17 @@
                                         <th colspan="10">회원통계</th>
                                     </tr>
                                     <tr class="text-center">
-                                        <th>회원가입수</th>
-                                        <th>Android</th>
+                                        <th >회원가입수</th>
+                                        <th class="border-left-bold">Android</th>
                                         <th>%</th>
-                                        <th>ios</th>
-                                        <th>%</th>
+                                        <th >ios</th>
+                                        <th class="border-right-bold">%</th>
                                         <th>남성회원</th>
                                         <th>%</th>
                                         <th>여성회원</th>
-                                        <th>%</th>
+                                        <th class="border-right-bold">%</th>
+                                        <th>가맹점추천</th>
+                                        <th class="border-right-bold">APP가입</th>
                                         <%--<th>제시카</th>
                                         <th>%</th>
                                         <th>양파오더</th>
@@ -222,47 +250,26 @@
                                     </tr>
                                     </thead>
                                     <tbody id="userTbody">
-                                   <%-- <c:forEach var="item" items="${timeList}" varStatus="status">
-                                        <tr class="text-center">
-                                            <td>${item.yyyymmdd}</td>
-                                            <td>
-                                                <c:if test="${item.dw == 1}">일요일</c:if>
-                                                <c:if test="${item.dw == 2}">월요일</c:if>
-                                                <c:if test="${item.dw == 3}">화요일</c:if>
-                                                <c:if test="${item.dw == 4}">수요일</c:if>
-                                                <c:if test="${item.dw == 5}">목요일</c:if>
-                                                <c:if test="${item.dw == 6}">금요일</c:if>
-                                                <c:if test="${item.dw == 7}">토요일</c:if>
-                                            </td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.totalCnt}"/> 명</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.androidCnt}"/> 명</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.androidPer}"/> %</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.iosCnt}"/> 명</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.iosPer}"/> %</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.maleCnt}"/> 명</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.malePer}"/> %</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femaleCnt}"/> 명</td>
-                                            <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.femalePer}"/> %</td>
-                                                &lt;%&ndash;<td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarCnt}"/> 명</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformJesicarPer}"/> %</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionCnt}"/> 명</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformAnionPer}"/> %</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNoneCnt}"/> 명</td>
-                                                <td><fmt:formatNumber type="number"  pattern="###,###,###,###,###,###" value="${item.platformNonePer}"/> %</td>&ndash;%&gt;
-                                        </tr>
-                                    </c:forEach>--%>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     <div class="tab-pane fade" id="default-tab-2" >
                         <div class="panel-body">
-                            <div class=" mx-auto"  style="display: inline-block; width: 78%" >
+                            <div class=" mx-auto"  style="display: inline-block; width: 58%" >
                                 <canvas id="line-chart" width="1168" height="400" style="display: block; box-sizing: border-box; height: 342px; width: 684px;"></canvas>
                             </div>
                             <div class=" mx-auto"  style="display: inline-block; width: 20%">
                                 <canvas id="radar-chart" height="680" style="display: block; box-sizing: border-box; height: 513px; width: 513px;"></canvas>
                             </div>
+                            <div class=" mx-auto"  style="display: inline-block; width: 20%">
+                                <canvas id="radar-chart2" height="680" style="display: block; box-sizing: border-box; height: 513px; width: 513px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade " id="default-tab-3" >
+                        <div class="panel-body">
+                            <div id="map"></div>
                         </div>
                     </div>
                 </div>
@@ -289,6 +296,11 @@
 </div>
 
 <script src="${path}/assets/plugins/chart.js/dist/Chart.min_new.js"></script>
+
+<link rel="stylesheet"href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script src="${path}/js/geoJson.js"></script>
 <%--<script src="${path}/assets/js/demo/chart-js.demo.js" type="text/javascript"></script>--%>
 <%--modal search end--%>
 
@@ -303,10 +315,14 @@
 
     let label = [];
     let totalCnt = [];
-    let maleCnt = [];
     let iosTotal =[];
     let iosCnt = 0;
+    let maleCnt = [];
     let femaleCnt = [];
+    let extRecommStCodeCntF = [];
+    let extAppUserCntF = [];
+    let totalMaleCnt = [];
+    let totalFemaleCnt = [];
     let androidTotal = [];
     let androidCnt = 0;
     let phoneTotal = [];
@@ -316,6 +332,88 @@
     Chart.defaults.color = COLOR_DARK_LIGHTER
     Chart.defaults.font.family = 'Nanum Gothic',"나눔 고딕",'NanumGothic',"나눔고딕",'Malgun Gothic','맑은 고딕','MalgunGothic','맑은고딕'
     Chart.defaults.font.weight = 500;
+
+    var ctx2 = document.getElementById('radar-chart2').getContext('2d');
+    var radarChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['성별 구분'],
+            datasets: [{
+                label: '남성회원',
+                borderColor: [COLOR_AQUA_TRANSPARENT_7],
+                pointRadius: 4,
+                borderWidth: 2,
+                pointBackgroundColor: [COLOR_AQUA_TRANSPARENT_3],
+                backgroundColor:  [COLOR_AQUA_TRANSPARENT_3],
+                data: totalMaleCnt
+            },{
+                label: '여성회원',
+                borderColor: [COLOR_GREEN_TRANSPARENT_7],
+                pointRadius: 4,
+                borderWidth: 2,
+                pointBackgroundColor: [COLOR_GREEN_TRANSPARENT_3],
+                backgroundColor:  [COLOR_GREEN_TRANSPARENT_3],
+                data: totalFemaleCnt
+            }]
+        },
+        options : {
+            plugins: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 15
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += ' '+context.parsed.y +'대';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: false,
+                        text: '회원가입 구분(남성, 여성)'
+                    },
+                    ticks: {
+                        major: {
+                            enabled: true
+                        },
+                        color: (context) => context.tick && context.tick.major && '#FF0000',
+                        font: function (context) {
+                            if (context.tick && context.tick.major) {
+                                return {
+                                    weight: 'bold'
+                                };
+                            }
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, ticks) {
+                            return value +' 대'
+                        }
+                    }
+                }
+            }
+        }
+    });
 
     var ctx2 = document.getElementById('radar-chart').getContext('2d');
     var radarChart = new Chart(ctx2, {
@@ -412,21 +510,21 @@
                 backgroundColor: COLOR_GREY_TRANSPARENT_1,
                 data: totalCnt,
             }, {
-                label: '남성회원',
+                label: "가맹점추천",
                 borderColor: COLOR_AQUA,
                 pointBackgroundColor: COLOR_AQUA_TRANSPARENT_6,
                 pointRadius: pointSize,
                 borderWidth: 2,
                 backgroundColor:  COLOR_AQUA_TRANSPARENT_1,
-                data: maleCnt
+                data: extRecommStCodeCntF
             }, {
-                label: '여성회원',
+                label: 'APP가입',
                 borderColor: COLOR_RED_LIGHTER,
                 pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
                 pointRadius: pointSize,
                 borderWidth: 2,
                 backgroundColor:  COLOR_RED_TRANSPARENT_1,
-                data: femaleCnt
+                data: extAppUserCntF
             }]
         },
         options : {
@@ -488,11 +586,33 @@
             }
         }
     });
+    // 메뉴가 선택되어 active가 된 후 이벤트
+  /*  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        if(!maplocation){
+            renderGeo();
+        }
+    });*/
+
     $(() => {
+        let hideDw = {};
+        //7일단위 보기 - 요일 hide
+        if($(".dayType").val() == "1"){
+            hideDw = {targets: [1], visible: false  }
+        } else {
+            hideDw = {targets: [1],  visible: true }
+        }
+
         $("#testTable").DataTable({
+            columnDefs: [
+              /*  {targets: "_all", className: "text-center"},*/
+                hideDw,
+                {targets: [2,3,7,11],  visible: true, className: "border-left-bold" },
+                {targets: [12], className: "border-right-bold" },
+            ],
+            rowReorder: true,
             language : lang_set, //or lang_eng
             responsive: true,
-            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            dom: '<"row"<"col-sm-12"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
             //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
             buttons: [
                 /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
@@ -543,7 +663,6 @@
         yesterDay.setDate(yesterDay - 1);
         let startDate = "${searchValue.startDate}";
         let endDate = "${searchValue.endDate}";
-
 
 
         if(startDate == ""){
@@ -614,14 +733,24 @@
             data :JSON.stringify(req),
             dataType: "json",
             success: function(data) {
+
+                let totalMaleCntF = 0;
+                let totalFemaleCntF = 0;
                 $("#userTbody").html();
                 for(var i = 0 ; i < data.timeList.length ; i++) {
                     label.push(data.timeList[i].yyyymmdd)
                      totalCnt.push(data.timeList[i].totalCnt)
                      maleCnt.push(data.timeList[i].maleCnt)
                      femaleCnt.push(data.timeList[i].femaleCnt)
+                    extRecommStCodeCntF.push(data.timeList[i].extRecommStCodeCnt)
+                    extAppUserCntF.push(data.timeList[i].extAppUserCnt)
+
+                    totalMaleCntF = totalMaleCntF+data.timeList[i].maleCnt;
+                    totalFemaleCntF = totalFemaleCntF+data.timeList[i].femaleCnt;
+
                     iosCnt = iosCnt+ data.timeList[i].iosCnt;
                     androidCnt = androidCnt+ data.timeList[i].androidCnt;
+
 
 
                     let dw = ''
@@ -667,6 +796,15 @@
                         femalePer = data.timeList[i].femalePer
                     }
 
+                    let extRecommStCodeCnt = '';
+                    if(data.timeList[i].extRecommStCodeCnt != null) {
+                        extRecommStCodeCnt = data.timeList[i].extRecommStCodeCnt
+                    }
+                    let extAppUserCnt = '';
+                    if(data.timeList[i].extAppUserCnt != null) {
+                        extAppUserCnt = data.timeList[i].extAppUserCnt
+                    }
+
 
 
                     $("#userTbody").append(
@@ -682,10 +820,15 @@
                         "    <td>"+malePer+" %</td>"+
                         "    <td>"+data.timeList[i].femaleCnt+" 명</td>"+
                         "    <td>"+femalePer+" %</td>"+
+                        "    <td>"+data.timeList[i].extRecommStCodeCnt+" 명</td>"+
+                        "    <td>"+data.timeList[i].extAppUserCnt+" 명</td>"+
                         "</tr>"
                     )
 
+
                 }
+                totalMaleCnt.push(totalMaleCntF)
+                totalFemaleCnt.push(totalFemaleCntF)
                 iosTotal.push(iosCnt)
                 androidTotal.push(androidCnt)
                 if (data.timeList.length > 40) {
@@ -693,23 +836,6 @@
                 } else {
                     pointSize = 4;
                 }
-
-
-
-
-
-                /*let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2140);
-                receiptComplData = receiptResult.complete;
-                returnComplData = receiptResult.cancel;
-                receiptLabels = receiptResult.labels;
-
-                let getUserCountList = getUserCount(data.getUserCount);
-
-                returnNewUser = getUserCountList.userCount;
-
-                userUserLabels = getUserCountList.labels;*/
-
-
             }
         });
     }

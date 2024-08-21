@@ -6,12 +6,11 @@
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-        <title>Jesicar | <spring:message code="list.detail.platformno리ticeregistration12" text="고객 관리"/></title>
+        <title>Jesicar | <spring:message code="list.detail.platformno리ticeregistration12" text="회원 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="list.detail.platformno리ticeregistration12" text="고객 관리"/></title>
+        <title>Pick-Order | <spring:message code="list.detail.platformno리ticeregistration12" text="회원 관리"/></title>
     </c:if>
-
 </head>
 <style>
     .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -149,8 +148,31 @@
     [type="checkbox"]:enabled:hover {
         box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
     }
+    .buttons-excel {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
 
-    /* Global CSS */
+    div.dataTables_wrapper div.dataTables_processing {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 200px;
+        margin-left: -100px;
+        margin-top: -26px;
+        text-align: center;
+        padding: 1em 0;
+        z-index: 5;
+        top: 150px;
+        border:1px solid #ddd;
+    }
+    .cust-coupon-list {
+        width: 100%;
+    }
+    #searchCouponCustTab{
+        border-bottom: 1px solid #e4e7ea !important;
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -174,7 +196,7 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement12" text="사용자 관리"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/><%--상품--%></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/><%--상품--%></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.platformnoticeregistration12" text="고객 상세"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.detail.platformnoticeregistration1" text="고객 상세"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
@@ -188,8 +210,8 @@
                 </li>
                 <li class="nav-item">
                     <a href="#default-tab-2" data-toggle="tab" class="nav-link">
-                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation12" text="보유쿠폰"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
-                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation12" text="보유쿠폰"/><%--<spring:message code="merchandise.detail.tab2" text="default text"/>--%><%--가격 정보--%></span>
+                        <span class="d-sm-none"><spring:message code="list.detail.businessinformation12" text="보유쿠폰"/></span>
+                        <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation12" text="보유쿠폰"/></span>
                     </a>
                 </li>
             </ul>
@@ -197,7 +219,7 @@
                 <div class="tab-pane fade active show" id="default-tab-1">
                     <div class="table-responsive">
                         <form name="update_form" id="update_form" class="update_form">
-                            <input type="hidden" name="custNo" value="${tbCust.custNo}">
+                            <input class="custNo" type="hidden" name="custNo" value="${tbCust.custNo}">
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr class="height-50">
@@ -366,7 +388,7 @@
                                                                         <c:forEach items="${friends}" var="item" varStatus="status" step="1">
                                                                             <tr class="" >
                                                                                 <td style="width:46px;" class="text-center">${status.index + 1}</td>
-                                                                                <td style="width:84px" class="text-center">${item.custName}록</td>
+                                                                                <td style="width:84px" class="text-center">${item.custName}</td>
                                                                                 <td style="width:98px;" class="text-center formatPhone">${item.custTel}</td>
                                                                                 <td style="width:98px;" class="text-center">${item.useCount} 회</td>
                                                                                 <td style="width:98px;" class="text-center">${item.insertdate }</td>
@@ -393,31 +415,31 @@
                                         <td>
                                             <table class="table table-bordered">
                                                 <thead>
-                                                <th class="bg-light">SMS 수신여부</th>
+                                              <%--  <th class="bg-light">SMS 수신여부</th>--%>
                                                 <th class="bg-light">주문 PUSH 수신여부</th>
-                                                <th class="bg-light">공지이벤트 PUSH 수신여부</th>
+                                                <%--<th class="bg-light">공지이벤트 PUSH 수신여부</th>--%>
                                                 <th class="bg-light">마케팅 PUSH 수신여부</th>
                                                 </thead>
                                                 <tbody>
                                                 <tr>
-                                                    <td>
+                                                   <%-- <td>
                                                         <label>
                                                             <input role="switch" type="checkbox" name="smsYn" class="smsYn"   <c:if test="${tbCust.smsYn == 1}">checked</c:if>/>
                                                             <span>SMS수신</span>
                                                         </label>
-                                                    </td>
+                                                    </td>--%>
                                                     <td>
                                                         <label>
                                                             <input role="switch" type="checkbox" name="pushOrderYn" class="pushOrderYn" <c:if test="${tbCust.pushOrderYn == 1}">checked</c:if>/>
                                                             <span>주문 PUSH 수신</span>
                                                         </label>
                                                     </td>
-                                                    <td>
+                                                   <%-- <td>
                                                         <label>
                                                             <input role="switch" type="checkbox" name="pushNoticeYn" class="pushNoticeYn"  <c:if test="${tbCust.pushNoticeYn == 1}">checked</c:if> />
                                                             <span>공지이벤트 PUSH 수신</span>
                                                         </label>
-                                                    </td>
+                                                    </td>--%>
                                                     <td>
                                                         <label>
                                                             <input role="switch" type="checkbox" name="pushMarketingYn" class="pushMarketingYn"   <c:if test="${tbCust.pushMarketingYn == 1}">checked</c:if>/>
@@ -482,16 +504,16 @@
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseentertheaddressdetailsifany" text="주소 상세항목이 있으면 입력하세요"/></td>
                                     </tr>
-                                    <tr>
-                                       <%-- <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
+                                 <%--   <tr>
+                                       &lt;%&ndash; <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
                                         <td><input type="text" class="form-control" value="${tbCust.cash}" readonly></td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 캐쉬입니다.(변경불가)"/>
-                                        </td>--%>
+                                        </td>&ndash;%&gt;
                                       <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
                                         <td>
                                             <table>
-                                               <%-- <tr>
+                                               &lt;%&ndash; <tr>
                                                     <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
                                                     <td ><input type="text" class="form-control" value="${tbCust.cash}" readonly> Cash</td>
                                                     <td class="text-danger-darker" style="width:25%">
@@ -504,7 +526,7 @@
                                                     <td class="text-danger-darker" style="width:30%">
                                                         <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 마일리지입니다.(변경불가)"/>
                                                     </td>
-                                                </tr>--%>
+                                                </tr>&ndash;%&gt;
                                                 <tr>
                                                     <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="잔여포인트"/></td>
                                                     <td ><input type="text" class="form-control" value="${tbCust.point}" readonly> Point</td>
@@ -524,7 +546,7 @@
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text=""/>
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr>
                                         <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="누적주문횟수"/></td>
                                         <td><input type="text" class="form-control" value="${tbCust.useCount}" readonly> 회</td>
@@ -618,165 +640,86 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="default-tab-2">
-                    <div class="panel panel-inverse">
-                        <h4 style="padding: 5px">사용쿠폰</h4>
-                        <table class="table table-bordered border text-center">
-                            <thead>
-                                <tr>
-                                    <th class="bg-light" width="5%"><spring:message code="list.detail.number1" text="번호"/></th>
-                                    <th class="bg-light" width="15%"><spring:message code="list.detail.id1" text="쿠폰명"/></th>
-                                    <th class="bg-light" width="5%"><spring:message code="list.detail.id1" text="서비스타입"/></th>
-                                    <th class="bg-light" width="10%"><spring:message code="list.detail.id1" text="서비스주문구분"/></th>
-                                    <th class="bg-light" width="20%"><spring:message code="list.detail.username1" text="할인율/할인금액"/></th>
-                                    <th class="bg-light" width="5%"><spring:message code="list.detail.username1" text="사용여부"/></th>
-                                    <th class="bg-light"><spring:message code="list.detail.userphone1" text="발급일자"/></th>
-                                    <th class="bg-light"><spring:message code="list.detail.id1" text="만료일자"/></th>
-                                    <th class="bg-light"><spring:message code="list.detail.id1" text="사용일자"/></th>
-                                    <th class="bg-light" width="7%"><spring:message code="list.detail.id1" text="상세보기"/></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <c:choose>
-                                <c:when test="${tbCustUsedCouponList.size() > 0}">
-                                    <c:forEach var="item" items="${tbCustUsedCouponList}" varStatus="status">
-                                        <tr class="detailRow">
-                                            <td class="text-center">${status.index + 1}</td>
-                                            <td class="text-center">
-                                                <div style="overflow: hidden;
-                      margin: auto;
-                      text-overflow: ellipsis;
-                      white-space: nowrap;
-                      width: 250px;
-                      display: block;">${item.title}
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <c:if test="${item.serviceType == 2}">탁송</c:if>
-                                                <c:if test="${item.serviceType == 3}">맛집</c:if>
-                                                <c:if test="${item.serviceType == 4}">마트</c:if>
-                                            </td>
-                                            <td class="text-center">
-                                                <c:if test="${item.orderTypeCode == '00'}">전체</c:if>
-                                                <c:if test="${item.orderTypeCode == '20'}">인수대행</c:if>
-                                                <c:if test="${item.orderTypeCode == '21'}">반납대행</c:if>
-                                                <c:if test="${item.orderTypeCode == '22'}">마이카탁송</c:if>
-                                                <c:if test="${item.orderTypeCode == '23'}">올레길탁송</c:if>
-                                                <c:if test="${item.orderTypeCode == '30'}">맛집배달</c:if>
-                                                <c:if test="${item.orderTypeCode == '31'}">맛집포장</c:if>
-                                                <c:if test="${item.orderTypeCode == '32'}">맛집예약</c:if>
-                                                <c:if test="${item.orderTypeCode == '33'}">테이블주문</c:if>
-                                                <c:if test="${item.orderTypeCode == '40'}">마트배달</c:if>
-                                                <c:if test="${item.orderTypeCode == '41'}">마트포장</c:if>
-                                            </td>
-                                            <td class="text-center">
-                                                    ${item.dcAmt}
-                                                <c:if test="${item.dcRateType == 1}">원</c:if>
-                                                <c:if test="${item.dcRateType == 2}">%</c:if>
-                                            </td>
-                                            <td class="text-center">
-                                                <c:if test="${item.useYn == 0}">미사용</c:if>
-                                                <c:if test="${item.useYn == 1}">사용</c:if>
-                                            </td>
-                                            <td class="text-center">${item.insertDate}</td>
-                                            <td class="text-center">${item.expireDate}</td>
-                                            <td class="text-center">${item.useDate}</td>
-                                            <td class="text-center" style="padding-right: 8px !important;">
-                                                <button type="button" class="btn btn-primary btn_coupon_detail" couponNo="${item.couponNo}" style="display: flex; align-items: center; padding: 5px; margin: 0 auto">
-                                                    <i class="fa fa-ticket-alt"></i>
-                                                    <span class="m-l-5"><spring:message code="list.detail.list1" text="쿠폰상세"/></span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <tr class="" >
-                                        <td colspan="10" class="text-center border-bottom-0"> 사용내역이 없습니다. </td>
-                                    </tr>
-                                </c:otherwise>
-                            </c:choose>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="panel panel-inverse">
-                        <h4 style="padding: 5px">미사용쿠폰</h4>
-                        <table class="table table-bordered border text-center">
-                            <thead>
-                                <tr>
-                                    <th class="bg-light" width="5%"><spring:message code="list.detail.number1" text="번호"/></th>
-                                    <th class="bg-light" width="15%"><spring:message code="list.detail.id1" text="쿠폰명"/></th>
-                                    <th class="bg-light" width="5%"><spring:message code="list.detail.id1" text="서비스타입"/></th>
-                                    <th class="bg-light" width="10%"><spring:message code="list.detail.id1" text="서비스주문구분"/></th>
-                                    <th class="bg-light" width="20%"><spring:message code="list.detail.username1" text="할인율/할인금액"/></th>
-                                    <th class="bg-light" width="5%"><spring:message code="list.detail.username1" text="사용여부"/></th>
-                                    <th class="bg-light"><spring:message code="list.detail.userphone1" text="발급일자"/></th>
-                                    <th class="bg-light"><spring:message code="list.detail.id1" text="만료일자"/></th>
-                                    <th class="bg-light" width="7%"><spring:message code="list.detail.id1" text="상세보기"/></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:choose>
-                                    <c:when test="${tbCustUsedCouponList.size() > 0}">
-                                        <c:forEach var="item" items="${tbCustUnUsedCouponList}" varStatus="status">
-                                            <tr class="detailRow">
-                                                <td class="text-center">${status.index + 1}</td>
-                                                <td class="text-center">
-                                                    <div style="overflow: hidden;
-              margin: auto;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              width: 250px;
-              display: block;">${item.title}
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <c:if test="${item.serviceType == 2}">탁송</c:if>
-                                                    <c:if test="${item.serviceType == 3}">맛집</c:if>
-                                                    <c:if test="${item.serviceType == 4}">마트</c:if>
-                                                </td>
-                                                <td class="text-center">
-                                                    <c:if test="${item.orderTypeCode == '00'}">전체</c:if>
-                                                    <c:if test="${item.orderTypeCode == '20'}">인수대행</c:if>
-                                                    <c:if test="${item.orderTypeCode == '21'}">반납대행</c:if>
-                                                    <c:if test="${item.orderTypeCode == '22'}">마이카탁송</c:if>
-                                                    <c:if test="${item.orderTypeCode == '23'}">올레길탁송</c:if>
-                                                    <c:if test="${item.orderTypeCode == '30'}">맛집배달</c:if>
-                                                    <c:if test="${item.orderTypeCode == '31'}">맛집포장</c:if>
-                                                    <c:if test="${item.orderTypeCode == '32'}">맛집예약</c:if>
-                                                    <c:if test="${item.orderTypeCode == '33'}">테이블주문</c:if>
-                                                    <c:if test="${item.orderTypeCode == '40'}">마트배달</c:if>
-                                                    <c:if test="${item.orderTypeCode == '41'}">마트포장</c:if>
-                                                </td>
-                                                <td class="text-center">
-                                                        ${item.dcAmt}
-                                                    <c:if test="${item.dcRateType == 1}">원</c:if>
-                                                    <c:if test="${item.dcRateType == 2}">%</c:if>
-                                                </td>
-                                                <td class="text-center">
-                                                    <c:if test="${item.useYn == 0}">미사용</c:if>
-                                                    <c:if test="${item.useYn == 1}">사용</c:if>
-                                                </td>
-                                                <td class="text-center">${item.insertDate}</td>
-                                                <td class="text-center">${item.expireDate}</td>
-                                                <td class="text-center" style="padding-right: 8px !important;">
-                                                    <button type="button" class="btn btn-primary btn_coupon_detail" couponNo="${item.couponNo}" style="display: flex; align-items: center; padding: 5px; margin: 0 auto">
-                                                        <i class="fa fa-ticket-alt"></i>
-                                                        <span class="m-l-5"><spring:message code="list.detail.list1" text="쿠폰상세"/></span>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <tr class="" >
-                                            <td colspan="9" class="text-center border-bottom-0">쿠폰 내역이 없습니다.</td>
-                                        </tr>
-                                    </c:otherwise>
-                                </c:choose>
-
-                            </tbody>
-                        </table>
+                   <%-- <div style="width: 100%;">
+                        <form class="form-provide-search" id="form-provide-search">
+                            <div class="search-box">
+                                <div class="inner-search-box">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-md-12 ">
+                                            <input class="cpnNo" type="hidden" name="custNo" value="${tbCust.custNo}">
+                                            <table  class="table table-condensed table-bordered">
+                                                <tbody>
+                                                <tr>
+                                                    <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="생성일"/></strong></td>
+                                                    <td>
+                                                        <label>
+                                                            <input type="text" class="form-control periodS background-white"  name="periodS" value="" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
+                                                        </label>
+                                                        <label>
+                                                            <input type="text" class="form-control periodE background-white" name="periodE" value="" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
+                                                        </label>
+                                                    </td>
+                                                    <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="쿠폰 사용 여부"/></strong></td>
+                                                    <td style="border-right: none">
+                                                        <select class="form-control" name="useYn">
+                                                            <option value="" value=""/>전체</option>
+                                                            <option value="Y"/>사용</option>
+                                                            <option value="N"/>미사용</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/></strong></td>
+                                                    <td style="border-right: none" colspan="3">
+                                                        <label>
+                                                            <select class="form-control keywordType" name="keywordType" style="width: 110px">
+                                                                <option value="cpnCode" ><spring:message code="list.search.title1" text="쿠폰코드"/></option>
+                                                            </select>
+                                                            <input type="text" class="form-control width-150" name="cpnCode" value="" maxlength="150">
+                                                            <input type="button" class="btn btn-primary searchCouponProvide" style="margin-bottom: 3px;" value="검색">
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>--%>
+                    <div class="list m-t-10">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xl-12 ui-sortable">
+                                    <div class="card_">
+                                        <div class="card-bod">
+                                            <div class="panel-body">
+                                                <%--/<table id="searchCouponCustTab" class="display table table-bordered w-100 table-striped cust-list " style="width:100%">--%>
+                                                <table id="searchCouponCustTab" class="display table table-bordered  table-striped cust-coupon-list">
+                                                    <thead>
+                                                        <th class="text-center" style="width: 50px;" >번호</th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="쿠폰일련번호"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="쿠폰명"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="쿠폰코드"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="할인금액(할인율)"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="사용가능 주문금액"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="최대 할인금액"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="사용가능일"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="사용만료일"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="사용여부"/></th>
+                                                        <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="사용일"/></th>
+                                                    <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="주문번호"/></th>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -812,7 +755,226 @@
 <%-- Custom JS End--%>
 <%@include file="../../../common/include_kakao_map_js.jsp" %>
 <script>
+
+    var oldExportAction = function (self, e, dt, button, config) {
+        if (button[0].className.indexOf('buttons-excel') >= 0) {
+            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
+                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
+            }
+            else {
+                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+            }
+        } else if (button[0].className.indexOf('buttons-print') >= 0) {
+            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+        }
+    };
+
+    var newExportAction = function (e, dt, button, config) {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        /*if(limitYn ==  && getDateDiff(startDate, endDate) > 365) {
+            alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {*/
+        var self = this;
+        var oldStart = dt.settings()[0]._iDisplayStart;
+
+        dt.one('preXhr', function (e, s, data) {
+            // Just this once, load all data from the server...
+            data.start = 0;
+            data.length = 2147483647;
+
+            dt.one('preDraw', function (e, settings) {
+                // Call the original action function
+                oldExportAction(self, e, dt, button, config);
+
+                dt.one('preXhr', function (e, s, data) {
+                    // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                    // Set the property to what it was before exporting.
+                    settings._iDisplayStart = oldStart;
+                    data.start = oldStart;
+                });
+
+                // Reload the grid with the original page. Otherwise,
+                // API functions like table.cell(this) don't work properly.
+                setTimeout(dt.ajax.reload, 0);
+
+                // Prevent rendering of the full data to the DOM
+                return false;
+            });
+        });
+
+        // Requery the server with the new one-time export settings
+        dt.ajax.reload();
+        /* }*/
+    };
+
+    let table = null;
     $(() => {
+        table = $("#searchCouponCustTab").DataTable({
+            language :  {
+                lang_set,
+                "processing": "데이터 불러오는 중...",
+                "info": "총 _MAX_ 건",
+            }, //or lang_eng
+            /*   pagingType: "full_numbers",*/
+            /*   pagingType : "full_numbers",*/
+            /* lengthMenu : [ [ 10, 20, 30 ,40], [ 10, 20, 30, 40] ],*/
+            responsive: true,
+            processing:true,
+            bAutoWidth: false,
+            ordering: true,
+            serverSide: true,
+            columns : [
+                {data: "listIndex"},
+                {data: "cuCpnNo"},
+                {data: "cpnTitle"},
+                {data: "cpnCode"},
+                {data: "disTypeText",
+                    render: function (data) {
+                        if(data){
+                            if(data.disType == "1"){
+                                return countString(data.discountAmt,"원");
+                            } else if(data.disType == "2"){
+                                return countString(data.discountAmt,"%");
+                            } else {
+                                return "-";
+                            }
+                        }
+                    }
+                },
+                {data: "cpnUseLimit" ,
+                    render: function (data) {
+                        return countString(data,"원");
+                    }
+                },
+                {data: "maxDisAmt" ,render: function (data) {
+                        return countString(data,"원");
+                    }
+                },
+                {data: "validateFrom"},
+                {data: "validateTo"},
+                {data: "useYnCustom" ,
+                    render: function (data) {
+                      return useYnLimit(data);
+                    }
+                },
+                {data: "useDate",
+                    render: function (data) {
+                        return dateFormat(data);
+                    }},
+                {data: "ordNo"}
+            ],
+            columnDefs: [
+                {targets: "_all", className: "text-center"},
+                {targets: [8,9,10], className: "text-center",
+                    render: function (data) {
+                        if(data){
+                            return dateFormatYYYYMMDD(data);
+                        } else {
+                            return "";
+                        }
+
+                    },
+                },
+                {targets: [3], className: "text-center",
+                    render: function (data) {
+                        if(data){
+                            return data;
+                        } else {
+                            return "";
+                        }
+                    },
+                }
+            ],
+            ajax : {
+                url:"<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon/list/${tbCust.custNo}",
+                type: "GET",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
+                    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                },
+                data: function (res) {
+                    // var formData = objectifyForm($("#form-provide-search").serializeArray());
+                    /*var param = formData;
+
+                    param["periodS"] = param["periodS"].replaceAll("-","").replaceAll("-","");
+                    param["periodE"] = param["periodE"].replaceAll("-","").replaceAll("-","");
+
+                    param["draw"] = res.draw;
+                    param["length"] = res.length;
+                    param["start"] = res.start;
+
+                    param.pageSize = param.testTable_length;
+                    param.pageNo = res.start/res.length + 1;*/
+                    return res;
+                },
+                dataSrc: function(res) {
+                    console.log(data)
+                    // 리스트번호
+                    if(res.data){
+                        var data = res.data;
+                        for (let i = 0; i < data.length; i++) {
+                            data[i].listIndex = i + 1
+                            data[i]["number"] = i;
+                            data[i]["disTypeText"] = {disType : data[i]["disType"] , discountAmt : data[i]["discountAmt"]};
+                            data[i]["useYnCustom"] = {useYn : data[i]["useYn"] , validateTo : data[i]["validateTo"]};
+                        }
+                        res.recordsTotal = res.data.length;
+                        res.recordsFiltered = res.data.length;
+                        return data;
+                    } else {
+                        var data = {};
+                        res.recordsTotal = 0;
+                        res.recordsFiltered = 0;
+                        return data;
+                    }
+                },
+                statusCode: {
+                    200: (response) => {
+                        console.log(response)
+                        // TODO
+                    },
+                    400: (response) => {
+                        console.log(response)
+                        // TODO
+                    },
+                    500: (response) => {
+                        console.log(response)
+                        // TODO
+                    }
+                }
+            },
+            layout: {
+                top1: {
+                    searchBuilder: {
+                        liveSearch: true
+                    }
+                }
+            },
+            paging: false,
+            /*responsive: true,*/
+            dom: '<"row"<"col-sm-12" f><"col-sm-12"B>>t<"row"<"col-sm-12"><"col-sm-12"p>>',
+            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+            scrollCollapse: true,
+            scrollY: '50vh',
+            buttons: [
+                /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
+                /*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
+                { extend: 'excel',
+                    text: '&nbsp; 엑셀 다운로드',
+                    className: 'btn-sm fa fa-file-excel'
+                    ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
+                    ,title: ''
+                    ,action: newExportAction
+                },
+                /*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+            ],
+            initComplete: function (settings, json) {
+                $("#searchCouponCustTab").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
+            },
+        });
+
         $(".btn_list").click(() => {
             location.href = "${path}/board/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName=&custTel=";
         });
@@ -829,9 +991,9 @@
             let req = convertFormToObj(_forms);
 
 
-            req.smsYn = (req.smsYn == "on") ? "1": "0";
+           /* req.smsYn = (req.smsYn == "on") ? "1": "0";*/
             req.pushMarketingYn = (req.pushMarketingYn == "on") ? "1": "0";
-            req.pushNoticeYn = (req.pushNoticeYn == "on") ? "1": "0";
+            /*req.pushNoticeYn = (req.pushNoticeYn == "on") ? "1": "0";*/
             req.pushOrderYn = (req.pushOrderYn == "on") ? "1": "0";
 
             if (inputDataCheck(req)) {
@@ -892,8 +1054,6 @@
             );
         });
 
-
-
         $(".selectArea").on("change", function (){
             // 시/도 선택시
             $.ajax({
@@ -913,8 +1073,7 @@
                 }
             });
         });
-
-
+        //searchForm();
     });
 
     function inputDataCheck(args) {
@@ -928,7 +1087,9 @@
 
         return true;
     }
-
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+    });
 
 
     function  formatPhone(phone) {

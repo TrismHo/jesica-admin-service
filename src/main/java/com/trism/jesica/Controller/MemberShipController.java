@@ -2,6 +2,7 @@ package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.MemberShipService;
 import com.trism.jesica.Util.RestTemplateUtil;
+import com.trism.jesica.config.JesicaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,19 @@ public class MemberShipController {
 
     @Autowired
     private RestTemplateUtil restTemplateUtil;
+
+
+    @Autowired
+    private JesicaProperties jesicaProperties;
     /**
      * 쿠폰 리스트
      */
     @GetMapping("/coupon/list")
     public ModelAndView listPlatformNotice(@RequestParam Map<String,Object> searchValue,
                                            Model model, HttpSession session) {
+
+        model.addAttribute("authKey",jesicaProperties.getMomPosServer().getAuthKey());
+        model.addAttribute("ordPathCd",jesicaProperties.getOrdPathCd().getPickOrder());
 
         return new ModelAndView("/jesica/membership/coupon/list");
     }
@@ -46,7 +54,6 @@ public class MemberShipController {
         try {
 
             ResponseEntity<Map> tokenMap = restTemplateUtil.getCouponDetailApi(Integer.parseInt(cpnNo));
-            System.out.println(tokenMap);
             Map<String,Object> body = (Map)tokenMap.getBody();//아이디가 있으면 update
 
             model.addAttribute("cpnNo",cpnNo);

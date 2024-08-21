@@ -1,8 +1,8 @@
 
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.service.TbServiceChargeGroup;
-import com.trism.jesica.persistence.type.DataStatus;
+import com.trism.jesica.persistence.mysql.Entitiy.service.TbServiceChargeGroup;
+import com.trism.jesica.persistence.mysql.type.DataStatus;
 import lombok.Data;
 
 

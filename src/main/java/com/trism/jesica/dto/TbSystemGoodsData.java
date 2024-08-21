@@ -1,7 +1,7 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.goods.TbSystemGoods;
-import com.trism.jesica.persistence.type.DataStatus;
+import com.trism.jesica.persistence.mysql.Entitiy.goods.TbSystemGoods;
+import com.trism.jesica.persistence.mysql.type.DataStatus;
 import lombok.Data;
 
 @Data
@@ -90,7 +90,7 @@ public class TbSystemGoodsData {
                 .imgFile2(this.imgFile2)
                 .imgFile3(this.imgFile3)
                 /*.goodsDetail(this.goodsDetail)*/
-                                
+
                 .build();
     }
 

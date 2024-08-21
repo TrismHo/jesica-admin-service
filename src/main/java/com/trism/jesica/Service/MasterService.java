@@ -1,7 +1,7 @@
 package com.trism.jesica.Service;
 
 import com.trism.jesica.dto.TbUserStaffDTO;
-import com.trism.jesica.persistence.Repository.business.TbUserStaffRepository;
+import com.trism.jesica.persistence.mysql.Repository.business.TbUserStaffRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

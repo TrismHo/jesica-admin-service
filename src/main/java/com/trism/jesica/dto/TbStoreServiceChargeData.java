@@ -1,7 +1,7 @@
 
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.service.TbStoreServiceCharge;
+import com.trism.jesica.persistence.mysql.Entitiy.service.TbStoreServiceCharge;
 import lombok.Data;
 
 

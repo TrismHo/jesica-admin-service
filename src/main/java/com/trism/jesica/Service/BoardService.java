@@ -4,23 +4,23 @@ import com.trism.jesica.Util.SearchUtil;
 import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.dto.TbAppBannerLocationDTO;
 import com.trism.jesica.dto.TbCustCouponDTO;
-import com.trism.jesica.dto.TbCustDTO;
 import com.trism.jesica.dto.TbCustLocationDTO;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
-import com.trism.jesica.persistence.Entitiy.board.*;
-import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
-import com.trism.jesica.persistence.Entitiy.cust.TbCust;
-import com.trism.jesica.persistence.Entitiy.event.TbEvent;
-import com.trism.jesica.persistence.Entitiy.poinhistory.TbPointHistory;
-import com.trism.jesica.persistence.Repository.board.*;
-import com.trism.jesica.persistence.Repository.coupon.TbCouponPublishRepository;
-import com.trism.jesica.persistence.Repository.coupon.TbCouponRepository;
-import com.trism.jesica.persistence.Repository.cust.TbCustAddrRepository;
-import com.trism.jesica.persistence.Repository.cust.TbCustLocationRepository;
-import com.trism.jesica.persistence.Repository.cust.TbCustRepository;
-import com.trism.jesica.persistence.Repository.event.TbEventRepository;
-import com.trism.jesica.persistence.Repository.poinhistory.TbPointHistoryRepository;
+import com.trism.jesica.persistence.mysql.Entitiy.board.*;
+import com.trism.jesica.persistence.mysql.Entitiy.coupon.TbCoupon;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbCust;
+import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.mysql.Entitiy.poinhistory.TbPointHistory;
+import com.trism.jesica.persistence.mysql.Repository.board.*;
+import com.trism.jesica.persistence.mysql.Repository.coupon.TbCouponPublishRepository;
+import com.trism.jesica.persistence.mysql.Repository.coupon.TbCouponRepository;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustAddrRepository;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustLocationRepository;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustRepository;
+import com.trism.jesica.persistence.mysql.Repository.event.TbEventRepository;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaEventPushRepository;
+import com.trism.jesica.persistence.mysql.Repository.poinhistory.TbPointHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -37,6 +37,7 @@ import java.util.*;
 @Service
 @Slf4j
 public class BoardService {
+    private final TbMannaEventPushRepository tbMannaEventPushRepository;
     private final TbAppBannerLocationRepository tbAppBannerLocationRepository;
     private final TbCustLocationRepository tbCustLocationRepository;
 
@@ -66,7 +67,7 @@ public class BoardService {
 
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbNoticePlatform> tbNoticePlatFormSearch(Map<String,Object> searchValue) {
         Specification<TbNoticePlatform> predicate = null;
         for (String key : searchValue.keySet()) {
@@ -83,7 +84,7 @@ public class BoardService {
 */
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbNoticePlatform getTbNoticePlatFormDetail(Long noticeNo) {
         Optional<TbNoticePlatform> tbNoticePlatForm = tbNoticePlatformRepository.findById(noticeNo);
         if(tbNoticePlatForm.isPresent() == false) {
@@ -91,7 +92,7 @@ public class BoardService {
         }
         return tbNoticePlatForm.get();
     }
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbEvent getTbNoticeEventDetail(Long eventNo) {
         Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findById(eventNo);
         if(tbNoticePlatForm.isPresent() == false) {
@@ -100,7 +101,7 @@ public class BoardService {
         return tbNoticePlatForm.get();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbNoticePlatform getTbNoticePlatFormUserDetail(Long noticeNo, Integer platformType) {
         TbNoticePlatform tbNoticePlatForm = tbNoticePlatformRepository.findByNoticeNoAndGroupTypeAndPlatformType(noticeNo, 5, platformType);
 
@@ -111,7 +112,7 @@ public class BoardService {
         return tbNoticePlatForm;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbNoticeCompany> tbNoticeCompanySearch(Map<String,Object> searchValue) {
         Specification<TbNoticeCompany> predicate = null;
         for (String key : searchValue.keySet()) {
@@ -124,7 +125,7 @@ public class BoardService {
                 : tbNoticeCompanyRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbNoticeCompany getTbNoticeCompanyDetail(Long tbStoreGoodsNo) {
         Optional<TbNoticeCompany> tbNoticePlatForm = tbNoticeCompanyRepository.findById(tbStoreGoodsNo);
         if(tbNoticePlatForm.isPresent() == false) {
@@ -134,7 +135,7 @@ public class BoardService {
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbNoticeWorker> tbNoticeWorkerSearch(Map<String,Object> searchValue) {
         Specification<TbNoticeWorker> predicate = null;
         for (String key : searchValue.keySet()) {
@@ -147,7 +148,7 @@ public class BoardService {
                 : tbNoticeWorkerRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbNoticeWorker getTbNoticeWorkerDetail(Long tbStoreGoodsNo) {
         Optional<TbNoticeWorker> tbNoticePlatForm = tbNoticeWorkerRepository.findById(tbStoreGoodsNo);
         if(tbNoticePlatForm.isPresent() == false) {
@@ -156,7 +157,7 @@ public class BoardService {
         return tbNoticePlatForm.get();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbEvent> tbEventSearch(Map<String,Object> searchValue) {
         Specification<TbEvent> predicate = null;
         for (String key : searchValue.keySet()) {
@@ -169,7 +170,7 @@ public class BoardService {
                 : tbEventRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbNoticeRelease> tbReleaseSearch(Map<String,Object> searchValue) {
         Specification<TbNoticeRelease> predicate = null;
         for (String key : searchValue.keySet()) {
@@ -182,14 +183,14 @@ public class BoardService {
                 : tbNoticeReleaseRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<Map<String,Object>> getUpdateEventListLimit(Integer platformType) {
         return tbEventRepository.findAllLimit(platformType);
     }
 
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbEvent getTbEventDetail(Long eventNo) {
         Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findById(eventNo);
         if(!tbNoticePlatForm.isPresent()) {
@@ -198,7 +199,7 @@ public class BoardService {
         return tbNoticePlatForm.get();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbEvent getTbEventDetail(Long eventNo, Integer platformType) {
         Optional<TbEvent> tbNoticePlatForm = tbEventRepository.findByEventNoAndPlatformType(eventNo, platformType);
         if(!tbNoticePlatForm.isPresent()) {
@@ -207,7 +208,8 @@ public class BoardService {
         return tbNoticePlatForm.get();
     }
 
-    @Transactional(readOnly = true)
+
+    @Transactional(readOnly = true , value = "mysqlTransactionManager")
     public TbNoticeRelease getTbReleaseDetail(Long noticeId,Integer platformType) {
         Optional<TbNoticeRelease> tbNoticeRelease = tbNoticeReleaseRepository.findByNoticeNoAndPlatformType(noticeId,platformType);
         if(tbNoticeRelease.isPresent() == false) {
@@ -216,7 +218,7 @@ public class BoardService {
         return tbNoticeRelease.get();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbAppBanner> tbAppBannerSearch(Map<String,Object> searchValue) {
         Specification<TbAppBanner> predicate = null;
         for (String key : searchValue.keySet()) {
@@ -238,7 +240,7 @@ public class BoardService {
                 : tbAppBannerRepository.findAll(predicate, Sort.by(orders));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbAppBanner tbAppBannerDetail(Long bannerNo) {
         Optional<TbAppBanner> tbAppBanner = tbAppBannerRepository.findById(bannerNo);
 
@@ -248,21 +250,21 @@ public class BoardService {
 
         return tbAppBanner.get();
     }
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbAppBannerLocationDTO> getAppBannerLocation(Long bannerNo) {
         return tbAppBannerLocationRepository.findByBannerNo(bannerNo);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<Map<String,Object>> getUpdateListLimit() {
         return tbNoticeReleaseRepository.findAllLimit();
     }
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<Map<String,Object>> getPlatformListLimit(Integer platformType ) {
         return tbNoticePlatformRepository.findAllLimit(platformType);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbCoupon> tbCouponSearch(Map<String, Object> searchValue) {
         Specification<TbCoupon> predicate = null;
 
@@ -280,56 +282,13 @@ public class BoardService {
         Specification<TbCust> predicate = null;
         Map<String, Object> map = new HashMap<>();
 
-        String isMember = "";
-        String platformType = "";
-        String dataStatus = "";
-        String startDate = "";
-        String endDate = "";
-        String keywordType = "";
-        String keyword = "";
-        for (String key : searchValue.keySet()) {
-            Object value = searchValue.get(key);
-            if(key.equals("isMember")) {
-                isMember = value.toString();
-            }
-            if(key.equals("platformType")) {
-                platformType = value.toString();
-            }
-            if(key.equals("dataStatus")) {
-                if(!value.toString().equals("")){
-                    dataStatus = value.toString();
-                    if(dataStatus.equals("OK")) {
-                        dataStatus = "1";
-                    } else if(dataStatus.equals("STOP")) {
-                        dataStatus = "2";
-                    }
-                }
-            }
-            if(key.equals("startDate")) {
-                startDate = value.toString()+ " 00:00:00";
-            }
-            if(key.equals("endDate")) {
-                endDate = value.toString()+ " 23:59:59";
-            }
-            if(key.equals("keywordType")) {
-                keywordType = value.toString();
-            }
-            if(key.equals("keyword")) {
-                keyword = value.toString();
-            }
-
-
-            log.info("@@ key, value = [key]:" + key + ", [value]:" + value);
-
-        }
-
         for (String key : searchValue.keySet()) {
             Object value = searchValue.get(key);
             log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
             searchValue.put(key, (String) value);
             predicate = (Specification<TbCust>) SearchUtil.searchCustListPop(searchValue);
         }
-        Page<TbCustDTO> custPage = tbCustRepository.getCustListPop(predicate, pageable);
+        Page<TbCust> custPage = tbCustRepository.findAll(predicate, pageable);
         ;
         /*List<TbMannaOrder> list = searchValue.isEmpty() ? null
                 : tbMannaOrderRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "ordDate"));*/
@@ -340,14 +299,16 @@ public class BoardService {
         return map;
     }
 
-    @Transactional(readOnly = true)
+
+
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<TbCust> getCustAll(Map<String, Object> searchValue) {
         Specification<TbCust> predicate = null;
 
         for (String key : searchValue.keySet()) {
             Object value = searchValue.get(key);
             log.info("@@ key, value = [key]:" + key + ", [value]:" + value);
-            predicate = (Specification<TbCust>) SearchUtil.searchCustList(searchValue);
+            predicate = (Specification<TbCust>) SearchUtil.searchCustListPop(searchValue);
         }
 
         return searchValue.isEmpty() ? tbCustRepository.findAll(Sort.by(Sort.Direction.DESC, "insertDate"))
@@ -374,7 +335,7 @@ public class BoardService {
         return map;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public Map<String, Object> getCustDetail(Long custNo) {
         Map<String, Object> map = new HashMap<>();
 
@@ -383,7 +344,6 @@ public class BoardService {
         List<TbCustCouponDTO> tbCustUnUsedCoupon = tbCouponPublishRepository.findByCustNoAndUseYn(custNo, 0);
         List<TbPointHistory> tbPointHistory = tbPointHistoryRepository.findByUserNo(custNo);
         List<TbCustLocationDTO> tbCustLocation = tbCustLocationRepository.findByCustNo(custNo);
-
         map.put("tbCust", tbCust);
        /* if (tbCust.isPresent()) {
             map.put("tbCust", tbCust.get());
@@ -416,7 +376,7 @@ public class BoardService {
         }
         return map;
     }
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public List<Map<String,Object>> getFriends(Long custNo) {
         Map<String, Object> map = new HashMap<>();
 
@@ -430,7 +390,7 @@ public class BoardService {
         }*/
         return friends;
     }
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public Map<String, Object> getCouponDetail(Long couponNo) {
         Optional<TbCoupon> tbCoupon = tbCouponRepository.findById(couponNo);
         List<Map<String, Object>> unUsedUsers = tbCouponPublishRepository.findByCouponNoAndUseYn(couponNo, 0);

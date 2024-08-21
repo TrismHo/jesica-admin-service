@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
 
 </head>
@@ -62,20 +62,20 @@
     <%@include file="../../../common/include_sidebar.jsp" %>
     <!-- end #sidebar -->
     <form name="frmSearch" id="frmSearch">
-    <!-- begin #content -->
-    <div id="content" class="content p-0">
-        <!-- begin panel -->
-        <div class="panel panel-inverse m-t-1">
-            <!-- begin page-header -->
-            <div class="col-xs-auto p-t-20 p-b-0">
-                <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="${path}/board/cust/list"><spring:message code="sidemenu.boardmanagement12" text="사용자 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></li>
-                </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></h3>
-            </div>
-            <!-- end page-header -->
-            <!-- begin row -->
+        <!-- begin #content -->
+        <div id="content" class="content p-0">
+            <!-- begin panel -->
+            <div class="panel panel-inverse m-t-1">
+                <!-- begin page-header -->
+                <div class="col-xs-auto p-t-20 p-b-0">
+                    <ol class="breadcrumb float-xl-right">
+                        <li class="breadcrumb-item"><a href="${path}/board/cust/list"><spring:message code="sidemenu.boardmanagement12" text="사용자 관리"/></a></li>
+                        <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></li>
+                    </ol>
+                    <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></h3>
+                </div>
+                <!-- end page-header -->
+                <!-- begin row -->
 
                 <div class="search-box">
                     <div class="inner-search-box p-15">
@@ -162,131 +162,131 @@
                                     </table>
                                 </form>
                             </div>
-                           <div class="col-xl-12 col-md-12 m-t-10">
+                            <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                       <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info" style="width: 115px;cursor: auto;" custno="269"><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span></button>
+                                    <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info" style="width: 115px;cursor: auto;" custno="269"><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span></button>
                                     </button>
-                                       <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
+                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            <div class="panel-body">
-                <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
-                    <thead>
-                    <tr class="text-center">
-                        <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
-                        <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
-                        <th width="6%"><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
-                        <th width="5%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
-                        <th width="3%"><spring:message code="list.word.contents1" text="시/도"/></th>
-                        <th width="4%"><spring:message code="list.word.contents1" text="시/군/구"/></th>
-                        <th width="5%"><spring:message code="list.word.status12" text="성별"/></th>
-                        <th width="8%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
-                        <th width="6%"><spring:message code="list.word.serviceclassification1" text="총판코드"/></th>
-                        <th width="6%"><spring:message code="list.word.serviceclassification1" text="마스터가맹점"/></th>
-                        <th width="6%"><spring:message code="list.word.serviceclassification1" text="가맹점코드"/></th>
-                        <th width=""><spring:message code="list.word.serviceclassification1" text="추천가맹점"/></th>
-                        <th width=""><spring:message code="list.word.serviceclassification1" text="추천인(전화번호)"/></th>
-                        <th width=""><spring:message code="list.word.serviceclassification1" text="친구수"/></th>
-                        <%--<th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
-                        <th width="8%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
+                <div class="panel-body">
+                    <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
+                        <thead>
+                        <tr class="text-center">
+                            <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
+                            <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
+                            <th width="6%"><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
+                            <th width="5%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
+                            <th width="3%"><spring:message code="list.word.contents1" text="시/도"/></th>
+                            <th width="4%"><spring:message code="list.word.contents1" text="시/군/구"/></th>
+                            <th width="5%"><spring:message code="list.word.status12" text="성별"/></th>
+                            <th width="8%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
+                            <th width="6%"><spring:message code="list.word.serviceclassification1" text="총판코드"/></th>
+                            <th width="6%"><spring:message code="list.word.serviceclassification1" text="마스터가맹점"/></th>
+                            <th width="6%"><spring:message code="list.word.serviceclassification1" text="가맹점코드"/></th>
+                            <th width=""><spring:message code="list.word.serviceclassification1" text="추천가맹점"/></th>
+                            <th width=""><spring:message code="list.word.serviceclassification1" text="추천인(전화번호)"/></th>
+                            <th width=""><spring:message code="list.word.serviceclassification1" text="친구수"/></th>
+                            <%--<th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
+                            <th width="8%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
 
-                        <th width="5%"><spring:message code="list.word.status12" text="회원여부"/></th>
-                        <th width="5%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
-                        <th width="8%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
-                        <th width="8%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
-                    </tr>
-                    </thead>
-                  <%--  <tbody>
-                    <c:forEach var="item" items="${custList}" varStatus="status">
-                        <tr>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${status.index + 1}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.custName}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">
-                                <c:if test="${fn:length(item.custTel) > 10}">
-                                    ${fn:substring(item.custTel,0,3)}-${fn:substring(item.custTel,3,7)}-${fn:substring(item.custTel,7,13)}
-                                </c:if>
-                            </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.useCount} 회</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.addr1}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.addr2}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">
-                                <c:if test="${item.gender == 'M'}"><spring:message code="list.search.all1" text="남성"/></c:if>
-                                <c:if test="${item.gender == 'F'}"><spring:message code="list.word.franchisee12" text="여성"/></c:if>
-                                <c:if test="${item.gender == 'N'}"><spring:message code="list.word.franchisee12" text="알수없음"/></c:if>
-                            </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.loginId}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extBrCode}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extMasterStCode}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extRecommStCode}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extRecommStName}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">
-                                <c:if test="${item.recommCustName != null}"> ${item.recommCustName}(${item.recommCustTel})</c:if>
-                                <c:if test="${item.recommCustName == null}"> - </c:if>
-                            </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.recommCount}</td>
-                            &lt;%&ndash;<td class="text-center detailRow" custNo="${item.custNo}">${item.cash}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.mileage}</td>&ndash;%&gt;
-                            <td class="text-center detailRow" custNo="${item.custNo}">
-                                <c:if test="${item.isMember == 1}"><spring:message code="list.search.all1" text="회원"/></c:if>
-                                <c:if test="${item.isMember == 0}"><spring:message code="list.word.franchisee12" text="비회원"/></c:if>
-                            </td>
-                            <td class="text-center" style="">
-                                <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
-                                <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
-                                <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="PICK오더"/></c:if>
-                                <c:if test="${item.platformType == 3}"><spring:message code="list.word.deliverygroup1" text="세날"/></c:if>
-                            </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                            &lt;%&ndash;<td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>&ndash;%&gt;
-                            <td class="text-center">
-                                <c:if test="${item.isMember == 1 && item.snsToken1 == null && item.snsToken2 == null}">
-                                    <button style="width: 115px;" type="button" data-toggle="modal" data-target="#password_modal" class="btn btn-warning btn-pwd" custNo="${item.custNo}">
-                                        <span style="display: flex; align-items: center">
-                                            <i class="fa fa-lock"></i>
-                                            <span class="m-l-10"><spring:message code="list.detail.list1" text="비밀번호 변경"/></span>
-                                        </span>
-                                    </button>
-                                </c:if>
-                                <c:if test="${item.isMember != 1}">
-                                    <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
-                                        <span style="display: flex; align-items: center">
-                                                 <i class="fa fa-window-close"></i>
-                                            <span class="m-l-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="비회원"/></span>
-                                        </span>
-                                    </button>
-                                </c:if>
-                                <c:if test="${item.snsToken1 != null || item.snsToken2 != null}">
-                                    <c:if test="${item.snsToken1 == null || item.snsToken2 != null}">
-                                        <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
-                                        <span style="display: flex; align-items: center">
-                                            <i class="fa fa-window-close"></i>
-                                            <span class="m">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Apple회원"/></span>
-                                        </span>
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${item.snsToken1 != null || item.snsToken2 == null}">
-                                        <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
-                                        <span style="display: flex; align-items: center">
-                                            <i class="fa fa-window-close"></i>
-                                            <span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Kakao회원"/></span>
-                                        </span>
-                                        </button>
-                                    </c:if>
-
-                                </c:if>
-                            </td>
+                            <th width="5%"><spring:message code="list.word.status12" text="회원여부"/></th>
+                            <th width="5%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
+                            <th width="8%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
+                            <th width="8%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
                         </tr>
-                    </c:forEach>
-                    </tbody>--%>
-                </table>
+                        </thead>
+                        <%--  <tbody>
+                          <c:forEach var="item" items="${custList}" varStatus="status">
+                              <tr>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${status.index + 1}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.custName}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">
+                                      <c:if test="${fn:length(item.custTel) > 10}">
+                                          ${fn:substring(item.custTel,0,3)}-${fn:substring(item.custTel,3,7)}-${fn:substring(item.custTel,7,13)}
+                                      </c:if>
+                                  </td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.useCount} 회</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.addr1}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.addr2}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">
+                                      <c:if test="${item.gender == 'M'}"><spring:message code="list.search.all1" text="남성"/></c:if>
+                                      <c:if test="${item.gender == 'F'}"><spring:message code="list.word.franchisee12" text="여성"/></c:if>
+                                      <c:if test="${item.gender == 'N'}"><spring:message code="list.word.franchisee12" text="알수없음"/></c:if>
+                                  </td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.loginId}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.extBrCode}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.extMasterStCode}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.extRecommStCode}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.extRecommStName}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">
+                                      <c:if test="${item.recommCustName != null}"> ${item.recommCustName}(${item.recommCustTel})</c:if>
+                                      <c:if test="${item.recommCustName == null}"> - </c:if>
+                                  </td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.recommCount}</td>
+                                  &lt;%&ndash;<td class="text-center detailRow" custNo="${item.custNo}">${item.cash}</td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}">${item.mileage}</td>&ndash;%&gt;
+                                  <td class="text-center detailRow" custNo="${item.custNo}">
+                                      <c:if test="${item.isMember == 1}"><spring:message code="list.search.all1" text="회원"/></c:if>
+                                      <c:if test="${item.isMember == 0}"><spring:message code="list.word.franchisee12" text="비회원"/></c:if>
+                                  </td>
+                                  <td class="text-center" style="">
+                                      <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
+                                      <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
+                                      <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="PICK오더"/></c:if>
+                                      <c:if test="${item.platformType == 3}"><spring:message code="list.word.deliverygroup1" text="세날"/></c:if>
+                                  </td>
+                                  <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                  &lt;%&ndash;<td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>&ndash;%&gt;
+                                  <td class="text-center">
+                                      <c:if test="${item.isMember == 1 && item.snsToken1 == null && item.snsToken2 == null}">
+                                          <button style="width: 115px;" type="button" data-toggle="modal" data-target="#password_modal" class="btn btn-warning btn-pwd" custNo="${item.custNo}">
+                                              <span style="display: flex; align-items: center">
+                                                  <i class="fa fa-lock"></i>
+                                                  <span class="m-l-10"><spring:message code="list.detail.list1" text="비밀번호 변경"/></span>
+                                              </span>
+                                          </button>
+                                      </c:if>
+                                      <c:if test="${item.isMember != 1}">
+                                          <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
+                                              <span style="display: flex; align-items: center">
+                                                       <i class="fa fa-window-close"></i>
+                                                  <span class="m-l-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="비회원"/></span>
+                                              </span>
+                                          </button>
+                                      </c:if>
+                                      <c:if test="${item.snsToken1 != null || item.snsToken2 != null}">
+                                          <c:if test="${item.snsToken1 == null || item.snsToken2 != null}">
+                                              <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
+                                              <span style="display: flex; align-items: center">
+                                                  <i class="fa fa-window-close"></i>
+                                                  <span class="m">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Apple회원"/></span>
+                                              </span>
+                                              </button>
+                                          </c:if>
+                                          <c:if test="${item.snsToken1 != null || item.snsToken2 == null}">
+                                              <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
+                                              <span style="display: flex; align-items: center">
+                                                  <i class="fa fa-window-close"></i>
+                                                  <span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Kakao회원"/></span>
+                                              </span>
+                                              </button>
+                                          </c:if>
+
+                                      </c:if>
+                                  </td>
+                              </tr>
+                          </c:forEach>
+                          </tbody>--%>
+                    </table>
+                </div>
             </div>
+            <!-- end panel -->
         </div>
-        <!-- end panel -->
-    </div>
-    <!-- end #content -->
+        <!-- end #content -->
     </form>
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
@@ -338,9 +338,9 @@
         }
     });
 
- /*   $(document).on("click",".detailRow",function() {
-        let custNo = $(this).attr("custno");
-        location.href = "${path}/board/cust/detail?custNo=" + custNo;
+    /*   $(document).on("click",".detailRow",function() {
+           let custNo = $(this).attr("custno");
+           location.href = "${path}/board/cust/detail?custNo=" + custNo;
     });*/
     $(document).on("click",".btn-pwd",function() {
         let custNo = $(this).attr("custno");
@@ -395,29 +395,18 @@
     };
 
     $(() => {
-       /* $("#testTable").DataTable({
-            language : lang_set, //or lang_eng
-        });*/
-
-        table = $("#testTable").DataTable({
-            language :  {
-                lang_set,
-                "processing": "데이터 불러오는 중...",
-                "info": " _PAGE_ - _PAGES_ (총 _MAX_ 건)",
-            }, //or lang_eng
-            /*   pagingType: "full_numbers",*/
-            /*   pagingType : "full_numbers",*/
-            /* lengthMenu : [ [ 10, 20, 30 ,40], [ 10, 20, 30, 40] ],*/
-            responsive: true,
-            processing:true,
-            bAutoWidth: false,
-            ordering: true,
-            serverSide: true,
-            columns : [
+        /* $("#testTable").DataTable({
+             language : lang_set, //or lang_eng
+         });*/
+        table = $('#testTable').ajaxDataTable("${path}/api/cust/list", objectifyForm($("#frmSearch").serializeArray()), "A1","2", {
+            columns: [
                 {data: "listIndex"},
                 {data: "custName"},
                 {data: "custTel"},
-                {data: "useCount"},
+                {data: "useCount" ,
+                    render: function(data){
+                        return data + " 회";
+                    }},
                 {data: "custLocation.addr1"},
                 {data: "custLocation.addr2"},
                 {data: "gender"},
@@ -438,12 +427,6 @@
                 {
                     targets: 0,
                     width: '30px'
-                },
-                {
-                    targets: 3,
-                    render: function(data){
-                        return data + " 회";
-                    }
                 },
                 {
                     targets: 6,
@@ -543,142 +526,22 @@
                                 "</button>";
                         }
 
-                            return button;
+                        return button;
                     },
                 },
-            ],
-            ajax : {
-                url: "${path}/api/cust/list",
-                type: "POST",
-                data: function (res) {
-                    var formData = objectifyForm($("#frmSearch").serializeArray());
-                    var param = formData;
-
-                    param["draw"] = res.draw;
-                    param["length"] = res.length;
-                    param["start"] = res.start;
-                    return param;
-                },
-                dataSrc: function(res) {
-                    var data= res.data;
-                    var a1= res.a1;
-                    var a2= res.a2;
-                    // 리스트번호
-                    for (let i = 0; i < data.length; i++) {
-                        data[i].listIndex = i + 1
-                        data[i]["number"] = i;
-                        if(data[i]["isMember"] != 1){
-                            //비회원
-                            data[i]["memberType"] = { type: 0 };
-                        }
-                        if(data[i]["isMember"] == 1 && data[i]["snsToken1"] == null && data[i]["snsToken2"] == null){
-                            //회원
-                            data[i]["memberType"] = { type: 1 , custNo: data[i].custNo};
-                        }
-                        if(data[i]["snsToken1"] != null || data[i]["snsToken2"] != null){
-                            if(data[i]["snsToken1"] == null || data[i]["snsToken2"] != null){
-                                //Apple회원
-                                data[i]["memberType"] = { type: 2 };
-                            }
-                            if(data[i]["snsToken1"] != null || data[i]["snsToken2"] == null){
-                                //Kakao회원
-                                data[i]["memberType"] = { type: 3 };
-                            }
-                        }
-                        if(data[i]["recommCust"]){
-                            data[i]["recommCustName"] =data[i]["recommCust"]["custName"] +"("+ phoneHyphen(data[i]["recommCust"]["custTel"]) +")";
-                        }
-                        if(data[i]["custLocation"]) {
-                            for(var j = 0; j < a1.length ; j++) {
-                                if(data[i]["custLocation"]["addr1"] == a1[j].sysCode) {
-                                    data[i]["custLocation"]["addr1"] = a1[j].codeName;
-                                }
-                            }
-                            for(var h = 0; h < a2.length ; h++) {
-                                if(data[i]["custLocation"]["addr2"] == a2[h].sysCode) {
-                                    data[i]["custLocation"]["addr2"] = a2[h].codeName;
-                                }
-                            }
-                        } else {
-                            data[i]["custLocation"] = {addr1 : "", addr2: ""};
-                        }
-                    }
-                    return data;
-                },
-                statusCode: {
-                    200: (response) => {
-                        // TODO
-                    },
-                    400: (response) => {
-                        // TODO
-                    },
-                    500: (response) => {
-                        // TODO
-                    }
-                }
-            },
-            layout: {
-                top1: {
-                    searchBuilder: {
-                        liveSearch: true
-                    }
-                }
-            },
-            paging: true,
-            responsive: true,
-            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
-            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
-            buttons: [
-                /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
-                /*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
-                { extend: 'excel',
-                    text: '&nbsp; 엑셀 다운로드',
-                    className: 'btn-sm fa fa-file-excel'
-                    ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
-                    ,title: ''
-                    ,action: newExportAction
-                },
-                /*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
             ],
         });
+
+
+
+
 
 
         $("#testTable_filter").text("");
         //$("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 
-        let date = new Date();
-        let startDate = "${searchValue.startDate}";
-        let endDate = "${searchValue.endDate}";
-
-        $(".startDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-
-        if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
-        } else {
-            $(".startDate").datepicker('setDate', startDate);
-        }
-
-        $(".endDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-
-        if(endDate == "") {
-            $(".endDate").datepicker('setDate', date);
-        } else {
-            $(".endDate").datepicker('setDate', endDate);
-        }
-
-
+        dateSetting();
+        /*getToday();*/
 
         $(".searchOp").change(function(e) {
             let option = e.target.value;
@@ -753,7 +616,10 @@
 
         $.ajax({
             type: "GET",
-            url:"http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",
+            url:"<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon-manage/list",
+            /*          url:"https://frapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",
+                        url:"http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",
+            */
             data: {
                 ordPathCd : 1069,
                 searchType : "U",
@@ -766,7 +632,7 @@
             contentType: "application/json",
             dataType: "json",
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+                xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
                 xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             },
             success: function (data) {
@@ -838,7 +704,8 @@
             let _forms = $('.form-coupon-search');
             let req = convertFormToObj(_forms);
             $.ajax({
-                url: "${path}/api/cust/list/pop",
+                /*url: "${path}/api/cust/list/pop",*/
+                url: "${path}/api/cust/all",
                 type: "POST",
                 data: req,
                 dataType: "json",
@@ -910,11 +777,11 @@
         let extCustNo = $(this).attr("extCustNo");
 
         $('.active-off').each(function() {
-           if(searchCustList.includes(Number(extCustNo))){
-               if($(this).attr("extcustNo") == extCustNo){
-                   $(this).removeClass("active-off");
-                   $(this).addClass("active-on");
-               }
+            if(searchCustList.includes(Number(extCustNo))){
+                if($(this).attr("extcustNo") == extCustNo){
+                    $(this).removeClass("active-off");
+                    $(this).addClass("active-on");
+                }
             }
         });
 
@@ -924,27 +791,20 @@
             $(this).parents("tr").remove();
         }
     });
-    function getToday(){
-        var date = new Date();
-        var year = date.getFullYear();
-        var month = ("0" + (1 + date.getMonth())).slice(-2);
-        var day = ("0" + date.getDate()).slice(-2);
 
-        return year + month + day;
-    }
 
-  /*  var previous;
-    $(".startDate, .endDate").on("focus",function(){
-        previous = this.value;
-    }).change(function() {
-        let startDate = $(".startDate").val()
-        let endDate = $(".endDate").val()
-        if(getDateDiff(startDate, endDate) > 31) {
-            alert("날짜범위는 최대 31일까지 가능합니다.")
-            $(this).datepicker('setDate', previous);
-            $(this).val(previous);
-        }
-    });*/
+    /*  var previous;
+      $(".startDate, .endDate").on("focus",function(){
+          previous = this.value;
+      }).change(function() {
+          let startDate = $(".startDate").val()
+          let endDate = $(".endDate").val()
+          if(getDateDiff(startDate, endDate) > 31) {
+              alert("날짜범위는 최대 31일까지 가능합니다.")
+              $(this).datepicker('setDate', previous);
+              $(this).val(previous);
+          }
+      });*/
 
     function serarchForm() {
 

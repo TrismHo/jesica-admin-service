@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></title>
+        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
 
 </head>
@@ -29,15 +29,17 @@
         border-color: #6c757d;
     }
     div.dataTables_wrapper div.dataTables_processing {
-        position: absolute;
+        border: 1px solid #eee;
+        z-index: 1;
+       /* position: absolute;
         top: 264%;
         left: 10%;
         width: 200px;
-        /* margin-left: -397px; */
-        /* margin-top: -26px; */
+        !* margin-left: -397px; *!
+        !* margin-top: -26px; *!
         text-align: center;
-        padding: 1em 0;
-        border: 1px solid #eee;
+        padding: 1em 0;*/
+
     }
     .active-on {
         opacity: 1;
@@ -45,6 +47,28 @@
     .active-off {
         opacity: 0.5;
     }
+
+    input[type="checkbox"]{
+        display: none;
+    }
+    input[type="checkbox"] + label{
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border:3px solid #707070;
+        position: relative;
+    }
+    input[id="check1"]:checked + label::after{
+        content:'✔';
+        font-size: 25px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top:0;
+    }
+
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -60,6 +84,7 @@
 
     <!-- begin #sidebar -->
     <%@include file="../../../common/include_sidebar.jsp" %>
+
     <!-- end #sidebar -->
     <form name="frmSearch" id="frmSearch">
     <!-- begin #content -->
@@ -70,9 +95,9 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item"><a href="${path}/board/cust/list"><spring:message code="sidemenu.boardmanagement12" text="사용자 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="고객 관리"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
@@ -81,7 +106,8 @@
                     <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
-                                <form name="frmSearch" id="frmSearch1                                                                                                                                                                                                                                                                               1``````1    1`  ````````````````````````````````````">
+                                <form name="frmSearch" id="frmSearch1">
+                                    <input type="hidden" name="platformType" value="2">
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr >
@@ -95,7 +121,7 @@
                                                     </select>
                                                 </label>
                                             </td>
-                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
+                                            <%--<td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
                                             <td style="width: 400px">
                                                 <label>
                                                     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
@@ -108,15 +134,15 @@
                                                             <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
                                                         </select>
                                                     </c:if>
-                                                    <%--<select class="form-control" name="platformType">
+                                                    &lt;%&ndash;<select class="form-control" name="platformType">
                                                         <option value="" <c:if test="${searchValue.platformType == ''  || searchValue.platformType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
 &lt;%&ndash;                                                        <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>&ndash;%&gt;
                                                         <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
                                                         <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="양파오더"/></option>
                                                         <option value="3" <c:if test="${searchValue.platformType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="세날"/></option>
-                                                    </select>--%>
+                                                    </select>&ndash;%&gt;
                                                 </label>
-                                            </td>
+                                            </td>--%>
                                             <td class="bg-light"><strong><spring:message code="list.search.stateofuse12" text="사용상태"/></strong></td>
                                             <td>
                                                 <div class="row">
@@ -125,7 +151,7 @@
                                                     <select class="form-control dataStatus" name="dataStatus">
                                                         <%--<option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>--%>
                                                         <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal12" text="정상"/></option>
-                                                        <option value="STOP" <c:if test="${searchValue.dataStatus == 'STOP'}">selected</c:if>><spring:message code="list.search.stop12" text="정지"/></option>
+                                                        <option value="DELETE" <c:if test="${searchValue.dataStatus == 'DELETE'}">selected</c:if>><spring:message code="list.search.stop12" text="탈퇴"/></option>
                                                     </select>
                                                 </label>
                                             </td>
@@ -164,7 +190,7 @@
                             </div>
                            <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                       <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info" style="width: 115px;cursor: auto;" custno="269"><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span></button>
+                                       <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info giveAllbtn" style="width: 115px;cursor: auto;" custno="269"><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span></button>
                                     </button>
                                        <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
                                 </div>
@@ -192,95 +218,11 @@
                         <th width=""><spring:message code="list.word.serviceclassification1" text="친구수"/></th>
                         <%--<th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
                         <th width="8%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
-
-                        <th width="5%"><spring:message code="list.word.status12" text="회원여부"/></th>
-                        <th width="5%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
                         <th width="8%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
+                        <th width="8%"><spring:message code="list.word.registrationdate1" text="탈퇴일"/></th>
                         <th width="8%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
                     </tr>
                     </thead>
-                  <%--  <tbody>
-                    <c:forEach var="item" items="${custList}" varStatus="status">
-                        <tr>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${status.index + 1}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.custName}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">
-                                <c:if test="${fn:length(item.custTel) > 10}">
-                                    ${fn:substring(item.custTel,0,3)}-${fn:substring(item.custTel,3,7)}-${fn:substring(item.custTel,7,13)}
-                                </c:if>
-                            </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.useCount} 회</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.addr1}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.addr2}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">
-                                <c:if test="${item.gender == 'M'}"><spring:message code="list.search.all1" text="남성"/></c:if>
-                                <c:if test="${item.gender == 'F'}"><spring:message code="list.word.franchisee12" text="여성"/></c:if>
-                                <c:if test="${item.gender == 'N'}"><spring:message code="list.word.franchisee12" text="알수없음"/></c:if>
-                            </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.loginId}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extBrCode}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extMasterStCode}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extRecommStCode}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.extRecommStName}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">
-                                <c:if test="${item.recommCustName != null}"> ${item.recommCustName}(${item.recommCustTel})</c:if>
-                                <c:if test="${item.recommCustName == null}"> - </c:if>
-                            </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.recommCount}</td>
-                            &lt;%&ndash;<td class="text-center detailRow" custNo="${item.custNo}">${item.cash}</td>
-                            <td class="text-center detailRow" custNo="${item.custNo}">${item.mileage}</td>&ndash;%&gt;
-                            <td class="text-center detailRow" custNo="${item.custNo}">
-                                <c:if test="${item.isMember == 1}"><spring:message code="list.search.all1" text="회원"/></c:if>
-                                <c:if test="${item.isMember == 0}"><spring:message code="list.word.franchisee12" text="비회원"/></c:if>
-                            </td>
-                            <td class="text-center" style="">
-                                <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
-                                <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
-                                <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="PICK오더"/></c:if>
-                                <c:if test="${item.platformType == 3}"><spring:message code="list.word.deliverygroup1" text="세날"/></c:if>
-                            </td>
-                            <td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                            &lt;%&ndash;<td class="text-center detailRow" custNo="${item.custNo}"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>&ndash;%&gt;
-                            <td class="text-center">
-                                <c:if test="${item.isMember == 1 && item.snsToken1 == null && item.snsToken2 == null}">
-                                    <button style="width: 115px;" type="button" data-toggle="modal" data-target="#password_modal" class="btn btn-warning btn-pwd" custNo="${item.custNo}">
-                                        <span style="display: flex; align-items: center">
-                                            <i class="fa fa-lock"></i>
-                                            <span class="m-l-10"><spring:message code="list.detail.list1" text="비밀번호 변경"/></span>
-                                        </span>
-                                    </button>
-                                </c:if>
-                                <c:if test="${item.isMember != 1}">
-                                    <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
-                                        <span style="display: flex; align-items: center">
-                                                 <i class="fa fa-window-close"></i>
-                                            <span class="m-l-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="비회원"/></span>
-                                        </span>
-                                    </button>
-                                </c:if>
-                                <c:if test="${item.snsToken1 != null || item.snsToken2 != null}">
-                                    <c:if test="${item.snsToken1 == null || item.snsToken2 != null}">
-                                        <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
-                                        <span style="display: flex; align-items: center">
-                                            <i class="fa fa-window-close"></i>
-                                            <span class="m">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Apple회원"/></span>
-                                        </span>
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${item.snsToken1 != null || item.snsToken2 == null}">
-                                        <button type="button"   class="btn btn-info btn-pwd" style="width: 115px;cursor: auto;">
-                                        <span style="display: flex; align-items: center">
-                                            <i class="fa fa-window-close"></i>
-                                            <span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Kakao회원"/></span>
-                                        </span>
-                                        </button>
-                                    </c:if>
-
-                                </c:if>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>--%>
                 </table>
             </div>
         </div>
@@ -305,8 +247,8 @@
     <%@include file="../../search/searchCustList.jsp" %>
 </div>
 
-<div class="modal fade" id="select_coupon_list" tabindex="-1" role="dialog" aria-hidden="true">
-    <%@include file="../../search/searcCouponList.jsp" %>
+<div class="modal modal_2 fade" id="select_push_template" tabindex="-1" role="dialog" aria-hidden="true">
+    <%@include file="../../search/searchPushTemplate.jsp" %>
 </div>
 <%--modal add end--%>
 
@@ -317,10 +259,12 @@
 <!-- ================== END BASE JS ================== -->
 <%-- Custom JS Start--%>
 <%@include file="../../../common/include_custom_js.jsp" %>
+<%@include file="../../../common/include_number_only_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
     let couponAddList = [];
     let searchCustList = [];
+    let tablePop = null;
     $(".storeSel").on("click",function(){
         var storeNo = $(this).attr("storeNo");
         var storeName = $(this).attr("storeName");
@@ -338,10 +282,6 @@
         }
     });
 
- /*   $(document).on("click",".detailRow",function() {
-        let custNo = $(this).attr("custno");
-        location.href = "${path}/board/cust/detail?custNo=" + custNo;
-    });*/
     $(document).on("click",".btn-pwd",function() {
         let custNo = $(this).attr("custno");
         $("#custNo").val(custNo);
@@ -362,43 +302,50 @@
     };
 
     var newExportAction = function (e, dt, button, config) {
-        var self = this;
-        var oldStart = dt.settings()[0]._iDisplayStart;
+        let startDate = $(".startDate").val()
+         let endDate = $(".endDate").val()
+         if(getDateDiff(startDate, endDate) > 31) {
+             alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
+             return;
+         } else {
+             var self = this;
+             var oldStart = dt.settings()[0]._iDisplayStart;
 
-        dt.one('preXhr', function (e, s, data) {
-            // Just this once, load all data from the server...
-            data.start = 0;
-            data.length = 2147483647;
+             dt.one('preXhr', function (e, s, data) {
+                 // Just this once, load all data from the server...
+                 data.start = 0;
+                 data.length = 2147483647;
 
-            dt.one('preDraw', function (e, settings) {
-                // Call the original action function
-                oldExportAction(self, e, dt, button, config);
+                 dt.one('preDraw', function (e, settings) {
+                     // Call the original action function
+                     oldExportAction(self, e, dt, button, config);
 
-                dt.one('preXhr', function (e, s, data) {
-                    // DataTables thinks the first item displayed is index 0, but we're not drawing that.
-                    // Set the property to what it was before exporting.
-                    settings._iDisplayStart = oldStart;
-                    data.start = oldStart;
-                });
+                     dt.one('preXhr', function (e, s, data) {
+                         // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                         // Set the property to what it was before exporting.
+                         settings._iDisplayStart = oldStart;
+                         data.start = oldStart;
+                     });
 
-                // Reload the grid with the original page. Otherwise,
-                // API functions like table.cell(this) don't work properly.
-                setTimeout(dt.ajax.reload, 0);
+                     // Reload the grid with the original page. Otherwise,
+                     // API functions like table.cell(this) don't work properly.
+                     setTimeout(dt.ajax.reload, 0);
 
-                // Prevent rendering of the full data to the DOM
-                return false;
-            });
-        });
+                     // Prevent rendering of the full data to the DOM
+                     return false;
+                 });
+             });
 
-        // Requery the server with the new one-time export settings
-        dt.ajax.reload();
+             // Requery the server with the new one-time export settings
+             dt.ajax.reload();
+         }
     };
 
     $(() => {
        /* $("#testTable").DataTable({
             language : lang_set, //or lang_eng
         });*/
-        table = $('#testTable').ajaxDataTable("${path}/api/cust/list", objectifyForm($("#frmSearch").serializeArray()), "A1", {
+        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/cust/list","A1","2", {
             columns: [
                 {data: "listIndex"},
                 {data: "custName"},
@@ -417,9 +364,8 @@
                 {data: "extRecommStName"},
                 {data: "recommCustName"},
                 {data: "recommCount"},
-                {data: "isMember"},
-                {data: "platformType"},
                 {data: "insertDate"},
+                {data: "updateDate"},
                 {data: "memberType"}
             ],
             columnDefs: [
@@ -448,12 +394,6 @@
                     }
                 },
                 {
-                    targets: 2,
-                    render: function(data){
-                        return dateFormat(data);
-                    },
-                },
-                {
                     targets: 13,
                     width: '50px',
                     render: function(data){
@@ -461,38 +401,13 @@
                     },
                 },
                 {
-                    targets: 14,
-                    width: '50px',
-                    render: function(data){
-                        return data == 1 ? "회원" : "비회원";
-                    },
-                },
-                {
-                    targets: 15,
-                    width: '60px'
-                },
-                {
-                    targets: 15,
-                    render: function(data){
-                        if(data == 0){
-                            return "사용안함";
-                        } else if(data == 1){
-                            return "제시카";
-                        } else if(data == 2){
-                            return "PICK오더";
-                        } else if(data == 3){
-                            return "세날";
-                        }
-                    },
-                },
-                {
-                    targets: 16,
+                    targets: [2,14,15],
                     render: function(data){
                         return dateFormat(data);
                     },
                 },
                 {
-                    targets: 17,
+                    targets: 16,
                     width: '120px',
                     render: function(data){
                         var button;
@@ -531,9 +446,6 @@
                 },
             ],
         });
-
-
-
 
 
 
@@ -609,18 +521,20 @@
         //상세
         $("#testTable").on('click','tbody td', function() {
             var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
-            if($(this)[0]._DT_CellIndex.column != 17){
+            if($(this)[0]._DT_CellIndex.column != 15){
                 location.href = "${path}/board/cust/detail?custNo=" + row.custNo;
             }
         });
 
         $.ajax({
             type: "GET",
-            url:"http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",
+            /*url:"http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",*/
+            /*url:"https://frapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",*/
+            url:"<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon-manage/list",
             data: {
                 ordPathCd : 1069,
-                searchType : "U",
-                cpnStatus : "A",
+                searchType : "R",
+                cpnStatus : "Y",
                 periodS : "20200101",
                 periodE : getToday(),
                 pageNo : 1,
@@ -629,7 +543,7 @@
             contentType: "application/json",
             dataType: "json",
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+                xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
                 xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             },
             success: function (data) {
@@ -642,9 +556,9 @@
                     }else {
                         for (var i = 0; i < cpnList.length; i++) {
                             $(".selectCoupon").append(
-                                "             <option class=\"p-0\"  value="+cpnList[i].cpnNo+" >" +
+                                "<option class=\"p-0\"  value="+cpnList[i].cpnNo+" >" +
                                 "" +cpnList[i].cpnTitle+""+
-                                "             </option>");
+                                "</option>");
                         }
                     }
                 } else {
@@ -657,112 +571,304 @@
             }
         });
 
-        //쿠폰 일괄지급
-        $(document).on("click",".cpnAllBtn",function(){
-            let cpnNo = $(".selectCoupon").val();
 
-            var arr = [24051000, 2, 3];
+
+        $(document).on("click",".cpnAllBtn",function(){
+
+            if(couponAddList.length <= 0){
+                alert("보낼대상을 최소 1명이상 선택해주세요.");
+            } else {
+                let cpnNo = $(".selectCoupon").val();
+                $.ajax({
+                    type: "POST",
+                    traditional: true,
+                    url: "${path}/api/coupon/give",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: {
+                        cpnNo : Number(cpnNo),
+                        ordPathCd : "<spring:eval expression="@environment.getProperty('file.ordPathCd.pickOrder')" />",
+                        custNo : [],
+                        extCustNo : couponAddList,
+                        cpnReason: "관리자 일괄지급"
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
+                        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                        //xhr.setRequestHeader("Content-type","application/json");
+                    },
+                    success: function (data) {
+                        if (data.resCode == '0000') {
+                            alert( couponAddList.length +"명에게 쿠폰이 지급되었습니다.");
+                            /* location.reload();*/
+                        } else if (data.resCode == '0002') {
+                            alert(data.resMsg);
+                        } else {
+                            alert("쿠폰 일괄지급에 실패하였습니다.");
+                            /*location.reload();*/
+                        }
+                    }
+                });
+            }
+
+           /* let startDate = $(".custStartDate").val()
+            let endDate = $(".custEndDate").val()
+            if(getDateDiff(startDate, endDate) > 14) {
+                alert("날짜범위는 최대 14일까지 가능합니다.");
+                return;
+            } else {
+
+            }*/
+        });
+
+        $(".searchCustCouponList").on("click", function() {
+            if(!tablePop){
+                tablePop = $("#searchCustTable").DataTable({
+                    language :  {
+                        lang_set,
+                        processing: "데이터 불러오는 중...",
+                        info: " _PAGE_ - _PAGES_ (총 _MAX_ 건)",
+                    }, //or lang_eng
+                    /*   pagingType: "full_numbers",*/
+                    /*   pagingType : "full_numbers",*/
+                    lengthMenu : [ [ 20], [ 20] ],
+                    responsive: true,
+                    processing:true,
+                    ordering: true,
+                    scrollY: '450px',
+                    backgroundColor: "black",
+                    serverSide: true,
+                    columns: [
+                        {
+                            data: "custNo",
+                            'createdCell': function (td, cellData, rowData, row, col) {
+                                $(td).parents("tr").attr("extCustNo", rowData.extCustNo);
+                                if (couponAddList.includes(Number(rowData.extCustNo))) {
+                                    $(td).parents("tr").addClass('active-off');
+                                } else {
+                                    $(td).parents("tr").addClass('active-on');
+                                }
+                            }
+                        },
+                        {data: "custName"},
+                        {data: "custTel", render: function (data) {
+                                if (data) {
+                                  return  phoneHyphen(data);
+                                } else {
+                                    return "";
+                                }
+                            }
+                        },
+                        {data: "listIndex" ,
+                            render: function (data) {
+                                if (data) {
+                                    return "<i class=\"fas fa-lg fa-fw icon-arrow fa-angle-double-right move-right \"  extCustNo=" + data.extCustNo + " custName=" + data.custName + " custTel=" + data.custTel + "  custNo=" + data.custNo + "></i>";
+                                }
+                            }
+                        }
+                    ],
+                    columnDefs: [
+                        {targets: "_all", className: "text-center"},
+                        {targets: 0, className: "width-50"},
+                    ],
+                    ajax : {
+                        url:"${path}/api/cust/list/pop",
+                        type: "POST",
+                        data: function (res) {
+
+                            var formData = objectifyForm($("#form-coupon-search").serializeArray());
+                            var param = formData;
+
+
+                            param["draw"] = res.draw;
+                            param["length"] = res.length;
+                            param["start"] = res.start;
+
+
+                            param["useCount"] = $("input[name=useCount]").val();
+                            param["maxMin"] = $("select[name=maxMin]").val();
+                            param["keywordPopType"] = $("select[name=keywordPopType]").val();
+                            param["keywordPop"] = $("input[name=keywordPop]").val();
+                            param["keywordPop"] = $("input[name=keywordPop]").val();
+                            param["keywordPop"] = $("input[name=keywordPop]").val();
+                            param["custStartDate"] = $("input[name=custStartDate]").val();
+                            param["custEndDate"] = $("input[name=custEndDate]").val();
+                            return param;
+                        },
+                        dataSrc: function(res) {
+                            var data= res.data;
+
+
+                            // 리스트번호
+                            for (let i = 0; i < data.length; i++) {
+                                //data[i].listIndex = i + 1
+                                data[i].listIndex = { custName:data[i].custName, custTel:data[i].custTel ,extCustNo:data[i].extCustNo, custNo:data[i].custNo }
+                                data[i]["number"] = i;
+                                if(data[i]["recommCust"]){
+                                    data[i]["recommCustName"] =data[i]["recommCust"]["custName"] +"("+ phoneHyphen(data[i]["recommCust"]["custTel"]) +")";
+                                }
+                            }
+                            return data;
+                        },
+                        statusCode: {
+                            200: (response) => {
+                                console.log(response)
+                                // TODO
+                            },
+                            400: (response) => {
+                                console.log(response)
+                                // TODO
+                            },
+                            500: (response) => {
+                                console.log(response)
+                                // TODO
+                            }
+                        }
+                    },
+                    layout: {
+                        top1: {
+                            searchBuilder: {
+                                liveSearch: true
+                            }
+                        }
+                    },
+                    lengthChange: false,
+                    ordering:false,
+                    paging: true,
+                    searching: false,
+                    responsive: true,
+                    pagingType: "full_numbers",
+                    info:false,
+                    dom: '<"top"i>rt<"bottom"flp><"clear">'
+                });
+            }
+
+            var numCols = tablePop.columns().nodes().length;
+            for(var i=0; i<numCols; i++) {tablePop.column(i).search(''); }
+            /*  var searchType = $("#searchType").val();
+              var searchValue = $("#searchValue").val();*/
+
+            tablePop.column().draw();
+        });
+    });
+    $(document).on("click","#couponAllLeftBtn",function() {
+        couponAddList = [];
+        $("#cust-select").html("");
+        $(".searchCustCouponList").click();
+    });
+
+    //쿠폰 일괄지급
+    $(document).on("click","#couponAllRightBtn",function() {
+        let _forms = $('.form-coupon-search');
+        let req = convertFormToObj(_forms);
+        $.ajax({
+        url: "${path}/api/cust/all",
+            type: "POST",
+            data: req,
+            dataType: "json",
+            success: function (data) {
+            if (data.resultCode == 200) {
+                let custList = data.resultList;
+                $("#cust-none-select").html("");
+                if(custList.length == 0 || custList == null){
+
+                    $("#cust-none-select").append(
+                        "             <tr class=\"p-0\">" +
+                        "                <td colspan='4' class=\"text-center\">조회된 정보가 없습니다.</td>" +
+                        "             </tr>");
+                } else {
+                   /* searchCustList =[];*/
+                    for (var i = 0; i < custList.length; i++) {
+                        if(custList[i].extCustNo){
+                            if(!couponAddList.includes(custList[i].extCustNo)){
+                                couponAddList.push(custList[i].extCustNo);
+
+                                $("#cust-select").append(
+                                    "             <tr class=\"p-0\" extCustNo="+custList[i].extCustNo+" custNo="+custList[i].custNo+" >" +
+                                    "                <td class=\"text-center custNo\" style=\"width:50px;\">"+custList[i].custNo+"<i class=\"\"></i></td>" +
+                                    "                <td class=\"text-center\" style=\"width:150px;\">"+custList[i].custName+"<i class=\"\"></i></td>" +
+                                    "                <td class=\"text-center\">("+  phoneHyphen(custList[i].custTel)+")<i class=\"\"></i></td>" +
+                                    "                <td class=\"text-center\" style=\"width:67px;\" ><i class=\"fas fa-lg fa-fw icon-arrow fa fa-solid fa-minus move-left\" extCustNo="+custList[i].extCustNo+" custName="+custList[i].custName+" custTel="+custList[i].custTel+" custNo="+custList[i].custNo+"></i>" +
+                                    "                </td>" +
+                                    "             </tr>");
+                            }
+                        }
+                    }
+                    $(".searchCustCouponList").click();
+                }
+            } else {
+                alert("조회에 실패하였습니다.")
+                return;
+            }
+        }
+    });
+
+
+    });
+    //지급결과 알람
+    $(document).on("click","#cpnAlarmBtn",function() {
+        let custList = [];
+        let count = 0;
+
+        $("#cust-select > tr").each(function() {
+            var $row = $(this).attr("custNo");
+            custList.push($row);
+            count++;
+        });
+        let couponText = $(".selectCoupon option:selected").text();
+        let pushTitle = $(".push-title").val();
+        let pushContents = $(".push-contents").val();
+        if(couponAddList.length <= 0){
+            alert("보낼대상을 최소 1명이상 선택해주세요.");
+        } else {
             $.ajax({
                 type: "POST",
                 traditional: true,
-                url: "${path}/api/coupon/give",
+                url: "${path}/api/send/message",
                 contentType: "application/json",
                 dataType: "json",
                 data: {
-                    cpnNo : Number(cpnNo),
-                    ordPathCd : "1069",
-                    custNo : [],
-                    extCustNo : couponAddList,
-                    cpnReason: "관리자 일괄지급"
-                },
+                    custList : custList,
+                    couponText: couponText,
+                    pushTitle: pushTitle,
+                    pushContents: pushContents
+,                },
                 beforeSend: function (xhr) {
-                    //xhr.setRequestHeader("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+                    xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
                     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                     //xhr.setRequestHeader("Content-type","application/json");
                 },
                 success: function (data) {
-                    console.log(data)
-                    if (data.resCode == '0000') {
-                        alert("쿠폰이 지급되었습니다.");
-                        location.reload();
+                    if(data.result == "200"){
+                        alert( count +"명에게 푸시가 발송되었습니다.");
+                        $(".pushModalCloseBtn").click();
                     } else {
-                        alert("쿠폰 일괄지급에 실패하였습니다.");
-                        /*location.reload();*/
+                        alert("푸시가 발송에 실패하였습니다.");
                     }
+                },
+                error: function (data){
+
                 }
             });
-        });
-
-
-
-
-
-        $(".searchCustCouponList").on("click", function() {
-            let _forms = $('.form-coupon-search');
-            let req = convertFormToObj(_forms);
-            $.ajax({
-                url: "${path}/api/cust/list/pop",
-                type: "POST",
-                data: req,
-                dataType: "json",
-                success: function (data) {
-                    if (data.resultCode == 200) {
-                        let custList = data.resultList;
-                        $("#cust-none-select").html("");
-                        if(custList.length == 0 || custList == null){
-
-                            $("#cust-none-select").append(
-                                "             <tr class=\"p-0\">" +
-                                "                <td colspan='3' class=\"text-center\">조회된 정보가 없습니다.</td>" +
-                                "             </tr>");
-                        }else {
-                            searchCustList =[];
-                            for (var i = 0; i < custList.length; i++) {
-                                if(custList[i].extCustNo){
-                                    searchCustList.push(custList[i].extCustNo);
-                                    if(!couponAddList.includes(custList[i].extCustNo)){
-                                        $("#cust-none-select").append(
-                                            "             <tr class=\"p-0 active-on\" extCustNo="+custList[i].extCustNo+" >" +
-                                            "                <td class=\"text-center\" style=\"width:150px;\">"+custList[i].custName+"</td>" +
-                                            "                <td class=\"text-center\">"+ phoneHyphen(custList[i].custTel)+"</td>" +
-                                            "                <td style=\"width:67px;\" ><i class=\"fas fa-lg fa-fw icon-arrow fa-angle-double-right move-right \"  extCustNo="+custList[i].extCustNo+" custName="+custList[i].custName+" custTel="+custList[i].custTel+"></i>" +
-                                            "                </td>" +
-                                            "             </tr>");
-                                    } else {
-                                        $("#cust-none-select").append(
-                                            "             <tr class=\"p-0 active-off\" extCustNo="+custList[i].extCustNo+" >" +
-                                            "                <td class=\"text-center\" style=\"width:150px;\">"+custList[i].custName+"</td>" +
-                                            "                <td class=\"text-center\">"+ phoneHyphen(custList[i].custTel)+"</td>" +
-                                            "                <td style=\"width:67px;\" ><i class=\"fas fa-lg fa-fw icon-arrow fa-angle-double-right move-right \"  extCustNo="+custList[i].extCustNo+" custName="+custList[i].custName+" custTel="+custList[i].custTel+"></i>" +
-                                            "                </td>" +
-                                            "             </tr>");
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        alert("조회에 실패하였습니다.")
-                        return;
-                    }
-                }
-            });
-        });
+        }
     });
 
     $(document).on("click", ".move-right", function() {
         let extCustNo = $(this).attr("extCustNo");
         let custName = $(this).attr("custName");
         let custTel = $(this).attr("custTel");
+        let custNo = $(this).attr("custNo");
 
         if(!couponAddList.includes(Number(extCustNo))) {
             couponAddList.push(Number(extCustNo));
             $(this).parents("tr").addClass("active-off")
             $(this).parents("tr").removeClass("active-on")
             $("#cust-select").append(
-                "             <tr class=\"p-0\" extCustNo="+extCustNo+" >" +
+                "             <tr class=\"p-0\" extCustNo="+extCustNo+" custNo="+custNo+" >" +
+                "                <td class=\"text-center custNo\" style=\"width:50px;\">"+custNo+"<i class=\"\"></i></td>" +
                 "                <td class=\"text-center\" style=\"width:150px;\">"+custName+"<i class=\"\"></i></td>" +
                 "                <td class=\"text-center\">("+ phoneHyphen(custTel)+")<i class=\"\"></i></td>" +
-                "                <td style=\"width:67px;\" ><i class=\"fas fa-lg fa-fw icon-arrow fa fa-solid fa-minus move-left\" extCustNo="+extCustNo+" custName="+custName+" custTel="+custTel+"></i>" +
+                "                <td style=\"width:67px;\" ><i class=\"fas fa-lg fa-fw icon-arrow fa fa-solid fa-minus move-left\" extCustNo="+extCustNo+" custName="+custName+" custTel="+custTel+" custNo="+custNo+"></i>" +
                 "                </td>" +
                 "             </tr>");
             //$(this).parents("tr").remove();
@@ -771,14 +877,11 @@
 
     $(document).on("click", ".move-left", function() {
         let extCustNo = $(this).attr("extCustNo");
-
         $('.active-off').each(function() {
-           if(searchCustList.includes(Number(extCustNo))){
-               if($(this).attr("extcustNo") == extCustNo){
-                   $(this).removeClass("active-off");
-                   $(this).addClass("active-on");
-               }
-            }
+           if($(this).attr("extcustNo") == extCustNo){
+               $(this).removeClass("active-off");
+               $(this).addClass("active-on");
+           }
         });
 
         if(couponAddList.includes(Number(extCustNo))){
@@ -789,34 +892,21 @@
     });
 
 
-  /*  var previous;
-    $(".startDate, .endDate").on("focus",function(){
-        previous = this.value;
-    }).change(function() {
-        let startDate = $(".startDate").val()
-        let endDate = $(".endDate").val()
-        if(getDateDiff(startDate, endDate) > 31) {
-            alert("날짜범위는 최대 31일까지 가능합니다.")
-            $(this).datepicker('setDate', previous);
-            $(this).val(previous);
-        }
-    });*/
-
     function serarchForm() {
+        var numCols = table.columns().nodes().length;
+        for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+        /*  var searchType = $("#searchType").val();
+          var searchValue = $("#searchValue").val();*/
 
-        let startDate = $(".startDate").val()
+        table.column().draw();
+        /*let startDate = $(".startDate").val()
         let endDate = $(".endDate").val()
         if(getDateDiff(startDate, endDate) > 31) {
             alert("날짜범위는 최대 31일까지 가능합니다.");
             return;
         } else {
-            var numCols = table.columns().nodes().length;
-            for(var i=0; i<numCols; i++) {table.column(i).search(''); }
-            /*  var searchType = $("#searchType").val();
-              var searchValue = $("#searchValue").val();*/
 
-            table.column().draw();
-        }
+        }*/
     }
 
     function inputDataCheck(args) {

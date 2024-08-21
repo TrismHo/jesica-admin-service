@@ -1,6 +1,6 @@
 package com.trism.jesica.dto;
 
-import com.trism.jesica.persistence.Entitiy.coupon.TbCoupon;
+import com.trism.jesica.persistence.mysql.Entitiy.coupon.TbCoupon;
 import lombok.Data;
 
 import java.time.LocalDateTime;

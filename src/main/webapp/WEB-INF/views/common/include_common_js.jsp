@@ -436,7 +436,6 @@
     }
 
     function dataSrcFunction(res, type) {
-        console.log(type)
         var data= res.data;
         if(type == "A2"){
             // 리스트번호
@@ -451,10 +450,10 @@
             for (let i = 0; i < data.length; i++) {
                 data[i].listIndex = i + 1
                 data[i]["number"] = i;
-                if(data[i]["isMember"] != 1){
+                /*if(data[i]["isMember"] != 1){
                     //비회원
                     data[i]["memberType"] = { type: 0 };
-                }
+                }*/
                 if(data[i]["isMember"] == 1 && data[i]["snsToken1"] == null && data[i]["snsToken2"] == null){
                     //회원
                     data[i]["memberType"] = { type: 1 , custNo: data[i].custNo};
@@ -487,6 +486,30 @@
                     data[i]["custLocation"] = {addr1 : "", addr2: ""};
                 }
             }
+        } else if(type == "A3"){
+            for (let i = 0; i < data.length; i++) {
+                data[i].listIndex = i + 1
+                data[i]["number"] = i;
+                if(data[i].totalRegistMax && data[i].mannaCouponRegist) {
+                    if(Number(data[i].totalRegistMax) - Number(data[i].mannaCouponRegist.length) < 0){
+                        data[i]["useAbleCnt"] = Number("0")
+                    } else {
+                        data[i]["useAbleCnt"] = Number(data[i].totalRegistMax) - Number(data[i].mannaCouponRegist.length);
+                    }
+                } else if (data[i].totalRegistMax && !data[i].mannaCouponRegist){
+                    data[i]["useAbleCnt"] = Number(data[i].totalRegistMax);
+                } else {
+                    data[i]["useAbleCnt"] = 0;
+                }
+                data[i]["cpnCodePublishNo"] = {cpnCode : data[i]["cpnCode"] , publishNo : data[i]["publishNo"]};
+
+            }
+        } else if(type == "A4"){
+            for (let i = 0; i < data.length; i++) {
+                data[i].listIndex = i + 1
+                data[i]["number"] = i;
+                data[i]["custName"] = data[i].cust.custName
+            }
         }
         return data;
     }
@@ -502,8 +525,10 @@
 
     function dateSetting() {
         let date = new Date();
+        let date2 = new Date();
         let startDate = "${searchValue.startDate}";
         let endDate = "${searchValue.endDate}";
+        var month30 = new Date(date2.setDate(date2.getDate() - 30));
 
         $(".startDate").datepicker({
             calendarWeeks: false,
@@ -514,7 +539,7 @@
         });
 
         if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
+            $(".startDate").datepicker('setDate', month30);
         } else {
             $(".startDate").datepicker('setDate', startDate);
         }
@@ -533,45 +558,133 @@
         }
     }
 
+    function dateSetting(dataSet) {
+        let date = new Date();
+        let date2 = new Date();
+        let startDate = "${searchValue.startDate}";
+        let endDate = "${searchValue.endDate}";
+        var month30 = new Date(date2.setDate(date2.getDate() - Number(dataSet)));
+
+        $(".startDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
+
+        if(startDate == ""){
+            $(".startDate").datepicker('setDate', month30);
+        } else {
+            $(".startDate").datepicker('setDate', startDate);
+        }
+
+        $(".endDate").datepicker({
+            calendarWeeks: false,
+            todayHighlight: true,
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            language: "kr"
+        });
+        if(endDate == ""){
+            $(".endDate").datepicker('setDate', date);
+        } else {
+            $(".endDate").datepicker('setDate', endDate);
+        }
+    }
+
+   /* let buttonsss =
+        { extend: 'excel',
+            text: '&nbsp; 엑셀 다운로드',
+            className: 'btn-sm fa fa-file-excel'
+            ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
+            ,title: ''
+            ,action: newExportAction
+        }*/
+
     //datatables 공통화
-    $.fn.ajaxDataTable = function (url, data,  dataSrcType, init, error = null) {
-        var setting = {
-            "serverSide": true,
-            "filter": false,
-            "lengthChange": true,
-            "paging": true,
-            "pagingType": "full_numbers",
-            "language": {
-                "infoEmpty" : "검색결과가 없습니다.",
-                "zeroRecords" : "검색결과가 없습니다.",
-                "emptyTable": "검색결과가 없습니다.",
-                "lengthMenu": "_MENU_",
+    $.fn.ajaxDataTable = function (dataId, url,  dataSrcType, excelType , init, error = null) {
+
+
+
+
+        let button = [
+            /* { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },
+             { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
+            { extend: 'excel',
+                text: '&nbsp; 엑셀 다운로드',
+                className: 'btn-sm fa fa-file-excel'
+                ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
+                ,title: ''
+                ,action: newExportAction
             },
-            "bInfo": false,
-            "bLengthChange": true, // n개씩보기
-            "lengthMenu": [[10, 20, 30], ["10개 보기", "20개 보기", "30개 보기"]], // 10/20/30 개씩보기
-            "order": [[0, "desc"]],
-            "searching": false,
-            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
-            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
-            buttons: [
-               /* { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },
-                { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
+            /*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+        ]
+        if(excelType == "1"){
+            button = [];
+        }
+        if(excelType == "3"){
+            button = [
+                /* { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },
+                 { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
                 { extend: 'excel',
                     text: '&nbsp; 엑셀 다운로드',
                     className: 'btn-sm fa fa-file-excel'
                     ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
                     ,title: ''
-                    ,action: newExportAction
+                    ,action: newExportAction,
+                    exportOptions: {
+                        format: {
+                            body: function (data, row, column, node) {
+                                // if it is select
+                                if (column == 2) {
+                                    return $(data).find("option:selected").text()
+                                } else if(column == 5){
+                                    return $(data).is("input") ? $(data).val(): data;
+                                } else if(column == 6){
+                                    return $(data).is("input") ? $(data).val(): data;
+                                } else if(column == 7){
+                                    return $(data).is("input") ? $(data).val(): data;
+                                } else return data
+                            }
+                        }
+                    }
                 },
                 /*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
-            ],
+            ]
+        }
+
+
+
+        var setting = {
+            language :  {
+                lang_set,
+                "processing": "데이터 불러오는 중...",
+                "info": " _PAGE_ - _PAGES_ (총 _MAX_ 건)",
+            },
+            /*   pagingType : "full_numbers",*/
+            lengthMenu : [ [ 10, 20, 30 ,40], [ 10, 20, 30, 40] ],
+            responsive: true,
+            processing:true,
+            bAutoWidth: false,
+            ordering: true,
+            serverSide: true,
+            /*"bInfo": false,
+            "bLengthChange": true, // n개씩보기
+            "lengthMenu": [[10, 20, 30], ["10개 보기", "20개 보기", "30개 보기"]], // 10/20/30 개씩보기
+            "order": [[0, "desc"]],
+            "searching": false,*/
+            dom: '<"row"<"col-sm-12"l B><"col-sm-12"fr>>t<"row"<"col-sm-12"i><"col-sm-12"p>>',
+            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+            buttons: button,
 
             "ajax": {
                 url: url,
                 type: "POST",
                 data : function(res){
-                    var formData = objectifyForm($("#frmSearch").serializeArray());
+                    let id = "#"+dataId
+                    var formData = objectifyForm($(id).serializeArray());
+                    console.log(dataId)
                     var param = formData;
 
                     param["draw"] = res.draw;

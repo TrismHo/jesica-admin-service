@@ -1,7 +1,7 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.CustService;
-import com.trism.jesica.persistence.Entitiy.cust.TbCust;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbCust;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;

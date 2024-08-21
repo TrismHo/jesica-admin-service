@@ -1,0 +1,9 @@
+package com.trism.jesica.persistence.mysql.Repository.call;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.trism.jesica.persistence.mysql.Entitiy.call.TbCallDayExtra_Del;
+
+public interface TbCallDayExtraRepository_Del extends JpaRepository<TbCallDayExtra_Del, Long>, JpaSpecificationExecutor<TbCallDayExtra_Del> {
+
+}

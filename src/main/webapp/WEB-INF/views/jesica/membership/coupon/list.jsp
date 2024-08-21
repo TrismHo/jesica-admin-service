@@ -3,9 +3,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
+    <meta charset="utf-8"/>
+    <%--운영일때만 붙이기--%>
+    <c:if test="${pageContext.request.scheme == 'https'}">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    </c:if>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
     <title>Pick-Order | <spring:message code="sidemenu.couponmanagement.couponmanagement1" text="쿠폰 관리"/></title>
 </head>
 <style>
@@ -19,14 +24,17 @@
         border: 1px solid #ddd;
     }
     div.dataTables_wrapper div.dataTables_processing {
-        position: absolute;
-        top: 264%;
-        left: 10%;
-        width: 200px;
-        /* margin-left: -397px; */
-        /* margin-top: -26px; */
-        text-align: center;
-        padding: 1em 0;
+        border: 1px solid #eee;
+        z-index: 1;
+        /* position: absolute;
+         top: 264%;
+         left: 10%;
+         width: 200px;
+         !* margin-left: -397px; *!
+         !* margin-top: -26px; *!
+         text-align: center;
+         padding: 1em 0;*/
+
     }
     .buttons-excel {
         color: #fff;
@@ -68,39 +76,38 @@
             <!-- end page-header -->
             <!-- begin row -->
                 <div class="search-box">
-                    <div class="inner-search-box p-5">
+                    <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
-
-                                    <input type="hidden" name="ordPathCd" value="1069">
-                                    <input type="hidden" name="authKey" value="$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y">
+                                    <input type="hidden" name="ordPathCd" value="<spring:eval expression="@environment.getProperty('file.ordPathCd.pickOrder')" />">
+                                    <input type="hidden" name="authKey" value="<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />">
                                     <table class="table table-condensed table-bordered">
                                     <tbody>
                                     <tr >
-                                        <td class="bg-light"><strong><spring:message code="list.search.postclassification12" text="조회 타입"/></strong></td>
-                                        <td >
-                                            <label>
-                                                <select class="form-control" name="searchType">
-                                                    <option value="U" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="사용기간"/></option>
-                                                    <option value="R" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="등록기간"/></option>
-                                                </select>
-                                            </label>
+                                        <td class="bg-light width-170">
+                                            <strong>상태</strong>
                                         </td>
-                                        <td class="bg-light"><strong><spring:message code="list.search.stateofuse12" text="사용상태"/></strong></td>
-                                        <td>
+                                        <td colspan="3">
                                             <div class="row">
                                             </div>
                                             <label>
                                                 <select class="form-control dataStatus" name="cpnStatus">
                                                     <option value="A" ><spring:message code="list.search.all1" text="전체"/></option>
-                                                    <option value="Y" >정상</option>
+                                                    <option value="Y" selected>정상</option>
                                                     <option value="N" >정지</option>
                                                 </select>
                                             </label>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="등록기간"/></strong></td>
+                                        <td class="bg-light">
+                                            <label>
+                                                <select class="form-control" name="searchType">
+                                                    <option value="R" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="등록기간"/></option>
+                                                    <option value="U" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="사용기간"/></option>
+                                                </select>
+                                            </label>
+                                        </td>
                                         <td>
                                             <label>
                                                 <input type="text" class="form-control periodS background-white"  name="periodS" value="" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
@@ -126,7 +133,7 @@
                                 <div class="">
                                     <c:if test="${sessionScope.sessionKey.userRole == 0}">
                                         <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
-                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰등록"/></span>
+                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰생성"/></span>
                                         </button>
                                     </c:if>
                                     <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchForm()"><i class="fa fa-search grayicon"></i> 검색 </button>
@@ -141,7 +148,8 @@
                         <tr class="text-center">
                             <th><spring:message code="list.word.no1" text="번호"/></th>
                             <th><spring:message code="list.detail.title1" text="쿠폰명"/></th>
-                            <th><spring:message code="list.detail.title1" text="쿠폰사용/발급"/></th>
+                            <th><spring:message code="list.detail.title1" text="쿠폰 발급기준"/></th>
+                            <th><spring:message code="list.detail.title1" text="쿠폰 발급조건"/></th>
                             <th><spring:message code="list.word.contents1" text="쿠폰상태"/></th>
                             <th><spring:message code="list.word.contents1" text="할인금액(률)"/></th>
                             <th><spring:message code="list.word.serviceclassification1" text="등록일"/></th>
@@ -330,7 +338,8 @@
             columns : [
                 {data: "listIndex"},
                 {data: "cpnTitle"},
-                {data: "cpnUsePut"},
+                {data: "issuedType"},
+                {data: "issuedCondition"},
                 {data: "dataStatus"},
                 {data: "discountAmt"},
                 {data: "putDate"},
@@ -338,13 +347,54 @@
                 {data: "usePeriod"}
             ],
             columnDefs: [
-                {targets: "_all", className: "text-center"}
+                {targets: "_all", className: "text-center"},
+                {
+                    targets: 2, className: "text-center",
+                    render: function (data) {
+                        if (data) {
+                            if (data == 'D') {
+                                return "조건충족시";
+                            } else if (data == 'T') {
+                                return "지정한 시점";
+                            } else if (data == 'B') {
+                                return "일괄지급";
+                            } else if (data == 'S') {
+                                return "스탬프지급";
+                            } else {
+                                return "-";
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {targets: 3, className: "text-center",
+                    render: function (data) {
+                        if (data) {
+                            if (data == 'D') {
+                                return '조건횟수충족';
+                            } else if (data == 'R') {
+                                return "회원가입완료";
+                            } else if (data == 'F') {
+                                return "친구초대";
+                            } else if (data == 'B') {
+                                return "일괄지급";
+                            } else {
+                                return "-";
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                }
             ],
             ajax : {
-                url: "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",
+                //url: "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list", // 테스트
+                //url: "https://frapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",  //운영
+                url:"<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon-manage/list",
                 type: "GET",
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("authKey", "$2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y");
+                    xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
                     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 },
                 data: function (res) {
@@ -405,7 +455,7 @@
             },
             paging: true,
             responsive: true,
-            dom: '<"row"<"col-sm-5"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            dom: '<"row"<"col-sm-12"l B><"col-sm-12"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
             //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
             buttons: [
                 /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,11 +21,12 @@ public class JesicaScheduler {
     @Autowired
     private JesicaProperties jesicaProperties;
 
-    @Autowired
-    LangService langService;
+
+     LangService langService;
 
     private LocalDateTime dateTime = null;
 
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
     @Scheduled(initialDelay = 1000L, fixedDelay = 180000L)
     public void reloadProperties() {
         log.info("@@@ reloadProperties {}", dateTime);
@@ -34,12 +36,12 @@ public class JesicaScheduler {
         //첫 실행시 전체 로드
         if (dateTime == null) {
             log.debug("loading all properties...");
-            propList = langService.getAll();
+            //propList = langService.getAll();
         }
         //두번째 실행부터는 바뀐 정보만 로드
         else {
             log.debug("loading updated properties...");
-            propList = langService.getUpdateProperty(dateTime);
+            //propList = langService.getUpdateProperty(dateTime);
         }
 
         if (propList != null && !propList.isEmpty()) {

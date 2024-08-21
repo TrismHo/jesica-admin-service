@@ -5,15 +5,14 @@ import com.trism.jesica.Service.*;
 import com.trism.jesica.Util.GetClientIp;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.SessionConfig;
-import com.trism.jesica.dto.ClientDTO;
 import com.trism.jesica.dto.LoginDTO;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticePlatform;
-import com.trism.jesica.persistence.Entitiy.board.TbNoticeRelease;
-import com.trism.jesica.persistence.Entitiy.business.*;
-import com.trism.jesica.persistence.Entitiy.common.LoginSession;
-import com.trism.jesica.persistence.Entitiy.event.TbEvent;
-import com.trism.jesica.persistence.Entitiy.system.TbSiteAcl;
-import com.trism.jesica.persistence.Entitiy.system.TbSiteMenu;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticePlatform;
+import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeRelease;
+import com.trism.jesica.persistence.mysql.Entitiy.business.*;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -123,28 +122,15 @@ public class MainController {
 
         model.addAttribute("updateList",boardService.getUpdateListLimit());
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey") ;
-        if("jesicar".equals(loginSession.getCompany())) {
+        /*if("jesicar".equals(loginSession.getCompany())) {
             model.addAttribute("updateEventList",boardService.getUpdateEventListLimit(1));
             model.addAttribute("updatePlatList",boardService.getPlatformListLimit(1));
         } else if ("yangpa".equals(loginSession.getCompany())) {
             model.addAttribute("updateEventList",boardService.getUpdateEventListLimit(2));
             model.addAttribute("updatePlatList",boardService.getPlatformListLimit(2));
-
-           /* List<Map<String,Object>> timeList = null;
-            String ordPathCd = "1069";
-            LocalDateTime startDate = null;
-            LocalDateTime endDate = null;
-
-            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-            String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-            startDate = LocalDateTime.parse(string, formatter);
-            endDate = LocalDateTime.parse(string1, formatter);
-            timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd );
-            map.put("timeList" , timeList);
-            model.addAttribute("storeRentChart",timeList);*/
-        }
+        }*/
+        model.addAttribute("updateEventList",boardService.getUpdateEventListLimit(2));
+        model.addAttribute("updatePlatList",boardService.getPlatformListLimit(2));
 
 
 
@@ -248,17 +234,15 @@ public class MainController {
         HttpSession session = request.getSession();
 
         //String clientId = null;
-        String code = null;
+        /*String code = null;
         String deviceId = null;
-        String refreshTokenEnd= null;
+        String refreshTokenEnd= null;*/
 
         if (StringUtils.isNotEmpty(bmLoginId) && StringUtils.isNotEmpty(bmLoginPwd)){
             TbUser tbUser = apiService.getUser(bmLoginId);
             //본사 정보상세
-
-
             //쿠키 조회
-            Cookie[] cookies = request.getCookies();
+            /*Cookie[] cookies = request.getCookies();
             for(Cookie cookie:cookies) {
                 if(cookie.getName().contains("clientId")) {
                     clientId = cookie.getValue();
@@ -273,18 +257,19 @@ public class MainController {
                     refreshTokenEnd = cookie.getValue();
                     log.info("refreshTokenEnd_first::"+refreshTokenEnd);
                 }
-            }
+            }*/
 
             //클라이언트 아이디/코드가 널이면 정보세팅 + 만료일이 다가오면 다시 세팅
-            if(clientId == null || code == null || deviceId == null || refreshTokenEnd == null) {
+           // if(clientId == null || code == null || deviceId == null || refreshTokenEnd == null) {
+            if(clientId == null) {
 
                 log.info("--------------cookieSetting------------------");
 
-                ClientDTO clientDTO = getClient(response,uuid);
+                //ClientDTO clientDTO = getClient(response,uuid);
 
-                clientId = clientDTO.getClientId();
+               /* clientId = clientDTO.getClientId();
                 code = clientDTO.getCode();
-                deviceId = clientDTO.getDeviceId();
+                deviceId = clientDTO.getDeviceId();*/
                 /*HttpUtil.callInfo(params,"GET", request);*/
               /*  ResponseEntity<Map> tokenNullMap = restTemplateUtil.authorizeToken();
                 Map<String,String> codeNullMap = (Map)tokenNullMap.getBody().get("data");
@@ -319,26 +304,24 @@ public class MainController {
             /*HttpUtil.callInfo(params,"GET", request);*/
             String encPass = cipherService.encryptAES(bmLoginPwd);
 
-//            LoginDTO loginDTO = getLogin(clientId, bmLoginId, code, deviceId, encPass);
+            //LoginDTO loginDTO = getLogin(clientId, bmLoginId, encPass);
 
             int count = 0;
-            Optional<LoginDTO> opLoginDto = getLoginChk(clientId, bmLoginId, code, deviceId, encPass, response, uuid, count);
+            Optional<LoginDTO> opLoginDto = getLoginChk(clientId, bmLoginId, encPass, response, uuid, count);
             if (opLoginDto.isPresent()) {
                 log.info("login auth success...");
                 LoginDTO loginDTO = opLoginDto.get();
                 //캐시에 저장
                 Cache ehCacheAll      = cacheManager.getCache("loginCache");
                 ehCacheAll.put("clientId", clientId);
-                ehCacheAll.put("code", code);
-                ehCacheAll.put("deviceId", deviceId);
                 ehCacheAll.put("refreshToken", loginDTO.getData().getToken().getRefreshToken());
 
                 session.setAttribute("accessToken",loginDTO.getData().getToken().getAccessToken());
                 Cookie refreshToken = new Cookie("refreshToken",loginDTO.getData().getToken().getRefreshToken());
                 //데이터내 시간대로 쿠키 저장
-                refreshToken.setPath("/");
+               /* refreshToken.setPath("/");
                 refreshToken.setMaxAge(loginDTO.getData().getToken().getRefreshTokenExpiresIn().intValue());
-                response.addCookie(refreshToken);
+                response.addCookie(refreshToken);*/
                 isPwdMatch = true;
             } else {
                 isPwdMatch = false;
@@ -354,14 +337,13 @@ public class MainController {
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             if(StringUtils.isNotEmpty(bmLoginPwd) && ObjectUtils.isNotEmpty(tbUser)) {
-                /*if(encoder.matches(bmLoginPwd, tbUser.getUserPwd())) {
+                if(encoder.matches(bmLoginPwd, tbUser.getUserPwd())) {
                     isPwdMatch = true;
-                }*/
+                }
 
                 // 관리자
                 if(tbUser.getUserType().ordinal() == 6 ) {
                     //로그인 세션 저장
-
                     if(isPwdMatch == true) {
                         LoginSession loginSession = LoginSession.from(bm);
                         //loginSession.setUserStaffName("마스터");
@@ -397,6 +379,7 @@ public class MainController {
                         if (isPwdMatch == false ) {
                             //실패횟수가 5회이상이면 정지 => 마스터 계정은 횟수만 증가
                             apiService.setPassCount(tbUser.getUserNo(), tbUser.getPwdFailCount()+1);
+                            map.put("url", "login");
                         }
                     }
 
@@ -496,9 +479,9 @@ public class MainController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    private LoginDTO getLogin(String clientId, String bmLoginId, String code, String deviceId, String encPass) {
+    private LoginDTO getLogin(String bmLoginId, String deviceId, String encPass) {
 
-        ResponseEntity<Map> tokenMap = restTemplateUtil.loginAuth(clientId, code, deviceId, bmLoginId, encPass);
+        ResponseEntity<Map> tokenMap = restTemplateUtil.loginAuth(deviceId, bmLoginId, encPass);
         Map<String,Object> codeMap = (Map)tokenMap.getBody();
         LoginDTO loginDTO = modelMapper.map(codeMap, LoginDTO.class);
 
@@ -508,22 +491,23 @@ public class MainController {
 
 
 
-    private Optional<LoginDTO> getLoginChk(String clientId, String bmLoginId, String code, String deviceId, String encPass, HttpServletResponse response, String uuid, int count){
+    private Optional<LoginDTO> getLoginChk(String bmLoginId, String deviceId, String encPass, HttpServletResponse response, String uuid, int count){
         log.info("count cnt :::::::::{}",count);
         if(count >= 3) {
             return Optional.empty();
         }
-        LoginDTO loginDTO = getLogin(clientId, bmLoginId, code, deviceId, encPass);
+        LoginDTO loginDTO = getLogin( bmLoginId, deviceId, encPass);
         log.info("loginDTO {}" ,loginDTO);
 
         if(!"OK".equals(loginDTO.getServiceStatus())){
             if("NOT_FOUND_CLIENT".equals(loginDTO.getServiceStatus())) {
-                ClientDTO clientDTO = getClient(response,uuid);
+                //ClientDTO clientDTO = getClient(response,uuid);
 
-                clientId = clientDTO.getClientId();
+               /* clientId = clientDTO.getClientId();
                 code = clientDTO.getCode();
-                deviceId = clientDTO.getDeviceId();
-                return getLoginChk(clientId, bmLoginId, code, deviceId, encPass, response, uuid,count++);
+                deviceId = clientDTO.getDeviceId();*/
+                //return getLoginChk(clientId, bmLoginId, code, deviceId, encPass, response, uuid,count++);
+                return Optional.empty();
             } else {
                 return Optional.empty();
                 //isPwdMatch = false;
@@ -676,9 +660,9 @@ public class MainController {
         return new ModelAndView("/jesica/search/cyBankAccountSearch");
     }
 
-    private ClientDTO getClient(HttpServletResponse response,String uuid){
+    /*private ClientDTO getClient(HttpServletResponse response,String uuid){
         log.info("--------------cookieSetting------------------");
-        /*HttpUtil.callInfo(params,"GET", request);*/
+        *//*HttpUtil.callInfo(params,"GET", request);*//*
         ResponseEntity<Map> tokenNullMap = restTemplateUtil.authorizeToken();
         Map<String,String> codeNullMap = (Map)tokenNullMap.getBody().get("data");
 
@@ -706,7 +690,7 @@ public class MainController {
                 .clientId(codeNullMap.get("clientId"))
                 .code(codeNullMap.get("code"))
                 .deviceId(uuid).build();
-    }
+    }*/
 }
 
 
