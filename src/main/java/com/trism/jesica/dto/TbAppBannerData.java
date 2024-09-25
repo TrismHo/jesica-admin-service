@@ -20,7 +20,7 @@ public class TbAppBannerData {
 
     private Integer bannerType;
     private String langCode;
-
+    private String appCode;
     private String schemeUrl;
 
     public TbAppBanner insertData() {
@@ -38,6 +38,7 @@ public class TbAppBannerData {
                 .bannerType(bannerType)
                 .langCode(langCode)
                 .schemeUrl(schemeUrl)
+                .appCode(appCode)
                 .build();
     }
 
@@ -56,6 +57,7 @@ public class TbAppBannerData {
                 .bannerType(bannerType)
                 .langCode(langCode)
                 .schemeUrl(schemeUrl)
+                .appCode(appCode)
                 .build();
     }
 }

@@ -58,7 +58,7 @@
                                                 <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                     <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                         <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                        <span><spring:message code="list.detail.deliveryman1" text="PICK오더"/></span>
+                                                        <span><spring:message code="list.detail.deliveryman1" text="직배"/></span>
                                                     </label>
                                                 </c:if>
                                                 <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
@@ -145,6 +145,25 @@
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="언어를를 선택하세요."/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱코드"/></td>
+                                        <td>
+                                            <c:if test="${empty appCode}">
+                                                <select name="appCode" class="form-control w-25" >
+                                                    <option value="">전체</option>
+                                                    <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                        <option value="${appCodeList.sysCode}">${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </c:if>
+                                            <c:if test="${!empty appCode}">
+                                                <input type="text" class="form-control" name="appCode" readonly value="${appCode}">
+                                            </c:if>
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="총판을 선택하세요"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -243,7 +262,7 @@
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.addresssearchautosettingmessage" text="등록되어있는 시/도 시/군/구입니다 (변경불가)"/></td>
                                     </tr>--%>
-                                    <input type="radio" name="bannerType" value="0">
+                                    <input type="hidden" name="bannerType" value="0">
                                     <input type="hidden" name="viewOrder" class="form-control viewOrder">
                                     <%--<tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="배너노출순서"/></td>
@@ -277,7 +296,6 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="앱스키마 URL을 입력해주세요."/>
                                         </td>
                                     </tr>
-
                                     <tr>
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="배너 이미지"/></td>
                                         <td>

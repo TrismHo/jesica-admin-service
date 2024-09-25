@@ -97,6 +97,23 @@
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="마스터/사용자를 선택해주세요"/></td>
                                         </tr>
                                         <tr>
+                                            <td class="bg-light"><spring:message code="list.detail.id1" text="앱코드"/></td>
+                                            <td>
+                                                <c:if test="${empty appCode}">
+                                                    <select name="appCode" class="form-control w-25" >
+                                                        <option value="">전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <input type="text" class="form-control" name="appCode" readonly value="${appCode}">
+                                                </c:if>
+                                            </td>
+                                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="앱코드를 선택해주세요."/></td>
+                                        </tr>
+                                        <tr>
                                             <td class="bg-light"><spring:message code="list.detail.password" text="패스워드"/></td>
                                             <td><input type="text" class="form-control width-full userPwd" name="userPwd" value="" placeholder="<spring:message code="list.description.pleaseenteryourpassword" text="패스워드를 입력해주세요"/>" maxlength="60"></td>
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourpassword" text="패스워드를 입력해주세요"/> </td>

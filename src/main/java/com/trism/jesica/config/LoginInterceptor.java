@@ -2,10 +2,11 @@ package com.trism.jesica.config;
 
 import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.CipherService;
-import com.trism.jesica.Util.RestTemplateUtil;
-import com.trism.jesica.Util.Secure.token.AuthTokenProvider;
 import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -17,21 +18,21 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-    private static final String ACCESS_TOKEN_SUBJECT = ":AccessToken";
+    //private static final String ACCESS_TOKEN_SUBJECT = ":AccessToken";
 
-    @Autowired
-    private AuthTokenProvider authTokenProvider;
+    //@Autowired
+    //private AuthTokenProvider authTokenProvider;
     @Autowired
     private CipherService cipherService;
-    @Autowired
-    private RestTemplateUtil restTemplateUtil;
+    //@Autowired
+    //private RestTemplateUtil restTemplateUtil;
     @Autowired
     private AuthService authService;
 
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    log.info("============================== START ==============================");
+        log.info("============================== START ==============================");
 
         log.info(" Class       \t:  " + handler.getClass());
         log.info(" Request URI \t:  " + request.getRequestURI());
@@ -42,15 +43,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 
 
-        /*int userRole = 0;
+        int userRole = 0;
         String parentMenuId = "";
         String parentparentMenuId = "";
         String menuId = "";
-        *//*log.info(" Servlet URI \t:  " + sessionObj);*//*
+        /*log.info(" Servlet URI \t:  " + sessionObj);*/
 
-      *//*  if(sessionObj != null) {
+      /*  if(sessionObj != null) {
             userRole = sessionObj.getUserRole();
-        }*//*
+        }*/
 
         String servletPath = request.getServletPath();
 
@@ -63,15 +64,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 
         if(ObjectUtils.isEmpty(sessionObj) ) {
-           if(!servletPath.contains("fileLoad")
-                   && !servletPath.contains("terms")
-                   && !servletPath.contains("ping")
-                   && !servletPath.contains("login")
-                   && !servletPath.contains("test/test")
-                   && !servletPath.contains("token")) {
+            if(!servletPath.contains("fileLoad")
+                    && !servletPath.contains("terms")
+                    && !servletPath.contains("ping")
+                    && !servletPath.contains("login")
+                    && !servletPath.contains("test/test")
+                    && !servletPath.contains("token")) {
                 response.sendRedirect("/login");
                 return false;
-
             }
         } else {
             if(servletPath.contains("/login")) {
@@ -102,20 +102,20 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         boolean result = false;
 
-        *//*String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);*//*
+        /*String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);*/
         //String authorization = "Bearer +2UQDyNvYSgPLhdF6kBOV/7ENBFgsuTGQpX0TnpQe89arDVhc77v1kfsOm0HFbC6Jm3/9raFPBOEFJSeKGdry4QNkvVFaGj1CeBUP/J3fJe8pJBJeLQyZehx9X9HzafXKAsvWdtsObaEj2gLp6X8+dB7MZZmjzcQRmmuZETwOXTguxZcVSFRETgfGrun0vJo6hmaH8o7AnZeNQmLatTe26SHQk/XFkEwh9C/GXu1qeGveNNrbO+PMXIHO1DB6pTvEIvFEAOQey3FljQiuZnM8xRs8aOrjD/BT1EY/529POQn+nK2S4IH50XzvrCqyBE3kQ1muz49/RT5X9bdCyKqWrPkiJ30tk5VHlg3eWXTjL1iV05/ouOi2gd9eoIakB1ThxlI4ZGSTdGlg/heLICIYodJVDAUOnk14ctDsW4sNOXaP9JBv4Dg4q/nS3hYGa4e6OoXMBx8spCTKnWWGIFMY2wnjTigcgf43OEn4DfdqqcALRdPQdKhKP3dLglsJxGhuGGio2xpgNpwfElB/DQGEmgjUC3dW70jIl+PD2g29x2cLo6U0yIR8LUe5yJpY6LTCFRBNXOTsJ/2iTIjkJhBSJ5cdJNrkjw/bGY+Tbuu8YbOg/oqkcVnbK7WVzeC2E9iDVAUaXtX4O2/mbBou8tL0yHZ/dH93rjACKf2dTOxXvNvcgtyxpaDHNHs8oIWvoVRSCNT+OfmzZF/eeDcadQJ0aoh7uLHpI65jjkM+tXXVHA=";
         //세션으로 호출
-        String bearer = "Bearer ";
-        String plus = "";
-        String authorization = "";
+        //String bearer = "Bearer ";
+        //String plus = "";
+        //String authorization = "";
 
-        if (session.getAttribute("accessToken") != null ){
+        /*if (session.getAttribute("accessToken") != null ){
             plus = session.getAttribute("accessToken").toString();
             authorization = bearer+plus;
         }else {
             log.info("errorType4");
-        }
-       *//* String a = null;
+        }*/
+       /* String a = null;
         String b = null;
         String c = null;
         String d = null;
@@ -134,10 +134,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 d = cookie.getValue();
                 log.info("refreshTokenEnd_first_inter::"+d);
             }
-        }*//*
+        }*/
 
 
-        if (StringUtils.isNotBlank(authorization) && authorization.startsWith("Bearer ")) {
+        /*if (StringUtils.isNotBlank(authorization) && authorization.startsWith("Bearer ")) {
             String encAccessToken = authorization.substring(7);
             String accessToken = null;
             try {
@@ -150,11 +150,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 //TODO
             }
 
-            Token token = authTokenProvider.createToken(accessToken);
+            *//*Token token = authTokenProvider.createToken(accessToken);
             //token sign check
             if (!token.isSign(accessToken)) {
                 log.info("errorType1");
-                String clientId = null;
+               *//**//* String clientId = null;
                 String code = null;
                 String refreshToken = null;
 
@@ -168,9 +168,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     } else if(cookie.getName().contains("refreshToken")) {
                         refreshToken = cookie.getValue();
                     }
-                }
+                }*//**//*
                 //리프레쉬토큰이 있으면 갱신 없으면 재로그인
-                *//*if(refreshToken != null){
+               *//**//* if(refreshToken != null){
                     //토큰 갱신
                     HttpSession sesssion = request.getSession();
                     ResponseEntity<Map> tokenMap = restTemplateUtil.refreshToken(sesssion,clientId,code,refreshToken);
@@ -188,7 +188,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     }
                 } else {
                     return false;
-                }*//*
+                }*//**//*
 
 //                log.error("INVALID_ACCESS_TOKEN");
                 //TODO
@@ -202,7 +202,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 String refreshToken = null;
 
                 //쿠키 조회
-                Cookie[] cookies = request.getCookies();
+               *//**//* Cookie[] cookies = request.getCookies();
                 for(Cookie cookie:cookies) {
                     if(cookie.getName().contains("clientId")) {
                         clientId = cookie.getValue();
@@ -211,9 +211,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     } else if(cookie.getName().contains("refreshToken")) {
                         refreshToken = cookie.getValue();
                     }
-                }
+                }*//**//*
                 //리프레쉬토큰이 있으면 갱신 없으면 재로그인
-                *//*if(refreshToken != null){
+                *//**//*if(refreshToken != null){
                     //토큰 갱신
                     HttpSession sesssion = request.getSession();
                     ResponseEntity<Map> tokenMap = restTemplateUtil.refreshToken(sesssion,clientId,code,refreshToken);
@@ -231,28 +231,26 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     }
                 } else {
                     return false;
-                }*//*
+                }*//**//*
 
                 //TODO
 //                log.error("CREDENTIAL_EXPIRED_TOKEN");
 //                throw new ApiException(ServiceCode.CREDENTIAL_EXPIRED_TOKEN);
-            }
+            }*//*
 //            LockedException
-            Claims claims = token.getAllClaimsFromToToken(accessToken);
+         *//*   Claims claims = token.getAllClaimsFromToToken(accessToken);
             String clientId = claims.get("clientId", String.class);
             String subjectAccessToken = clientId + ACCESS_TOKEN_SUBJECT;
-            String subject = claims.getSubject();
+            String subject = claims.getSubject();*//*
 
-            if (!subjectAccessToken.equals(subject)) {
+           *//* if (!subjectAccessToken.equals(subject)) {
                 //TODO
 //                throw new ApiException(ServiceCode.BAD_CREDENTIAL_ERROR);
-            }
+            }*//*
         }else {
             log.info("errorType3");
         }*/
-
-        boolean result= true;
-        return result;
+        return true;
     }
 
     @Override

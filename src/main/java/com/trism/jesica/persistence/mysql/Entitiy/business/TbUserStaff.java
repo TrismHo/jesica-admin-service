@@ -108,6 +108,12 @@ public class TbUserStaff extends TbUser {
     @Column(name = "role_type")
     private Integer roleType;
 
+    /**
+     * 앱코드
+     */
+    @Column(name = "app_code")
+    private String appCode;
+
 
     @PrePersist
     private void defaultInit() {
@@ -119,7 +125,7 @@ public class TbUserStaff extends TbUser {
                        Integer branchNo, Integer storeNo, LocalDateTime updateDate, String updateUserId, List<TbUserDevice> userDevices,
                        Boolean pushOrderYn, Boolean pushNoticeYn, Boolean pushMarketingYn,
                        DataStatus dataStatus, String blockTypeCode, String name, String phone, String memo, Integer roleType,
-                       LocalDateTime lastLoginDtm, Integer pwdFailCount, Integer isFirstLogin, LocalDateTime pwdUpdateDtm) {
+                       LocalDateTime lastLoginDtm, Integer pwdFailCount, Integer isFirstLogin, LocalDateTime pwdUpdateDtm, String appCode) {
         super(userNo, insertUserId, userId, userPwd, userType, pushOrderYn, pushNoticeYn, pushMarketingYn, userDevices,lastLoginDtm, pwdFailCount, isFirstLogin, pwdUpdateDtm);
         this.updateDate = updateDate;
         this.updateUserId = updateUserId;
@@ -132,6 +138,7 @@ public class TbUserStaff extends TbUser {
         this.phone = phone;
         this.memo = memo;
         this.roleType = roleType;
+        this.appCode = appCode;
     }
 
 }

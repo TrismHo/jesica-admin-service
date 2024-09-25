@@ -58,30 +58,34 @@
         </ul>
         <!-- begin sidebar nav -->
         <ul class="nav">
+
+           <%-- (item.menuName == '앱 관리'
+            || item.menuName == '통계'
+            || item.menuName == '가맹점'
+            )--%>
             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                 <c:if test="${sessionScope.sessionKey.roleType == 2}">
                     <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
-                        <c:if test="${item.menuLevel == 1 && item.permission != 0 && (item.menuName == '앱 관리'
-                        || item.menuName == '통계'
-                        || item.menuName == '가맹점'
-                        )  }">
+                        <c:if test="${item.menuLevel == 1 && item.permission != 0  && item.visibleLevel <= 2
+                         }">
                             <li class="has-sub">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
                                     <i class="fa ${item.menuIcon}"></i>
                                     <span>${item.menuName}</span>
                                 </a>
+                                    <%-- (item2.menuName == '회원통계'
+                                             || item2.menuName == '주문통계'
+                                             || item2.menuName == '회원통계(지역)'
+                                             || item2.menuName == '플랫폼 공지'
+                                             || item2.menuName == '이벤트 공지'
+                                             || item2.menuName == '배너 관리'
+                                             || item2.menuName == '회원 관리'
+                                             || item2.menuName == '픽오더주문내역' )--%>
                                 <ul class="sub-menu">
                                     <c:forEach var="item2" items="${tbSiteMenuAclList}" varStatus="status">
                                         <c:if test="${item2.menuLevel == 2 && item2.permission != 0 && (item.menuGroup == item2.menuGroup)
-                                         && (item2.menuName == '회원통계'
-                                         || item2.menuName == '주문통계'
-                                         || item2.menuName == '회원통계(지역)'
-                                         || item2.menuName == '플랫폼 공지'
-                                         || item2.menuName == '이벤트 공지'
-                                         || item2.menuName == '배너 관리'
-                                         || item2.menuName == '회원 관리'
-                                         || item2.menuName == '픽오더주문내역' )}">
+                                         && item2.visibleLevel <= 2 }">
                                             <li><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
                                         </c:if>
                                     </c:forEach>
@@ -90,39 +94,44 @@
                         </c:if>
                     </c:forEach>
                 </c:if>
+
+            <%-- (item.menuName == '앱 관리'
+                       || item.menuName == '통계'
+                       || item.menuName == '가맹점'
+                       || item.menuName == '회원 관리'
+                       || item.menuName == '시스템 운영')--%>
                 <c:if test="${sessionScope.sessionKey.roleType == 1}">
                     <c:forEach var="item" items="${tbSiteMenus}" varStatus="status">
-                        <c:if test="${item.menuLevel == 1 && (item.menuName == '앱 관리'
-                        || item.menuName == '통계'
-                        || item.menuName == '가맹점'
-                        || item.menuName == '회원 관리'
-                        || item.menuName == '시스템 운영') }">
+                        <c:if test="${item.menuLevel == 1 && item.visibleLevel >= 0
+                        }">
                             <li class="has-sub">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
                                     <i class="fa ${item.menuIcon}"></i>
                                     <span>${item.menuName}</span>
                                 </a>
+                                    <%--(item2.menuName == '회원통계'
+                                             || item2.menuName == '주문통계'
+                                             || item2.menuName == '회원통계(지역)'
+                                             || item2.menuName == '사용자 관리'
+                                             || item2.menuName == '플랫폼 공지'
+                                             || item2.menuName == '이벤트'
+                                             || item2.menuName == '이벤트 공지'
+                                             || item2.menuName == '이벤트 관리'
+                                             || item2.menuName == '배너 관리'
+                                             || item2.menuName == '회원 관리'
+                                             || item2.menuName == '쿠폰 관리'
+                                             || item2.menuName == '픽오더주문내역'
+                                             || item2.menuName == '시스템 설정'
+                                             || item2.menuName == '이벤트 발송내역'
+                                             || item2.menuName == '총판코드 설정'
+                                             || item2.menuName == '발송횟수설정'
+                                             || item2.menuName == '업데이트 내역')--%>
                                 <ul class="sub-menu">
                                     <c:forEach var="item2" items="${tbSiteMenus}" varStatus="status">
-                                        <c:if test="${item2.menuLevel == 2 && (item.menuGroup == item2.menuGroup)
-                                         && (item2.menuName == '회원통계'
-                                         || item2.menuName == '주문통계'
-                                         || item2.menuName == '회원통계(지역)'
-                                         || item2.menuName == '사용자 관리'
-                                         || item2.menuName == '플랫폼 공지'
-                                         || item2.menuName == '이벤트'
-                                         || item2.menuName == '이벤트 공지'
-                                         || item2.menuName == '이벤트 관리'
-                                         || item2.menuName == '배너 관리'
-                                         || item2.menuName == '회원 관리'
-                                         || item2.menuName == '쿠폰 관리'
-                                         || item2.menuName == '픽오더주문내역'
-                                         || item2.menuName == '시스템 설정'
-                                         || item2.menuName == '이벤트 발송내역'
-                                         || item2.menuName == '총판코드 설정'
-                                         || item2.menuName == '발송횟수설정'
-                                         || item2.menuName == '업데이트 내역')}">
+                                        <c:if test="${item2.menuLevel == 2 &&  item2.visibleLevel >= 0
+                                        && (item.menuGroup == item2.menuGroup)
+                                         }">
                                             <li class=""><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
                                         </c:if>
                                     </c:forEach>
@@ -132,7 +141,7 @@
                     </c:forEach>
                 </c:if>
             </c:if>
-            <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+            <%--<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
                 <c:if test="${sessionScope.sessionKey.roleType == 2}">
                     <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
                         <c:if test="${item.menuLevel == 1 && item.permission != 0 && item.menuName != '맛집'  }">
@@ -173,7 +182,7 @@
                         </c:if>
                     </c:forEach>
                 </c:if>
-            </c:if>
+            </c:if>--%>
             <!-- end sidebar minify button -->
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i

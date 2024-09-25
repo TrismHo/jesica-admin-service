@@ -3,6 +3,7 @@ package com.trism.jesica.persistence.mysql.Entitiy.cust;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.mysql.core.entity.BaseEntity;
 import com.trism.jesica.persistence.mysql.type.DataStatus;
 import com.trism.jesica.persistence.mysql.type.GenderType;
@@ -236,6 +237,10 @@ public class TbCust extends BaseEntity {
     @Column(name = "recomm_cust_tel")
     private String recommCustTel = null;
 
+    @Column(name = "app_code")
+    @Convert(converter = EmptyStringToNullConverter.class)
+    private String appCode = null;
+
 
     /**
      * 고객 단골매장 양방향
@@ -270,6 +275,7 @@ public class TbCust extends BaseEntity {
 
     @Transient
     private String recommCustName;
+
 
     /**
      * 수정일

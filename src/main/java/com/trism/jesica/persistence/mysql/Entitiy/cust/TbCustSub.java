@@ -1,5 +1,6 @@
 package com.trism.jesica.persistence.mysql.Entitiy.cust;
 
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.mysql.core.entity.BaseEntity;
 import com.trism.jesica.persistence.mysql.type.DataStatus;
 import com.trism.jesica.persistence.mysql.type.GenderType;
@@ -127,6 +128,10 @@ public class TbCustSub extends BaseEntity {
      */
     @Column(name = "push_marketing_yn")
     private Boolean pushMarketingYn;
+
+    @Column(name = "app_code")
+    @Convert(converter = EmptyStringToNullConverter.class)
+    private String appCode = null;
 
   /*  *//**
      * 고객 단골매장 양방향

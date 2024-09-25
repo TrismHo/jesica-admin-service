@@ -1,5 +1,6 @@
 package com.trism.jesica.persistence.mysql.Entitiy.board;
 
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.mysql.core.entity.BaseEntity;
 import com.trism.jesica.persistence.mysql.type.DataStatus;
 import lombok.Data;
@@ -41,7 +42,6 @@ public class TbNoticePlatform extends BaseEntity {
     @Column(name = "insert_user_id")
     private String insertUserId = null;
 
-
     /**
      * 수정_사용자
      */
@@ -72,5 +72,11 @@ public class TbNoticePlatform extends BaseEntity {
     @Column(name = "platform_type", nullable = false)
     private Integer platformType = 0;
 
+    /**
+     * 앱코드
+     */
+    @Column(name = "app_code")
+    @Convert(converter = EmptyStringToNullConverter.class)
+    private String appCode = null;
 
 }

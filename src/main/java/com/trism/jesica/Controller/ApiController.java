@@ -155,8 +155,6 @@ public class ApiController {
     @GetMapping(value="/testoracleProdecual")
     public String testoracleProdecual() throws SQLException, JsonProcessingException {
         MnA1Today mnA1Today = oracleService.oracleTest();
-        System.out.println(mnA1Today.getOrdNo());
-        System.out.println(mnA1Today.getPutDate());
 
         //String result = oracleService.getCouponDetail("490","1069");
         Map<String, Object> inputParams = new HashMap<>();
@@ -173,7 +171,6 @@ public class ApiController {
         inputParams.put("in_ARRAY_NUM2", null);
         inputParams.put("in_ARRAY_NUM3", null);
         Map<String ,Object> result2 = oracleService.callProcedure(inputParams);
-        System.out.println(result2);
        /* String sql = "{call SP_SV_API_APP_CU_MS.BD_GET_COUPON_LIST_V01(?, ?, ?)}";
         jdbcTemplate.call(sql, "490", "1069");*/
 
@@ -3694,7 +3691,28 @@ public class ApiController {
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
+
     // 메뉴 권한 insert
+    /*@ResponseBody
+    @PostMapping("/system/menu/insert/multi")
+    public ResponseEntity<?> menuInsertMulti(
+            @RequestParam("menuNo") String menuNo,
+            @RequestParam("userNo") String userNo
+    ) {
+        log.info("menuNo::{}", menuNo);
+        Map<String,Object> map = new HashMap<>();
+        int result = apiService.systemMenuInsert(Long.parseLong(menuNo),Long.parseLong(userNo));
+        if(result > 0) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }*/
+
+    // 메뉴 권한 delete
     @ResponseBody
     @PostMapping("/system/menu/delete")
     public ResponseEntity<?> menuDelete(
@@ -3766,6 +3784,8 @@ public class ApiController {
     @RequestMapping(value = {"/order/list"})
     public DataTableModel list(HttpServletRequest request, DataTableDTO paging,
                                @RequestParam Map<String,Object> searchValue){
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
 
         paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
         paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
@@ -3781,6 +3801,11 @@ public class ApiController {
                 paging.getLength(),
                 Sort.by("ordDate").descending()
         ) ;
+        if(!"".equals(appCode)){
+            searchValue.put("appCode",appCode);
+        } else {
+            searchValue.put("appCode","");
+        }
 
         Map<String, Object> resultMap =  mannaService.tbCallAllList(searchValue,pageable);
         List<TbMannaOrder> list = (List<TbMannaOrder>) resultMap.get("orderlist");
@@ -3986,7 +4011,13 @@ public class ApiController {
 
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
 
+        if(!"".equals(appCode)){
+            searchValue.put("appCode",appCode);
+        } else {
+            searchValue.put("appCode","");
+        }
         paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
         paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
         int page = paging.getStart() / paging.getLength(); //Calculate page number

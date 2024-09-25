@@ -59,7 +59,7 @@
                                             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                 <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                    <span><spring:message code="list.detail.deliveryman1" text="PICK오더"/></span>
+                                                    <span><spring:message code="list.detail.deliveryman1" text="직배"/></span>
                                                 </label>
                                             </c:if>
                                             <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
@@ -80,6 +80,22 @@
                                             <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbEvent.platformType == 3}">checked</c:if>>
                                             <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
                                         </label>--%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱코드"/></td>
+                                    <td>
+                                        <c:if test="${empty appCode}">
+                                            <select name="appCode" class="form-control w-25" >
+                                                <option value="">전체</option>
+                                                <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                    <option value="${appCodeList.sysCode}"<c:if test="${tbEvent.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                </c:forEach>
+                                            </select>
+                                        </c:if>
+                                        <c:if test="${!empty appCode}">
+                                            <input type="text" class="form-control" name="appCode" readonly value="${appCode}">
+                                        </c:if>
                                     </td>
                                 </tr>
                                 <tr>

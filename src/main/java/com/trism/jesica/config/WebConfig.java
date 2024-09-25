@@ -98,6 +98,7 @@ public class WebConfig /*extends WebMvcConfigurationSupport*/ implements WebMvcC
         return registrationBean;
     }
 
+/*
     @Bean
     public FilterRegistrationBean<XssEscapeServletFilter> getRequestBodyRegistrationBean() {
         FilterRegistrationBean<XssEscapeServletFilter> registrationBean = new FilterRegistrationBean<XssEscapeServletFilter>();
@@ -106,6 +107,7 @@ public class WebConfig /*extends WebMvcConfigurationSupport*/ implements WebMvcC
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
     }
+*/
 
 
     @Bean

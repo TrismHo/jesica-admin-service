@@ -13,13 +13,13 @@ import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -178,7 +178,7 @@ public class MainController {
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-    @ResponseBody
+    /*@ResponseBody
     @GetMapping(value = "/chk/test")
     public ResponseEntity<?> getLoginChk(
             HttpServletRequest request
@@ -209,7 +209,7 @@ public class MainController {
 
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
-    }
+    }*/
 
     /**
      * 로그인처리
@@ -239,96 +239,44 @@ public class MainController {
         String refreshTokenEnd= null;*/
 
         if (StringUtils.isNotEmpty(bmLoginId) && StringUtils.isNotEmpty(bmLoginPwd)){
+
+            //TBUser 조회
             TbUser tbUser = apiService.getUser(bmLoginId);
-            //본사 정보상세
-            //쿠키 조회
-            /*Cookie[] cookies = request.getCookies();
-            for(Cookie cookie:cookies) {
-                if(cookie.getName().contains("clientId")) {
-                    clientId = cookie.getValue();
-                    log.info("clientId_first::"+clientId);
-                } else if(cookie.getName().contains("code")) {
-                    code = cookie.getValue();
-                    log.info("code_first::"+code);
-                } else if(cookie.getName().contains("deviceId")) {
-                    deviceId = cookie.getValue();
-                    log.info("deviceId_first::"+deviceId);
-                } else if(cookie.getName().contains("refreshToken")) {
-                    refreshTokenEnd = cookie.getValue();
-                    log.info("refreshTokenEnd_first::"+refreshTokenEnd);
-                }
-            }*/
-
-            //클라이언트 아이디/코드가 널이면 정보세팅 + 만료일이 다가오면 다시 세팅
-           // if(clientId == null || code == null || deviceId == null || refreshTokenEnd == null) {
-            if(clientId == null) {
-
-                log.info("--------------cookieSetting------------------");
-
-                //ClientDTO clientDTO = getClient(response,uuid);
-
-               /* clientId = clientDTO.getClientId();
-                code = clientDTO.getCode();
-                deviceId = clientDTO.getDeviceId();*/
-                /*HttpUtil.callInfo(params,"GET", request);*/
-              /*  ResponseEntity<Map> tokenNullMap = restTemplateUtil.authorizeToken();
-                Map<String,String> codeNullMap = (Map)tokenNullMap.getBody().get("data");
-
-               Cookie clientIdC = new Cookie("clientId",codeNullMap.get("clientId"));
-               Cookie codeC = new Cookie("code",codeNullMap.get("code"));
-               Cookie deviceIdC = new Cookie("deviceId",uuid);
-
-               //1년 쿠키 저장
-               clientIdC.setMaxAge(365*60*60*24*1);
-                //1년 쿠키 저장
-               codeC.setMaxAge(365*60*60*24*1);
-                //1년 쿠키 저장
-               deviceIdC.setMaxAge(365*60*60*24*1);
-
-                clientIdC.setPath("/");
-                codeC.setPath("/");
-                deviceIdC.setPath("/");
-
-               response.addCookie(clientIdC);
-               response.addCookie(codeC);
-               response.addCookie(deviceIdC);
-
-               clientId = codeNullMap.get("clientId");
-               code = codeNullMap.get("code");
-               deviceId = uuid;*/
-            }
 
             //클라이언트 아이디/코드값으로 로그인 시도
             log.info("--------------auth/login------------------");
             JsonObject params = new JsonObject();
             /*HttpUtil.callInfo(params,"GET", request);*/
-            String encPass = cipherService.encryptAES(bmLoginPwd);
-
+            //String encPass = cipherService.encryptAES(bmLoginPwd);
             //LoginDTO loginDTO = getLogin(clientId, bmLoginId, encPass);
 
             int count = 0;
-            Optional<LoginDTO> opLoginDto = getLoginChk(clientId, bmLoginId, encPass, response, uuid, count);
-            if (opLoginDto.isPresent()) {
+            //Optional<LoginDTO> opLoginDto = getLoginChk(clientId, bmLoginId, bmLoginPwd, response, uuid, count);
+
+
+           /* if (opLoginDto.isPresent()) {
                 log.info("login auth success...");
                 LoginDTO loginDTO = opLoginDto.get();
-                //캐시에 저장
-                Cache ehCacheAll      = cacheManager.getCache("loginCache");
-                ehCacheAll.put("clientId", clientId);
-                ehCacheAll.put("refreshToken", loginDTO.getData().getToken().getRefreshToken());
+                //log.info("loginDTO::: {}" ,opLoginDto.get());
 
-                session.setAttribute("accessToken",loginDTO.getData().getToken().getAccessToken());
-                Cookie refreshToken = new Cookie("refreshToken",loginDTO.getData().getToken().getRefreshToken());
-                //데이터내 시간대로 쿠키 저장
-               /* refreshToken.setPath("/");
-                refreshToken.setMaxAge(loginDTO.getData().getToken().getRefreshTokenExpiresIn().intValue());
-                response.addCookie(refreshToken);*/
-                isPwdMatch = true;
+                if(!"OK".equals(loginDTO.getServiceStatus())){
+                        map.put("result", "500");
+                        map.put("message", loginDTO.getDesc());
+                        isPwdMatch = false;
+                } else {
+                    Cache ehCacheAll      = cacheManager.getCache("loginCache");
+                    ehCacheAll.put("clientId", clientId);
+                    ehCacheAll.put("refreshToken", loginDTO.getData().getRefreshToken());
+
+                    session.setAttribute("accessToken",loginDTO.getData().getAccessToken());
+                    Cookie refreshToken = new Cookie("refreshToken",loginDTO.getData().getRefreshToken());
+                    isPwdMatch = true;
+                }
             } else {
                 isPwdMatch = false;
                 map.put("result", "500");
                 map.put("message", "로그인오류입니다. 재로그인해주세요.");
-            }
-
+            }*/
 
             //쿠키에 만료일
             //엑세스토큰 세션
@@ -340,12 +288,20 @@ public class MainController {
                 if(encoder.matches(bmLoginPwd, tbUser.getUserPwd())) {
                     isPwdMatch = true;
                 }
-
                 // 관리자
-                if(tbUser.getUserType().ordinal() == 6 ) {
+                if(tbUser.getUserType().ordinal() == 6) {
+
                     //로그인 세션 저장
                     if(isPwdMatch == true) {
-                        LoginSession loginSession = LoginSession.from(bm);
+                        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC", bm.getAppCode());
+                        String appCodeName = "";
+                        if(appVersionList.size() < 1){
+                             appCodeName = "전체";
+                        } else {
+                             appCodeName = appVersionList.get(0).getCodeName();
+                        }
+
+                        LoginSession loginSession = LoginSession.from(bm,appCodeName);
                         //loginSession.setUserStaffName("마스터");
                         /*loginSession.setUserStaffName(tbUser.get());*/
                         loginSession.setUserRole(0);
@@ -417,8 +373,15 @@ public class MainController {
                                 }
                             }
                         } else {
+                            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC", bm.getAppCode());
+                            String appCodeName = "";
+                            if(appVersionList.size() < 1){
+                                appCodeName = "전체";
+                            } else {
+                                appCodeName = appVersionList.get(0).getCodeName();
+                            }
                             //로그인 세션 저장
-                            LoginSession loginSession = LoginSession.from(bm);
+                            LoginSession loginSession = LoginSession.from(bm, appCodeName);
                             session.setAttribute(LoginSession.KEY, loginSession);
                             //세션 30분유지
                             session.setMaxInactiveInterval(60*120);
@@ -479,43 +442,24 @@ public class MainController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    private LoginDTO getLogin(String bmLoginId, String deviceId, String encPass) {
+    private LoginDTO getLogin(String bmLoginId, String deviceId, String bmLoginPwd) {
 
-        ResponseEntity<Map> tokenMap = restTemplateUtil.loginAuth(deviceId, bmLoginId, encPass);
+
+        ResponseEntity<Map> tokenMap = restTemplateUtil.loginAuth(deviceId, bmLoginId, bmLoginPwd);
         Map<String,Object> codeMap = (Map)tokenMap.getBody();
         LoginDTO loginDTO = modelMapper.map(codeMap, LoginDTO.class);
 
-        log.info("getLogin:::::{}",loginDTO);
+        //log.info("getLogin:::::{}",loginDTO);
         return loginDTO;
     }
 
 
-
-    private Optional<LoginDTO> getLoginChk(String bmLoginId, String deviceId, String encPass, HttpServletResponse response, String uuid, int count){
+    private Optional<LoginDTO> getLoginChk(String deviceId,String bmLoginId ,String bmLoginPwd, HttpServletResponse response, String uuid, int count){
         log.info("count cnt :::::::::{}",count);
         if(count >= 3) {
             return Optional.empty();
         }
-        LoginDTO loginDTO = getLogin( bmLoginId, deviceId, encPass);
-        log.info("loginDTO {}" ,loginDTO);
-
-        if(!"OK".equals(loginDTO.getServiceStatus())){
-            if("NOT_FOUND_CLIENT".equals(loginDTO.getServiceStatus())) {
-                //ClientDTO clientDTO = getClient(response,uuid);
-
-               /* clientId = clientDTO.getClientId();
-                code = clientDTO.getCode();
-                deviceId = clientDTO.getDeviceId();*/
-                //return getLoginChk(clientId, bmLoginId, code, deviceId, encPass, response, uuid,count++);
-                return Optional.empty();
-            } else {
-                return Optional.empty();
-                //isPwdMatch = false;
-                //map.put("result", "500");
-                //map.put("message", "로그인오류입니다. 재로그인해주세요.");
-            }
-
-        }
+        LoginDTO loginDTO = getLogin( bmLoginId, uuid, bmLoginPwd);
         return Optional.of(loginDTO);
     }
 
@@ -533,6 +477,7 @@ public class MainController {
                 isPwdMatch = true;
             }
         }
+
 
         //로그인 정보 일치하지 않는 경우
         if (manager == null || isPwdMatch == false) {

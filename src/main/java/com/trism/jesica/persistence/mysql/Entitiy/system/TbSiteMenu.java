@@ -63,4 +63,10 @@ public class TbSiteMenu implements Serializable {
     @Column(name = "menu_icon")
     private String menuIcon;
 
+    /**
+     * 메뉴_아이콘
+     */
+    @Column(name = "visible_level")
+    private Integer visibleLevel;
+
 }

@@ -20,9 +20,11 @@ public interface TbUserStaffDTO {
     String getPhone();
     String getMemo();
     Integer getRoleType();
+    String getAppCode();
 
     LocalDateTime getUpdateDate();
     LocalDateTime getLastLoginDtm();
     LocalDateTime getInsertDate();
+
 
 }

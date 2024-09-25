@@ -21,7 +21,8 @@ public interface TbSiteMenuRepository extends JpaRepository<TbSiteMenu, Integer>
             "tsa.permission as permission, " +
             "tsa.staff_no as staffNo, " +
             "tsm.menu_level as menuLevel, " +
-            "tsm.menu_group as menuGroup " +
+            "tsm.menu_group as menuGroup, " +
+            "tsm.visible_level as visibleLevel " +
             "from tb_site_menu as tsm " +
             " left outer join tb_site_acl tsa " +
             " on tsm.menu_no = tsa.menu_no " +

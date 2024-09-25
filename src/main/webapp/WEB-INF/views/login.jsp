@@ -88,10 +88,10 @@
 			<div class="brand" style="text-align: center">
 				<%--<span class="logo"></span>--%>
 				<%--<img style="margin: auto;display: block; width: 70%;margin-bottom: 27px;"  src="${path}<spring:message code="login.logoimg" text="/assets/img/logo/itsuda_nagative.png"/>">--%>
-					<h1><img  style="width: 350px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/pick_order_3.png"/>"></h1><br>
+					<h1><img  style="width: 350px;padding:30px; border-radius: 20px; background-color: #fff0f0" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/jigbae_logo_basic.png"/>"></h1><br>
 					<h1 style="position: absolute;
 				    margin: auto;
-					top: 111px;
+					top: 210px;
 					 font-family: GmarketSansTTFBold;
 					 text-shadow: -1px 0 #8f98ff, 0 1px  #8f98ff, 1px 0  #8f98ff, 0 -1px  #8f98ff;
 					 color: #e2e2e2;
@@ -219,7 +219,7 @@
 					if(result == "500" || result == "400") {
 						alert_focus("bmLoginPwd", message);
 					} else {
-						frm_check();
+						//frm_check();
 						location.href = data.url;
 					}
 				}
@@ -261,14 +261,9 @@
 
 
 
-
-
-
 	//쿠키세팅
 	$(function() {
-
 		fnInit();
-
 	});
 
 	function frm_check(){
@@ -292,8 +287,6 @@
 			todayDate.setMonth(todayDate.getMonth() +1);
 			document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate + ";";
 		}
-
-
 	}
 
 	function getCookie(Name) {

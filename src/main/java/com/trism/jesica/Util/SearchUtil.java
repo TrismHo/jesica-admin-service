@@ -965,6 +965,8 @@ public class SearchUtil {
                     predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
                 } else if ("platformType".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
+                } else if ("appCode".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), value));
                 }
             }
             if (ObjectUtils.isNotEmpty(startDate) && ObjectUtils.isNotEmpty(endDate)) {
@@ -1080,6 +1082,8 @@ public class SearchUtil {
                     endDate = LocalDateTime.parse(string, formatter);
                 } else if ("platformType".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
+                } else if ("appCode".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), value));
                 } else {
                     if (!key.equals("dataStatus")) {
                         if (ObjectUtils.isNotEmpty(value)) {
@@ -1130,6 +1134,8 @@ public class SearchUtil {
 
                } else if ("platformType".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
+                } else if ("appCode".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), value));
                 }
             }
             if (ObjectUtils.isNotEmpty(startDate) && ObjectUtils.isNotEmpty(endDate)) {
@@ -1832,6 +1838,9 @@ public class SearchUtil {
                 if ("brCode".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), value));
                 }
+                if ("appCode".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), value));
+                }
 
                 if ("ordCuTel".equals(key) && value != "") {
                     predicate.add(builder.like(root.get(key), "%"+value+"%"));
@@ -2300,6 +2309,8 @@ public class SearchUtil {
                     }
                 } else if ("platformType".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
+                } else if ("appCode".equals(key) && value != "") {
+                    predicate.add(builder.equal(root.get(key), value));
                 }
                else {
                    /* if (ObjectUtils.isNotEmpty(value) && !key.equals("testTable_length")) {

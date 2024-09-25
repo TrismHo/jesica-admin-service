@@ -99,7 +99,7 @@
                                                         </c:if>
                                                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                             <select class="form-control" name="platformType">
-                                                                <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
+                                                                <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="직배"/></option>
                                                             </select>
                                                         </c:if>
                                                         <%--<select class="form-control" name="platformType">
@@ -180,7 +180,7 @@
                                 <td class="text-center" style="">
                                     <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
                                     <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
-                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="PICK오더"/></c:if>
+                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="직배"/></c:if>
                                     <c:if test="${item.platformType == 3}"><spring:message code="list.word.deliverygroup1" text="세날"/></c:if>
                                 </td>
                                 <td class="text-center" style="">

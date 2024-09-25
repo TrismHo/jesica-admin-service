@@ -207,22 +207,21 @@
                                                 " menugroup="${item.menuGroup}">
                                                 <c:forEach var="item2" items="${tbSiteMenus}" varStatus="status">
                                                     <c:if test="${item2.menuLevel == 2 && (item.menuGroup == item2.menuGroup)}">
-
-                                                                <div class="checks small m-l-10" menugroup="${item2.menuGroup}" >
-                                                                    <input type="checkbox" class="menuUseChk menuGroupChk${item2.menuGroup}" id="ex_chk${item2.menuNo}" value="${item2.menuNo}"
-                                                                    <c:forEach items="${tbSiteAclList}"
-                                                                               var="itemChk">
-                                                                    <c:choose>
-                                                                    <c:when test="${itemChk.menuNo == item2.menuNo}">
-                                                                           checked
-                                                                    </c:when>
-                                                                  <%--  <c:when test="${itemChk == '' || itemChk == null }">
-                                                                    </c:when>--%>
-                                                                    </c:choose>
-                                                                    </c:forEach>
-                                                                    >
-                                                                    <label for="ex_chk${item2.menuNo}"> ${item2.menuName}</label>
-                                                                </div>
+                                                        <div class="checks small m-l-10" menugroup="${item2.menuGroup}" >
+                                                            <input type="checkbox" class="menuUseChk menuGroupChk${item2.menuGroup}" id="ex_chk${item2.menuNo}" value="${item2.menuNo}"
+                                                            <c:forEach items="${tbSiteAclList}"
+                                                                       var="itemChk">
+                                                            <c:choose>
+                                                            <c:when test="${itemChk.menuNo == item2.menuNo}">
+                                                                   checked
+                                                            </c:when>
+                                                          <%--  <c:when test="${itemChk == '' || itemChk == null }">
+                                                            </c:when>--%>
+                                                            </c:choose>
+                                                            </c:forEach>
+                                                            >
+                                                            <label for="ex_chk${item2.menuNo}"> ${item2.menuName}</label>
+                                                        </div>
                                                     </c:if>
                                                 </c:forEach>
                                             </td>
@@ -278,7 +277,7 @@
                     </div>
                 </div>
                 <!-- end tab-pane -->
-               <%-- <div class="m-t-10">
+               <%--<div class="m-t-10">
                     <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
                     <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
                 </div>--%>

@@ -100,6 +100,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             ", a.role_type as roleType " +
             ", a.block_type_code as blockTypeCode " +
             ", a.data_status as dataStatus" +
+            ", a.app_code as appCode" +
             ", b.user_id as userId" +
             ", b.last_login_dtm as lastLoginDtm " +
             ", b.insert_date as insertDate " +

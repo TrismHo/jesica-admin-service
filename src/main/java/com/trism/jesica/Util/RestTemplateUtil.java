@@ -3,13 +3,14 @@ package com.trism.jesica.Util;
 import com.trism.jesica.config.JesicaProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +106,9 @@ public class RestTemplateUtil {
 
 	//토큰 - 로그인시 사용
 	public ResponseEntity<Map> loginAuth(String uuid, String loginId ,String pass) {
+
+
+
 		Map<String,String> requestDto = new HashMap<>();
 		requestDto.put("userId",loginId);
 		requestDto.put("password",pass);
@@ -116,6 +120,7 @@ public class RestTemplateUtil {
 		requestDto.put("appCode","STF");
 		requestDto.put("pushKey","");
 
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 	/*	headers.add("clientId", clientId);
@@ -123,8 +128,17 @@ public class RestTemplateUtil {
 		HttpEntity<Map<String,String>> entity = new HttpEntity<>(requestDto, headers);
 		/*String url = "http://101.55.126.138:13000/api/v1/auth/login";*/
 		String url = jesicaProperties.getApiServer().getServer()+"/v1/auth/login";
-		System.out.println(url);
-		return restTemplate.postForEntity(url, entity, Map.class);
+
+		//401 에러를 가로채기위한 RestTemplate
+		RestTemplate restTemplate1 = new RestTemplate();
+		restTemplate1.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+		restTemplate1.setErrorHandler(new DefaultResponseErrorHandler() {
+			public boolean hasError(ClientHttpResponse response) throws IOException {
+				HttpStatus statusCode = response.getStatusCode();
+				return statusCode.series()  == HttpStatus.Series.SERVER_ERROR;
+			}
+		});
+		return restTemplate1.postForEntity(url, entity, Map.class);
 	}
 	//차량 대여정보 등록
 	/*public ResponseEntity<Map> insertCarRent(TbRentalInfoData tbRentalInfo, HttpSession session) {

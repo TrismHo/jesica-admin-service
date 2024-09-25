@@ -10,13 +10,16 @@
            <%-- <a href="${path}/main" class="navbar-brand" > &lt;%&ndash;<b>PetView</b>&ndash;%&gt;
             </a>--%>
                 <small>
-                    <li class="dropdown navbar-language">
+                    <li class="dropdown navbar-language" style="font-size: 17px;">
                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                             <a href="${path}/main">
-                                <img  style="width: 100px; margin-left: 40px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/pick_order_3.png"/>">
+                                <img  style="width: 70px; margin-left: 10px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/jigbae_logo_basic.png"/>">
                                 <%--<b style="text-shadow: -1px 0 #8f98ff, 0 1px #8f98ff, 1px 0 #8f98ff, 0 -1px #8f98ff;
                                 font-size: 14px;">Manager</b>--%>
                             </a>
+                            <c:if test="${sessionScope.sessionKey.appCode != ''}">
+                                총판:  ${sessionScope.sessionKey.appCodeName}
+                            </c:if>
                             <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="yangpa" data-toggle="dropdown" style="text-decoration: none; color: white;" >
                                 <%--<b style="font-size: 15px;"></b>&nbsp;
                                 <b class="caret"></b>--%>
@@ -47,7 +50,7 @@
             --%>
 
                             <%--<div class="dropdown-item company_btn" company="jesicar" style="cursor: pointer;" > <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i> <b style="font-size: 15px;color: #acaeb2;">제시카</b>&nbsp;</div><hr style="margin-top: 5px;margin-bottom: 5px;">카--%>
-                            <div class="dropdown-item company_btn" company="yangpa" style="cursor: pointer;"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i></span> <b style="font-size: 15px;color: #acaeb2;">PICK오더</b>&nbsp;</div>
+                            <div class="dropdown-item company_btn" company="yangpa" style="cursor: pointer;"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i></span> <b style="font-size: 15px;color: #acaeb2;">직배</b>&nbsp;</div>
                         </div>
                     </li>
 

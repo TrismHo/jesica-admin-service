@@ -2,7 +2,11 @@
 security:
   password: Wwf//in2FRW9bmRDPSTDohaGu7OpIDYvySgTAWfSEp0=
   iv: RWF0c3VkYTIwMjE=
+
+
 server:
+  #tomcat:
+    #additional-tld-skip-patterns: "*.jar"
   #port: 8080
   port: 9002
   #port: 9000

@@ -2,6 +2,7 @@ package com.trism.jesica.persistence.mysql.Entitiy.event;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import com.trism.jesica.persistence.mysql.core.entity.CreatedDateEntity;
 import com.trism.jesica.persistence.mysql.type.DataStatus;
 import lombok.Data;
@@ -79,6 +80,13 @@ public class TbEvent extends CreatedDateEntity {
      */
     @Column(name = "platform_type", nullable = false)
     private Integer platformType = 0;
+
+    /**
+     * 앱코드
+     */
+    @Column(name = "app_code")
+    @Convert(converter = EmptyStringToNullConverter.class)
+    private String appCode;
 
 
 }

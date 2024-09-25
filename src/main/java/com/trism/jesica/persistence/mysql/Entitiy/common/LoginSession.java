@@ -23,9 +23,11 @@ public class LoginSession {
 	private Integer userType;
 	private LocalDateTime insertTime;
 	private String company;
+	private String appCode;
+	private String appCodeName;
 
 
-	public static LoginSession from(TbUserStaff tbUserStaff) {
+	public static LoginSession from(TbUserStaff tbUserStaff, String appCodeName) {
 		LoginSession session = new LoginSession();
 		session.setUserStaffNo(tbUserStaff.getUserNo().intValue());
 		session.setUserStaffName(tbUserStaff.getName());
@@ -38,6 +40,8 @@ public class LoginSession {
 		session.setRoleType(tbUserStaff.getRoleType());
 		session.setUserType(tbUserStaff.getUserType().ordinal());
 		session.setCompany("yangpa");
+		session.setAppCode(tbUserStaff.getAppCode());
+		session.setAppCodeName(appCodeName);
 		return session;
 	}
 }

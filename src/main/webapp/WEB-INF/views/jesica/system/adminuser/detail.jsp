@@ -127,6 +127,24 @@
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourphonenumber1" text="상태를 선택해주세요"/></td>
                                     </tr>
                                     <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.id1" text="앱코드"/></td>
+                                        <td>
+                                            <select name="appCode" class="form-control w-25" >
+                                                <option value="">전체</option>
+                                                <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                    <option value="${appCodeList.sysCode}"<c:if test="${tbUserStaff.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                </c:forEach>
+                                            </select>
+                                          <%--  <c:if test="${empty appCode}">
+
+                                            </c:if>
+                                            <c:if test="${!empty appCode}">
+                                                <input type="text" class="form-control" name="appCode" readonly value="${appCode}">
+                                            </c:if>--%>
+                                        </td>
+                                        <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="앱코드를 선택해주세요."/></td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light"><spring:message code="list.detail.memo" text="메모"/></td>
                                         <td><input type="text" class="form-control width-full memo upMemo" name="memo" value="${tbUserStaff.memo}" placeholder="<spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/>" maxlength="200"></td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/></td>

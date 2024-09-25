@@ -10,6 +10,7 @@ import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppVersion;
 import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyArea;
 import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyAreaGeo;
 import com.trism.jesica.persistence.mysql.Entitiy.board.*;
@@ -29,6 +30,7 @@ import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.mysql.Entitiy.vacs.TbVacsVact;
 import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.mysql.Repository.app.TbAppVersionRepository;
 import com.trism.jesica.persistence.mysql.Repository.block.TbDlvyAreaGeoRepository;
 import com.trism.jesica.persistence.mysql.Repository.block.TbDlvyAreaRepository;
 import com.trism.jesica.persistence.mysql.Repository.board.*;
@@ -67,7 +69,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -93,180 +94,77 @@ public class ApiService {
     private final TbAppBannerLocationRepository tbAppBannerLocationRepository;
     private final TbCustLocationRepository tbCustLocationRepository;
 
-    @Autowired
     private final JesicaProperties jesicaProperties;
 
-    @Autowired
     private final TbHeadRepository tbHeadRepository;
 
-    @Autowired
     private final TbBranchRepository tbBranchRepository;
 
-    @Autowired
     private final TbStoreRepository tbStoreRepository;
 
-    @Autowired
     private final TbStoreCategoryFoRepository tbStoreCategoryFoRepository;
 
-    @Autowired
     private final TbStoreGoodsRepository tbStoreGoodsRepository;
 
-    @Autowired
     private final TbStoreGoodsItemRepository tbStoreGoodsItemRepository;
 
-    @Autowired
     private final TbStoreCategoryRepository tbStoreCategoryRepository;
 
-    @Autowired
     private final TbStoreOptionRepository tbStoreOptionRepository;
 
-    @Autowired
     private final TbStoreOptionItemRepository tbStoreOptionItemRepository;
 
-    @Autowired
     private final TbStoreCategoryGoodsRepository tbStoreCategoryGoodsRepository;
 
-    @Autowired
     private final TbStoreGoodsOptionRepository tbStoreGoodsOptionRepository;
 
-    @Autowired
     private final TbHeadBusinessInfoRepository tbHeadBusinessInfoRepository;
-
-    @Autowired
     private final TbBranchBusinessInfoRepository tbBranchBusinessInfoRepository;
-
-    @Autowired
     private final TbStoreBusinessInfoRepository tbStoreBusinessInfoRepository;
-
-    @Autowired
     private final TbDeliveryRepository tbDeliveryRepository;
-
-    @Autowired
     private final TbBrandRepository tbBrandRepository;
-
-    @Autowired
     private final TbSystemCodeRepository tbSystemCodeRepository;
-
-    @Autowired
     private final TbUserRepository tbUserRepository;
-
-    @Autowired
     private final TbUserWorkerRepository tbUserWorkerRepository;
-
-    @Autowired
     private final TbDeliveryShareRepository tbDeliveryShareRepository;
-
-
-    @Autowired
     private final TbDlvyAreaRepository tbDlvyAreaRepository;
-
-    @Autowired
     private final TbDlvyAreaGeoRepository tbDlvyAreaGeoRepository;
-
-    @Autowired
     private final TbSystemGoodsRepository tbSystemGoodsRepository;
-
-    @Autowired
     private final TbDlvyPriceChargeRepository tbDlvyPriceChargeRepository;
-
-    @Autowired
     private final TbDlvyPriceRepository tbDlvyPriceRepository;
-
-    @Autowired
     private final TbStoreDlvyChargeRepository tbStoreDlvyChargeRepository;
-
-    @Autowired
     private final TbStoreMngChargeRepository tbStoreMngChargeRepository;
-
-    @Autowired
     private final TbUserStaffRepository tbUserStaffRepository;
-
-    @Autowired
     private final TbNoticePlatformRepository tbNoticePlatformRepository;
-
-    @Autowired
     private final TbNoticeCompanyRepository tbNoticeCompanyRepository;
-
-    @Autowired
     private final TbNoticeWorkerRepository tbNoticeWorkerRepository;
-
-    @Autowired
     private final TbEventRepository tbEventRepository;
-
-    @Autowired
     private final TbServiceChargeGroupRepository tbServiceChargeGroupRepository;
-
-    @Autowired
     private final TbServiceChargeRepository tbServiceChargeRepository;
-
-    @Autowired
     private final TbStoreServiceChargeRepository tbStoreServiceChargeRepository;
-
-    @Autowired
     private final TbSystemCategoryRepository tbSystemCategoryRepository;
-
-    @Autowired
     private final KeyGeneratorConfig keyGeneratorConfig;
-
-    @Autowired
     private final TbWorkerApplyAttachRepository tbWorkerApplyAttachRepository;
-
-    @Autowired
     private final TbWorkerApplyRepository tbWorkerApplyRepository;
-
-    @Autowired
     private final TbStoreRentalCarRepository tbStoreRentalCarRepository;
-
-    @Autowired
     private final TbSafenMappingRepository tbSafenMappingRepository;
-
-    @Autowired
     private final TbNoticeReleaseRepository tbNoticeReleaseRepository;
-
-    @Autowired
     private final TbCallAllRepository tbCallAllRepository;
-
-    @Autowired
     private final TbWorkerChargeRepository tbWorkerChargeRepository;
-
-    @Autowired
     private final TbStoreChargeRepository tbStoreChargeRepository;
-
-    @Autowired
     private final TbStorePriceRepository tbStorePriceRepository;
-
-    @Autowired
     private final TbBranchPriceRepository tbBranchPriceRepository;
-
-    @Autowired
     private RestTemplateUtil restTemplateUtil;
-
-    @Autowired
     private final TbCouponRepository tbCouponRepository;
-
-    @Autowired
     private final BoardService boardService;
-
-    @Autowired
     private final TbAppBannerRepository tbAppBannerRepository;
-
-    @Autowired
     private final TbCashWithdrawRepository tbCashWithdrawRepository;
-
-    @Autowired
     private final TbCustRepository tbCustRepository;
-
-    @Autowired
     private final TbSiteAclRepository tbSiteAclRepository;
-
-    @Autowired
     private final TbVacsVactRepository tbVacsVactRepository;
-
-    @Autowired
     private final TbRentalInfoRepository tbRentalInfoRepository;
-
-    @Autowired
     private final TbMannaCouponRegistRepository tbMannaCouponRegistRepository;
+    private final TbAppVersionRepository tbAppVersionRepository;
 
 
 
@@ -1235,9 +1133,15 @@ public class ApiService {
     public List<TbSystemCode> systemCodeList(String sysType) {
         return tbSystemCodeRepository.findBySysTypeAndDataStatusOrderByViewOrderAsc(sysType,DataStatus.OK);
     }
+
     @Transactional(readOnly = true)
     public List<TbSystemCode> systemCodeList(String sysType,String sysCode) {
         return tbSystemCodeRepository.findBySysTypeAndSysCodeLikeAndDataStatus(sysType,sysCode,DataStatus.OK);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TbAppVersion> getAppVersionListTypeOne(String appCode) {
+        return tbAppVersionRepository.findByDeviceTypeAndAppCode(1,appCode);
     }
     @Transactional
     public List<TbVacsVact> cybankAccountReset(String bankCode, String no, Integer type, String oldBankCode, String oldNo,String owner) {

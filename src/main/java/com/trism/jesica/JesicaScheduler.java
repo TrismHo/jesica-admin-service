@@ -27,7 +27,7 @@ public class JesicaScheduler {
     private LocalDateTime dateTime = null;
 
     @Transactional(readOnly = true, value = "mysqlTransactionManager")
-    @Scheduled(initialDelay = 1000L, fixedDelay = 180000L)
+    @Scheduled(initialDelay = 10000L, fixedDelay = 1800000L)
     public void reloadProperties() {
         log.info("@@@ reloadProperties {}", dateTime);
 

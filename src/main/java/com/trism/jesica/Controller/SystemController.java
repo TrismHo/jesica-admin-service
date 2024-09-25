@@ -336,7 +336,7 @@ public class SystemController {
      */
     @GetMapping("/master/list")
     public ModelAndView getMasterList(@RequestParam Map<String,Object> searchValue,
-                                      Model model ) {
+                                      Model model,HttpSession session) {
 
         log.info("@@searchValue {}",searchValue);
         String name = "";
@@ -344,6 +344,9 @@ public class SystemController {
         List<TbUserStaffDTO> resultList = null;
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
+
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
 
         if (searchValue.get("startDate") != null) {
             String string = searchValue.get("startDate").toString() + " 00:00:00";
@@ -396,7 +399,13 @@ public class SystemController {
      * 마스터관리자 관리 insert
      */
     @GetMapping("/master/insert")
-    public ModelAndView insertMastert( Model model) {
+    public ModelAndView insertMastert( Model model, HttpSession session) {
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
+
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appCode",appCode);
         return new ModelAndView("jesica/system/adminuser/insert");
     }
 
@@ -404,11 +413,16 @@ public class SystemController {
      * 마스터관리자 관리 detail
      */
     @GetMapping("/master/detail")
-    public ModelAndView detailAffiliated(@RequestParam Long userNo, Model model) {
+    public ModelAndView detailAffiliated(@RequestParam Long userNo, Model model, HttpSession session) {
         log.info("@@headNo {}",userNo);
 
         try {
+            LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+            String appCode = loginSession.getAppCode();
 
+            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            model.addAttribute("appVersionList",appVersionList);
+            model.addAttribute("appCode",appCode);
 
 
             List<TbSystemCode> systemCodeList = apiService.systemCodeList("BL");

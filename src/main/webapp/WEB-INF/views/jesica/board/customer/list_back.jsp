@@ -105,7 +105,7 @@
                                                     </c:if>
                                                     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                         <select class="form-control" name="platformType">
-                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
+                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="직배"/></option>
                                                         </select>
                                                     </c:if>
                                                     <%--<select class="form-control" name="platformType">
@@ -479,7 +479,7 @@
                         } else if(data == 1){
                             return "제시카";
                         } else if(data == 2){
-                            return "PICK오더";
+                            return "직배";
                         } else if(data == 3){
                             return "세날";
                         }

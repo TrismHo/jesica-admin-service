@@ -28,7 +28,7 @@ public class LoginDTO {
     public static abstract class BaseLoginVo {
         private Long userNo;
 
-        private String name;
+       /* private String name;*/
 
         private Boolean pushOrderYn;
 
@@ -40,7 +40,7 @@ public class LoginDTO {
 
     }
 
-    @Getter
+    /*@Getter
     @Setter
     @ToString(callSuper = true)
     @NoArgsConstructor
@@ -68,6 +68,39 @@ public class LoginDTO {
             this.branchNo = branchNo;
             this.storeNo = storeNo;
         }
+    }*/
+
+    @Getter
+    @Setter
+    @ToString(callSuper = true)
+    @NoArgsConstructor
+    //@EqualsAndHashCode(callSuper = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    //public static class LoginVo extends BaseLoginVo {
+    public static class LoginVo {
+        private Long userNo;
+
+        private String name;
+
+        private String accessToken;
+
+        private String refreshToken;
+
+        private Integer role;
+
+
+       /* @Builder(builderClassName = "CustBuilder", builderMethodName = "custBuilder")
+        public LoginVo(Long userNo, String name, Boolean pushOrderYn, Boolean pushNoticeYn, Boolean pushMarketingYn, TokenVo token, Boolean smsYn) {
+            super(userNo, name, pushOrderYn, pushNoticeYn, pushMarketingYn, token);
+            this.smsYn = smsYn;
+        }
+        @Builder(builderClassName = "UserBilder", builderMethodName = "userBuilder")
+        public LoginVo(Long userNo, String name, Boolean pushOrderYn, Boolean pushNoticeYn, Boolean pushMarketingYn, TokenVo token, Long headNo, Long branchNo, Long storeNo) {
+            super(userNo, name, pushOrderYn, pushNoticeYn, pushMarketingYn, token);
+            this.headNo = headNo;
+            this.branchNo = branchNo;
+            this.storeNo = storeNo;
+        }*/
     }
 
     @Getter

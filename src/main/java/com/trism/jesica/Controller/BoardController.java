@@ -48,6 +48,7 @@ public class BoardController {
         log.info("@@searchValue {}",searchValue);
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
@@ -63,6 +64,12 @@ public class BoardController {
             } else if ("yangpa".equals(company)) {
                 searchValue.put("platformType","2");
             }
+
+            if(!"".equals(appCode)){
+                searchValue.put("appCode",appCode);
+            } else {
+                searchValue.put("appCode","");
+            }
             List<TbNoticePlatform> resultList =  boardService.tbNoticePlatFormSearch(searchValue);
             model.addAttribute("tbNoticePlatformList", resultList);
 
@@ -75,13 +82,26 @@ public class BoardController {
     }
 
     @GetMapping("/platform/insert")
-    public ModelAndView insertformPlatformNotice() {
+    public ModelAndView insertformPlatformNotice(Model model, HttpSession session) {
 
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
+
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appCode",appCode);
         return new ModelAndView("jesica/board/platform/insert");
     }
 
     @GetMapping("/platform/detail")
-    public ModelAndView detailformPlatformNotice(@RequestParam("noticeNo") Long noticeNo , Model model) {
+    public ModelAndView detailformPlatformNotice(@RequestParam("noticeNo") Long noticeNo , Model model, HttpSession session) {
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
+
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appCode",appCode);
+
         log.info("noticeNo :: {}",noticeNo);
         try {
             TbNoticePlatform tbNoticePlatform = boardService.getTbNoticePlatFormDetail(noticeNo);
@@ -184,6 +204,8 @@ public class BoardController {
         log.info("@@searchValue {}",searchValue);
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String company = loginSession.getCompany();
+        String appCode = "";
+        appCode = loginSession.getAppCode();
 
         try {
             if (!searchValue.isEmpty()) {
@@ -198,6 +220,11 @@ public class BoardController {
             } else if ("yangpa".equals(company)) {
                 searchValue.put("platformType","2");
             }
+            if(!appCode.equals("")) {
+                searchValue.put("appCode",appCode);
+            } else  {
+                searchValue.put("appCode","");
+            }
 
             List<TbEvent> resultList =  boardService.tbEventSearch(searchValue);
             model.addAttribute("tbEventList", resultList);
@@ -210,14 +237,25 @@ public class BoardController {
     }
 
     @GetMapping("/event/insert")
-    public ModelAndView insertEvent() {
+    public ModelAndView insertEvent(Model model, HttpSession session) {
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
 
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appCode",appCode);
         return new ModelAndView("jesica/board/event/insert");
     }
 
     @GetMapping("/event/detail")
-    public ModelAndView detailEvent(@RequestParam("eventNo") Long eventNo , Model model) {
+    public ModelAndView detailEvent(@RequestParam("eventNo") Long eventNo , Model model, HttpSession session) {
         log.info("eventNo :: {}",eventNo);
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
+
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appCode",appCode);
       /*  try {
 
             model.addAttribute("tbEvent", tbEvent);
@@ -274,6 +312,7 @@ public class BoardController {
         log.info("@@searchValue {}",searchValue);
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
         try {
             if (ObjectUtils.isNotEmpty(searchValue)) {
 
@@ -288,6 +327,11 @@ public class BoardController {
                 searchValue.put("platformType","1");
             } else if ("yangpa".equals(company)) {
                 searchValue.put("platformType","2");
+            }
+            if(!"".equals(appCode)) {
+                searchValue.put("appCode",appCode);
+            } else {
+                searchValue.put("appCode","");
             }
             List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
             log.info("tbAppBannerList::[{}]", tbAppBannerList);
@@ -320,20 +364,33 @@ public class BoardController {
     }
 
     @GetMapping("/banner/insert")
-    public ModelAndView insertAppBanner(Model model) {
+    public ModelAndView insertAppBanner(Model model, HttpSession session) {
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
+
         List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
         List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
         List<TbSystemCode> sysLangCode = apiService.systemCodeList("LANG");
+        //List<TbAppVersion> appVersionList = apiService.getAppVersionListTypeOne(appCode);
+
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
 
         model.addAttribute("sysCodeList" , sysCodeList);
         model.addAttribute("sysCodeList2" , sysCodeList2);
         model.addAttribute("sysLangCode",sysLangCode);
+        model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appCode",appCode);
+
         return new ModelAndView("jesica/board/banner/insert");
     }
 
     @GetMapping("/banner/detail")
-    public ModelAndView detailAppBanner(@RequestParam("bannerNo") Long bannerNo, Model model) {
+    public ModelAndView detailAppBanner(@RequestParam("bannerNo") Long bannerNo, Model model, HttpSession session) {
         log.info("bannerNo:: ", bannerNo);
+
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
 
         try {
             TbAppBanner tbAppBanner = boardService.tbAppBannerDetail(bannerNo);
@@ -341,10 +398,16 @@ public class BoardController {
             List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
             List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
             List<TbSystemCode> sysLangCode = apiService.systemCodeList("LANG");
+            //List<TbAppVersion> appVersionList = apiService.getAppVersionListTypeOne(appCode);
+
+            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            model.addAttribute("appVersionList",appVersionList);
 
             model.addAttribute("sysCodeList" , sysCodeList);
             model.addAttribute("sysCodeList2" , sysCodeList2);
             model.addAttribute("sysLangCode",sysLangCode);
+            model.addAttribute("appVersionList",appVersionList);
+            model.addAttribute("appCode",appCode);
 
             String url = "";
             if (ObjectUtils.isNotEmpty(tbAppBanner.getBannerFile())) {
@@ -424,7 +487,13 @@ public class BoardController {
     public ModelAndView listCust(HttpSession session, @RequestParam Map<String, Object> searchValue, Model model) {
         log.info("@@searchValue::{}", searchValue);
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        //String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+
+        if(!"".equals(appCode)){
+            searchValue.put("appCode",appCode);
+        } else {
+            searchValue.put("appCode","");
+        }
 
         searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
         searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());

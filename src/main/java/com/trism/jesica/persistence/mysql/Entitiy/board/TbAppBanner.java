@@ -1,5 +1,6 @@
 package com.trism.jesica.persistence.mysql.Entitiy.board;
 
+import com.trism.jesica.config.EmptyStringToNullConverter;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
@@ -108,6 +109,13 @@ public class TbAppBanner {
     @Column(name = "scheme_url", nullable = false)
     private String schemeUrl = "";
 
+    /**
+     * 앱코드
+     */
+    @Column(name = "app_code")
+    @Convert(converter = EmptyStringToNullConverter.class)
+    private String appCode;
+
     @Builder
     public TbAppBanner(
             Long bannerNo,
@@ -122,7 +130,8 @@ public class TbAppBanner {
             Integer dataStatus,
             Integer bannerType,
             String langCode,
-            String schemeUrl
+            String schemeUrl,
+            String appCode
     ) {
         this.bannerNo = bannerNo;
         this.platformType = platformType;
@@ -137,6 +146,7 @@ public class TbAppBanner {
         this.bannerType = bannerType;
         this.langCode = langCode;
         this.schemeUrl = schemeUrl;
+        this.appCode = appCode;
     }
 
     public void updateDisabledTbAppBanner() {
