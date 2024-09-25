@@ -42,7 +42,7 @@ configurations {
             }
         }
     }
-    
+
     developmentOnly
     runtimeClasspath {
         extendsFrom developmentOnly
@@ -70,9 +70,11 @@ bootWar {
 
 repositories {
     mavenCentral()
+    maven { url "https://mvnrepository.com/artifact/com.oracle.database.jdbc" }
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     //spring
     compile("org.springframework.boot:spring-boot-starter") {
         exclude module: "tomcat-embed-el"
@@ -99,9 +101,14 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.querydsl:querydsl-apt'
 
+
+    implementation 'com.oracle.database.jdbc:ojdbc8:19.3.0.0'
+// https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8
+    //implementation group: 'com.oracle.ojdbc', name: 'ojdbc8', version: '19.3.0.0'
+
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat
     //compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.2.1.RELEASE'
-
+    //implementation group: 'com.oracle.database.security', name: 'oraclepki', version: '21.1.0.0'
     //json
     implementation 'org.json:json:20200518'
 
@@ -147,6 +154,9 @@ dependencies {
     //excel-xlsx
     compile 'org.apache.poi:poi-ooxml:3.17'
 
+
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'                  // Spring Boot AMQP
+   /* implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'*/
 
     // https://mvnrepository.com/artifact/org.ehcache/ehcache
 /*    compile('org.springframework.boot:spring-boot-starter-cache')
