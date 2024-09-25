@@ -32,6 +32,7 @@ Icon
 
 ### Java ###
 *.class
+src/main/java/generated/
 
 # Package Files #
 *.jar
@@ -61,6 +62,7 @@ build/
 *.iws
 .idea/
 
+
 ### SVN ###
 .svn/
 
@@ -71,3 +73,5 @@ target/
 *.log
 *.xml
 *.txt
+
+
