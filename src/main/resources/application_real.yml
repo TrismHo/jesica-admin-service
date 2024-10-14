@@ -28,32 +28,72 @@ logging:
   file:
     path: /data/jesicar/logs/
 ---
+
+rabbitmq:
+  queue:
+    name: message.push.queue
+  exchange:
+    name: message.exchange
+  routing:
+    key : message.push
+
 spring:
+  rabbitmq:
+    port: 5672
+    host: 101.55.126.138
+    username: jesica01
+    password: trism3999!
+    virtual-host: v-jesica
   cache:
     jcache:
       config: classpath:cache/ehcache.xml
-  datasource:
-    hikari:
-      jdbc-url: jdbc:mysql://trism-db-01.cdq6jmam0fnm.ap-northeast-2.rds.amazonaws.com:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
-      username: jesicar01
-      password: wptlzk2021
-      driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
+  service-pick:
+    datasource:
+      hikari:
+        jdbc-url: jdbc:mysql://trism-db-01.cdq6jmam0fnm.ap-northeast-2.rds.amazonaws.com:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+        username: jesicar01
+        password: wptlzk2021
+        driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
+  service-manna:
+    datasource:
+      hikari:
+        jdbc-url: jdbc:oracle:thin:@192.168.200.181:1521:ALADIN
+        username: MANNA
+        password: Ekswnr59
+        driver-class-name: oracle.jdbc.OracleDriver
   jpa:
-    show-sql: true
-    open-in-view: false
-    generate-ddl: false
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-    database: mysql
-    hibernate:
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-      ddl-auto: none
-    properties:
-      hibernate.show_sql: true
-      hibernate.format_sql: true
-      hibernate.use_sql_comments: true
-      hibernate.enable_lazy_load_no_trans: true
+    mysql:
+      show-sql: true
+      open-in-view: false
+      generate-ddl: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+      #database: mysql
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        ddl-auto: none
+      properties:
+        hibernate.show_sql: true
+        hibernate.format_sql: true
+        hibernate.use_sql_comments: true
+        hibernate.enable_lazy_load_no_trans: true
+    oracle:
+      show-sql: true
+      open-in-view: false
+      generate-ddl: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+      #database: mysql
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        ddl-auto: none
+      properties:
+        hibernate.show_sql: true
+        hibernate.format_sql: true
+        hibernate.use_sql_comments: true
+        hibernate.enable_lazy_load_no_trans: true
   mvc:
     view:
       prefix: /WEB-INF/views
@@ -142,9 +182,15 @@ file:
   messageFile:
     path: /data/jesicar/messages/message
   apiServer:
-    server: https://api.jesicar.co.kr/api
+    server: https://api.jigbae.co.kr/api
   imgHttp:
-    path: http://admin.jesicar.co.kr/api/img/fileLoad?filePath=
+    path: http://mng.jigbae.co.kr/api/img/fileLoad?filePath=
+  momPosServer:
+    server: https://frapp.mompos.co.kr:8443/api-ms
+    authKey: $2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y
+  ordPathCd:
+    jesicar: 1063
+    pickOrder: 1069
 spring:
   profiles:
 ########################################

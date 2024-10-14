@@ -32,7 +32,7 @@ public class RabbitMqService {
      * 1. Queue 로 메세지를 발행
      * 2. Producer 역할 -> Direct Exchange 전략
      **/
-    public void sendMessage(BigDecimal[] custList, String couponText, String pushTitle, String pushContents) {
+    public void sendMessage(BigDecimal[] custList, String couponText, String pushTitle, String pushContents, Integer sendType) {
       /*  PushMessage.Data data = PushMessage.Data.builder().type("5").build();
         PushMessage pushMessage = PushMessage.builder().appcode("om")
                 .os("a")
@@ -44,39 +44,68 @@ public class RabbitMqService {
                 .build();
         log.info(pushMessage.toString());*/
         //사용자 조회
-        for(int i = 0 ; i < custList.length ; i++){
 
-            PushMessage.Data data = PushMessage.Data.builder().type("5").build();
-            Map<String,Object> deviceInfo =  tbCustDeviceRepository.getDeviceInfo(custList[i]);
+        if(sendType == 5){
+            for(int i = 0 ; i < custList.length ; i++){
+                PushMessage.Data data = PushMessage.Data.builder().type("5").build();
+                Map<String,Object> deviceInfo =  tbCustDeviceRepository.getDeviceInfo(custList[i]);
 
-            if(deviceInfo.get("extCustNo") != null){
-                pushTitle.replace("{name}",deviceInfo.get("custName").toString());
-                pushTitle.replace("{coupon}",couponText);
-                String os = "";
-                if(Integer.parseInt(deviceInfo.get("deviceType").toString()) == 1){
-                    os = "a";
-                } else if(Integer.parseInt(deviceInfo.get("deviceType").toString()) == 2){
-                    os = "i";
-                }
-                PushMessage pushMessage = PushMessage.builder().appcode("om")
+                if(deviceInfo.get("extCustNo") != null){
+                    pushTitle.replace("{name}",deviceInfo.get("custName").toString());
+                    pushTitle.replace("{coupon}",couponText);
+                    String os = "";
+                    if(Integer.parseInt(deviceInfo.get("deviceType").toString()) == 1){
+                        os = "a";
+                    } else if(Integer.parseInt(deviceInfo.get("deviceType").toString()) == 2){
+                        os = "i";
+                    }
+                    PushMessage pushMessage = PushMessage.builder().appcode("om")
 
-                .os(os)
-                .timestamp(System.currentTimeMillis())
-                .title(deviceInfo.get("custName").toString() + "님에게 "+couponText+"이 도착했습니다.")
-                .contents(pushContents)
-                .receiver(deviceInfo.get("pushKey").toString())
-                .data(data)
-                 .build();
+                            .os(os)
+                            .timestamp(System.currentTimeMillis())
+                            .title(deviceInfo.get("custName").toString() + "님에게 "+couponText+"이 도착했습니다.")
+                            .contents(pushContents)
+                            .receiver(deviceInfo.get("pushKey").toString())
+                            .data(data)
+                            .build();
 
-                log.info(pushMessage.toString());
-                this.rabbitTemplate.convertAndSend(exchangeName,routingKey,pushMessage);
+                    log.info(pushMessage.toString());
+                    this.rabbitTemplate.convertAndSend(exchangeName,routingKey,pushMessage);
               /*  try {
                     Thread.sleep(10); //0.01초 대기
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }*/
+                }
+            }
+        } else if(sendType != 5){
+            for(int i = 0 ; i < custList.length ; i++){
+                PushMessage.Data data = PushMessage.Data.builder().type(sendType.toString()).build();
+                Map<String,Object> deviceInfo =  tbCustDeviceRepository.getDeviceInfo(custList[i]);
+
+                if(deviceInfo.get("extCustNo") != null){
+                    //pushTitle.replace("{name}",deviceInfo.get("custName").toString());
+                    //pushTitle.replace("{coupon}",couponText);
+                    String os = "";
+                    if(Integer.parseInt(deviceInfo.get("deviceType").toString()) == 1){
+                        os = "a";
+                    } else if(Integer.parseInt(deviceInfo.get("deviceType").toString()) == 2){
+                        os = "i";
+                    }
+                    PushMessage pushMessage = PushMessage.builder().appcode("om")
+                            .os(os)
+                            .timestamp(System.currentTimeMillis())
+                            .title(pushTitle)
+                            .contents(pushContents)
+                            .receiver(deviceInfo.get("pushKey").toString())
+                            .data(data)
+                            .build();
+                    log.info(pushMessage.toString());
+                    this.rabbitTemplate.convertAndSend(exchangeName,routingKey,pushMessage);
+                }
             }
         }
+
     }
 
     /**

@@ -1,14 +1,19 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
+import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.BrCodeService;
 import com.trism.jesica.Service.StatisticsService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.persistence.mysql.Entitiy.business.TbStore;
 import com.trism.jesica.persistence.mysql.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequestMapping("/statistics")
 @RestController
@@ -32,6 +38,8 @@ public class StatisticsController {
 
     private final BrCodeService brCodeService;
     private final ApiService apiService;
+    @Autowired
+    private final AuthService authService;
 
     //시간대별 통계
     @GetMapping("/time/list")
@@ -757,5 +765,55 @@ public class StatisticsController {
         }
 
         return searchValue;
+    }
+
+    private Map<String,Object> permission(HttpSession session, String menuPath) {
+        HashMap<String ,Object> map = new HashMap<>();
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        int staffNo = loginSession.getUserStaffNo();
+        Long nLong = new Long(staffNo);
+        String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+
+        Optional<TbSiteMenu> siteMenu = authService.getTbSiteMenu(menuPath);
+        TbSiteAcl permission = null;
+
+        if("jesicar".equals(company)) {
+            map.put("platformType","1");
+        } else if ("yangpa".equals(company)) {
+            map.put("platformType","2");
+        }
+
+        /* 사이트 메뉴 정보가 없으면 */
+        if(siteMenu.isPresent()) {
+            /* 권한이 존재하지 않는경우 */
+            if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
+                /* 권한이 마스터 :0 인경우*/
+                if(loginSession.getRoleType() == 0){
+                    map.put("downloadChk",1);
+                    map.put("permission",2);
+                }else {
+                    permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
+                    map.put("downloadChk",permission.getDownloadAble());
+                    if(!ObjectUtils.isEmpty(permission)){
+                        map.put("permission",permission.getPermission());
+                    } else {
+                        map.put("permission",0);
+                    }
+                }
+            }
+        } else {
+            map.put("downloadChk",0);
+            map.put("permission",0);
+        }
+
+        if(!ObjectUtils.isEmpty(appCode)){
+            map.put("appCode",appCode);
+        } else {
+            map.put("appCode","");
+        }
+
+        map.put("company",company);
+        return map;
     }
 }

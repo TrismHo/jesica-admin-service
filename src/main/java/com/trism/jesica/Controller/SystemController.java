@@ -17,6 +17,7 @@ import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.reflections.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -345,8 +346,7 @@ public class SystemController {
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
 
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"system/master");
 
         if (searchValue.get("startDate") != null) {
             String string = searchValue.get("startDate").toString() + " 00:00:00";
@@ -391,6 +391,8 @@ public class SystemController {
             e.printStackTrace();
         }
         model.addAttribute("searchValue", searchValue);
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
 
         return new ModelAndView("jesica/system/adminuser/list");
     }
@@ -400,12 +402,13 @@ public class SystemController {
      */
     @GetMapping("/master/insert")
     public ModelAndView insertMastert( Model model, HttpSession session) {
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"system/master");
 
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         model.addAttribute("appVersionList",appVersionList);
-        model.addAttribute("appCode",appCode);
+        model.addAttribute("appCode",map.get("appCode"));
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
         return new ModelAndView("jesica/system/adminuser/insert");
     }
 
@@ -417,12 +420,13 @@ public class SystemController {
         log.info("@@headNo {}",userNo);
 
         try {
-            LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-            String appCode = loginSession.getAppCode();
+            Map<String,Object> map = permission(session,"system/master");
 
             List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
             model.addAttribute("appVersionList",appVersionList);
-            model.addAttribute("appCode",appCode);
+            model.addAttribute("appCode",map.get("appCode"));
+            model.addAttribute("permission",map.get("permission"));
+            model.addAttribute("downloadAble",map.get("downloadAble"));
 
 
             List<TbSystemCode> systemCodeList = apiService.systemCodeList("BL");
@@ -439,6 +443,8 @@ public class SystemController {
             model.addAttribute("tbSiteAclList", tbSiteAclList);
             model.addAttribute("tbSiteMenus", tbSiteMenus);
             model.addAttribute("tbSiteMenuAclList", tbSiteMenuAclList);
+            model.addAttribute("permission",map.get("permission"));
+            model.addAttribute("downloadAble",map.get("downloadAble"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -598,6 +604,56 @@ public class SystemController {
         }
 
         return searchValue;
+    }
+
+    private Map<String,Object> permission(HttpSession session, String menuPath) {
+        HashMap<String ,Object> map = new HashMap<>();
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        int staffNo = loginSession.getUserStaffNo();
+        Long nLong = new Long(staffNo);
+        String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+
+        Optional<TbSiteMenu> siteMenu = authService.getTbSiteMenu(menuPath);
+        TbSiteAcl permission = null;
+
+        if("jesicar".equals(company)) {
+            map.put("platformType","1");
+        } else if ("yangpa".equals(company)) {
+            map.put("platformType","2");
+        }
+
+        /* 사이트 메뉴 정보가 없으면 */
+        if(siteMenu.isPresent()) {
+            /* 권한이 존재하지 않는경우 */
+            if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
+                /* 권한이 마스터 :0 인경우*/
+                if(loginSession.getRoleType() == 0){
+                    map.put("downloadChk",1);
+                    map.put("permission",2);
+                }else {
+                    permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
+                    map.put("downloadChk",permission.getDownloadAble());
+                    if(!ObjectUtils.isEmpty(permission)){
+                        map.put("permission",permission.getPermission());
+                    } else {
+                        map.put("permission",0);
+                    }
+                }
+            }
+        } else {
+            map.put("downloadChk",0);
+            map.put("permission",0);
+        }
+
+        if(!ObjectUtils.isEmpty(appCode)){
+            map.put("appCode",appCode);
+        } else {
+            map.put("appCode","");
+        }
+
+        map.put("company",company);
+        return map;
     }
 
 }

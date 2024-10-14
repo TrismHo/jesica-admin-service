@@ -9,7 +9,7 @@
         <title>Jesicar | 영업가맹점 상세<%--<spring:message code="merchandise.detail.title" text="default text"/>--%></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | 영업가맹점 상세<%--<spring:message code="merchandise.detail.title" text="default text"/>--%></title>
+        <title>Jig-Bae | 영업가맹점 상세<%--<spring:message code="merchandise.detail.title" text="default text"/>--%></title>
     </c:if>
 </head>
 <body>

@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
+        <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
 
 </head>
@@ -164,7 +164,7 @@
                             </div>
                             <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                    <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info" style="width: 115px;cursor: auto;" custno="269"><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span></button>
+                                    <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info" style="width: 115px;cursor: auto;" ><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span></button>
                                     </button>
                                     <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
                                 </div>

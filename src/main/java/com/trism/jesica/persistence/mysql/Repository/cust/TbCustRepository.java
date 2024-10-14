@@ -232,4 +232,12 @@ public interface TbCustRepository extends JpaRepository<TbCust, Long>, JpaSpecif
             "       where ext_cust_no in (:custList) "+
             "",nativeQuery = true)
     List<Map<String,Object>> getCustList(@Param("custList") String[] custList);
+    @Query(value = "select " +
+            "        cust_no as custNo " +
+            "       from tb_cust as cust " +
+            "       where data_status = 1 " +
+            "       and (:appCode is null and 1 = 1 ) or ( :appCode is not null and app_code = ':appCode' ) )"+
+            "       and platform_type = 2 "+
+            "",nativeQuery = true)
+    List<Map<String,Object>> getAppCodeCustList(@Param("appCode") String appCode);
 }

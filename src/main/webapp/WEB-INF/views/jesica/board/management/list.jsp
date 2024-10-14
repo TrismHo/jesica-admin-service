@@ -10,7 +10,7 @@
         <title>Jesicar |<spring:message code="sidemenu.couponmanagement.couponmanagement1" text="쿠폰 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order |<spring:message code="sidemenu.couponmanagement.couponmanagement1" text="쿠폰 관리"/></title>
+        <title>Jig-Bae  |<spring:message code="sidemenu.couponmanagement.couponmanagement1" text="쿠폰 관리"/></title>
     </c:if>
 </head>
 <body>

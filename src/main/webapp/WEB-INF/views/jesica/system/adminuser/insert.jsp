@@ -90,8 +90,9 @@
                                             <td class="bg-light"><spring:message code="list.detail.id1" text="등급"/></td>
                                             <td>
                                                 <select class="form-control" name="roleType">
-                                                    <option value="1">마스터 </option>
-                                                    <option value="2">사용자 </option>
+                                                    <option value="0">마스터 </option>
+                                                    <option value="1">본사 </option>
+                                                    <option value="2">앱사 </option>
                                                 </select>
                                             </td>
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="마스터/사용자를 선택해주세요"/></td>
@@ -139,7 +140,11 @@
                             <!-- end table-responsive -->
                             <div class="m-l-5 m-t-5">
                                 <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
-                                <button type="button" class="btn btn-primary btn_add float-left m-t-5 m-l-20"><i class="fa fa-plus m-r-3"></i> <spring:message code="list.detail.enrollment" text="등록"/></button>
+
+                                <c:if test="${permission == 2}">
+                                    <button type="button" class="btn btn-primary btn_add float-left m-t-5 m-l-20"><i class="fa fa-plus m-r-3"></i> <spring:message code="list.detail.enrollment" text="등록"/></button>
+                                </c:if>
+
                             </div>
                         </div>
                         <!-- end panel -->

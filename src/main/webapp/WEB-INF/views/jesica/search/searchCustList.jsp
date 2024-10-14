@@ -239,7 +239,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" data-toggle="modal" data-target="#select_push_template" class="btn btn-info" style="width: 115px;cursor: auto;" custno="269"><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="지급알림발송"/></span></button>
+            <button type="button" data-toggle="modal" data-target="#select_push_template" class="btn btn-info" style="width: 115px;cursor: auto;" custno=""><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="지급알림발송"/></span></button>
             <%--<input type="button" class="btn btn-info m-r-15 float-right" id="cpnAlarmBtn" value="지급알림발송">--%>
             <button type="button" class="btn btn-info btn_remove float-right m-l-5 cpnAllBtn" ><i class="fa fa-plus-circle m-r-3"></i> <spring:message code="list.detail.delete" text="쿠폰일괄지급"/></button>
             <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal">닫기</button>

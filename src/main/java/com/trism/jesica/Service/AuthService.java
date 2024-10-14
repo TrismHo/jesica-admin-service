@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,10 +27,10 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public TbSiteMenu getTbSiteMenu(String menuUrl) {
-        return tbSiteMenuRepository.findByMenuUrlLike(menuUrl);
+    public Optional<TbSiteMenu> getTbSiteMenu(String menuUrl) {
+        Optional<TbSiteMenu> tbSiteMenu = tbSiteMenuRepository.findByMenuUrlLike(menuUrl);
+        return tbSiteMenu;
     }
-
 
     @Transactional(readOnly = true)
     public List<TbSiteAcl> getSiteAcl(Long staffNo) {
@@ -43,6 +44,10 @@ public class AuthService {
     @Transactional(readOnly = true)
     public List<Map<String, Object>>  getTbSiteMenuAclList(Long staffNo) {
         return tbSiteMenuRepository.getTbSiteMenuAclList(staffNo);
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>>  getTbSiteMenuAclListAll(Long staffNo) {
+        return tbSiteMenuRepository.getTbSiteMenuAclListAll(staffNo);
     }
 }
 

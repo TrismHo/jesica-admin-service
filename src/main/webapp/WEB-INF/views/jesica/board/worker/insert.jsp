@@ -8,7 +8,7 @@
         <title>Jesicar | 배송원 공지등록</title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | 배송원 공지등록</title>
+        <title>Jig-Bae | 배송원 공지등록</title>
     </c:if>
     <%@include file="../../../common/include_head.jsp" %>
 </head>

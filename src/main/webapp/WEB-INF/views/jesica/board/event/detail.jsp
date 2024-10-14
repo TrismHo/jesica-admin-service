@@ -9,7 +9,7 @@
         <title>Jesicar | <spring:message code="list.detail.eventnoticedetails" text="이벤트 공지"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="list.detail.eventnoticedetails" text="이벤트 공지"/></title>
+        <title>Jig-Bae  | <spring:message code="list.detail.eventnoticedetails" text="이벤트 공지"/></title>
     </c:if>
 </head>
 <body>
@@ -94,7 +94,7 @@
                                             </select>
                                         </c:if>
                                         <c:if test="${!empty appCode}">
-                                            <input type="text" class="form-control" name="appCode" readonly value="${appCode}">
+                                            <input type="text" class="form-control" name="appCode" readonly value="${tbEvent.appCode}">
                                         </c:if>
                                     </td>
                                 </tr>
@@ -174,8 +174,12 @@
                         </form>
                     </div>
                     <div class="m-l-5">
-                        <button type="button" class="btn btn-danger btn_remove float-right m-t-5 m-b-5 m-r-5" eventNo="${tbEvent.eventNo}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
-                        <button type="button" class="btn btn-primary btn_up float-right m-t-5 m-b-5 m-r-5"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
+
+                        <c:if test="${permission == 2}">
+                            <button type="button" class="btn btn-danger btn_remove float-right m-t-5 m-b-5 m-r-5" eventNo="${tbEvent.eventNo}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
+                            <button type="button" class="btn btn-primary btn_up float-right m-t-5 m-b-5 m-r-5"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
+                            <button type="button" class="btn btn-blue btn_push float-right m-t-5 m-b-5 m-r-5" eventNo="${tbEvent.eventNo}"><i class="fa fa-caret-right m-r-3"></i> <spring:message code="list.detail.delete" text="푸시발송(전체)"/></button>
+                        </c:if>
                         <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
                     </div>
                 </div>
@@ -287,7 +291,52 @@
                     });
                 }
             });
-        })
+        });
+
+        $(".btn_push").click(function() {
+            let url = "${path}/api/send/message/type";
+            let eventNo = $(this).attr("eventNo");
+            let pushTitle = $(".title").val();
+            let pushContents = $(".body").val();
+            let appCode = `${sessionScope.sessionKey.appCode}`;
+            let doyouwanttodelete = "<spring:message code="list.script.doyouwanttodelete1" text="전송하시겠습니까?"/>";
+            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+            let deletemsg = "<spring:message code="list.script.deletemsg1" text="전송"/>";
+
+            swal({
+                title: doyouwanttodelete,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    deletemsg
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            pushTitle : pushTitle,
+                            pushContents : pushContents,
+                            appCode: appCode,
+                            type: 2
+                        },
+                        /*contentType: "application/json;",*/
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert("전송되었습니다.");
+                                //location.href="${path}/board/event/list?dataStatus=OK";
+                            } else {
+                                alert("전송에 실패하였습니다.");
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        });
 
 
         $(document).on("click",".btn_up",function() {

@@ -1,6 +1,7 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
+import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.BoardService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.dto.TbAppBannerLocationDTO;
@@ -11,6 +12,8 @@ import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeWorker;
 import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.mysql.Entitiy.coupon.TbCoupon;
 import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/board")
 @RestController
@@ -36,6 +36,7 @@ import java.util.Map;
 public class BoardController {
 
     private final ApiService apiService;
+    private final AuthService authService;
     private final BoardService boardService;
 
     /**
@@ -46,9 +47,8 @@ public class BoardController {
                                            Model model, HttpSession session) {
 
         log.info("@@searchValue {}",searchValue);
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String company = loginSession.getCompany();
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/platform");
+
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
@@ -58,18 +58,8 @@ public class BoardController {
                 searchValue.put("startDate","2020-01-01");
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
-
-            if("jesicar".equals(company)) {
-                searchValue.put("platformType","1");
-            } else if ("yangpa".equals(company)) {
-                searchValue.put("platformType","2");
-            }
-
-            if(!"".equals(appCode)){
-                searchValue.put("appCode",appCode);
-            } else {
-                searchValue.put("appCode","");
-            }
+            searchValue.put("platformType",map.get("platformType"));
+            searchValue.put("appCode",map.get("appCode"));
             List<TbNoticePlatform> resultList =  boardService.tbNoticePlatFormSearch(searchValue);
             model.addAttribute("tbNoticePlatformList", resultList);
 
@@ -77,36 +67,39 @@ public class BoardController {
             e.printStackTrace();
         }
         model.addAttribute("searchValue", searchValue);
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
 
         return new ModelAndView("/jesica/board/platform/list");
     }
 
     @GetMapping("/platform/insert")
     public ModelAndView insertformPlatformNotice(Model model, HttpSession session) {
-
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/cust");
 
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         model.addAttribute("appVersionList",appVersionList);
-        model.addAttribute("appCode",appCode);
+        model.addAttribute("appCode",map.get("appCode"));
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
         return new ModelAndView("jesica/board/platform/insert");
     }
 
     @GetMapping("/platform/detail")
     public ModelAndView detailformPlatformNotice(@RequestParam("noticeNo") Long noticeNo , Model model, HttpSession session) {
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/platform");
 
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         model.addAttribute("appVersionList",appVersionList);
-        model.addAttribute("appCode",appCode);
+        model.addAttribute("appCode",map.get("appCode"));
 
         log.info("noticeNo :: {}",noticeNo);
         try {
             TbNoticePlatform tbNoticePlatform = boardService.getTbNoticePlatFormDetail(noticeNo);
 
             model.addAttribute("tbNoticePlatform", tbNoticePlatform);
+            model.addAttribute("permission",map.get("permission"));
+            model.addAttribute("downloadAble",map.get("downloadAble"));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -119,6 +112,7 @@ public class BoardController {
     public ModelAndView listCompanyNotice(@RequestParam Map<String,Object> searchValue,
                                           Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
+        Map<String,Object> map = permission(session,"board/company");
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
@@ -202,10 +196,8 @@ public class BoardController {
     public ModelAndView listEvent(@RequestParam Map<String,Object> searchValue,
                                           Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String company = loginSession.getCompany();
-        String appCode = "";
-        appCode = loginSession.getAppCode();
+
+        Map<String,Object> map = permission(session,"board/event");
 
         try {
             if (!searchValue.isEmpty()) {
@@ -215,19 +207,13 @@ public class BoardController {
                 searchValue.put("startDate","2020-01-01");
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
             }
-            if("jesicar".equals(company)) {
-                searchValue.put("platformType","1");
-            } else if ("yangpa".equals(company)) {
-                searchValue.put("platformType","2");
-            }
-            if(!appCode.equals("")) {
-                searchValue.put("appCode",appCode);
-            } else  {
-                searchValue.put("appCode","");
-            }
+            searchValue.put("platformType",map.get("platformType"));
+            searchValue.put("appCode",map.get("appCode"));
 
             List<TbEvent> resultList =  boardService.tbEventSearch(searchValue);
             model.addAttribute("tbEventList", resultList);
+            model.addAttribute("permission",map.get("permission"));
+            model.addAttribute("downloadAble",map.get("downloadAble"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -238,24 +224,24 @@ public class BoardController {
 
     @GetMapping("/event/insert")
     public ModelAndView insertEvent(Model model, HttpSession session) {
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/event");
 
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         model.addAttribute("appVersionList",appVersionList);
-        model.addAttribute("appCode",appCode);
+        model.addAttribute("appCode",map.get("appCodee"));
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
         return new ModelAndView("jesica/board/event/insert");
     }
 
     @GetMapping("/event/detail")
     public ModelAndView detailEvent(@RequestParam("eventNo") Long eventNo , Model model, HttpSession session) {
         log.info("eventNo :: {}",eventNo);
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/event");
 
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         model.addAttribute("appVersionList",appVersionList);
-        model.addAttribute("appCode",appCode);
+        model.addAttribute("appCode",map.get("appCode"));
       /*  try {
 
             model.addAttribute("tbEvent", tbEvent);
@@ -270,6 +256,8 @@ public class BoardController {
 
         TbEvent tbEvent = boardService.getTbEventDetail(eventNo);
         model.addAttribute("tbEvent", tbEvent);
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
         return new ModelAndView("jesica/board/event/detail");
     }
 
@@ -310,9 +298,7 @@ public class BoardController {
     public ModelAndView listAppBanner(@RequestParam Map<String,Object> searchValue,
                                           Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String company = loginSession.getCompany();
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/banner");
         try {
             if (ObjectUtils.isNotEmpty(searchValue)) {
 
@@ -323,16 +309,10 @@ public class BoardController {
                 searchValue.put("serviceType", "0");
                 searchValue.put("dataStatus", "OK");
             }
-            if("jesicar".equals(company)) {
-                searchValue.put("platformType","1");
-            } else if ("yangpa".equals(company)) {
-                searchValue.put("platformType","2");
-            }
-            if(!"".equals(appCode)) {
-                searchValue.put("appCode",appCode);
-            } else {
-                searchValue.put("appCode","");
-            }
+                searchValue.put("platformType",map.get("platformType"));
+                searchValue.put("appCode",map.get("appCode"));
+
+
             List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
             log.info("tbAppBannerList::[{}]", tbAppBannerList);
 
@@ -358,6 +338,8 @@ public class BoardController {
 
 
         model.addAttribute("searchValue", searchValue);
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
 
 
         return new ModelAndView("jesica/board/banner/list");
@@ -365,8 +347,7 @@ public class BoardController {
 
     @GetMapping("/banner/insert")
     public ModelAndView insertAppBanner(Model model, HttpSession session) {
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/banner");
 
         List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
         List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
@@ -380,7 +361,9 @@ public class BoardController {
         model.addAttribute("sysCodeList2" , sysCodeList2);
         model.addAttribute("sysLangCode",sysLangCode);
         model.addAttribute("appVersionList",appVersionList);
-        model.addAttribute("appCode",appCode);
+        model.addAttribute("appCode",map.get("appCode"));
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
 
         return new ModelAndView("jesica/board/banner/insert");
     }
@@ -388,9 +371,7 @@ public class BoardController {
     @GetMapping("/banner/detail")
     public ModelAndView detailAppBanner(@RequestParam("bannerNo") Long bannerNo, Model model, HttpSession session) {
         log.info("bannerNo:: ", bannerNo);
-
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/banner");
 
         try {
             TbAppBanner tbAppBanner = boardService.tbAppBannerDetail(bannerNo);
@@ -407,7 +388,7 @@ public class BoardController {
             model.addAttribute("sysCodeList2" , sysCodeList2);
             model.addAttribute("sysLangCode",sysLangCode);
             model.addAttribute("appVersionList",appVersionList);
-            model.addAttribute("appCode",appCode);
+            model.addAttribute("appCode",map.get("appCode"));
 
             String url = "";
             if (ObjectUtils.isNotEmpty(tbAppBanner.getBannerFile())) {
@@ -421,6 +402,8 @@ public class BoardController {
 
             model.addAttribute("tbAppBanner", tbAppBanner);
             model.addAttribute("imgFile", url);
+            model.addAttribute("permission",map.get("permission"));
+            model.addAttribute("downloadAble",map.get("downloadAble"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -486,52 +469,15 @@ public class BoardController {
     @GetMapping("/cust/list")
     public ModelAndView listCust(HttpSession session, @RequestParam Map<String, Object> searchValue, Model model) {
         log.info("@@searchValue::{}", searchValue);
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = permission(session,"board/cust");
 
-        if(!"".equals(appCode)){
-            searchValue.put("appCode",appCode);
-        } else {
-            searchValue.put("appCode","");
-        }
+        searchValue.put("appCode",map.get("appCode"));
 
         searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
         searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
-
-     /*   try {
-            if (ObjectUtils.isNotEmpty(searchValue)) {
-                log.info("searchValue::{}", searchValue);
-                *//*putSearchOption(session, searchValue);*//*
-                if("jesicar".equals(company)) {
-                    searchValue.put("platformType","1");
-                } else if ("yangpa".equals(company)) {
-                    searchValue.put("platformType","2");
-                }
-
-                *//*List<TbStore> tbStoreList = apiService.getStoreList();*//*
-                List<TbCustDTO> tbCustList = boardService.getCustList(searchValue);
-                model.addAttribute("custList", tbCustList);
-                *//*model.addAttribute("tbStoreList", tbStoreList);*//*
-            } else {
-                getSearchOption(session);
-
-                searchValue.put("testTable_length", "10");
-                searchValue.put("isMember", "");
-                searchValue.put("dataStatus", "");
-                searchValue.put("keywordType", "custName");
-                if("jesicar".equals(company)) {
-                    searchValue.put("platformType","1");
-                } else if ("yangpa".equals(company)) {
-                    searchValue.put("platformType","2");
-                }
-                List<TbCustDTO> tbCustList = boardService.getCustList(searchValue);
-                model.addAttribute("custList", tbCustList);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
         model.addAttribute("searchValue", searchValue);
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
 
         return new ModelAndView("jesica/board/customer/list");
     }
@@ -540,10 +486,11 @@ public class BoardController {
      * 고객 상세
      */
     @GetMapping("/cust/detail")
-    public ModelAndView detailCust(@RequestParam Long custNo, Model model) {
+    public ModelAndView detailCust(HttpSession session,@RequestParam Long custNo, Model model) {
         log.info("@@custNo:: ", custNo);
 
         try {
+            Map<String,Object> mapCust = permission(session,"board/cust");
             Map<String, Object> map = boardService.getCustDetail(custNo);
             List<Map<String,Object>> friends = boardService.getFriends(custNo);
             List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
@@ -555,6 +502,8 @@ public class BoardController {
             model.addAttribute("tbCustUnUsedCouponList", map.get("tbCustUnUsedCoupon"));
             model.addAttribute("tbPointHistoryList", map.get("tbPointHistory"));
             model.addAttribute("tbCustLocation", map.get("tbCustLocation"));
+            model.addAttribute("permission",mapCust.get("permission"));
+            model.addAttribute("downloadAble",mapCust.get("downloadAble"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -571,6 +520,56 @@ public class BoardController {
         session.setAttribute("branchNoText", searchValue.get("branchNoText"));
         session.setAttribute("storeNo", searchValue.get("storeNo"));
         session.setAttribute("storeNoText", searchValue.get("storeNoText"));
+    }
+
+    private Map<String,Object> permission(HttpSession session, String menuPath) {
+        HashMap<String ,Object> map = new HashMap<>();
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        int staffNo = loginSession.getUserStaffNo();
+        Long nLong = new Long(staffNo);
+        String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+
+        Optional<TbSiteMenu> siteMenu = authService.getTbSiteMenu(menuPath);
+        TbSiteAcl permission = null;
+
+        if("jesicar".equals(company)) {
+            map.put("platformType","1");
+        } else if ("yangpa".equals(company)) {
+            map.put("platformType","2");
+        }
+
+        /* 사이트 메뉴 정보가 없으면 */
+        if(siteMenu.isPresent()) {
+            /* 권한이 존재하지 않는경우 */
+            if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
+                /* 권한이 마스터 :0 인경우*/
+                if(loginSession.getRoleType() == 0){
+                    map.put("downloadChk",1);
+                    map.put("permission",2);
+                }else {
+                    permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
+                    map.put("downloadChk",permission.getDownloadAble());
+                    if(!ObjectUtils.isEmpty(permission)){
+                        map.put("permission",permission.getPermission());
+                    } else {
+                        map.put("permission",0);
+                    }
+                }
+            }
+        } else {
+            map.put("downloadChk",0);
+            map.put("permission",0);
+        }
+
+        if(!ObjectUtils.isEmpty(appCode)){
+            map.put("appCode",appCode);
+        } else {
+            map.put("appCode","");
+        }
+
+        map.put("company",company);
+        return map;
     }
 
     private Map<String,Object> getSearchOption(HttpSession session) {

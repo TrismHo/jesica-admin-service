@@ -557,7 +557,7 @@
                     </div>
                 <!-- end tab-pane -->
                 <div class="m-t-10">
-                    <c:if test="${sessionScope.sessionKey.roleType == 1}">
+                    <c:if test="${sessionScope.sessionKey.roleType == 0}">
                     <button type="button" class="btn btn-danger btn_remove float-right m-t-5 m-b-5 m-r-5" phone="${tbUserWorker.phone}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
                     </c:if>
                     <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>

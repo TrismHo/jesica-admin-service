@@ -604,10 +604,6 @@
 
     //datatables 공통화
     $.fn.ajaxDataTable = function (dataId, url,  dataSrcType, excelType , init, error = null) {
-
-
-
-
         let button = [
             /* { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },
              { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/

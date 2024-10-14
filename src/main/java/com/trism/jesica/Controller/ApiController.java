@@ -2,7 +2,6 @@ package com.trism.jesica.Controller;
 
 /*import com.trism.manna.Service.LangService;*/
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonObject;
 import com.trism.jesica.Service.*;
 import com.trism.jesica.Util.DateUtil;
@@ -21,13 +20,13 @@ import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.mysql.Entitiy.cust.TbCust;
 import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.mysql.Entitiy.goods.*;
+import com.trism.jesica.persistence.mysql.Entitiy.library.TbLibrary;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.*;
 import com.trism.jesica.persistence.mysql.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.mysql.Entitiy.street.TbDlvyPrice;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.mysql.Entitiy.vacs.TbVacsVact;
 import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
-import com.trism.jesica.persistence.oracle.Entity.MnA1Today;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -66,7 +65,6 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -117,7 +115,8 @@ public class ApiController {
 
     private final BoardService boardService;
 
-    private final OracleService oracleService;
+   // private final OracleService oracleService;
+    private final LibraryService libraryService ;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -144,7 +143,7 @@ public class ApiController {
         return "a";
     }
 
-    @GetMapping(value="/oracletest")
+   /* @GetMapping(value="/oracletest")
     public String testoracle() {
         MnA1Today mnA1Today = oracleService.oracleTest();
         System.out.println(mnA1Today.getOrdNo());
@@ -171,12 +170,12 @@ public class ApiController {
         inputParams.put("in_ARRAY_NUM2", null);
         inputParams.put("in_ARRAY_NUM3", null);
         Map<String ,Object> result2 = oracleService.callProcedure(inputParams);
-       /* String sql = "{call SP_SV_API_APP_CU_MS.BD_GET_COUPON_LIST_V01(?, ?, ?)}";
-        jdbcTemplate.call(sql, "490", "1069");*/
+       *//* String sql = "{call SP_SV_API_APP_CU_MS.BD_GET_COUPON_LIST_V01(?, ?, ?)}";
+        jdbcTemplate.call(sql, "490", "1069");*//*
 
 
         return "a";
-    }
+    }*/
 
         //현재 토큰정보 확인 1번
     //최초1회 실행
@@ -2256,7 +2255,8 @@ public class ApiController {
     @PostMapping("/board/event/insert")
     public ResponseEntity<?> eventInsert(@RequestPart TbEvent tbEvent,
             @RequestPart String startDate,
-            @RequestPart String endDate
+            @RequestPart String endDate,
+            HttpSession session
 
             /*,@RequestPart(value="imgFileSmall" ,required = false) MultipartFile imgFileSmall*/
     ) {
@@ -3732,6 +3732,24 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    // 다운로드 권한 체크
+    @ResponseBody
+    @PostMapping("/system/menu/update")
+    public ResponseEntity<?> menuDownChk(
+            @RequestBody List<HashMap<String,Object>> menuPermissionList
+    ) {
+        int result = apiService.updateAclMulTi(menuPermissionList);
+        Map<String,Object> map = new HashMap<>();
+
+        if(result > 0) {
+            map.put("result","200");
+            map.put("message", "삭제 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "삭제에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
 
 
     //안심번호 리스트
@@ -4056,6 +4074,55 @@ public class ApiController {
                 .a2(A2List)
                 .build();
     }
+    // 자료실 - 관리자 자료
+    @ResponseBody
+    @RequestMapping(value = {"/library/file/list"})
+    public DataTableModel fileList(HttpServletRequest request, DataTableDTO paging,
+                               @RequestParam Map<String,Object> searchValue){
+
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+
+        if(!"".equals(appCode)){
+            searchValue.put("appCode",appCode);
+        } else {
+            searchValue.put("appCode","");
+        }
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength(); //Calculate page number
+
+        Map<String, Object> resultMap = null;
+
+        Pageable pageable;
+        pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("insertDate").descending()
+        ) ;
+        try {
+            getSearchOption(session);
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
+            }
+            resultMap =  libraryService.getLibraryList(searchValue, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<TbLibrary> list = (List<TbLibrary>) resultMap.get("libraryList");
+        // paging 객체 Set
+
+
+        // 응답값 Set
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
 
 
     // 맛집주문내역 페이징
@@ -4148,7 +4215,35 @@ public class ApiController {
     ) {
         Map<String,String> map = new HashMap<>();
         try {
-            this.rabbitMqService.sendMessage(custList, couponText, pushTitle, pushContents);
+            this.rabbitMqService.sendMessage(custList, couponText, pushTitle, pushContents, 5);
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        } catch (Exception e){
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/send/message/type")
+    public ResponseEntity<?> sendEventMessage(
+           /* @RequestParam(value = "custList") BigDecimal[] custList,*/
+            @RequestParam(value = "pushTitle") String pushTitle,
+            @RequestParam(value = "pushContents") String pushContents,
+            @RequestParam(value = "appCode") String appCode,
+            @RequestParam(value = "type") Integer type
+    ) {
+        Map<String,String> map = new HashMap<>();
+        try {
+
+            List<Map<String,Object>> custNoList =  apiService.getAppCodeCustList(appCode);
+            BigDecimal[] custList = new BigDecimal[custNoList.size()];
+            for(int i = 0; i < custNoList.size(); i++){
+                custList[i].add(new BigDecimal(custNoList.get(i).get("custNo").toString()));
+            }
+            this.rabbitMqService.sendMessage(custList, "", pushTitle, pushContents, type);
             map.put("result","200");
             map.put("message", "등록 되었습니다.");
             return new ResponseEntity<>(map,HttpStatus.OK);

@@ -120,9 +120,12 @@
                             <br>
                             <div class="col-xl-12 col-md-12  m-t-10">
                                 <div class="">
-                                    <button type="button" class="insert_btn btn btn-primary float-left m-b-10">
-                                        <spring:message code="list.search.franchiseeregistration1" text="사용자 등록"/></span>
-                                    </button>
+                                    <c:if test="${permission == 2}">
+                                        <button type="button" class="insert_btn btn btn-primary float-left m-b-10">
+                                                <span>사용자등록</span>
+                                        </button>
+                                    </c:if>
+
                                     <%--<div id="detailOptionBtn" class="arrow-down "></div>--%>
                                     <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick"  onclick="searchFormBranchFunction()" ><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/> </button>
                                     <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5">
@@ -163,11 +166,14 @@
                         <tr class="detailRow" userNo="${item.staffNo}" >
                             <td  class="text-center">${status.index + 1}</td>
                             <td  class="text-center">
-                                <c:if test="${item.roleType == 1}">
+                                <c:if test="${item.roleType == 0}">
                                     마스터
                                 </c:if>
+                                <c:if test="${item.roleType == 1}">
+                                    본사
+                                </c:if>
                                 <c:if test="${item.roleType == 2}">
-                                    사용자
+                                    앱사
                                 </c:if>
                             </td>
                             <td class="text-center"><span class="orangeColor d-block">${item.userId}</span></td>

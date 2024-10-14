@@ -8,7 +8,7 @@
         <title>Jesicar | <spring:message code="dashboard.normalaffiliateheadquarters11" text="가상계좌번호 할당"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="dashboard.normalaffiliateheadquarters11" text="가상계좌번호 할당"/></title>
+        <title>Jig-Bae  | <spring:message code="dashboard.normalaffiliateheadquarters11" text="가상계좌번호 할당"/></title>
     </c:if>
 </head>
 <style>

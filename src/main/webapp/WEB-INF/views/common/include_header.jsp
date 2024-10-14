@@ -13,13 +13,10 @@
                     <li class="dropdown navbar-language" style="font-size: 17px;">
                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                             <a href="${path}/main">
-                                <img  style="width: 70px; margin-left: 10px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/jigbae_logo_basic.png"/>">
+                                <img  style="width: 140px; margin-left: 10px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/logo_top_img.png"/>">
                                 <%--<b style="text-shadow: -1px 0 #8f98ff, 0 1px #8f98ff, 1px 0 #8f98ff, 0 -1px #8f98ff;
                                 font-size: 14px;">Manager</b>--%>
                             </a>
-                            <c:if test="${sessionScope.sessionKey.appCode != ''}">
-                                총판:  ${sessionScope.sessionKey.appCodeName}
-                            </c:if>
                             <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="yangpa" data-toggle="dropdown" style="text-decoration: none; color: white;" >
                                 <%--<b style="font-size: 15px;"></b>&nbsp;
                                 <b class="caret"></b>--%>
@@ -52,8 +49,8 @@
                             <%--<div class="dropdown-item company_btn" company="jesicar" style="cursor: pointer;" > <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i> <b style="font-size: 15px;color: #acaeb2;">제시카</b>&nbsp;</div><hr style="margin-top: 5px;margin-bottom: 5px;">카--%>
                             <div class="dropdown-item company_btn" company="yangpa" style="cursor: pointer;"> <i class="fas fa-lg fa-fw m-r-10 fa-caret-right" style="color: #acaeb2;"></i></span> <b style="font-size: 15px;color: #acaeb2;">직배</b>&nbsp;</div>
                         </div>
-                    </li>
 
+                    </li>
 
                    <%-- <spring:message code="main.logo1" text="default text"/>,
                     <span style="font-size:20px;color:#ffa200;"><spring:message code="main.logo2" text="default text"/></span>
@@ -69,15 +66,27 @@
         </div>
 
         <ul class="navbar-nav navbar-right">
+
             <li class="navbar-form">
-              <%--  <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+
+                <%--<span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                     <a href="${path}/language/list" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
-                        <i class="fas fa-lg fa-fw m-r-10 fa-language"></i><spring:message code="header.language.setting" text="Language"/>
+                       총판:  ${sessionScope.sessionKey.appCodeName}
                     </a>
                 </span>--%>
+                <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+                    <a  class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
+                       <c:if test="${sessionScope.sessionKey.appCode != ''}">
+                           총판:  ${sessionScope.sessionKey.appCodeName}
+                       </c:if>
+                       <c:if test="${sessionScope.sessionKey.appCode == ''}">
+                           슈퍼마스터
+                       </c:if>
+                    </a>
+                </span>
 
-               <c:if test="${sessionScope.sessionKey.roleType == 1}">
-                     <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+               <c:if test="${sessionScope.sessionKey.roleType == 0}">
+                 <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                     <a href="${path}/language/list" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
                         <i class="fas fa-lg fa-fw m-r-10 fa-language"></i><spring:message code="header.language.setting" text="Language"/>
                     </a>
@@ -87,7 +96,7 @@
                       </a>
                     </span>--%>
                 </c:if>
-                <c:if test="${sessionScope.sessionKey.roleType == 2}">
+                <c:if test="${sessionScope.sessionKey.roleType != 1}">
                     <c:if test="${sessionScope.sessionKey.userType == 1 || sessionScope.sessionKey.userType == 2 || sessionScope.sessionKey.userType == 3 ||sessionScope.sessionKey.userType == 4 ||sessionScope.sessionKey.userType == 5}">
                      <%-- <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                         <a class="btn btn-sm btn-white btn-white-without-border new-control-btn" data-change="widget-theme" data-theme="dark"><spring:message code="list.detail.control" text="관제 바로가기"/></a>
@@ -129,9 +138,9 @@
                     <a href="${servletPath}?lang=lao" class="dropdown-item"><span class="flag-icon flag-icon-la" title="la"></span> ພາສາລາວ</a>
 --%>
                    <a href="#" class="dropdown-item lang_btn" lang="ko"><span class="flag-icon flag-icon-kr" title="ko"></span> 한국어</a>
-                    <a href="#" class="dropdown-item lang_btn" lang="en"><span class="flag-icon flag-icon-us" title="en"></span> English</a>
+                    <%--<a href="#" class="dropdown-item lang_btn" lang="en"><span class="flag-icon flag-icon-us" title="en"></span> English</a>--%>
                     <%--<a href="#" class="dropdown-item lang_btn" lang="lao"><span class="flag-icon flag-icon-la" title="la"></span> ພາສາລາວ</a>--%>
-                    <a href="#" class="dropdown-item lang_btn" lang="kh"><span class="flag-icon flag-icon-kh" title="kh"></span>ប ្រទេសកម្ពុជា </a>
+                    <%--<a href="#" class="dropdown-item lang_btn" lang="kh"><span class="flag-icon flag-icon-kh" title="kh"></span>ប ្រទេសកម្ពុជា </a>--%>
                 </div>
             </li>
             <head>

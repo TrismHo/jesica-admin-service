@@ -2475,7 +2475,6 @@ public class ApiService {
         return result;
     }
 
-
     @Transactional
     public TbUser getUser(String bmLoginId) {
         return tbUserRepository.findByUserId(bmLoginId);
@@ -3423,7 +3422,7 @@ public class ApiService {
     public int systemMenuInsert(Long menuNo, Long userNo) {
         int result = 0;
         try {
-            TbSiteAcl tbSiteAcl = new TbSiteAcl(userNo,menuNo,1);
+            TbSiteAcl tbSiteAcl = new TbSiteAcl(userNo,menuNo,1,0);
             TbSiteAcl tbSiteAcl1 =  tbSiteAclRepository.save(tbSiteAcl);
             if(tbSiteAcl1.getMenuNo() != null){
                 result = 200;
@@ -3437,9 +3436,50 @@ public class ApiService {
     @Transactional
     public int systemMenuDelete(Long menuNo, Long userNo) {
         int result = 0;
-        TbSiteAcl tbSiteAcl = new TbSiteAcl(userNo,menuNo,1);
         try {
-            tbSiteAclRepository.delete(tbSiteAcl);
+            tbSiteAclRepository.deleteAcl(userNo,menuNo);
+            result = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    @Transactional
+    public int updateAcl(Long menuNo, Long userNo,Long downloadAble) {
+        int result = 0;
+        try {
+            tbSiteAclRepository.updateAcl(userNo,menuNo,downloadAble);
+            result = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    @Transactional
+    public int updateAclMulTi(List<HashMap<String,Object>> menuPermissionList) {
+        int result = 0;
+        try {
+
+            for(int i = 0 ; i < menuPermissionList.size() ; i++ ){
+                Map<String,Object> map = menuPermissionList.get(i);
+                if(i == 0){
+                    tbSiteAclRepository.deleteAcl(Long.parseLong(map.get("userNo").toString()));
+                }
+
+                TbSiteAcl tbSiteAcl = new TbSiteAcl(
+                        Long.parseLong(map.get("userNo").toString()),
+                        Long.parseLong(map.get("menuNo").toString()),
+                        Integer.parseInt(map.get("permission").toString()),
+                        Integer.parseInt(map.get("downloadAble").toString()));
+                TbSiteAcl tbSiteAcl1 =  tbSiteAclRepository.save(tbSiteAcl);
+              /*  if(tbSiteAcl1.getMenuNo() != null){
+                    result = 200;
+                }*/
+
+
+            }
             result = 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -3491,6 +3531,10 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getCallAllListType2141(String searchDate) {
         return tbCallAllRepository.getCallAllListType2141(searchDate);
+    }
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> getAppCodeCustList(String appCode) {
+        return tbCustRepository.getAppCodeCustList(appCode);
     }
     @Transactional(readOnly = true)
     public List<Map<String,Object>> getUserCount( Integer platformType) {

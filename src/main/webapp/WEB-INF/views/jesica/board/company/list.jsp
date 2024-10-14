@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.affiliatenotice" text="제휴사 공지"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.affiliatenotice" text="제휴사 공지"/></title>
+        <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.affiliatenotice" text="제휴사 공지"/></title>
     </c:if>
 </head>
 <body>

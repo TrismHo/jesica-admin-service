@@ -11,7 +11,7 @@
         <title>Jesicar |<spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order |<spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/></title>
+        <title>Jig-Bae |<spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너 관리"/></title>
     </c:if>
 </head>
 <body>
@@ -139,12 +139,14 @@
                             <div class="col-xl-12 col-md-12 m-t-10">
                                 <div style="display: flex">
                                     <span class="mr-auto">
-                                        <button type="button" class="insert_btn btn btn-primary m-b-10">
-                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="배너 등록"/></span>
-                                        </button>
-                                        <button type="button" data-toggle="modal" data-target="#sort_modal" class="update_orders_btn btn btn-primary m-b-10">
-                                            <span class="fa fa-list">&nbsp;<spring:message code="list.search.noticeregistration1" text="순서 변경"/></span>
-                                        </button>
+                                        <c:if test="${permission == 2}">
+                                           <button type="button" class="insert_btn btn btn-primary m-b-10">
+                                                <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="배너 등록"/></span>
+                                            </button>
+                                                <button type="button" data-toggle="modal" data-target="#sort_modal" class="update_orders_btn btn btn-primary m-b-10">
+                                                <span class="fa fa-list">&nbsp;<spring:message code="list.search.noticeregistration1" text="순서 변경"/></span>
+                                            </button>
+                                        </c:if>
                                     </span>
                                     <span>
                                         <button class="btn-box-r bgGray line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="검색"/><%--검색--%> </button>

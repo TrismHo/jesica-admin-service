@@ -1,4 +1,4 @@
-<%--<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>--%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <style>
     .sidebar .sub-menu>li>a {
@@ -41,6 +41,9 @@
                         </a>
                         ${sessionScope.sessionKey.userStaffName} &nbsp;<a href="/newPassWord" onclick="window.open(this.href, '_blank', 'width=500, height=280'); return false;"><i class="fas fa-fw m-r-10 fa-key" style="font-size: 5px"></i></a>
                         <small>
+                            <c:if test="${sessionScope.sessionKey.roleType == 0}">
+                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="마스터"/>
+                            </c:if>
                             <c:if test="${sessionScope.sessionKey.roleType == 1}">
                                 <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="마스터"/>
                             </c:if>

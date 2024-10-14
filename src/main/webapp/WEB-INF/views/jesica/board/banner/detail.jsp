@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="list.detail.1" text="배너 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="list.detail.1" text="배너 관리"/></title>
+        <title>Jig-Bae | <spring:message code="list.detail.1" text="배너 관리"/></title>
     </c:if>
 </head>
 <body>
@@ -353,15 +353,17 @@
                                 <span class="m-l-5"><spring:message code="list.detail.list1" text="목록"/></span>
                             </button>
                         </span>
-                            <span style="display: flex; align-items: center; margin-left: auto">
-                            <button type="button" class="btn btn-primary btn_update m-r-5" style="display: flex; align-items: center">
+                        <span style="display: flex; align-items: center; margin-left: auto">
+                                <c:if test="${permission == 2}">
+                                <button type="button" class="btn btn-primary btn_update m-r-5" style="display: flex; align-items: center">
                                 <i class="fa fa-check"></i>
                                 <span class="m-l-5"><spring:message code="list.detail.enrollment1" text="수정"/></span>
-                            </button>
-                            <button type="button" class="btn btn-danger btn_remove m-t-5 m-b-5" style="display: flex; align-items: center">
-                                <i class="fa fa-trash-alt"></i>
-                                <span class="m-l-5"><spring:message code="list.detail.delete1" text="삭제"/></span>
-                            </button>
+                                </button>
+                                        <button type="button" class="btn btn-danger btn_remove m-t-5 m-b-5" style="display: flex; align-items: center">
+                                    <i class="fa fa-trash-alt"></i>
+                                    <span class="m-l-5"><spring:message code="list.detail.delete1" text="삭제"/></span>
+                                </button>
+                                </c:if>
                         </span>
                     </div>
                 </div>

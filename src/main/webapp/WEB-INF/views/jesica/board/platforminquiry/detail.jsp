@@ -8,7 +8,7 @@
         <title>Jesicar | 플랫폼문의상세</title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | 플랫폼문의상세</title>
+        <title>Jig-Bae  | 플랫폼문의상세</title>
     </c:if>
     <%@include file="../../../common/include_head.jsp" %>
 </head>

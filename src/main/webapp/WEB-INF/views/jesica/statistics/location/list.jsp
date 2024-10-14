@@ -10,7 +10,7 @@
         <title>Jesicar | 회원통계(지역)</title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | 회원통계(지역)</title>
+        <title>Jig-Bae | 회원통계(지역)</title>
     </c:if>
 
     <style>

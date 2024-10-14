@@ -14,6 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -79,12 +80,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }else {
                 //마스터 사용자는 제외
-                if(sessionObj.getRoleType() != Integer.parseInt("1")){
+                if(sessionObj.getRoleType() != Integer.parseInt("0")){
                     if(servletPath.split("/").length > 2){
                         int userSfaffNo = sessionObj.getUserStaffNo();
-                        TbSiteMenu tbSiteMenu = authService.getTbSiteMenu(servletPath.split("/")[1]+"/"+servletPath.split("/")[2]);
-                        if(!ObjectUtils.isEmpty(tbSiteMenu)){
-                            TbSiteAcl tbSiteAcl = authService.getTbSiteAcl(Long.valueOf(userSfaffNo),Long.parseLong(tbSiteMenu.getMenuNo().toString()));
+                        Optional<TbSiteMenu> tbSiteMenu = authService.getTbSiteMenu(servletPath.split("/")[1]+"/"+servletPath.split("/")[2]);
+                        if(tbSiteMenu.isPresent()){
+                            TbSiteAcl tbSiteAcl = authService.getTbSiteAcl(Long.valueOf(userSfaffNo),Long.parseLong(tbSiteMenu.get().getMenuNo().toString()));
                             if(!ObjectUtils.isEmpty(tbSiteAcl)) {
                                 if (tbSiteAcl.getPermission() == 0) {
                                     response.sendRedirect("/authError");

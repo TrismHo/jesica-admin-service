@@ -310,6 +310,12 @@ public class SearchUtil {
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
+    public static Specification<?> searchLibraryList(Map<String, Object> searchKeyword) {
+        return (Specification<?>) ((root, query, builder) -> {
+            List<Predicate> predicate = searchLibraryList(searchKeyword, root, builder);
+            return builder.and(predicate.toArray(new Predicate[0]));
+        });
+    }
     public static Specification<?> searchMannaAllList(Map<String, Object> searchKeyword) {
         return (Specification<?>) ((root, query, builder) -> {
             List<Predicate> predicate = searchMannaAllList(searchKeyword, root, builder);
@@ -2309,7 +2315,7 @@ public class SearchUtil {
                     }
                 } else if ("platformType".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
-                } else if ("appCode".equals(key) && value != "") {
+                } else if ("appCode".equals(key) && ObjectUtils.isNotEmpty(value)) {
                     predicate.add(builder.equal(root.get(key), value));
                 }
                else {
@@ -2332,6 +2338,63 @@ public class SearchUtil {
             e.printStackTrace();
         }
 
+        return predicate;
+    }
+    private static List<Predicate> searchLibraryList(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+        List<Predicate> predicate = new ArrayList<>();
+
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        String keywordType = "";
+        String keyword = "";
+
+        try {
+            for (String key : searchKeyword.keySet()) {
+                Object value = searchKeyword.get(key);
+
+                if (ObjectUtils.isNotEmpty(value) && key.equals("keywordType")){
+                    keywordType = (String)value;
+                }else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
+                    keyword = (String)value;
+                } else if (ObjectUtils.isNotEmpty(value) && key.equals("fileName")) {
+                    predicate.add(builder.like(root.get(key), "%" + value + "%"));
+                } else if (ObjectUtils.isNotEmpty(value) && key.equals("fileTitle")) {
+                    predicate.add(builder.like(root.get(key), "%" + value + "%"));
+                } else if ("endDate".equals(key) && value != "") {
+                    String string = value.toString() + " 23:59:59";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else if ("startDate".equals(key) && value != "") {
+                    String string = value.toString() + " 00:00:00";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    startDate = LocalDateTime.parse(string, formatter);
+
+                } else if ("dataStatus".equals(key)) {
+                    int dataStatus = 1;
+                    if(ObjectUtils.isEmpty(value)) {
+                        predicate.add(builder.notEqual(root.get(key), 0));
+                    } else {
+
+                        if (value.equals("OK")) {
+                            dataStatus = 1;
+                        } else if (value.equals("STOP")) {
+                            dataStatus = 2;
+                        }else if (value.equals("DELETE")) {
+                            dataStatus = 0;
+                        }
+                        predicate.add(builder.equal(root.get(key), dataStatus));
+                    }
+                }
+            }
+            if (StringUtils.isNotBlank(keywordType)) {
+                if (StringUtils.isNotBlank(keyword)) {
+                    predicate.add(builder.like(root.get(keywordType), "%" + keyword + "%"));
+                }
+            }
+            predicate.add(builder.between(root.<LocalDateTime>get("insertDate"),startDate,endDate));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return predicate;
     }
 

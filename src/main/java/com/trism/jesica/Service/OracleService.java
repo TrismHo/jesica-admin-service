@@ -1,3 +1,4 @@
+/*
 package com.trism.jesica.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -105,3 +106,4 @@ public class OracleService {
     }
 }
 
+*/

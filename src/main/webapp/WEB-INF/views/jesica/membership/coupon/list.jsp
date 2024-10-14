@@ -11,7 +11,7 @@
     </c:if>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <title>Pick-Order | <spring:message code="sidemenu.couponmanagement.couponmanagement1" text="쿠폰 관리"/></title>
+    <title>Jig-Bae  | <spring:message code="sidemenu.couponmanagement.couponmanagement1" text="쿠폰 관리"/></title>
 </head>
 <style>
     .dataTables_wrapper.dt-bootstrap4 .dataTables_filter label .form-control {
@@ -131,7 +131,8 @@
                             </div>
                             <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                    <c:if test="${sessionScope.sessionKey.userRole == 0}">
+
+                                    <c:if test="${permission == 2}">
                                         <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
                                             <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰생성"/></span>
                                         </button>

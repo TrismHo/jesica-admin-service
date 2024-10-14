@@ -6,7 +6,7 @@ security:
 
 server:
   #tomcat:
-    #additional-tld-skip-patterns: "*.jar"
+  #additional-tld-skip-patterns: "*.jar"
   #port: 8080
   port: 9002
   #port: 9000
@@ -73,6 +73,8 @@ spring:
         username: jesicar01
         password: wptlzk2021
         driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
+        tomcat:
+          initial-size: 3
   service-manna:
     datasource:
       hikari:
@@ -232,7 +234,7 @@ file:
     #test
     #path: http://101.55.126.138:9002/api/img/fileLoad?filePath=
     #real
-    #path: http://admin.jesicar.co.kr/api/img/fileLoad?filePath=
+    #path: http://mng.jigbae.co.kr/api/img/fileLoad?filePath=
 
 spring:
   profiles:
@@ -457,7 +459,7 @@ spring:
 #    #test
 #    #path: http://101.55.126.138:9002/api/img/fileLoad?filePath=
 #    #real
-#    #path: http://admin.jesicar.co.kr/api/img/fileLoad?filePath=
+#    #path: http://mng.jigbae.co.kr/api/img/fileLoad?filePath=
 #
 #spring:
 #  profiles:

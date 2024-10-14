@@ -245,6 +245,7 @@ public class MainController {
 
             //클라이언트 아이디/코드값으로 로그인 시도
             log.info("--------------auth/login------------------");
+            System.out.println("Id :"+ bmLoginId);
             JsonObject params = new JsonObject();
             /*HttpUtil.callInfo(params,"GET", request);*/
             //String encPass = cipherService.encryptAES(bmLoginPwd);
@@ -281,7 +282,7 @@ public class MainController {
             //쿠키에 만료일
             //엑세스토큰 세션
 
-            log.info("-----------------------------------------");
+
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             if(StringUtils.isNotEmpty(bmLoginPwd) && ObjectUtils.isNotEmpty(tbUser)) {
@@ -290,22 +291,26 @@ public class MainController {
                 }
                 // 관리자
                 if(tbUser.getUserType().ordinal() == 6) {
-
                     //로그인 세션 저장
                     if(isPwdMatch == true) {
-                        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC", bm.getAppCode());
                         String appCodeName = "";
-                        if(appVersionList.size() < 1){
-                             appCodeName = "전체";
+                        if(!StringUtils.isEmpty(bm.getAppCode())){
+                            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC", bm.getAppCode());
+                            if(appVersionList.size() < 1){
+                                appCodeName = "전체";
+                            } else {
+                                appCodeName = appVersionList.get(0).getCodeName();
+                            }
                         } else {
-                             appCodeName = appVersionList.get(0).getCodeName();
+                            appCodeName = "전체";
                         }
+
+
 
                         LoginSession loginSession = LoginSession.from(bm,appCodeName);
                         //loginSession.setUserStaffName("마스터");
                         /*loginSession.setUserStaffName(tbUser.get());*/
                         loginSession.setUserRole(0);
-
                         //로그인 중복 방지
                         session.setAttribute(LoginSession.KEY, loginSession);
                         //세션 30분유지

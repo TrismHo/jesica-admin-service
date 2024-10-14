@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Pick-Order | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 관리"/></title>
+    <title>Jig-Bae | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 관리"/></title>
 
 </head>
 <body>
@@ -266,10 +266,12 @@
                             </button>
                         </span>
                         <span style="display: flex; align-items: center; margin-left: auto">
-                            <button type="button" class="btn btn-primary btn_up m-r-5" style="display: flex; align-items: center">
-                                <i class="fa fa-check"></i>
-                                <span class="m-l-5"><spring:message code="list.detail.enrollment1" text="생성"/></span>
-                            </button>
+                             <c:if test="${permission == 2}">
+                                  <button type="button" class="btn btn-primary btn_up m-r-5" style="display: flex; align-items: center">
+                                    <i class="fa fa-check"></i>
+                                    <span class="m-l-5"><spring:message code="list.detail.enrollment1" text="생성"/></span>
+                                </button>
+                             </c:if>
                         </span>
                     </div>
                 </div>

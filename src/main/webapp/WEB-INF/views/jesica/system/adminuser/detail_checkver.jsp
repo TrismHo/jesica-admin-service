@@ -9,7 +9,7 @@
         <title>Jesicar | <spring:message code="list.detail.systemproductdetails" text="시스템 상품상세"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="list.detail.systemproductdetails" text="시스템 상품상세"/></title>
+        <title>Jig-Bae | <spring:message code="list.detail.systemproductdetails" text="시스템 상품상세"/></title>
     </c:if>
 </head>
 <style>
@@ -50,8 +50,11 @@
                     <tr>
                         <td class="bg-light height-40" style="width:10%"><strong><spring:message code="list.detail.workgroup1" text="등급"/></strong></td>
                         <td style="width:90%">
-                            <span class="text-green"><c:if test="${tbUserStaff.roleType == 1}">마스터</c:if>
-                            <c:if test="${tbUserStaff.roleType == 2}">사용자</c:if></span>
+                            <span class="text-green">
+                                <c:if test="${tbUserStaff.roleType == 0}">마스터</c:if>
+                                <c:if test="${tbUserStaff.roleType == 1}">본사</c:if>
+                                <c:if test="${tbUserStaff.roleType == 2}">앱사</c:if>
+                            </span>
 
                         </td>
                     </tr>
@@ -151,7 +154,7 @@
                         </form>
                             <div class="m-l-5">
                                 <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
-                                <c:if test="${tbUserStaff.roleType != 1}"><button type="button" class="btn btn-primary btn_update float-left m-t-5 m-b-5 m-r-5" onclick="udt_btn()"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button></c:if>
+                                <c:if test="${tbUserStaff.roleType != 0}"><button type="button" class="btn btn-primary btn_update float-left m-t-5 m-b-5 m-r-5" onclick="udt_btn()"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button></c:if>
                             </div>
                         </div>
                     </div>

@@ -41,7 +41,14 @@ public class TbSiteAcl implements Serializable {
      * 권한 (0: Deny, 1:Allow)
      */
     @Column(name = "permission", nullable = false)
-    private Integer permission = 0;
+    private Integer permission;
+
+    /**
+     * 다운로드 권한 (0: Deny, 1:Allow)
+     */
+    @Column(name = "download_able", nullable = false)
+    private Integer downloadAble;
+
 
 
 }

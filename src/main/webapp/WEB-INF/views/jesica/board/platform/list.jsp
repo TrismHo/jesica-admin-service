@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/></title>
+        <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/></title>
     </c:if>
 </head>
 <body>
@@ -83,13 +83,6 @@
                                                             <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="직배"/></option>
                                                         </select>
                                                     </c:if>
-                                                   <%-- <select class="form-control" name="platformType">
-                                                        <option value="" <c:if test="${searchValue.platformType == ''  || searchValue.platformType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
-&lt;%&ndash;                                                        <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>&ndash;%&gt;
-                                                        <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
-                                                        <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="양파오더"/></option>
-                                                        <option value="3" <c:if test="${searchValue.platformType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="세날"/></option>
-                                                    </select>--%>
                                                 </label>
                                             </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="노출상태"/></strong></td>
@@ -131,7 +124,12 @@
                             </div>
                             <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                    <c:if test="${sessionScope.sessionKey.userRole == 0}">
+                                   <%-- <c:if test="${sessionScope.sessionKey.userRole == 0}">
+                                        <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
+                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="공지등록"/></span>
+                                        </button>
+                                    </c:if>--%>
+                                   <c:if test="${permission == 2}">
                                         <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
                                             <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="공지등록"/></span>
                                         </button>

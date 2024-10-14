@@ -9,7 +9,7 @@
         <title>Jesicar | 고객공지(부르심)</title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order |고객공지(부르심)</title>
+        <title>Jig-Bae  |고객공지(부르심)</title>
     </c:if>
 
     <%@include file="../../../common/include_head.jsp" %>

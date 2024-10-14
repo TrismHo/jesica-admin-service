@@ -5,8 +5,8 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Pick-Order | <spring:message code="list.detail.detailsofpasorders" text="픽오더주문내역"/></title>
-</head>r
+    <title>Jig-Bae  | <spring:message code="list.detail.detailsofpasorders" text="직배주문내역"/></title>
+</head>
 <style>
     .modal.modal-message .modal-body, .modal.modal-message .modal-footer, .modal.modal-message .modal-header {
         width: 100%;
@@ -69,10 +69,10 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><spring:message code="sidemenu.orderhistory1" text="가맹점"/></li>
-                    <li class="breadcrumb-item"><a href="${path}/store/order/list"><spring:message code="sidemenu.pastorderhistory1" text="픽오더주문내역"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.detailsofpasorders1" text="픽오더주문내역 상세"/></li>
+                    <li class="breadcrumb-item"><a href="${path}/store/order/list"><spring:message code="sidemenu.pastorderhistory1" text="직배주문내역"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.detailsofpasorders1" text="직배주문내역 상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.detailsofpasorders1" text="픽오더주문내역 상세"/> </h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.detailsofpasorders1" text="직배주문내역 상세"/> </h3>
             </div>
             <div class="m-t-10">
                 <table class="table table-bordered">

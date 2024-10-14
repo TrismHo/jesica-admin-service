@@ -11,7 +11,7 @@
         <title>Jesicar | <spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></title>
+        <title>Jig-Bae | <spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></title>
     </c:if>
 
 </head>

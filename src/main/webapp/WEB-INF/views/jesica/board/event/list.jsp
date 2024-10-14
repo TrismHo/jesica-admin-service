@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/></title>
+        <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/></title>
     </c:if>
 </head>
 <body>
@@ -116,9 +116,11 @@
                             </div>
                             <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                    <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
-                                        <span class="fa fa-plus"><spring:message code="list.word.eventregistration" text="이벤트 등록"/><%--<spring:message code="merchandise.registerbutton" text="default text"/>--%></span>
-                                    </button>
+                                    <c:if test="${permission == 2}">
+                                        <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
+                                            <span class="fa fa-plus"><spring:message code="list.word.eventregistration" text="이벤트 등록"/><%--<spring:message code="merchandise.registerbutton" text="default text"/>--%></span>
+                                        </button>
+                                    </c:if>
                                     <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/><%--검색--%> </button>
                                 </div>
                             </div>

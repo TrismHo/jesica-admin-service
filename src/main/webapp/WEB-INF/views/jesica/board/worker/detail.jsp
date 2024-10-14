@@ -9,7 +9,7 @@
         <title>Jesicar | <spring:message code="list.detail.shippernoticedetails" text="드라이버 공지상세"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Pick-Order | <spring:message code="list.detail.shippernoticedetails" text="드라이버 공지상세"/></title>
+        <title>Jig-Bae  | <spring:message code="list.detail.shippernoticedetails" text="드라이버 공지상세"/></title>
     </c:if>
 
 </head>

@@ -1,160 +1,128 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>--%>
 <html lang="ko">
 <head>
-	<meta charset="utf-8">
-	<title>jesica | Login Page</title>
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-	<meta content="" name="description">
-	<meta content="" name="author">
-	<!-- ================== BEGIN BASE CSS STYLE ================== -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" >
-	<link href="../assets/css/default/app.min.css" rel="stylesheet" >
-	<!-- ================== END BASE CSS STYLE ================== -->
+	<meta charset="utf-8" />
+	<title>Color Admin | Login</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content name="description" />
+	<meta content name="author" />
 	<%@include file="common/include_head.jsp" %>
+	<link href="../assets/css/vendor.min.css" rel="stylesheet" />
+	<link href="../assets/css/default/app.min.css" rel="stylesheet" />
+
 </head>
 <style>
-	.login-cover .login-cover-bg {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center;
-		background: linear-gradient(to bottom,rgba(0,0,0,.35) 0,rgba(0,0,0,.85));
+	.login.login-v1 .login-container .login-body .login-content .form-check-input {
+		background-color: #495057;
+		border-color: transparent;
 	}
-	.login.login-v2 {
-		top: 40px;
+	.login.login-v1 .login-container .login-body .login-content .form-control {
+		border-color: transparent;
+		background: #495057;
+		color: #fff;
 	}
-	.layer-box ul, li, div, .layer-box-nocls ul {
-		letter-spacing: 0px;
-		margin: 0;
-		font-size: 12px;
-		font-family: GmarketSansTTFMedium;
-		/* font-family: 'Nanum Gothic', "나눔 고딕", 'NanumGothic', "나눔고딕", 'Malgun Gothic', '맑은 고딕', 'MalgunGothic', '맑은고딕', sans-serif; */
+	.form-floating>.form-control, .form-floating>.form-control-plaintext, .form-floating>.form-select {
+		height: calc(3.5rem + 2px);
+		min-height: calc(3.5rem + 2px);
+		line-height: 1.25;
+	}
+	.submit_btn_css {
+		background-color: #05acac;
+		color: #fff;
+		margin-top: 20px;
+	}
+	.form-floating>.form-control-plaintext~label, .form-floating>.form-control:focus~label, .form-floating>.form-control:not(:placeholder-shown)~label, .form-floating>.form-select~label {
+		color: rgba(var(--bs-body-color-rgb), .65);
+		transform: scale(.85) translateY(-.5rem) translateX(.15rem);
+	}
+	.align-items-center {
+		align-items: center !important;
+	}
+	.d-flex {
+		display: flex !important;
+	}
+	.mb-20px {
+		margin-bottom: 20px !important;
+	}
+	.form-floating {
+		position: relative;
+	}
+	.login.login-v1 .login-container .login-header {
+		width: 400px;
+		padding: 0;
+		margin: 0 auto;
+		margin-bottom: 15px;
+		font-weight: 300;
+		position: relative;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-align: center;
+		align-items: center;
+		justify-content: space-evenly;
 	}
 
+	.login.login-v1 {
+		min-height: 100vh;
+		width: 100%;
+		background-image: url(/assets/img/login-bg/bg-login.png);
+		background-size: cover;
+		display: flex;
+		align-items: center
+	}
+	.login.login-v1 .login-container .login-body .login-content .form-check-input:checked {
+		background-color: #ddd;
+	}
 </style>
 <body class="pace-top">
-<!-- begin #page-loader -->
-<div id="page-loader" class="fade show"><span class="spinner"></span></div>
-<!-- end #page-loader -->
 
-<!-- begin login-cover -->
-<div class="login-cover">
-	<div class="login-cover-image" style="" data-id="login-cover-image"></div>
-	<div class="login-cover-bg" style="background-color: black;"></div>
-</div>
-<ul class="navbar-nav navbar-right">
-	<li class="dropdown navbar-language">
-		<a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="ko">
-			<span class="flag-icon flag-icon-kr" title="ko" style="font-size: 20px;margin-left: 10px;"></span>
-			<span class="name d-none d-sm-inline" style="font-size: 20px;margin-left: 10px;">KR</span> <b class="caret"></b>
-		</a>
-		<a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="en" style="display: none;">
-			<span class="flag-icon flag-icon-us" title="us" style="font-size: 20px;margin-left: 10px;"></span>
-			<span class="name d-none d-sm-inline" style="font-size: 20px;margin-left: 10px;">EN</span> <b class="caret"></b>
-		</a>
-		<a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="kh" style="display: none;">
-			<span class="flag-icon flag-icon-kh" title="kh" style="font-size: 20px;margin-left: 10px;"></span>
-			<span class="name d-none d-sm-inline" style="font-size: 20px;margin-left: 10px;">KH</span> <b class="caret"></b>
-		</a>
-<%--
-		<a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="la" style="display: none;">
-			<span class="flag-icon flag-icon-la" title="la" style="font-size: 20px;margin-left: 10px;"></span>
-			<span class="name d-none d-sm-inline" style="font-size: 20px;margin-left: 10px;">LA</span> <b class="caret"></b>
-		</a>
---%>
-		<div class="dropdown-menu drop-show-hide " style="width: 150px;">
-			<a href="#" class="dropdown-item lang_btn" lang="ko"><span class="flag-icon flag-icon-kr" title="ko"></span> 한국어</a>
-			<a href="#" class="dropdown-item lang_btn" lang="en"><span class="flag-icon flag-icon-us" title="en"></span> English</a>
-			<a href="#" class="dropdown-item lang_btn" lang="kh"><span class="flag-icon flag-icon-kh" title="kh"></span> ប្រទេសកម្ពុជា</a>
-		</div>
-	</li>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title></title>
-	</head>
-</ul>
-<!-- end login-cover -->
-<!-- begin #page-container -->
-<div id="page-container" class="fade">
-	<!-- begin login -->
-	<div class="login login-v2" data-pageload-addclass="animated fadeIn">
-		<!-- begin brand -->
-		<div class="login-header">
-			<div class="brand" style="text-align: center">
-				<%--<span class="logo"></span>--%>
-				<%--<img style="margin: auto;display: block; width: 70%;margin-bottom: 27px;"  src="${path}<spring:message code="login.logoimg" text="/assets/img/logo/itsuda_nagative.png"/>">--%>
-					<h1><img  style="width: 350px;padding:30px; border-radius: 20px; background-color: #fff0f0" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/jigbae_logo_basic.png"/>"></h1><br>
-					<h1 style="position: absolute;
-				    margin: auto;
-					top: 210px;
-					 font-family: GmarketSansTTFBold;
-					 text-shadow: -1px 0 #8f98ff, 0 1px  #8f98ff, 1px 0  #8f98ff, 0 -1px  #8f98ff;
-					 color: #e2e2e2;
-					right: 25px;">Manager</h1>
+
+
+<div id="app" class="app">
+
+	<div class="login login-v1" style="background-color: #eacccc;">
+
+		<div class="login-container">
+
+			<div class="login-header">
+				<div class="brand">
+					<div class="d-flex align-items-center">
+						<img  style="width: 400px; border-radius: 20px; " src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/top_title_png.png"/>">
+					</div>
+				</div>
 			</div>
-			<div class="icon">
-				<%--<i class="fa fa-lock"></i>--%>
+
+
+			<div class="login-body">
+				<div class="login-content fs-13px">
+					<form class="login_form" name="login_form">
+						<input type="hidden" class="uuid" id="uuid" name="uuid" value="">
+						<div class="form-floating mb-20px">
+							<input type="text" class="form-control fs-13px h-45px bmLoginId" id="bmLoginId" name="bmLoginId" placeholder="Account ID" />
+							<%--<label for="emailAddress" class="d-flex align-items-center">Email Address</label>--%>
+						</div>
+						<div class="form-floating mb-20px">
+							<input type="password" class="form-control fs-13px h-45px bmLoginPwd" id="bmLoginPwd" name="bmLoginPwd" placeholder="Password" />
+							<%--<label for="password" class="d-flex align-items-center">Password</label>--%>
+						</div>
+						<div class="form-check mb-20px">
+							<input type="checkbox" class="form-check-input" id="remember_checkbox" />
+							<label for="remember_checkbox" class="form-check-label"  for="remember_checkbox">
+								아이디 저장
+							</label>
+						</div>
+						<div class="login-buttons">
+							<button type="button" class="btn btn-theme h-45px d-block w-100 btn-lg submit_btn_css login_btn">로&nbsp;&nbsp; 그&nbsp;&nbsp; 인</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-
-		<!-- end brand -->
-		<!-- begin login-content -->
-		<div class="login-content">
-
-			<form class="margin-bottom-0 login_form" name="login_form" >
-				<input type="hidden" class="uuid" id="uuid" name="uuid" value="">
-				<div class="form-group m-b-20">
-					<input type="text" class="width-full form-control-lg bmLoginId" id="bmLoginId" name="bmLoginId" placeholder="<spring:message code="login.accountid" text="Account ID"/>" required />
-				</div>
-				<div class="form-group m-b-20">
-					<input type="password" class="width-full form-control-lg bmLoginPwd" id="bmLoginPwd" name="bmLoginPwd" placeholder="<spring:message code="login.password" text="Password"/>" required />
-				</div>
-				<div class="checkbox checkbox-css m-b-20">
-					<input type="checkbox" id="remember_checkbox" />
-					<label for="remember_checkbox">
-						아이디 저장
-					</label>
-
-				</div>
-				<div class="login-buttons">
-					<input type="button" style="" class="btn btn-success btn-block btn-lg login_btn" value="<spring:message code="login.signin" text="로 그 인"/>">
-				</div>
-				<br>
-				<p class="text-center text-grey-darker mb-0">
-					&copy; O2O Delivery Admin. All Right Reserved 2020
-				</p>
-				<%--<div class="m-t-20">
-					Not a member yet? Click <a href="javascript:;">here</a> to register.
-				</div>--%>
-				<%--<div style="margin: 20px; width: 76%; text-align: center; position: absolute; bottom: 0"> <spring:message code="login.servicearea" text="Mobility Service in Jeju"/></div>--%>
-			</form>
-
-		</div>
-		<!-- end login-content -->
 	</div>
-	<!-- end login -->
-
-	<!-- begin login-bg -->
-	<%--<ul class="login-bg-list clearfix">
-		<li class="active"><a href="javascript:;" data-click="change-bg" data-img="../assets/img/login-bg/login-bg-17.jpg" style="background-image: url(../assets/img/login-bg/login-bg-17.jpg)"></a></li>
-		<li><a href="javascript:;" data-click="change-bg" data-img="../assets/img/login-bg/login-bg-16.jpg" style="background-image: url(../assets/img/login-bg/login-bg-16.jpg)"></a></li>
-		<li><a href="javascript:;" data-click="change-bg" data-img="../assets/img/login-bg/login-bg-15.jpg" style="background-image: url(../assets/img/login-bg/login-bg-15.jpg)"></a></li>
-		<li><a href="javascript:;" data-click="change-bg" data-img="../assets/img/login-bg/login-bg-14.jpg" style="background-image: url(../assets/img/login-bg/login-bg-14.jpg)"></a></li>
-		<li><a href="javascript:;" data-click="change-bg" data-img="../assets/img/login-bg/login-bg-13.jpg" style="background-image: url(../assets/img/login-bg/login-bg-13.jpg)"></a></li>
-		<li><a href="javascript:;" data-click="change-bg" data-img="../assets/img/login-bg/login-bg-12.jpg" style="background-image: url(../assets/img/login-bg/login-bg-12.jpg)"></a></li>
-	</ul>--%>
-	<!-- end login-bg -->
-
-
 </div>
-<!-- end page container -->
 
-<!-- ================== BEGIN BASE JS ================== -->
+
+</body>
 <script src="../assets/js/app.min.js"></script>
 <script src="../assets/js/theme/default.min.js"></script>
 <!-- ================== END BASE JS ================== -->
@@ -253,7 +221,7 @@
 	}
 	//uuid 생성
 	function uuidv4() {
-	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
 			return v.toString(16);
 		});
@@ -323,5 +291,5 @@
 
 
 </script>
-</body>
+
 </html>

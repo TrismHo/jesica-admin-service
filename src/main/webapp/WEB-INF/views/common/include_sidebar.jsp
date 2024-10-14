@@ -42,11 +42,14 @@
                         </a>
                         ${sessionScope.sessionKey.userStaffName} &nbsp;<a href="/newPassWord" onclick="window.open(this.href, '_blank', 'width=500, height=280'); return false;"><i class="fas fa-fw m-r-10 fa-key" style="font-size: 10px"></i></a>
                         <small>
-                            <c:if test="${sessionScope.sessionKey.roleType == 1}">
+                            <c:if test="${sessionScope.sessionKey.roleType == 0}">
                                 <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="마스터"/>
                             </c:if>
+                            <c:if test="${sessionScope.sessionKey.roleType == 1}">
+                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="본사"/>
+                            </c:if>
                             <c:if test="${sessionScope.sessionKey.roleType == 2}">
-                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="사용자"/>
+                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="앱사"/>
                             </c:if>
                             <form id="logout-form" action='<c:url value='/logout'/>' method="POST">
                                 <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
@@ -58,35 +61,21 @@
         </ul>
         <!-- begin sidebar nav -->
         <ul class="nav">
-
-           <%-- (item.menuName == '앱 관리'
-            || item.menuName == '통계'
-            || item.menuName == '가맹점'
-            )--%>
             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                <c:if test="${sessionScope.sessionKey.roleType == 2}">
+                <%--앱사--%>
+                <c:if test="${sessionScope.sessionKey.roleType != 0}">
                     <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
-                        <c:if test="${item.menuLevel == 1 && item.permission != 0  && item.visibleLevel <= 2
-                         }">
-                            <li class="has-sub">
+                        <c:if test="${item.menuLevel == 1 && item.permission != 0 && item.visibleLevel >= 0}">
+                            <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
                                     <i class="fa ${item.menuIcon}"></i>
                                     <span>${item.menuName}</span>
                                 </a>
-                                    <%-- (item2.menuName == '회원통계'
-                                             || item2.menuName == '주문통계'
-                                             || item2.menuName == '회원통계(지역)'
-                                             || item2.menuName == '플랫폼 공지'
-                                             || item2.menuName == '이벤트 공지'
-                                             || item2.menuName == '배너 관리'
-                                             || item2.menuName == '회원 관리'
-                                             || item2.menuName == '픽오더주문내역' )--%>
                                 <ul class="sub-menu">
                                     <c:forEach var="item2" items="${tbSiteMenuAclList}" varStatus="status">
-                                        <c:if test="${item2.menuLevel == 2 && item2.permission != 0 && (item.menuGroup == item2.menuGroup)
-                                         && item2.visibleLevel <= 2 }">
-                                            <li><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
+                                        <c:if test="${item2.menuLevel == 2 && item2.permission != 0 && (item.menuGroup == item2.menuGroup) && item.visibleLevel >= 0}">
+                                            <li class=<c:if test="${fn:contains(servletPath,item2.menuUrl) }">"active"</c:if>><a href="${path}/${item2.menuUrl}/list">${item2.menuName}</a></li>
                                         </c:if>
                                     </c:forEach>
                                 </ul>
@@ -94,13 +83,8 @@
                         </c:if>
                     </c:forEach>
                 </c:if>
-
-            <%-- (item.menuName == '앱 관리'
-                       || item.menuName == '통계'
-                       || item.menuName == '가맹점'
-                       || item.menuName == '회원 관리'
-                       || item.menuName == '시스템 운영')--%>
-                <c:if test="${sessionScope.sessionKey.roleType == 1}">
+                <%--마스터--%>
+                <c:if test="${sessionScope.sessionKey.roleType == 0}">
                     <c:forEach var="item" items="${tbSiteMenus}" varStatus="status">
                         <c:if test="${item.menuLevel == 1 && item.visibleLevel >= 0
                         }">
@@ -110,23 +94,6 @@
                                     <i class="fa ${item.menuIcon}"></i>
                                     <span>${item.menuName}</span>
                                 </a>
-                                    <%--(item2.menuName == '회원통계'
-                                             || item2.menuName == '주문통계'
-                                             || item2.menuName == '회원통계(지역)'
-                                             || item2.menuName == '사용자 관리'
-                                             || item2.menuName == '플랫폼 공지'
-                                             || item2.menuName == '이벤트'
-                                             || item2.menuName == '이벤트 공지'
-                                             || item2.menuName == '이벤트 관리'
-                                             || item2.menuName == '배너 관리'
-                                             || item2.menuName == '회원 관리'
-                                             || item2.menuName == '쿠폰 관리'
-                                             || item2.menuName == '픽오더주문내역'
-                                             || item2.menuName == '시스템 설정'
-                                             || item2.menuName == '이벤트 발송내역'
-                                             || item2.menuName == '총판코드 설정'
-                                             || item2.menuName == '발송횟수설정'
-                                             || item2.menuName == '업데이트 내역')--%>
                                 <ul class="sub-menu">
                                     <c:forEach var="item2" items="${tbSiteMenus}" varStatus="status">
                                         <c:if test="${item2.menuLevel == 2 &&  item2.visibleLevel >= 0

@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Pick-Order | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="픽오더주문내역"/></title>
+    <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="직배주문내역"/></title>
 </head>
 <style>
 
@@ -55,9 +55,9 @@
             <div class="col-xs-auto p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right">
                     <li class="breadcrumb-item"><a href="${path}/store/order/list"><spring:message code="sidemenu.boardmanagement1" text="가맹점"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="픽오더주문내역"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="직배주문내역"/></li>
                 </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="픽오더주문내역"/></h3>
+                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement1" text="직배주문내역"/></h3>
             </div>
             <!-- end page-header -->
             <!-- begin row -->
