@@ -1,10 +1,13 @@
 package com.trism.jesica.persistence.mysql.Repository.call;
 
 import com.trism.jesica.persistence.mysql.Entitiy.call.TbCallAll;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -1183,6 +1186,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "                   and a.platform_type = :platform   " +
             "                   and ((:extBrCode is null and 1=1) or (:extBrCode is not null and a.ext_br_code = :extBrCode))"+
             "                   and ((:addrCode is null and 1=1) or (:addrCode is not null and c.addr_1 = :addrCode))"+
+            "                   and ((:appCode is null and 1=1) or (:appCode is not null and a.app_code = :appCode))"+
             "                   group by a.cust_no) ab   ";
 
     String query2 =    "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
@@ -1255,7 +1259,8 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
                                                  @Param("endDate") LocalDateTime endDate,
                                                  @Param("platform") Integer platform,
                                                  @Param("extBrCode") String extBrCode,
-                                                 @Param("addrCode") String addrCode
+                                                 @Param("addrCode") String addrCode,
+                                                 @Param("appCode") String appCode
     );
 
     @Query(value =
@@ -1285,9 +1290,161 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
                                                 @Param("endDate") LocalDateTime endDate,
                                                 @Param("platform") Integer platform,
                                                 @Param("extBrCode") String extBrCode,
-                                                @Param("addrCode") String addrCode
+                                                @Param("addrCode") String addrCode,
+                                                @Param("appCode") String appCode
     );
 
+    @Query(value =
+            "        select    " +query2+
+                    "    from(    " +
+            "        select    " +
+                    "            date_format(ab.insert_date, '%Y/%m/%d') AS yyyymmdd       " +
+                    "            , DAYOFWEEK(ab.insert_date) as dw       " +
+                    "            , count(1) as totalCnt       " +
+                    "            , SUM(CASE WHEN ab.device_type =1 THEN 1 ELSE 0 END) AS androidCnt       " +
+                    "            , SUM(CASE WHEN ab.device_type =2 THEN 1 ELSE 0 END) AS iosCnt       " +
+                    "            , SUM(CASE WHEN ab.gender = 'M' THEN 1 ELSE 0 END) AS maleCnt       " +
+                    "            , SUM(CASE WHEN ab.gender = 'F' THEN 1 ELSE 0 END) AS femaleCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '0' THEN 1 ELSE 0 END) AS platformNoneCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '1' THEN 1 ELSE 0 END) AS platformJesicarCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '2' THEN 1 ELSE 0 END) AS platformAnionCnt     " +
+                    "            , SUM(CASE WHEN ab.ext_recomm_st_code is not null  THEN 1 ELSE 0 END) AS extRecommStCodeCnt     " +
+                    "            , SUM(CASE WHEN ab.ext_recomm_st_code is null  THEN 1 ELSE 0 END) AS extAppUserCnt     " +
+                    "               from  " +
+                    query+
+                    "           group by yyyymmdd      " +
+                        "        )c    " +
+                    "    group by yyyymmdd " ,
+                    countQuery =  "        select    " +query2+
+                            "    from(    " +
+                            "        select    " +
+                            "            date_format(ab.insert_date, '%Y/%m/%d') AS yyyymmdd       " +
+                            "            , DAYOFWEEK(ab.insert_date) as dw       " +
+                            "            , count(1) as totalCnt       " +
+                            "            , SUM(CASE WHEN ab.device_type =1 THEN 1 ELSE 0 END) AS androidCnt       " +
+                            "            , SUM(CASE WHEN ab.device_type =2 THEN 1 ELSE 0 END) AS iosCnt       " +
+                            "            , SUM(CASE WHEN ab.gender = 'M' THEN 1 ELSE 0 END) AS maleCnt       " +
+                            "            , SUM(CASE WHEN ab.gender = 'F' THEN 1 ELSE 0 END) AS femaleCnt       " +
+                            "            , SUM(CASE WHEN ab.platform_type = '0' THEN 1 ELSE 0 END) AS platformNoneCnt       " +
+                            "            , SUM(CASE WHEN ab.platform_type = '1' THEN 1 ELSE 0 END) AS platformJesicarCnt       " +
+                            "            , SUM(CASE WHEN ab.platform_type = '2' THEN 1 ELSE 0 END) AS platformAnionCnt     " +
+                            "            , SUM(CASE WHEN ab.ext_recomm_st_code is not null  THEN 1 ELSE 0 END) AS extRecommStCodeCnt     " +
+                            "            , SUM(CASE WHEN ab.ext_recomm_st_code is null  THEN 1 ELSE 0 END) AS extAppUserCnt     " +
+                            "               from  " +
+                            query+
+                            "           group by yyyymmdd      " +
+                            "        )c    " +
+                            "    group by yyyymmdd "+
+                    "", nativeQuery = true)
+    Page<Map<String,Object>> getUserLineDayListPage(@Param("startDate") LocalDateTime startDate,
+                                                    @Param("endDate") LocalDateTime endDate,
+                                                    @Param("platform") Integer platform,
+                                                    @Param("extBrCode") String extBrCode,
+                                                    @Param("addrCode") String addrCode,
+                                                    @Param("appCode") String appCode,
+                                                    @PageableDefault(size = 100000) Pageable pageable
+    );
+
+
+    @Query(value =
+            "        select    " +
+                    "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
+                    "    dw ,    " +
+                    "    totalCnt ,    " +
+                    "    androidCnt ,    " +
+                    "    ROUND(androidCnt/ (androidCnt+iosCnt) * 100, 1) AS androidPer ,    " +
+                    "    iosCnt ,    " +
+                    "    ROUND(iosCnt/ (androidCnt+iosCnt) * 100, 1) AS iosPer ,    " +
+                    "    maleCnt ,    " +
+                    "    ROUND(maleCnt/ (maleCnt+feMaleCnt) * 100, 1) AS malePer ,    " +
+                    "    femaleCnt ,    " +
+                    "    ROUND(femaleCnt/ (maleCnt+femaleCnt) * 100, 1) AS femalePer,     " +
+                    "    platformJesicarCnt ,    " +
+                    "    ROUND(platformJesicarCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformJesicarPer ,    " +
+                    "    platformAnionCnt ,    " +
+                    "    ROUND(platformAnionCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformAnionPer,     " +
+                    "    platformNoneCnt ,    " +
+                    "    ROUND(platformNoneCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformNonePer ,    " +
+                    "    extRecommStCodeCnt , "+
+                    "    extAppUserCnt , "+
+                    "    start, "+
+                    "    end "+
+                    "    from(    " +
+                    "            select "+
+                    "            date_format(ab.insert_date, '%Y/%m/%d') AS yyyymmdd       " +
+                    "            , DAYOFWEEK(ab.insert_date) as dw       " +
+                    "            , count(1) as totalCnt       " +
+                    "            , SUM(CASE WHEN ab.device_type =1 THEN 1 ELSE 0 END) AS androidCnt       " +
+                    "            , SUM(CASE WHEN ab.device_type =2 THEN 1 ELSE 0 END) AS iosCnt       " +
+                    "            , SUM(CASE WHEN ab.gender = 'M' THEN 1 ELSE 0 END) AS maleCnt       " +
+                    "            , SUM(CASE WHEN ab.gender = 'F' THEN 1 ELSE 0 END) AS femaleCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '0' THEN 1 ELSE 0 END) AS platformNoneCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '1' THEN 1 ELSE 0 END) AS platformJesicarCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '2' THEN 1 ELSE 0 END) AS platformAnionCnt     " +
+                    "            , SUM(CASE WHEN ab.ext_recomm_st_code is null  THEN 1 ELSE 0 END) AS extAppUserCnt     " +
+                    "            , SUM(CASE WHEN ab.ext_recomm_st_code is not null  THEN 1 ELSE 0 END) AS extRecommStCodeCnt     " +
+                    "            ,DATE_FORMAT(DATE_SUB(date_format(ab.insert_date, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.insert_date, '%Y/%m/%d'))-1) DAY), '%Y/%m/%d') as start " +
+                    "            ,DATE_FORMAT(DATE_SUB(date_format(ab.insert_date, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.insert_date, '%Y/%m/%d'))-7) DAY), '%Y/%m/%d') as end " +
+                    "            ,DATE_FORMAT(date_format(ab.insert_date, '%Y/%m/%d'), '%Y%U') AS `weekdate`" +
+                    "               from  " +
+                    query+
+                    "           group by WEEK(yyyymmdd)      " +
+                    "        )c    " +
+                    "    group by yyyymmdd" ,
+            countQuery =         " select    " +
+                    "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,    " +
+                    "    dw ,    " +
+                    "    totalCnt ,    " +
+                    "    androidCnt ,    " +
+                    "    ROUND(androidCnt/ (androidCnt+iosCnt) * 100, 1) AS androidPer ,    " +
+                    "    iosCnt ,    " +
+                    "    ROUND(iosCnt/ (androidCnt+iosCnt) * 100, 1) AS iosPer ,    " +
+                    "    maleCnt ,    " +
+                    "    ROUND(maleCnt/ (maleCnt+feMaleCnt) * 100, 1) AS malePer ,    " +
+                    "    femaleCnt ,    " +
+                    "    ROUND(femaleCnt/ (maleCnt+femaleCnt) * 100, 1) AS femalePer,     " +
+                    "    platformJesicarCnt ,    " +
+                    "    ROUND(platformJesicarCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformJesicarPer ,    " +
+                    "    platformAnionCnt ,    " +
+                    "    ROUND(platformAnionCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformAnionPer,     " +
+                    "    platformNoneCnt ,    " +
+                    "    ROUND(platformNoneCnt/ (platformJesicarCnt+platformAnionCnt+platformNoneCnt) * 100, 1) AS platformNonePer ,    " +
+                    "    extRecommStCodeCnt , "+
+                    "    extAppUserCnt , "+
+                    "    start, "+
+                    "    end "+
+                    "    from(    " +
+                    "            select "+
+                    "            date_format(ab.insert_date, '%Y/%m/%d') AS yyyymmdd       " +
+                    "            , DAYOFWEEK(ab.insert_date) as dw       " +
+                    "            , count(1) as totalCnt       " +
+                    "            , SUM(CASE WHEN ab.device_type =1 THEN 1 ELSE 0 END) AS androidCnt       " +
+                    "            , SUM(CASE WHEN ab.device_type =2 THEN 1 ELSE 0 END) AS iosCnt       " +
+                    "            , SUM(CASE WHEN ab.gender = 'M' THEN 1 ELSE 0 END) AS maleCnt       " +
+                    "            , SUM(CASE WHEN ab.gender = 'F' THEN 1 ELSE 0 END) AS femaleCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '0' THEN 1 ELSE 0 END) AS platformNoneCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '1' THEN 1 ELSE 0 END) AS platformJesicarCnt       " +
+                    "            , SUM(CASE WHEN ab.platform_type = '2' THEN 1 ELSE 0 END) AS platformAnionCnt     " +
+                    "            , SUM(CASE WHEN ab.ext_recomm_st_code is null  THEN 1 ELSE 0 END) AS extAppUserCnt     " +
+                    "            , SUM(CASE WHEN ab.ext_recomm_st_code is not null  THEN 1 ELSE 0 END) AS extRecommStCodeCnt     " +
+                    "            ,DATE_FORMAT(DATE_SUB(date_format(ab.insert_date, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.insert_date, '%Y/%m/%d'))-1) DAY), '%Y/%m/%d') as start " +
+                    "            ,DATE_FORMAT(DATE_SUB(date_format(ab.insert_date, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.insert_date, '%Y/%m/%d'))-7) DAY), '%Y/%m/%d') as end " +
+                    "            ,DATE_FORMAT(date_format(ab.insert_date, '%Y/%m/%d'), '%Y%U') AS `weekdate`" +
+                    "               from  " +
+                    query+
+                    "           group by WEEK(yyyymmdd)      " +
+                    "           order by weekdate      " +
+                    "        )c    " +
+                    "    group by yyyymmdd" +
+                    "", nativeQuery = true)
+    Page<Map<String,Object>> getUserLineWeekListPage(@Param("startDate") LocalDateTime startDate,
+                                                    @Param("endDate") LocalDateTime endDate,
+                                                    @Param("platform") Integer platform,
+                                                    @Param("extBrCode") String extBrCode,
+                                                    @Param("addrCode") String addrCode,
+                                                    @Param("appCode") String appCode,
+                                                    Pageable pageable
+    );
 
    /* @Query(value =
             "        select    " +

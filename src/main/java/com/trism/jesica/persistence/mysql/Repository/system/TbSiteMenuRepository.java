@@ -50,4 +50,5 @@ public interface TbSiteMenuRepository extends JpaRepository<TbSiteMenu, Integer>
     List<Map<String, Object>>  getTbSiteMenuAclListAll(@Param("staffNo") Long staffNo);
 
     List<TbSiteMenu> findByDataStatus(@Param("dataStatus") Integer dataStatus);
+    List<TbSiteMenu> findByDataStatusAndVisibleLevel(@Param("dataStatus") Integer dataStatus, @Param("visibleLevel") Integer visibleLevel);
 }

@@ -13,6 +13,21 @@
         <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 공지"/></title>
     </c:if>
 </head>
+<style>
+    div.dataTables_wrapper div.dataTables_processing {
+        border: 1px solid #eee;
+        z-index: 1;
+        /* position: absolute;
+         top: 264%;
+         left: 10%;
+         width: 200px;
+         !* margin-left: -397px; *!
+         !* margin-top: -26px; *!
+         text-align: center;
+         padding: 1em 0;*/
+
+    }
+</style>
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>
@@ -48,10 +63,11 @@
                     <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
-                                <form name="frmSearch" id="frmSearch">
+                                <input type="hidden" name="platformType" value="2">
+                                <form  >
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
-                                        <tr >
+                                        <%--<tr >
                                             <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
                                             <td >
                                                 <label>
@@ -65,17 +81,32 @@
                                                             <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="직배"/></option>
                                                         </select>
                                                     </c:if>
-                                                 <%--   <select class="form-control" name="platformType">
+                                                 &lt;%&ndash;   <select class="form-control" name="platformType">
                                                         <option value="" <c:if test="${searchValue.platformType == ''  || searchValue.platformType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
 &lt;%&ndash;                                                        <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>&ndash;%&gt;
                                                         <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
                                                         <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="양파오더"/></option>
                                                         <option value="3" <c:if test="${searchValue.platformType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="세날"/></option>
-                                                    </select>--%>
+                                                    </select>&ndash;%&gt;
                                                 </label>
+                                            </td>--%>
+                                            <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="앱구분"/></strong></td>
+                                            <td>
+                                                <c:if test="${empty appCode}">
+                                                    <select id="appCode" name="appCode" class="form-control w-25" >
+                                                        <option value="">전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <input type="text" class="form-control " readonly value="${sessionScope.sessionKey.appCodeName}">
+                                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
+                                                </c:if>
                                             </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
-                                            <td>
+                                            <td colspan="3">
                                                 <div class="row">
                                                 </div>
                                                 <input type="hidden" name="dateStatus" value="OK">
@@ -121,7 +152,7 @@
                                             <span class="fa fa-plus"><spring:message code="list.word.eventregistration" text="이벤트 등록"/><%--<spring:message code="merchandise.registerbutton" text="default text"/>--%></span>
                                         </button>
                                     </c:if>
-                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/><%--검색--%> </button>
+                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
                                 </div>
                             </div>
                         </div>
@@ -134,21 +165,21 @@
                     <tr class="text-center">
                         <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
                         <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
-                        <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
+                       <%-- <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>--%>
                         <th width="5%"><spring:message code="list.word.status" text="상태"/></th>
-                        <th width=""><spring:message code="list.word.contents1" text="시작일/종료일"/></th>
+                        <th width="15%"><spring:message code="list.word.contents1" text="시작일/종료일"/></th>
                         <th width="10%"><spring:message code="list.word.status" text="등록 사용자"/></th>
                         <th width="10%"><spring:message code="list.word.registrationdate" text="등록일"/></th>
                     </tr>
                     </thead>
-                    <tbody>
+                   <%-- <tbody>
                     <c:forEach var="item"  items="${tbEventList}"  varStatus="status">
                         <tr class="detailRow" eventNo="${item.eventNo}">
                             <td class="text-center">${status.index + 1}</td>
-                                <%-- <td>
+                                &lt;%&ndash; <td>
                                      <c:url var="url" value=""><c:param name="output" value="${item.imgFileSmall}" /></c:url>
                                      <c:set var="url" value="${fn:substringAfter(url, '=')}" />
-                                     <img style="width: 80px;" class="storeImg" src="/api/img/fileLoad?filePath=${url}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" ></td>--%>
+                                     <img style="width: 80px;" class="storeImg" src="/api/img/fileLoad?filePath=${url}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" ></td>&ndash;%&gt;
                             <td class="text-center">${item.title}</td>
                             <td class="text-center" style="">
                                 <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
@@ -180,7 +211,7 @@
                     </c:forEach>
 
 
-                    </tbody>
+                    </tbody>--%>
                 </table>
             </div>
         </div>
@@ -208,22 +239,162 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    let table = null;
+
+    var oldExportAction = function (self, e, dt, button, config) {
+        if (button[0].className.indexOf('buttons-excel') >= 0) {
+            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
+                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
+            }
+            else {
+                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+            }
+        } else if (button[0].className.indexOf('buttons-print') >= 0) {
+            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+        }
+    };
+
+    var newExportAction = function (e, dt, button, config) {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+            var self = this;
+            var oldStart = dt.settings()[0]._iDisplayStart;
+
+            dt.one('preXhr', function (e, s, data) {
+                // Just this once, load all data from the server...
+                data.start = 0;
+                data.length = 2147483647;
+
+                dt.one('preDraw', function (e, settings) {
+                    // Call the original action function
+                    oldExportAction(self, e, dt, button, config);
+
+                    dt.one('preXhr', function (e, s, data) {
+                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                        // Set the property to what it was before exporting.
+                        settings._iDisplayStart = oldStart;
+                        data.start = oldStart;
+                    });
+
+                    // Reload the grid with the original page. Otherwise,
+                    // API functions like table.cell(this) don't work properly.
+                    setTimeout(dt.ajax.reload, 0);
+
+                    // Prevent rendering of the full data to the DOM
+                    return false;
+                });
+            });
+
+            // Requery the server with the new one-time export settings
+            dt.ajax.reload();
+        }
+    };
     $(() => {
-        $("#testTable").DataTable({
-            language : lang_set, //or lang_eng
+        /* $("#testTable").DataTable({
+             language : lang_set, //or lang_eng
+         });*/
+
+        $(".insert_btn").click(function() {
+            location.href = '${path}/board/platform/insert';
+        });
+        $(() => {
+            let downloadAble = `${downloadAble}`;
+            let roleType = `${sessionScope.sessionKey.roleType}`;
+            let downloadChk = "1";
+            if(roleType != 0){
+                if(downloadAble == 1){
+                    downloadChk = "";
+                }
+            } else {
+                downloadChk = ""
+            }
+            table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/event/list","A5","1", true,{
+                columns: [
+                    {data: "listIndex"},
+                    {data: "title"},
+                   /* {data: "platformType" ,
+                        render: function(data){
+                            if (data) {
+                                if (data == '0') {
+                                    return "사용안함";
+                                } else if (data == '1') {
+                                    return "제시카";
+                                }  else if (data == '2') {
+                                    return "직배";
+                                } else {
+                                    return "-";
+                                }
+                            } else {
+                                return "";
+                            }
+                        }},*/
+                    {data: "viewYn" ,
+                        render: function(data){
+                            if (data) {
+                                return "노출";
+                            } else {
+                                return "<span class='text-red'>숨김</span>";
+                            }
+                        }},
+                    {data: "startEnd"},
+                    {data: "insertUserId"},
+                    {data: "insertDate" },
+                ],
+                columnDefs: [
+                    {targets: "_all", className: "text-center"},
+                    {
+                        targets: [5],
+                        render: function(data){
+                            return dateFormat(data);
+                        },
+                    },
+                ],
+            });
+
+            $("#testTable_filter").text("");
+            //$("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
+            dateSetting();
+            /*getToday();*/
+
+            //상세
+            $("#testTable").on('click','tbody td', function() {
+                var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
+                location.href = "${path}/board/event/detail?eventNo=" + row.eventNo;
+            });
         });
 
+
+        dateSetting();
+
+    });
+    function serarchForm() {
+        var numCols = table.columns().nodes().length;
+        for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+        /*  var searchType = $("#searchType").val();
+          var searchValue = $("#searchValue").val();*/
+
+        table.column().draw();
+        /*let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+
+        }*/
+    }
+    $(() => {
         $(".insert_btn").click(function() {
             location.href = '${path}/board/event/insert';
         });
-
         $(".detailRow").click(function() {
             let eventNo = $(this).attr("eventNo")
             location.href = "${path}/board/event/detail?eventNo="+eventNo;
         });
-
-        dateSetting();
-
     });
 </script>
 </body>

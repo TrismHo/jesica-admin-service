@@ -57,6 +57,9 @@ public class SystemController {
 
     private final BrCodeService brCodeService;
 
+    private final SystemCodeService systemCodeService;
+
+
 
     @GetMapping("/coopcompany/list")
     public ModelAndView listCooperativeCompany() {
@@ -340,8 +343,6 @@ public class SystemController {
                                       Model model,HttpSession session) {
 
         log.info("@@searchValue {}",searchValue);
-        String name = "";
-        String dataStatus = "";
         List<TbUserStaffDTO> resultList = null;
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
@@ -367,29 +368,41 @@ public class SystemController {
             endDate = LocalDateTime.parse(string, formatter);
         }
 
+        Object dataStatus = null;
+        Object name = null;
+        Object appCode = null;
         if (!searchValue.isEmpty() && searchValue != null){
+
             if(searchValue.get("dataStatus") != null && searchValue.get("dataStatus") != null){
                 if(searchValue.get("dataStatus") != ""){
-                    resultList =  masterService.getUserDataStatusList(searchValue.get("name").toString(),Integer.parseInt(searchValue.get("dataStatus").toString()),startDate,endDate);
-                }else {
-                    resultList =  masterService.getUserList(searchValue.get("name").toString(),startDate,endDate);
+                    dataStatus = searchValue.get("dataStatus");
                 }
-            }else {
-                searchValue.put("startDate", "2020-01-01");
-                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
-                resultList =  masterService.getUserList(searchValue.get("name").toString(),startDate,endDate);
+            }
+            if(searchValue.get("name") != null && searchValue.get("name") != null){
+                if(searchValue.get("name") != ""){
+                    name = searchValue.get("name");
+                }
+            }
+            if(searchValue.get("appCode") != null && searchValue.get("appCode") != null){
+                if(searchValue.get("appCode") != ""){
+                    appCode = searchValue.get("appCode");
+                }
             }
         } else {
             searchValue.put("startDate", "2020-01-01");
             searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
-            resultList =  masterService.getUserList(name,startDate,endDate);
         }
+
+        resultList =  masterService.getUserDataStatusList(name,dataStatus,appCode,startDate,endDate);
 
         try {
             model.addAttribute("tbUserStaffList", resultList);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("permission",map.get("permission"));
         model.addAttribute("downloadAble",map.get("downloadAble"));
@@ -514,7 +527,7 @@ public class SystemController {
 
 
     /**
-     * 안심번호리스트
+     * 시스템 설정
      */
     @GetMapping("/systemprop/list")
     public ModelAndView systempropList(Locale locale, HttpServletRequest request,
@@ -541,6 +554,25 @@ public class SystemController {
 
         return new ModelAndView("/jesica/system/systemprop/list");
     }
+
+
+    /**
+     * 시스템 설정
+     */
+    @GetMapping("/code/list")
+    public ModelAndView systemcodeList(Locale locale, HttpServletRequest request,
+                                       @RequestParam Map<String,Object> searchValue,
+                                       HttpSession session,
+                                       Model model) {
+        log.info("@@searchValue {}",searchValue);
+        Map<String,Object> map = permission(session,"system/code");
+        model.addAttribute("tbServiceCode", systemCodeService.tbSystemCodeList("AC"));
+        model.addAttribute("searchValue",searchValue);
+
+        return new ModelAndView("/jesica/system/code/list");
+    }
+
+
 
     /**
      * 총판코드 리스트
@@ -629,11 +661,11 @@ public class SystemController {
             if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
                 /* 권한이 마스터 :0 인경우*/
                 if(loginSession.getRoleType() == 0){
-                    map.put("downloadChk",1);
+                    map.put("downloadAble",1);
                     map.put("permission",2);
                 }else {
                     permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
-                    map.put("downloadChk",permission.getDownloadAble());
+                    map.put("downloadAble",permission.getDownloadAble());
                     if(!ObjectUtils.isEmpty(permission)){
                         map.put("permission",permission.getPermission());
                     } else {
@@ -642,7 +674,7 @@ public class SystemController {
                 }
             }
         } else {
-            map.put("downloadChk",0);
+            map.put("downloadAble",0);
             map.put("permission",0);
         }
 
@@ -655,5 +687,4 @@ public class SystemController {
         map.put("company",company);
         return map;
     }
-
 }

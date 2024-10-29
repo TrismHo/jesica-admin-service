@@ -78,10 +78,26 @@ public class BoardService {
         }
         return searchValue.isEmpty() ? null
                 : tbNoticePlatformRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
-/*
-        return searchValue.isEmpty() ? tbNoticePlatformRepository.findAll(Sort.by(Sort.Direction.DESC, "insertDate"))
-                : tbNoticePlatformRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
-*/
+    }
+
+    public Map<String, Object> tbNoticePlatFormSearch(Map<String,Object> searchValue, Pageable pageable) {
+        Specification<TbNoticePlatform> predicate = null;
+        Map<String, Object> map = new HashMap<>();
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbNoticePlatform>) SearchUtil.searchNoticePlatform(searchValue);
+        }
+        Page<TbNoticePlatform> TbNoticePlatformPage = tbNoticePlatformRepository.findAll(predicate, pageable);
+        ;
+        /*List<TbMannaOrder> list = searchValue.isEmpty() ? null
+                : tbMannaOrderRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "ordDate"));*/
+
+        map.put("platformList",TbNoticePlatformPage.getContent());
+        map.put("totalPage",TbNoticePlatformPage.getTotalPages());
+        map.put("totalElement",TbNoticePlatformPage.getTotalElements());
+        return map;
     }
 
     @Transactional(readOnly = true, value = "mysqlTransactionManager")
@@ -168,6 +184,26 @@ public class BoardService {
         }
         return searchValue.isEmpty() ? tbEventRepository.findAll(Sort.by(Sort.Direction.DESC, "insertDate"))
                 : tbEventRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
+    }
+
+    public Map<String, Object> tbEventSearch(Map<String,Object> searchValue, Pageable pageable) {
+        Specification<TbEvent> predicate = null;
+        Map<String, Object> map = new HashMap<>();
+        for (String key : searchValue.keySet()) {
+            Object value = searchValue.get(key);
+            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
+            searchValue.put(key, (String) value);
+            predicate = (Specification<TbEvent>) SearchUtil.searchEvent(searchValue);
+        }
+        Page<TbEvent> TbEventPage = tbEventRepository.findAll(predicate, pageable);
+        ;
+        /*List<TbMannaOrder> list = searchValue.isEmpty() ? null
+                : tbMannaOrderRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "ordDate"));*/
+
+        map.put("eventList",TbEventPage.getContent());
+        map.put("totalPage",TbEventPage.getTotalPages());
+        map.put("totalElement",TbEventPage.getTotalElements());
+        return map;
     }
 
     @Transactional(readOnly = true, value = "mysqlTransactionManager")

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.franchiseeregistration1" text="API 테스트"/></title>
+    <title>Jig-Bae | 사용자 관리</title>
 </head>
 <style>
     .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -55,9 +55,9 @@
         <div class="col-xl-12">
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.workgroupmanagement1" text="시스템 운영"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise" text="사용자 관리"/><%--상품--%></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.search.franchiseeregistration1" text="사용자 등록"/><%--상품등록--%></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.system1" text="시스템 운영"/></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/master/insert"><spring:message code="sidemenu.system.systemmerchandise1" text="사용자 관리"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.systemproductdetails1" text="사용자 등록"/></li>
                 </ol>
                 <h3 class="rix-title p-b-5"><spring:message code="list.search.franchiseeregistration1" text="사용자 등록"/><%--<spring:message code="merchandise.detail.title" text="default text"/>--%><%--상품 상세--%></h3>
             </div>
@@ -89,19 +89,18 @@
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.id1" text="등급"/></td>
                                             <td>
-                                                <select class="form-control" name="roleType">
-                                                    <option value="0">마스터 </option>
-                                                    <option value="1">본사 </option>
-                                                    <option value="2">앱사 </option>
+                                                <select class="form-control roleType" name="roleType">
+                                                    <option value="1">통합관리자 </option>
+                                                    <option value="2">앱관리자</option>
                                                 </select>
                                             </td>
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="마스터/사용자를 선택해주세요"/></td>
                                         </tr>
-                                        <tr>
+                                        <tr class="appCodeTr" style="display: none;">
                                             <td class="bg-light"><spring:message code="list.detail.id1" text="앱코드"/></td>
                                             <td>
                                                 <c:if test="${empty appCode}">
-                                                    <select name="appCode" class="form-control w-25" >
+                                                    <select id="appCode" name="appCode" class="form-control w-25" >
                                                         <option value="">전체</option>
                                                         <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
                                                             <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
@@ -245,7 +244,16 @@
 
 
     $(() => {
-
+        $(document).on("change",".roleType",function() {
+            let roleType = $(this).val();
+            if(roleType != 1){
+                $(".appCodeTr").css("display","contents");
+                $("#appCode option:eq(0)").prop("selected", true);
+            } else {
+                $(".appCodeTr").css("display","none");
+                $("#appCode option:eq(0)").prop("selected", true);
+            }
+        });
         $(".btn_list").click(function() {
             location.href = "/system/master/list";
         });

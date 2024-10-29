@@ -321,6 +321,28 @@
             $(".ordType").prop('checked', this.checked);
         });
 
+        let downloadAble = `${downloadAble}`;
+        let roleType = `${sessionScope.sessionKey.roleType}`;
+        let downloadMap = {};
+        if(roleType != 0){
+            if(downloadAble == 1){
+                downloadMap = { extend: 'excel',
+                    text: '&nbsp; 엑셀 다운로드',
+                    className: 'btn-sm fa fa-file-excel'
+                    ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
+                    ,title: ''
+                    ,action: newExportAction
+                };
+            }
+        } else {
+            downloadMap = { extend: 'excel',
+                text: '&nbsp; 엑셀 다운로드',
+                className: 'btn-sm fa fa-file-excel'
+                ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
+                ,title: ''
+                ,action: newExportAction
+            };
+        }
 
         table = $("#testTable").DataTable({
             language :  {
@@ -461,13 +483,7 @@
             buttons: [
                 /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
                 /*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
-                { extend: 'excel',
-                    text: '&nbsp; 엑셀 다운로드',
-                    className: 'btn-sm fa fa-file-excel'
-                    ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
-                    ,title: ''
-                    ,action: newExportAction
-                },
+                downloadMap,
                 /*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
             ],
         });

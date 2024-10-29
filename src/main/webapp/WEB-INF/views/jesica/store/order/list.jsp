@@ -85,9 +85,27 @@
                                                         class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
                                                 </label>
                                             </td>
-
+                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="앱구분"/></strong></td>
+                                            <td>
+                                                <c:if test="${empty appCode}">
+                                                    <select id="brandTypeCd" name="brandTypeCd" class="form-control" >
+                                                        <option value="" selected>전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.codeValue}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                        <c:if test="${appCode == appCodeList.sysCode}">
+                                                            <input type="hidden" name="brandTypeCd" value="${appCodeList.codeValue}">
+                                                            <input type="text" class="form-control" value="${appCodeList.codeName}" disabled>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="주문상태"/></strong></td>
-                                            <td style="width: 207px" colspan="3">
+                                            <td style="width: 207px" colspan="1">
                                                 <label>
                                                     <select class="form-control" name="ordStatus">
                                                         <option value="" <c:if test="${searchValue.ordStatus == ''}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="전체"/></option>
@@ -301,8 +319,18 @@
             $(".ordType").prop('checked', this.checked);
         });
 
+        let downloadAble = `${downloadAble}`;
+        let roleType = `${sessionScope.sessionKey.roleType}`;
+        let downloadChk = "1";
+        if(roleType != 0){
+            if(downloadAble == 1){
+                downloadChk = "";
+            }
+        } else {
+            downloadChk = ""
+        }
 
-        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/order/list", "A2","2", {
+        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/order/list", "A2",downloadChk, true,{
             columns : [
                 {data: "listIndex"},
                 {data: "ordNo"},
@@ -381,177 +409,11 @@
                 },
             ],
         });
-
-
-     /*   table = $("#testTable").DataTable({
-            language :  {
-                lang_set,
-                "processing": "데이터 불러오는 중...",
-                "info": " _PAGE_ - _PAGES_ (총 _MAX_ 건)",
-            }, //or lang_eng
-         /!*   pagingType: "full_numbers",*!/
-         /!*   pagingType : "full_numbers",*!/
-           /!* lengthMenu : [ [ 10, 20, 30 ,40], [ 10, 20, 30, 40] ],*!/
-            responsive: true,
-            processing:true,
-            bAutoWidth: false,
-            ordering: true,
-            serverSide: true,
-            columns : [
-                {data: "listIndex"},
-                {data: "ordNo"},
-                {data: "ordDate"},
-                {data: "ordType"},
-                {data: "dvryServiceType"},
-                {data: "ordStatus"},
-                {data: "stName"},
-                {data: "brCode"},
-                {data: "masterStCode"},
-                {data: "ordStCode"},
-                {data: "stTel"},
-                {data: "ordCuStMemo"},
-                {data: "payAmt"},
-                {data: "srvAmt"},
-                {data: "extBrCode"},
-                {data: "extMasterStCode"},
-                {data: "extRecommStCode"},
-                {data: "ordCuTel"},
-                {data: "eaAddr4"},
-                {data: "totalUseCount"},
-                {data: "cancelMemo"},
-            ],
-            columnDefs: [
-                {targets: "_all", className: "text-center"},
-                {
-                    targets: 2,
-                    render: function(data){
-                    return dateFormat(data);
-                    },
-                },
-                {
-                    targets: 3,
-                    render: function(data){
-                        return orderType(data);
-                    }
-                },
-                {
-                    targets: 4,
-                    render: function(data){
-                        if(data) {
-                            if(data == 1) {
-                                return "0원배달";
-                            } else if(data == 2) {
-                                return "0순위배달";
-                            } else {
-                                return "";
-                            }
-                        } else {
-                            return "";
-                        }
-                    }
-                },
-                {
-                    targets: 5,
-                    render: function(data){
-                        if(data) {
-                            return orderStatus(data);
-                        } else {
-                            return "";
-                        }
-                    }
-                },
-                {targets : [12,13] , render : $.fn.dataTable.render.number(',')},
-                {
-                    targets: [10,17],
-                    render: function(data){
-                        return phoneHyphen(data);
-                    }
-                },
-                {
-                    targets: 19,
-                    render:function(data){
-                        return countString(data, "회");
-                    }
-                },
-            ],
-            ajax : {
-                url: "${path}/api/order/list",
-                type: "POST",
-                data: function (res) {
-                    var formData = objectifyForm($("#frmSearch").serializeArray());
-                    var param = formData;
-
-                    param["draw"] = res.draw;
-                    param["length"] = res.length;
-                    param["start"] = res.start;
-                    return param;
-                },
-                dataSrc: function(res) {
-                    var data= res.data;
-                    // 리스트번호
-                    for (let i = 0; i < data.length; i++) {
-                        data[i].listIndex = i + 1
-                        data[i]["number"] = i;
-                    }
-
-                    return data;
-                },
-                statusCode: {
-                    200: (response) => {
-                        // TODO
-                    },
-                    400: (response) => {
-                        // TODO
-                    },
-                    500: (response) => {
-                        // TODO
-                    }
-                }
-            },
-            layout: {
-                top1: {
-                    searchBuilder: {
-                        liveSearch: true
-                    }
-                }
-            },
-            paging: true,
-            responsive: true,
-            dom: '<"row"<"col-sm-12"l fr><"col-sm-12"B>>t<"row"<"col-sm-12"i><"col-sm-12"p>>',
-            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
-            buttons: [
-                /!*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*!/
-                /!*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*!/
-                { extend: 'excel',
-                    text: '&nbsp; 엑셀 다운로드',
-                    className: 'btn-sm fa fa-file-excel'
-                    ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
-                    ,title: ''
-                    ,action: newExportAction
-                },
-                /!*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*!/
-            ],
-        });*/
-
-
-        //상세
-       /* $("#testTable").on('click','tbody tr', function() {
-            var row = $("#testTable").DataTable().row($(this)).data();
-            location.href = "${path}/store/order/detail?ordNo=" + row.ordNo;
-        });*/
-
         $("#testTable").on('click','tbody td', function() {
             var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
             location.href = "${path}/store/order/detail?ordNo=" + row.ordNo;
         });
 
-        /*$("#testTable_filter").text("");
-        $("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');*/
-
-       /* $(document).on("click", ".detailRow", function () {
-            let ordNo = $(this).attr("ordNo");
-            location.href = "${path}/store/order/detail?ordNo=" + ordNo;
-        });*/
         $(document).on("change", ".ordTypeSelect", function () {
           let thisVal = $(this).val();
           if(thisVal == 1){
@@ -608,47 +470,6 @@
     }
 
 
-
-
-
-    /*function searchFormFunction() {
-        var ordTypeValues = "";
-        $(".ordType:checked").each(function () {
-            if (ordTypeValues == "") {
-                ordTypeValues = $(this).val();
-            } else {
-                ordTypeValues = ordTypeValues + "," + $(this).val();
-            }
-        });
-        $("input[name=ordType]").val(ordTypeValues);
-
-        let startDate = $(".startDate").val()
-        let endDate = $(".endDate").val()
-        if(getDateDiff(startDate, endDate) > 31) {
-            alert("날짜범위는 최대 31일까지 가능합니다.")
-            e.preventDefault();
-            e.stopPropagation();
-        } else {
-            $("#frmSearch").submit();
-        }
-      /!*  let pleaseselectastore = "<spring:message code="list.script.pleaseselectastore" text="가맹점을 선택해주세요."/>";
-        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-        let confirm = "<spring:message code="list.script.confirm" text="확인"/>";
-        if ($(".storeNo").val() == "" || $(".storeNo").val() == null) {
-            swal({
-                title: pleaseselectastore,
-                icon: "warning",
-                buttons: [
-                    cancel,
-                    confirm
-                ],
-                dangerMode: true,
-            });
-        } else {
-
-        }*!/
-        /!*   $("#frmSearch").submit();*!/
-    }*/
 </script>
 </body>
 </html>

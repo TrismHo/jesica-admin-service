@@ -47,14 +47,16 @@
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${tbNoticePlatform.insertUserId}">
                             <input type="hidden" name="noticeNo" value="${tbNoticePlatform.noticeNo}">
                             <input type="hidden" name="dataStatus" value="${tbNoticePlatform.dataStatus}">
+                            <input type="hidden" name="platformType" value="${tbNoticePlatform.platformType}">
+                            <input type="hidden" name="groupType" value="${tbNoticePlatform.groupType}">
                             <table class="table table-bordered">
                                 <tbody>
-                                <tr>
+                               <%-- <tr>
                                     <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시물 구분"/></td>
                                     <td>
-                                        <%-- <label class="m-r-10 ">
+                                        &lt;%&ndash; <label class="m-r-10 ">
                                              <input type="radio" name="groupType" value="0" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 0}">checked</c:if>> <spring:message code="list.detail.tothewhole" text="전체에게"/>
-                                         </label>--%>
+                                         </label>&ndash;%&gt;
 
                                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                             <label class="m-r-10 ">
@@ -74,10 +76,10 @@
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
                                     <td>
-                                        <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
+                                        &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 0}">checked</c:if>>
                                             <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
-                                        </label>--%>
+                                        </label>&ndash;%&gt;
                                             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                 <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
@@ -90,7 +92,7 @@
                                                     <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                                 </label>
                                             </c:if>
-                                        <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
+                                        &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 1}">checked</c:if>>
                                             <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                         </label>
@@ -101,9 +103,9 @@
                                         <label class="" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 3}">checked</c:if>>
                                             <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                        </label>--%>
+                                        </label>&ndash;%&gt;
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱코드"/></td>
                                     <td>

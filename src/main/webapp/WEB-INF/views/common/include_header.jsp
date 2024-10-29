@@ -9,6 +9,7 @@
             </a>--%>
            <%-- <a href="${path}/main" class="navbar-brand" > &lt;%&ndash;<b>PetView</b>&ndash;%&gt;
             </a>--%>
+
                 <small>
                     <li class="dropdown navbar-language" style="font-size: 17px;">
                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
@@ -56,13 +57,14 @@
                     <span style="font-size:20px;color:#ffa200;"><spring:message code="main.logo2" text="default text"/></span>
                     <spring:message code="main.logo3" text="default text"/>
                     <spring:message code="header.title" text=""/>--%>
+
                 </small>
 
-            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+         <%--   <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
+            </button>--%>
         </div>
 
         <ul class="navbar-nav navbar-right">

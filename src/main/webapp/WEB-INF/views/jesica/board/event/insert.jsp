@@ -45,15 +45,16 @@
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
                             <input type="hidden" name="eventId" value="">
                             <input type="hidden" name="dataStatus" value="1">
+                            <input type="hidden" name="platformType" value="2">
                             <table class="table table-bordered">
                                 <tbody>
-                                <tr>
+                                <%--<tr>
                                     <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
                                     <td>
-                                        <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
+                                        &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" checked>
                                             <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
-                                        </label>--%>
+                                        </label>&ndash;%&gt;
                                             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                 <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
@@ -66,7 +67,7 @@
                                                     <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                                 </label>
                                             </c:if>
-                                      <%--  <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                      &lt;%&ndash;  <label class="m-r-10" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
                                             <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                         </label>
@@ -77,9 +78,9 @@
                                         <label class="" style="display: inline-flex; align-items: center">
                                             <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3">
                                             <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                        </label>--%>
+                                        </label>&ndash;%&gt;
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.checkexposure" text="노출여부"/></td>
                                     <td>
@@ -152,22 +153,22 @@
                                 </tr>--%>
                                 <tr>
                                     <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
-                                    <td>
+                                   <td>
                                         <input type="text" name="title" value="${tbNoticePlatform.title}" class="form-control width-200 title" maxlength="150">
-                                        <button type="button" class="btn btn-primary insert_coupon float-right "> 이벤트 이미지 템플릿등록</button>
-                                        <input type="text"  value="" class="form-control width-80 couponNoCode float-right" numberonly placeholder="쿠폰코드/No">
-                                        <select class="form-control width-70 sType float-right">
-                                            <option value="2">탁송</option>
-                                            <option value="3">맛집</option>
-                                            <option value="4">마트</option>
-                                            <option value="5">맛집예약</option>
-                                        </select>
-                                        <select class="form-control width-90 couponSelect float-right">
-                                            <option value="code">쿠폰코드</option>
-                                            <option value="no">쿠폰No</option>
-                                        </select>
+                                       <%--      <button type="button" class="btn btn-primary insert_coupon float-right "> 이벤트 이미지 템플릿등록</button>
+                                            <input type="text"  value="" class="form-control width-80 couponNoCode float-right" numberonly placeholder="쿠폰코드/No">
+                                            <select class="form-control width-70 sType float-right">
+                                                <option value="2">탁송</option>
+                                                <option value="3">맛집</option>
+                                                <option value="4">마트</option>
+                                                <option value="5">맛집예약</option>
+                                            </select>
+                                            <select class="form-control width-90 couponSelect float-right">
+                                                <option value="code">쿠폰코드</option>
+                                                <option value="no">쿠폰No</option>
+                                            </select>
 
-                                    </td>
+                                        </td>--%>
                                 </tr>
                                 <tr >
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>

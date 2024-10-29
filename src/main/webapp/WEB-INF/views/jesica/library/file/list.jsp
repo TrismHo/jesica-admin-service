@@ -124,8 +124,7 @@
                                             <td style="border-right: none">
                                                 <label>
                                                     <select class="form-control searchOp" name="keywordType" style="width: 110px">
-                                                        <option value="fileName" <c:if test="${searchValue.keywordType == 'custName'}">selected</c:if>><spring:message code="list.search.title1" text="파일명"/></option>
-                                                        <option value="fileTitle" <c:if test="${searchValue.keywordType == 'custTel'}">selected</c:if>><spring:message code="list.search.title2" text="문서명"/></option>
+                                                        <option value="fileTitle"><spring:message code="list.search.title2" text="문서명"/></option>
                                                     </select>
                                                     <input type="text" class="form-control width-150" name="keyword" value="${searchValue.keyword}" maxlength="150">
                                                 </label>
@@ -150,8 +149,7 @@
                         <thead>
                         <tr class="text-center">
                             <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
-                            <th width="15%"><spring:message code="list.detail.title1" text="문서명"/></th>
-                            <th width=""><spring:message code="list.word.contents1" text="파일명"/></th>
+                            <th width="%"><spring:message code="list.detail.title1" text="문서명"/></th>
                             <th width="15%"><spring:message code="list.word.contents1" text="문서타입"/></th>
                             <th width="15%"><spring:message code="list.word.status12" text="등록자"/></th>
                             <th width="%"><spring:message code="list.word.contents1" text="등록일"/></th>
@@ -234,11 +232,10 @@
     };
 
     $(() => {
-        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/library/file/list","A2","1", {
+        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/library/file/list","A2","1", true,{
             columns: [
                 {data: "listIndex"},
                 {data: "fileTitle"},
-                {data: "fileName"},
                 {data: "fileType"},
                 {data: "insertUserName"},
                 {data: "insertDate"}
@@ -250,7 +247,7 @@
                     width: '30px'
                 },
                 {
-                    targets: 3,
+                    targets: 2,
                     width: '60px',
                     render: function(data){
                         if(data == 1){
@@ -263,9 +260,13 @@
                     }
                 },
                 {
-                    targets: [5],
+                    targets: [4],
                     render: function(data){
-                        return dateFormat(data);
+                        if(data){
+                            return dateFormat(data);
+                        } else {
+                            return "-";
+                        }
                     },
                 },
             ],
@@ -296,13 +297,10 @@
         });
 
 
-
         //상세
         $("#testTable").on('click','tbody td', function() {
             var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
-            if($(this)[0]._DT_CellIndex.column != 15){
-                location.href = "${path}/library/file/detail?libNo=" + row.libNo;
-            }
+            location.href = "${path}/library/file/detail?libNo=" + row.libNo;
         });
     });
 
@@ -316,12 +314,17 @@
         var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
         var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
         var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-
         // 첨부파일 개수 확인
         if (curFileCnt > remainFileCnt) {
             alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
         }
-
+        let count = 0;
+        for (var j = 0; j < filesArr.length; j++) {
+            if (!filesArr[j].is_delete) {count ++}
+        }
+        if(count === 0){
+            $('.file-list').find("tr").eq(0).remove()
+        }
         for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
 
             const file = obj.files[i];
@@ -338,15 +341,16 @@
                 // 목록 추가
                 let htmlData = '';
                 htmlData += '<tr id="file' + fileNo + '" class="filebox">';
-                htmlData += '   <td class="fileName">' + file.name + '</td>';
-                htmlData += '   <td class="fileSize">' + file.name + '</td>';
-                htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
+                htmlData += '   <td class="fileName text-center">' + file.name + '</td>';
+                htmlData += '   <td class="fileSize text-center">' + file.size + ' byte</td>';
+                htmlData += '   <td class="fileSize text-center"><a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a></td>';
                 htmlData += '</tr>';
                 $('.file-list').append(htmlData);
                 fileNo++;
             } else {
                 continue;
             }
+
         }
         // 초기화
         document.querySelector("input[type=file]").value = "";
@@ -354,7 +358,8 @@
 
     /* 첨부파일 검증 */
     function validation(obj){
-        const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
+        console.log(obj.type)
+        const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp', 'application/zip'];
         if (obj.name.length > 100) {
             alert("파일명이 100자 이상인 파일은 제외되었습니다.");
             return false;
@@ -376,38 +381,68 @@
     function deleteFile(num) {
         document.querySelector("#file" + num).remove();
         filesArr[num].is_delete = true;
+        let count = 0 ;
+        for (var i = 0; i < filesArr.length; i++) {
+            if (!filesArr[i].is_delete) {count ++}
+        }
+        if(count === 0){
+            $(".file-list").html("");
+            $(".file-list").html(" <tr class='non-file'><td colspan='4' class='text-center '>파일이 존재하지 않습니다.</td></tr>")
+        }
+
     }
 
-    /* 폼 전송 */
-    function submitForm() {
+    $(document).on("click",".insertLibrary",function(){
+        /* 폼 전송 */
+
+        if (isNull($("input[name=fileTitle]").val())) {
+            return alert_focus("userId", "문서제목을 입력주세요.");
+        }
+        if (isNull($("input[name=fileBody]").val())) {
+            return alert_focus("userId", "문서내용을 입력주세요.");
+        }
+
         // 폼데이터 담기
         var form = document.querySelector("form");
         var formData = new FormData(form);
         for (var i = 0; i < filesArr.length; i++) {
             // 삭제되지 않은 파일만 폼데이터에 담기
             if (!filesArr[i].is_delete) {
-                formData.append("attach_file", filesArr[i]);
+                formData.append("libraryInfo",  new Blob([JSON.stringify({
+                    "fileTitle" : $("input[name=fileTitle]").val(),
+                    "fileBody" : $("#fileBody").val(),
+                    "fileType" : $("#fileType").val(),
+                    "appCode" : $("input[name=appCode]").val(),
+                    "insertUserId" : $("input[name=insertUserId]").val(),
+                    "insertUserName" : $("input[name=insertUserName]").val(),
+                })], {type:"application/json"}));
+                formData.append("attachFile", filesArr[i]);
             }
         }
 
         $.ajax({
             method: 'POST',
-            url: '/register',
+            url: '/api/library/file/insert',
             dataType: 'json',
             data: formData,
             async: true,
+            contentType: false,
+            processData: false,
             timeout: 30000,
             cache: false,
             headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
             success: function () {
-                alert("파일업로드 성공");
+                alert("등록에 성공하였습니다.");
+                $(".libModalCloseBtn").click();
+                serarchForm();
             },
             error: function (xhr, desc, err) {
                 alert('에러가 발생 하였습니다.');
                 return;
             }
         })
-    }
+    })
+
 
     /*$(document).on("change", "#libFile", function (e) {
         e.preventDefault();

@@ -1,6 +1,8 @@
 package com.trism.jesica.Service;
 
 import com.trism.jesica.Util.SearchUtil;
+import com.trism.jesica.exception.ErrorCode;
+import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.mysql.Entitiy.library.TbLibrary;
 import com.trism.jesica.persistence.mysql.Repository.library.TbLibraryRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,6 +43,16 @@ public class LibraryService {
         return map;
     }
 
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
+    public TbLibrary tbLibraryDetail(Long libNo) {
+        Optional<TbLibrary> tbLibrary = tbLibraryRepository.findByIdAndDataStatus(libNo,1);
+
+        if (tbLibrary.isPresent() == false) {
+            throw new ServiceException(ErrorCode.BAD_REQUEST);
+        }
+
+        return tbLibrary.get();
+    }
 
 }
 

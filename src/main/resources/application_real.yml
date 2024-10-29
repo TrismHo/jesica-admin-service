@@ -26,7 +26,7 @@ logging:
   level:
     com.woorien.mobile: info
   file:
-    path: /data/jesicar/logs/
+    path: ./logs
 ---
 
 rabbitmq:
@@ -155,6 +155,8 @@ spring:
     allow-bean-definition-overriding: true
 ---
 file:
+  baseFilePath:
+    path: /data/jesicar/file
   #기본 이미지 경로
   baseImgPath:
     path: /data/jesicar

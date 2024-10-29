@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="list.detail.systemproductdetails" text="사용자 관리"/></title>
+    <title>Jig-Bae | <spring:message code="list.detail.systemproductdetails" text="사용자 관리"/></title>
 </head>
 <style>
     .background-eee{
@@ -35,10 +35,10 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.system1" text="시스템 운영"/></a></li>
-                    <li class="breadcrumb-item"><a href="${path}/system/master/list"><spring:message code="sidemenu.system.systemmerchandise1" text="사용자 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.systemproductdetails1" text="사용자 상세"/></li>
+                    <li class="breadcrumb-item"><a href="${path}/system/master/detail"><spring:message code="sidemenu.system.systemmerchandise1" text="사용자 관리"/></a></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.systemproductdetails1" text="사용자 관리상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.systemproductdetails1" text="사용자 상세"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.systemproductdetails1" text="사용자 관리상세"/></h3>
             </div>
             <div class="m-t-10">
                 <table class="table table-bordered">
@@ -46,8 +46,8 @@
                         <td class="bg-light height-40" style="width:10%"><strong><spring:message code="list.detail.workgroup1" text="등급"/></strong></td>
                         <td style="width:90%">
                             <span class="text-green"><c:if test="${tbUserStaff.roleType == 0}">마스터</c:if>
-                            <c:if test="${tbUserStaff.roleType == 1}">본사</c:if>
-                            <c:if test="${tbUserStaff.roleType == 2}">앱사</c:if>
+                            <c:if test="${tbUserStaff.roleType == 1}">통합관리자</c:if>
+                            <c:if test="${tbUserStaff.roleType == 2}">앱관리자</c:if>
                             </span>
 
                         </td>
@@ -62,7 +62,7 @@
                         <span class="d-sm-block d-none"><spring:message code="list.detail.basicInformation" text="기본정보"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
                     </a>
                 </li>
-                <c:if test="${tbUserStaff.roleType != 0}">
+                <c:if test="${sessionScope.sessionKey.roleType == 0}">
                     <li class="nav-item">
                         <a href="#default-tab-2" data-toggle="tab" class="nav-link">
                             <span class="d-sm-none"><spring:message code="list.detail.deliverymaninformation1" text="메뉴권한"/><%--<spring:message code="merchandise.detail.tab1" text="default text"/>--%><%--기본 정보--%></span>
@@ -131,18 +131,20 @@
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.id1" text="앱코드"/></td>
                                         <td>
-                                            <select name="appCode" class="form-control w-25" >
-                                                <option value="">전체</option>
+
+                                           <c:if test="${empty tbUserStaff.appCode}">
+                                               <input type="text" class="form-control"  readonly value="전체">
+                                               <input type="hidden" class="form-control" name="appCode" readonly value="${tbUserStaff.appCode}">
+                                            </c:if>
+                                            <c:if test="${!empty tbUserStaff.appCode}">
                                                 <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                    <option value="${appCodeList.sysCode}"<c:if test="${tbUserStaff.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                    <c:if test="${tbUserStaff.appCode == appCodeList.sysCode}">
+                                                        <input type="text" class="form-control"  readonly value="${appCodeList.codeName}">
+                                                        <input type="hidden" class="form-control" name="appCode" readonly value="${tbUserStaff.appCode}">
+                                                    </c:if>
                                                 </c:forEach>
-                                            </select>
-                                          <%--  <c:if test="${empty appCode}">
 
                                             </c:if>
-                                            <c:if test="${!empty appCode}">
-                                                <input type="text" class="form-control" name="appCode" readonly value="${appCode}">
-                                            </c:if>--%>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="앱코드를 선택해주세요."/></td>
                                     </tr>
@@ -166,13 +168,14 @@
                             </form>
                             <div class="m-l-5">
                                 <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
-                                <c:if test="${tbUserStaff.roleType == 0}"><button type="button" class="btn btn-primary btn_update float-left m-t-5 m-b-5 m-r-5" onclick="udt_btn()"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button></c:if>
+                                <c:if test="${sessionScope.sessionKey.roleType == 0}"><button type="button" class="btn btn-primary  float-left m-t-5 m-b-5 m-r-5" onclick="udt_btn()"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button></c:if>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- end tab-pane -->
                 <!-- begin tab-pane -->
+
                 <div class="tab-pane fade" id="default-tab-2">
                     <div class="table-responsive">
                         <form id="update_form2" name="update_form2">
@@ -209,7 +212,7 @@
                                             </td>
                                         </tr>
                                     </c:if>--%>
-                                    <c:if test="${item.menuLevel == 1 && item.menuNo != 51}">
+                                    <c:if test="${item.menuLevel == 1 && item.menuName != '시스템 운영'}">
                                         <tr>
                                             <td >
                                                 <div class="checks small m-l-10">
@@ -301,9 +304,9 @@
                                 </c:forEach>
                             </table>
                             <div class="m-t-10">
-                                <button type="button" class="btn btn-primary list_btn"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                                <button type="button" class="btn btn-primary btn_list"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
                                 <c:if test="${permission == 2}">
-                                    <button type="button" class="btn btn-primary btn_update m-l-10"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
+                                    <button type="button" class="btn btn-primary btn_update"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
                                 </c:if>
                             </div>
                         </form>
@@ -548,7 +551,162 @@
         }
     });
 
+    $(document).on("click",".btn_update",function() {
+        let url = "${path}/api/system/menu/update";
+        let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
+        let update = "<spring:message code="list.script.update" text="수정"/>";
+        let correctionwassuccessful = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
+        let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        let _forms = $('.update_form2');
+        let req = convertFormToObj(_forms);
+        let menuPermissionList = [];
+        let levelGroup = $(".menuLevelOne").length;
 
+        for(let i=0; i< levelGroup; i++) {
+            let checked = $(".menuLevelOne").eq(i).is(':checked') ? 1 : 0;
+            let menuNo = $(".menuLevelOne").eq(i).attr("menuNo");
+            let userNo = "${userNo}";
+            menuPermissionList.push({menuNo : menuNo, permission : checked, downloadAble : "1", userNo:userNo});
+        }
+
+        let grpl = $(".menuSelectTr").length;
+        for(let i=0; i< grpl; i++) {
+            let menuNo = $(".menuSelectTr").eq(i).attr("menuNo");
+            let userNo = "${userNo}";
+            let permission = $(".menuSelectTr").eq(i).find(".permission").val();
+            let downloadAble = $(".menuSelectTr").eq(i).find(".downloadAble").val();
+            console.log(downloadAble)
+
+            menuPermissionList.push({menuNo : menuNo, permission : permission, downloadAble : downloadAble, userNo:userNo});
+        }
+        console.log(menuPermissionList)
+        if (inputDataCheck(req)) {
+            swal({
+                title: wouldyouliketoupdate,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    update
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: JSON.stringify(menuPermissionList),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(correctionwassuccessful);
+                                location.reload();
+                            } else {
+                                alert(editfailed);
+                                return;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+
+
+    function udt_btn() {
+        let url = "${path}/api/userStaff/update/action";
+        //let url2 = "${path}/api/userStaff/oldpass/confirm";
+        let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
+        let update = "<spring:message code="list.script.update" text="수정"/>";
+        let correctionwassuccessful = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
+        let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실페하였습니다."/>";
+        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
+        let _forms = $('.update_form');
+        let req = convertFormToObj(_forms);
+        if (inputDataCheckStaff(req)) {
+            swal({
+                title: wouldyouliketoupdate,
+                icon: "warning",
+                buttons: [
+                    cancel,
+                    update
+                ],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    var formData = new FormData(document.getElementById('update_form'));
+                    formData.append("tbUserStaffData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.result == 200) {
+                                alert(correctionwassuccessful);
+                                location.reload();
+                            } else {
+                                alert(editfailed);
+                                return;
+                            }
+                        }
+                    });
+                    //기존 패스워드 검사
+                    /* $.ajax({
+                          type: "POST",
+                          url: url2,
+                          data: formData,
+                          dataType: "json",
+                          processData: false,
+                          contentType: false,
+                          success: function (data) {
+                              if (data.result == 200) {
+                                  $.ajax({
+                                      type: "POST",
+                                      url: url,
+                                      data: formData,
+                                      dataType: "json",
+                                      processData: false,
+                                      contentType: false,
+                                      success: function (data) {
+                                          if (data.result == 200) {
+                                              alert(correctionwassuccessful);
+                                              location.reload();
+                                          } else {
+                                              alert(editfailed);
+                                              return;
+                                          }
+                                      }
+                                  });
+                              } else {
+                                  alert("기존패스워드가 일치하지 않습니다.");
+                                  return;
+                              }
+                          }
+                      });*/
+
+
+                }
+            });
+        }
+    }
+
+    function inputDataCheckStaff(args) {
+        if (isNull(args.userId)) {
+            return alert_focus("userId", "아이디를 입력해주세요.");
+        } /*else if (isNull(args.userOldPwd)) {
+            return alert_focus("userOldPwd", "기존 비밀번호를 입력해주세요.");
+        } */else if (isNull(args.name)) {
+            return alert_focus("name", "이름를 입력해주세요.");
+        } else if (isNull(args.phone)) {
+            return alert_focus("phone", "전화번호를를 입력해주세요.");
+        }
+        return true;
+    }
     function inputDataCheck(args) {
         return true;
     }

@@ -106,11 +106,53 @@
                     <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
-                                <form name="frmSearch">
+                                <form >
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr>
-                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
+                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="앱코드"/><%--등록기간--%></strong></td>
+                                            <td colspan="1">
+                                                <c:if test="${empty appCode}">
+                                                    <select id="brandTypeCd" name="brandTypeCd" class="form-control" >
+                                                        <option value="" selected>전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.codeValue}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                        <c:if test="${appCode == appCodeList.sysCode}">
+                                                            <input type="hidden" name="brandTypeCd" value="${appCodeList.codeValue}">
+                                                            <input type="text" class="form-control" value="${appCodeList.codeName}" disabled>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </td>
+                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/><%--등록기간--%></strong></td>
+                                            <td style="width:5%">
+                                                <input type="hidden" name="platformType" value="${searchValue.platformType}">
+                                                <label>
+                                                    <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                          <select class="form-control" name="platformType" style="margin-right: 30px;">
+                                                              <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
+                                                          </select>
+                                                      </c:if>
+                                                      <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                          <select class="form-control" name="platformType" style="margin-right: 30px;">
+                                                              <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
+                                                          </select>
+                                                      </c:if>--%>
+                                                    <select class="form-control" name="brCode" style="margin-right: 30px;" >
+                                                        <option value="">전체</option>
+                                                        <c:forEach var="item" items="${brCodeList}" varStatus="status">
+                                                            <option <c:if test="${item.brCode == searchValue.brCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-light" ><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
                                             <td style="width:30%">
                                                 <label>
                                                     <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
@@ -137,8 +179,8 @@
                                                 </label>
                                                 <label style="margin-left: 30px;" >
                                                     <div class="btn-group ">
-                                                        <a class="btn btn-white step-day <c:if test="${searchValue.dayType == '2' || searchValue.dayType == '' || searchValue.dayType == null}">active</c:if>" href="javascript:;" day="2">1일 단위 보기 </a>
-                                                        <a class="btn btn-white step-day <c:if test="${searchValue.dayType == '1'}">active</c:if>"   href="javascript:;" day="1">7일 단위 보기 </a>
+                                                        <a class="btn btn-white step-day active" href="javascript:;" day="2">1일 단위 보기 </a>
+                                                        <a class="btn btn-white step-day "   href="javascript:;" day="1">7일 단위 보기 </a>
                                                     </div>
                                                 </label>
                                                 <input type="hidden" class="selday"  name="selday" value="${searchValue.selday}">
@@ -157,27 +199,6 @@
                                                         <option value="0" <c:if test="${searchValue.platform == '0'}">selected</c:if>>비플랫폼</option>
                                                     </select>--%>
                                                 </label>
-                                            </td>
-                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/><%--등록기간--%></strong></td>
-                                            <td style="width:5%">
-                                                <input type="hidden" name="platformType" value="${searchValue.platformType}">
-                                                <label>
-                                                    <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-                                                          <select class="form-control" name="platformType" style="margin-right: 30px;">
-                                                              <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
-                                                          </select>
-                                                      </c:if>
-                                                      <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                                          <select class="form-control" name="platformType" style="margin-right: 30px;">
-                                                              <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
-                                                          </select>
-                                                      </c:if>--%>
-                                                <select class="form-control" name="brCode" style="margin-right: 30px;" >
-                                                    <option value="">전체</option>
-                                                    <c:forEach var="item" items="${brCodeList}" varStatus="status">
-                                                        <option <c:if test="${item.brCode == searchValue.brCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
-                                                    </c:forEach>
-                                                </select>
                                             </td>
                                             <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="완료/취소"/><%--등록기간--%></strong></td>
                                             <td style="width:10%">
@@ -198,15 +219,20 @@
                                                         <option value="5" <c:if test="${'5' == searchValue.ordStatus}">selected</c:if>>완료</option>
                                                         <option value="13" <c:if test="${'13' == searchValue.ordStatus}">selected</c:if>>취소</option>
                                                     </select>
-
-                                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
-                                                    <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
+<%--
+                                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/>&lt;%&ndash;검색&ndash;%&gt; </button>
+                                                    <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>--%>
 
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </form>
+                            </div>
+                            <div class="col-xl-12 col-md-12 m-t-10">
+                                <div class="">
+                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -321,13 +347,69 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    let table = null;
+
+    var oldExportAction = function (self, e, dt, button, config) {
+        if (button[0].className.indexOf('buttons-excel') >= 0) {
+            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
+                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
+            }
+            else {
+                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+            }
+        } else if (button[0].className.indexOf('buttons-print') >= 0) {
+            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+        }
+    };
+
+    var newExportAction = function (e, dt, button, config) {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+            var self = this;
+            var oldStart = dt.settings()[0]._iDisplayStart;
+
+            dt.one('preXhr', function (e, s, data) {
+                // Just this once, load all data from the server...
+                data.start = 0;
+                data.length = 2147483647;
+
+                dt.one('preDraw', function (e, settings) {
+                    // Call the original action function
+                    oldExportAction(self, e, dt, button, config);
+
+                    dt.one('preXhr', function (e, s, data) {
+                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                        // Set the property to what it was before exporting.
+                        settings._iDisplayStart = oldStart;
+                        data.start = oldStart;
+                    });
+
+                    // Reload the grid with the original page. Otherwise,
+                    // API functions like table.cell(this) don't work properly.
+                    setTimeout(dt.ajax.reload, 0);
+
+                    // Prevent rendering of the full data to the DOM
+                    return false;
+                });
+            });
+
+            // Requery the server with the new one-time export settings
+            dt.ajax.reload();
+        }
+    };
+
+
 
     let label = [];
     let totalCnt = [];
     let endCnt = [];
     let cancelCnt= [];
     let pointSize = 4;
-    searchUserList();
+    searchOrderList();
 
     Chart.defaults.color = COLOR_DARK_LIGHTER
     Chart.defaults.font.family = 'Nanum Gothic',"나눔 고딕",'NanumGothic',"나눔고딕",'Malgun Gothic','맑은 고딕','MalgunGothic','맑은고딕'
@@ -416,18 +498,75 @@
         }
     });
     $(() => {
-        $("#testTable").DataTable({
+        let downloadAble = `${downloadAble}`;
+        let roleType = `${sessionScope.sessionKey.roleType}`;
+        let downloadChk = "1";
+        if(roleType != 0){
+            if(downloadAble == 1){
+                downloadChk = "";
+            }
+        } else {
+            downloadChk = ""
+        }
+       /* $("#testTable").DataTable({
             language : lang_set, //or lang_eng
             responsive: true,
             dom: '<"row"<"col-sm-12"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
             //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
             buttons: [
-                /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
-                /* { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
-                { extend: 'excel',text: ' &nbsp; 엑셀 다운로드', className: 'btn-sm fa fa-file-excel' },
-                /*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+                /!*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*!/
+                /!* { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*!/
+                downloadMap,
+                /!*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*!/
             ],
             bPaginate : false,
+        });*/
+        if($(".dayType").val() == "1"){
+            hideDw = {targets: [1], visible: false  }
+        } else {
+            hideDw = {targets: [1],  visible: true }
+        }
+        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/mannaorder/chart/page","A6",downloadChk, false, {
+            columns: [
+                {data: "yyyymmdd"},
+                {data: "dw"},
+                {data: "sumCount"},
+                {data: "delivery"},
+                {data: "takeout"},
+                {data: "wait" },
+                {data: "reserv" },
+                {data: "tables" }
+            ],
+            columnDefs: [
+                {targets: "_all", className: "text-center"},
+                {targets: [2,3,4,5,6,7],render: function (data) {
+                        if(data){
+                            return data + "회";
+                        } else {
+                            return "0 회";
+                        }
+
+                    }},
+                {targets: [1],render: function (data) {
+                        if(data == "1"){
+                            return  '일요일';
+                        } else if(data== "2") {
+                            return '월요일';
+                        } else if(data == "3") {
+                            return '화요일';
+                        } else if(data == "4") {
+                            return '수요일';
+                        } else if(data == "5") {
+                            return '목요일';
+                        } else if(data == "6") {
+                            return '금요일';
+                        } else if(data == "7") {
+                            return '토요일';
+                        } else {
+                            return data;
+                        }
+                    }},
+            ],
         });
 
         $("#testTable_filter").text("");
@@ -457,6 +596,20 @@
             $(".dayType").val($(this).attr("day"));
 
             $(this).addClass("active");
+            if($(".dayType").val() == "1"){
+                console.log(table.columns(1).visible(false))
+            } else {
+                console.log(table.columns(1).visible(true))
+            }
+            var numCols = table.columns().nodes().length;
+            for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+            table.column().draw();
+            lineChart.data.labels = [];
+            lineChart.data.datasets.forEach((dataset) => {
+                dataset.data = [];
+            });
+            searchOrderList();
+
         });
 
         $("#testTable").DataTable();
@@ -511,8 +664,6 @@
         });
 
 
-
-
     });
 
     function lastWeek() {
@@ -531,7 +682,11 @@
 
 
 
-    function searchUserList() {
+    function searchOrderList() {
+        label = [];
+        totalCnt = [];
+        endCnt = [];
+        cancelCnt = [];
         let req = convertFormToObj($('form.formUserList'));
         $.ajax({
             type: "POST",
@@ -541,62 +696,66 @@
             data :JSON.stringify(req),
             dataType: "json",
             success: function(data) {
-                for(var i = 0 ; i < data.timeList.length ; i++) {
-                    label.push(data.timeList[i].yyyymmdd)
-                    totalCnt.push(data.timeList[i].totalCnt)
-                     endCnt.push(data.timeList[i].sumcount)
-                     cancelCnt.push(data.timeList[i].cancelCnt)
-               /*     iosCnt = iosCnt+ data.timeList[i].iosCnt;
-                    androidCnt = androidCnt+ data.timeList[i].androidCnt;*/
+                console.log(data)
+                let resultDate = data.timeList;
+                let dayType = $(".dayType").val();
+                for(var i = 0 ; i < resultDate.length ; i++) {
+                    /*label.push(resultDate[i].yyyymmdd)*/
+                    totalCnt.push(resultDate[i].totalCnt)
+                     endCnt.push(resultDate[i].sumcount)
+                     cancelCnt.push(resultDate[i].cancelCnt)
 
-                    let yyyymmdd = '';
-                    if(data.timeList[i].start && data.timeList[i].end){
-                        yyyymmdd = data.timeList[i].start +" ~ "+ data.timeList[i].end;
+                    if(dayType == "1"){
+                        label.push(resultDate[i].start + " ~ " + resultDate[i].end )
                     } else {
-                        yyyymmdd = data.timeList[i].yyyymmdd;
+                        label.push(resultDate[i].yyyymmdd)
                     }
-
-                    let dw = ''
-                    if(data.timeList[i].dw == 1){
-                        dw = '일요일';
-                    } else if(data.timeList[i].dw == 2) {
-                        dw = '월요일';
-                    } else if(data.timeList[i].dw == 3) {
-                        dw = '화요일';
-                    } else if(data.timeList[i].dw == 4) {
-                        dw = '수요일';
-                    } else if(data.timeList[i].dw == 5) {
-                        dw = '목요일';
-                    } else if(data.timeList[i].dw == 6) {
-                        dw = '금요일';
-                    } else if(data.timeList[i].dw == 7) {
-                        dw = '토요일';
-                    }
-
-                    $("#restaurantBody").append(
-                        "<tr class='text-center'>"+
-                        "    <td>" +yyyymmdd+ "</td>"+
-                        "    <td>"+ dw +"</td>"+
-                        "    <td>"+data.timeList[i].totalCnt+" 회</td>"+
-                       /* "    <td>"+data.timeList[i].sumcount+ " 회</td>"+*/
-                        "    <td>"+data.timeList[i].delivery+" 회</td>"+
-                        "    <td>"+data.timeList[i].takeout+" 회</td>"+
-                        "    <td>"+data.timeList[i].wait+" 회</td>"+
-                        "    <td>"+data.timeList[i].reserv+" 회</td>"+
-                        "    <td>"+data.timeList[i].tables+" 회</td>"+
-                        "</tr>"
-                    )
                 }
-    /*            iosTotal.push(iosCnt)
-                androidTotal.push(androidCnt)*/
-                if (data.timeList.length > 40) {
+                if (resultDate.length > 40) {
                     pointSize = 0;
                 } else {
                     pointSize = 4;
                 }
-
+                lineChart.data = {
+                    labels: label,
+                    datasets: [{
+                        label: '맛집주문수',
+                        borderColor: COLOR_GREY,
+                        pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
+                        pointRadius: pointSize,
+                        borderWidth: 2,
+                        backgroundColor: COLOR_GREY_TRANSPARENT_1,
+                        data: totalCnt,
+                    }]
+                }
+                lineChart.update();
             }
         });
+    }
+
+    function serarchForm() {
+        lineChart.data.labels = [];
+        lineChart.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+        });
+
+        searchOrderList();
+
+
+        var numCols = table.columns().nodes().length;
+        for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+        /*  var searchType = $("#searchType").val();
+          var searchValue = $("#searchValue").val();*/
+
+        table.column().draw();
+        /*let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+
+        }*/
     }
 </script>
 </body>

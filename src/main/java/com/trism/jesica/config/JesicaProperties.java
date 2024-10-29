@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "file")
 public class JesicaProperties {
     private BaseImgPath baseImgPath;
+    private BaseFilePath baseFilePath;
     private StoreImgPath storeImgPath;
     private MessageFile messageFile;
     private DeliveryPath deliveryPath;
@@ -33,6 +34,10 @@ public class JesicaProperties {
 
     @Data
     public static class BaseImgPath {
+        private String path;
+    }
+    @Data
+    public static class BaseFilePath {
         private String path;
     }
     @Data

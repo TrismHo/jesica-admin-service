@@ -52,8 +52,8 @@
                         <td style="width:90%">
                             <span class="text-green">
                                 <c:if test="${tbUserStaff.roleType == 0}">마스터</c:if>
-                                <c:if test="${tbUserStaff.roleType == 1}">본사</c:if>
-                                <c:if test="${tbUserStaff.roleType == 2}">앱사</c:if>
+                                <c:if test="${tbUserStaff.roleType == 1}">통합관리자</c:if>
+                                <c:if test="${tbUserStaff.roleType == 2}">앱관리자</c:if>
                             </span>
 
                         </td>

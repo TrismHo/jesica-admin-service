@@ -10,6 +10,7 @@ import com.trism.jesica.persistence.mysql.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -419,77 +420,27 @@ public class StatisticsController {
                                    HttpSession session,
                                    Model model) {
         log.info("@@searchValue {}",searchValue);
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String company = loginSession.getCompany();
-        List<Map<String,Object>> brCodeList = null;
+        Map<String,Object> map = permission(session,"board/platform");
+
+        searchValue.put("appCode",map.get("appCode"));
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+        searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+        searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+        model.addAttribute("searchValue", searchValue);
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
+
+
         // 총판 리스트 조회
-        brCodeList = brCodeService.getBrCodeList();
-
+        List<Map<String,Object>> brCodeList = brCodeService.getBrCodeList();
         // cust extBrCode 조회
-
         if (!searchValue.isEmpty()){
-
-            List<Map<String,Object>> timeList = null;
-            LocalDateTime startDate = null;
-            LocalDateTime endDate = null;
-            Integer platfromCode = null;
-            String extBrCode = null;
-            if("jesicar".equals(company)) {
-                platfromCode = 1;
-                searchValue.put("platformType","1");
-            } else if ("yangpa".equals(company)) {
-                platfromCode = 2;
-                searchValue.put("platformType","2");
-            }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            if (searchValue.get("startDate") != null) {
-                String string = searchValue.get("startDate").toString() + " 00:00:00";
-                startDate = LocalDateTime.parse(string, formatter);
-            } else {
-                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-                startDate = LocalDateTime.parse(string, formatter);
-            }
-            if (searchValue.get("endDate") != null) {
-                String string = searchValue.get("endDate").toString() + " 23:59:59";
-                endDate = LocalDateTime.parse(string, formatter);
-            } else {
-                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
-                endDate = LocalDateTime.parse(string, formatter);
-            }
-            if (searchValue.get("extBrCode") != null) {
-                extBrCode = searchValue.get("extBrCode").toString();
-            } else {
-                extBrCode = "";
-            }
-   /*         timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
-            model.addAttribute("timeList",timeList);*/
         } else {
-
-            List<Map<String,Object>> timeList = null;
-            Integer platfromCode = null;
-            if("jesicar".equals(company)) {
-                platfromCode = 1;
-                searchValue.put("platformType","1");
-            } else if ("yangpa".equals(company)) {
-                platfromCode = 2;
-                searchValue.put("platformType","2");
-            }
-            LocalDateTime startDate = null;
-            LocalDateTime endDate = null;
-
             searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
             searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
-
-            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-            startDate = LocalDateTime.parse(string, formatter);
-            endDate = LocalDateTime.parse(string1, formatter);
-         /*   timeList =  statisticsService.getUserList(startDate,endDate, platfromCode );
-            model.addAttribute("timeList",timeList);*/
-
         }
+        searchValue.put("platformType",map.get("platformType"));
         model.addAttribute("searchValue",searchValue);
         model.addAttribute("brCodeList",brCodeList);
         return new ModelAndView("jesica/statistics/user/list");
@@ -654,79 +605,26 @@ public class StatisticsController {
                                    HttpSession session,
                                    Model model) {
         log.info("@@searchValue {}",searchValue);
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
-        String company = loginSession.getCompany();
+        Map<String,Object> map = permission(session,"board/platform");
+
+        searchValue.put("appCode",map.get("appCode"));
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
         List<Map<String,Object>> brCodeList = null;
         // 총판 리스트 조회
         brCodeList = brCodeService.getBrCodeList();
-
-        if (!searchValue.isEmpty()){
-
-            List<Map<String,Object>> timeList = null;
-            LocalDateTime startDate = null;
-            LocalDateTime endDate = null;
-            String ordPathCd = null;
-            String brCode = null;
-            String ordStatus = null;
-            if("jesicar".equals(company)) {
-                ordPathCd = "1063";
-                searchValue.put("ordPathCd","1063");
-            } else if ("yangpa".equals(company)) {
-                ordPathCd = "1069";
-                searchValue.put("ordPathCd","1069");
-            }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            if (searchValue.get("startDate") != null) {
-                String string = searchValue.get("startDate").toString() + " 00:00:00";
-                startDate = LocalDateTime.parse(string, formatter);
-            } else {
-                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-                startDate = LocalDateTime.parse(string, formatter);
-            }
-            if (searchValue.get("endDate") != null) {
-                String string = searchValue.get("endDate").toString() + " 23:59:59";
-                endDate = LocalDateTime.parse(string, formatter);
-            } else {
-                String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
-                endDate = LocalDateTime.parse(string, formatter);
-            }
-            if (searchValue.get("brCode") != null) {
-                brCode = searchValue.get("brCode").toString();
-            }
-            if (searchValue.get("ordStatus") != null) {
-                ordStatus = searchValue.get("ordStatus").toString();
-            }
-            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd, brCode, ordStatus);
-            model.addAttribute("timeList",timeList);
-        } else {
-
-            List<Map<String,Object>> timeList = null;
-            String ordPathCd = null;
-            String brCode = null;
-            String ordStatus = null;
-            if("jesicar".equals(company)) {
-                ordPathCd = "1063";
-                searchValue.put("ordPathCd","1063");
-            } else if ("yangpa".equals(company)) {
-                ordPathCd = "1069";
-                searchValue.put("ordPathCd","1069");
-            }
-            LocalDateTime startDate = null;
-            LocalDateTime endDate = null;
-
-            searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
-            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
-
-            String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
-            String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-            startDate = LocalDateTime.parse(string, formatter);
-            endDate = LocalDateTime.parse(string1, formatter);
-            timeList =  statisticsService.getMannaOrderList(startDate,endDate, ordPathCd, brCode , ordStatus);
-            model.addAttribute("timeList",timeList);
-
+        if("jesicar".equals(map.get("company"))) {
+            searchValue.put("ordPathCd","1063");
+        } else if ("yangpa".equals(map.get("company"))) {
+            searchValue.put("ordPathCd","1069");
         }
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
+        searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+        searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         model.addAttribute("searchValue",searchValue);
         model.addAttribute("brCodeList",brCodeList);
         return new ModelAndView("jesica/statistics/order/list");
@@ -772,6 +670,7 @@ public class StatisticsController {
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         int staffNo = loginSession.getUserStaffNo();
         Long nLong = new Long(staffNo);
+
         String company = loginSession.getCompany();
         String appCode = loginSession.getAppCode();
 
@@ -783,18 +682,23 @@ public class StatisticsController {
         } else if ("yangpa".equals(company)) {
             map.put("platformType","2");
         }
-
+        System.out.println("---siteIspresent---");
         /* 사이트 메뉴 정보가 없으면 */
         if(siteMenu.isPresent()) {
+            System.out.println("---loginSession.roleType---");
             /* 권한이 존재하지 않는경우 */
             if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
                 /* 권한이 마스터 :0 인경우*/
+                System.out.println("---loginSession.roleType ---");
                 if(loginSession.getRoleType() == 0){
-                    map.put("downloadChk",1);
+                    map.put("downloadAble",1);
                     map.put("permission",2);
                 }else {
+                    System.out.println("---loginSession.roleType != 0---");
                     permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
-                    map.put("downloadChk",permission.getDownloadAble());
+                    map.put("downloadAble",permission.getDownloadAble());
+                    System.out.println("downloadAble :" +permission.getDownloadAble());
+                    System.out.println("permission :" +permission.getDownloadAble());
                     if(!ObjectUtils.isEmpty(permission)){
                         map.put("permission",permission.getPermission());
                     } else {
@@ -803,7 +707,7 @@ public class StatisticsController {
                 }
             }
         } else {
-            map.put("downloadChk",0);
+            map.put("downloadAble",0);
             map.put("permission",0);
         }
 

@@ -49,7 +49,17 @@ public class BoardController {
         log.info("@@searchValue {}",searchValue);
         Map<String,Object> map = permission(session,"board/platform");
 
-        try {
+
+        searchValue.put("appCode",map.get("appCode"));
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+        searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+        searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+        model.addAttribute("searchValue", searchValue);
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
+
+      /*  try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
             } else {
@@ -65,10 +75,7 @@ public class BoardController {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        model.addAttribute("searchValue", searchValue);
-        model.addAttribute("permission",map.get("permission"));
-        model.addAttribute("downloadAble",map.get("downloadAble"));
+        }*/
 
         return new ModelAndView("/jesica/board/platform/list");
     }
@@ -209,7 +216,8 @@ public class BoardController {
             }
             searchValue.put("platformType",map.get("platformType"));
             searchValue.put("appCode",map.get("appCode"));
-
+            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            model.addAttribute("appVersionList",appVersionList);
             List<TbEvent> resultList =  boardService.tbEventSearch(searchValue);
             model.addAttribute("tbEventList", resultList);
             model.addAttribute("permission",map.get("permission"));
@@ -228,7 +236,7 @@ public class BoardController {
 
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         model.addAttribute("appVersionList",appVersionList);
-        model.addAttribute("appCode",map.get("appCodee"));
+        model.addAttribute("appCode",map.get("appCode"));
         model.addAttribute("permission",map.get("permission"));
         model.addAttribute("downloadAble",map.get("downloadAble"));
         return new ModelAndView("jesica/board/event/insert");
@@ -308,11 +316,13 @@ public class BoardController {
                 searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
                 searchValue.put("serviceType", "0");
                 searchValue.put("dataStatus", "OK");
+                searchValue.put("appCode",map.get("appCode"));
             }
                 searchValue.put("platformType",map.get("platformType"));
-                searchValue.put("appCode",map.get("appCode"));
+           /*     searchValue.put("appCode",map.get("appCode"));*/
 
-
+            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            model.addAttribute("appVersionList",appVersionList);
             List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
             log.info("tbAppBannerList::[{}]", tbAppBannerList);
 
@@ -475,6 +485,9 @@ public class BoardController {
 
         searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_week());
         searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("permission",map.get("permission"));
         model.addAttribute("downloadAble",map.get("downloadAble"));
@@ -530,6 +543,7 @@ public class BoardController {
         String company = loginSession.getCompany();
         String appCode = loginSession.getAppCode();
 
+
         Optional<TbSiteMenu> siteMenu = authService.getTbSiteMenu(menuPath);
         TbSiteAcl permission = null;
 
@@ -545,11 +559,11 @@ public class BoardController {
             if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
                 /* 권한이 마스터 :0 인경우*/
                 if(loginSession.getRoleType() == 0){
-                    map.put("downloadChk",1);
+                    map.put("downloadAble",1);
                     map.put("permission",2);
                 }else {
                     permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
-                    map.put("downloadChk",permission.getDownloadAble());
+                    map.put("downloadAble",permission.getDownloadAble());
                     if(!ObjectUtils.isEmpty(permission)){
                         map.put("permission",permission.getPermission());
                     } else {
@@ -558,7 +572,7 @@ public class BoardController {
                 }
             }
         } else {
-            map.put("downloadChk",0);
+            map.put("downloadAble",0);
             map.put("permission",0);
         }
 

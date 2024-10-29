@@ -103,7 +103,7 @@ public class TbUserStaff extends TbUser {
     private String memo;
 
     /**
-     * 권한 구분 (0: 마스터 , 1: 본사 , 2: 앱사)
+     * 권한 구분 (0: 마스터 , 1: 통합관리자 , 2: 앱관리자)
      */
     @Column(name = "role_type")
     private Integer roleType;

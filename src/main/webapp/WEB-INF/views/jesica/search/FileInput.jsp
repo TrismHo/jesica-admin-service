@@ -57,14 +57,13 @@
         border-bottom-width: 1px;
     }
 
-
     .offcanvas{transition:none}}.offcanvas-header{display:flex;align-items:center;justify-content:space-between;padding:.9375rem .9375rem}.offcanvas-header .btn-close{padding:.46875rem .46875rem;margin-top:-.46875rem;margin-right:-.46875rem;margin-bottom:-.46875rem}.offcanvas-title{margin-bottom:0;line-height:1.5}.offcanvas-body{flex-grow:1;padding:.9375rem .9375rem;overflow-y:auto}.offcanvas-start{top:0;left:0;width:400px;border-right:0 solid rgba(0,0,0,.2);transform:translateX(-100%)}.offcanvas-end{top:0;right:0;width:400px;border-left:0 solid rgba(0,0,0,.2);transform:translateX(100%)}.offcanvas-top{top:0;right:0;left:0;height:30vh;max-height:100%;border-bottom:0 solid rgba(0,0,0,.2);transform:translateY(-100%)}.offcanvas-bottom{right:0;left:0;height:30vh;max-height:100%;border-top:0 solid rgba(0,0,0,.2);transform:translateY(100%);}.offcanvas.show{transform:none}.clearfix::after{display:block;clear:both;content:""}.link-default{color:#e9ecef}.link-default:focus,.link-default:hover{color:#edf0f2}.link-inverse{color:#2d353c}.link-inverse:focus,.link-inverse:hover{color:#242a30}.link-primary{color:#00acac}.link-primary:focus,.link-primary:hover{color:#33bdbd}
 </style>
 
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="panel panel-inverse">
-            <div class="panel-heading ui-sortable-handle"><h4 class="panel-title">쿠폰일괄지급</h4>
+            <div class="panel-heading ui-sortable-handle"><h4 class="panel-title">자료등록</h4>
                 <div class="panel-heading-btn"><a href="javascript:;"
                                                   class="btn btn-xs btn-icon btn-circle btn-danger"
                                                   data-dismiss="modal" aria-label="Close">
@@ -76,11 +75,14 @@
                 <div class="col-xl-12 ui-sortable">
                     <div class="panel-body">
                         <div style="width: 100%;">
-                            <form class="form-coupon-search">
+                            <form class="form-coupon-search" name="libraryForm">
                                 <div class="search-box">
                                     <div class="inner-search-box p-15">
                                         <div class="row">
                                             <div class="col-xl-12 col-md-12 ">
+                                                <input type="hidden" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                                <input type="hidden" name="insertUserName" value="${sessionScope.sessionKey.userStaffName}">
+                                                <input type="hidden" name="appCode" value="${sessionScope.sessionKey.appCode}">
                                                 <table  class="table table-condensed table-bordered">
                                                     <tbody>
                                                         <tr >
@@ -91,12 +93,18 @@
                                                             <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="문서타입"/></strong></td>
                                                             <td colspan="">
                                                                 <label>
-                                                                    <select class="form-control fileType " name="fileType">
+                                                                    <select class="form-control fileType" id="fileType" name="fileType">
                                                                         <option value="1">공통</option>
                                                                         <option value="2">총판</option>
                                                                         <option value="3">사용자</option>
                                                                     </select>
                                                                 </label>
+                                                            </td>
+                                                        </tr>
+                                                       <tr>
+                                                           <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="문서내용"/></strong></td>
+                                                            <td colspan="3">
+                                                                <textarea class="w-100 form-control" id="fileBody" name="fileBody" placeholder="문서내용을 입력해주세요"></textarea>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -110,19 +118,18 @@
                         <div class="m-l-15">
                             <label for="libFile">
                                 <div class="button_base b03_skewed_slide_in btn btn-primary">
-                                    <div><spring:message code="list.detail.selectfile" text="파일선택"/></div>
+                                    <div> <spring:message code="list.detail.selectfile" text="파일선택"/> </div>
                                 </div>
                             </label>
-                            <input type="file" id="libFile" name="imgFile" class="fileBtn d-none" accept="*" >
-                            <input type="file" id="libFile1" name="imgFile1" class="fileBtn d-none" accept="*" >
-
-                            <input type="button" class="btn btn-danger" id="deleteFile" value="선택파일 삭제">
-
+                            <form method="POST" id="multiForm" onsubmit="return false;" enctype="multipart/form-data">
+                                <input type="file" id="libFile" onchange="addFile(this);" multiple  name="imgFile1" class="fileBtn d-none" accept="*"  >
+                            </form>
+                            <%--<input type="button" class="btn btn-danger" id="deleteFile" value="선택파일 삭제">--%>
                             <div class="insert">
-                                <form method="POST" onsubmit="return false;" enctype="multipart/form-data">
-                                    <input type="file" onchange="addFile(this);" multiple />
-                                    <div class="file-list"></div>
-                                </form>
+
+                                   <%-- <input type="file" onchange="addFile(this);" multiple />--%>
+                                   <%-- <div class="file-list"></div>--%>
+
                             </div>
 
                         </div>
@@ -136,20 +143,14 @@
                                                         <div class="panel-body p-t-20">
                                                             <table id="searchCustTable" class="display table table-bordered w-100 table-striped cust-list ">
                                                                 <thead>
-                                                                    <th class="text-center" style="width: 50px;" >
-                                                                        번호
-                                                                       <%-- <input type="checkbox" id="check1">
-                                                                        <label for="check1"></label>
-                                                                        <spring:message code="list.word.no" text="선택"/>--%></th>
                                                                     <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="파일명"/></th>
                                                                     <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="파일크기"/></th>
+                                                                    <th class="text-center" style="width: 30px;" ></th>
                                                                 </thead>
-                                                                <tbody id="file-list" class="" style="">
+                                                                <tbody id="file-list" class="file-list" style="">
                                                                    <%-- <tr><td colspan="4" style="text-align: center; background-color: #e4e4e4; border:1px solid #9e9e9e; height: 498px;">파일이 없습니다.</td> </tr>--%>
-                                                                    <tr>
-                                                                        <td></td>
-                                                                        <td><div class="fileName"></div> </td>
-                                                                        <td><div class="fileSize"></div></td>
+                                                                    <tr class="none-file">
+                                                                        <td colspan="4" class="text-center ">파일이 존재하지 않습니다.</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>

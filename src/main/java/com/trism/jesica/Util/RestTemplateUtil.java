@@ -219,7 +219,7 @@ public class RestTemplateUtil {
 	}*/
 
 	//푸시메시지
-	/*public ResponseEntity<Map> pushMessage(String appcode, String receiver, String title, String contents, HttpSession session, Data data ) {
+	/*public ResponseEntity<Map> pushMessage(String 쉬appcode, String receiver, String title, String contents, HttpSession session, Data data ) {
 		Map<String,Object> requestDto = new HashMap<>();
 		requestDto.put("appcode",appcode);
 		requestDto.put("receiver",receiver);

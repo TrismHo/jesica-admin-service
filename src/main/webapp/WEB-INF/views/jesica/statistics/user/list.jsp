@@ -119,6 +119,23 @@
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr>
+                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="앱코드"/><%--등록기간--%></strong></td>
+                                            <td colspan="3">
+                                                <c:if test="${empty appCode}">
+                                                    <select id="appCode" name="appCode" class="form-control w-25" >
+                                                        <option value="">전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <input type="text" class="form-control " readonly value="${sessionScope.sessionKey.appCodeName}">
+                                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
+                                                </c:if>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
                                             <td style="width:50%">
                                                 <label>
@@ -146,8 +163,8 @@
                                                 </label>
                                                 <label style="margin-left: 30px;" >
                                                     <div class="btn-group ">
-                                                        <a class="btn btn-white step-day <c:if test="${searchValue.dayType == '2' || searchValue.dayType == '' || searchValue.dayType == null}">active</c:if>" href="javascript:;" day="2">1일 단위 보기 </a>
-                                                        <a class="btn btn-white step-day <c:if test="${searchValue.dayType=='1'}">active</c:if>"   href="javascript:;" day="1">7일 단위 보기 </a>
+                                                        <a class="btn btn-white step-day active" href="javascript:;" day="2">1일 단위 보기 </a>
+                                                        <a class="btn btn-white step-day "   href="javascript:;" day="1">7일 단위 보기 </a>
                                                     </div>
                                                 </label>
                                                 <input type="hidden" class="selday"  name="selday" value="${searchValue.selday}">
@@ -173,8 +190,8 @@
                                                            <option <c:if test="${item.brCode == searchValue.extBrCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
                                                        </c:forEach>
                                                    </select>
-                                                      <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/><%--검색--%> </button>
-                                                      <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
+                                                     <%-- <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/>&lt;%&ndash;검색&ndash;%&gt; </button>
+                                                      <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>--%>
                                                 <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
                                             </td>
                                             <%--<td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="지역코드"/>&lt;%&ndash;등록기간&ndash;%&gt;</strong></td>
@@ -193,6 +210,11 @@
                                         </tbody>
                                     </table>
                                 </form>
+                            </div>
+                            <div class="col-xl-12 col-md-12 m-t-10">
+                                <div class="">
+                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -312,7 +334,60 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    let table = null;
 
+    var oldExportAction = function (self, e, dt, button, config) {
+        if (button[0].className.indexOf('buttons-excel') >= 0) {
+            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
+                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
+            }
+            else {
+                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+            }
+        } else if (button[0].className.indexOf('buttons-print') >= 0) {
+            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+        }
+    };
+
+    var newExportAction = function (e, dt, button, config) {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+            var self = this;
+            var oldStart = dt.settings()[0]._iDisplayStart;
+
+            dt.one('preXhr', function (e, s, data) {
+                // Just this once, load all data from the server...
+                data.start = 0;
+                data.length = 2147483647;
+
+                dt.one('preDraw', function (e, settings) {
+                    // Call the original action function
+                    oldExportAction(self, e, dt, button, config);
+
+                    dt.one('preXhr', function (e, s, data) {
+                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                        // Set the property to what it was before exporting.
+                        settings._iDisplayStart = oldStart;
+                        data.start = oldStart;
+                    });
+
+                    // Reload the grid with the original page. Otherwise,
+                    // API functions like table.cell(this) don't work properly.
+                    setTimeout(dt.ajax.reload, 0);
+
+                    // Prevent rendering of the full data to the DOM
+                    return false;
+                });
+            });
+
+            // Requery the server with the new one-time export settings
+            dt.ajax.reload();
+        }
+    };
     let label = [];
     let totalCnt = [];
     let iosTotal =[];
@@ -414,178 +489,179 @@
             }
         }
     });
-
-    var ctx2 = document.getElementById('radar-chart').getContext('2d');
-    var radarChart = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: ['os별 구분'],
-            datasets: [{
-                label: 'ios',
-                borderColor: [COLOR_AQUA_TRANSPARENT_7],
-                pointRadius: 4,
-                borderWidth: 2,
-                pointBackgroundColor: [COLOR_AQUA_TRANSPARENT_3],
-                backgroundColor:  [COLOR_AQUA_TRANSPARENT_3],
-                data: iosTotal
-            },{
-                label: 'android',
-                borderColor: [COLOR_GREEN_TRANSPARENT_7],
-                pointRadius: 4,
-                borderWidth: 2,
-                pointBackgroundColor: [COLOR_GREEN_TRANSPARENT_3],
-                backgroundColor:  [COLOR_GREEN_TRANSPARENT_3],
-                data: androidTotal
-            }]
-        },
-        options : {
-            plugins: {
-                legend: {
-                    labels: {
-                        // This more specific font property overrides the global property
-                        font: {
-                            size: 15
-                        }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-
-                            if (label) {
-                                label += ': ';
-                            }
-                            if (context.parsed.y !== null) {
-                                label += ' '+context.parsed.y +'대';
-                            }
-                            return label;
-                        }
-                    }
-                }
+        var ctx2 = document.getElementById('radar-chart').getContext('2d');
+        var radarChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['os별 구분'],
+                datasets: [{
+                    label: 'ios',
+                    borderColor: [COLOR_AQUA_TRANSPARENT_7],
+                    pointRadius: 4,
+                    borderWidth: 2,
+                    pointBackgroundColor: [COLOR_AQUA_TRANSPARENT_3],
+                    backgroundColor:  [COLOR_AQUA_TRANSPARENT_3],
+                    data: iosTotal
+                },{
+                    label: 'android',
+                    borderColor: [COLOR_GREEN_TRANSPARENT_7],
+                    pointRadius: 4,
+                    borderWidth: 2,
+                    pointBackgroundColor: [COLOR_GREEN_TRANSPARENT_3],
+                    backgroundColor:  [COLOR_GREEN_TRANSPARENT_3],
+                    data: androidTotal
+                }]
             },
-            scales: {
-                x: {
-                    display: true,
-                    title: {
-                        display: false,
-                        text: '회원가입 구분(남성, 여성)'
+            options : {
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 15
+                            }
+                        }
                     },
-                    ticks: {
-                        major: {
-                            enabled: true
-                        },
-                        color: (context) => context.tick && context.tick.major && '#FF0000',
-                        font: function (context) {
-                            if (context.tick && context.tick.major) {
-                                return {
-                                    weight: 'bold'
-                                };
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += ' '+context.parsed.y +'대';
+                                }
+                                return label;
                             }
                         }
                     }
                 },
-                y: {
-                    ticks: {
-                        // Include a dollar sign in the ticks
-                        callback: function (value, index, ticks) {
-                            return value +' 대'
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: false,
+                            text: '회원가입 구분(남성, 여성)'
+                        },
+                        ticks: {
+                            major: {
+                                enabled: true
+                            },
+                            color: (context) => context.tick && context.tick.major && '#FF0000',
+                            font: function (context) {
+                                if (context.tick && context.tick.major) {
+                                    return {
+                                        weight: 'bold'
+                                    };
+                                }
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, ticks) {
+                                return value +' 대'
+                            }
                         }
                     }
                 }
             }
-        }
-    });
-    var ctx = document.getElementById('line-chart').getContext('2d');
-    var lineChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: label,
-            datasets: [{
-                label: '회원가입수',
-                borderColor: COLOR_GREY,
-                pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
-                pointRadius: pointSize,
-                borderWidth: 2,
-                backgroundColor: COLOR_GREY_TRANSPARENT_1,
-                data: totalCnt,
-            }, {
-                label: "가맹점추천",
-                borderColor: COLOR_AQUA,
-                pointBackgroundColor: COLOR_AQUA_TRANSPARENT_6,
-                pointRadius: pointSize,
-                borderWidth: 2,
-                backgroundColor:  COLOR_AQUA_TRANSPARENT_1,
-                data: extRecommStCodeCntF
-            }, {
-                label: 'APP가입',
-                borderColor: COLOR_RED_LIGHTER,
-                pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
-                pointRadius: pointSize,
-                borderWidth: 2,
-                backgroundColor:  COLOR_RED_TRANSPARENT_1,
-                data: extAppUserCntF
-            }]
-        },
-        options : {
-            plugins: {
-                legend: {
-                    labels: {
-                        // This more specific font property overrides the global property
-                        font: {
-                            size: 15
-                        },
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
+        });
 
-                            if (label) {
-                                label += ': ';
-                            }
-                            if (context.parsed.y !== null) {
-                                label += ' '+context.parsed.y +'명';
-                            }
-                            return label;
-                        }
-                    }
-                },
+        var ctx = document.getElementById('line-chart').getContext('2d');
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: label,
+                datasets: [{
+                    label: '회원가입수',
+                    borderColor: COLOR_GREY,
+                    pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
+                    pointRadius: pointSize,
+                    borderWidth: 2,
+                    backgroundColor: COLOR_GREY_TRANSPARENT_1,
+                    data: totalCnt,
+                }, {
+                    label: "가맹점추천",
+                    borderColor: COLOR_AQUA,
+                    pointBackgroundColor: COLOR_AQUA_TRANSPARENT_6,
+                    pointRadius: pointSize,
+                    borderWidth: 2,
+                    backgroundColor:  COLOR_AQUA_TRANSPARENT_1,
+                    data: extRecommStCodeCntF
+                }, {
+                    label: 'APP가입',
+                    borderColor: COLOR_RED_LIGHTER,
+                    pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
+                    pointRadius: pointSize,
+                    borderWidth: 2,
+                    backgroundColor:  COLOR_RED_TRANSPARENT_1,
+                    data: extAppUserCntF
+                }]
             },
-
-            scales: {
-                x: {
-                    display: true,
-                    title: {
-                        display: false,
-                        text: 'os별 구분'
+            options : {
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 15
+                            },
+                        }
                     },
-                    ticks: {
-                        major: {
-                            enabled: true
-                        },
-                        color: (context) => context.tick && context.tick.major && '#FF0000',
-                        font: function (context) {
-                            if (context.tick && context.tick.major) {
-                                return {
-                                    weight: 'bold'
-                                };
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += ' '+context.parsed.y +'명';
+                                }
+                                return label;
                             }
                         }
-                    }
+                    },
                 },
-                y: {
-                    ticks: {
-                        // Include a dollar sign in the ticks
-                        callback: function (value, index, ticks) {
-                            return value +' 명'
+
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: false,
+                            text: 'os별 구분'
+                        },
+                        ticks: {
+                            major: {
+                                enabled: true
+                            },
+                            color: (context) => context.tick && context.tick.major && '#FF0000',
+                            font: function (context) {
+                                if (context.tick && context.tick.major) {
+                                    return {
+                                        weight: 'bold'
+                                    };
+                                }
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, ticks) {
+                                return value +' 명'
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
+
     // 메뉴가 선택되어 active가 된 후 이벤트
   /*  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         if(!maplocation){
@@ -601,10 +677,78 @@
         } else {
             hideDw = {targets: [1],  visible: true }
         }
+        let downloadAble = `${downloadAble}`;
+        let roleType = `${sessionScope.sessionKey.roleType}`;
+        let downloadChk = "1";
+        if(roleType != 0){
+            if(downloadAble == 1){
+                downloadChk = "";
+            }
+        } else {
+            downloadChk = ""
+        }
 
-        $("#testTable").DataTable({
+        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/user/chart/page","A6",downloadChk, false, {
+            columns: [
+                {data: "yyyymmdd"},
+                {data: "dw"},
+                {data: "totalCnt"},
+                {data: "androidCnt"},
+                {data: "androidPer"},
+                {data: "iosCnt" },
+                {data: "iosPer" },
+                {data: "maleCnt" },
+                {data: "malePer" },
+                {data: "femaleCnt" },
+                {data: "femalePer" },
+                {data: "extRecommStCodeCnt" },
+                {data: "extAppUserCnt" },
+            ],
             columnDefs: [
-              /*  {targets: "_all", className: "text-center"},*/
+                {targets: "_all", className: "text-center"},
+                hideDw,
+                {targets: [2,3,7,11],  visible: true, className: "border-left-bold" },
+                {targets: [2,3,5,7,9,11,12],render: function (data) {
+                        if(data){
+                            return data + "명";
+                        } else {
+                            return "0 명";
+                        }
+
+                    }},
+                {targets: [1],render: function (data) {
+                        if(data == "1"){
+                            return  '일요일';
+                        } else if(data== "2") {
+                            return '월요일';
+                        } else if(data == "3") {
+                            return '화요일';
+                        } else if(data == "4") {
+                            return '수요일';
+                        } else if(data == "5") {
+                            return '목요일';
+                        } else if(data == "6") {
+                            return '금요일';
+                        } else if(data == "7") {
+                            return '토요일';
+                        }
+
+                    }},
+                {targets: [4,6,8,10],render: function (data) {
+                        if(data){
+                            return data + "%";
+                        } else {
+                            return "%";
+                        }
+
+                    }},
+                {targets: [12], className: "border-right-bold" },
+            ],
+        });
+
+
+        /*$("#testTable").DataTable({
+            columnDefs: [
                 hideDw,
                 {targets: [2,3,7,11],  visible: true, className: "border-left-bold" },
                 {targets: [12], className: "border-right-bold" },
@@ -615,13 +759,13 @@
             dom: '<"row"<"col-sm-12"l B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
             //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
             buttons: [
-                /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
-                /* { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
-                { extend: 'excel',text: ' &nbsp; 엑셀 다운로드', className: 'btn-sm fa fa-file-excel' },
-                /*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+                /!*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*!/
+                /!* { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*!/
+                downloadMap,
+                /!*{ extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*!/
             ],
             bPaginate : false,
-        });
+        });*/
 
         $("#testTable_filter").text("");
         $(".startDate").datepicker({
@@ -634,25 +778,45 @@
         $(".select-day").on("click",function(){
             $(".select-day").removeClass("active");
             var day =  $(this).attr("day");
-
             var d = new Date();
             var dayOfMonth = d.getDate();
             d.setDate(dayOfMonth - day);
-
-
             $(".startDate").datepicker('setDate', d);
             $(".selday").val(day);
-
             $(this).addClass("active");
         });
         $(".step-day").on("click",function(){
+
             $(".step-day").removeClass("active");
             $(".dayType").val($(this).attr("day"));
-
             $(this).addClass("active");
+            let hideDw = {};
+            let columns = [];
+            //7일단위 보기 - 요일 hide
+            if($(".dayType").val() == "1"){
+                console.log(table.columns(1).visible(false))
+            } else {
+                console.log(table.columns(1).visible(true))
+            }
+            var numCols = table.columns().nodes().length;
+            for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+            table.column().draw();
+            lineChart.data.labels = [];
+            lineChart.data.datasets.forEach((dataset) => {
+                dataset.data = [];
+            });
+            radarChart.data.labels = [];
+            radarChart.data.datasets.forEach((dataset) => {
+                dataset.data = [];
+            });
+            radarChart2.data.labels = [];
+            radarChart2.data.datasets.forEach((dataset) => {
+                dataset.data = [];
+            });
+            searchUserList();
+
         });
 
-        $("#testTable").DataTable();
 
         var day =  $(this).attr("day");
         let date = new Date();
@@ -725,6 +889,19 @@
 
     function searchUserList() {
         let req = convertFormToObj($('form.formUserList'));
+        label = [];
+        totalCnt = [];
+        maleCnt = [];
+        femaleCnt = [];
+        extRecommStCodeCntF = [];
+        extAppUserCntF = [];
+        totalMaleCnt = [];
+        totalFemaleCnt = [];
+        iosTotal = [];
+        iosCnt = 0;
+        androidCnt = 0;
+        androidTotal = [];
+
         $.ajax({
             type: "POST",
             url: "${path}/api/user/chart/list",
@@ -736,9 +913,15 @@
 
                 let totalMaleCntF = 0;
                 let totalFemaleCntF = 0;
-                $("#userTbody").html();
+              /*  $("#userTbody").html();*/
+                let dayType = $(".dayType").val();
                 for(var i = 0 ; i < data.timeList.length ; i++) {
-                    label.push(data.timeList[i].yyyymmdd)
+                    if(dayType == "1"){
+                        label.push(data.timeList[i].start + " ~ " + data.timeList[i].end )
+                    } else {
+                        label.push(data.timeList[i].yyyymmdd)
+                    }
+
                      totalCnt.push(data.timeList[i].totalCnt)
                      maleCnt.push(data.timeList[i].maleCnt)
                      femaleCnt.push(data.timeList[i].femaleCnt)
@@ -750,82 +933,6 @@
 
                     iosCnt = iosCnt+ data.timeList[i].iosCnt;
                     androidCnt = androidCnt+ data.timeList[i].androidCnt;
-
-
-
-                    let dw = ''
-                    if(data.timeList[i].dw == 1){
-                        dw = '일요일';
-                    } else if(data.timeList[i].dw == 2) {
-                        dw = '월요일';
-                    } else if(data.timeList[i].dw == 3) {
-                        dw = '화요일';
-                    } else if(data.timeList[i].dw == 4) {
-                        dw = '수요일';
-                    } else if(data.timeList[i].dw == 5) {
-                        dw = '목요일';
-                    } else if(data.timeList[i].dw == 6) {
-                        dw = '금요일';
-                    } else if(data.timeList[i].dw == 7) {
-                        dw = '토요일';
-                    }
-                    let yyyymmdd = '';
-                    if(data.timeList[i].start && data.timeList[i].end){
-                       yyyymmdd = data.timeList[i].start +" ~ "+ data.timeList[i].end;
-                    } else {
-                       yyyymmdd = data.timeList[i].yyyymmdd;
-                    }
-
-                    let androidPer = '';
-                    if(data.timeList[i].androidPer != null) {
-                        androidPer = data.timeList[i].androidPer
-                    }
-
-                    let iosPer = '';
-                    if(data.timeList[i].iosPer != null) {
-                        iosPer = data.timeList[i].iosPer
-                    }
-
-                    let malePer = '';
-                    if(data.timeList[i].malePer != null) {
-                        malePer = data.timeList[i].malePer
-                    }
-
-                    let femalePer = '';
-                    if(data.timeList[i].femalePer != null) {
-                        femalePer = data.timeList[i].femalePer
-                    }
-
-                    let extRecommStCodeCnt = '';
-                    if(data.timeList[i].extRecommStCodeCnt != null) {
-                        extRecommStCodeCnt = data.timeList[i].extRecommStCodeCnt
-                    }
-                    let extAppUserCnt = '';
-                    if(data.timeList[i].extAppUserCnt != null) {
-                        extAppUserCnt = data.timeList[i].extAppUserCnt
-                    }
-
-
-
-                    $("#userTbody").append(
-                        "<tr class='text-center'>"+
-                        "    <td>" +yyyymmdd+ "</td>"+
-                        "    <td>"+ dw +"</td>"+
-                        "    <td>"+data.timeList[i].totalCnt+" 명</td>"+
-                        "    <td>"+data.timeList[i].androidCnt+ "명</td>"+
-                        "    <td>"+androidPer+" %</td>"+
-                        "    <td>"+data.timeList[i].iosCnt+"명</td>"+
-                        "    <td>"+iosPer+"%</td>"+
-                        "    <td>"+data.timeList[i].maleCnt+" 명</td>"+
-                        "    <td>"+malePer+" %</td>"+
-                        "    <td>"+data.timeList[i].femaleCnt+" 명</td>"+
-                        "    <td>"+femalePer+" %</td>"+
-                        "    <td>"+data.timeList[i].extRecommStCodeCnt+" 명</td>"+
-                        "    <td>"+data.timeList[i].extAppUserCnt+" 명</td>"+
-                        "</tr>"
-                    )
-
-
                 }
                 totalMaleCnt.push(totalMaleCntF)
                 totalFemaleCnt.push(totalFemaleCntF)
@@ -836,8 +943,112 @@
                 } else {
                     pointSize = 4;
                 }
+          /*      radarChart.update();
+                radarChart2.update();*/
+                radarChart.data = {
+                    labels: ['성별 구분'],
+                    datasets: [{
+                        label: '남성회원',
+                        borderColor: [COLOR_AQUA_TRANSPARENT_7],
+                        pointRadius: 4,
+                        borderWidth: 2,
+                        pointBackgroundColor: [COLOR_AQUA_TRANSPARENT_3],
+                        backgroundColor:  [COLOR_AQUA_TRANSPARENT_3],
+                        data: totalMaleCnt
+                    },{
+                        label: '여성회원',
+                        borderColor: [COLOR_GREEN_TRANSPARENT_7],
+                        pointRadius: 4,
+                        borderWidth: 2,
+                        pointBackgroundColor: [COLOR_GREEN_TRANSPARENT_3],
+                        backgroundColor:  [COLOR_GREEN_TRANSPARENT_3],
+                        data: totalFemaleCnt
+                    }]
+                }
+                radarChart2.data = {
+                    labels: ['os별 구분'],
+                    datasets: [{
+                        label: 'ios',
+                        borderColor: [COLOR_AQUA_TRANSPARENT_7],
+                        pointRadius: 4,
+                        borderWidth: 2,
+                        pointBackgroundColor: [COLOR_AQUA_TRANSPARENT_3],
+                        backgroundColor:  [COLOR_AQUA_TRANSPARENT_3],
+                        data: iosTotal
+                    },{
+                        label: 'android',
+                        borderColor: [COLOR_GREEN_TRANSPARENT_7],
+                        pointRadius: 4,
+                        borderWidth: 2,
+                        pointBackgroundColor: [COLOR_GREEN_TRANSPARENT_3],
+                        backgroundColor:  [COLOR_GREEN_TRANSPARENT_3],
+                        data: androidTotal
+                    }]
+                }
+                lineChart.data = {
+                    labels: label,
+                    datasets: [{
+                        label: '회원가입수',
+                        borderColor: COLOR_GREY,
+                        pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
+                        pointRadius: pointSize,
+                        borderWidth: 2,
+                        backgroundColor: COLOR_GREY_TRANSPARENT_1,
+                        data: totalCnt,
+                    }, {
+                        label: "가맹점추천",
+                        borderColor: COLOR_AQUA,
+                        pointBackgroundColor: COLOR_AQUA_TRANSPARENT_6,
+                        pointRadius: pointSize,
+                        borderWidth: 2,
+                        backgroundColor:  COLOR_AQUA_TRANSPARENT_1,
+                        data: extRecommStCodeCntF
+                    }, {
+                        label: 'APP가입',
+                        borderColor: COLOR_RED_LIGHTER,
+                        pointBackgroundColor: COLOR_RED_TRANSPARENT_6,
+                        pointRadius: pointSize,
+                        borderWidth: 2,
+                        backgroundColor:  COLOR_RED_TRANSPARENT_1,
+                        data: extAppUserCntF
+                    }]};
+
+
+                lineChart.update();
+                radarChart.update();
+                radarChart2.update();
             }
         });
+    }
+
+    function serarchForm() {
+        lineChart.data.labels = [];
+        lineChart.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+        });
+        radarChart.data.labels = [];
+        radarChart.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+        });
+        radarChart2.data.labels = [];
+        radarChart2.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+        });
+        searchUserList();
+
+        var numCols = table.columns().nodes().length;
+        for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+        /*  var searchType = $("#searchType").val();
+          var searchValue = $("#searchValue").val();*/
+        table.column().draw();
+        /*let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+
+        }*/
     }
 </script>
 </body>

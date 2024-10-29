@@ -47,15 +47,17 @@
                         <form name="update_form" id="update_form">
                             <input type="hidden" name="bannerNo" id="bannerNo" value="${tbAppBanner.bannerNo}">
                             <input type="hidden" name="dataStatus" value="1">
+                            <input type="hidden" name="platformType" value="2">
+                            <input type="hidden" name="platformType" value="0">
                             <table class="table table-bordered">
                                 <tbody>
-                                    <tr>
+                                    <%--<tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
                                         <td>
-                                            <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbAppBanner.platformType == 0}">checked</c:if>>
                                                 <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
-                                            </label>--%>
+                                            </label>&ndash;%&gt;
                                             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                 <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
@@ -68,7 +70,7 @@
                                                     <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                                 </label>
                                             </c:if>
-                                            <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
+                                            &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbAppBanner.platformType == 1}">checked</c:if>>
                                                 <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
                                             </label>
@@ -79,9 +81,9 @@
                                             <label class="" style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbAppBanner.platformType == 3}">checked</c:if>>
                                                 <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                            </label>--%>
+                                            </label>&ndash;%&gt;
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="노출서비스"/></td>
                                         <td>
@@ -224,8 +226,7 @@
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="앱스키마 URL을 입력해주세요."/>
                                         </td>
-                                    </tr>
-                                    <tr >
+                                    </tr><%-- <tr >
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="주소별 노출사용여부"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
@@ -240,7 +241,7 @@
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="주소별 노출사용여부를 선택하세요."/>
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr class="location_tr" <c:if test="${tbAppBanner.bannerType == 0}">style="display: none;"</c:if>>
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="지역등록"/></td>
                                         <td>

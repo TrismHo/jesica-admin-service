@@ -253,7 +253,17 @@
             $(".ordType").prop('checked', this.checked);
         });
 
-        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/eventpush/list", "A2","2",{
+        let downloadAble = `${downloadAble}`;
+        let roleType = `${sessionScope.sessionKey.roleType}`;
+        let downloadChk = "1";
+        if(roleType != 0){
+            if(downloadAble == 1){
+                downloadChk = "";
+            }
+        } else {
+            downloadChk = ""
+        }
+        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/eventpush/list", "A2",downloadChk, true,{
 
             columns : [
                 {data: "listIndex"},

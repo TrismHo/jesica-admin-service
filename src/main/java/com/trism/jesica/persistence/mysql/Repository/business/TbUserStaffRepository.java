@@ -4,6 +4,8 @@ package com.trism.jesica.persistence.mysql.Repository.business;
 
 import com.trism.jesica.dto.TbUserStaffDTO;
 import com.trism.jesica.persistence.mysql.Entitiy.business.TbUserStaff;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -54,50 +56,6 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             ", a.phone as phone " +
             ", a.memo as memo " +
             ", a.role_type as roleType " +
-            ", a.data_status as dataStatus" +
-            ", a.block_type_code as blockTypeCode " +
-            ", b.user_id as userId " +
-            ", b.last_login_dtm as lastLoginDtm " +
-            ", b.insert_date as insertDate " +
-            "from tb_user_staff a left outer join tb_user b " +
-            "on b.user_no = a.staff_no " +
-            "where name like %:name% " +
-            "and (b.user_type = 6) " +
-            "and a.data_status != 0" +
-            " and (" +
-            " b.insert_date between :startDate and :endDate" +
-            "  ) " +
-            "", nativeQuery = true)
-    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") String name, @Param("startDate") LocalDateTime startDate,  @Param("endDate") LocalDateTime endDate);
-
-    @Query(value = "select " +
-            "a.staff_no as staffNo, " +
-            " a.name as name " +
-            ", a.phone as phone " +
-            ", a.memo as memo " +
-            ", a.role_type as roleType " +
-            ", a.data_status as dataStatus" +
-            ", a.block_type_code as blockTypeCode " +
-            ", b.user_id as userId " +
-            ", b.last_login_dtm as lastLoginDtm " +
-            ", b.insert_date as insertDate " +
-            "from tb_user_staff a left outer join tb_user b " +
-            "on b.user_no = a.staff_no " +
-            "where name like %:name% " +
-            "and (b.user_type = 6) " +
-            "and a.data_status = :dataStatus " +
-            " and (" +
-            " b.insert_date between :startDate and :endDate" +
-            "  ) " +
-            "", nativeQuery = true)
-    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") String name, @Param("dataStatus") Integer dataStatus, @Param("startDate") LocalDateTime startDate,  @Param("endDate") LocalDateTime endDate);
-
-    @Query(value = "select " +
-            "a.staff_no as staffNo, " +
-            " a.name as name " +
-            ", a.phone as phone " +
-            ", a.memo as memo " +
-            ", a.role_type as roleType " +
             ", a.block_type_code as blockTypeCode " +
             ", a.data_status as dataStatus" +
             ", a.app_code as appCode" +
@@ -131,14 +89,93 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
                       @Param("dataStatus") Integer dataStatus
     );
 
-/*    @Modifying
-    @Query(value = "update tb_user_staff set " +
-            "data_status = 2 ," +
-            "update_user_id = 'master'" +
-            "where staff_no = :staffNo", nativeQuery = true)
-    int setUserStop(@Param("staffNo") Long staffNo);*/
-
     TbUserStaff findByUserId(@Param("userId") String userId);
-    /*TbUserStaff findByStaffNo(@Param("staffNo") String staffNo);*/
+
+
+
+
+
+
+    @Query(value = "select " +
+            "a.staff_no as staffNo, " +
+            " a.name as name " +
+            ", a.phone as phone " +
+            ", a.memo as memo " +
+            ", a.role_type as roleType " +
+            ", a.data_status as dataStatus" +
+            ", a.block_type_code as blockTypeCode " +
+            ", b.user_id as userId " +
+            ", b.last_login_dtm as lastLoginDtm " +
+            ", b.insert_date as insertDate " +
+            "from tb_user_staff a left outer join tb_user b " +
+            "on b.user_no = a.staff_no " +
+            "where ((:name is null and 1=1 ) or ( :name is not null and name like %:name% ))" +
+            "and ((:appCode is null and 1=1 ) or ( :appCode is not null and app_code = :appCode))" +
+            "and (b.user_type = 6) " +
+            "and a.role_type != 0 " +
+            " and ((:dataStatus is null and data_status != 0 ) or ( :dataStatus is not null and data_status = :dataStatus )) " +
+            " and (" +
+            " b.insert_date between :startDate and :endDate " +
+            "  ) " +
+            "order by b.insert_date desc" +
+            "", nativeQuery = true)
+    List<TbUserStaffDTO> findByUserStaffNativeList(@Param("name") Object name,
+                                                   @Param("dataStatus") Object dataStatus,
+                                                   @Param("appCode") Object appCode,
+                                                   @Param("startDate") LocalDateTime startDate,
+                                                   @Param("endDate") LocalDateTime endDate);
+
+    @Query(value = "select " +
+            "a.staff_no as staffNo, " +
+            " a.name as name " +
+            ", a.phone as phone " +
+            ", a.memo as memo " +
+            ", a.role_type as roleType " +
+            ", a.data_status as dataStatus" +
+            ", a.block_type_code as blockTypeCode " +
+            ", b.user_id as userId " +
+            ", b.last_login_dtm as lastLoginDtm " +
+            ", b.insert_date as insertDate " +
+            "from tb_user_staff a left outer join tb_user b " +
+            "on b.user_no = a.staff_no " +
+            "where ((:name is null and 1=1 ) or ( :name is not null and name like %:name% ))" +
+            "and ((:appCode is null and 1=1 ) or ( :appCode is not null and app_code = :appCode))" +
+            "and (b.user_type = 6) " +
+            "and a.role_type != 0 " +
+            " and ((:dataStatus is null and data_status != 0 ) or ( :dataStatus is not null and data_status = :dataStatus )) " +
+            " and (" +
+            " b.insert_date between :startDate and :endDate " +
+            "  ) " +
+            "order by b.insert_date desc" +
+            "",
+            countQuery = "select " +
+                    "a.staff_no as staffNo, " +
+                    " a.name as name " +
+                    ", a.phone as phone " +
+                    ", a.memo as memo " +
+                    ", a.role_type as roleType " +
+                    ", a.data_status as dataStatus" +
+                    ", a.block_type_code as blockTypeCode " +
+                    ", b.user_id as userId " +
+                    ", b.last_login_dtm as lastLoginDtm " +
+                    ", b.insert_date as insertDate " +
+                    "from tb_user_staff a left outer join tb_user b " +
+                    "on b.user_no = a.staff_no " +
+                    "where ((:name is null and 1=1 ) or ( :name is not null and name like %:name% ))" +
+                    "and ((:appCode is null and 1=1 ) or ( :appCode is not null and app_code = :appCode))" +
+                    "and (b.user_type = 6) " +
+                    "and a.role_type != 0 " +
+                    " and ((:dataStatus is null and data_status != 0 ) or ( :dataStatus is not null and data_status = :dataStatus )) " +
+                    " and (" +
+                    " b.insert_date between :startDate and :endDate " +
+                    "  ) ",
+            nativeQuery = true)
+    Page<TbUserStaffDTO> findByUserStaffNativePageList(@Param("name") Object name,
+                                                       @Param("dataStatus") Object dataStatus,
+                                                       @Param("appCode") Object appCode,
+                                                       @Param("startDate") LocalDateTime startDate,
+                                                       @Param("endDate") LocalDateTime endDate
+                                                       , Pageable pageable);
+
 
 }

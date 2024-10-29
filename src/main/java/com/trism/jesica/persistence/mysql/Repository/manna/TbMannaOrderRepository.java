@@ -115,6 +115,188 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             , @Param("ordStatus") String ordStatus
     );
 
+    @Query(value = "select         " +
+            "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,        " +
+            "    dw ,        " +
+            "    totalCnt ,         " +
+            "    delivery   ,         " +
+            "    takeout," +
+            "    wait," +
+            "    reserv," +
+            "    tables," +
+            "   (delivery+takeout+wait+reserv+tables) as sumCount" +
+            "    from(        " +
+            "        select        " +
+            "            date_format(ab.ordDate, '%y-%m-%d') AS yyyymmdd           " +
+            "            , DAYOFWEEK(ab.ordDate) as dw           " +
+            "            , count(1) as totalCnt           " +
+            "            , SUM(CASE WHEN ab.ordType = 1  THEN 1 ELSE 0 END) AS delivery " +
+            "            , SUM(CASE WHEN ab.ordType = 2  THEN 1 ELSE 0 END) AS takeout  " +
+            "            , SUM(CASE WHEN ab.ordType = 3  THEN 1 ELSE 0 END) AS wait  " +
+            "            , SUM(CASE WHEN ab.ordType = 4  THEN 1 ELSE 0 END) AS reserv " +
+            "            , SUM(CASE WHEN ab.ordType = 5  THEN 1 ELSE 0 END) AS tables  " +
+            "               from      " +
+            "                   (select            " +
+            "                           ord_no as ordNo,     " +
+            "                             ord_date as ordDate,     " +
+            "                             data_status as dataStatus,     " +
+            "                             ord_path_cd as ordPathCd,     " +
+            "                             ord_st_code as ordStCode,     " +
+            "                             pay_amt as payAmt,     " +
+            "                             dvry_service_type as dvryServiceType,     " +
+            "                             ord_cu_tel as ordCuTel,     " +
+            "                             ord_type as ordType,     " +
+            "                             st_tel as stTel,     " +
+            "                             ord_confirm_type as ordConfirmType,     " +
+            "                             takeout_date as takeoutDate,     " +
+            "                             table_type as tableType,     " +
+            "                             table_no as tableNo,     " +
+            "                             adult_cnt as adultCnt,     " +
+            "                             child_cnt as childCnt,     " +
+            "                             ord_status as ordStatus,     " +
+            "                             ord_st_wait_no as ordStWaitNo,     " +
+            "                             resv_date as resv_date ,     " +
+            "                             end_date as endDate,     " +
+            "                             cancel_date as cancelDate,     " +
+            "                             srv_amt as srvAmt     " +
+            "                    FROM manna_order a           " +
+            "                   where a.ord_date BETWEEN :startDate AND :endDate      " +
+            "                   and data_status = 1       " +
+            "                   and ord_path_cd = :ordPathCd" +
+            "                   and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode))      " +
+            "                   and ((:ordStatus is null and 1=1) or (:ordStatus is not null and a.ord_status = :ordStatus))       " +
+            "                   and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and a.brand_type_cd = :brandTypeCd))) ab       " +
+            "           group by yyyymmdd          " +
+            "        )c        " +
+            "    group by yyyymmdd" ,
+            countQuery = "select         " +
+                    "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,        " +
+                    "    dw ,        " +
+                    "    totalCnt          " +
+                    "    from(        " +
+                    "        select        " +
+                    "            date_format(ab.ordDate, '%y-%m-%d') AS yyyymmdd           " +
+                    "            , DAYOFWEEK(ab.ordDate) as dw           " +
+                    "            , count(1) as totalCnt           " +
+                    "               from      " +
+                    "                   (select            " +
+                    "                             ord_no as ordNo,     " +
+                    "                             ord_date as ordDate     " +
+                    "                    FROM manna_order a           " +
+                    "                   where a.ord_date BETWEEN :startDate AND :endDate      " +
+                    "                   and data_status = 1       " +
+                    "                   and ord_path_cd = :ordPathCd" +
+                    "                   and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode))      " +
+                    "                   and ((:ordStatus is null and 1=1) or (:ordStatus is not null and a.ord_status = :ordStatus))       " +
+                    "                   and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and a.brand_type_cd = :brandTypeCd))) ab       " +
+                    "           group by yyyymmdd          " +
+                    "        )c        " +
+                    "    group by c.yyyymmdd",
+             nativeQuery = true)
+    Page<Map<String,Object>> getMannaOrderDayListPage(@Param("startDate") LocalDateTime startDate
+            , @Param("endDate") LocalDateTime endDate
+            , @Param("ordPathCd") String ordPathCd
+            , @Param("brCode") String brCode
+            , @Param("ordStatus") String ordStatus
+            , @Param("brandTypeCd") String brandTypeCd
+            , Pageable pageable
+    );
+
+
+    @Query(value = "select         " +
+            "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd      " +
+            " ,start" +
+            " ,end" +
+            "    ,dw         " +
+            "    ,SUM(totalCnt) as totalCnt         " +
+            "    ,SUM(delivery) as delivery            " +
+            "    ,SUM(takeout) as takeout " +
+            "    ,SUM(wait) as wait " +
+            "    ,SUM(reserv) as reserv " +
+            "    ,SUM(tables) as tables " +
+            "    ,(SUM(delivery) + SUM(takeout) + SUM(wait) + SUM(reserv) + SUM(tables)) as sumcount" +
+            "    ,weekdate" +
+            "    from(        " +
+            "        select        " +
+            "            date_format(ab.ordDate, '%y-%m-%d') AS yyyymmdd           " +
+            "            , DAYOFWEEK(ab.ordDate) as dw           " +
+            "            , count(1) as totalCnt           " +
+            "            , SUM(CASE WHEN ab.ordType = 1 THEN 1 ELSE 0 END) AS delivery " +
+            "            , SUM(CASE WHEN ab.ordType = 2 THEN 1 ELSE 0 END) AS takeout  " +
+            "            , SUM(CASE WHEN ab.ordType = 3 THEN 1 ELSE 0 END) AS wait  " +
+            "            , SUM(CASE WHEN ab.ordType = 4 THEN 1 ELSE 0 END) AS reserv " +
+            "            , SUM(CASE WHEN ab.ordType = 5 THEN 1 ELSE 0 END) AS tables  " +
+            "            ,DATE_FORMAT(DATE_SUB(date_format(ab.ordDate, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.ordDate, '%Y/%m/%d'))-1) DAY), '%Y/%m/%d') as start " +
+            "    ,DATE_FORMAT(DATE_SUB(date_format(ab.ordDate, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.ordDate, '%Y/%m/%d'))-7) DAY), '%Y/%m/%d') as end " +
+            "    ,DATE_FORMAT(date_format(ab.ordDate, '%Y/%m/%d'), '%Y%U') AS `weekdate`" +
+            "               from      " +
+            "                   (select            " +
+            "                           ord_no as ordNo,     " +
+            "                             ord_date as ordDate,     " +
+            "                             data_status as dataStatus,     " +
+            "                             ord_path_cd as ordPathCd,     " +
+            "                             ord_st_code as ordStCode,     " +
+            "                             pay_amt as payAmt,     " +
+            "                             dvry_service_type as dvryServiceType,     " +
+            "                             ord_cu_tel as ordCuTel,     " +
+            "                             ord_type as ordType,     " +
+            "                             st_tel as stTel,     " +
+            "                             ord_confirm_type as ordConfirmType,     " +
+            "                             takeout_date as takeoutDate,     " +
+            "                             table_type as tableType,     " +
+            "                             table_no as tableNo,     " +
+            "                             adult_cnt as adultCnt,     " +
+            "                             child_cnt as childCnt,     " +
+            "                             ord_status as ordStatus,     " +
+            "                             ord_st_wait_no as ordStWaitNo,     " +
+            "                             resv_date as resv_date ,     " +
+            "                             end_date as endDate,     " +
+            "                             cancel_date as cancelDate,     " +
+            "                             srv_amt as srvAmt     " +
+            "                    FROM manna_order a   " +
+            "                    where a.ord_date BETWEEN :startDate AND :endDate " +
+            "                    and data_status = 1       " +
+            "                    and ord_path_cd = :ordPathCd " +
+            "                    and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode)) " +
+            "                    and ((:ordStatus is null and 1=1) or (:ordStatus is not null and ord_status = :ordStatus)) " +
+            "                   and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and a.brand_type_cd = :brandTypeCd))) ab       " +
+            "           group by yyyymmdd          " +
+            "        )c        " +
+            "   group by WEEK(yyyymmdd) " +
+            "   order by weekdate " ,
+            countQuery = "select         " +
+                    "    DATE_FORMAT(yyyymmdd, '%Y/%m/%d') as yyyymmdd,        " +
+                    "    dw ,        " +
+                    "    totalCnt          " +
+                    "    from(        " +
+                    "        select        " +
+                    "            date_format(ab.ordDate, '%y-%m-%d') AS yyyymmdd           " +
+                    "            , DAYOFWEEK(ab.ordDate) as dw           " +
+                    "            , count(1) as totalCnt           " +
+                    "               from      " +
+                    "                   (select            " +
+                    "                             ord_no as ordNo,     " +
+                    "                             ord_date as ordDate     " +
+                    "                    FROM manna_order a           " +
+                    "                   where a.ord_date BETWEEN :startDate AND :endDate      " +
+                    "                   and data_status = 1       " +
+                    "                   and ord_path_cd = :ordPathCd" +
+                    "                   and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode))      " +
+                    "                   and ((:ordStatus is null and 1=1) or (:ordStatus is not null and a.ord_status = :ordStatus))       " +
+                    "                   and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and a.brand_type_cd = :brandTypeCd))) ab       " +
+                    "           group by yyyymmdd          " +
+                    "        )c        " +
+                    "    group by c.yyyymmdd",
+            nativeQuery = true)
+    Page<Map<String,Object>> getMannaOrderWeekListPage(@Param("startDate") LocalDateTime startDate
+            , @Param("endDate") LocalDateTime endDate
+            , @Param("ordPathCd") String ordPathCd
+            , @Param("brCode") String brCode
+            , @Param("ordStatus") String ordStatus
+            , @Param("brandTypeCd") String brandTypeCd
+            , Pageable pageable
+    );
+
     @Query(value =
             /*"        select    " +
                     "            date_format(ab.ordDate, '%y-%m-%d') AS yyyymmdd           " +

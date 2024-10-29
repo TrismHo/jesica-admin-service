@@ -398,7 +398,7 @@
         /* $("#testTable").DataTable({
              language : lang_set, //or lang_eng
          });*/
-        table = $('#testTable').ajaxDataTable("${path}/api/cust/list", objectifyForm($("#frmSearch").serializeArray()), "A1","2", {
+        table = $('#testTable').ajaxDataTable("${path}/api/cust/list", objectifyForm($("#frmSearch").serializeArray()), "A1","2",true, {
             columns: [
                 {data: "listIndex"},
                 {data: "custName"},

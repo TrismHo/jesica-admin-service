@@ -147,11 +147,11 @@ public class MemberShipController {
             if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
                 /* 권한이 마스터 :0 인경우*/
                 if(loginSession.getRoleType() == 0){
-                    map.put("downloadChk",1);
+                    map.put("downloadAble",1);
                     map.put("permission",2);
                 }else {
                     permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
-                    map.put("downloadChk",permission.getDownloadAble());
+                    map.put("downloadAble",permission.getDownloadAble());
                     if(!ObjectUtils.isEmpty(permission)){
                         map.put("permission",permission.getPermission());
                     } else {
@@ -160,7 +160,7 @@ public class MemberShipController {
                 }
             }
         } else {
-            map.put("downloadChk",0);
+            map.put("downloadAble",0);
             map.put("permission",0);
         }
 

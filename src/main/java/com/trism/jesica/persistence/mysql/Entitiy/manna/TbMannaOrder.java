@@ -365,6 +365,12 @@ public class TbMannaOrder  {
     @Column(name = "pay_type")
     private String payType = null;
 
+    /**
+     * 브랜드 타입( tb_system_code , AC , code_value)
+     */
+    @Column(name = "brand_type_cd")
+    private String brandTypeCd = null;
+
 
     @Transient
     private String extBrCode = null;

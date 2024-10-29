@@ -323,6 +323,12 @@ public class MainController {
                         List<TbSiteAcl> tbSiteAclList =  authService.getSiteAcl(Long.valueOf(loginSession.getUserStaffNo()));
                         List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
                         List<Map<String, Object>>  tbSiteMenuAclList = authService.getTbSiteMenuAclList(Long.valueOf(loginSession.getUserStaffNo()));
+                        if(StringUtils.isNotEmpty(bm.getAppCode())){
+                            session.setAttribute("appCode",bm.getAppCode());
+                        } else {
+                            session.setAttribute("appCode","");
+                        }
+
                         session.setAttribute("tbSiteMenus",tbSiteMenus);
                         session.setAttribute("tbSiteAclList",tbSiteAclList);
                         session.setAttribute("tbSiteMenuAclList",tbSiteMenuAclList);
@@ -415,6 +421,11 @@ public class MainController {
                             List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
                             session.setAttribute("tbSiteMenus",tbSiteMenus);
                             session.setAttribute("tbSiteAclList",tbSiteAclList);
+                            if(StringUtils.isNotEmpty(bm.getAppCode())){
+                                session.setAttribute("appCode",bm.getAppCode());
+                            } else {
+                                session.setAttribute("appCode","");
+                            }
 
                             // 성공이면 실패카운트 0으로 + 로그인 시간 등록
                             apiService.setSuccessLoginSet(tbUser.getUserNo());

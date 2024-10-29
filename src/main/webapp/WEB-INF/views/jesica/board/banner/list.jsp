@@ -52,6 +52,7 @@
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch" id="frmSearch">
                                     <input type="hidden" name="dataStatus" value="OK">
+                                    <input type="hidden" name="platformType" value="2">
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                             <tr>
@@ -88,7 +89,7 @@
                                                     </label>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr><%-->
                                                 <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
                                                 <td style="width: 400px">
                                                     <label>
@@ -102,13 +103,28 @@
                                                                 <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="직배"/></option>
                                                             </select>
                                                         </c:if>
-                                                        <%--<select class="form-control" name="platformType">
+                                                        &lt;%&ndash;<select class="form-control" name="platformType">
                                                             <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
                                                             <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="양파오더"/></option>
                                                             <option value="3" <c:if test="${searchValue.platformType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="세날"/></option>
 &lt;%&ndash;                                                            <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>&ndash;%&gt;
-                                                        </select>--%>
+                                                        </select>&ndash;%&gt;
                                                     </label>
+                                                </td>--%>
+                                                <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="앱구분"/></strong></td>
+                                                <td style="width: 400px">
+                                                    <c:if test="${empty appCode}">
+                                                        <select id="appCode" name="appCode" class="form-control w-25" >
+                                                            <option value="" selected>전체</option>
+                                                            <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                                <option value="${appCodeList.sysCode}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </c:if>
+                                                    <c:if test="${!empty appCode}">
+                                                        <input type="text" class="form-control appCode" name="appCode" readonly value="${sessionScope.sessionKey.appCodeName}">
+                                                        <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
+                                                    </c:if>
                                                 </td>
                                                 <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="등록기간"/><%--등록기간--%></strong></td>
                                                 <td colspan="3">
@@ -143,9 +159,9 @@
                                            <button type="button" class="insert_btn btn btn-primary m-b-10">
                                                 <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="배너 등록"/></span>
                                             </button>
-                                                <button type="button" data-toggle="modal" data-target="#sort_modal" class="update_orders_btn btn btn-primary m-b-10">
-                                                <span class="fa fa-list">&nbsp;<spring:message code="list.search.noticeregistration1" text="순서 변경"/></span>
-                                            </button>
+                                              <%--  <button type="button" data-toggle="modal" data-target="#sort_modal" class="update_orders_btn btn btn-primary m-b-10">
+                                                <span class="fa fa-list">&nbsp;<spring:message code="list.search.noticeregistration1" text="순서 변경"/></span>--%>
+                                           <%-- </button>--%>
                                         </c:if>
                                     </span>
                                     <span>
@@ -245,7 +261,7 @@
 
     $(() => {
         getBannerSort();
-
+        dateSetting();
         $(function() {
             $("#sortable").sortable({
                 update: function() {
@@ -269,38 +285,6 @@
         $(".insert_btn").click(() => {
             location.href = '${path}/board/banner/insert';
         });
-
-        let date = new Date();
-        let startDate = "${searchValue.startDate}";
-        let endDate = "${searchValue.endDate}";
-
-        $(".startDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-
-        if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
-        } else {
-            $(".startDate").datepicker('setDate', startDate);
-        }
-
-        /*date.setMonth(date.getMonth() + 1, 1);*/
-        $(".endDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-        if(endDate == ""){
-            $(".endDate").datepicker('setDate', date);
-        } else {
-            $(".endDate").datepicker('setDate', endDate);
-        }
     });
     $(document).on("click",".detailRow",function(){
         let bannerNo = $(this).attr("bannerNo");

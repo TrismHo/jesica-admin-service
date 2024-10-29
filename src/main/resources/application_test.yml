@@ -28,35 +28,76 @@ logging:
   level:
     com.woorien.mobile: info
   file:
-    path: /home/rnd/jesicaAdmin/log
+    path: ./logs
 ---
+rabbitmq:
+  queue:
+    name: message.push.queue
+  exchange:
+    name: message.exchange
+  routing:
+    key : message.push
+
 spring:
+  rabbitmq:
+    port: 5672
+    host: 101.55.126.138
+    username: jesica01
+    password: trism3999!
+    virtual-host: v-jesica
   cache:
     jcache:
       config: classpath:cache/ehcache.xml
-  datasource:
-    hikari:
-      #test
-      jdbc-url: jdbc:mysql://101.55.126.138/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
-      username: jesicar01
-      password: wptlzk2021
-      driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
+  service-pick:
+    datasource:
+      hikari:
+        #test
+        jdbc-url: jdbc:mysql://192.168.200.140/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+        username: jesicar01
+        password: wptlzk2021
+        driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
+        tomcat:
+          initial-size: 3
+  service-manna:
+    datasource:
+      hikari:
+        jdbc-url: jdbc:oracle:thin:@192.168.200.181:1521:ALADIN
+        username: MANNA
+        password: Ekswnr59
+        driver-class-name: oracle.jdbc.OracleDriver
   jpa:
-    show-sql: true
-    open-in-view: false
-    generate-ddl: false
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-    database: mysql
-    hibernate:
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-      ddl-auto: none
-    properties:
-      hibernate.show_sql: true
-      hibernate.format_sql: true
-      hibernate.use_sql_comments: true
-      hibernate.enable_lazy_load_no_trans: true
+    mysql:
+      show-sql: true
+      open-in-view: false
+      generate-ddl: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+      #database: mysql
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        ddl-auto: none
+      properties:
+        hibernate.show_sql: true
+        hibernate.format_sql: true
+        hibernate.use_sql_comments: true
+        hibernate.enable_lazy_load_no_trans: true
+    oracle:
+      show-sql: true
+      open-in-view: false
+      generate-ddl: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+      #database: mysql
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        ddl-auto: none
+      properties:
+        hibernate.show_sql: true
+        hibernate.format_sql: true
+        hibernate.use_sql_comments: true
+        hibernate.enable_lazy_load_no_trans: true
   mvc:
     view:
       prefix: /WEB-INF/views
@@ -118,9 +159,11 @@ spring:
     allow-bean-definition-overriding: true
 ---
 file:
+  baseFilePath:
+    path: /manna/mannaAdmin/jesicaAdmin/file
   #기본 이미지 경로
   baseImgPath:
-    path: /data/jesicar
+    path: /manna/mannaAdmin/jesicaAdmin
   servicePath:
     path: /images/driver
   imgPath:
@@ -143,11 +186,18 @@ file:
   samplePath:
     path: /sample
   messageFile:
-    path: /data/jesicar/messages/message
+    path: /manna/mannaAdmin/jesicaAdmin/messages/message
   apiServer:
-    server: http://101.55.126.138:13000/api
+    #server: http://101.55.126.133:4000/api
+    server: http://test.jigbae.co.kr/api
   imgHttp:
-    path: http://test.jesicar.co.kr/api/img/fileLoad?filePath=
+    path: http://test.jigbae.co.kr/api/img/fileLoad?filePath=
+  momPosServer:
+    server: https://tfrapp.mompos.co.kr:8443/api-ms
+    authKey: $2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y
+  ordPathCd:
+    jesicar: 1063
+    pickOrder: 1069
 spring:
   profiles:
 ########################################

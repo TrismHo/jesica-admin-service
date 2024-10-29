@@ -13,6 +13,21 @@
         <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/></title>
     </c:if>
 </head>
+<style>
+    div.dataTables_wrapper div.dataTables_processing {
+        border: 1px solid #eee;
+        z-index: 1;
+        /* position: absolute;
+         top: 264%;
+         left: 10%;
+         width: 200px;
+         !* margin-left: -397px; *!
+         !* margin-top: -26px; *!
+         text-align: center;
+         padding: 1em 0;*/
+
+    }
+</style>
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>
@@ -48,11 +63,13 @@
                     <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
-                                <form name="frmSearch" id="frmSearch">
+                                <form >
+                                    <input type="hidden" name="groupType" value="5">
+                                    <input type="hidden" name="platformType" value="2">
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr >
-                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="게시물 구분"/></strong></td>
+                                            <%--<td class="bg-light"><strong><spring:message code="list.search.postclassification" text="게시물 구분"/></strong></td>
                                             <td >
                                                 <label>
 
@@ -84,9 +101,24 @@
                                                         </select>
                                                     </c:if>
                                                 </label>
+                                            </td>--%>
+                                            <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="앱구분"/></strong></td>
+                                            <td>
+                                                <c:if test="${empty appCode}">
+                                                    <select id="appCode" name="appCode" class="form-control w-25 appCode" >
+                                                        <option value="">전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <input type="text" class="form-control" readonly value="${sessionScope.sessionKey.appCodeName}">
+                                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
+                                                </c:if>
                                             </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.stateofuse1" text="노출상태"/></strong></td>
-                                            <td>
+                                            <td colspan="1">
                                                 <div class="row">
                                                 </div>
                                                 <label>
@@ -124,17 +156,12 @@
                             </div>
                             <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                   <%-- <c:if test="${sessionScope.sessionKey.userRole == 0}">
-                                        <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
-                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="공지등록"/></span>
-                                        </button>
-                                    </c:if>--%>
-                                   <c:if test="${permission == 2}">
+                                    <c:if test="${permission == 2}">
                                         <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
                                             <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration" text="공지등록"/></span>
                                         </button>
                                     </c:if>
-                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/><%--검색--%> </button>
+                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
                                 </div>
                             </div>
                         </div>
@@ -146,10 +173,10 @@
                     <thead>
                     <tr class="text-center">
                         <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                        <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
+                        <th width="10%"><spring:message code="list.detail.title" text="제목"/></th>
                         <%--<th width=""><spring:message code="list.word.contents" text="내용"/></th>--%>
-                        <th width="10%"><spring:message code="list.word.serviceclassification" text="게시물구분"/></th>
-                        <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
+                   <%--     <th width="10%"><spring:message code="list.word.serviceclassification" text="게시물구분"/></th>
+                        <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>--%>
                         <th width="10%"><spring:message code="list.word.status" text="상태"/></th>
                         <th width="10%"><spring:message code="list.word.status1" text="등록 시용자"/></th>
                         <th width="10%"><spring:message code="list.word.status1" text="수정 사용자"/></th>
@@ -157,8 +184,7 @@
                         <th width="10%"><spring:message code="list.word.modifieddate" text="수정일"/></th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <c:forEach var="item"  items="${tbNoticePlatformList}"  varStatus="status">
+                  <%--  <c:forEach var="item"  items="${tbNoticePlatformList}"  varStatus="status">
                         <tr class="detailRow" noticeNo="${item.noticeNo}">
                             <td class="text-center">${status.index + 1}</td>
                             <td class="text-center">
@@ -171,7 +197,7 @@
                                           display: block;">  ${item.title}
                                 </div>
                             </td>
-                                <%--<td class="text-center">
+                                &lt;%&ndash;<td class="text-center">
                                     <div style="overflow: hidden;
                                               margin: auto;
                                               text-overflow: ellipsis;
@@ -179,7 +205,7 @@
                                               width: 250px;
                                               display: block;">  ${item.body}
                                     </div>
-                                </td>--%>
+                                </td>&ndash;%&gt;
                             <td class="text-center" style=""><c:if test="${item.groupType == 0}"><spring:message code="list.search.all" text="전체"/>
                             </c:if><c:if test="${item.groupType == 4}"><spring:message code="list.word.franchisee1" text="드라이버"/>
                             </c:if><c:if test="${item.groupType == 5}"><spring:message code="list.word.deliverygroup1" text="고객"/></c:if></td>
@@ -198,8 +224,7 @@
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
                             <td class="text-center"><javatime:format value="${item.updateDate}" pattern="yyyy-MM-dd" /></td>
                         </tr>
-                    </c:forEach>
-                    </tbody>
+                    </c:forEach>--%>
                 </table>
             </div>
         </div>
@@ -227,55 +252,174 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    let table = null;
+
+    var oldExportAction = function (self, e, dt, button, config) {
+        if (button[0].className.indexOf('buttons-excel') >= 0) {
+            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
+                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
+            }
+            else {
+                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+            }
+        } else if (button[0].className.indexOf('buttons-print') >= 0) {
+            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+        }
+    };
+
+    var newExportAction = function (e, dt, button, config) {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+            var self = this;
+            var oldStart = dt.settings()[0]._iDisplayStart;
+
+            dt.one('preXhr', function (e, s, data) {
+                // Just this once, load all data from the server...
+                data.start = 0;
+                data.length = 2147483647;
+
+                dt.one('preDraw', function (e, settings) {
+                    // Call the original action function
+                    oldExportAction(self, e, dt, button, config);
+
+                    dt.one('preXhr', function (e, s, data) {
+                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                        // Set the property to what it was before exporting.
+                        settings._iDisplayStart = oldStart;
+                        data.start = oldStart;
+                    });
+
+                    // Reload the grid with the original page. Otherwise,
+                    // API functions like table.cell(this) don't work properly.
+                    setTimeout(dt.ajax.reload, 0);
+
+                    // Prevent rendering of the full data to the DOM
+                    return false;
+                });
+            });
+
+            // Requery the server with the new one-time export settings
+            dt.ajax.reload();
+        }
+    };
     $(() => {
-        $("#testTable").DataTable({
+       /* $("#testTable").DataTable({
             language : lang_set, //or lang_eng
-        });
+        });*/
 
         $(".insert_btn").click(function() {
             location.href = '${path}/board/platform/insert';
         });
+        $(() => {
+            let downloadAble = `${downloadAble}`;
+            let roleType = `${sessionScope.sessionKey.roleType}`;
+            let downloadChk = "1";
+            if(roleType != 0){
+                if(downloadAble == 1){
+                    downloadChk = "";
+                }
+            } else {
+                downloadChk = ""
+            }
+            table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/platform/list","A1","1", true, {
+                columns: [
+                    {data: "listIndex"},
+                    {data: "title"},
+                    /*{data: "groupType" ,
+                        render: function(data){
+                            if (data) {
+                                if (data == '0') {
+                                    return "전체";
+                                } else if (data == '4') {
+                                    return "배송원";
+                                } else if (data == '5') {
+                                    return "고객";
+                                } else if (data == '8') {
+                                    return "제휴사";
+                                } else {
+                                    return "-";
+                                }
+                            } else {
+                                return "";
+                            }
+                        }},
+                    {data: "platformType" ,
+                        render: function(data){
+                            if (data) {
+                                if (data == '0') {
+                                    return "사용안함";
+                                } else if (data == '1') {
+                                    return "제시카";
+                                }  else if (data == '2') {
+                                    return "직배";
+                                } else {
+                                    return "-";
+                                }
+                            } else {
+                                return "";
+                            }
+                        }},*/
+                    {data: "viewYn" ,
+                        render: function(data){
+                            if (data) {
+                                return "노출";
+                            } else {
+                                return "<span class='text-red'>숨김</span>";
+                            }
+                        }},
+                    {data: "insertUserId"},
+                    {data: "updateUserId"},
+                    {data: "insertDate" },
+                    {data: "updateDate" },
+                ],
+                columnDefs: [
+                    {targets: "_all", className: "text-center"},
+                    {
+                        targets: [5,6],
+                        render: function(data){
+                            return dateFormat(data);
+                        },
+                    },
+                ],
+            });
 
+            $("#testTable_filter").text("");
+            //$("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
+            dateSetting();
+            /*getToday();*/
 
-        $(document).on("click", ".detailRow", function () {
-            let noticeNo = $(this).attr("noticeNo")
-            location.href = "${path}/board/platform/detail?noticeNo="+noticeNo;
+            //상세
+            $("#testTable").on('click','tbody td', function() {
+                var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
+                location.href = "${path}/board/platform/detail?noticeNo=" + row.noticeNo;
+            });
         });
 
 
 
-        let date = new Date();
-        let startDate = "${searchValue.startDate}";
-        let endDate = "${searchValue.endDate}";
+        dateSetting();
 
-        $(".startDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-
-        if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
-        } else {
-            $(".startDate").datepicker('setDate', startDate);
-        }
-
-        /*date.setMonth(date.getMonth() + 1, 1);*/
-        $(".endDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-        if(endDate == ""){
-            $(".endDate").datepicker('setDate', date);
-        } else {
-            $(".endDate").datepicker('setDate', endDate);
-        }
     });
+    function serarchForm() {
+        var numCols = table.columns().nodes().length;
+        for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+        /*  var searchType = $("#searchType").val();
+          var searchValue = $("#searchValue").val();*/
+
+        table.column().draw();
+        /*let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+
+        }*/
+    }
 </script>
 </body>
 </html>

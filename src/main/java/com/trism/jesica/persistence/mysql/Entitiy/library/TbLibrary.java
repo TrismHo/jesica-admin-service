@@ -21,29 +21,30 @@ public class TbLibrary implements Serializable {
      * 문서번호
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lib_no", nullable = false)
     private Long libNo;
 
-    /**
+  /*  *//**
      * 파일명(암호화)
-     */
+     *//*
     @Column(name = "file_name", nullable = false)
     @Convert(converter = EmptyStringToNullConverter.class)
     private String fileName;
 
-    /**
+    *//**
      * 파일명(원본명)
-     */
+     *//*
     @Column(name = "file_origin_name")
     @Convert(converter = EmptyStringToNullConverter.class)
     private String fileOriginName;
 
-    /**
+    *//**
      * 파일경로
-     */
+     *//*
     @Column(name = "file_path")
     @Convert(converter = EmptyStringToNullConverter.class)
-    private String filePath;
+    private String filePath;*/
 
     /**
      * 문서명
@@ -79,6 +80,12 @@ public class TbLibrary implements Serializable {
     @Column(name = "insert_user_id")
     @Convert(converter = EmptyStringToNullConverter.class)
     private String insertUserId;
+
+    /**
+     * 등록자ID
+     */
+    @Column(name = "data_status")
+    private Integer DataStatus = 1;
 
     /**
      * 수정자ID

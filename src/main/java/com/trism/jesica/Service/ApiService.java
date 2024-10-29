@@ -19,7 +19,9 @@ import com.trism.jesica.persistence.mysql.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.mysql.Entitiy.cash.TbCashWithdraw;
 import com.trism.jesica.persistence.mysql.Entitiy.coupon.TbCoupon;
 import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.mysql.Entitiy.file.TbFile;
 import com.trism.jesica.persistence.mysql.Entitiy.goods.*;
+import com.trism.jesica.persistence.mysql.Entitiy.library.TbLibrary;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaCouponRegist;
 import com.trism.jesica.persistence.mysql.Entitiy.service.TbServiceChargeGroup;
 import com.trism.jesica.persistence.mysql.Entitiy.service.TbStoreServiceCharge;
@@ -27,6 +29,7 @@ import com.trism.jesica.persistence.mysql.Entitiy.storedlvy.TbStoreDlvyCharge;
 import com.trism.jesica.persistence.mysql.Entitiy.storedlvy.TbStoreMngCharge;
 import com.trism.jesica.persistence.mysql.Entitiy.street.TbDlvyPrice;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.mysql.Entitiy.vacs.TbVacsVact;
 import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
@@ -43,7 +46,9 @@ import com.trism.jesica.persistence.mysql.Repository.coupon.TbCouponRepository;
 import com.trism.jesica.persistence.mysql.Repository.cust.TbCustLocationRepository;
 import com.trism.jesica.persistence.mysql.Repository.cust.TbCustRepository;
 import com.trism.jesica.persistence.mysql.Repository.event.TbEventRepository;
+import com.trism.jesica.persistence.mysql.Repository.file.TbFileRepository;
 import com.trism.jesica.persistence.mysql.Repository.goods.*;
+import com.trism.jesica.persistence.mysql.Repository.library.TbLibraryRepository;
 import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaCouponPublishRepository;
 import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaCouponRegistRepository;
 import com.trism.jesica.persistence.mysql.Repository.safe.TbSafenMappingRepository;
@@ -82,6 +87,7 @@ import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -90,6 +96,8 @@ import java.util.*;
 @Service
 @Slf4j
 public class ApiService {
+    private final TbFileRepository tbFileRepository;
+    private final TbLibraryRepository tbLibraryRepository;
     private final TbMannaCouponPublishRepository tbMannaCouponPublishRepository;
     private final TbAppBannerLocationRepository tbAppBannerLocationRepository;
     private final TbCustLocationRepository tbCustLocationRepository;
@@ -541,6 +549,65 @@ public class ApiService {
         TbStoreGoods tbStoreGoods =  tbStoreGoodsRepository.save(tbStoreGoodsData.insertData());
         log.info("@@@@@@@@@@@@@tbStoreGoods={}",tbStoreGoods);
         return tbStoreGoods;
+    }
+    @Transactional
+    public TbLibrary insertLibraryFile(TbLibrary libraryInfo, MultipartFile[] attachFile) {
+        TbLibrary tbLibrarySave = null;
+        try {
+            libraryInfo.setInsertDate(LocalDateTime.now());
+            tbLibrarySave = tbLibraryRepository.save(libraryInfo);
+            OutputStream os = null;
+            if (ObjectUtils.isNotEmpty(attachFile)) {
+                LocalDate now = LocalDate.now();
+                // 포맷 정의
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+                // 포맷 적용
+                String formatedNow = now.format(formatter);
+
+
+                Path filePath = Paths.get(jesicaProperties.getBaseFilePath().getPath(),"library",formatedNow);
+                PrintWriter pw = null;
+
+                File uploadFile = new File(filePath.toFile().getPath());
+                if (!uploadFile.exists()) {
+                    uploadFile.mkdirs();
+                }
+                List<Map<String, Object>> fileList = new ArrayList<Map<String, Object>>();
+                for(int i = 0; i < attachFile.length; i++) {
+                    String orgFileName = attachFile[i].getOriginalFilename();
+                    String orgFileExtension = orgFileName.substring(orgFileName.lastIndexOf("."));
+                    String saveFileName = UUID.randomUUID().toString().replaceAll("-", "") + orgFileExtension;
+                    Long saveFileSize = attachFile[i].getSize();
+
+                    log.info("================== file start ==================");
+                    log.info("파일 실제 이름: "+orgFileName);
+                    log.info("파일 저장 이름: "+saveFileName);
+                    log.info("파일 크기: "+saveFileSize);
+                    log.info("content type: "+attachFile[i].getContentType());
+                    log.info("================== file   END ==================");
+                    byte[] bytes = attachFile[i].getBytes();
+
+                    //attachFile[i].transferTo(uploadFile);
+
+                    TbFile file = new TbFile();
+                    file.setLibNo(tbLibrarySave.getLibNo());
+                    file.setFileOriginName(orgFileName);
+                    file.setFileName(saveFileName);
+                    file.setFileSize(saveFileSize);
+                    file.setFilePath(filePath.toFile().getPath());
+                    file.setFileContentType(attachFile[i].getContentType());
+                    file.setInsertDate(LocalDateTime.now());
+                    tbFileRepository.save(file);
+                    //fileInfo.put("CREA_ID", creaID);
+                    os = new FileOutputStream(new File(filePath.toFile().getPath(),saveFileName));
+                    os.write(bytes);
+                    os.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tbLibrarySave;
     }
 
 
@@ -1375,10 +1442,10 @@ public class ApiService {
     }
 
     @Transactional
-    public int insertTbUserStaff(TbUserStaffData tbUserStaffData) {
+    public int insertTbUserStaff(TbUserStaffData tbUserStaffData,  List<TbSiteMenu> tbSiteMenus) {
 
         int result = 0;
-
+        TbUserStaff tbUserStaff = null;
         try {
             OutputStream os = null;
 
@@ -1390,24 +1457,70 @@ public class ApiService {
                 String encodedPassword = new BCryptPasswordEncoder().encode(pass);
                 tbUserStaffData.setUserPwd(encodedPassword);
 
-                TbUserStaff tbUserStaff = tbUserStaffRepository.findByUserId(tbUserStaffData.getUserId());
-
-
+                 tbUserStaff = tbUserStaffRepository.findByUserId(tbUserStaffData.getUserId());
 
                 if(ObjectUtils.isNotEmpty(tbUserStaff)) {
                     if (!StringUtils.isEmpty(tbUserStaff.getName())) {
                         //중복
                         result = 500;
                     } else {
-                        tbUserStaffRepository.save(tbUserStaffData.insertData());
+                        tbUserStaff =  tbUserStaffRepository.save(tbUserStaffData.insertData());
                         //시스템이나 마스터가 아닐시 관제권한 항상부여
                         result = 1;
                     }
                 } else {
-                    tbUserStaffRepository.save(tbUserStaffData.insertData());
+                    tbUserStaff = tbUserStaffRepository.save(tbUserStaffData.insertData());
                     result = 1;
                 }
 
+
+                // 권한등록
+                List<HashMap<String,Object>> menuPermissionList = new ArrayList<HashMap<String,Object>>();
+                for (int i = 0 ; i < tbSiteMenus.size() ; i++){
+                    HashMap<String,Object> menuMap = new HashMap<>();
+                    menuMap.put("userNo",tbUserStaff.getUserNo());
+                    menuMap.put("menuNo",tbSiteMenus.get(i).getMenuNo());
+
+                    if(tbSiteMenus.get(i).getMenuLevel() != 1){
+                        //통합관리자
+                        if(tbUserStaffData.getRoleType() == 1 && !tbSiteMenus.get(i).getMenuUrl().contains("system")){
+                            if(tbSiteMenus.get(i).getMenuUrl().contains("library") ){
+                                menuMap.put("permission","2");
+                                menuMap.put("downloadAble","1");
+                            } else {
+                                menuMap.put("permission","2");
+                                menuMap.put("downloadAble","0");
+                            }
+
+                            //앱관리자
+                        } else if(tbUserStaffData.getRoleType() == 2 && !tbSiteMenus.get(i).getMenuUrl().contains("system")){
+                            if(tbSiteMenus.get(i).getMenuUrl().contains("library")){
+                                menuMap.put("permission","1");
+                                menuMap.put("downloadAble","1");
+                            } else {
+                                menuMap.put("permission","2");
+                                menuMap.put("downloadAble","1");
+                            }
+                        } else {
+                            menuMap.put("permission","0");
+                            menuMap.put("downloadAble","0");
+                        }
+                    } else {
+                        if(!tbSiteMenus.get(i).getMenuUrl().contains("system")){
+                            menuMap.put("permission","1");
+                            menuMap.put("downloadAble","0");
+                        } else {
+                            menuMap.put("permission","0");
+                            menuMap.put("downloadAble","0");
+                        }
+                    }
+
+
+
+
+                    menuPermissionList.add(menuMap);
+                }
+                updateAclMulTi(menuPermissionList);
             }
         } catch (DataIntegrityViolationException e){
             throw new DataIntegrityViolationException("중복에러");

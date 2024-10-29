@@ -1844,7 +1844,7 @@ public class SearchUtil {
                 if ("brCode".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), value));
                 }
-                if ("appCode".equals(key) && value != "") {
+                if ("brandTypeCd".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), value));
                 }
 
@@ -2356,8 +2356,6 @@ public class SearchUtil {
                     keywordType = (String)value;
                 }else if (ObjectUtils.isNotEmpty(value) && key.equals("keyword")) {
                     keyword = (String)value;
-                } else if (ObjectUtils.isNotEmpty(value) && key.equals("fileName")) {
-                    predicate.add(builder.like(root.get(key), "%" + value + "%"));
                 } else if (ObjectUtils.isNotEmpty(value) && key.equals("fileTitle")) {
                     predicate.add(builder.like(root.get(key), "%" + value + "%"));
                 } else if ("endDate".equals(key) && value != "") {

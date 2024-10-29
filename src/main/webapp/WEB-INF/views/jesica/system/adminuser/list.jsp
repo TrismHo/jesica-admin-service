@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jesicar | <spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="사용자 관리"/></title>
+    <title>Jig-Bae | <spring:message code="sidemenu.workgroupmanagement.affiliatedfranchise1" text="사용자 관리"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -40,17 +40,16 @@
             <!-- end page-header -->
             <!-- begin row -->
             <form class="brand_search_form"></form>
-
+            <form name="frmSearch" id="frmSearch">
                 <div class="search-box">
                     <div class="inner-search-box p-15">
                         <div class="row">
                             <div class="col-xl-12 col-md-12">
-                                <form name="frmSearch" id="frmSearch">
                                 <table class="table table-condensed table-bordered">
                                     <tbody>
                                     <tr >
                                         <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="사용상태"/></strong></td>
-                                        <td colspan="3" >
+                                        <td colspan="1" >
                                             <div class="row">
                                             </div>
                                             <label>
@@ -60,6 +59,20 @@
                                                     <option value="2" <c:if test="${searchValue.dataStatus == '2'}">selected</c:if>><spring:message code="list.search.stop" text="정지"/></option>
                                                 </select>
                                             </label>
+                                        </td>
+                                        <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="앱구분"/></strong></td>
+                                        <td>
+                                            <c:if test="${empty appCode}">
+                                                <select id="appCode" name="appCode" class="form-control" >
+                                                    <option value="" selected>전체</option>
+                                                    <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                        <option value="${appCodeList.sysCode}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </c:if>
+                                            <c:if test="${!empty appCode}">
+                                                <input type="text" class="form-control" name="appCode" readonly value="${appCode}">
+                                            </c:if>
                                         </td>
                                     </tr>
                                     <tr>
@@ -82,13 +95,13 @@
                                             <label>
                                                 <input type="text" name="name" value="${searchValue.name}" class="form-control width-150" maxlength="150">
                                             </label>
-                                            <label>
+                                          <%--  <label>
                                                     <span class="btn-group  bg-black-transparent-2 rounded">
                                                         <a href="${path}/system/master/list?&startDate=2021-01-01&endDate=${now}" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
                                                             <i class="fas fa-lg fa-fw m-r-10 fa-sync-alt"></i><spring:message code="list.search.searchreset" text="검색 초기화"/>
                                                         </a>
                                                     </span>
-                                            </label>
+                                            </label>--%>
                                             <%--  <label>
                                                   <select class="form-control width-150">
                                                       &lt;%&ndash;<option><spring:message code="merchandise.search9.option1" text="default text"/>&lt;%&ndash;상품명&ndash;%&gt;</option>
@@ -107,7 +120,6 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                 </form>
                             </div>
                             <%--   <i class="fa fa-angle-single-down detailOptionBtnUpNarrow detailOptionBtn2"></i>
                                <i class="fa fa-angle-single-up detailOptionBtnDownNarrow detailOptionBtn2"></i>--%>
@@ -118,7 +130,17 @@
                             <%--<i id="detailOptionBtn" class=" fas fa-lg fa-fw m-r-10 fa-plus"></i>--%>
 
                             <br>
-                            <div class="col-xl-12 col-md-12  m-t-10">
+                            <div class="col-xl-12 col-md-12 m-t-10">
+                                <div class="">
+                                    <c:if test="${permission == 2}">
+                                        <button type="button" class="insert_btn btn btn-primary float-left m-b-10">
+                                            <span>사용자등록</span>
+                                        </button>
+                                    </c:if>
+                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
+                                </div>
+                            </div>
+                           <%-- <div class="col-xl-12 col-md-12  m-t-10">
                                 <div class="">
                                     <c:if test="${permission == 2}">
                                         <button type="button" class="insert_btn btn btn-primary float-left m-b-10">
@@ -126,10 +148,10 @@
                                         </button>
                                     </c:if>
 
-                                    <%--<div id="detailOptionBtn" class="arrow-down "></div>--%>
-                                    <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick"  onclick="searchFormBranchFunction()" ><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/> </button>
+                                    &lt;%&ndash;<div id="detailOptionBtn" class="arrow-down "></div>&ndash;%&gt;
+                                    &lt;%&ndash;<button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick"  onclick="searchFormBranchFunction()" ><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search" text="검색"/> </button>&ndash;%&gt;
                                     <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5">
-                                        <%--<div class="dt-buttons btn-group flex-wrap">
+                                        &lt;%&ndash;<div class="dt-buttons btn-group flex-wrap">
                                             <button class="btn btn-secondary buttons-copy buttons-html5 btn-sm" tabindex="0" aria-controls="data-table-combine" type="button">
                                                 <span><i class="fas fa-lg fa-fw m-r-10 fa-copy"></i>Copy</span>
                                             </button>
@@ -142,14 +164,14 @@
                                             <button class="btn btn-secondary buttons-print btn-sm" tabindex="0" aria-controls="data-table-combine" type="button">
                                                 <span><i class="fas fa-lg fa-fw m-r-10 fa-print"></i>Print</span>
                                             </button>
-                                        </div>--%>
+                                        </div>&ndash;%&gt;
                                     </div>
-                                </div>
+                                </div>--%>
                             </div>
                         </div>
                     </div>
                 </div>
-
+            </form>
             <div class="panel-body p-15">
                 <table id="testTable" class="display table table-bordered w-100 table-striped">
                     <thead>
@@ -161,7 +183,7 @@
                     <th class="text-center"><spring:message code="list.word.distributor1" text="마지막 로그인시간"/></th>
                     <th class="text-center"><spring:message code="list.word.registrationdate1" text="등록일"/></th>
                     </thead>
-                    <tbody>
+                   <%-- <tbody>
                     <c:forEach var="item" items="${tbUserStaffList}" varStatus="status">
                         <tr class="detailRow" userNo="${item.staffNo}" >
                             <td  class="text-center">${status.index + 1}</td>
@@ -170,10 +192,10 @@
                                     마스터
                                 </c:if>
                                 <c:if test="${item.roleType == 1}">
-                                    본사
+                                    통합관리자
                                 </c:if>
                                 <c:if test="${item.roleType == 2}">
-                                    앱사
+                                    앱관리자
                                 </c:if>
                             </td>
                             <td class="text-center"><span class="orangeColor d-block">${item.userId}</span></td>
@@ -193,37 +215,13 @@
                             <td class="text-center"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                         </tr>
                     </c:forEach>
-                    <%--<c:forEach begin="1" end="20" varStatus="idx">
-                        <tr class="detailRow">
-                            <td>${idx.index}</td>
-                            <td>
-                                <span class="orangeColor d-block">H0004</span>
-                                <span>테스트제휴본사(개발)</span>
-                            </td>
-                            <td>
-                                <span class="orangeColor d-block">H0004</span>
-                                <span>테스트총판(개발)</span>
-                            </td>
-                            <td>
-                                <span class="orangeColor d-block">1000</span>
-                                <span>만나기본배송그룹</span>
-                            </td>
-                            <td>
-                                <span class="orangeColor d-block">S003475</span>
-                                <span>KHLEE_소속가맹점</span>
-                            </td>
-                            <td>정상</td>
-                            <td class="text-blue">인증완료</td>
-                            <td class="text-red">미동의</td>
-                            <td>2021-01-15 14:53:12</td>
-                        </tr>
-                    </c:forEach>--%>
-                    </tbody>
+                    </tbody>--%>
                 </table>
             </div>
         </div>
         <!-- end panel -->
     </div>
+
     <!-- end #content -->
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
@@ -245,10 +243,163 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
+    let table = null;
+
+    var oldExportAction = function (self, e, dt, button, config) {
+        if (button[0].className.indexOf('buttons-excel') >= 0) {
+            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
+                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
+            }
+            else {
+                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+            }
+        } else if (button[0].className.indexOf('buttons-print') >= 0) {
+            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+        }
+    };
+
+    var newExportAction = function (e, dt, button, config) {
+        let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+            var self = this;
+            var oldStart = dt.settings()[0]._iDisplayStart;
+
+            dt.one('preXhr', function (e, s, data) {
+                // Just this once, load all data from the server...
+                data.start = 0;
+                data.length = 2147483647;
+
+                dt.one('preDraw', function (e, settings) {
+                    // Call the original action function
+                    oldExportAction(self, e, dt, button, config);
+
+                    dt.one('preXhr', function (e, s, data) {
+                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                        // Set the property to what it was before exporting.
+                        settings._iDisplayStart = oldStart;
+                        data.start = oldStart;
+                    });
+
+                    // Reload the grid with the original page. Otherwise,
+                    // API functions like table.cell(this) don't work properly.
+                    setTimeout(dt.ajax.reload, 0);
+
+                    // Prevent rendering of the full data to the DOM
+                    return false;
+                });
+            });
+
+            // Requery the server with the new one-time export settings
+            dt.ajax.reload();
+        }
+    };
+    $(() => {
+        /* $("#testTable").DataTable({
+             language : lang_set, //or lang_eng
+         });*/
+
+        $(".insert_btn").click(function() {
+            location.href = '${path}/system/master/insert';
+        });
+        $(() => {
+            let downloadAble = `${downloadAble}`;
+            let roleType = `${sessionScope.sessionKey.roleType}`;
+            let downloadChk = "1";
+            if(roleType != 0){
+                if(downloadAble == 1){
+                    downloadChk = "";
+                }
+            } else {
+                downloadChk = ""
+            }
+            table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/system/master/list","A2","1", true, {
+                columns: [
+                    {data: "listIndex"},
+                    {data: "roleType" ,
+                            render: function(data){
+                                if(data == 0){
+                                    return "";
+                                } else if(data == 1){
+                                    return "통합관리자";
+                                } else if(data == 2){
+                                    return "앱관리자";
+                                }
+                            },
+                        },
+                    {data: "userId",
+                            render: function(data){
+                                    return "<span class='orangeColor d-block'>"+data+"</span>";
+                            }
+                        },
+                    {data: "name" },
+                    {data: "phone",
+                    render: function(data){
+                        return phoneHyphen(data)
+                    }},
+                    {data: "lastLoginDtm"},
+                    {data: "insertDate" },
+                ],
+                columnDefs: [
+                    {targets: "_all", className: "text-center"},
+                    {
+                        targets: [5,6],
+                        render: function(data){
+                            return dateFormat(data);
+                        },
+                    },
+                ],
+            });
+
+            $("#testTable_filter").text("");
+            //$("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
+            dateSetting();
+            /*getToday();*/
+
+            //상세
+            $("#testTable").on('click','tbody td', function() {
+                var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
+                location.href = "${path}/system/master/detail?userNo=" + row.staffNo;
+            });
+        });
+
+
+        dateSetting();
+
+    });
+    function serarchForm() {
+        var numCols = table.columns().nodes().length;
+        for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+        /*  var searchType = $("#searchType").val();
+          var searchValue = $("#searchValue").val();*/
+
+        table.column().draw();
+        /*let startDate = $(".startDate").val()
+        let endDate = $(".endDate").val()
+        if(getDateDiff(startDate, endDate) > 31) {
+            alert("날짜범위는 최대 31일까지 가능합니다.");
+            return;
+        } else {
+
+        }*/
+    }
+    /*$(() => {
+        $(".insert_btn").click(function() {
+            location.href = '${path}/board/event/insert';
+        });
+        $(".detailRow").click(function() {
+            let userNo = $(this).attr("userNo")
+            location.href = "${path}/board/event/detail?userNo="+userNo;
+        });
+    });*/
+
     // DataTables Default
 
-    $(() => {
-
+    /*$(() => {
+        dateSetting();
         $("#testTable").DataTable({
             language : lang_set //or lang_eng
         });
@@ -277,68 +428,17 @@
         });
 
 
-
-        $(".insert_btn").click(function() {
+       /!* $(".insert_btn").click(function() {
             location.href = "${path}/system/master/insert";
-        });
-
-        let date = new Date();
-        let startDate = "${searchValue.startDate}";
-        let endDate = "${searchValue.endDate}";
-
-        $(".startDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-
-        if(startDate == ""){
-            $(".startDate").datepicker('setDate', '2020-01-01');
-        } else {
-            $(".startDate").datepicker('setDate', startDate);
-        }
-
-        /*date.setMonth(date.getMonth() + 1, 1);*/
-        $(".endDate").datepicker({
-            calendarWeeks: false,
-            todayHighlight: true,
-            autoclose: true,
-            format: "yyyy-mm-dd",
-            language: "kr"
-        });
-        if(endDate == ""){
-            $(".endDate").datepicker('setDate', date);
-        } else {
-            $(".endDate").datepicker('setDate', endDate);
-        }
-    });
-    $(document).on("click",".detailRow",function(){
+        });*!/
+    });*/
+    /*$(document).on("click",".detailRow",function(){
         let userNo = $(this).attr("userNo")
         location.href = "${path}/system/master/detail?userNo="+userNo;
     });
     function searchFormBranchFunction() {
         $("#frmSearch").submit();
-
-       /* let pleaseselectadistributor = "<spring:message code="list.script.pleaseselectadistributor" text="총판을 선택해주세요."/>";
-        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-        let confirm = "<spring:message code="list.script.confirm" text="확인"/>";
-
-        if($(".branchNo").val() == "" || $(".branchNo").val() == null) {
-            swal({
-                title: pleaseselectadistributor,
-                icon: "warning",
-                buttons: [
-                    cancel,
-                    confirm
-                ],
-                dangerMode: true,
-            });
-        } else {
-            $("#frmSearch").submit();
-        }*/
-    }
+    }*/
 
 </script>
 </body>

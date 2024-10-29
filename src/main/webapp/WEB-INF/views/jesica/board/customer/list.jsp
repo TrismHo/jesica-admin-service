@@ -28,22 +28,22 @@
         background-color: #6c757d;
         border-color: #6c757d;
     }
-    div.dataTables_wrapper div.dataTables_processing {
-        border: 1px solid #eee;
-        z-index: 1;
-       /* position: absolute;
-        top: 264%;
-        left: 10%;
-        width: 200px;
-        !* margin-left: -397px; *!
-        !* margin-top: -26px; *!
-        text-align: center;
-        padding: 1em 0;*/
 
-    }
     .active-on {
         opacity: 1;
-    }
+    } div.dataTables_wrapper div.dataTables_processing {
+          border: 1px solid #eee;
+          z-index: 1;
+          /* position: absolute;
+           top: 264%;
+           left: 10%;
+           width: 200px;
+           !* margin-left: -397px; *!
+           !* margin-top: -26px; *!
+           text-align: center;
+           padding: 1em 0;*/
+
+      }
     .active-off {
         opacity: 0.5;
     }
@@ -111,16 +111,33 @@
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr >
+                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="앱구분"/></strong></td>
+                                            <td>
+                                                <c:if test="${empty appCode}">
+                                                    <select id="appCode" name="appCode" class="form-control" >
+                                                        <option value="" selected>전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.sysCode}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <input type="text" class="form-control appCode" name="appCode" readonly value="${sessionScope.sessionKey.appCodeName}">
+                                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
+                                                </c:if>
+                                            </td>
+<%--
                                             <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="회원여부"/></strong></td>
                                             <td>
                                                 <label>
                                                     <select class="form-control" name="isMember">
-                                                        <%--<option value="" <c:if test="${searchValue.isMember == ''  || searchValue.isMember == null}">selected</c:if>><spring:message code="list.search.all12" text="전체"/></option>--%>
+                                                        &lt;%&ndash;<option value="" <c:if test="${searchValue.isMember == ''  || searchValue.isMember == null}">selected</c:if>><spring:message code="list.search.all12" text="전체"/></option>&ndash;%&gt;
                                                         <option value="1" <c:if test="${searchValue.isMember == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters12" text="회원"/></option>
                                                         <option value="0" <c:if test="${searchValue.isMember == '0'}">selected</c:if>><spring:message code="list.search.deliverymanname12" text="비회원"/></option>
                                                     </select>
                                                 </label>
                                             </td>
+--%>
                                             <%--<td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
                                             <td style="width: 400px">
                                                 <label>
@@ -195,7 +212,7 @@
                                         </button>
                                     </c:if>
 
-                                       <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
+                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
                                 </div>
                             </div>
                         </div>
@@ -348,7 +365,17 @@
        /* $("#testTable").DataTable({
             language : lang_set, //or lang_eng
         });*/
-        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/cust/list","A1","2", {
+        let downloadAble = `${downloadAble}`;
+        let roleType = `${sessionScope.sessionKey.roleType}`;
+        let downloadChk = "1";
+        if(roleType != 0){
+            if(downloadAble == 1){
+                downloadChk = "";
+            }
+        } else {
+            downloadChk = ""
+        }
+        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/cust/list","A1",downloadChk, true,{
             columns: [
                 {data: "listIndex"},
                 {data: "custName"},
@@ -414,6 +441,9 @@
                     width: '120px',
                     render: function(data){
                         var button;
+                        let permission = `${permission}`
+                        let roleType = `${sessionScope.sessionKey.roleType}`
+
                         if(data.type == 0){
                             button =  "<button type='button'   class='btn btn-info btn-pwd' style='width: 115px;cursor: auto;'>"+
                                 "<span style='display: flex; align-items: center'>"+
@@ -421,7 +451,7 @@
                                 "<span class='m-l-5'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="비회원"/></span>"+
                                 "</span>"+
                                 "</button>";
-                        } else if(data.type == 1){
+                        } else if(data.type == 1 && permission == 2 && roleType == 0){
                             button =  "<button type='button'  data-toggle='modal' data-target='#password_modal'  class='btn btn-warning btn-pwd' style='width: 115px;cursor: auto;' custNo="+data.custNo+">"+
                                 "<span style='display: flex; align-items: center'>"+
                                 "<i class='fa fa-lock'></i>"+
@@ -442,6 +472,8 @@
                                 "<span class=''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Kakao회원"/></span>"+
                                 "</span>"+
                                 "</button>";
+                        } else {
+                            return "-"
                         }
 
                         return button;
@@ -524,7 +556,7 @@
         //상세
         $("#testTable").on('click','tbody td', function() {
             var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
-            if($(this)[0]._DT_CellIndex.column != 15){
+            if($(this)[0]._DT_CellIndex.column != 16){
                 location.href = "${path}/board/cust/detail?custNo=" + row.custNo;
             }
         });

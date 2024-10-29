@@ -46,10 +46,10 @@
                                 <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="마스터"/>
                             </c:if>
                             <c:if test="${sessionScope.sessionKey.roleType == 1}">
-                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="본사"/>
+                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="통합관리자"/>
                             </c:if>
                             <c:if test="${sessionScope.sessionKey.roleType == 2}">
-                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="앱사"/>
+                                <spring:message code="sidemenu.role" text="등급"/> : <spring:message code="sidemenu.role.master1" text="앱관리자"/>
                             </c:if>
                             <form id="logout-form" action='<c:url value='/logout'/>' method="POST">
                                 <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
@@ -62,10 +62,10 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                <%--앱사--%>
+                <%--앱관리자--%>
                 <c:if test="${sessionScope.sessionKey.roleType != 0}">
                     <c:forEach var="item" items="${tbSiteMenuAclList}" varStatus="status">
-                        <c:if test="${item.menuLevel == 1 && item.permission != 0 && item.visibleLevel >= 0}">
+                        <c:if test="${item.menuLevel == 1 && item.permission != 0 && item.visibleLevel >= 2}">
                             <li class="has-sub <c:if test="${fn:contains(servletPath,item.menuName) }">active</c:if>">
                                 <a href="javascript:;">
                                     <b class="caret"></b>

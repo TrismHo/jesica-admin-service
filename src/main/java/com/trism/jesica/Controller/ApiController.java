@@ -24,11 +24,14 @@ import com.trism.jesica.persistence.mysql.Entitiy.library.TbLibrary;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.*;
 import com.trism.jesica.persistence.mysql.Entitiy.safe.TbSafenMapping;
 import com.trism.jesica.persistence.mysql.Entitiy.street.TbDlvyPrice;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.mysql.Entitiy.vacs.TbVacsVact;
 import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
@@ -80,6 +83,9 @@ public class ApiController {
     private final JesicaProperties jesicaProperties;
     HttpSession session;
 
+    private final MasterService masterService;
+
+    private final AuthService authService;
     private final RabbitMqService rabbitMqService;
 
     private final MannaService mannaService;
@@ -117,6 +123,8 @@ public class ApiController {
 
    // private final OracleService oracleService;
     private final LibraryService libraryService ;
+
+    private final SystemCodeService systemCodeService;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -1152,6 +1160,38 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    //시스템설정 수정
+    @ResponseBody
+    @GetMapping("/system/code/update")
+    public ResponseEntity<?> systempropUpdate(
+            @RequestParam("sysCode") String sysCode,
+            @RequestParam("sysName") String sysName,
+            @RequestParam("codeName") String codeName,
+            @RequestParam("codeValue") String codeValue,
+            @RequestParam("sysType") String sysType,
+            @RequestParam("memo") String memo
+    ) {
+        log.info("systemcodeupdate tslId::{}", sysCode);
+        Map<String,Object> map = new HashMap<>();
+
+        if("".equals(memo)){
+            memo = null;
+        }
+
+        try {
+            int result = systemCodeService.updateSystemCode(sysCode ,sysName ,codeName,codeValue,sysType,memo );
+            map.put("result" , result);
+
+        } catch (Exception e) {
+            map.put("result" , 0);
+            e.printStackTrace();
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+
     //시/도 검색 - 배너
     @ResponseBody
     @PostMapping("/system/code/area/list")
@@ -1357,24 +1397,34 @@ public class ApiController {
     ) {
         log.info("TbUserStaffData headNo::{}", tbUserStaffData.getHeadNo());
         /*log.info("TbUser tbUserWorker::{}", tbUserWorker);*/
-        int result = 0;
+        Integer resultCode = 0;
 
         try {
-            result =  apiService.insertTbUserStaff(tbUserStaffData);
+            List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuVisibleLevelList();
+            apiService.insertTbUserStaff(tbUserStaffData,tbSiteMenus);
+            resultCode = 1;
+
         }   catch (DataIntegrityViolationException e) {
-            result = 500;
         } catch (Exception e){
+            resultCode = 500;
             e.printStackTrace();
         }
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String ip = GetClientIp.getClientIP(request);
 
         Map<String,Object> map = new HashMap<>();
-        if(result == 1 ) {
+        if(resultCode == 1) {
+            /*
+            *      Long.parseLong(map.get("userNo").toString()),
+                   Long.parseLong(map.get("menuNo").toString()),
+                   Integer.parseInt(map.get("permission").toString()),
+                   Integer.parseInt(map.get("downloadAble").toString()));
+            * */
             log.info("Update_role :adminId = {} / userId =  {} / ip = {} / type = {}" ,loginSession.getUserLoginId(), tbUserStaffData.getUserId() , ip , "save");
+            resultCode = 1;
             map.put("result","200");
             map.put("message", "등록 되었습니다.");
-        } else if(result == 500){
+        } else if(resultCode == 500){
             map.put("result","500");
             map.put("message", "중복에러");
         } else {
@@ -2907,6 +2957,262 @@ public class ApiController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    // 고객리스트 페이징
+    @ResponseBody
+    @RequestMapping(value = {"/user/chart/page"})
+    public DataTableModel userChartPageList(HttpServletRequest request, DataTableDTO paging,
+                                    @RequestParam Map<String,Object> searchValue){
+
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = new HashMap<>();
+
+      /*  if(!"".equals(appCode)){
+            searchValue.put("appCode",appCode);
+        } else {
+            searchValue.put("appCode","");
+        }*/
+        paging.setStart(1);
+        paging.setLength(10000000);
+      /*  paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));*/
+        int page = paging.getStart() / paging.getLength(); //Calculate page number
+
+        Map<String, Object> resultMap = null;
+
+        Pageable pageable;
+        pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("c.yyyymmdd").descending()
+        ) ;
+        try {
+            getSearchOption(session);
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
+            }
+            if (!searchValue.isEmpty()){
+
+                Map<String,Object> timeList = null;
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+                Integer platfromCode = null;
+                String extBrCode = null;
+                String addrCode = null;
+                if("jesicar".equals(company)) {
+                    platfromCode = 1;
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    platfromCode = 2;
+                    searchValue.put("platformType","2");
+                }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                if (searchValue.get("startDate") != null) {
+                    String string = searchValue.get("startDate").toString() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                }
+                if (searchValue.get("endDate") != null) {
+                    String string = searchValue.get("endDate").toString() + " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                }
+
+                extBrCode = ObjectUtils.isNotEmpty(searchValue.get("extBrCode")) ? searchValue.get("extBrCode").toString() : null;
+                addrCode = ObjectUtils.isNotEmpty(searchValue.get("addrCode")) ? searchValue.get("addrCode").toString() : null;
+                appCode = ObjectUtils.isNotEmpty(searchValue.get("appCode")) ? searchValue.get("appCode").toString() : null;
+
+                if (searchValue.get("dayType") != null) {
+                    timeList =  statisticsService.getUserLineListPage(startDate,endDate, platfromCode, extBrCode, addrCode , appCode, pageable ,searchValue.get("dayType").toString());
+                } else {
+                    timeList =  statisticsService.getUserLineListPage(startDate,endDate, platfromCode, extBrCode, addrCode , appCode, pageable ,"2");
+                }
+
+                map.put("timeList" , timeList);
+                resultMap = timeList;
+            } else {
+
+                Map<String,Object> timeList = null;
+                Integer platfromCode = null;
+                String extBrCode = null;
+                String addrCode = null;
+                if("jesicar".equals(company)) {
+                    platfromCode = 1;
+                    searchValue.put("platformType","1");
+                } else if ("yangpa".equals(company)) {
+                    platfromCode = 2;
+                    searchValue.put("platformType","2");
+                }
+                extBrCode = ObjectUtils.isNotEmpty(searchValue.get("extBrCode")) ? searchValue.get("extBrCode").toString() : null;
+                addrCode = ObjectUtils.isNotEmpty(searchValue.get("addrCode")) ? searchValue.get("addrCode").toString() : null;
+                appCode = ObjectUtils.isNotEmpty(searchValue.get("appCode")) ? searchValue.get("appCode").toString() : null;
+
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+
+                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                startDate = LocalDateTime.parse(string, formatter);
+                endDate = LocalDateTime.parse(string1, formatter);
+                if (searchValue.get("dayType") != null) {
+                    timeList =  statisticsService.getUserLineListPage(startDate,endDate, platfromCode, extBrCode, addrCode , appCode, pageable ,searchValue.get("dayType").toString());
+                } else {
+                    timeList =  statisticsService.getUserLineListPage(startDate,endDate, platfromCode, extBrCode, addrCode , appCode, pageable ,"2");
+                }
+                map.put("timeList" , timeList);
+                resultMap = timeList;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<HashMap<String,Object>> list = (List<HashMap<String,Object>>) resultMap.get("tbCustList");
+        // paging 객체 Set
+
+        // 응답값 Set
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
+    // 주문통계
+    @ResponseBody
+    @RequestMapping(value = {"/mannaorder/chart/page"})
+    public DataTableModel orderChartPageList(HttpServletRequest request, DataTableDTO paging,
+                                            @RequestParam Map<String,Object> searchValue){
+
+        log.info("@@searchValue {}",searchValue);
+
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+        Map<String,Object> map = new HashMap<>();
+
+        /*paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));*/
+        paging.setStart(1);
+        paging.setLength(10000000);
+        int page = paging.getStart() / paging.getLength(); //Calculate page number
+
+        Map<String, Object> resultMap = null;
+
+        Pageable pageable;
+        pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("c.yyyymmdd").descending()
+        ) ;
+        try {
+            getSearchOption(session);
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
+            }
+            if (!searchValue.isEmpty()){
+
+                Map<String,Object> timeList = null;
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+                String ordPathCd = null;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                if (searchValue.get("startDate") != null) {
+                    String string = searchValue.get("startDate").toString() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                    startDate = LocalDateTime.parse(string, formatter);
+                }
+                if (searchValue.get("endDate") != null) {
+                    String string = searchValue.get("endDate").toString() + " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                } else {
+                    String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                    endDate = LocalDateTime.parse(string, formatter);
+                }
+                if("jesicar".equals(company)) {
+                    ordPathCd = "1063";
+                    searchValue.put("ordPathCd","1063");
+                } else if ("yangpa".equals(company)) {
+                    ordPathCd = "1069";
+                    searchValue.put("ordPathCd","1069");
+                }
+                String brCode = null;
+                String ordStatus = null;
+                String brandTypeCd = null;
+                brCode = ObjectUtils.isNotEmpty(searchValue.get("brCode")) ? searchValue.get("brCode").toString() : null;
+                ordStatus = ObjectUtils.isNotEmpty(searchValue.get("ordStatus")) ? searchValue.get("ordStatus").toString() : null;
+                brandTypeCd = ObjectUtils.isNotEmpty(searchValue.get("brandTypeCd")) ? searchValue.get("brandTypeCd").toString() : null;
+                log.info("@@searchValue {}",searchValue);
+                if (searchValue.get("dayType") != null) {
+                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, searchValue.get("dayType").toString());
+                } else {
+                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, "2");
+                }
+            } else {
+
+                String ordPathCd = null;
+                String brCode = null;
+                String ordStatus = null;
+                String brandTypeCd = null;
+                if("jesicar".equals(company)) {
+                    ordPathCd = "1063";
+                    searchValue.put("ordPathCd","1063");
+                } else if ("yangpa".equals(company)) {
+                    ordPathCd = "1069";
+                    searchValue.put("ordPathCd","1069");
+                }
+
+                brCode = ObjectUtils.isNotEmpty(searchValue.get("brCode")) ? searchValue.get("brCode").toString() : null;
+                brandTypeCd = ObjectUtils.isNotEmpty(searchValue.get("brandTypeCd")) ? searchValue.get("brandTypeCd").toString() : null;
+                ordStatus = ObjectUtils.isNotEmpty(searchValue.get("ordStatus")) ? searchValue.get("ordStatus").toString() : null;
+
+                LocalDateTime startDate = null;
+                LocalDateTime endDate = null;
+
+                searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd_yester());
+
+                String string = DateUtil.now_yyyy_mm_dd_month() + " 00:00:00";
+                String string1 =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                startDate = LocalDateTime.parse(string, formatter);
+                endDate = LocalDateTime.parse(string1, formatter);
+                log.info("@@searchValue {}",searchValue);
+                if (searchValue.get("dayType") != null) {
+                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, searchValue.get("dayType").toString());
+                } else {
+                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, "2");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<HashMap<String,Object>> list = (List<HashMap<String,Object>>) resultMap.get("TbMannaOrderList");
+        // paging 객체 Set
+
+        // 응답값 Set
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
     @ResponseBody
     @PostMapping("/user/chart/list")
     public ResponseEntity<?> chartData(@RequestBody Map<String,Object> searchValue, HttpSession session)  {
@@ -2922,6 +3228,8 @@ public class ApiController {
                 LocalDateTime endDate = null;
                 Integer platfromCode = null;
                 String extBrCode = null;
+                String appCode = null;
+
                 String addrCode = null;
                 if("jesicar".equals(company)) {
                     platfromCode = 1;
@@ -2955,11 +3263,18 @@ public class ApiController {
                 } else {
                     addrCode = null;
                 }
+                if (searchValue.get("appCode") != null && searchValue.get("appCode") != "") {
+                    appCode = searchValue.get("appCode").toString();
+                } else {
+                    appCode = null;
+                }
+                System.out.println(searchValue.get("dayType"));
                 if (searchValue.get("dayType") != null) {
-                    if("1".equals(searchValue.get("dayType").toString())) {
-                        timeList =  statisticsService.getUserLineWeekList(startDate,endDate, platfromCode, extBrCode, addrCode );
+                    if("2".equals(searchValue.get("dayType").toString())) {
+                        timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode, addrCode , appCode);
                     } else {
-                        timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode, addrCode );
+                        timeList =  statisticsService.getUserLineWeekList(startDate,endDate, platfromCode, extBrCode, addrCode ,appCode);
+
                     }
                 }
 
@@ -2970,6 +3285,7 @@ public class ApiController {
                 Integer platfromCode = null;
                 String extBrCode = null;
                 String addrCode = null;
+                String appCode = null;
                 if("jesicar".equals(company)) {
                     platfromCode = 1;
                     searchValue.put("platformType","1");
@@ -2987,6 +3303,12 @@ public class ApiController {
                 } else {
                     addrCode = null;
                 }
+                if (searchValue.get("appCode") != null && searchValue.get("appCode") != "") {
+                    appCode = searchValue.get("appCode").toString();
+                } else {
+                    appCode = null;
+                }
+
                 LocalDateTime startDate = null;
                 LocalDateTime endDate = null;
 
@@ -2999,7 +3321,7 @@ public class ApiController {
 
                 startDate = LocalDateTime.parse(string, formatter);
                 endDate = LocalDateTime.parse(string1, formatter);
-                timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode,addrCode);
+                timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode,addrCode, appCode);
                 map.put("timeList" , timeList);
             }
 
@@ -3610,22 +3932,24 @@ public class ApiController {
     }
 
     /**
-     * 샘플파일 다운로드
+     * 샘플파일 다운로드 -> 관리자 자료상세파일 다운로드로 변경 10.28
      */
     @GetMapping("/file/download")
     public void fileDownload(
             HttpServletResponse response,
-            @RequestParam("filePath") String filePath
+            @RequestParam("filePath") String filePath,
+            @RequestParam("fileName") String fileName,
+            @RequestParam("contentType") String contentType,
+            @RequestParam("fileOriginName") String fileOriginName
     ) throws IOException {
 
-        String fileName = "file13_104228h87T.png";
-        String contentType = "image/jpg";
-        Path path = Paths.get(jesicaProperties.getBaseImgPath().getPath(), URLDecoder.decode(filePath,"UTF-8"));
+        //Path path = Paths.get(jesicaProperties.getBaseImgPath().getPath(), URLDecoder.decode(filePath,"UTF-8"));
+        Path path = Paths.get(URLDecoder.decode(filePath,"UTF-8"),fileName);
         File file = new File(path.toString());
         long fileLength = file.length();
         //파일의 크기와 같지 않을 경우 프로그램이 멈추지 않고 계속 실행되거나, 잘못된 정보가 다운로드 될 수 있다.
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOriginName + "\";");
         response.setHeader("Content-Transfer-Encoding", "binary");
         response.setHeader("Content-Type", contentType);
         response.setHeader("Content-Length", "" + fileLength);
@@ -3805,6 +4129,7 @@ public class ApiController {
         LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String appCode = loginSession.getAppCode();
 
+
         paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
         paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
 
@@ -3819,11 +4144,11 @@ public class ApiController {
                 paging.getLength(),
                 Sort.by("ordDate").descending()
         ) ;
-        if(!"".equals(appCode)){
+      /*  if(!"".equals(appCode)){
             searchValue.put("appCode",appCode);
         } else {
-            searchValue.put("appCode","");
-        }
+            searchValue.put("codeValue","";
+        }*/
 
         Map<String, Object> resultMap =  mannaService.tbCallAllList(searchValue,pageable);
         List<TbMannaOrder> list = (List<TbMannaOrder>) resultMap.get("orderlist");
@@ -3935,6 +4260,97 @@ public class ApiController {
                 .build();
     }
 
+    @ResponseBody
+    @PostMapping("/system/master/list")
+    public DataTableModel systemMasterList(HttpServletRequest request, DataTableDTO paging,
+                                              @RequestParam Map<String,Object> searchValue){
+
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String company = loginSession.getCompany();
+
+
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        Map<String, Object> resultMap = null;
+
+        if (searchValue.get("startDate") != null) {
+            String string = searchValue.get("startDate").toString() + " 00:00:00";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            startDate = LocalDateTime.parse(string, formatter);
+        } else {
+            String string = "2020-01-01" + " 00:00:00";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            startDate = LocalDateTime.parse(string, formatter);
+        }
+        if (searchValue.get("endDate") != null) {
+            String string = searchValue.get("endDate").toString() + " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            endDate = LocalDateTime.parse(string, formatter);
+        } else {
+            String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            endDate = LocalDateTime.parse(string, formatter);
+        }
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength(); //Calculate page number
+
+        Object dataStatus = null;
+        Object name = null;
+        Object appCode = null;
+        if (!searchValue.isEmpty() && searchValue != null){
+
+            if(searchValue.get("dataStatus") != null && searchValue.get("dataStatus") != null){
+                if(searchValue.get("dataStatus") != ""){
+                    dataStatus = searchValue.get("dataStatus");
+                }
+            }
+            if(searchValue.get("name") != null && searchValue.get("name") != null){
+                if(searchValue.get("name") != ""){
+                    name = searchValue.get("name");
+                }
+            }
+            if(searchValue.get("appCode") != null && searchValue.get("appCode") != null){
+                if(searchValue.get("appCode") != ""){
+                    appCode = searchValue.get("appCode");
+                }
+            }
+        } else {
+            searchValue.put("startDate", "2020-01-01");
+            searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+        }
+
+
+        Pageable pageable;
+        pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("insertDate").descending()
+        ) ;
+        try {
+            getSearchOption(session);
+            if("jesicar".equals(company)) {
+                searchValue.put("platformType","1");
+            } else if ("yangpa".equals(company)) {
+                searchValue.put("platformType","2");
+            }
+            resultMap = masterService.getUserDataStatusPageList(name,dataStatus,appCode,startDate,endDate, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<TbUserStaffDTO> list = (List<TbUserStaffDTO>) resultMap.get("tbUserStaffList");
+        // paging 객체 Set
+
+
+        // 응답값 Set
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
 
     // 쿠폰정보 수정
     @ResponseBody
@@ -4031,11 +4447,11 @@ public class ApiController {
         String company = loginSession.getCompany();
         String appCode = loginSession.getAppCode();
 
-        if(!"".equals(appCode)){
+      /*  if(!"".equals(appCode)){
             searchValue.put("appCode",appCode);
         } else {
             searchValue.put("appCode","");
-        }
+        }*/
         paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
         paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
         int page = paging.getStart() / paging.getLength(); //Calculate page number
@@ -4074,6 +4490,87 @@ public class ApiController {
                 .a2(A2List)
                 .build();
     }
+
+
+    // 플랫폼 공지
+    @ResponseBody
+    @RequestMapping(value = {"/platform/list"})
+    public DataTableModel platformList(HttpServletRequest request, DataTableDTO paging,
+                                    @RequestParam Map<String,Object> searchValue){
+
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength(); //Calculate page number
+
+        Map<String, Object> resultMap = null;
+
+        Pageable pageable;
+        pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("insertDate").descending()
+        ) ;
+        try {
+            getSearchOption(session);
+            Map<String,Object> map = permission(session,"board/platform");
+
+            searchValue.put("platformType",map.get("platformType"));
+         /*   searchValue.put("appCode",map.get("appCode"));*/
+            resultMap = boardService.tbNoticePlatFormSearch(searchValue, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<TbNoticePlatform> list = (List<TbNoticePlatform>) resultMap.get("platformList");
+        // paging 객체 Set
+
+        // 응답값 Set
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
+    // 이벤트 공지
+    @ResponseBody
+    @RequestMapping(value = {"/event/list"})
+    public DataTableModel eventList(HttpServletRequest request, DataTableDTO paging,
+                                       @RequestParam Map<String,Object> searchValue){
+
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength(); //Calculate page number
+
+        Map<String, Object> resultMap = null;
+
+        Pageable pageable;
+        pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("insertDate").descending()
+        ) ;
+        try {
+            getSearchOption(session);
+            Map<String,Object> map = permission(session,"board/event");
+
+            searchValue.put("platformType",map.get("platformType"));
+            resultMap = boardService.tbEventSearch(searchValue, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<TbEvent> list = (List<TbEvent>) resultMap.get("eventList");
+        // paging 객체 Set
+
+        // 응답값 Set
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
     // 자료실 - 관리자 자료
     @ResponseBody
     @RequestMapping(value = {"/library/file/list"})
@@ -4124,6 +4621,26 @@ public class ApiController {
                 .build();
     }
 
+
+    @ResponseBody
+    @PostMapping("/library/file/insert")
+    public ResponseEntity<?> libraryFileInsert(
+             @RequestPart(value="libraryInfo" ,required = false) TbLibrary libraryInfo
+            ,@RequestPart(value="attachFile" ,required = false) MultipartFile[] attachFile) {
+        log.info("libraryInfo::{}", libraryInfo);
+        log.info("attachFile::{}", attachFile);
+        Map<String,Object> map = new HashMap<>();
+        TbLibrary library = apiService.insertLibraryFile(libraryInfo,attachFile);
+
+        if(ObjectUtils.isNotEmpty(library)) {
+            map.put("result","200");
+            map.put("message", "등록 되었습니다.");
+        } else {
+            map.put("result","400");
+            map.put("message", "등록에 실패하였습니다.");
+        }
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
 
     // 맛집주문내역 페이징
     @ResponseBody
@@ -4402,6 +4919,56 @@ public class ApiController {
         }
 
         return searchValue;
+    }
+
+    private Map<String,Object> permission(HttpSession session, String menuPath) {
+        HashMap<String ,Object> map = new HashMap<>();
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        int staffNo = loginSession.getUserStaffNo();
+        Long nLong = new Long(staffNo);
+        String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+
+        Optional<TbSiteMenu> siteMenu = authService.getTbSiteMenu(menuPath);
+        TbSiteAcl permission = null;
+
+        if("jesicar".equals(company)) {
+            map.put("platformType","1");
+        } else if ("yangpa".equals(company)) {
+            map.put("platformType","2");
+        }
+
+        /* 사이트 메뉴 정보가 없으면 */
+        if(siteMenu.isPresent()) {
+            /* 권한이 존재하지 않는경우 */
+            if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
+                /* 권한이 마스터 :0 인경우*/
+                if(loginSession.getRoleType() == 0){
+                    map.put("downloadAble",1);
+                    map.put("permission",2);
+                }else {
+                    permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
+                    map.put("downloadAble",permission.getDownloadAble());
+                    if(!ObjectUtils.isEmpty(permission)){
+                        map.put("permission",permission.getPermission());
+                    } else {
+                        map.put("permission",0);
+                    }
+                }
+            }
+        } else {
+            map.put("downloadAble",0);
+            map.put("permission",0);
+        }
+
+        if(!ObjectUtils.isEmpty(appCode)){
+            map.put("appCode",appCode);
+        } else {
+            map.put("appCode","");
+        }
+
+        map.put("company",company);
+        return map;
     }
 }
 

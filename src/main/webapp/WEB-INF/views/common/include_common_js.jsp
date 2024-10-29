@@ -510,6 +510,20 @@
                 data[i]["number"] = i;
                 data[i]["custName"] = data[i].cust.custName
             }
+        } else if(type == "A5"){
+            for (let i = 0; i < data.length; i++) {
+                data[i].listIndex = i + 1
+                data[i]["number"] = i;
+                data[i]["startEnd"] = dateFormatYYYYMMDD(data[i]["startDate"]) +" ~ "+dateFormatYYYYMMDD(data[i]["endDate"]);
+            }
+        } else if(type == "A6"){
+            for (let i = 0; i < data.length; i++) {
+                data[i].listIndex = i + 1
+                data[i]["number"] = i;
+                if($(".dayType").val() == "1"){
+                    data[i]["yyyymmdd"] = dateFormatYYYYMMDD(data[i]["start"]) +" ~ "+dateFormatYYYYMMDD(data[i]["end"]);
+                }
+            }
         }
         return data;
     }
@@ -603,7 +617,7 @@
         }*/
 
     //datatables 공통화
-    $.fn.ajaxDataTable = function (dataId, url,  dataSrcType, excelType , init, error = null) {
+    $.fn.ajaxDataTable = function (dataId, url,  dataSrcType, excelType, pageAble , init, error = null) {
         let button = [
             /* { extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },
              { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
@@ -651,7 +665,6 @@
         }
 
 
-
         var setting = {
             language :  {
                 lang_set,
@@ -663,6 +676,7 @@
             responsive: true,
             processing:true,
             bAutoWidth: false,
+            bPaginate : pageAble,
             ordering: true,
             serverSide: true,
             /*"bInfo": false,
@@ -673,14 +687,12 @@
             dom: '<"row"<"col-sm-12"l B><"col-sm-12"fr>>t<"row"<"col-sm-12"i><"col-sm-12"p>>',
             //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
             buttons: button,
-
             "ajax": {
                 url: url,
                 type: "POST",
                 data : function(res){
                     let id = "#"+dataId
                     var formData = objectifyForm($(id).serializeArray());
-                    console.log(dataId)
                     var param = formData;
 
                     param["draw"] = res.draw;
@@ -704,4 +716,7 @@
         var val = $.extend(true, setting, init);
         return $(this).DataTable(val);
     };
+
+
+
 </script>

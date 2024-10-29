@@ -1,13 +1,20 @@
 package com.trism.jesica.Controller;
 
+import com.trism.jesica.Service.ApiService;
+import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.BrCodeService;
 import com.trism.jesica.Service.MannaService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.dto.TbMannaOrderGoodsDTO;
+import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaEventPush;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaOrder;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequestMapping("/store")
 @RestController
@@ -30,6 +38,9 @@ public class StoreController {
     private final BrCodeService brCodeService;
     private String ordPathCd = "1069";
 
+    private final ApiService apiService;
+    private final AuthService authService;
+
     /**
      * 주문내역
      */
@@ -39,19 +50,24 @@ public class StoreController {
 
         log.info("@@searchValue {}",searchValue);
         List<Map<String,Object>> brCodeList = null;
+        Map<String,Object> map = permission(session,"store/order");
         // 총판 리스트 조회
         brCodeList = brCodeService.getBrCodeList();
-
+        searchValue.put("appCode",map.get("appCode"));
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
         try {
             if (!searchValue.isEmpty()) {
                 putSearchOption(session, searchValue);
-                if(!"".equals(searchValue.get("ordType").toString())){
+                if(ObjectUtils.isNotEmpty(searchValue.get("ordType"))){
                     if(Integer.parseInt(searchValue.get("ordType").toString()) != 1){
                         searchValue.put("dvryServiceType", "");
                     }
                 } else {
                     searchValue.put("dvryServiceType", "");
                 }
+                searchValue.put("startDate", DateUtil.now_yyyy_mm_dd_week() );
+                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
 
             } else {
                 searchValue = getSearchOption(session);
@@ -71,6 +87,10 @@ public class StoreController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("brCodeList", brCodeList);
 
@@ -82,6 +102,11 @@ public class StoreController {
     public ModelAndView listPushEvent(@RequestParam Map<String,Object> searchValue,
                                       Model model, HttpSession session) {
         log.info("@@searchValue {}",searchValue);
+        Map<String,Object> map = permission(session,"store/eventpush");
+
+        searchValue.put("appCode",map.get("appCode"));
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
         model.addAttribute("searchValue", searchValue);
         return new ModelAndView("jesica/store/eventpush/list");
     }
@@ -161,4 +186,54 @@ public class StoreController {
         return searchValue;
     }
 
+    private Map<String,Object> permission(HttpSession session, String menuPath) {
+        HashMap<String ,Object> map = new HashMap<>();
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        int staffNo = loginSession.getUserStaffNo();
+        Long nLong = new Long(staffNo);
+        String company = loginSession.getCompany();
+        String appCode = loginSession.getAppCode();
+
+
+        Optional<TbSiteMenu> siteMenu = authService.getTbSiteMenu(menuPath);
+        TbSiteAcl permission = null;
+
+        if("jesicar".equals(company)) {
+            map.put("platformType","1");
+        } else if ("yangpa".equals(company)) {
+            map.put("platformType","2");
+        }
+
+        /* 사이트 메뉴 정보가 없으면 */
+        if(siteMenu.isPresent()) {
+            /* 권한이 존재하지 않는경우 */
+            if(!ObjectUtils.isEmpty(loginSession.getRoleType())){
+                /* 권한이 마스터 :0 인경우*/
+                if(loginSession.getRoleType() == 0){
+                    map.put("downloadAble",1);
+                    map.put("permission",2);
+                }else {
+                    permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
+                    map.put("downloadAble",permission.getDownloadAble());
+                    if(!ObjectUtils.isEmpty(permission)){
+                        map.put("permission",permission.getPermission());
+                    } else {
+                        map.put("permission",0);
+                    }
+                }
+            }
+        } else {
+            map.put("downloadAble",0);
+            map.put("permission",0);
+        }
+
+        if(!ObjectUtils.isEmpty(appCode)){
+            map.put("appCode",appCode);
+        } else {
+            map.put("appCode","");
+        }
+
+        map.put("company",company);
+        return map;
+    }
 }
