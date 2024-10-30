@@ -14,8 +14,10 @@ server:
     path: /error
     #오류 응답에 stacktrace 내용을 포함할지 여부 (ALWAYS, NEVER, ON_TRACE_PARAM)
     include-stacktrace: always
+
     #오류 응답에 exception의 내용을 포함할지 여부
     include-exception: true
+
     #브라우저 요청에 대해 서버 오류시 기본으로 노출할 페이지를 사용할지 여부
     whitelabel:
       enabled: true
@@ -28,7 +30,6 @@ logging:
   file:
     path: ./logs
 ---
-
 rabbitmq:
   queue:
     name: message.push.queue
@@ -40,7 +41,7 @@ rabbitmq:
 spring:
   rabbitmq:
     port: 5672
-    host: 101.55.126.138
+    host: 192.168.131.29
     username: jesica01
     password: trism3999!
     virtual-host: v-jesica
@@ -50,10 +51,13 @@ spring:
   service-pick:
     datasource:
       hikari:
-        jdbc-url: jdbc:mysql://trism-db-01.cdq6jmam0fnm.ap-northeast-2.rds.amazonaws.com:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+        #test
+        jdbc-url: jdbc:mysql://192.16.10.30:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
         username: jesicar01
         password: wptlzk2021
         driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
+        tomcat:
+          initial-size: 3
   service-manna:
     datasource:
       hikari:
@@ -156,10 +160,10 @@ spring:
 ---
 file:
   baseFilePath:
-    path: /data/jesicar/file
+    path: /manna/mannaAdmin/jesicaAdmin/file
   #기본 이미지 경로
   baseImgPath:
-    path: /data/jesicar
+    path: /manna/mannaAdmin/jesicaAdmin
   servicePath:
     path: /images/driver
   imgPath:
@@ -182,13 +186,14 @@ file:
   samplePath:
     path: /sample
   messageFile:
-    path: /data/jesicar/messages/message
+    path: /manna/mannaAdmin/jesicaAdmin/messages/message
   apiServer:
-    server: https://api.jigbae.co.kr/api
+    #server: http://101.55.126.133:4000/api
+    server: http://test.jigbae.co.kr/api
   imgHttp:
-    path: http://mng.jigbae.co.kr/api/img/fileLoad?filePath=
+    path: http://test.jigbae.co.kr/api/img/fileLoad?filePath=
   momPosServer:
-    server: https://frapp.mompos.co.kr:8443/api-ms
+    server: https://tfrapp.mompos.co.kr:8443/api-ms
     authKey: $2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y
   ordPathCd:
     jesicar: 1063
@@ -202,16 +207,15 @@ spring:
 ## accessToken 만료시간 1-day
 ## refreshToken 만료시간 30-day
 security:
-  cert-key-path: keysReal/jesica-aes-prod.pem
-  iv: SmVzaWNhX2RsdnlfcHJvZF8yMDIxIQ==
+  #test
+  cert-key-path: keys/jesica-aes-dev.pem
+  iv: SmVzaWNhQVBJUHJvZDIwMjEhQCM=
   jwt:
-    cert-key-path: keysReal/jesica-jwt-prod.pem
+    cert-key-path: keys/jesica-jwt-dev.pem
     access-expiration-hour: 24
     refresh-expiration-hour: 336
 trism:
   admin:
     key:
-      enc: 0T+QQSe2RklYb94k8hvQI2hV5AXZFYkqeBLGL3c2Dko=
-      plain: TrismProdAdmin2021
-
-
+      enc: mKVm9X1+RVVF5HxdKGPMHnJ+TjkH9M9S9/uIfDOG+TQ=
+      plain: TrismDevAdmin2021
