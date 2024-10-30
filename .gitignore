@@ -74,4 +74,5 @@ target/
 *.xml
 *.txt
 
-
+### settings.yml ###
+application.yml
