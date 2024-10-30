@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface TbLibraryRepository extends JpaRepository<TbLibrary, Long>, JpaSpecificationExecutor<TbLibrary> {
-    Optional<TbLibrary> findByIdAndDataStatus(@Param("libNo") Long libNo, @Param("dataStatus") int dataStatus);
+    Optional<TbLibrary> findByLibNoAndDataStatus(@Param("libNo") Long libNo, @Param("dataStatus") int dataStatus);
     Page<TbLibrary> findAll(Specification<TbLibrary> specification, Pageable pageable);
 
 }

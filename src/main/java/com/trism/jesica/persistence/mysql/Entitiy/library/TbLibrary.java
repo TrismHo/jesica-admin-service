@@ -85,7 +85,7 @@ public class TbLibrary implements Serializable {
      * 등록자ID
      */
     @Column(name = "data_status")
-    private Integer DataStatus = 1;
+    private Integer dataStatus;
 
     /**
      * 수정자ID

@@ -94,16 +94,19 @@
                                                     <option value="2">앱관리자</option>
                                                 </select>
                                             </td>
-                                            <td class="text-danger-darker"><spring:message code="list.description.pleaseenteryourid" text="마스터/사용자를 선택해주세요"/></td>
+                                            <td class="text-danger-darker">
+
+
+
+                                                <spring:message code="list.description.pleaseenteryourid" text="마스터/사용자를 선택해주세요"/></td>
                                         </tr>
                                         <tr class="appCodeTr" style="display: none;">
                                             <td class="bg-light"><spring:message code="list.detail.id1" text="앱코드"/></td>
                                             <td>
                                                 <c:if test="${empty appCode}">
                                                     <select id="appCode" name="appCode" class="form-control w-25" >
-                                                        <option value="">전체</option>
                                                         <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                            <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                            <option value="${appCodeList.sysCode}">${appCodeList.sysCode} (${appCodeList.codeName})</option>
                                                         </c:forEach>
                                                     </select>
                                                 </c:if>
@@ -132,6 +135,11 @@
                                             <td class="bg-light"><spring:message code="list.detail.memo" text="메모"/></td>
                                             <td><input type="text" class="form-control width-full memo" name="memo" value="" placeholder="<spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/>" maxlength="200"></td>
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/></td>
+                                        </tr>
+                                        <tr>
+                                            통합관리자: '사용자관리', '엑셀 다운로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능) <br>
+                                            앱관리자: '사용자관리', '자료실 업로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능) <br>
+                                            *'사용자관리' 메뉴는 마스터 관리자만 접근 가능
                                         </tr>
                                     </table>
                                 </form>

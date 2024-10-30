@@ -45,7 +45,7 @@ public class LibraryService {
 
     @Transactional(readOnly = true, value = "mysqlTransactionManager")
     public TbLibrary tbLibraryDetail(Long libNo) {
-        Optional<TbLibrary> tbLibrary = tbLibraryRepository.findByIdAndDataStatus(libNo,1);
+        Optional<TbLibrary> tbLibrary = tbLibraryRepository.findByLibNoAndDataStatus(libNo,1);
 
         if (tbLibrary.isPresent() == false) {
             throw new ServiceException(ErrorCode.BAD_REQUEST);

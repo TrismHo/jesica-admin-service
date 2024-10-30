@@ -408,14 +408,14 @@
         });*/
 
 
-      /*  $(".upDataStatus").on("change",function (){
+        $(".upDataStatus").on("change",function (){
             var radioVal = $('.upDataStatus option:selected').val();
             if(radioVal == 1){
                 $(".blockTypeCodeSel").css("display","none");
             } else {
                 $(".blockTypeCodeSel").css("display","inline");
             }
-        });*/
+        });
 
         /*$("input[name=goodsPrice]").focus(function(){
         }).blur(function(){
@@ -489,6 +489,7 @@
         });
     });
 
+    //메뉴 권한 수정
     $(document).on("click",".btn_update",function() {
         let url = "${path}/api/system/menu/update";
         let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
@@ -518,69 +519,6 @@
 
             menuPermissionList.push({menuNo : menuNo, permission : permission, downloadAble : downloadAble, userNo:userNo});
         }
-        console.log(menuPermissionList)
-        if (inputDataCheck(req)) {
-            swal({
-                title: wouldyouliketoupdate,
-                icon: "warning",
-                buttons: [
-                    cancel,
-                    update
-                ],
-                dangerMode: true,
-            }).then(function (isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: JSON.stringify(menuPermissionList),
-                        dataType: "json",
-                        contentType: "application/json",
-                        success: function (data) {
-                            if (data.result == 200) {
-                                alert(correctionwassuccessful);
-                                location.reload();
-                            } else {
-                                alert(editfailed);
-                                return;
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    });
-
-    $(document).on("click",".btn_update",function() {
-        let url = "${path}/api/system/menu/update";
-        let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
-        let update = "<spring:message code="list.script.update" text="수정"/>";
-        let correctionwassuccessful = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
-        let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
-        let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-        let _forms = $('.update_form2');
-        let req = convertFormToObj(_forms);
-        let menuPermissionList = [];
-        let levelGroup = $(".menuLevelOne").length;
-
-        for(let i=0; i< levelGroup; i++) {
-            let checked = $(".menuLevelOne").eq(i).is(':checked') ? 1 : 0;
-            let menuNo = $(".menuLevelOne").eq(i).attr("menuNo");
-            let userNo = "${userNo}";
-            menuPermissionList.push({menuNo : menuNo, permission : checked, downloadAble : "1", userNo:userNo});
-        }
-
-        let grpl = $(".menuSelectTr").length;
-        for(let i=0; i< grpl; i++) {
-            let menuNo = $(".menuSelectTr").eq(i).attr("menuNo");
-            let userNo = "${userNo}";
-            let permission = $(".menuSelectTr").eq(i).find(".permission").val();
-            let downloadAble = $(".menuSelectTr").eq(i).find(".downloadAble").val();
-            console.log(downloadAble)
-
-            menuPermissionList.push({menuNo : menuNo, permission : permission, downloadAble : downloadAble, userNo:userNo});
-        }
-        console.log(menuPermissionList)
         if (inputDataCheck(req)) {
             swal({
                 title: wouldyouliketoupdate,
@@ -614,14 +552,29 @@
     });
 
 
-
+    //기본 정보 수정
     function udt_btn() {
+        let radioVal = $('.upDataStatus option:selected').val();
         let url = "${path}/api/userStaff/update/action";
         //let url2 = "${path}/api/userStaff/oldpass/confirm";
         let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
-        let update = "<spring:message code="list.script.update" text="수정"/>";
         let correctionwassuccessful = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
-        let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실페하였습니다."/>";
+        let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
+        let update = "<spring:message code="list.script.update" text="수정"/>";
+
+        if(radioVal == 0){
+            wouldyouliketoupdate = "삭제하시겠습니까?";
+            correctionwassuccessful = "삭제에 성공하였습니다.";
+            editfailed = "삭제에 실패하였습니다.";
+            update = "삭제";
+        } else {
+            wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정하시겠습니까?"/>";
+            correctionwassuccessful = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
+            editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
+            update = "수정";
+        }
+
+
         let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
         let _forms = $('.update_form');
         let req = convertFormToObj(_forms);
@@ -646,9 +599,15 @@
                         processData: false,
                         contentType: false,
                         success: function (data) {
+                            radioVal = $('.upDataStatus option:selected').val();
                             if (data.result == 200) {
-                                alert(correctionwassuccessful);
-                                location.reload();
+                                if(radioVal == 0){
+                                    alert("삭제되었습니다.");
+                                    location.href = "${path}/system/master/list";
+                                } else {
+                                    alert(correctionwassuccessful);
+                                    location.reload();
+                                }
                             } else {
                                 alert(editfailed);
                                 return;
