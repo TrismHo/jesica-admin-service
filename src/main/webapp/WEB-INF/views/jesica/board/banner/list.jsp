@@ -178,6 +178,7 @@
                     <thead>
                         <tr class="text-center">
                             <th width="5%"><spring:message code="list.word.no1" text="번호"/></th>
+                            <th width="5%"><spring:message code="list.word.no1" text="앱코드"/></th>
                             <th width="30%"><spring:message code="list.word.merchant/deliverygroupname1" text="배너 이미지"/></th>
                             <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>
                             <th width="10%"><spring:message code="list.word.serviceclassification11" text="언어"/></th>
@@ -192,6 +193,11 @@
                         <c:forEach var="item"  items="${bannerList}"  varStatus="status">
                             <tr class="detailRow" bannerNo="${item.bannerNo}">
                                 <td class="text-center">${status.index + 1}</td>
+                                <td class="text-center" style="">
+                                    <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                        <c:if test="${item.appCode == appCodeList.sysCode}">${appCodeList.codeName}</c:if>
+                                    </c:forEach>
+                                </td>
                                 <td class="text-center">
                                     <img style="width: 192px; height: 54px" class="storeImg" src="/api/img/fileLoad?filePath=${item.bannerFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'" >
                                 </td>

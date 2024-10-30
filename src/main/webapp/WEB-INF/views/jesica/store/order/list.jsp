@@ -105,7 +105,7 @@
                                                 </c:if>
                                             </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="주문상태"/></strong></td>
-                                            <td style="width: 207px" colspan="1">
+                                            <td style="" colspan="1">
                                                 <label>
                                                     <select class="form-control" name="ordStatus">
                                                         <option value="" <c:if test="${searchValue.ordStatus == ''}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="전체"/></option>

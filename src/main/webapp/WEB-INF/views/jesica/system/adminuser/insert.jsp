@@ -137,9 +137,15 @@
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/></td>
                                         </tr>
                                         <tr>
-                                            통합관리자: '사용자관리', '엑셀 다운로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능) <br>
-                                            앱관리자: '사용자관리', '자료실 업로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능) <br>
-                                            *'사용자관리' 메뉴는 마스터 관리자만 접근 가능
+                                            <td colspan="3">
+                                                <div class="hljs-wrapper">
+                                                    <pre style="font-size: 14px; line-height: 14px;padding: 18px;font-family: GmarketSansTTFMedium; text-align: center;">
+                통합관리자: '사용자관리', '엑셀 다운로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능) <br>
+                앱관리자: '사용자관리', '자료실 업로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능) <br>
+                *'사용자관리' 메뉴는 마스터 관리자만 접근 가능
+                                                    </pre>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </table>
                                 </form>
@@ -147,11 +153,9 @@
                             <!-- end table-responsive -->
                             <div class="m-l-5 m-t-5">
                                 <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-l-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
-
                                 <c:if test="${permission == 2}">
                                     <button type="button" class="btn btn-primary btn_add float-left m-t-5 m-l-20"><i class="fa fa-plus m-r-3"></i> <spring:message code="list.detail.enrollment" text="등록"/></button>
                                 </c:if>
-
                             </div>
                         </div>
                         <!-- end panel -->

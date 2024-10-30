@@ -42,6 +42,7 @@
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${tbLibrary.insertUserId}">
                             <input type="hidden" name="libNo" value="${tbLibrary.libNo}">
                             <input type="hidden" name="dataStatus" value="${tbLibrary.dataStatus}">
+
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
@@ -58,6 +59,46 @@
                                         <c:if test="${!empty appCode}">
                                             <input type="text" class="form-control" name="appCode" readonly value="${tbLibrary.appCode}">
                                         </c:if>
+                                    </td>
+                                    <td rowspan="4" class="m-0 p-0" style="vertical-align: top;">
+                                        <table class="table table-striped table-borderless table-sm m-0 p-0 text-nowrap">
+                                            <thead>
+                                            <tr class="border-bottom">
+                                                <th class="w-10px ps-10px"></th>
+                                                <th class="px-10px">Name</th>
+                                                <th class="px-10px w-100px">Size</th>
+                                                <th class="px-10px w-200px">CreateDate</th>
+                                                <th class="px-10px w-200px">Type</th>
+                                                <th class="px-10px w-200px">download</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach var="item" items="${files}" varStatus="status">
+                                                <tr  class="filebox">
+                                                    <td class="ps-10px border-0 text-center">
+                                                        <a class="" onclick="downloadFile(`${item.fileOriginName}`,`${item.fileName}`,`${item.filePath}`,`${item.fileContentType}`)">
+                                                            <c:if test="${item.fileContentType == 'image/png'}">
+                                                            <i class="far fa-image text-body text-opacity-50 fa-lg"  ></i></a>
+                                                        </c:if>
+                                                        <c:if test="${item.fileContentType == 'application/pdf'}">
+                                                            <i class="far fa-file-pdf text-body text-opacity-50 fa-lg " ></i></a>
+                                                        </c:if>
+                                                        <c:if test="${item.fileContentType == 'application/zip'}">
+                                                            <i class="far fa-file-alt text-body text-opacity-50 fa-lg"></i></a>
+                                                        </c:if>
+                                                    </td>
+                                                    <td class="px-10px border-0">${item.fileOriginName}</td>
+                                                    <td class="px-10px">${item.fileSize} byte</td>
+                                                    <td class="px-10px">${item.insertDate}</td>
+                                                    <td class="px-10px">${item.fileContentType}</td>
+                                                    <td class="px-10px"> <a class="" onclick="downloadFile(`${item.fileOriginName}`,`${item.fileName}`,`${item.filePath}`,`${item.fileContentType}`)">
+                                                        <i class="fas me-10px fa-download text-opacity-50 fa-lg"></i>
+                                                            <%--<i class="far fa-file-download text-body text-opacity-50 fa-lg"  ></i>--%>
+                                                    </a></td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </td>
                                 </tr>
                                 <tr>
@@ -76,41 +117,6 @@
                                         <label class="m-r-10 ">
                                             ${tbLibrary.insertUserId} (<javatime:format value="${tbLibrary.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
                                         </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <table id="searchCustTable" class="display table table-bordered w-100 table-striped cust-list ">
-                                            <thead>
-                                            <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="파일명"/></th>
-                                            <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="파일크기"/></th>
-                                            <th class="text-center" style="width: 30px;" ></th>
-                                            </thead>
-                                            <tbody id="file-list" class="file-list" style="">
-                                            <%-- <tr><td colspan="4" style="text-align: center; background-color: #e4e4e4; border:1px solid #9e9e9e; height: 498px;">파일이 없습니다.</td> </tr>--%>
-                                          <%--  <tr class="none-file">
-                                                <td colspan="4" class="text-center ">파일이 존재하지 않습니다.</td>
-                                            </tr>--%>
-                                            <c:forEach var="item" items="${files}" varStatus="status">
-                                                <tr  class="filebox">
-                                                    <td class="fileName text-center">${item.fileOriginName}</td>
-                                                    <td class="fileName text-center">${item.fileSize} byte</td>
-                                                    <td class="fileSize text-center"><a class="" onclick="downloadFile(`${item.fileOriginName}`,`${item.fileName}`,`${item.filePath}`,`${item.fileContentType}`)">
-                                                        <c:if test="${item.fileContentType == 'image/png'}">
-                                                             <i class="far fa-image"  style="font-size: 20px;"></i></a>
-                                                        </c:if>
-                                                        <c:if test="${item.fileContentType == 'application/pdf'}">
-                                                            <i class="far fa-file-pdf " style="font-size: 20px;"></i></a>
-                                                        </c:if>
-                                                        <c:if test="${item.fileContentType == 'application/zip'}">
-                                                            <i class="far fa-file-alt " style="font-size: 20px;"></i></a>
-                                                        </c:if>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-
-                                            </tbody>
-                                        </table>
                                     </td>
                                 </tr>
                                 </tbody>

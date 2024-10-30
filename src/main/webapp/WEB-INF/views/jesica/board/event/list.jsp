@@ -164,6 +164,7 @@
                     <thead>
                     <tr class="text-center">
                         <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
+                        <th width="5%"><spring:message code="list.word.no11" text="앱코드"/></th>
                         <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
                        <%-- <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>--%>
                         <th width="5%"><spring:message code="list.word.status" text="상태"/></th>
@@ -315,23 +316,8 @@
             table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/event/list","A5","1", true,{
                 columns: [
                     {data: "listIndex"},
+                    {data: "appCode"},
                     {data: "title"},
-                   /* {data: "platformType" ,
-                        render: function(data){
-                            if (data) {
-                                if (data == '0') {
-                                    return "사용안함";
-                                } else if (data == '1') {
-                                    return "제시카";
-                                }  else if (data == '2') {
-                                    return "직배";
-                                } else {
-                                    return "-";
-                                }
-                            } else {
-                                return "";
-                            }
-                        }},*/
                     {data: "viewYn" ,
                         render: function(data){
                             if (data) {
@@ -347,7 +333,7 @@
                 columnDefs: [
                     {targets: "_all", className: "text-center"},
                     {
-                        targets: [5],
+                        targets: [6],
                         render: function(data){
                             return dateFormat(data);
                         },

@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="관리자 자료"/></title>
+        <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="자료실"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="관리자 자료"/></title>
+        <title>Jig-Bae | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="자료실"/></title>
     </c:if>
 
 </head>
@@ -95,9 +95,9 @@
                 <div class="col-xs-auto p-t-20 p-b-0">
                     <ol class="breadcrumb float-xl-right">
                         <li class="breadcrumb-item"><a href="${path}/board/cust/list"><spring:message code="sidemenu.boardmanagement12" text="자료실"/></a></li>
-                        <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="관리자 자료"/></li>
+                        <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="자료실"/></li>
                     </ol>
-                    <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="관리자 자료"/></h3>
+                    <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="자료실"/></h3>
                 </div>
                 <!-- end page-header -->
                 <!-- begin row -->
@@ -136,8 +136,10 @@
                             </div>
                             <div class="col-xl-12 col-md-12 m-t-10">
                                 <div class="">
-                                    <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info add-library-btn" style="width: 115px;cursor: auto;" ><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="자료등록"/></span></button>
-                                    </button>
+                                    <c:if test="${permission == 2}">
+                                        <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info add-library-btn" style="width: 115px;cursor: auto;" ><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="자료등록"/></span></button>
+                                        </button>
+                                    </c:if>
                                     <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
                                 </div>
                             </div>

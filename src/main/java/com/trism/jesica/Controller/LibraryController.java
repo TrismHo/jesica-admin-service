@@ -49,6 +49,8 @@ public class LibraryController {
         searchValue.put("appCode",map.get("appCode"));
         searchValue.put("startDate", DateUtil.now_yyyy_mm_dd_week());
         searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
 
         model.addAttribute("searchValue", searchValue);
 
@@ -113,11 +115,13 @@ public class LibraryController {
                     map.put("permission",2);
                 }else {
                     permission = authService.getTbSiteAcl(nLong,siteMenu.get().getMenuNo());
-                    map.put("downloadAble",permission.getDownloadAble());
+
                     if(!ObjectUtils.isEmpty(permission)){
                         map.put("permission",permission.getPermission());
+                        map.put("downloadAble",permission.getDownloadAble());
                     } else {
                         map.put("permission",0);
+                        map.put("downloadAble",0);
                     }
                 }
             }
