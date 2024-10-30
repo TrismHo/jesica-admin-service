@@ -10,83 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aec4658e-3865-438b-b5ed-63b312674a3c" name="Default Changelist" comment="최신화 작업 -1">
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/jarAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.6.1/javaCompile/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war__exploded_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war__exploded_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/com.trism.jesica-admin-service.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Gradle___com_trism___jesica_admin_service_war__exploded_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/admin/role/update-role-2022-02-11.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/home/rnd/jesicaAdmin/log/manna.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-07-28.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-07-29.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-02.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-03.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-04.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-05.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-09.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-10.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-11.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-12.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-13.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-18.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-19.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-20.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-23.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-24.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-25.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-26.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-27.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/login/login-info-2021-08-30.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.24-08-2021_0.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.24-08-2021_1.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.24-08-2021_2.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.24-08-2021_3.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.24-08-2021_4.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.24-08-2021_5.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.24-08-2021_6.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.25-08-2021_0.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.25-08-2021_1.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.26-08-2021_0.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.27-08-2021_0.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/manna.log.30-08-2021_0.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-07-28.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-07-29.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-02.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-03.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-04.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-05.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-09.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-10.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-11.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-12.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-13.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-18.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-19.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-20.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-23.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-24.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-25.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-26.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-27.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/role/update-role-2021-08-30.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/trism/jesica/Service/LibraryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trism/jesica/Service/LibraryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/mysql/Entitiy/library/TbLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/mysql/Entitiy/library/TbLibrary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/mysql/Repository/library/TbLibraryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/trism/jesica/persistence/mysql/Repository/library/TbLibraryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/mysql/Entitiy/manna/QTbMannaOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/mysql/Entitiy/manna/QTbMannaOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/mysql/Entitiy/system/QTbSiteAcl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/generated/com/trism/jesica/persistence/mysql/Entitiy/system/QTbSiteAcl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/adminuser/detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/adminuser/detail.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/adminuser/insert.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/adminuser/insert.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,13 +84,7 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="jesica-admin-service" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
             <select />
@@ -351,8 +270,8 @@
     </option>
   </component>
   <component name="JspContextManager">
-    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_kakao_map_js.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/control.jsp" />
     <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_sidebar.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/settlement/transfersettlement/detail.jsp" />
+    <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_kakao_map_js.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/control.jsp" />
     <jsp-to-context jsp-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/include_custom_js.jsp" context-file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/system/control/detail.jsp" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -398,27 +317,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/hongjeongho/Documents/trism_project/jesicar/jesica-admin&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;5aad0e744f161936950c3bfe805724d9&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/hongjeongho/Documents/trism_project/jesicar-admin-service",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "5aad0e744f161936950c3bfe805724d9",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jesica/library/file" />
@@ -864,6 +783,7 @@
       <workItem from="1730178566464" duration="6762000" />
       <workItem from="1730197149304" duration="400000" />
       <workItem from="1730250855832" duration="2219000" />
+      <workItem from="1730255217962" duration="10000" />
     </task>
     <task id="LOCAL-00107" summary="commit333">
       <created>1622196583808</created>
