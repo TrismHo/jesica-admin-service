@@ -19,6 +19,8 @@ public class QTbSiteAcl extends EntityPathBase<TbSiteAcl> {
 
     public static final QTbSiteAcl tbSiteAcl = new QTbSiteAcl("tbSiteAcl");
 
+    public final NumberPath<Integer> downloadAble = createNumber("downloadAble", Integer.class);
+
     public final NumberPath<Long> menuNo = createNumber("menuNo", Long.class);
 
     public final NumberPath<Integer> permission = createNumber("permission", Integer.class);
