@@ -1,2 +1,0 @@
-10:39:03.481- Login_user : ip = 0:0:0:0:0:0:0:1 / ID = admin / result = 200: 로그인 성공
-12:45:20.615- Login_user : ip = 0:0:0:0:0:0:0:1 / ID = admin / result = 200: 로그인 성공
