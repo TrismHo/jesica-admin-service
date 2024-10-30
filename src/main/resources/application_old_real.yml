@@ -1,0 +1,217 @@
+##########
+security:
+  password: Wwf//in2FRW9bmRDPSTDohaGu7OpIDYvySgTAWfSEp0=
+  iv: RWF0c3VkYTIwMjE=
+server:
+  port: 9002
+  servlet:
+    session:
+      timeout: 7200
+    jsp:
+      init-parameters:
+        mappedfile: false
+  error:
+    path: /error
+    #오류 응답에 stacktrace 내용을 포함할지 여부 (ALWAYS, NEVER, ON_TRACE_PARAM)
+    include-stacktrace: always
+    #오류 응답에 exception의 내용을 포함할지 여부
+    include-exception: true
+    #브라우저 요청에 대해 서버 오류시 기본으로 노출할 페이지를 사용할지 여부
+    whitelabel:
+      enabled: true
+---
+### 로그 설정
+logging:
+  config: classpath:logs/logback-spring.xml
+  level:
+    com.woorien.mobile: info
+  file:
+    path: ./logs
+---
+
+rabbitmq:
+  queue:
+    name: message.push.queue
+  exchange:
+    name: message.exchange
+  routing:
+    key : message.push
+
+spring:
+  rabbitmq:
+    port: 5672
+    host: 101.55.126.138
+    username: jesica01
+    password: trism3999!
+    virtual-host: v-jesica
+  cache:
+    jcache:
+      config: classpath:cache/ehcache.xml
+  service-pick:
+    datasource:
+      hikari:
+        jdbc-url: jdbc:mysql://trism-db-01.cdq6jmam0fnm.ap-northeast-2.rds.amazonaws.com:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+        username: jesicar01
+        password: wptlzk2021
+        driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
+  service-manna:
+    datasource:
+      hikari:
+        jdbc-url: jdbc:oracle:thin:@192.168.200.181:1521:ALADIN
+        username: MANNA
+        password: Ekswnr59
+        driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    mysql:
+      show-sql: true
+      open-in-view: false
+      generate-ddl: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+      #database: mysql
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        ddl-auto: none
+      properties:
+        hibernate.show_sql: true
+        hibernate.format_sql: true
+        hibernate.use_sql_comments: true
+        hibernate.enable_lazy_load_no_trans: true
+    oracle:
+      show-sql: true
+      open-in-view: false
+      generate-ddl: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+      #database: mysql
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        ddl-auto: none
+      properties:
+        hibernate.show_sql: true
+        hibernate.format_sql: true
+        hibernate.use_sql_comments: true
+        hibernate.enable_lazy_load_no_trans: true
+  mvc:
+    view:
+      prefix: /WEB-INF/views
+      suffix: .jsp
+#      hibernate.cache.use_second_level_cache: false
+#      hibernate.cache.use_query_cache: true
+#      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+#      hibernate.generate_statistics: false
+#      hibernate.hbm2ddl.auto: none
+#      hibernate.default_batch_fetch_size: 20
+#      hibernate.connection.provider_disables_autocommit: true
+---
+#server:
+#  servlet:
+#    context-path: /
+---
+######################
+#Common Properties
+######################
+## dbcp pool
+#
+spring:
+  datasource:
+    hikari:
+      pool-name: manna-hikari-cp
+      maximum-pool-size: 10
+      #      minimum-idle: 5
+      connection-timeout: 30000
+      auto-commit: false
+      idle-timeout: 1800000
+      max-lifetime: 1800000
+      data-source-properties:
+        cachePrepStmts : true
+        prepStmtCacheSize : 250
+        prepStmtCacheSqlLimit : 2048
+        useServerPrepStmts : true
+---
+spring:
+  devtools:
+    livereload:
+      enabled: true # 정적 파일 실시간 갱신
+    restart:
+      enabled: false
+---
+spring:
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+---
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+---
+spring:
+  main:
+    allow-bean-definition-overriding: true
+---
+file:
+  baseFilePath:
+    path: /data/jesicar/file
+  #기본 이미지 경로
+  baseImgPath:
+    path: /data/jesicar
+  servicePath:
+    path: /images/driver
+  imgPath:
+    path: /img
+  profilePath:
+    path: /profile
+    thumbPath : /profile/thumb
+  licensePath:
+    path: /license
+  careerPath:
+    path: /career
+  boardPath:
+    path: /images/board
+  eventPath:
+    path: /event
+  bannerPath:
+    path: /banner
+  platformPath:
+    path: /platform
+  samplePath:
+    path: /sample
+  messageFile:
+    path: /data/jesicar/messages/message
+  apiServer:
+    server: https://api.jigbae.co.kr/api
+  imgHttp:
+    path: http://mng.jigbae.co.kr/api/img/fileLoad?filePath=
+  momPosServer:
+    server: https://frapp.mompos.co.kr:8443/api-ms
+    authKey: $2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y
+  ordPathCd:
+    jesicar: 1063
+    pickOrder: 1069
+spring:
+  profiles:
+########################################
+## dev properties
+########################################
+#spring.config.activate.on-profile: dev
+## accessToken 만료시간 1-day
+## refreshToken 만료시간 30-day
+security:
+  cert-key-path: keysReal/jesica-aes-prod.pem
+  iv: SmVzaWNhX2RsdnlfcHJvZF8yMDIxIQ==
+  jwt:
+    cert-key-path: keysReal/jesica-jwt-prod.pem
+    access-expiration-hour: 24
+    refresh-expiration-hour: 336
+trism:
+  admin:
+    key:
+      enc: 0T+QQSe2RklYb94k8hvQI2hV5AXZFYkqeBLGL3c2Dko=
+      plain: TrismProdAdmin2021
+
+
