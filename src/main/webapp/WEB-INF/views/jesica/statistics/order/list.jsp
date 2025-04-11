@@ -107,11 +107,12 @@
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
                                 <form >
+                                    <input type="hidden" name="platformType" value="${searchValue.platformType}">
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr>
                                             <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="앱코드"/><%--등록기간--%></strong></td>
-                                            <td colspan="1">
+                                            <td colspan="3">
                                                 <c:if test="${empty appCode}">
                                                     <select id="brandTypeCd" name="brandTypeCd" class="form-control" >
                                                         <option value="" selected>전체</option>
@@ -123,17 +124,17 @@
                                                 <c:if test="${!empty appCode}">
                                                     <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
                                                         <c:if test="${appCode == appCodeList.sysCode}">
-                                                            <input type="hidden" name="brandTypeCd" value="${appCodeList.codeValue}">
+                                                            <input type="hidden"  id="brandTypeCd" name="brandTypeCd" value="${appCodeList.codeValue}">
                                                             <input type="text" class="form-control" value="${appCodeList.codeName}" disabled>
                                                         </c:if>
                                                     </c:forEach>
                                                 </c:if>
                                             </td>
-                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/><%--등록기간--%></strong></td>
+                                            <%--<td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/>&lt;%&ndash;등록기간&ndash;%&gt;</strong></td>
                                             <td style="width:5%">
-                                                <input type="hidden" name="platformType" value="${searchValue.platformType}">
+
                                                 <label>
-                                                    <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                    &lt;%&ndash;  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
                                                           <select class="form-control" name="platformType" style="margin-right: 30px;">
                                                               <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
                                                           </select>
@@ -142,14 +143,14 @@
                                                           <select class="form-control" name="platformType" style="margin-right: 30px;">
                                                               <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
                                                           </select>
-                                                      </c:if>--%>
+                                                      </c:if>&ndash;%&gt;
                                                     <select class="form-control" name="brCode" style="margin-right: 30px;" >
                                                         <option value="">전체</option>
                                                         <c:forEach var="item" items="${brCodeList}" varStatus="status">
                                                             <option <c:if test="${item.brCode == searchValue.brCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
                                                         </c:forEach>
                                                     </select>
-                                            </td>
+                                            </td>--%>
                                         </tr>
                                         <tr>
                                             <td class="bg-light" ><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
@@ -530,7 +531,7 @@
             columns: [
                 {data: "yyyymmdd"},
                 {data: "dw"},
-                {data: "sumCount"},
+                {data: "totalCnt"},
                 {data: "delivery"},
                 {data: "takeout"},
                 {data: "wait" },
@@ -688,6 +689,7 @@
         endCnt = [];
         cancelCnt = [];
         let req = convertFormToObj($('form.formUserList'));
+        console.log(JSON.stringify(req))
         $.ajax({
             type: "POST",
             url: "${path}/api/manna/order/list",

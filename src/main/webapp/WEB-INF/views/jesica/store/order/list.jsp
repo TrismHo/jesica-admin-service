@@ -129,7 +129,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="bg-light"><strong><spring:message code="list.search.orderstatus1"
+                                            <%--<td class="bg-light"><strong><spring:message code="list.search.orderstatus1"
                                                                                          text="총판코드"/></strong></td>
                                             <td >
                                                 <select class="form-control" name="brCode" style="margin-right: 30px;" >
@@ -138,7 +138,7 @@
                                                         <option <c:if test="${item.brCode == searchValue.brCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
                                                     </c:forEach>
                                                 </select>
-                                            </td>
+                                            </td>--%>
                                             <td class="bg-light"><strong><spring:message code="list.search.orderstatus1"
                                                                                          text="주문구분"/></strong></td>
                                             <td style="padding: 0px">
@@ -170,7 +170,7 @@
                                                 </table>
                                             </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어 입력"/><%--검색어 입력--%></strong></td>
-                                            <td style="border-right:none;" >
+                                            <td style="border-right:none;" colspan="3">
                                                 <label>
                                                     <select class="form-control searchOp" name="keywordType" style="width: 110px">
                                                         <option value="ordCuTel" <c:if test="${searchValue.keywordType == 'ordCuTel'}">selected</c:if>><spring:message code="list.search.title1" text="고객연락처"/></option>

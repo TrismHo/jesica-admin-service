@@ -21,6 +21,7 @@ public interface TbUserStaffDTO {
     String getMemo();
     Integer getRoleType();
     String getAppCode();
+    String getAppName();
 
     LocalDateTime getUpdateDate();
     LocalDateTime getLastLoginDtm();

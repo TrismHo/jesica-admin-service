@@ -20,10 +20,10 @@
         background: #e4e7ea;
         color: #2d353c;
     }
-  /*  .content {
-        margin-left: 220px;
-        padding: 5px 30px;
-    }*/
+    /*  .content {
+          margin-left: 220px;
+          padding: 5px 30px;
+      }*/
     div.xAxis div.tickLabel
     {
         transform: rotate(-45deg);
@@ -38,6 +38,39 @@
     }
     div.xAxis div.tickLabel {
         font-size: 10px;
+        color: #b9bcbe;
+    }
+    .flot-text .tickLabel {
+        color: #b9bcbe;
+    }
+    .widget-stats .stats-icon, .widget.widget-stats .stats-icon {
+        font-size: 42px;
+        height: 56px;
+        width: 56px;
+        text-align: center;
+        line-height: 56px;
+        color: #ddd;
+        position: absolute;
+        right: 25px;
+        top: 25px;
+        margin-left: 15px;
+    }
+    .widget-list .widget-list-item {
+         display: table;
+         width: 100%;
+         text-decoration: none;
+         color: #ccd0d5;
+         background-color: #2d353c;
+         padding: 3px;
+     }
+    .widget-list .widget-list-item+.widget-list-item .widget-list-action, .widget-list .widget-list-item+.widget-list-item .widget-list-content {
+        border-top: 1px solid #495057;
+    }
+    .notice-list {
+        height: 235px;
+        max-height: 235px;
+        overflow: auto;
+        background-color: #2e353c;
     }
 </style>
 <body>
@@ -55,372 +88,308 @@
     <!-- begin #sidebar -->
     <%@include file="common/include_sidebar.jsp" %>
     <!-- end #sidebar -->
-    <c:if test="${sessionScope.sessionKey.roleType != 2}">
+
+    <div id="content" class="content" style="background-color: #eee;">
+        <!-- begin breadcrumb -->
+        <ol class="breadcrumb float-xl-right">
+            <li class="breadcrumb-item"><a href="javascript:;">메인</a></li>
+            <li class="breadcrumb-item active"><spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></li>
+        </ol>
+        <!-- end breadcrumb -->
+        <!-- begin page-header -->
+        <h1 class="page-header"><spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></h1>
+
+        <div class="m-b-5" style="display: flex">
+            <c:if test="${empty appCode}">
+                <select id="brandTypeCd" name="brandTypeCd" class="form-control" >
+                    <option value="" selected>전체</option>
+                 <%--   <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                        <option value="${appCodeList.codeValue}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                    </c:forEach>--%>
+                </select>
+            </c:if>
+            <c:if test="${!empty appCode}">
+                <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                    <c:if test="${appCode == appCodeList.sysCode}">
+                        <select id="brandTypeCd" name="brandTypeCd" class="form-control" >
+                            <option value="${appCodeList.codeValue}" selected>${appCodeList.codeName}</option>
+                        </select>
+                    </c:if>
+                </c:forEach>
+            </c:if>
+            <select class="chart-year form-control" style="width: 80px; height: 25px; padding: 0 5px; margin-left: auto" disabled>
+                <c:forEach begin="0" end="10" var="result" step="1">
+                    <option value="<c:out value="${yearStart - result}" />"><c:out value="${yearStart - result}" /></option>
+                </c:forEach>
+            </select>
+            년
+            <select class="chart-month form-control m-l-5" style="width: 60px; height: 25px; padding: 0 5px" disabled>
+                <c:forEach begin="1" end="12" var="month" step="1">
+                    <option value="<c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if><c:if test="${month >= 10}"><c:out value="${month}" /></c:if>" <c:if test="${month == thisMonth}">selected</c:if>>
+                        <c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if>
+                        <c:if test="${month >= 10}"><c:out value="${month}" /></c:if>
+                    </option>
+                </c:forEach>
+            </select>
+            월 기준
+        </div>
+
         <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-            <div id="content" class="content" style="background-color: #eee;">
-                <!-- begin breadcrumb -->
-                <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;">메인</a></li>
-                    <li class="breadcrumb-item active"><spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></li>
-                </ol>
-                <!-- end breadcrumb -->
-                <!-- begin page-header -->
-                <h1 class="page-header"><spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></h1>
-                <!-- end page-header -->
-
-                <div class="row">
-                    <div class="col-xl-3 col-md-4">
-                        <div class="widget widget-stats bg-teal-lighter">
-                            <div class="stats-icon"><i class="fas fa-lg fa-fw m-r-10 fa-building"></i></div>
-                            <div class="stats-info">
-                                <h4><spring:message code="dashboard.123" text="전체고객"/></h4>
-                                <p data-animation="number" data-value="${userChart}"></p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="${path}/board/cust/list?isMember=&dataStatus=&startDate=2021-01-01&endDate=${now}&custName="><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+            <!-- end page-header -->
+            <div class="row">
+                <!-- BEGIN col-8 -->
+                <div class="col-xl-6 col-md-12">
+                    <div class="widget-chart with-sidebar" data-bs-theme="dark">
+                        <div class="widget-chart-content bg-gray-800" style="background-color: #2e353c;">
+                            <h4 class="chart-title">
+                                주문 변화추이
+                                <div class="stats-link float-right">
+                                    <a href="${path}statistics/order/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                </div>
+                                <small>한달기준 주문량 변화추이</small>
+                            </h4>
+                            <div class="widget-chart-content bg-gray-800 w-100" style="background-color: #2e353c;">
+                                <canvas id="line-chart" class="height-250"></canvas>
                             </div>
                         </div>
-                    </div>
-                    <!-- end col-3 -->
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-4">
-                        <div class="widget widget-stats bg-red-lighter">
-                            <div class="stats-icon"><i class="far fa-lg fa-fw m-r-10 fa-building"></i></div>
+                        <div class="widget-chart-sidebar bg-gray-900 width-400 p-0" style="background-color: #20252b;">
+                        <div class="widget b-0 widget-stats" style="background-color: #20252b;">
+                            <div class="stats-icon"><i class="fa fa-lg fa-fw m-r-10 fa-credit-card"></i></div>
                             <div class="stats-info">
-                                <h4><spring:message code="dashboard.231" text="정상드라이버"/></h4>
-
-                                <p data-animation="number" data-value="${userWorkerChart}"></p>
+                                <h4><spring:message code="dashboard.123" text="총 주문수"/></h4>
+                                <p class="orderMonth" ></p>
                             </div>
                             <div class="stats-link">
-                                <a href="${path}/driver/deliveryman/list?dataStatus=OK&name=&startDate=2021-01-01&endDate=${now}"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                <a></a>
                             </div>
                         </div>
-                    </div>
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-4">
-                        <div class="widget widget-stats bg-blue-lighter">
-                            <div class="stats-icon"><i class="fas fa-lg fa-fw m-r-10 fa-building"></i></div>
-                            <div class="stats-info">
-                                <h4><spring:message code="dashboard.123" text="드라이버심사요청"/></h4>
-
-                                <p data-animation="number" data-value="${workerApplyChart}"></p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="${path}/driver/apply/list?&authStatus=1"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
+                        <div class="flex-grow-1 d-flex align-items-center">
+                        </div>
+                            <ul class="chart-legend fs-11px p-15">
+                                <li ><i class="fa fa-circle fa-fw text-blue fs-9px me-5px t-minus-1 "></i><span class="orderMax font-weight-bold" style="color: #fff;"></span><span class="float-right p-r-5">주문량 최고</span></li>
+                                <li ><i class="fa fa-circle fa-fw text-teal fs-9px me-5px t-minus-1 "></i><span class="orderMin font-weight-bold" style="color: #fff;"></span><span class="float-right p-r-5">주문량 최저</span></li>
+                            </ul>
                         </div>
                     </div>
-                    <!-- end col-3 -->
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-4">
-                        <div class="widget widget-stats bg-red-lighter">
-                            <div class="stats-icon"><i class="far fa-lg fa-fw m-r-10 fa-building"></i></div>
-                            <div class="stats-info">
-                                <h4><spring:message code="dashboard.123" text="렌터카 가맹점"/></h4>
-
-                                <p data-animation="number" data-value="${storeRentChart}"></p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="${path}/workgroup/affilfranch/list?headNoText=렌트카예약서비스%28전국%29%5B1096%5D+++++&headNo=1096&headNoText=%0D%0A렌트카예약서비스%28전국%29%5B1096%5D%0D%0A+++++&branchNo=10007&branchNoText=%0D%0A제주%5D렌트카_관리총판%5B10007%5D%0D%0A+++++&branchNoText=제주%5D렌트카_관리총판%5B10007%5D+++++&startDate=2020-01-01&endDate=${now}&dataStatus=OK&storeName="><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col-3 -->
                 </div>
-                <!-- end row -->
-
-
-                <!-- begin row -->
-                    <%--  <div class="m-b-5" style="display: flex">
-                          <select class="chart-year form-control" style="width: 80px; height: 25px; padding: 0 5px; margin-left: auto">
-                              <c:forEach begin="0" end="10" var="result" step="1">
-                                  <option value="<c:out value="${yearStart - result}" />"><c:out value="${yearStart - result}" /></option>
-                              </c:forEach>
-                          </select>
-                          <select class="chart-month form-control m-l-5" style="width: 60px; height: 25px; padding: 0 5px">
-                              <c:forEach begin="1" end="12" var="month" step="1">
-                                  <option value="<c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if><c:if test="${month >= 10}"><c:out value="${month}" /></c:if>" <c:if test="${month == thisMonth}">selected</c:if>>
-                                      <c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if>
-                                      <c:if test="${month >= 10}"><c:out value="${month}" /></c:if>
-                                  </option>
-                              </c:forEach>
-                          </select>
-                      </div>--%>
-                <div class="row">
-                    <!-- begin col-8 -->
-                    <div class="col-xl-6 ">
-                        <!-- begin panel -->
-                        <div class="panel panel-inverse">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <spring:message code="dashboard.123" text="인수/반납대행 변화추이"/>
-                                </h4>
-                                <div class="panel-heading-btn">
-                                    <div class="stats-link">
-                                        <a href="${path}/statistics/day/list?startDate=${month}&endDate=${now}&selday=&day=&orderTypeCode=&storeNo=-1"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
-                                    </div>
-                                        <%--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>--%>
+                <div class="col-xl-6 col-md-12">
+                    <div class="widget-chart with-sidebar" data-bs-theme="dark">
+                        <div class="widget-chart-content bg-gray-800" style="background-color: #2e353c;">
+                            <h4 class="chart-title">
+                                신규고객 변화추이
+                                <div class="stats-link float-right">
+                                    <a href="${path}statistics/user/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                </div>
+                                <small>한달 기준 신규고객 변화추이</small>
+                            </h4>
+                            <div class="widget-chart-content bg-gray-800 w-100" style="background-color: #2e353c;">
+                                <div id="interactive-chart3" class="height-250"></div>
+                            </div>
+                        </div>
+                        <div class="widget-chart-sidebar bg-gray-900 p-0" style="background-color: #20252b;">
+                            <div class="widget b-0 widget-stats" style="background-color: #20252b;">
+                                <div class="stats-icon"><i class="fa fa-lg fa-fw m-r-10 fa-user"></i></div>
+                                <div class="stats-info">
+                                    <h4><spring:message code="dashboard.123" text="총 가입수"/></h4>
+                                    <p class="userMonth" ></p>
+                                </div>
+                                <div class="stats-link">
+                                    <a></a>
                                 </div>
                             </div>
-                            <div class="panel-body pr-1">
-
-                                <div id="interactive-chart" class="height-sm"></div>
+                            <div class="flex-grow-1 d-flex align-items-center">
                             </div>
+                            <ul class="chart-legend fs-11px p-15">
+                                <li ><i class="fa fa-circle fa-fw text-blue fs-9px me-5px t-minus-1 "></i><span class="userMax font-weight-bold" style="color: #fff;"></span><span class="float-right p-r-5">가입수 최고</span></li>
+                                <li ><i class="fa fa-circle fa-fw text-teal fs-9px me-5px t-minus-1 "></i><span class="userMin font-weight-bold" style="color: #fff;"></span><span class="float-right p-r-5">가입수 최저</span></li>
+                            </ul>
                         </div>
-                        <!-- end panel -->
                     </div>
-                    <!-- end col-8 -->
-                    <!-- begin col-4 -->
-                    <div class="col-xl-6">
-                        <!-- begin panel -->
-                        <div class="panel panel-inverse" >
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <spring:message code="dashboard.123" text="신규고객 변화추이"/>
-                                </h4>
-                                <div class="panel-heading-btn">
-                                        <%-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-                                     --%>
-                                    <div class="stats-link">
-                                        <a href="${path}/statistics/user/list?startDate=${month}&endDate=${now}&selday=&platformType=1"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-body pr-1">
-                                <div id="interactive-chart3" class="height-sm"></div>
-                            </div>
-                        </div>
-                        <!-- end panel -->
-                    </div>
-                    <!-- end col-4 -->
                 </div>
-                <div class="row">
-                    <!-- begin col-4 -->
-                    <div class="col-xl-6 col-lg-6">
-                        <!-- begin card -->
-                        <div class="panel panel-inverse">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">업데이트 내역</h4>
-                            </div>
-                            <div class="panel-body p-0 scroll-arrow height-250" style="overflow-y: auto" >
-                                <ul class="todolist">
-                                    <c:forEach var="item" items="${updateList}" varStatus="status">
-                                        <c:if test="${item.platformType == 1 && item.programType == 1}">
-                                            <li>
-                                                <a  class="todolist-container" data-click="todolist"  href="/notice/update/${item.noticeNo}" onclick="window.open(this.href, '_blank', 'width=1000, height=740,resizeable=no'); return false;" class="todolist-container" data-click="todolist">
-                                                    <div class="todolist-input" style="color:#2d353c;"> <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}</div>
-                                                    <div class="todolist-title"> ${item.title}</div>
-                                                </a>
-                                            </li>
-                                        </c:if>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col-4 -->
-                    <!-- begin col-4 -->
-                    <div class="col-xl-6 col-lg-6">
-                        <!-- begin card -->
-                        <div class="panel panel-inverse">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">플랫폼 공지</h4>
-                            </div>
-                            <div class="panel-body p-0 scroll-arrow height-250" style="overflow-y: auto" >
-                                <ul class="todolist">
-                                    <c:forEach var="item" items="${updatePlatList}" varStatus="status">
-                                        <li>
-                                            <a  class="todolist-container" data-click="todolist"  href="/notice/platform/${item.noticeNo}" onclick="window.open(this.href, '_blank', 'width=1000, height=740, resizeable=no'); return false;">
-                                                <div class="todolist-input" style="color:#2d353c;"> <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}</div>
-                                                <div class="todolist-title">${item.title}</div>
-                                            </a>
-                                        </li>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                    <!-- end col-4 -->
-                    <!-- begin col-4 -->
-                    <!-- end col-4 -->
-                </div>
-                <!-- end row -->
             </div>
+
+            <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="card border-0 mb-3 bg-gray-900 text-white">
+                        <div class="card-body" style="background-color: #20252b; background-size: auto 60%;">
+                            <h5 class="mb-10px"><span>플랫폼 공지</span></h5>
+                        </div>
+                        <div class="widget-list rounded-bottom notice-list" data-bs-theme="dark"  >
+                            <c:forEach var="item" items="${updatePlatList}" varStatus="status">
+                                <c:if test="${item.platformType == 1 && item.programType == 1}">
+                                    <a  href="/notice/platform/${item.noticeNo}" class="widget-list-item rounded-0 pt-3px">
+                                        <div class="widget-list-media icon">
+                                            <i class="fas fa-envelope-open-text bg-indigo text-white"></i>
+                                        </div>
+                                        <div class="widget-list-content">
+                                            <div class="widget-list-title">${item.title}</div>
+                                        </div>
+                                        <div class="widget-list-action text-nowrap text-gray-500">
+                                            <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}
+                                        </div>
+                                    </a>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="card border-0 mb-3 bg-gray-900 text-white">
+                        <div class="card-body" style="background-color: #20252b; background-size: auto 60%;">
+                            <h5 class="mb-10px">이벤트 내역</span></h5>
+                        </div>
+                        <div class="widget-list rounded-bottom notice-list" data-bs-theme="dark" >
+                                <c:forEach var="item" items="${updateEventList}" varStatus="status">
+                                    <a href="/notice/event/${item.eventNo}" class="widget-list-item rounded-0 pt-3px">
+                                        <div class="widget-list-media icon">
+                                            <i class="fas fa-envelope-open-text bg-indigo text-white"></i>
+                                        </div>
+                                        <div class="widget-list-content">
+                                            <div class="widget-list-title">${item.title}</div>
+                                        </div>
+                                        <div class="widget-list-action text-nowrap text-gray-500">
+                                            <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}
+                                        </div>
+                                    </a>
+                                </c:forEach>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col-4 -->
+            </div>
+            <!-- end row -->
         </c:if>
         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-            <div id="content" class="content" style="background-color: #eee;">
-                <!-- begin breadcrumb -->
-                <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="javascript:;">메인</a></li>
-                    <li class="breadcrumb-item active"><spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></li>
-                </ol>
-                <!-- end breadcrumb -->
-                <!-- begin page-header -->
-                <h1 class="page-header"><spring:message code="dashboard.normalaffiliateheadquarters" text="대시보드"/></h1>
                 <!-- end page-header -->
-
-                <!-- end row -->
-
-
-                <!-- begin row -->
-                    <%--  <div class="m-b-5" style="display: flex">
-                          <select class="chart-year form-control" style="width: 80px; height: 25px; padding: 0 5px; margin-left: auto">
-                              <c:forEach begin="0" end="10" var="result" step="1">
-                                  <option value="<c:out value="${yearStart - result}" />"><c:out value="${yearStart - result}" /></option>
-                              </c:forEach>
-                          </select>
-                          <select class="chart-month form-control m-l-5" style="width: 60px; height: 25px; padding: 0 5px">
-                              <c:forEach begin="1" end="12" var="month" step="1">
-                                  <option value="<c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if><c:if test="${month >= 10}"><c:out value="${month}" /></c:if>" <c:if test="${month == thisMonth}">selected</c:if>>
-                                      <c:if test="${month < 10}"><c:out value="${'0'.concat(month)}" /></c:if>
-                                      <c:if test="${month >= 10}"><c:out value="${month}" /></c:if>
-                                  </option>
-                              </c:forEach>
-                          </select>
-                      </div>--%>
                 <div class="row">
-                    <!-- begin col-8 -->
-                    <div class="col-xl-6 ">
-                        <!-- begin panel -->
-                        <div class="panel panel-inverse">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <spring:message code="dashboard.123" text="주문 변화추이"/>
-                                </h4>
-                                <div class="panel-heading-btn">
-                                        <%--<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                                        <a href="javascript:;" cla화ss="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-                                    --%>
-                                    <div class="stats-link">
+                    <!-- BEGIN col-8 -->
+                    <div class="col-xl-6 col-md-12">
+                        <div class="widget-chart with-sidebar" data-bs-theme="dark">
+                            <div class="widget-chart-content bg-gray-800" style="background-color: #2e353c;">
+                                <h4 class="chart-title">
+                                    주문 변화추이
+                                    <div class="stats-link float-right">
                                         <a href="${path}statistics/order/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
                                     </div>
+                                    <small>한달기준 주문량 변화추이</small>
+                                </h4>
+                                <div class="widget-chart-content bg-gray-800 w-100" style="background-color: #2e353c;">
+                                    <canvas id="line-chart" class="height-250"></canvas>
                                 </div>
                             </div>
-                            <div class="panel-body pr-1">
-                                <canvas id="line-chart"  class="height-sm" style="display: block; box-sizing: border-box; height: 342px; width: 684px;"></canvas>
-                            </div>
-                        </div>
-                        <!-- end panel -->
-                    </div>
-                    <!-- end col-8 -->
-                    <!-- begin col-4 -->
-                    <div class="col-xl-6">
-                        <!-- begin panel -->
-                        <div class="panel panel-inverse" >
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <spring:message code="dashboard.123" text="신규고객 변화추이"/>
-                                </h4>
-                                <div class="panel-heading-btn">
-                                        <%-- <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-                                     --%>
+                            <div class="widget-chart-sidebar bg-gray-900 width-400 p-0" style="background-color: #20252b;">
+                                <div class="widget b-0 widget-stats" style="background-color: #20252b;">
+                                    <div class="stats-icon"><i class="fa fa-lg fa-fw m-r-10 fa-credit-card"></i></div>
+                                    <div class="stats-info">
+                                        <h4><spring:message code="dashboard.123" text="총 주문수"/></h4>
+                                        <p class="orderMonth" ></p>
+                                    </div>
                                     <div class="stats-link">
-                                        <a href="${path}statistics/user/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                        <a></a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="panel-body pr-1">
-                                <div id="interactive-chart3" class="height-sm"></div>
+                                <div class="flex-grow-1 d-flex align-items-center">
+                                </div>
+                                <ul class="chart-legend fs-11px p-15">
+                                    <li ><i class="fa fa-circle fa-fw text-blue fs-9px me-5px t-minus-1 "></i><span class="orderMax font-weight-bold" style="color: #fff;"></span><span class="float-right p-r-5">주문량 최고</span></li>
+                                    <li ><i class="fa fa-circle fa-fw text-teal fs-9px me-5px t-minus-1 "></i><span class="orderMin font-weight-bold" style="color: #fff;"></span><span class="float-right p-r-5">주문량 최저</span></li>
+                                </ul>
                             </div>
                         </div>
-                        <!-- end panel -->
                     </div>
-                    <!-- end col-4 -->
+                    <div class="col-xl-6 col-md-12">
+                        <div class="widget-chart with-sidebar" data-bs-theme="dark">
+                            <div class="widget-chart-content bg-gray-800" style="background-color: #2e353c;">
+                                <h4 class="chart-title">
+                                    신규고객 변화추이
+                                    <div class="stats-link float-right">
+                                        <a href="${path}statistics/user/list?startDate=${month}&endDate=${now}&selday=&platformType=2"><spring:message code="list.detail.seemore" text="더보기"/> <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                    </div>
+                                    <small>한달 기준 신규고객 변화추이</small>
+                                </h4>
+                                <div class="widget-chart-content bg-gray-800 w-100" style="background-color: #2e353c;">
+                                    <div id="interactive-chart3" class="height-250"></div>
+                                </div>
+                            </div>
+                            <div class="widget-chart-sidebar bg-gray-900 p-0" style="background-color: #20252b;">
+                                <div class="widget b-0 widget-stats" style="background-color: #20252b;">
+                                    <div class="stats-icon"><i class="fa fa-lg fa-fw m-r-10 fa-user"></i></div>
+                                    <div class="stats-info">
+                                        <h4><spring:message code="dashboard.123" text="총 가입수"/></h4>
+                                        <p class="userMonth" ></p>
+                                    </div>
+                                    <div class="stats-link">
+                                        <a></a>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 d-flex align-items-center">
+                                </div>
+                                <ul class="chart-legend fs-11px p-15">
+                                    <li ><i class="fa fa-circle fa-fw text-blue fs-9px me-5px t-minus-1 "></i><span class="userMax font-weight-bold" style="color: #fff;"></span><span class="float-right p-r-5">가입수 최고</span></li>
+                                    <li ><i class="fa fa-circle fa-fw text-teal fs-9px me-5px t-minus-1 "></i><span class="userMin font-weight-bold" style="color: #fff;"></span><span class="float-right p-r-5">가입수 최저</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <!-- begin col-4 -->
-                    <div class="col-xl-4 col-lg-4">
-                        <!-- begin card -->
-                        <div class="panel panel-inverse">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">이벤트 내역</h4>
-                            </div>
-                            <div class="panel-body p-0 scroll-arrow height-250" style="overflow-y: auto" >
-                                <ul class="todolist">
-                                    <c:forEach var="item" items="${updateEventList}" varStatus="status">
-                                        <li>
-                                            <a  class="todolist-container" data-click="todolist"  href="/notice/event/${item.eventNo}" onclick="window.open(this.href, '_blank', 'width=1000, height=740,resizeable=no'); return false;" class="todolist-container" data-click="todolist">
-                                                <div class="todolist-input" style="color:#2d353c;"> <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}</div>
-                                                <div class="todolist-title"> ${item.title}</div>
-                                            </a>
-                                        </li>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col-4 -->
-                    <!-- begin col-4 -->
-                    <div class="col-xl-4 col-lg-4">
-                        <!-- begin card -->
-                        <div class="panel panel-inverse">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">플랫폼 공지</h4>
-                            </div>
-                            <div class="panel-body p-0 scroll-arrow height-250" style="overflow-y: auto" >
-                                <ul class="todolist">
+                <c:if test="${sessionScope.sessionKey.roleType != 2}">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card border-0 mb-3 bg-gray-900 text-white">
+                                <div class="card-body" style="background-color: #20252b; background-size: auto 60%;">
+                                    <h5 class="mb-10px"><span>플랫폼 공지</span></h5>
+                                </div>
+                                <div class="widget-list rounded-bottom notice-list" data-bs-theme="dark"  >
                                     <c:forEach var="item" items="${updatePlatList}" varStatus="status">
-                                        <li>
-                                            <a  class="todolist-container" data-click="todolist"  href="/notice/platform/${item.noticeNo}" onclick="window.open(this.href, '_blank', 'width=1000, height=740, resizeable=no'); return false;">
-                                                <div class="todolist-input" style="color:#2d353c;"> <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}</div>
-                                                <div class="todolist-title">${item.title}</div>
+                                        <c:if test="${item.platformType == 2}">
+                                            <a  href="/notice/platform/${item.noticeNo}" class="widget-list-item rounded-0 pt-3px"  onclick="window.open(this.href, '_blank', 'width=1000, height=740,resizeable=no'); return false;">
+                                                <div class="widget-list-media icon">
+                                                    <i class="fas fa-envelope-open-text bg-indigo text-white"></i>
+                                                </div>
+                                                <div class="widget-list-content">
+                                                    <div class="widget-list-title">${item.title}</div>
+                                                </div>
+                                                <div class="widget-list-action text-nowrap text-gray-500">
+                                                    <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}
+                                                </div>
                                             </a>
-                                        </li>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                    <!-- end col-4 -->
-                    <!-- begin col-4 -->
-                    <!-- end col-4 -->
-                    <!-- begin col-4 -->
-                    <div class="col-xl-4 col-lg-4">
-                        <!-- begin card -->
-                        <div class="panel panel-inverse">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">업데이트 내역</h4>
-                            </div>
-                            <div class="panel-body p-0 scroll-arrow height-250" style="overflow-y: auto" >
-                                <ul class="todolist">
-                                    <c:forEach var="item" items="${updateList}" varStatus="status">
-                                        <c:if test="${item.platformType == 2 && item.programType == 1}">
-                                            <li>
-                                                <a  class="todolist-container" data-click="todolist"  href="/notice/update/${item.noticeNo}" onclick="window.open(this.href, '_blank', 'width=1000, height=740,resizeable=no'); return false;" class="todolist-container" data-click="todolist">
-                                                    <div class="todolist-input" style="color:#2d353c;"> <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}</div>
-                                                    <div class="todolist-title"> ${item.title}</div>
-                                                </a>
-                                            </li>
                                         </c:if>
                                     </c:forEach>
-                                </ul>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card border-0 mb-3 bg-gray-900 text-white">
+                                <div class="card-body" style="background-color: #20252b; background-size: auto 60%;">
+                                    <h5 class="mb-10px">이벤트 내역</span></h5>
+                                </div>
+                                <div class="widget-list rounded-bottom notice-list" data-bs-theme="dark" >
+                                    <c:forEach var="item" items="${updateEventList}" varStatus="status">
+                                        <a href="/notice/event/${item.eventNo}" class="widget-list-item rounded-0 pt-3px"  onclick="window.open(this.href, '_blank', 'width=1000, height=740,resizeable=no'); return false;">
+                                            <div class="widget-list-media icon">
+                                                <i class="fas fa-envelope-open-text bg-indigo text-white"></i>
+                                            </div>
+                                            <div class="widget-list-content">
+                                                <div class="widget-list-title">${item.title}</div>
+                                            </div>
+                                            <div class="widget-list-action text-nowrap text-gray-500">
+                                                <c:set var = "string2" value = "${fn:substring(item.insertDate, 0, 11)}" />${string2}
+                                            </div>
+                                        </a>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col-4 -->
                     </div>
-                </div>
+                </c:if>
                 <!-- end row -->
-            </div>
-
-        </c:if>
-
-    </c:if>
+            </c:if>
+    </div>
     <!-- begin #content -->
 </div>
 <!-- end page container -->
-    </div>
+</div>
 
 
 </div>
@@ -431,13 +400,13 @@
 <%-- Custom JS Start--%>
 <%@include file="common/include_custom_js.jsp" %>
 <script src="../assets/plugins/jstree/dist/jstree.min.js" type="text/javascript"></script>
-    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-    <script src="../assets/plugins/chart.js/dist/Chart.min.js"></script>
-   <%-- <link href="../assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
-    <script src="../assets/plugins/d3/d3.min.js"></script>
-    <script src="../assets/plugins/nvd3/build/nv.d3.min.js"></script>--%>
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="../assets/plugins/chart.js/dist/Chart.min.js"></script>
+<%-- <link href="../assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
+ <script src="../assets/plugins/d3/d3.min.js"></script>
+ <script src="../assets/plugins/nvd3/build/nv.d3.min.js"></script>--%>
 <script src="${path}/assets/plugins/chart.js/dist/Chart.min_new.js"></script>
-    <!-- ================== END PAGE LEVEL JS ================== -->
+<!-- ================== END PAGE LEVEL JS ================== -->
 
 <%-- Custom JS End--%>
 
@@ -447,9 +416,11 @@
     let endCnt = [];
     let cancelCnt= [];
     let pointSize = 4;
+    let orderMonth = 0;
     searchUserList();
 
-    Chart.defaults.color = COLOR_DARK_LIGHTER
+    //Chart.defaults.color = COLOR_DARK_LIGHTER
+    Chart.defaults.color = '#ffffff';
     Chart.defaults.font.family = 'Nanum Gothic',"나눔 고딕",'NanumGothic',"나눔고딕",'Malgun Gothic','맑은 고딕','MalgunGothic','맑은고딕'
     Chart.defaults.font.weight = 500;
 
@@ -460,11 +431,15 @@
             labels: label,
             datasets: [{
                 label: '총주문량',
-                borderColor: COLOR_GREY,
-                pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
+                textStrokeColor:'#ffffff',
+                //borderColor: COLOR_GREY,
+                borderColor: '#ffffff',
+                //pointBackgroundColor: COLOR_GREY_TRANSPARENT_6,
+                pointBackgroundColor: '#ffffff',
                 pointRadius: pointSize,
                 borderWidth: 2,
-                backgroundColor: COLOR_GREY_TRANSPARENT_1,
+                //backgroundColor: COLOR_GREY_TRANSPARENT_1,
+                backgroundColor: '#ffffff',
                 data: totalCnt,
             }/*, {
                 label: '주문완료',
@@ -490,7 +465,8 @@
                     labels: {
                         // This more specific font property overrides the global property
                         font: {
-                            size: 15
+                            size: 13,
+                            fontColor: '#ffffff'
                         },
                     }
                 },
@@ -518,11 +494,14 @@
                         display: false,
                         text: 'os별 구분'
                     },
+                    grid:{
+                        color: "#4d5359",
+                    },
                     ticks: {
                         major: {
                             enabled: true
                         },
-                        color: (context) => context.tick && context.tick.major && '#FF0000',
+                        //color: (context) => context.tick && context.tick.major && '#FF0000',
                         font: function (context) {
                             if (context.tick && context.tick.major) {
                                 return {
@@ -533,6 +512,9 @@
                     }
                 },
                 y: {
+                    grid:{
+                        color: "#4d5359",
+                    },
                     ticks: {
                         // Include a dollar sign in the ticks
                         callback: function (value, index, ticks) {
@@ -555,7 +537,7 @@
         drawChart(searchDate);
 
         $("#wait").on("click",function(){
-           alert("작업중");
+            alert("작업중");
         });
 
         function showTooltip(x, y, contents) {
@@ -613,9 +595,10 @@
 
         let returnNewUser= []; //신규 유저 데이터
         let userUserLabels = []; // 신규유저 일자 label
+        let appCode = `${sessionScope.sessionKey.appCode}`;
         $.ajax({
             type: "POST",
-            url: "${path}/api/main/chart/list?searchDate=" + searchDate,
+            url: "${path}/api/main/chart/list?appCode="+appCode+"&searchDate=" + searchDate,
             contentType: "application/json;",
             async: false,
             dataType: "json",
@@ -625,30 +608,44 @@
                 returnComplData = receiptResult.cancel;
                 receiptLabels = receiptResult.labels;
 
+
+
                 let getUserCountList = getUserCount(data.getUserCount);
 
                 returnNewUser = getUserCountList.userCount;
-
+                let totalCnt = 0;
+                let userList = [];
+                for(var i= 0; i < data.getUserCount.length ; i++) {
+                    totalCnt = data.getUserCount[i].cnt + totalCnt;
+                    userList.push(data.getUserCount[i].cnt)
+                }
+                const total = totalCnt.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                if(userList.length == 0){
+                    userList = [0];
+                }
+                $(".userMonth").text(total);
+                $(".userMax").append( Math.max.apply(null,userList) + "회");
+                $(".userMin").append( Math.min.apply(null,userList) + "회");
                 userUserLabels = getUserCountList.labels;
 
 
-             /*   let returnResult = setChartDatas(data.getCallAllListType2140, data.getCallAllListType2141);
-                returnComplData = returnResult.complete;
-                //returnCancelData = returnResult.cancel;
-                returnLabels = returnResult.labels;*/
+                /*   let returnResult = setChartDatas(data.getCallAllListType2140, data.getCallAllListType2141);
+                   returnComplData = returnResult.complete;
+                   //returnCancelData = returnResult.cancel;
+                   returnLabels = returnResult.labels;*/
 
-/*
-                console.log(data);
-                let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2041);
-                receiptComplData = receiptResult.complete;
-                receiptCancelData = receiptResult.cancel;
-                receiptLabels = receiptResult.labels;
+                /*
+                                console.log(data);
+                                let receiptResult = setChartDatas(data.getCallAllListType2040, data.getCallAllListType2041);
+                                receiptComplData = receiptResult.complete;
+                                receiptCancelData = receiptResult.cancel;
+                                receiptLabels = receiptResult.labels;
 
-                let returnResult = setChartDatas(data.getCallAllListType2140, data.getCallAllListType2141);
-                returnComplData = returnResult.complete;
-                returnCancelData = returnResult.cancel;
-                returnLabels = returnResult.labels;
-*/
+                                let returnResult = setChartDatas(data.getCallAllListType2140, data.getCallAllListType2141);
+                                returnComplData = returnResult.complete;
+                                returnCancelData = returnResult.cancel;
+                                returnLabels = returnResult.labels;
+                */
             }
         });
         let normal = "<spring:message code="list.script.normal" text="정상"/>";
@@ -702,74 +699,106 @@
                 margin: 10,
                 noColumns: 1,
                 show: true
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: false,
+                        text: 'os별 구분'
+                    },
+                    ticks: {
+                        major: {
+                            enabled: true
+                        },
+                        color: (context) => context.tick && context.tick.major && '#FF0000',
+                        font: function (context) {
+                            if (context.tick && context.tick.major) {
+                                return {
+                                    weight: 'bold'
+                                };
+                            }
+                        }
+                    }
+                },
+                y: {
+                    grid:{
+                        color: "#4d5359",
+                    },
+                    ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, ticks) {
+                            return value + ' 회'
+                        }
+                    }
+                }
             }
         });
 
         $.plot($("#interactive-chart3"), [{
             data: returnNewUser,
-            label: "신규 고객1",
-            color: COLOR_BLUE,
+            label: "신규 고객",
+            labelColor: "#ffffff",
+            color: "#ffffff",
             lines: { show: true, fill:false, lineWidth: 2 },
             points: { show: true, radius: 1, fillColor: COLOR_WHITE },
             shadowSize: 0
-        }, /*{
-            data: returnCancelData,
-            label: "반납대행 취소",
-            color: COLOR_GREEN,
-            lines: { show: true, fill:false, lineWidth: 2 },
-            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
-            shadowSize: 0
-        }*/], {
-            xaxis: {  ticks: userUserLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
-            yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0},
+        }, ], {
+            xaxis: {  ticks: userUserLabels, tickDecimals: 0, tickColor: "#4d5359", },
+            yaxis: {  ticks: 5, tickColor: "#4d5359", min: 0},
             grid: {
+                color: "#ffffff",
                 hoverable: true,
                 clickable: true,
-                tickColor: COLOR_DARK_TRANSPARENT_2,
+                //tickColor: COLOR_DARK_TRANSPARENT_2,
+                tickColor: "#ffffff",
                 borderWidth: 1,
                 backgroundColor: 'transparent',
-                borderColor: COLOR_DARK_TRANSPARENT_2
+                //borderColor: COLOR_DARK_TRANSPARENT_2
+                borderColor:  "#4d5359",
             },
             legend: {
-                labelBoxBorderColor: COLOR_DARK_TRANSPARENT_2,
+                //labelBoxBorderColor: COLOR_DARK_TRANSPARENT_2,
+                labelBoxBorderColor:  "#4d5359",
+                color: "#ffffff",
                 margin: 10,
                 noColumns: 1,
                 show: true
-            }
-        });
-/*
-        $.plot($("#interactive-chart3"), [{
-            data: returnComplData,
-            label: "반납대행 완료",
-            color: COLOR_BLUE,
-            lines: { show: true, fill:false, lineWidth: 2 },
-            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
-            shadowSize: 0
-        }, {
-            data: returnCancelData,
-            label: "반납대행 취소",
-            color: COLOR_GREEN,
-            lines: { show: true, fill:false, lineWidth: 2 },
-            points: { show: true, radius: 3, fillColor: COLOR_WHITE },
-            shadowSize: 0
-        }], {
-            xaxis: {  ticks: returnLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
-            yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0  },
-            grid: {
-                hoverable: true,
-                clickable: true,
-                tickColor: COLOR_DARK_TRANSPARENT_2,
-                borderWidth: 1,
-                backgroundColor: 'transparent',
-                borderColor: COLOR_DARK_TRANSPARENT_2
             },
-            legend: {
-                labelBoxBorderColor: COLOR_DARK_TRANSPARENT_2,
-                noColumns: 1,
-                show: true
-            }
         });
-*/
+        /*
+                $.plot($("#interactive-chart3"), [{
+                    data: returnComplData,
+                    label: "반납대행 완료",
+                    color: COLOR_BLUE,
+                    lines: { show: true, fill:false, lineWidth: 2 },
+                    points: { show: true, radius: 3, fillColor: COLOR_WHITE },
+                    shadowSize: 0
+                }, {
+                    data: returnCancelData,
+                    label: "반납대행 취소",
+                    color: COLOR_GREEN,
+                    lines: { show: true, fill:false, lineWidth: 2 },
+                    points: { show: true, radius: 3, fillColor: COLOR_WHITE },
+                    shadowSize: 0
+                }], {
+                    xaxis: {  ticks: returnLabels, tickDecimals: 0, tickColor: COLOR_DARK_TRANSPARENT_2 },
+                    yaxis: {  ticks: 10, tickColor: COLOR_DARK_TRANSPARENT_2, min: 0  },
+                    grid: {
+                        hoverable: true,
+                        clickable: true,
+                        tickColor: COLOR_DARK_TRANSPARENT_2,
+                        borderWidth: 1,
+                        backgroundColor: 'transparent',
+                        borderColor: COLOR_DARK_TRANSPARENT_2
+                    },
+                    legend: {
+                        labelBoxBorderColor: COLOR_DARK_TRANSPARENT_2,
+                        noColumns: 1,
+                        show: true
+                    }
+                });
+        */
 
     }
 
@@ -862,18 +891,28 @@
         $.ajax({
             type: "POST",
             url: "${path}/api/manna/order/main",
-            contentType: "application/json;",
-            async: false,
-            data :JSON.stringify(req),
+            //contentType: "application/json;",
             dataType: "json",
+            async: false,
+            data :{ "brandTypeCd" : $('#brandTypeCd option:selected').val() },
             success: function(data) {
-                console.log(data)
+                orderMonth = 0;
                 for(var i = 0 ; i < data.timeList.length ; i++) {
                     label.push(data.timeList[i].yyyymmdd)
-                    totalCnt.push(data.timeList[i].totalCnt)
+                    totalCnt.push(Number(data.timeList[i].totalCnt))
                     endCnt.push(data.timeList[i].sumcount)
-            /*        cancelCnt.push(data.timeList[i].cancelCnt)*/
+                    orderMonth= orderMonth+data.timeList[i].totalCnt;
+                    /*        cancelCnt.push(data.timeList[i].cancelCnt)*/
                 }
+
+                const cnt = orderMonth.toString()
+                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                $(".orderMonth").text(cnt);
+                if(totalCnt.length == 0){
+                    totalCnt = [0];
+                }
+                $(".orderMax").append( Math.max.apply(null,totalCnt) + "회");
+                $(".orderMin").append( Math.min.apply(null,totalCnt) + "회");
                 if (data.timeList.length > 40) {
                     pointSize = 0;
                 } else {

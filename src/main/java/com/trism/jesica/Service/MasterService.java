@@ -33,7 +33,6 @@ public class MasterService {
     public Map<String, Object> getUserDataStatusPageList(Object name, Object dataStatus, Object appCode, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
         Map<String, Object> map = new HashMap<>();
         Page<TbUserStaffDTO> tbUserStaff = tbUserStaffRepository.findByUserStaffNativePageList(name,dataStatus,appCode,startDate,endDate,pageable);
-
         map.put("tbUserStaffList",tbUserStaff.getContent());
         map.put("totalPage",tbUserStaff.getTotalPages());
         map.put("totalElement",tbUserStaff.getTotalElements());

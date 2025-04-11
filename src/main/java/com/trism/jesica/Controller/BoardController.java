@@ -321,7 +321,16 @@ public class BoardController {
                 searchValue.put("platformType",map.get("platformType"));
            /*     searchValue.put("appCode",map.get("appCode"));*/
 
+
             List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            List<HashMap<String, String>> appCodeList = new ArrayList<>();
+            for(TbSystemCode appList : appVersionList){
+                HashMap<String, String> appMap = new HashMap<>();
+                appMap.put("codeName",appList.getCodeName());
+                appMap.put("sysCode",appList.getSysCode());
+                appCodeList.add(appMap);
+            }
+            model.addAttribute("appCodeList",appCodeList);
             model.addAttribute("appVersionList",appVersionList);
             List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
             log.info("tbAppBannerList::[{}]", tbAppBannerList);

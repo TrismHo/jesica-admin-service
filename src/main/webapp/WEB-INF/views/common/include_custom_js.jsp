@@ -695,9 +695,9 @@
         }
 
         <%--documentURL = "${path}/system/control/view";    //팝업창에 출력될 페이지 URL--%>
-        //const documentURL = "http://192.168.0.90:15001/control";    //local 관제
+        const documentURL = "http://192.168.0.24:15001/control";    //local 관제
         //const documentURL = "http://ctl-d.jesicar.co.kr:15000/control";    //개발서버 관제 URL
-        const documentURL = "https://ctl.jesicar.co.kr/control";    //운영서버 관제 URL
+        //const documentURL = "https://ctl.jesicar.co.kr/control";    //운영서버 관제 URL
 
 
         windowname = "관제";
@@ -983,6 +983,35 @@
         }
 
         return str;
+    }
+
+    function maxLengthCheck(id, title, maxLength){
+        var obj = $("#"+id);
+        if(maxLength == null) {
+            maxLength = obj.attr("maxLength") != null ? obj.attr("maxLength") : 1000;
+        }
+
+        if(Number(byteCheck(obj)) > Number(maxLength)) {
+            alert(title + "이(가) 입력가능문자수를 초과하였습니다.\n(영문, 숫자, 일반 특수문자 : "+maxLength+"/한글,한자,기타특수문자:"+parseInt(maxLength/2,10)+").");
+            obj.focus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+    function byteCheck(el){
+        var codeByte = 0;
+        for(var idx = 0; idx <el.val().length; idx++) {
+            var oneChar = escape(el.val().charAt(idx));
+            if ( oneChar.length == 1 ){
+                codeByte ++;
+            } else if(oneChar.indexOf("%u")!=-1){
+                codeByte += 2;
+            } else if (oneChar.indexOf("%") != -1){
+                codeByte++;
+            }
+        }
+        return codeByte;
     }
 
     let checkPageUrl = (function(currentPage, table) {

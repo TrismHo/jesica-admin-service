@@ -2932,7 +2932,7 @@ public class ApiController {
 
     @ResponseBody
     @PostMapping("/main/chart/list")
-    public ResponseEntity<?> chartData(@RequestParam("searchDate") String searchDate, HttpSession session)  {
+    public ResponseEntity<?> chartData(@RequestParam("searchDate") String searchDate, @RequestParam("appCode") String appCode, HttpSession session)  {
         Map<String,Object> map = new HashMap<>();
         try {
             map.put("getCallAllListType2040" , apiService.getCallAllListType2040(searchDate));
@@ -2942,11 +2942,18 @@ public class ApiController {
 
             //맛집 주문통계 추가
             LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey") ;
-            if("jesicar".equals(loginSession.getCompany())) {
-                map.put("getUserCount" , apiService.getUserCount(1));
-            } else if ("yangpa".equals(loginSession.getCompany())) {
-                map.put("getUserCount" , apiService.getUserCount(2));
+
+            if("".equals(appCode)){
+                map.put("getUserCount" , apiService.getUserCount(2, null));
+            } else {
+                map.put("getUserCount" , apiService.getUserCount(2, appCode));
             }
+
+         /*   if("jesicar".equals(loginSession.getCompany())) {
+                map.put("getUserCount" , apiService.getUserCount(1, appCode));
+            } else if ("yangpa".equals(loginSession.getCompany())) {
+
+            }*/
 
 
 
@@ -2989,11 +2996,12 @@ public class ApiController {
         ) ;
         try {
             getSearchOption(session);
-            if("jesicar".equals(company)) {
+           /* if("jesicar".equals(company)) {
                 searchValue.put("platformType","1");
             } else if ("yangpa".equals(company)) {
                 searchValue.put("platformType","2");
-            }
+            }*/
+            searchValue.put("platformType","2");
             if (!searchValue.isEmpty()){
 
                 Map<String,Object> timeList = null;
@@ -3002,13 +3010,15 @@ public class ApiController {
                 Integer platfromCode = null;
                 String extBrCode = null;
                 String addrCode = null;
-                if("jesicar".equals(company)) {
+                /*if("jesicar".equals(company)) {
                     platfromCode = 1;
                     searchValue.put("platformType","1");
                 } else if ("yangpa".equals(company)) {
                     platfromCode = 2;
-                    searchValue.put("platformType","2");
-                }
+
+                }*/
+                platfromCode = 2;
+                searchValue.put("platformType","2");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 if (searchValue.get("startDate") != null) {
                     String string = searchValue.get("startDate").toString() + " 00:00:00";
@@ -3029,7 +3039,7 @@ public class ApiController {
                 addrCode = ObjectUtils.isNotEmpty(searchValue.get("addrCode")) ? searchValue.get("addrCode").toString() : null;
                 appCode = ObjectUtils.isNotEmpty(searchValue.get("appCode")) ? searchValue.get("appCode").toString() : null;
 
-                if (searchValue.get("dayType") != null) {
+                if (!"".equals(searchValue.get("dayType"))) {
                     timeList =  statisticsService.getUserLineListPage(startDate,endDate, platfromCode, extBrCode, addrCode , appCode, pageable ,searchValue.get("dayType").toString());
                 } else {
                     timeList =  statisticsService.getUserLineListPage(startDate,endDate, platfromCode, extBrCode, addrCode , appCode, pageable ,"2");
@@ -3043,13 +3053,15 @@ public class ApiController {
                 Integer platfromCode = null;
                 String extBrCode = null;
                 String addrCode = null;
-                if("jesicar".equals(company)) {
+               /* if("jesicar".equals(company)) {
                     platfromCode = 1;
                     searchValue.put("platformType","1");
                 } else if ("yangpa".equals(company)) {
                     platfromCode = 2;
-                    searchValue.put("platformType","2");
-                }
+
+                }*/
+                platfromCode = 2;
+                searchValue.put("platformType","2");
                 extBrCode = ObjectUtils.isNotEmpty(searchValue.get("extBrCode")) ? searchValue.get("extBrCode").toString() : null;
                 addrCode = ObjectUtils.isNotEmpty(searchValue.get("addrCode")) ? searchValue.get("addrCode").toString() : null;
                 appCode = ObjectUtils.isNotEmpty(searchValue.get("appCode")) ? searchValue.get("appCode").toString() : null;
@@ -3066,7 +3078,7 @@ public class ApiController {
 
                 startDate = LocalDateTime.parse(string, formatter);
                 endDate = LocalDateTime.parse(string1, formatter);
-                if (searchValue.get("dayType") != null) {
+                if (!"".equals(searchValue.get("dayType"))) {
                     timeList =  statisticsService.getUserLineListPage(startDate,endDate, platfromCode, extBrCode, addrCode , appCode, pageable ,searchValue.get("dayType").toString());
                 } else {
                     timeList =  statisticsService.getUserLineListPage(startDate,endDate, platfromCode, extBrCode, addrCode , appCode, pageable ,"2");
@@ -3117,11 +3129,12 @@ public class ApiController {
         ) ;
         try {
             getSearchOption(session);
-            if("jesicar".equals(company)) {
+         /*   if("jesicar".equals(company)) {
                 searchValue.put("platformType","1");
             } else if ("yangpa".equals(company)) {
                 searchValue.put("platformType","2");
-            }
+            }*/
+            searchValue.put("platformType","2");
             if (!searchValue.isEmpty()){
 
                 Map<String,Object> timeList = null;
@@ -3157,7 +3170,7 @@ public class ApiController {
                 ordStatus = ObjectUtils.isNotEmpty(searchValue.get("ordStatus")) ? searchValue.get("ordStatus").toString() : null;
                 brandTypeCd = ObjectUtils.isNotEmpty(searchValue.get("brandTypeCd")) ? searchValue.get("brandTypeCd").toString() : null;
                 log.info("@@searchValue {}",searchValue);
-                if (searchValue.get("dayType") != null) {
+                if (!"".equals(searchValue.get("dayType"))) {
                     resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, searchValue.get("dayType").toString());
                 } else {
                     resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, "2");
@@ -3168,14 +3181,15 @@ public class ApiController {
                 String brCode = null;
                 String ordStatus = null;
                 String brandTypeCd = null;
-                if("jesicar".equals(company)) {
+                /*if("jesicar".equals(company)) {
                     ordPathCd = "1063";
                     searchValue.put("ordPathCd","1063");
                 } else if ("yangpa".equals(company)) {
                     ordPathCd = "1069";
                     searchValue.put("ordPathCd","1069");
-                }
-
+                }*/
+                ordPathCd = "1069";
+                searchValue.put("ordPathCd","1069");
                 brCode = ObjectUtils.isNotEmpty(searchValue.get("brCode")) ? searchValue.get("brCode").toString() : null;
                 brandTypeCd = ObjectUtils.isNotEmpty(searchValue.get("brandTypeCd")) ? searchValue.get("brandTypeCd").toString() : null;
                 ordStatus = ObjectUtils.isNotEmpty(searchValue.get("ordStatus")) ? searchValue.get("ordStatus").toString() : null;
@@ -3193,7 +3207,7 @@ public class ApiController {
                 startDate = LocalDateTime.parse(string, formatter);
                 endDate = LocalDateTime.parse(string1, formatter);
                 log.info("@@searchValue {}",searchValue);
-                if (searchValue.get("dayType") != null) {
+                if (!"".equals(searchValue.get("dayType"))) {
                     resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, searchValue.get("dayType").toString());
                 } else {
                     resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, "2");
@@ -3222,7 +3236,6 @@ public class ApiController {
             String company = loginSession.getCompany();
 
             if (!searchValue.isEmpty()){
-
                 List<Map<String,Object>> timeList = null;
                 LocalDateTime startDate = null;
                 LocalDateTime endDate = null;
@@ -3231,13 +3244,15 @@ public class ApiController {
                 String appCode = null;
 
                 String addrCode = null;
-                if("jesicar".equals(company)) {
+              /*  if("jesicar".equals(company)) {
                     platfromCode = 1;
                     searchValue.put("platformType","1");
                 } else if ("yangpa".equals(company)) {
                     platfromCode = 2;
                     searchValue.put("platformType","2");
-                }
+                } */
+                platfromCode = 2;
+                searchValue.put("platformType","2");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 if (searchValue.get("startDate") != null) {
                     String string = searchValue.get("startDate").toString() + " 00:00:00";
@@ -3253,33 +3268,23 @@ public class ApiController {
                     String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
                     endDate = LocalDateTime.parse(string, formatter);
                 }
-                if (searchValue.get("extBrCode") != null && searchValue.get("extBrCode") != "") {
-                    extBrCode = searchValue.get("extBrCode").toString();
-                } else {
-                    extBrCode = null;
-                }
-                if (searchValue.get("addrCode") != null && searchValue.get("addrCode") != "") {
-                    addrCode = searchValue.get("addrCode").toString();
-                } else {
-                    addrCode = null;
-                }
-                if (searchValue.get("appCode") != null && searchValue.get("appCode") != "") {
-                    appCode = searchValue.get("appCode").toString();
-                } else {
-                    appCode = null;
-                }
-                System.out.println(searchValue.get("dayType"));
-                if (searchValue.get("dayType") != null) {
+                appCode = ObjectUtils.isNotEmpty(searchValue.get("appCode")) ? searchValue.get("appCode").toString() : null;
+                addrCode = ObjectUtils.isNotEmpty(searchValue.get("addrCode")) ? searchValue.get("addrCode").toString() : null;
+                extBrCode = ObjectUtils.isNotEmpty(searchValue.get("extBrCode")) ? searchValue.get("extBrCode").toString() : null;
+
+                if (!"".equals(searchValue.get("dayType"))) {
                     if("2".equals(searchValue.get("dayType").toString())) {
                         timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode, addrCode , appCode);
                     } else {
                         timeList =  statisticsService.getUserLineWeekList(startDate,endDate, platfromCode, extBrCode, addrCode ,appCode);
-
                     }
+                } else {
+                    timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode, addrCode , appCode);
                 }
 
                 map.put("timeList" , timeList);
-            } else {
+            }
+            /*else {
 
                 List<Map<String,Object>> timeList = null;
                 Integer platfromCode = null;
@@ -3321,9 +3326,18 @@ public class ApiController {
 
                 startDate = LocalDateTime.parse(string, formatter);
                 endDate = LocalDateTime.parse(string1, formatter);
-                timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode,addrCode, appCode);
+
+                if (searchValue.get("dayType") != null) {
+                    if("2".equals(searchValue.get("dayType").toString())) {
+                        timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode, addrCode , appCode);
+                    } else {
+                        timeList =  statisticsService.getUserLineWeekList(startDate,endDate, platfromCode, extBrCode, addrCode ,appCode);
+                    }
+                }  else {
+                    timeList =  statisticsService.getUserLineDayList(startDate,endDate, platfromCode, extBrCode, addrCode , appCode);
+                }
                 map.put("timeList" , timeList);
-            }
+            }*/
 
 
         } catch (Exception e) {
@@ -3349,13 +3363,15 @@ public class ApiController {
                 Integer platfromCode = null;
                 String extBrCode = null;
 
-                if("jesicar".equals(company)) {
+               /*  if("jesicar".equals(company)) {
                     platfromCode = 1;
                     searchValue.put("platformType","1");
                 } else if ("yangpa".equals(company)) {
                     platfromCode = 2;
                     searchValue.put("platformType","2");
-                }
+                } */
+                platfromCode = 2;
+                searchValue.put("platformType","2");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 if (searchValue.get("startDate") != null) {
                     String string = searchValue.get("startDate").toString() + " 00:00:00";
@@ -3391,13 +3407,15 @@ public class ApiController {
                 Integer platfromCode = null;
                 String extBrCode = null;
                 String addrCode = null;
-                if("jesicar".equals(company)) {
+               /*  if("jesicar".equals(company)) {
                     platfromCode = 1;
                     searchValue.put("platformType","1");
                 } else if ("yangpa".equals(company)) {
                     platfromCode = 2;
                     searchValue.put("platformType","2");
-                }
+                } */
+                platfromCode = 2;
+                searchValue.put("platformType","2");
                 if (searchValue.get("extBrCode") != null && searchValue.get("extBrCode") != "") {
                     extBrCode = searchValue.get("extBrCode").toString();
                 } else {
@@ -3442,14 +3460,16 @@ public class ApiController {
                 LocalDateTime endDate = null;
                 String ordPathCd = null;
                 String brCode = null;
+                String brandTypeCd = null;
                 String ordStatus = null;
-                if("jesicar".equals(company)) {
+              /*  if("jesicar".equals(company)) {
                     ordPathCd = "1063";
                     searchValue.put("ordPathCd","1063");
                 } else if ("yangpa".equals(company)) {
-                    ordPathCd = "1069";
                     searchValue.put("ordPathCd","1069");
-                }
+                }*/
+                ordPathCd = "1069";
+                searchValue.put("ordPathCd","1069");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 if (searchValue.get("startDate") != null) {
                     String string = searchValue.get("startDate").toString() + " 00:00:00";
@@ -3462,7 +3482,7 @@ public class ApiController {
                     String string = searchValue.get("endDate").toString() + " 23:59:59";
                     endDate = LocalDateTime.parse(string, formatter);
                 } else {
-                    String string =  DateUtil.now_yyyy_mm_dd_yester()+ " 23:59:59";
+                    String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
                     endDate = LocalDateTime.parse(string, formatter);
                 }
                 if (searchValue.get("brCode") != null && searchValue.get("brCode") != "") {
@@ -3471,12 +3491,15 @@ public class ApiController {
                 if (searchValue.get("ordStatus") != null && searchValue.get("ordStatus") != "") {
                     ordStatus = searchValue.get("ordStatus").toString();
                 }
-                if (searchValue.get("dayType") != null) {
+                brandTypeCd = ObjectUtils.isNotEmpty(searchValue.get("brandTypeCd")) ? searchValue.get("brandTypeCd").toString() : null;
+                if (!"".equals(searchValue.get("dayType"))) {
                     if("1".equals(searchValue.get("dayType").toString())) {
-                        timeList =  statisticsService.getMannaLineWeekList(startDate,endDate, ordPathCd, brCode, ordStatus);
+                        timeList =  statisticsService.getMannaLineWeekList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus);
                     } else {
-                        timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, ordStatus);
+                        timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus);
                     }
+                } else {
+                    timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus);
                 }
 
                 map.put("timeList" , timeList);
@@ -3486,13 +3509,16 @@ public class ApiController {
                 String ordPathCd = null;
                 String brCode = null;
                 String ordStatus = null;
-                if("jesicar".equals(company)) {
+                String brandTypeCode = null;
+               /* if("jesicar".equals(company)) {
                     ordPathCd = "1063";
                     searchValue.put("ordPathCd","1063");
                 } else if ("yangpa".equals(company)) {
                     ordPathCd = "1069";
                     searchValue.put("ordPathCd","1069");
-                }
+                }*/
+                ordPathCd = "1069";
+                searchValue.put("ordPathCd","1069");
                 LocalDateTime startDate = null;
                 LocalDateTime endDate = null;
 
@@ -3505,7 +3531,7 @@ public class ApiController {
 
                 startDate = LocalDateTime.parse(string, formatter);
                 endDate = LocalDateTime.parse(string1, formatter);
-                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, ordStatus );
+                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCode, ordStatus );
                 map.put("timeList" , timeList);
             }
 
@@ -3518,7 +3544,7 @@ public class ApiController {
     }
     @ResponseBody
     @PostMapping("/manna/order/main")
-    public ResponseEntity<?> mannaOrderMain(@RequestBody Map<String,Object> searchValue, HttpSession session)  {
+    public ResponseEntity<?> mannaOrderMain(@RequestParam("brandTypeCd") Object brandTypeCd, HttpSession session)  {
         Map<String,Object> map = new HashMap<>();
         try {
             List<Map<String,Object>> timeList = null;
@@ -3532,10 +3558,15 @@ public class ApiController {
             String string1 =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+
             startDate = LocalDateTime.parse(string, formatter);
             endDate = LocalDateTime.parse(string1, formatter);
-            System.out.println("-----------------------------------------------------");
-            timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd ,brCode, ordStatus);
+            if("".equals(brandTypeCd.toString())){
+                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd ,brCode, null, ordStatus);
+            } else {
+                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd ,brCode, brandTypeCd.toString(), ordStatus);
+            }
+
             map.put("timeList" , timeList);
 
         } catch (Exception e) {
@@ -3678,13 +3709,14 @@ public class ApiController {
     @ResponseBody
     @PostMapping("/banner/insert")
     public ResponseEntity<?> insertAppBanner(@RequestPart TbAppBannerData tbAppBannerData
+                                             ,@RequestPart List<Map<String,String>> areaList
             ,@RequestPart(value="imgFile", required = false) MultipartFile imgFile) {
         log.info("TbAppBannerData tbAppBannerData::{}", tbAppBannerData);
         log.info("imgFile imgFile::{}", imgFile);
 
         Map<String,Object> map = new HashMap<>();
         try {
-            int result = apiService.insertTbAppBanner(tbAppBannerData, imgFile);
+            int result = apiService.insertTbAppBanner(tbAppBannerData, imgFile, areaList);
 
 
             if(result == 1) {
@@ -4341,6 +4373,17 @@ public class ApiController {
             e.printStackTrace();
         }
         List<TbUserStaffDTO> list = (List<TbUserStaffDTO>) resultMap.get("tbUserStaffList");
+        System.out.println(list);
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        /*for(int i = 0 ; i < list.size() ; i ++) {
+            for(TbSystemCode code : appVersionList) {
+                if(ObjectUtils.isNotEmpty(list.get(i).getAppCode())){
+                    if(list.get(i).getAppCode().equals(code.getSysCode())) {
+                        list.get(i).setAppName(code.getCodeName());
+                    }
+                }
+            }
+        }*/
         // paging 객체 Set
 
 
@@ -4477,6 +4520,16 @@ public class ApiController {
             e.printStackTrace();
         }
         List<TbCust> list = (List<TbCust>) resultMap.get("custList");
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        for(int i = 0 ; i < list.size() ; i ++) {
+            for(TbSystemCode code : appVersionList) {
+                if(ObjectUtils.isNotEmpty(list.get(i).getAppCode())){
+                    if(list.get(i).getAppCode().equals(code.getSysCode())) {
+                        list.get(i).setAppName(code.getCodeName());
+                    }
+                }
+            }
+        }
         // paging 객체 Set
 
         List<TbSystemCode> A1List = apiService.systemCodeList("A1");
@@ -4523,6 +4576,19 @@ public class ApiController {
             e.printStackTrace();
         }
         List<TbNoticePlatform> list = (List<TbNoticePlatform>) resultMap.get("platformList");
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        for(int i = 0 ; i < list.size() ; i ++) {
+            for(TbSystemCode code : appVersionList) {
+                if(ObjectUtils.isNotEmpty(list.get(i).getAppCode())){
+                    if(list.get(i).getAppCode().equals(code.getSysCode())) {
+                        list.get(i).setAppName(code.getCodeName());
+                    }
+                }
+            }
+        }
+
+
+
         // paging 객체 Set
 
         // 응답값 Set
@@ -4563,7 +4629,16 @@ public class ApiController {
         }
         List<TbEvent> list = (List<TbEvent>) resultMap.get("eventList");
         // paging 객체 Set
-
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        for(int i = 0 ; i < list.size() ; i ++) {
+            for(TbSystemCode code : appVersionList) {
+                if(ObjectUtils.isNotEmpty(list.get(i).getAppCode())){
+                    if(list.get(i).getAppCode().equals(code.getSysCode())) {
+                        list.get(i).setAppName(code.getCodeName());
+                    }
+                }
+            }
+        }
         // 응답값 Set
         return DataTableModel.builder()
                 .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
@@ -4665,6 +4740,16 @@ public class ApiController {
 
         Map<String, Object> resultMap =  mannaService.tbMannaEventPushSearch(searchValue,pageable);
         List<TbMannaEventPush> list = (List<TbMannaEventPush>) resultMap.get("eventPushList");
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        for(int i = 0 ; i < list.size() ; i ++) {
+            for(TbSystemCode code : appVersionList) {
+                if(ObjectUtils.isNotEmpty(list.get(i).getBrandTypeCd())){
+                    if(list.get(i).getBrandTypeCd().equals(code.getCodeValue())) {
+                        list.get(i).setAppName(code.getCodeName());
+                    }
+                }
+            }
+        }
 
         // 응답값 Set
         return DataTableModel.builder()
@@ -4674,7 +4759,7 @@ public class ApiController {
     }
 
     // 맛집주문내역 페이징
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping(value = {"/eventpust/log/list"})
     public DataTableModel pushLogList(HttpServletRequest request, DataTableDTO paging,
                                        @RequestParam Map<String,Object> searchValue){
@@ -4702,7 +4787,7 @@ public class ApiController {
                 .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
                 .data(list)
                 .build();
-    }
+    }*/
 
 
     @ResponseBody

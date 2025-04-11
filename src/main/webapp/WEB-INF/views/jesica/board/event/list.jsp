@@ -164,7 +164,7 @@
                     <thead>
                     <tr class="text-center">
                         <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                        <th width="5%"><spring:message code="list.word.no11" text="앱코드"/></th>
+                        <th width="5%"><spring:message code="list.word.no11" text="앱구분"/></th>
                         <th width="20%"><spring:message code="list.detail.title" text="제목"/></th>
                        <%-- <th width="10%"><spring:message code="list.word.serviceclassification" text="플랫폼구분"/></th>--%>
                         <th width="5%"><spring:message code="list.word.status" text="상태"/></th>
@@ -316,7 +316,7 @@
             table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/event/list","A5","1", true,{
                 columns: [
                     {data: "listIndex"},
-                    {data: "appCode"},
+                    {data: "appName"},
                     {data: "title"},
                     {data: "viewYn" ,
                         render: function(data){

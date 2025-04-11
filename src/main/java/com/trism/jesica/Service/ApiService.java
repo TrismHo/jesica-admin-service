@@ -555,6 +555,7 @@ public class ApiService {
         TbLibrary tbLibrarySave = null;
         try {
             libraryInfo.setInsertDate(LocalDateTime.now());
+            libraryInfo.setDataStatus(1);
             tbLibrarySave = tbLibraryRepository.save(libraryInfo);
             OutputStream os = null;
             if (ObjectUtils.isNotEmpty(attachFile)) {
@@ -1500,6 +1501,20 @@ public class ApiService {
                             } else {
                                 menuMap.put("permission","2");
                                 menuMap.put("downloadAble","1");
+                                //앱관리자는 쿠폰관리 권한 없음
+                                if(tbSiteMenus.get(i).getMenuUrl().contains("membership/coupon")){
+                                    menuMap.put("permission","0");
+                                    menuMap.put("downloadAble","0");
+                                } else  {
+                                    //앱관리자는 회원권한 조회만 가능
+                                    if(tbSiteMenus.get(i).getMenuUrl().contains("board/cust")){
+                                        menuMap.put("permission","1");
+                                        menuMap.put("downloadAble","0");
+                                    } else  {
+                                        menuMap.put("permission","2");
+                                        menuMap.put("downloadAble","1");
+                                    }
+                                }
                             }
                         } else {
                             menuMap.put("permission","0");
@@ -1514,10 +1529,6 @@ public class ApiService {
                             menuMap.put("downloadAble","0");
                         }
                     }
-
-
-
-
                     menuPermissionList.add(menuMap);
                 }
                 updateAclMulTi(menuPermissionList);
@@ -3231,10 +3242,10 @@ public class ApiService {
     }
 
     @Transactional
-    public int insertTbAppBanner(TbAppBannerData tbAppBannerData, MultipartFile imgFile) {
+    public int insertTbAppBanner(TbAppBannerData tbAppBannerData, MultipartFile imgFile, List<Map<String,String>> areaList) {
 
         int result = 0;
-
+        tbAppBannerData.setPlatformType(2);
         try {
             OutputStream os = null;
 
@@ -3294,7 +3305,12 @@ public class ApiService {
             } else {
                 tbAppBannerData.setViewOrder(null);
             }
-            tbAppBannerRepository.save(tbAppBannerData.insertData());
+            TbAppBanner bannerNo = tbAppBannerRepository.save(tbAppBannerData.insertData());
+            if(tbAppBannerData.getBannerType() == 1){
+                for (Map<String,String> area : areaList) {
+                    tbAppBannerLocationRepository.bannerLocationAreaAdd(bannerNo.getBannerNo(), area.get("code1"), area.get("code2"));
+                }
+            }
             result = 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -3306,7 +3322,7 @@ public class ApiService {
     @Transactional
     public int updateTbAppBanner(TbAppBannerData tbAppBannerData, MultipartFile imgFile) {
         int result = 0;
-
+        tbAppBannerData.setPlatformType(2);
         if (tbAppBannerRepository.existsById(tbAppBannerData.getBannerNo())) {
             try {
                 OutputStream os = null;
@@ -3650,8 +3666,8 @@ public class ApiService {
         return tbCustRepository.getAppCodeCustList(appCode);
     }
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> getUserCount( Integer platformType) {
-        return tbCallAllRepository.getUserCount(platformType);
+    public List<Map<String,Object>> getUserCount( Integer platformType, String appCode) {
+        return tbCallAllRepository.getUserCount(platformType, appCode);
     }
     @Transactional(readOnly = true)
     public TbMannaCouponRegist getMembershipCouponInfo(Long publishNo) {

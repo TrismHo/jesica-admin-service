@@ -129,6 +129,8 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             "a.staff_no as staffNo, " +
             " a.name as name " +
             ", a.phone as phone " +
+            ", (select code_name from tb_system_code where sys_type= 'AC' and sys_code = a.app_code) as appName " +
+            ", a.app_code as appCode " +
             ", a.memo as memo " +
             ", a.role_type as roleType " +
             ", a.data_status as dataStatus" +
@@ -152,6 +154,8 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
                     "a.staff_no as staffNo, " +
                     " a.name as name " +
                     ", a.phone as phone " +
+                    ", (select code_name from tb_system_code where sys_type= 'AC' and sys_code = a.app_code) as appName " +
+                    ", a.app_code as appCode " +
                     ", a.memo as memo " +
                     ", a.role_type as roleType " +
                     ", a.data_status as dataStatus" +
@@ -162,7 +166,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
                     "from tb_user_staff a left outer join tb_user b " +
                     "on b.user_no = a.staff_no " +
                     "where ((:name is null and 1=1 ) or ( :name is not null and name like %:name% ))" +
-                    "and ((:appCode is null and 1=1 ) or ( :appCode is not null and app_code = :appCode))" +
+                    "and ((:appCode is null and 1=1 ) or ( :appCode is not null and a.app_code = :appCode))" +
                     "and (b.user_type = 6) " +
                     "and a.role_type != 0 " +
                     " and ((:dataStatus is null and data_status != 0 ) or ( :dataStatus is not null and data_status = :dataStatus )) " +

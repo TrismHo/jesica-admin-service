@@ -189,12 +189,12 @@ public class SearchUtil {
             return builder.and(predicate.toArray(new Predicate[0]));
         });
     }
-    public static Specification<?> searchEventPushLog(Map<String, Object> searchKeyword) {
+   /* public static Specification<?> searchEventPushLog(Map<String, Object> searchKeyword) {
         return (Specification<?>) ((root, query, builder) -> {
             List<Predicate> predicate = searchEventPushLog(searchKeyword, root, builder);
             return builder.and(predicate.toArray(new Predicate[0]));
         });
-    }
+    }*/
     public static Specification<?> searchMannaCouponPublish(Map<String, Object> searchKeyword) {
         return (Specification<?>) ((root, query, builder) -> {
             List<Predicate> predicate = searchMannaCouponPublish(searchKeyword, root, builder);
@@ -1174,13 +1174,15 @@ public class SearchUtil {
                    String string = value.toString() + " 23:59:59";
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    endDate = LocalDateTime.parse(string, formatter);
-               } else if ("startDate".equals(key) && value != "") {
+                } else if ("startDate".equals(key) && value != "") {
                    String string = value.toString() + " 00:00:00";
                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                    startDate = LocalDateTime.parse(string, formatter);
 
-               } else if ("platformType".equals(key) && value != "") {
+                } else if ("platformType".equals(key) && value != "") {
                     predicate.add(builder.equal(root.get(key), Integer.parseInt((String)value)));
+                } else if ("brandTypeCd".equals(key) && ObjectUtils.isNotEmpty(value)) {
+                    predicate.add(builder.equal(root.get(key), value));
                 }
             }
             if (ObjectUtils.isNotEmpty(startDate) && ObjectUtils.isNotEmpty(endDate)) {
@@ -1192,7 +1194,7 @@ public class SearchUtil {
         return predicate;
     }
 
-    private static List<Predicate>  searchEventPushLog(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
+   /* private static List<Predicate>  searchEventPushLog(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
@@ -1223,7 +1225,7 @@ public class SearchUtil {
             e.printStackTrace();
         }
         return predicate;
-    }
+    }*/
     private static List<Predicate>  searchMannaCouponPublish(Map<String, Object> searchKeyword, Root<?> root, CriteriaBuilder builder) {
         List<Predicate> predicate = new ArrayList<>();
         LocalDateTime startDate = null;

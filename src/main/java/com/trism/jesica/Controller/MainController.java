@@ -105,8 +105,12 @@ public class MainController {
      */
     @GetMapping("/main")
     public ModelAndView main(Model model, HttpSession session) {
+        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        String appCode = loginSession.getAppCode();
 
-
+        model.addAttribute("appCode",appCode);
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
         //신규고객
         model.addAttribute("userChart",apiService.getCustChart().get(0).get("cnt"));
         //정상기사
@@ -121,8 +125,7 @@ public class MainController {
         model.addAttribute("getCallAllListType21",apiService.getCallAllListType21());*/
 
         model.addAttribute("updateList",boardService.getUpdateListLimit());
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey") ;
-        /*if("jesicar".equals(loginSession.getCompany())) {
+       /* if("jesicar".equals(loginSession.getCompany())) {
             model.addAttribute("updateEventList",boardService.getUpdateEventListLimit(1));
             model.addAttribute("updatePlatList",boardService.getPlatformListLimit(1));
         } else if ("yangpa".equals(loginSession.getCompany())) {

@@ -105,6 +105,8 @@ public class StoreController {
         Map<String,Object> map = permission(session,"store/eventpush");
 
         searchValue.put("appCode",map.get("appCode"));
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
         model.addAttribute("permission",map.get("permission"));
         model.addAttribute("downloadAble",map.get("downloadAble"));
         model.addAttribute("searchValue", searchValue);

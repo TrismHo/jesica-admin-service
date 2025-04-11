@@ -52,7 +52,7 @@ spring:
     datasource:
       hikari:
         #test
-        jdbc-url: jdbc:mysql://192.16.10.30:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+        jdbc-url: jdbc:mysql://192.168.10.30:3306/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
         username: jesicar01
         password: wptlzk2021
         driver-class-name: com.mysql.cj.jdbc.Driver #org.h2.Driver
@@ -160,10 +160,10 @@ spring:
 ---
 file:
   baseFilePath:
-    path: /manna/mannaAdmin/jesicaAdmin/file
+    path: /data/jesicar/file
   #기본 이미지 경로
   baseImgPath:
-    path: /manna/mannaAdmin/jesicaAdmin
+    path: /data/jesicar
   servicePath:
     path: /images/driver
   imgPath:
@@ -189,11 +189,12 @@ file:
     path: /manna/mannaAdmin/jesicaAdmin/messages/message
   apiServer:
     #server: http://101.55.126.133:4000/api
-    server: http://test.jigbae.co.kr/api
+    server: https://mng.jigbae.co.kr/api
   imgHttp:
-    path: http://test.jigbae.co.kr/api/img/fileLoad?filePath=
+    path: https://mng.jigbae.co.kr/api/img/fileLoad?filePath=
   momPosServer:
-    server: https://tfrapp.mompos.co.kr:8443/api-ms
+    server: https://frapp.jigbae.co.kr:8443/api-ms
+    #server: https://frapp.mompos.co.kr:8443/api-ms
     authKey: $2b$10$AInuqBy72feWtpZ/xYa7a.x7myRhz9VZ9QqRtazEVtlWgEgi9NO5y
   ordPathCd:
     jesicar: 1063

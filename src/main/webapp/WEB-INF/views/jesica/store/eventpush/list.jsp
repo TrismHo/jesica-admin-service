@@ -81,6 +81,25 @@
                                                     </select>
                                                 </label>
                                             </td>
+                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="앱코드"/><%--등록기간--%></strong></td>
+                                            <td >
+                                                <c:if test="${empty appCode}">
+                                                    <select id="brandTypeCd" name="brandTypeCd" class="form-control" >
+                                                        <option value="" selected>전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.codeValue}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                        <c:if test="${appCode == appCodeList.sysCode}">
+                                                            <input type="hidden" name="brandTypeCd" value="${appCodeList.codeValue}">
+                                                            <input type="text" class="form-control" value="${appCodeList.codeName}" disabled>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="이벤트 주문구분"/></strong></td>
                                             <td>
                                                 <div class="row">
@@ -108,7 +127,7 @@
                                                 </label>
                                             </td>
                                             <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어"/><%--검색어 입력--%></strong></td>
-                                            <td>
+                                            <td colspan="3">
                                                 <label>
                                                     <select class="form-control">
                                                         <%--<option>선택&lt;%&ndash;<spring:message code="merchandise.search9.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</option>--%>
@@ -140,6 +159,7 @@
                     <thead>
                     <tr class="text-center">
                         <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
+                        <th><spring:message code="list.detail.title1" text="앱구분"/></th>
                         <th><spring:message code="list.detail.title1" text="일련번호"/></th>
                         <th ><spring:message code="list.word.status" text="이벤트 일련번호"/></th>
                         <th ><spring:message code="list.word.contents1" text="그룹코드"/></th>
@@ -267,6 +287,7 @@
 
             columns : [
                 {data: "listIndex"},
+                {data: "appName"},
                 {data: "logNo"},
                 {data: "evntSeqNo"},
                 {data: "grCode"},
@@ -287,7 +308,7 @@
             columnDefs: [
                 {targets: "_all", className: "text-center"},
                 {
-                    targets: 5,
+                    targets: 6,
                     render: function(data){
                         if(data) {
                             if(data == 1) {
@@ -305,19 +326,19 @@
                     }
                 },
                 {
-                    targets: [6,7],
+                    targets: [6,8],
                     render:function(data){
                         return countString(data, "건");
                     }
                 },
                 {
-                    targets: [8,9,16],
+                    targets: [9,10,17],
                     render: function(data){
                         return dateFormat(data);
                     },
                 },
                 {
-                    targets: 11,
+                    targets: 12,
                     render: function(data){
                         if(data) {
                             if(data == 1) {
@@ -337,12 +358,12 @@
                     },
                 },
                 {
-                    targets: [12,13],
+                    targets: [13,14],
                     render: $.fn.dataTable.render.number(',')
                 },
 
                 {
-                    targets: 11,
+                    targets: 12,
                     render: function(data){
                         if(data) {
                             if(data == 1) {
@@ -362,7 +383,7 @@
                     },
                 },
                 {
-                    targets: 14,
+                    targets: 15,
                     render: function(data){
                         if(data) {
                             if(data == 1) {
@@ -384,7 +405,7 @@
                     },
                 },
                 {
-                    targets: 15,
+                    targets: 16,
                     render: function(data){
                         if(data) {
                             if(data == 1) {

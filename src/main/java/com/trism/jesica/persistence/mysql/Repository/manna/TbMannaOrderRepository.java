@@ -388,6 +388,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                             "                    and data_status = 1       " +
                             "                    and ord_path_cd = :ordPathCd " +
                             "                    and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode))       " +
+                            "                    and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and brand_type_cd = :brandTypeCd)) " +
                             "                    and ((:ordStatus is null and 1=1) or (:ordStatus is not null and ord_status = :ordStatus))) ab      " +
                             "           group by yyyymmdd          " +
                             "        )c        " +
@@ -398,6 +399,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                                                  @Param("endDate") LocalDateTime endDate,
                                                  @Param("ordPathCd") String ordPathCd,
                                                  @Param("brCode") String brCode,
+                                                 @Param("brandTypeCd") String brandTypeCd,
                                                  @Param("ordStatus") String ordStatus
     );
 
@@ -500,6 +502,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                     "                    and data_status = 1       " +
                     "                    and ord_path_cd = :ordPathCd " +
                     "                    and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode)) " +
+                    "                    and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and brand_type_cd = :brandTypeCd)) " +
                     "                    and ((:ordStatus is null and 1=1) or (:ordStatus is not null and ord_status = :ordStatus))) ab " +
                     "           group by yyyymmdd          " +
                     "        )c        " +
@@ -510,6 +513,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                                                   @Param("endDate") LocalDateTime endDate,
                                                   @Param("ordPathCd") String ordPathCd,
                                                   @Param("brCode") String brCode,
+                                                  @Param("brandTypeCd") String brandTypeCd,
                                                   @Param("ordStatus") String ordStatus
     );
     Page<TbMannaOrder> findAll(Specification<TbMannaOrder> specification, Pageable pageable);

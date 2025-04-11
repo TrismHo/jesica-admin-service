@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jig-Bae | <spring:message code="list.detail.libNoticedetails" text="관리자 자료"/></title>
+    <title>Jig-Bae | <spring:message code="list.detail.libNoticedetails" text="자료실"/></title>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -29,14 +29,15 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="자료실"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><spring:message code="list.detail.libNoticedetails" text="관리자 자료"/></li>
-                    <li class="breadcrumb-item active"><spring:message code="list.detail.libNoticedetails" text="관리자 자료상세"/></li>
+                    <li class="breadcrumb-item"><spring:message code="list.detail.libNoticedetails" text="자료실"/></li>
+                    <li class="breadcrumb-item active"><spring:message code="list.detail.libNoticedetails" text="자료실 상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.libNoticedetails" text="관리자 자료상세"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.libNoticedetails" text="자료실 상세"/></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
                     <div class="table-responsive m-l-5">
+
                         <form name="update_form" id="update_form" class="update_form">
                             <%--<input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">--%>
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${tbLibrary.insertUserId}">
@@ -46,22 +47,10 @@
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱코드"/></td>
-                                    <td>
-                                        <c:if test="${empty appCode}">
-                                            <select name="appCode" class="form-control w-25" >
-                                                <option value="">전체</option>
-                                                <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                    <option value="${appCodeList.sysCode}"<c:if test="${tbLibrary.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
-                                                </c:forEach>
-                                            </select>
-                                        </c:if>
-                                        <c:if test="${!empty appCode}">
-                                            <input type="text" class="form-control" name="appCode" readonly value="${tbLibrary.appCode}">
-                                        </c:if>
-                                    </td>
-                                    <td rowspan="4" class="m-0 p-0" style="vertical-align: top;">
-                                        <table class="table table-striped table-borderless table-sm m-0 p-0 text-nowrap">
+                                    <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
+                                    <td>${tbLibrary.fileTitle}</td>
+                                    <td rowspan="4" class="m-0 p-t-5" style="vertical-align: top;">
+                                        <table class="table table-striped table-borderless table-sm m-0 p-0 text-nowrap ">
                                             <thead>
                                             <tr class="border-bottom">
                                                 <th class="w-10px ps-10px"></th>
@@ -74,9 +63,9 @@
                                             </thead>
                                             <tbody>
                                             <c:forEach var="item" items="${files}" varStatus="status">
-                                                <tr  class="filebox">
+                                                <tr  class="filebox cursor-pointer" onclick="downloadFile(`${item.fileOriginName}`,`${item.fileName}`,`${item.filePath}`,`${item.fileContentType}`)">
                                                     <td class="ps-10px border-0 text-center">
-                                                        <a class="" onclick="downloadFile(`${item.fileOriginName}`,`${item.fileName}`,`${item.filePath}`,`${item.fileContentType}`)">
+                                                        <a class="" >
                                                             <c:if test="${item.fileContentType == 'image/png'}">
                                                             <i class="far fa-image text-body text-opacity-50 fa-lg"  ></i></a>
                                                         </c:if>
@@ -89,7 +78,7 @@
                                                     </td>
                                                     <td class="px-10px border-0">${item.fileOriginName}</td>
                                                     <td class="px-10px">${item.fileSize} byte</td>
-                                                    <td class="px-10px">${item.insertDate}</td>
+                                                    <td class="px-10px"><javatime:format value="${item.insertDate}" pattern="yyyy-MM-dd" /></td>
                                                     <td class="px-10px">${item.fileContentType}</td>
                                                     <td class="px-10px"> <a class="" onclick="downloadFile(`${item.fileOriginName}`,`${item.fileName}`,`${item.filePath}`,`${item.fileContentType}`)">
                                                         <i class="fas me-10px fa-download text-opacity-50 fa-lg"></i>
@@ -102,13 +91,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
-                                    <td><input type="text" name="title" value="${tbLibrary.fileTitle}" class="form-control width-full title" maxlength="150"></td>
-                                </tr>
-                                <tr>
                                     <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
-                                    <td>
-                                        <textarea   name="body"  class="body form-control w-100" rows="10">${tbLibrary.fileBody}</textarea>
+                                    <td style="height: 200px;">
+                                        <div class=" h-100">
+                                            ${tbLibrary.fileBody}
+                                        </div>
+                                       <%-- <textarea   name="body"  class="body form-control w-100" rows="10">${tbLibrary.fileBody}</textarea>--%>
                                     </td>
                                 </tr>
                                 <tr>
@@ -166,125 +154,13 @@
 <%-- Custom JS End--%>
 
 <script>
-
-   /* CKEDITOR.instances['body'].on('contentDom', function() {
-        this.document.on('click', function(event){
-            //your code
-            alert('Click Event');
-        });
-    });*/
-
     $(() => {
         $(".btn_list").click(function() {
-            location.href = "${path}/board/event/list";
+            location.href = "${path}/library/file/list";
         })
-
-        $(".btn_remove").click(function() {
-            let url = "${path}/api/board/event/delete";
-            let libNo = $(this).attr("libNo");
-            let doyouwanttodelete = "<spring:message code="list.script.doyouwanttodelete" text="삭제 하시겠습니까?"/>";
-            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-            let deletemsg = "<spring:message code="list.script.deletemsg" text="삭제"/>";
-            let deletionfailed = "<spring:message code="list.script.deletionfailed" text="삭제에 실패하였습니다."/>";
-            let deleted = "<spring:message code="list.script.deleted" text="삭제되었습니다."/>";
-
-            swal({
-                title: doyouwanttodelete,
-                icon: "warning",
-                buttons: [
-                    cancel,
-                    deletemsg
-                ],
-                dangerMode: true,
-            }).then(function (isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: {
-                            libNo : libNo
-                        },
-                        /*contentType: "application/json;",*/
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.result == 200) {
-                                alert(deleted);
-                                location.href="${path}/board/event/list?dataStatus=OK";
-                            } else {
-                                alert(deletionfailed);
-                                return;
-                            }
-                        }
-                    });
-                }
-            });
-        });
-
-        $(document).on("click",".btn_up",function() {
-            let url = "${path}/api/board/event/update";
-            var value = CKEDITOR.instances['body'].getData();
-            $(".body").text(value);
-            let startDate = $(".startDate").val();
-            let endDate = $(".endDate").val();
-            $(".startDate").val(startDate);
-            $(".endDate").val(endDate);
-            let _forms = $('#update_form');
-            let req = convertFormToObj(_forms);
-
-            let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate" text="수정 하시겠습니까?"/>";
-            let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
-            let update = "<spring:message code="list.script.update" text="수정"/>";
-            let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful" text="수정에 성공하였습니다."/>";
-            let editfailed = "<spring:message code="list.script.editfailed" text="수정에 실패하였습니다."/>";
-            if($(".startDate").val() == "" || $(".endDate").val() == ""){
-                alert("시작일/종료일을 입력해주세요.");
-                return;
-            }
-
-            if (inputDataCheck(req)) {
-                swal({
-                    title: wouldyouliketoupdate,
-                    icon: "warning",
-                    buttons: [
-                        cancel,
-                        update
-                    ],
-                    dangerMode: true,
-                }).then(function (isConfirm) {
-                    if (isConfirm) {
-                        var formData = new FormData(document.getElementById('update_form'));
-                        formData.append("tbLibrary", new Blob([JSON.stringify(req)], {type: "application/json"}));
-                        formData.append("startDate", startDate);
-                        formData.append("endDate",  endDate);
-                        /*formData.append("imgFileSmall", _forms.find('#imgFileSmallFile')[0]);*/
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: formData,
-                            /*contentType: "application/json;",*/
-                            dataType: "json",
-                            processData: false,
-                            contentType: false,
-                            success: function (data) {
-                                if (data.result == 200) {
-                                    alert(updatesussmsg);
-                                    location.reload();
-                                } else {
-                                    alert(editfailed);
-                                    return;
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        });
     });
-
-
    function downloadFile(fileOriginName,fileName,filePath,fileContentType) {
        let url = "${path}/api/file/download?filePath="+encodeURI(filePath)+"&fileOriginName="+fileOriginName+"&fileName="+fileName+"&contentType="+fileContentType;
-
        location.href=url;
    }
     function inputDataCheck(args) {

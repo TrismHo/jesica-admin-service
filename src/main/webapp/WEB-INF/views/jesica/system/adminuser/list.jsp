@@ -176,6 +176,7 @@
                 <table id="testTable" class="display table table-bordered w-100 table-striped">
                     <thead>
                     <th class="text-center"><spring:message code="list.word.no" text="순번"/></th>
+                    <th class="text-center"><spring:message code="list.word.no1" text="앱구분"/></th>
                     <th class="text-center"><spring:message code="list.word.no1" text="권한등급"/></th>
                     <th class="text-center"><spring:message code="list.word.affiliated1" text="로그인ID"/></th>
                     <th class="text-center"><spring:message code="list.word.franchisee1" text="사용자이름"/></th>
@@ -319,6 +320,7 @@
             table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/system/master/list","A2","1", true, {
                 columns: [
                     {data: "listIndex"},
+                    {data: "appName"},
                     {data: "roleType" ,
                             render: function(data){
                                 if(data == 0){

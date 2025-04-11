@@ -29,6 +29,7 @@ public interface TbEventRepository extends JpaRepository<TbEvent, Long>, JpaSpec
             "from " +
             "tb_event " +
             "where data_status = 1 "+
+            "and view_yn = 1 "+
             "and platform_type = :platfromType "+
             "order by insert_date desc LIMIT 20" +
             "", nativeQuery = true)

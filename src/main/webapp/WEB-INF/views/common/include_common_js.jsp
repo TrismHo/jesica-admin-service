@@ -701,6 +701,7 @@
                     return param;
                 },
                 "dataSrc": function (res) {
+                    console.log(res)
                     return dataSrcFunction(res,dataSrcType);
                 },
                 error: function(xhr, status, err) {
@@ -708,6 +709,9 @@
                         error(status);
                     } else {
                         alert('통신 실패!!!');
+                        console.log(err);
+                        console.log(xhr);
+                        console.log(status);
                     }
                 }
             },

@@ -66,6 +66,7 @@
                                 <form >
                                     <input type="hidden" name="groupType" value="5">
                                     <input type="hidden" name="platformType" value="2">
+                                    <input type="hidden" id="appCodeList" value="${appCodeList}">
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
                                         <tr >
@@ -108,7 +109,7 @@
                                                     <select id="appCode" name="appCode" class="form-control w-25 appCode" >
                                                         <option value="">전체</option>
                                                         <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                            <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                            <option value="${appCodeList.sysCode}">${appCodeList.sysCode} (${appCodeList.codeName})</option>
                                                         </c:forEach>
                                                     </select>
                                                 </c:if>
@@ -316,6 +317,8 @@
             location.href = '${path}/board/platform/insert';
         });
         $(() => {
+
+
             let downloadAble = `${downloadAble}`;
             let roleType = `${sessionScope.sessionKey.roleType}`;
             let downloadChk = "1";
@@ -326,10 +329,19 @@
             } else {
                 downloadChk = ""
             }
+
+           /* let appList = $("#appCodeList").val().replaceAll('[','').replaceAll(']','').split('},')
+            console.log(appList)
+
+
+            for(var i = 0 ; i < appList.length ; i ++ ){
+                console.log(appList[i].sysCode)
+            }*/
+
             table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/platform/list","A1","1", true, {
                 columns: [
                     {data: "listIndex"},
-                    {data: "appCode"},
+                    {data: "appName"},
                     {data: "title"},
                     {data: "viewYn" ,
                         render: function(data){

@@ -191,7 +191,7 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="게시판 종류를 선택하세요."/>
                                         </td>
                                     </tr>
-                                   <%-- <tr>
+                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="주소별 노출사용여부"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
@@ -206,8 +206,8 @@
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="주소별 노출사용여부를 선택하세요."/>
                                         </td>
-                                    </tr>--%>
-                                   <%-- <tr class="location_tr" style="display: none;">
+                                    </tr>
+                                    <tr class="location_tr" style="display: none;">
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="지역등록"/></td>
                                         <td>
                                             <select class="form-control selectArea" >
@@ -227,8 +227,8 @@
                                     </tr>
                                     <tr class="location_tr" style="display: none;">
                                         <td class="bg-light"><spring:message code="list.detail.map" text="지역"/></td>
-                                        <td>&lt;%&ndash;
-                                            <select class="form-control selectArea" >
+                                        <td>
+                                            <%--<select class="form-control selectArea" >
                                                 <c:forEach var="item" items="${sysCodeList}" varStatus="status">
                                                     <option value="${item.sysCode}" <c:if test="${tbStore.blockTypeCode == item.sysCode}" >selected</c:if>>${item.codeName}</option>
                                                 </c:forEach>
@@ -236,9 +236,9 @@
                                             <select class="form-control selectArea2 w-50" >
                                                     <option value="" >시/도를 선택해주세요.</option>
                                             </select>
-                                            <input type="button" id="selectAddr" class="btn btn-primary p-t-5 p-b-5 m-l-10" value="<spring:message code="list.detail.addresssearch" text="주소선택"/>">&ndash;%&gt;
+                                            <input type="button" id="selectAddr" class="btn btn-primary p-t-5 p-b-5 m-l-10" value="<spring:message code="list.detail.addresssearch" text="주소선택"/>">--%>
 
-                                            &lt;%&ndash;<input type="hidden" class="addr_1" id="addr_1" name="addr1" value="${tbStore.addr1}">&ndash;%&gt;
+                                            <input type="hidden" class="addr_1" id="addr_1" name="addr1" value="${tbStore.addr1}">
                                             <div class="panel-body p-0">
                                                 <table id="testTable" class="display  table table-bordered w-100 table-striped ">
                                                     <thead>
@@ -262,8 +262,8 @@
                                             </div>
                                         </td>
                                         <td class="text-danger-darker"><spring:message code="list.description.addresssearchautosettingmessage" text="등록되어있는 시/도 시/군/구입니다 (변경불가)"/></td>
-                                    </tr>--%>
-                                    <input type="hidden" name="bannerType" value="0">
+                                    </tr>
+                                    <%--<input type="hidden" name="bannerType" value="0">--%>
                                     <input type="hidden" name="viewOrder" class="form-control viewOrder">
                                     <%--<tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification" text="배너노출순서"/></td>
@@ -473,7 +473,7 @@
             $('#board_title').text(boardTitle);
             $('.boardModalCloseBtn').click();
         });
-
+        let areaList = [];
         $(document).on("click", ".btn_add", function() {
             let url = "${path}/api/banner/insert";
             let _forms = $('#insert_form');
@@ -499,6 +499,7 @@
                         let formData = new FormData(document.getElementById('insert_form'));
                         formData.append("tbAppBannerData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
                         formData.append("imgFile", $("#imgFile")[0].files[0]);
+                        formData.append("areaList",  new Blob([JSON.stringify(areaList)], {type:"application/json"}));
                         $.ajax({
                             type: "POST",
                             url: url,
@@ -519,7 +520,7 @@
                 });
             }
         });
-        let areaList = [];
+
         $("#selectAddr").click(function() {
             let word1 = $(".selectArea option:checked").text()
             let word2 = $(".selectArea2 option:checked").text()
@@ -537,7 +538,7 @@
             if(!include){
                 areaList.push(areaMap);
                 $(".areaTbody").append(
-                    " <tr code1="+code1+" code2="+code1+">" +
+                    " <tr code1="+code1+" code2="+code2+" class="+code1+code2+">" +
                     "     <td style='width:84px' >\n" +
                     word1+
                     "     </td>\n" +
@@ -555,10 +556,14 @@
         $(document).on("click", ".deleteLocation", function() {
             let code1 = $(this).parents("tr").attr("code1");
             let code2 = $(this).parents("tr").attr("code2");
-            let include = false;
-            if(JSON.stringify(areaList[i]) == JSON.stringify(areaMap)){
-                include = true;
+            let areaMap = {code1: code1, code2: code2};
+            for (let i = 0 ; i < areaList.length; i ++){
+                if(JSON.stringify(areaList[i]) == JSON.stringify(areaMap)){
+                     areaList.splice(i,1);
+                }
             }
+            let removeClass= "."+code1+code2;
+           $(removeClass).remove();
         });
 
         $(".selectArea").on("change", function (){
@@ -589,7 +594,8 @@
             let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="검색된 게시글이 존재하지 않습니다."/>";
             let apply = "<spring:message code="list.script.apply1" text="적용"/>";
             // let req = convertFormToObj($('form.board_search_form'));
-            let platformType = $("input[type='radio'][name='platformType']:checked").val();
+            //let platformType = $("input[type='radio'][name='platformType']:checked").val();
+            let platformType = 2;
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
             let keyword = $('#keyword').val();
 

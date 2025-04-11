@@ -48,7 +48,7 @@
                             <input type="hidden" name="bannerNo" id="bannerNo" value="${tbAppBanner.bannerNo}">
                             <input type="hidden" name="dataStatus" value="1">
                             <input type="hidden" name="platformType" value="2">
-                            <input type="hidden" name="platformType" value="0">
+                            <input type="hidden" name="bannerType" value="${tbAppBanner.bannerType}">
                             <table class="table table-bordered">
                                 <tbody>
                                     <%--<tr>
@@ -323,6 +323,7 @@
                                                 <ul class="sort_list">
                                                     <li>
                                                         <div class="sort_body1" id="sort_body1">
+
                                                             <img class="width-full" style=" max-height: 300px" src="/api/img/fileLoad?filePath=${imgFile}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
                                                         </div>
                                                     </li>
@@ -547,7 +548,8 @@
         });
 
 
-        let platformType = $("input[type='radio'][name='platformType']:checked").val();
+        //let platformType = $("input[type='radio'][name='platformType']:checked").val();
+        let platformType = 2;
         let boardType = $("input[type='radio'][name='boardType']:checked").val();
         let boardNo = $("#boardNo").val();
         let originBoardTitle = '';
@@ -705,7 +707,8 @@
             let noregisteredaffiliateheadquarters = "<spring:message code="list.script.noregisteredaffiliateheadquarters1" text="검색된 게시글이 존재하지 않습니다."/>";
             let apply = "<spring:message code="list.script.apply1" text="적용"/>";
             // let req = convertFormToObj($('form.board_search_form'));
-            let platformType = $("input[type='radio'][name='platformType']:checked").val();
+            //let platformType = $("input[type='radio'][name='platformType']:checked").val();
+            let platformType = 2;
             let boardType = $("input[type='radio'][name='boardType']:checked").val();
             let keyword = $('#keyword').val();
 

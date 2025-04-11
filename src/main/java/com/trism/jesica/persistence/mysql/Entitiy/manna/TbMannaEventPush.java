@@ -119,4 +119,20 @@ public class TbMannaEventPush  {
     @Column(name = "ev_dvry_type")
     private String evDvryType = null;
 
+    /**
+     * 브랜드 타입
+     */
+    @Column(name = "brand_type_cd")
+    private String brandTypeCd = null;
+
+    @Transient
+    private String appName = null;
+
+
+  /*  @Column(name = "app_code")
+    private String appCode = null;
+    @Transient
+    private String appName = null;*/
+
+
 }

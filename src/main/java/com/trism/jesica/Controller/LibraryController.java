@@ -1,6 +1,7 @@
 
 package com.trism.jesica.Controller;
 
+import com.trism.jesica.Service.ApiService;
 import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.FileService;
 import com.trism.jesica.Service.LibraryService;
@@ -10,6 +11,7 @@ import com.trism.jesica.persistence.mysql.Entitiy.file.TbFile;
 import com.trism.jesica.persistence.mysql.Entitiy.library.TbLibrary;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
+import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -41,6 +43,9 @@ public class LibraryController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private ApiService apiService;
+
     /** 관리자 자료 **/
     @GetMapping("/file/list")
     public ModelAndView fileList(HttpSession session, @RequestParam Map<String, Object> searchValue, Model model) {
@@ -60,14 +65,15 @@ public class LibraryController {
     /** 관리자 자료 상세 **/
     @GetMapping("/file/detail")
     public ModelAndView fileDetail(@RequestParam("libNo") Long libNo, Model model, HttpSession session) {
-        log.info("libNo:: ", libNo);
-
+        log.info("libNo:: {}", libNo);
         try {
             Map<String,Object> map = permission(session,"system/master");
 
             TbLibrary libraryDetail = libraryService.tbLibraryDetail(libNo);
             List<TbFile> files = fileService.getFileList(libNo);
 
+            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            model.addAttribute("appVersionList",appVersionList);
             model.addAttribute("tbLibrary", libraryDetail);
             model.addAttribute("files", files);
             model.addAttribute("appCode",map.get("appCode"));

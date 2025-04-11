@@ -6,8 +6,8 @@ import com.trism.jesica.dto.TbMannaOrderGoodsDTO;
 import com.trism.jesica.dto.TbMannaOrderGoodsOptDTO;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
-import com.trism.jesica.persistence.mysql.Repository.cust.TbCustRepository;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.*;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustRepository;
 import com.trism.jesica.persistence.mysql.Repository.manna.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +54,27 @@ public class MannaService {
     }
 
 
+
+    /*@Transactional(readOnly = true)
+    public Map<String, Object> tbMannaEventPushSearch(LocalDateTime startDate,LocalDateTime endDate
+            , String evTitle
+            , String param1
+            , String evType
+            , String evOrdType
+            , String evDvryType
+            , String appCode
+            , Pageable pageable
+    ) {
+
+        Page<Map<String, Object>> eventPage = null;
+        eventPage = tbMannaEventPushRepository.getEventPushList(startDate, endDate, evTitle, param1, evType, evOrdType, evDvryType , appCode ,pageable);
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("tbEventPushList", eventPage.getContent());
+        map.put("totalPage", eventPage.getTotalPages());
+        map.put("totalElement", eventPage.getTotalElements());
+        return map;
+    }*/
     @Transactional(readOnly = true)
     public  Map<String, Object> tbMannaEventPushSearch(Map<String,Object> searchValue, Pageable pageable) {
         Specification<TbMannaEventPush> predicate = null;
@@ -72,7 +93,7 @@ public class MannaService {
 
         return map;
     }
-    @Transactional(readOnly = true)
+   /* @Transactional(readOnly = true)
     public  Map<String, Object> tbMannaEventPushLogSearch(Map<String,Object> searchValue, Pageable pageable) {
         Specification<TbMannaEventPush> predicate = null;
         Map<String, Object> map = new HashMap<>();
@@ -89,7 +110,7 @@ public class MannaService {
         map.put("totalElement",eventPage.getTotalElements());
 
         return map;
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public TbMannaOrder getCallAllDetail(Long ordNo) {

@@ -30,6 +30,7 @@ public interface TbNoticePlatformRepository extends JpaRepository<TbNoticePlatfo
             "from " +
             "tb_notice_platform " +
             "where data_status = 1 "+
+            "and view_yn = 1 "+
             "and platform_type = :platformType "+
             "order by insert_date desc LIMIT 20" +
             "", nativeQuery = true)

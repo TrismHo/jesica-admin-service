@@ -276,6 +276,9 @@ public class TbCust extends BaseEntity {
     @Transient
     private String recommCustName;
 
+    @Transient
+    private String appName = null;
+
 
     /**
      * 수정일

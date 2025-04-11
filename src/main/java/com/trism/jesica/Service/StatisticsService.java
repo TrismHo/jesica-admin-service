@@ -118,13 +118,13 @@ public class StatisticsService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> getMannaLineDayList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String ordStatus) {
-        return tbMannaOrderRepository.getMannaLineDayList(startDate, endDate, ordPathCd, brCode, ordStatus);
+    public List<Map<String, Object>> getMannaLineDayList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String brandTypeCd, String ordStatus) {
+        return tbMannaOrderRepository.getMannaLineDayList(startDate, endDate, ordPathCd, brCode, brandTypeCd, ordStatus);
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> getMannaLineWeekList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String ordStatus) {
-        return tbMannaOrderRepository.getMannaLineWeekList(startDate, endDate, ordPathCd, brCode, ordStatus);
+    public List<Map<String, Object>> getMannaLineWeekList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode,String brandTypeCd, String ordStatus) {
+        return tbMannaOrderRepository.getMannaLineWeekList(startDate, endDate, ordPathCd, brCode,brandTypeCd, ordStatus);
     }
 
     /*@Transactional(readOnly = true)

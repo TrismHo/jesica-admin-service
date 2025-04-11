@@ -2,22 +2,14 @@
 security:
   password: Wwf//in2FRW9bmRDPSTDohaGu7OpIDYvySgTAWfSEp0=
   iv: RWF0c3VkYTIwMjE=
-
-
 server:
-  #tomcat:
-  #additional-tld-skip-patterns: "*.jar"
-  #port: 8080
   port: 9002
-  #port: 9000
-  #port: 8892
   servlet:
     jsp:
       init-parameters:
         mappedfile: false
     session:
       timeout: 7200
-
   error:
     path: /error
     #오류 응답에 stacktrace 내용을 포함할지 여부 (ALWAYS, NEVER, ON_TRACE_PARAM)
@@ -29,7 +21,6 @@ server:
     #브라우저 요청에 대해 서버 오류시 기본으로 노출할 페이지를 사용할지 여부
     whitelabel:
       enabled: true
-
 
 
 ---
@@ -68,7 +59,7 @@ spring:
   service-pick:
     datasource:
       hikari:
-        #test
+        #test 돌릴때 local_db.sh 실행후 연결
         jdbc-url: jdbc:mysql://127.0.0.1:3307/jesicar_main?useSSL=false&serverTimezone=Asia/Seoul&useCursors=false&sendStringParametersAsUnicode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
         username: jesicar01
         password: wptlzk2021
@@ -220,7 +211,8 @@ file:
   apiServer:
     #test
     #server: http://101.55.126.138:13000/api -- 옛날에 쓰던거
-    server: http://101.55.126.133:4000/api
+    #server: http://101.55.126.133:4000/api
+    server: http://test.jigbae.co.kr/api
 
     #real
     #server: https://api.jesicar.co.kr/api

@@ -223,6 +223,7 @@
                     <thead>
                     <tr class="text-center">
                         <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
+                        <th width="3%"><spring:message code="list.word.no1" text="앱구분"/></th>
                         <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
                         <th width="6%"><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
                         <th width="5%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
@@ -378,6 +379,7 @@
         table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/cust/list","A1",downloadChk, true,{
             columns: [
                 {data: "listIndex"},
+                {data: "appName"},
                 {data: "custName"},
                 {data: "custTel"},
                 {data: "useCount" ,
@@ -405,7 +407,7 @@
                     width: '30px'
                 },
                 {
-                    targets: 6,
+                    targets: 7,
                     width: '60px',
                     render: function(data){
                         if(data == "M"){
@@ -418,26 +420,26 @@
                     }
                 },
                 {
-                    targets: 2,
+                    targets: 3,
                     render: function(data){
                         return phoneHyphen(data);
                     }
                 },
                 {
-                    targets: 13,
+                    targets: 14,
                     width: '50px',
                     render: function(data){
                         return data + " 명";
                     },
                 },
                 {
-                    targets: [2,14,15],
+                    targets: [3,15,16],
                     render: function(data){
                         return dateFormat(data);
                     },
                 },
                 {
-                    targets: 16,
+                    targets: 17,
                     width: '120px',
                     render: function(data){
                         var button;

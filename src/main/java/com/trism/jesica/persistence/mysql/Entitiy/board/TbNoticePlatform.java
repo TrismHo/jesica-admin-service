@@ -79,4 +79,7 @@ public class TbNoticePlatform extends BaseEntity {
     @Convert(converter = EmptyStringToNullConverter.class)
     private String appCode = null;
 
+    @Transient
+    private String appName = null;
+
 }

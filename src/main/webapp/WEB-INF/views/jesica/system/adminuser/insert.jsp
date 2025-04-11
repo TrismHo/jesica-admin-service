@@ -32,6 +32,21 @@
     .form-control {
         padding: 7px .35rem;
     }
+    .nav-text {
+        color: #0a0a0a;
+        font-size: 12px;
+    }
+    .nav.nav-wizards-2 .nav-item .nav-link {
+        position: relative;
+        border-radius: 60px;
+    }
+    .nav-link {
+        display: block;
+        text-decoration: none;
+        background: 0 0;
+        border: 0;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -72,13 +87,50 @@
                             <!-- begin table-responsive -->
                             <div class="table-responsive m-l-5">
                                 <div class="timeline-header m-t-10 m-b-10">
-                                    <i class="fas fa-lg fa-fw m-r-10 fa-info-circle"></i>
-                                    <span><strong><spring:message code="list.detail.basicInformation" text="기본정보"/></strong></span>
+                                    <i class="fas fa-lg fa-fw m-r-5 fa-info-circle"></i>
+                                    <span><strong>기본정보</strong></span>
                                 </div>
                                 <form class="insert_form" id="insert_form">
                                     <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
                                     <input type="hidden" class="userType" name="userType" value="6">
                                     <table class="table table-bordered">
+                                        <%--<tr>
+                                            <td colspan="3" class="p-0">
+                                                <div class="hljs-wrapper">
+                                                    <div class="panel-body">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="nav-wizards-container">
+
+                                                                    <nav class="nav nav-wizards-2 mb-3">
+                                                                        <div class="nav-item col">
+                                                                            <a class="nav-link " href="#">
+                                                                                <div class="nav-text">1. 통합관리자: '사용자관리', '엑셀 다운로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능)</div>
+                                                                            </a>
+                                                                        </div>
+                                                                    </nav>
+                                                                    <nav class="nav nav-wizards-2 mb-3">
+                                                                        <div class="nav-item col">
+                                                                            <a class="nav-link " href="#">
+                                                                                <div class="nav-text">2. 앱관리자: '사용자관리', '자료실 업로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능)</div>
+                                                                            </a>
+                                                                        </div>
+                                                                    </nav>
+                                                                    <nav class="nav nav-wizards-2 mb-1">
+                                                                        <div class="nav-item col">
+                                                                            <a class="nav-link " href="#">
+                                                                                <div class="nav-text">* '사용자관리' 메뉴는 마스터 관리자만 접근 가능</div>
+                                                                            </a>
+                                                                        </div>
+                                                                    </nav>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>--%>
                                         <tr>
                                             <td class="bg-light"><spring:message code="list.detail.id" text="아이디"/></td>
                                             <td><input type="text" class="form-control width-full userId" name="userId" value="" placeholder="<spring:message code="list.description.pleaseenteryourid" text="아이디를 입력해주세요"/>" maxlength="20">
@@ -95,9 +147,6 @@
                                                 </select>
                                             </td>
                                             <td class="text-danger-darker">
-
-
-
                                                 <spring:message code="list.description.pleaseenteryourid" text="마스터/사용자를 선택해주세요"/></td>
                                         </tr>
                                         <tr class="appCodeTr" style="display: none;">
@@ -136,19 +185,45 @@
                                             <td><input type="text" class="form-control width-full memo" name="memo" value="" placeholder="<spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/>" maxlength="200"></td>
                                             <td class="text-danger-darker"><spring:message code="list.description.pleaseenterothernotes" text="기타 메모를 입력해주세요"/></td>
                                         </tr>
-                                        <tr>
-                                            <td colspan="3">
-                                                <div class="hljs-wrapper">
-                                                    <pre style="font-size: 14px; line-height: 14px;padding: 18px;font-family: GmarketSansTTFMedium; text-align: center;">
-                통합관리자: '사용자관리', '엑셀 다운로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능) <br>
-                앱관리자: '사용자관리', '자료실 업로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능) <br>
-                *'사용자관리' 메뉴는 마스터 관리자만 접근 가능
-                                                    </pre>
-                                                </div>
-                                            </td>
-                                        </tr>
+
                                     </table>
                                 </form>
+                                <div class="alert alert-yellow alert-dismissible fade show border mt-1">
+                                    <div class="fs-14px"><i class="fa fa-info-circle"></i> <b>등급 설정별 권한부여 사항</b></div>
+                                    <hr>
+                                    1. 통합관리자: '사용자관리', '엑셀 다운로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능)
+                                    <br>
+                                    <br>
+                                    2. 앱관리자: '사용자관리', '자료실 업로드', '회원관리', '쿠폰관리' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능)
+                                    <br>
+                                    <br>
+                                    * '사용자관리' 메뉴는 마스터 관리자만 접근 가능
+                                    <%-- <div>
+                                         <nav class="nav nav-wizards-2 mb-3">
+                                             <div class="nav-item col">
+                                                 <a class="nav-link " href="#">
+                                                     <div class="nav-text">1. 통합관리자: '사용자관리', '엑셀 다운로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능)</div>
+                                                 </a>
+                                             </div>
+                                         </nav>
+                                         <nav class="nav nav-wizards-2 mb-3">
+                                             <div class="nav-item col">
+                                                 <a class="nav-link " href="#">
+                                                     <div class="nav-text">2. 앱관리자: '사용자관리', '자료실 업로드' 권한 외 모든 권한 자동 부여 (수정화면에서 권한 수정 가능)</div>
+                                                 </a>
+                                             </div>
+                                         </nav>
+                                         <nav class="nav nav-wizards-2 mb-1">
+                                             <div class="nav-item col">
+                                                 <a class="nav-link " href="#">
+                                                     <div class="nav-text">* '사용자관리' 메뉴는 마스터 관리자만 접근 가능</div>
+                                                 </a>
+                                             </div>
+                                         </nav>
+
+                                     </div>--%>
+                                    <button class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
                             </div>
                             <!-- end table-responsive -->
                             <div class="m-l-5 m-t-5">

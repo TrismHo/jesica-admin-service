@@ -19,36 +19,6 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
 //OS = 40 완료
 //GENDER = N 모름 M 남자 F 여자
 //order_pay_status 1로 바꿔야함 지금은 테스트
-
-
-    /*@Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%Y/%m/%d') as dayDate" +
-            " from tb_call_all " +
-            "where order_type_code = 20 " +
-            "and order_pay_status = 4 " +
-            "and order_status_code = 40 "+
-            "and finish_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() " +
-            *//*"and DATE_FORMAT(finish_date, '%m') = DATE_FORMAT( NOW(), '%m' )" +*//*
-            "group by dayDate " +
-            "order by finish_date "+
-            "", nativeQuery = true)
-    List<Map<String,Object>> getCallAllListType2040();*/
-
-//    /**
-//     * june
-//     * @param searchDate
-//     * @return + 인수대행완료
-//     */
-//    @Query(value = "select count(*) as cnt, " +
-//                          "DATE_FORMAT(finish_date, '%m-%d') as dayDate " +
-//            "from tb_call_all " +
-//            "where order_type_code = 20 " +
-//            //"and order_pay_status = 1 " +
-//            "and order_status_code = 40 "+
-//            "and finish_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() "+
-//            "group by dayDate " +
-//            "order by finish_date asc"+
-//            "", nativeQuery = true)
-//    List<Map<String,Object>> getCallAllListType2040(@Param("searchDate") String searchDate);
     /**
      * june
      * @param searchDate
@@ -75,17 +45,6 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "", nativeQuery = true)
     List<Map<String,Object>> getCallAllListType2040(@Param("searchDate") String searchDate);
 
-    /*@Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%Y/%m/%d') as dayDate" +
-            " from tb_call_all " +
-            "where order_type_code = 20 " +
-            "and order_pay_status = 4 " +
-            "and order_status_code = 41 "+
-            "and finish_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() "+
-            *//*"and DATE_FORMAT(finish_date, '%m') = DATE_FORMAT( NOW(), '%m' )" +*//*
-            "group by dayDate " +
-            "order by finish_date "+
-            "", nativeQuery = true)
-    List<Map<String,Object>> getCallAllListType2041();*/
 
     /**
      * june + 인수대행 취소
@@ -110,22 +69,6 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
      * @param searchDate
      * @return + 신규고객 변화추이
      */
-  /*  @Query(value = "select count(*) as cnt, " +
-            "DATE_FORMAT(insert_date, '%m-%d') as dayDate " +
-            "from tb_cust " +
-            "where data_status = 1 " +
-            "and is_member = 1 "+
-            "and insert_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() "+
-            "group by dayDate " +
-            "order by dayDate asc"+
-            "", nativeQuery = true)
-    List<Map<String,Object>> getUserCount(@Param("searchDate") String searchDate);*/
-
-    /**
-     *
-     * @param searchDate
-     * @return + 신규고객 변화추이
-     */
     @Query(value = "select b.yyyymmdd as dayDate, IFNULL(a.cnt, 0) as cnt , b.n " +
             "from " +
             "( " +
@@ -135,6 +78,7 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "and data_status = 1 " +
             "and is_member = 1 "+
             "and platform_type = :platformType "+
+            "and ((:appCode is null and 1=1) or (:appCode is not null and app_code = :appCode)) " +
             "group by yyyymmdd " +
             "order by yyyymmdd asc"+
             ") a  " +
@@ -147,36 +91,9 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             ") b on a.yyyymmdd = b.yyyymmdd " +
             "order by b.n asc"+
             "", nativeQuery = true)
-    List<Map<String,Object>> getUserCount(@Param("platformType") Integer platformType );
+    List<Map<String,Object>> getUserCount(@Param("platformType") Integer platformType, @Param("appCode") String appCode  );
 
-    /*@Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%Y/%m/%d') as dayDate" +
-            " from tb_call_all " +
-            "where order_type_code = 21 " +
-            "and order_pay_status = 4 " +
-            "and order_status_code = 40 "+
-            "and finish_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() "+
-            *//*"and DATE_FORMAT(finish_date, '%m') = DATE_FORMAT( NOW(), '%m' )"+ *//*
-            "group by dayDate " +
-            "order by finish_date "+
-            "", nativeQuery = true)
-    List<Map<String,Object>> getCallAllListType2140();*/
 
-    /**
-     * june
-     * @param searchDate
-     * @return+ 반납대행완료
-     */
-//    @Query(value = "select count(*) as cnt, " +
-//                          "DATE_FORMAT(finish_date, '%m-%d') as dayDate " +
-//            "from tb_call_all " +
-//            "where order_type_code = 21 " +
-//            //"and order_pay_status = 1 " +
-//            "and order_status_code = 40 "+
-//            "and finish_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() "+
-//            "group by dayDate " +
-//            "order by finish_date asc"+
-//            "", nativeQuery = true)
-//    List<Map<String,Object>> getCallAllListType2140(@Param("searchDate") String searchDate);
 
     /**
      * june
@@ -203,18 +120,6 @@ public interface TbCallAllRepository extends JpaRepository<TbCallAll, Long>, Jpa
             "order by b.n asc"+
             "", nativeQuery = true)
     List<Map<String,Object>> getCallAllListType2140(@Param("searchDate") String searchDate);
-
-    /*@Query(value = "select count(*) as cnt, DATE_FORMAT(finish_date, '%Y/%m/%d') as dayDate" +
-            " from tb_call_all " +
-            "where order_type_code = 21 " +
-            "and order_pay_status = 4 " +
-            "and order_status_code = 41 "+
-            *//*"and DATE_FORMAT(finish_date, '%m') = DATE_FORMAT( NOW(), '%m' )" +*//*
-            "and finish_date BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() "+
-            "group by dayDate " +
-            "order by finish_date "+
-            "", nativeQuery = true)
-    List<Map<String,Object>> getCallAllListType2141();*/
 
     /**
      * june

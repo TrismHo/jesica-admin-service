@@ -68,6 +68,9 @@
         left: 0;
         top:0;
     }
+    .ellipsis {
+        text-overflow: ellipsis;
+    }
 
 </style>
 <body>
@@ -152,6 +155,7 @@
                         <tr class="text-center">
                             <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
                             <th width="%"><spring:message code="list.detail.title1" text="문서명"/></th>
+                            <th width="%"><spring:message code="list.detail.title1" text="문서내용"/></th>
                             <th width="15%"><spring:message code="list.word.contents1" text="문서타입"/></th>
                             <th width="15%"><spring:message code="list.word.status12" text="등록자"/></th>
                             <th width="%"><spring:message code="list.word.contents1" text="등록일"/></th>
@@ -238,18 +242,20 @@
             columns: [
                 {data: "listIndex"},
                 {data: "fileTitle"},
+                {data: "fileBody"},
                 {data: "fileType"},
                 {data: "insertUserName"},
                 {data: "insertDate"}
             ],
             columnDefs: [
-                {targets: "_all", className: "text-center"},
+                {targets: "_all", className: "text-center ellipsis "},
                 {
                     targets: 0,
                     width: '30px'
                 },
+                {targets: [2], className: "text"},
                 {
-                    targets: 2,
+                    targets: 3,
                     width: '60px',
                     render: function(data){
                         if(data == 1){
@@ -262,7 +268,7 @@
                     }
                 },
                 {
-                    targets: [4],
+                    targets: [5],
                     render: function(data){
                         if(data){
                             return dateFormat(data);
@@ -302,7 +308,7 @@
         //상세
         $("#testTable").on('click','tbody td', function() {
             var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
-            location.href = "${path}/library/file/detail?libNo=" + row.libNo;
+           location.href = "${path}/library/file/detail?libNo="+row.libNo;
         });
     });
 
@@ -398,11 +404,12 @@
         /* 폼 전송 */
 
         if (isNull($("input[name=fileTitle]").val())) {
-            return alert_focus("userId", "문서제목을 입력주세요.");
+            return alert_focus("fileTitle", "문서제목을 입력주세요.");
         }
-        if (isNull($("input[name=fileBody]").val())) {
-            return alert_focus("userId", "문서내용을 입력주세요.");
+        if (isNull($("#fileBody").val())) {
+            return alert_focus("fileBody", "문서내용을 입력주세요.");
         }
+
 
         // 폼데이터 담기
         var form = document.querySelector("form");

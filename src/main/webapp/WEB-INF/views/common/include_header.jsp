@@ -93,10 +93,10 @@
                         <i class="fas fa-lg fa-fw m-r-10 fa-language"></i><spring:message code="header.language.setting" text="Language"/>
                     </a>
                 </span>
-                    <%--<span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+                    <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                     <a class="btn btn-sm btn-white btn-white-without-border new-control-btn" data-change="widget-theme" data-theme="dark"><spring:message code="list.detail.control" text="관제 바로가기"/></a>
                       </a>
-                    </span>--%>
+                    </span>
                 </c:if>
                 <c:if test="${sessionScope.sessionKey.roleType != 1}">
                     <c:if test="${sessionScope.sessionKey.userType == 1 || sessionScope.sessionKey.userType == 2 || sessionScope.sessionKey.userType == 3 ||sessionScope.sessionKey.userType == 4 ||sessionScope.sessionKey.userType == 5}">

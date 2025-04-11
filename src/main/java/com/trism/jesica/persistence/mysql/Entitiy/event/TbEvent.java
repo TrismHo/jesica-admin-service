@@ -88,5 +88,8 @@ public class TbEvent extends CreatedDateEntity {
     @Convert(converter = EmptyStringToNullConverter.class)
     private String appCode;
 
+    @Transient
+    private String appName = null;
+
 
 }

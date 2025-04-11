@@ -116,25 +116,9 @@
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
                                 <form name="frmSearch">
+                                    <input type="hidden" name="platformType" value="${searchValue.platformType}">
                                     <table class="table table-condensed table-bordered">
                                         <tbody>
-                                        <tr>
-                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="앱코드"/><%--등록기간--%></strong></td>
-                                            <td colspan="3">
-                                                <c:if test="${empty appCode}">
-                                                    <select id="appCode" name="appCode" class="form-control w-25" >
-                                                        <option value="">전체</option>
-                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                            <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </c:if>
-                                                <c:if test="${!empty appCode}">
-                                                    <input type="text" class="form-control " readonly value="${sessionScope.sessionKey.appCodeName}">
-                                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
-                                                </c:if>
-                                            </td>
-                                        </tr>
                                         <tr>
                                             <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="기간"/><%--등록기간--%></strong></td>
                                             <td style="width:50%">
@@ -170,30 +154,33 @@
                                                 <input type="hidden" class="selday"  name="selday" value="${searchValue.selday}">
                                                 <input type="hidden" class="dayType"  name="dayType" value="${searchValue.dayType}">
                                           </td>
-                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/><%--등록기간--%></strong></td>
+                                            <td class="bg-light" style="width:10%"><strong><spring:message code="list.search.registrationperiod1" text="앱코드"/><%--등록기간--%></strong></td>
+                                            <td colspan="3">
+                                                <c:if test="${empty appCode}">
+                                                    <select id="appCode" name="appCode" class="form-control w-50" >
+                                                        <option value="">전체</option>
+                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                            <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${!empty appCode}">
+                                                    <input type="text" class="form-control " readonly value="${sessionScope.sessionKey.appCodeName}">
+                                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
+                                                </c:if>
+                                            </td>
+                                           <%-- <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="총판명/코드"/>&lt;%&ndash;등록기간&ndash;%&gt;</strong></td>
                                             <td style="width:40%">
-                                                <input type="hidden" name="platformType" value="${searchValue.platformType}">
+
                                                 <label>
-                                                  <%--  <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-                                                        <select class="form-control" name="platformType" style="margin-right: 30px;">
-                                                            <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
-                                                        </select>
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                                        <select class="form-control" name="platformType" style="margin-right: 30px;">
-                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
-                                                        </select>
-                                                    </c:if>--%>
                                                    <select class="form-control" name="extBrCode" style="margin-right: 30px;" >
                                                        <option value="">전체</option>
                                                        <c:forEach var="item" items="${brCodeList}" varStatus="status">
                                                            <option <c:if test="${item.brCode == searchValue.extBrCode}">selected</c:if> value="${item.brCode}">${item.brName}</option>
                                                        </c:forEach>
                                                    </select>
-                                                     <%-- <button class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchFormFunction()"><i class="fa fa-search grayicon"></i> <spring:message code="list.search.search1" text="조회"/>&lt;%&ndash;검색&ndash;%&gt; </button>
-                                                      <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>--%>
                                                 <div class="d-block d-lg-inline-flex float-right m-r-10 m-t-5"></div>
-                                            </td>
+                                            </td>--%>
                                             <%--<td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="지역코드"/>&lt;%&ndash;등록기간&ndash;%&gt;</strong></td>
                                             <td style="width:40%">
                                                 <label>
@@ -234,12 +221,12 @@
                             <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="통계그래프"/></span>
                         </a>
                     </li>
-                 <%--  <li class="nav-item">
+                   <li class="nav-item">
                         <a href="#default-tab-3" data-toggle="tab" class="nav-link ">
                             <span class="d-sm-none"><spring:message code="list.detail.businessinformation" text="지역별그래프"/></span>
                             <span class="d-sm-block d-none"><spring:message code="list.detail.businessinformation" text="지역별그래프"/></span>
                         </a>
-                    </li>--%>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade active show" id="default-tab-1">
@@ -296,17 +283,17 @@
                     </div>
                 </div>
             </div>
-        <%--  <div class="panel-body">
-                  <div class="row">
-                      <!-- begin col-3 -->
-                      <div class="col-xl-6 col-md-6">
-                          <canvas id="myChart" style="width:100%;"></canvas>
-                      </div>
-                      <div class="col-xl-6 col-md-6 ">
-                          <canvas id="myChart2" style="width:100%;"></canvas>
-                      </div>
+         <%-- <div class="panel-body">
+              <div class="row">
+                  <!-- begin col-3 -->
+                  <div class="col-xl-6 col-md-6">
+                      <canvas id="myChart" style="width:100%;"></canvas>
                   </div>
-              </div>--%>
+                  <div class="col-xl-6 col-md-6 ">
+                      <canvas id="myChart2" style="width:100%;"></canvas>
+                  </div>
+              </div>
+          </div>--%>
         </div>
         <!-- end panel -->
     </div>
@@ -910,12 +897,13 @@
             data :JSON.stringify(req),
             dataType: "json",
             success: function(data) {
-
                 let totalMaleCntF = 0;
                 let totalFemaleCntF = 0;
               /*  $("#userTbody").html();*/
+                console.log(data)
                 let dayType = $(".dayType").val();
                 for(var i = 0 ; i < data.timeList.length ; i++) {
+                    console.log(data.timeList[i].yyyymmdd)
                     if(dayType == "1"){
                         label.push(data.timeList[i].start + " ~ " + data.timeList[i].end )
                     } else {
@@ -934,6 +922,10 @@
                     iosCnt = iosCnt+ data.timeList[i].iosCnt;
                     androidCnt = androidCnt+ data.timeList[i].androidCnt;
                 }
+
+
+
+
                 totalMaleCnt.push(totalMaleCntF)
                 totalFemaleCnt.push(totalFemaleCntF)
                 iosTotal.push(iosCnt)
@@ -943,6 +935,8 @@
                 } else {
                     pointSize = 4;
                 }
+
+
           /*      radarChart.update();
                 radarChart2.update();*/
                 radarChart.data = {
@@ -985,6 +979,8 @@
                         data: androidTotal
                     }]
                 }
+
+
                 lineChart.data = {
                     labels: label,
                     datasets: [{
