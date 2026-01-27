@@ -569,7 +569,7 @@
             /*url:"https://frapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",*/
             url:"<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon-manage/list",
             data: {
-                ordPathCd : 1069,
+                ordPathCd : 1105,
                 searchType : "R",
                 cpnStatus : "Y",
                 periodS : "20200101",

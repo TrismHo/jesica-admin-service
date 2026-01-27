@@ -49,7 +49,7 @@
                                     <td class="bg-light ">
                                         플랫폼명
                                     </td>
-                                    <td><input type="text" class="form-control width-100" readonly value="<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">제시카</c:if><c:if test="${sessionScope.sessionKey.company == 'yangpa'}">직배</c:if>" maxlength="150">
+                                    <td><input type="text" class="form-control width-100" readonly value="<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">제시카</c:if><c:if test="${sessionScope.sessionKey.company == 'yangpa'}">온동네</c:if>" maxlength="150">
                                         <input type="hidden" class="form-control width-100" name="platformType" readonly value="<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">1</c:if><c:if test="${sessionScope.sessionKey.company == 'yangpa'}">2</c:if>">
                                     </td>
                                 </tr>

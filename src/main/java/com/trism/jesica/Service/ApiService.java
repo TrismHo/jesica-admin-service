@@ -1447,6 +1447,7 @@ public class ApiService {
 
         int result = 0;
         TbUserStaff tbUserStaff = null;
+
         try {
             OutputStream os = null;
 
@@ -1465,12 +1466,19 @@ public class ApiService {
                         //중복
                         result = 500;
                     } else {
+                        if (tbUserStaffData.getRoleType() == 1){
+                            tbUserStaffData.setAppCode(null);
+                        }
                         tbUserStaff =  tbUserStaffRepository.save(tbUserStaffData.insertData());
                         //시스템이나 마스터가 아닐시 관제권한 항상부여
                         result = 1;
                     }
                 } else {
+                    if (tbUserStaffData.getRoleType() == 1){
+                        tbUserStaffData.setAppCode(null);
+                    }
                     tbUserStaff = tbUserStaffRepository.save(tbUserStaffData.insertData());
+
                     result = 1;
                 }
 
@@ -1533,8 +1541,10 @@ public class ApiService {
                 }
                 updateAclMulTi(menuPermissionList);
             }
-        } catch (DataIntegrityViolationException e){
-            throw new DataIntegrityViolationException("중복에러");
+        } catch (DuplicateKeyException e){
+            throw new DuplicateKeyException("중복에러");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }

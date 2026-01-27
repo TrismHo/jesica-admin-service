@@ -4,10 +4,10 @@
 <script>
     <c:choose>
         <c:when test="${sessionScope == null}">
-            self.location="/login";
+            self.location="${pageContext.request.contextPath}/login";
         </c:when>
         <c:otherwise>
-            self.location="/main";
+            self.location="${pageContext.request.contextPath}/main";
         </c:otherwise>
     </c:choose>
 </script>

@@ -36,7 +36,7 @@ public class StoreController {
     private final MannaService mannaService;
 
     private final BrCodeService brCodeService;
-    private String ordPathCd = "1069";
+    private String ordPathCd = "1105";
 
     private final ApiService apiService;
     private final AuthService authService;

@@ -232,7 +232,7 @@
                                                 <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                     <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                         <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                        <span><spring:message code="list.detail.deliveryman1" text="직배"/></span>
+                                                        <span><spring:message code="list.detail.deliveryman1" text="온동네"/></span>
                                                     </label>
                                                 </c:if>
                                                 <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">

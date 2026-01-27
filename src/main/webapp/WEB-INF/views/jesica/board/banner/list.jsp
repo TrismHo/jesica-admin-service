@@ -204,7 +204,7 @@
                                 <td class="text-center" style="">
                                     <c:if test="${item.platformType == 0}"><spring:message code="list.word.franchisee1" text="사용안함"/></c:if>
                                     <c:if test="${item.platformType == 1}"><spring:message code="list.word.deliverygroup1" text="제시카"/></c:if>
-                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="직배"/></c:if>
+                                    <c:if test="${item.platformType == 2}"><spring:message code="list.word.deliverygroup1" text="온동네"/></c:if>
                                     <c:if test="${item.platformType == 3}"><spring:message code="list.word.deliverygroup1" text="세날"/></c:if>
                                 </td>
                                 <td class="text-center" style="">

@@ -50,7 +50,7 @@ public class TbMannaOrder  {
     private LocalDateTime ordDate = null;
 
     /**
-     * 주문경로(1063:제시카, 1069:양파오더 , 1070:세날)
+     * 주문경로(1063:제시카, 1069:양파오더 , 1070:세날, 온동네: 1105)
      */
     @Column(name = "ord_path_cd", nullable = false)
     private String ordPathCd = null;

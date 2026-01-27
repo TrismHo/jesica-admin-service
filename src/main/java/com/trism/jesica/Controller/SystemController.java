@@ -393,9 +393,10 @@ public class SystemController {
             searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
         }
 
-        resultList =  masterService.getUserDataStatusList(name,dataStatus,appCode,startDate,endDate);
+
 
         try {
+            resultList =  masterService.getUserDataStatusList(name,dataStatus,appCode,startDate,endDate);
             model.addAttribute("tbUserStaffList", resultList);
         } catch (Exception e) {
             e.printStackTrace();

@@ -548,8 +548,8 @@ public class StatisticsController {
                 ordPathCd = "1063";
                 searchValue.put("ordPathCd","1063");
             } else if ("yangpa".equals(company)) {
-                ordPathCd = "1069";
-                searchValue.put("ordPathCd","1069");
+                ordPathCd = "1105";
+                searchValue.put("ordPathCd","1105");
             }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             if (searchValue.get("startDate") != null) {
@@ -578,8 +578,8 @@ public class StatisticsController {
                 ordPathCd = "1063";
                 searchValue.put("ordPathCd","1063");
             } else if ("yangpa".equals(company)) {
-                ordPathCd = "1069";
-                searchValue.put("ordPathCd","1069");
+                ordPathCd = "1105";
+                searchValue.put("ordPathCd","1105");
             }
             LocalDateTime startDate = null;
             LocalDateTime endDate = null;
@@ -616,7 +616,7 @@ public class StatisticsController {
         if("jesicar".equals(map.get("company"))) {
             searchValue.put("ordPathCd","1063");
         } else if ("yangpa".equals(map.get("company"))) {
-            searchValue.put("ordPathCd","1069");
+            searchValue.put("ordPathCd","1105");
         }
         model.addAttribute("permission",map.get("permission"));
         model.addAttribute("downloadAble",map.get("downloadAble"));

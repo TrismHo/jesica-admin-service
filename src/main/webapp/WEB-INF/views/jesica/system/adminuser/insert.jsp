@@ -328,8 +328,6 @@
         }
     });
 
-
-
     $(() => {
         $(document).on("change",".roleType",function() {
             let roleType = $(this).val();
@@ -354,6 +352,9 @@
             let enrollment = "<spring:message code="list.script.enrollment" text="등록"/>";
             let cancel = "<spring:message code="list.script.cancel" text="취소"/>";
 
+            if($(".roleType").val() == 1){
+                $("[name=appCode]").val('');
+            }
             if (inputDataCheck(req)) {
                 swal({
                     title: registermsg,

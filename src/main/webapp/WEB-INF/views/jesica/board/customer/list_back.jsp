@@ -105,7 +105,7 @@
                                                     </c:if>
                                                     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                                                         <select class="form-control" name="platformType">
-                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="직배"/></option>
+                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="온동네"/></option>
                                                         </select>
                                                     </c:if>
                                                     <%--<select class="form-control" name="platformType">
@@ -479,7 +479,7 @@
                         } else if(data == 1){
                             return "제시카";
                         } else if(data == 2){
-                            return "직배";
+                            return "온동네";
                         } else if(data == 3){
                             return "세날";
                         }
@@ -621,7 +621,7 @@
                         url:"http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",
             */
             data: {
-                ordPathCd : 1069,
+                ordPathCd : 1105,
                 searchType : "U",
                 cpnStatus : "A",
                 periodS : "20200101",
@@ -673,7 +673,7 @@
                 dataType: "json",
                 data: {
                     cpnNo : Number(cpnNo),
-                    ordPathCd : "1069",
+                    ordPathCd : "1105",
                     custNo : [],
                     extCustNo : couponAddList,
                     cpnReason: "관리자 일괄지급"

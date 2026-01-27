@@ -1395,7 +1395,7 @@ public class ApiController {
             HttpSession session,
             @RequestPart(value="tbUserStaffData" ,required = true) TbUserStaffData tbUserStaffData
     ) {
-        log.info("TbUserStaffData headNo::{}", tbUserStaffData.getHeadNo());
+        log.info("TbUserStaffData headNo::{}", tbUserStaffData.getAppCode());
         /*log.info("TbUser tbUserWorker::{}", tbUserWorker);*/
         Integer resultCode = 0;
 
@@ -1404,7 +1404,6 @@ public class ApiController {
             apiService.insertTbUserStaff(tbUserStaffData,tbSiteMenus);
             resultCode = 1;
 
-        }   catch (DataIntegrityViolationException e) {
         } catch (Exception e){
             resultCode = 500;
             e.printStackTrace();
@@ -3160,8 +3159,8 @@ public class ApiController {
                     ordPathCd = "1063";
                     searchValue.put("ordPathCd","1063");
                 } else if ("yangpa".equals(company)) {
-                    ordPathCd = "1069";
-                    searchValue.put("ordPathCd","1069");
+                    ordPathCd = "1105";
+                    searchValue.put("ordPathCd","1105");
                 }
                 String brCode = null;
                 String ordStatus = null;
@@ -3188,8 +3187,8 @@ public class ApiController {
                     ordPathCd = "1069";
                     searchValue.put("ordPathCd","1069");
                 }*/
-                ordPathCd = "1069";
-                searchValue.put("ordPathCd","1069");
+                ordPathCd = "1105";
+                searchValue.put("ordPathCd","1105");
                 brCode = ObjectUtils.isNotEmpty(searchValue.get("brCode")) ? searchValue.get("brCode").toString() : null;
                 brandTypeCd = ObjectUtils.isNotEmpty(searchValue.get("brandTypeCd")) ? searchValue.get("brandTypeCd").toString() : null;
                 ordStatus = ObjectUtils.isNotEmpty(searchValue.get("ordStatus")) ? searchValue.get("ordStatus").toString() : null;
@@ -3468,8 +3467,8 @@ public class ApiController {
                 } else if ("yangpa".equals(company)) {
                     searchValue.put("ordPathCd","1069");
                 }*/
-                ordPathCd = "1069";
-                searchValue.put("ordPathCd","1069");
+                ordPathCd = "1105";
+                searchValue.put("ordPathCd","1105");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 if (searchValue.get("startDate") != null) {
                     String string = searchValue.get("startDate").toString() + " 00:00:00";
@@ -3517,8 +3516,8 @@ public class ApiController {
                     ordPathCd = "1069";
                     searchValue.put("ordPathCd","1069");
                 }*/
-                ordPathCd = "1069";
-                searchValue.put("ordPathCd","1069");
+                ordPathCd = "1105";
+                searchValue.put("ordPathCd","1105");
                 LocalDateTime startDate = null;
                 LocalDateTime endDate = null;
 
@@ -4373,7 +4372,7 @@ public class ApiController {
             e.printStackTrace();
         }
         List<TbUserStaffDTO> list = (List<TbUserStaffDTO>) resultMap.get("tbUserStaffList");
-        System.out.println(list);
+       /* System.out.println(list);*/
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         /*for(int i = 0 ; i < list.size() ; i ++) {
             for(TbSystemCode code : appVersionList) {
