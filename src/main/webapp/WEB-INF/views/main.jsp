@@ -411,6 +411,8 @@
 <%-- Custom JS End--%>
 
 <script>
+
+
     let label = [];
     let totalCnt = [];
     let endCnt = [];

@@ -87,7 +87,7 @@
 			<div class="login-header">
 				<div class="brand">
 					<div class="d-flex align-items-center">
-						<img  style="width: 400px; border-radius: 20px; " src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/top_title_png.png"/>">
+						<img  style="width: 400px; border-radius: 20px; " src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/ondongne_logo_storeweb.png"/>">
 					</div>
 				</div>
 			</div>

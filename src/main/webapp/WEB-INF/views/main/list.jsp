@@ -6,7 +6,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8"/>
-    <title>PetView | 예방접종</title>
+    <title></title>
     <%@include file="../common/include_head.jsp" %>
     <style>
         .switcher label:before {

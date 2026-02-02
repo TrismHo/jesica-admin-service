@@ -14,7 +14,7 @@
                     <li class="dropdown navbar-language" style="font-size: 17px;">
                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                             <a href="${path}/main">
-                                <img  style="width: 140px; margin-left: 10px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/logo_top_img.png"/>">
+                                <img  style="width: 70px; margin-left: 20px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/ondongne_logo_storeweb.png"/>">
                                 <%--<b style="text-shadow: -1px 0 #8f98ff, 0 1px #8f98ff, 1px 0 #8f98ff, 0 -1px #8f98ff;
                                 font-size: 14px;">Manager</b>--%>
                             </a>
