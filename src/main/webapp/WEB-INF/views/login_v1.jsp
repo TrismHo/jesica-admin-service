@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 	<meta charset="utf-8">
-	<title>Jig-Bae | Login Page</title>
+	<title>온동네 | Login Page</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 	<meta content="" name="description">
 	<meta content="" name="author">

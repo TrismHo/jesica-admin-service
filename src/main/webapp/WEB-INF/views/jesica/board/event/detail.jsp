@@ -9,9 +9,28 @@
         <title>Jesicar | <spring:message code="list.detail.eventnoticedetails" text="이벤트 공지"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae  | <spring:message code="list.detail.eventnoticedetails" text="이벤트 공지"/></title>
+        <title>온동네 | <spring:message code="list.detail.eventnoticedetails" text="이벤트 공지"/></title>
     </c:if>
 </head>
+<style >
+    .compact-table th {
+        width: 140px;
+        background: #fcfcfd;
+        color: #6b7280;
+        font-weight: 700;
+    }
+
+    .compact-table td {
+        color: #222;
+        font-weight: 500;
+        background: #fff;
+    }
+    .panel-box {
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+
+</style>
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>
@@ -29,159 +48,159 @@
     <!-- end #sidebar -->
 
     <!-- begin #content -->
-    <div id="content" class="content p-0">
-        <div class="col-xl-12">
-            <div class="p-t-20 p-b-0">
-                <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="앱관리"/><%--가맹점 설정--%></a></li>
+    <div id="content" class="content p-20">
+        <div class="notice-detail-page">
+            <div class="notice-detail-header">
+                <ol class="breadcrumb float-xl-right p-r-10 m-b-10">
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="앱관리"/></a></li>
                     <li class="breadcrumb-item"><spring:message code="list.detail.eventnoticedetails" text="이벤트 공지"/></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.eventnoticedetails" text="이벤트 공지상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.eventnoticedetails" text="이벤트 공지상세"/></h3>
+                <h3 class="notice-detail-title"><spring:message code="list.detail.eventnoticedetails" text="이벤트 공지상세"/></h3>
             </div>
-            <div class="row width-full p-5">
-                <div class="panel panel-inverse width-full">
-                    <div class="table-responsive m-l-5">
+
+            <div class="detail-shell">
+                <div class="detail-section">
+                    <div class="section-head">
+                        <h4 class="section-title">이벤트 기본 정보</h4>
+                    </div>
+
+                    <div class="section-body">
                         <form name="update_form" id="update_form" class="update_form">
-                            <%--<input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">--%>
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${tbEvent.insertUserId}">
                             <input type="hidden" name="eventNo" value="${tbEvent.eventNo}">
                             <input type="hidden" name="dataStatus" value="${tbEvent.dataStatus}">
-                                <input type="hidden" name="platformType" value="2">
-                            <table class="table table-bordered">
-                                <tbody>
-                                <%--<tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
-                                    <td>
-                                        &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbEvent.platformType == 0}">checked</c:if>>
-                                            <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
-                                        </label>&ndash;%&gt;
-                                            <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                    <span><spring:message code="list.detail.deliveryman1" text="직배"/></span>
-                                                </label>
-                                            </c:if>
-                                            <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
-                                                    <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
-                                                </label>
-                                            </c:if>
-                                        &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbEvent.platformType == 1}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
-                                        </label>
-                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" <c:if test="${tbEvent.platformType == 2}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
-                                        </label>
-                                        <label class="" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbEvent.platformType == 3}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                        </label>&ndash;%&gt;
-                                    </td>
-                                </tr>--%>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱코드"/></td>
-                                    <td>
-                                        <c:if test="${empty appCode}">
-                                            <select name="appCode" class="form-control w-25" >
-                                                <option value="">전체</option>
-                                                <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                    <option value="${appCodeList.sysCode}"<c:if test="${tbEvent.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
-                                                </c:forEach>
-                                            </select>
-                                        </c:if>
-                                        <c:if test="${!empty appCode}">
-                                            <input type="text" class="form-control" name="appCode" readonly value="${tbEvent.appCode}">
-                                        </c:if>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.checkexposure" text="노출여부"/></td>
-                                    <td>
-                                        <label class="m-r-10 ">
-                                            <input type="radio" name="viewYn" value="0" class="align-bottom" <c:if test="${tbEvent.viewYn == 0}">checked</c:if>> <spring:message code="list.detail.hide" text="숨김"/>
-                                        </label>
-                                        <label class="m-r-10 ">
-                                            <input type="radio" name="viewYn" value="1" class="align-bottom" <c:if test="${tbEvent.viewYn == 1}">checked</c:if>> <spring:message code="list.detail.exposure" text="노출"/>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.checkexposure1" text="시작일/종료일"/></td>
-                                    <td>
-                                        <label >
-                                            <input type="text" value="<javatime:format value="${tbEvent.startDate}" pattern="yyyy-MM-dd " />" class="form-control align-bottom startDate" >
-                                        </label>
-                                        ~
-                                        <label >
-                                            <input type="text" value="<javatime:format value="${tbEvent.endDate}" pattern="yyyy-MM-dd " />" class="form-control align-bottom endDate" >
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
-                                    <td><input type="text" name="title" value="${tbEvent.title}" class="form-control width-full title" maxlength="150"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
-                                    <td>
-                                        <textarea  id="body"  class="form-control width-full ckeditor" rows="20">${tbEvent.body}</textarea>
-                                        <textarea style="display: none;"  name="body"  class="body" rows="10">${tbEvent.body}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="등록 사용자(등록일)"/></td>
-                                    <td>
-                                        <label class="m-r-10 ">
-                                            ${tbEvent.insertUserId} (<javatime:format value="${tbEvent.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
-                                        </label>
-                                    </td>
-                                </tr>
-                                <%-- <tr>
-                                     <td class="bg-light"><spring:message code="list.detail.attachments" text="첨부파일"/></td>
-                                     <td>
-                                         <div class="category_sort">
-                                             <ul class="sort_list">
-                                                 <li>
-                                                     <div class="sort_body" id="sort_body">
-                                                         <img style="width: 150px;" class="storeImg4" src="" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
-                                                         &lt;%&ndash;<img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">&ndash;%&gt;
-                                                     </div>
-                                                 </li>
-                                                 <li>
-                                                     * <spring:message code="list.detail.recommendedimageratio" text="권장 이미지 비율"/> : 984*876<br><br>
-                                                     <div class="fileName"></div>
-                                                     <br>
-                                                     <div class="fileSize"></div>
-                                                 </li>
-                                             </ul>
-                                             <label for="imgFileSmallFile">
-                                                 <div id="button_base" class="button_base b03_skewed_slide_in btn btn-primary">
-                                                     <div><spring:message code="list.detail.selectfile" text="파일선택"/></div>
-                                                 </div>
-                                             </label>
-                                             <input type="file" id="imgFileSmallFile" name="imgFileSmallFile" value="${tbEvent.imgFileSmall}" class="fileBtn d-none">
-                                             <input type="hidden" name="imgFileSmall" value="${tbEvent.imgFileSmall}">
-                                         </div>
-                                     </td>
-                                 </tr>--%>
+                            <input type="hidden" name="platformType" value="2">
 
-                                </tbody>
-                            </table>
+                            <div class="main-grid">
+                                <div>
+                                    <div class="panel-box">
+                                        <div class="panel-box-head">노출 및 기간 설정</div>
+                                        <table class="compact-table">
+                                            <tbody>
+                                            <tr>
+                                                <th>앱코드</th>
+                                                <td>
+                                                    <c:if test="${empty appCode}">
+                                                        <select name="appCode" class="form-control" style="max-width: 240px;">
+                                                            <c:forEach var="appCodeList" items="${appVersionList}">
+                                                                <option value="${appCodeList.sysCode}" <c:if test="${tbEvent.appCode == appCodeList.sysCode}">selected</c:if>>
+                                                                        ${appCodeList.codeName}
+                                                                </option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </c:if>
+                                                    <c:if test="${!empty appCode}">
+                                                        <input type="text" class="form-control" name="appCode" readonly value="${tbEvent.appCode}" style="max-width: 240px;">
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>서비스지역</th>
+                                                <td>
+                                                    <select name="serviceNo" class="form-control" style="max-width: 240px;">
+                                                        <c:forEach var="serviceList" items="${appServiceList}">
+                                                            <option value="${serviceList.serviceNo}" <c:if test="${tbEvent.serviceNo == serviceList.serviceNo}">selected</c:if>>
+                                                                    ${serviceList.serviceName}
+                                                            </option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>제목</th>
+                                                <td>
+                                                    <input type="text" name="title" value="${tbEvent.title}" class="form-control width-full title" maxlength="150">
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="panel-box">
+                                        <div class="panel-box-head">등록 정보</div>
+                                        <table class="compact-table">
+                                            <tbody>
+                                            <tr>
+                                                <th>등록 사용자</th>
+                                                <td class="meta-text">
+                                                    ${tbEvent.insertUserId}
+                                                    (<javatime:format value="${tbEvent.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>이벤트번호</th>
+                                                <td>${tbEvent.eventNo}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>노출여부</th>
+                                                <td>
+                                                    <div class="radio-group">
+                                                        <label>
+                                                            <input type="radio" name="viewYn" value="0" <c:if test="${tbEvent.viewYn == 0}">checked</c:if>>
+                                                            <span>숨김</span>
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="viewYn" value="1" <c:if test="${tbEvent.viewYn == 1}">checked</c:if>>
+                                                            <span>노출</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>시작일/종료일</th>
+                                                <td>
+                                                    <div class="date-range-inline">
+                                                        <input type="text" value="<javatime:format value='${tbEvent.startDate}' pattern='yyyy-MM-dd' />" class="form-control startDate">
+                                                        <span>~</span>
+                                                        <input type="text" value="<javatime:format value='${tbEvent.endDate}' pattern='yyyy-MM-dd' />" class="form-control endDate">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel-box" style="margin-top: 10px;">
+                                <div class="panel-box-head">이벤트 내용</div>
+                                <table class="compact-table">
+                                    <tbody>
+                                    <tr>
+                                        <td class="p-0">
+                                            <textarea id="body" class="form-control width-full ckeditor" rows="20">${tbEvent.body}</textarea>
+                                            <textarea style="display: none;" name="body" class="body" rows="10">${tbEvent.body}</textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </form>
-                    </div>
-                    <div class="m-l-5">
 
-                        <c:if test="${permission == 2}">
-                            <button type="button" class="btn btn-danger btn_remove float-right m-t-5 m-b-5 m-r-5" eventNo="${tbEvent.eventNo}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
-                            <button type="button" class="btn btn-primary btn_up float-right m-t-5 m-b-5 m-r-5"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
-                            <button type="button" class="btn btn-blue btn_push float-right m-t-5 m-b-5 m-r-5" eventNo="${tbEvent.eventNo}"><i class="fa fa-caret-right m-r-3"></i> <spring:message code="list.detail.delete" text="푸시발송(전체)"/></button>
-                        </c:if>
-                        <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+                        <div class="bottom-actions">
+                            <div>
+                                <button type="button" class="btn btn-primary btn_list">
+                                    <i class="fa fa-list m-r-3"></i> 목록
+                                </button>
+                            </div>
+
+                            <div class="action-right">
+                                <c:if test="${permission == 2}">
+                                    <button type="button" class="btn btn-blue btn_push" eventNo="${tbEvent.eventNo}">
+                                        <i class="fa fa-caret-right m-r-3"></i> 푸시발송(전체)
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn_up">
+                                        <i class="fa fa-check m-r-3"></i> 수정
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn_remove" eventNo="${tbEvent.eventNo}">
+                                        <i class="fa fa-trash-alt m-r-3"></i> 삭제
+                                    </button>
+                                </c:if>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,13 +1,13 @@
 package com.trism.jesica.persistence.mysql.Repository.system;
 
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
+import com.trism.jesica.persistence.mysql.projection.SiteMenuAclProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface TbSiteMenuRepository extends JpaRepository<TbSiteMenu, Integer>, JpaSpecificationExecutor<TbSiteMenu> {
@@ -30,7 +30,7 @@ public interface TbSiteMenuRepository extends JpaRepository<TbSiteMenu, Integer>
             " on tsm.menu_no = tsa.menu_no " +
             " where tsa.staff_no = :staffNo" +
             " order by tsm.menu_no asc", nativeQuery = true)
-    List<Map<String, Object>>  getTbSiteMenuAclList(@Param("staffNo") Long staffNo);
+    List<SiteMenuAclProjection>  getTbSiteMenuAclList(@Param("staffNo") Long staffNo);
 
     @Query(value = "select " +
             "tsm.menu_no as menuNo, " +
@@ -47,7 +47,7 @@ public interface TbSiteMenuRepository extends JpaRepository<TbSiteMenu, Integer>
             " left outer join tb_site_acl tsa " +
             " on tsm.menu_no = tsa.menu_no " +
             " order by tsm.menu_no asc", nativeQuery = true)
-    List<Map<String, Object>>  getTbSiteMenuAclListAll(@Param("staffNo") Long staffNo);
+    List<SiteMenuAclProjection>  getTbSiteMenuAclListAll(@Param("staffNo") Long staffNo);
 
     List<TbSiteMenu> findByDataStatus(@Param("dataStatus") Integer dataStatus);
     List<TbSiteMenu> findByDataStatusAndVisibleLevel(@Param("dataStatus") Integer dataStatus, @Param("visibleLevel") Integer visibleLevel);

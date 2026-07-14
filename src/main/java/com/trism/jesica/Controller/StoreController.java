@@ -5,10 +5,12 @@ import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.BrCodeService;
 import com.trism.jesica.Service.MannaService;
 import com.trism.jesica.Util.DateUtil;
+import com.trism.jesica.config.JesicaProperties;
+import com.trism.jesica.dto.MannaOrderDetailDto;
 import com.trism.jesica.dto.TbMannaOrderGoodsDTO;
 import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaEventPush;
-import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaOrder;
+import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaStRegist;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
@@ -40,6 +42,7 @@ public class StoreController {
 
     private final ApiService apiService;
     private final AuthService authService;
+    private final JesicaProperties jesicaProperties;
 
     /**
      * 주문내역
@@ -116,21 +119,42 @@ public class StoreController {
     @GetMapping("/eventpush/detail")
     public ModelAndView eventPushDetail(@RequestParam("logNo") Long logNo , Model model) {
         log.info("logNo :: {}",logNo);
-      /*  try {
-
-            model.addAttribute("tbEvent", tbEvent);
-            if(tbEvent.getImgFileSmall() != null){
-                model.addAttribute("imgFileSmall", URLEncoder.encode(tbEvent.getImgFileSmall(),"UTF-8"));
-            } else {
-                model.addAttribute("imgFileSmall", null);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }*/
-
         TbMannaEventPush tbMannaEventPush = mannaService.getTbEventPushDetail(logNo);
         model.addAttribute("tbMannaEventPush", tbMannaEventPush);
         return new ModelAndView("jesica/store/eventpush/detail");
+    }
+
+    /* 가맹점 신청관리 */
+    @GetMapping("/regist/list")
+    public ModelAndView registList(@RequestParam Map<String,Object> searchValue,
+                                      Model model, HttpSession session) {
+        log.info("@@searchValue {}",searchValue);
+        Map<String,Object> map = permission(session,"store/regist");
+
+        searchValue.put("appCode",map.get("appCode"));
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+        searchValue.put("startDate", DateUtil.now_yyyy_mm_dd_week());
+        searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
+        model.addAttribute("searchValue", searchValue);
+        return new ModelAndView("jesica/store/regist/list");
+    }
+
+
+    /* 가맹점 신청관리 상세*/
+    @GetMapping("/regist/detail")
+    public ModelAndView registDetail(@RequestParam("stCode") String stCode , Model model) {
+        log.info("stCode :: {}",stCode);
+        model.addAttribute("cwPath", jesicaProperties.getCwPath().getPath());
+        model.addAttribute("stPath", jesicaProperties.getStPath().getPath());
+        model.addAttribute("stDwPath", jesicaProperties.getStDwPath().getPath());
+        TbMannaStRegist tbMannaStRegist = mannaService.getMannaStRegist(stCode);
+        List<Map<String, Object>> tbMannaStRegistFile = mannaService.getMannaStRegistFileList(stCode);
+        model.addAttribute("tbMannaStRegist", tbMannaStRegist);
+        model.addAttribute("tbMannaStRegistFile", tbMannaStRegistFile);
+        return new ModelAndView("jesica/store/regist/detail");
     }
 
 
@@ -143,9 +167,11 @@ public class StoreController {
         List<TbMannaOrderGoodsDTO> tbMannaOrderGoodsDTO;
         try {
             //;
-            TbMannaOrder tbCallAll = mannaService.getCallAllDetail(ordNo);
+            MannaOrderDetailDto detail = mannaService.getCallAllDetail(ordNo);
+
+            model.addAttribute("callDetail", detail.getOrder());
+            model.addAttribute("logisticsDetail", detail.getLogistics());
             tbMannaOrderGoodsDTO = mannaService.getOrderGoods(ordNo);
-            model.addAttribute("callDetail",tbCallAll);
             model.addAttribute("goodsInfo",tbMannaOrderGoodsDTO);
             model.addAttribute("goodsInfoDetail",mannaService.getOrderGoodOpt(ordNo));
         } catch (Exception e) {

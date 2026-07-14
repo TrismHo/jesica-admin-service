@@ -140,7 +140,7 @@ public interface TbUserStaffRepository extends JpaRepository<TbUserStaff, Long>,
             ", b.insert_date as insertDate " +
             "from tb_user_staff a left outer join tb_user b " +
             "on b.user_no = a.staff_no " +
-            "where ((:name is null and 1=1 ) or ( :name is not null and name like %:name% ))" +
+            "where ((:name is null and 1=1 ) or ( :name is not null and name like %:name% )) " +
             "and ((:appCode is null and 1=1 ) or ( :appCode is not null and app_code = :appCode))" +
             "and (b.user_type = 6) " +
             "and a.role_type != 0 " +

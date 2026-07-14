@@ -26,7 +26,9 @@ public interface TbMannaOrderGoodsRepository extends JpaRepository<TbMannaOrderG
             "        option_3_name as option3Name, " +
             "        option_3_price as option3Price, " +
             "        option_4_name as option4Name, " +
-            "        option_4_price as option4price " +
+            "        option_4_price as option4price, " +
+            "        ord_dn_price as ordDnPrice, " +
+            "        ord_price_type as ordPriceType " +
             "from manna_order_goods  " +
             "where ord_no = :ordNo " +
             "" , nativeQuery = true)

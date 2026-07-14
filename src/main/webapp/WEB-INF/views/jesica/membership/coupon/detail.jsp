@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jig-Bae | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 관리"/></title>
+    <title>온동네 | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 관리"/></title>
 
 </head>
 <style>
@@ -36,6 +36,118 @@
         z-index: 5;
         top: 150px;
         border:1px solid #ddd;
+    }
+    .panel-box {
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+    /* 할인방식 영역 정리 */
+    .discount-setting-box {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .discount-option-group {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 34px;
+        padding: 6px 10px;
+        border: 1px solid #ddd;
+        background: #fafafa;
+    }
+
+    .discount-option-group label {
+        margin-bottom: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 400;
+        white-space: nowrap;
+    }
+
+    .discount-option-group input[type="radio"],
+    .discount-option-group input[type="checkbox"] {
+        margin: 0;
+    }
+
+    .point-charge-box {
+        background: #fff;
+    }
+
+    .point-charge-box label {
+        color: #333;
+    }
+
+    .discount-amount-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 34px;
+    }
+
+    .discount-amount-box .discountAmt {
+        width: 130px;
+        min-width: 130px;
+    }
+
+    .discount-unit {
+        display: inline-flex;
+        align-items: center;
+        min-width: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    @media (max-width: 1200px) {
+        .discount-setting-box {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .discount-option-group,
+        .discount-amount-box {
+            width: 100%;
+        }
+
+        .discount-amount-box .discountAmt {
+            width: 160px;
+        }
+    }
+    .height-600 {
+        height: 620px;
+    }
+
+    .dataTables_wrapper .dt-buttons {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-left: 8px;
+    }
+
+    .dataTables_wrapper .dt-buttons .btn-excel-download {
+        height: 31px;
+        padding: 5px 12px;
+        border-radius: 3px;
+        border: 1px solid #1f6f43;
+        background: #218838;
+        color: #fff !important;
+        font-size: 12px;
+        line-height: 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .dataTables_wrapper .dt-buttons .btn-excel-download:hover,
+    .dataTables_wrapper .dt-buttons .btn-excel-download:focus {
+        background: #1e7e34;
+        border-color: #1c7430;
+        color: #fff !important;
+        box-shadow: none;
     }
 </style>
 <body>
@@ -257,24 +369,57 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="할인방식"/></td>
+                                    <td class="bg-light">
+                                        <spring:message code="list.detail.postclassification1" text="할인방식"/>
+                                    </td>
                                     <td>
-                                        <div style="display: flex; align-items: center">
-                                            <span class="m-r-20">
-                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="disType" class="disType" value="1" style="margin-right: 5px" <c:if test="${body.data.disType == 1}">checked</c:if>>
+                                        <div class="discount-setting-box">
+
+                                            <div class="discount-option-group">
+                                                <label>
+                                                    <input type="radio"
+                                                           name="disType"
+                                                           class="disType"
+                                                           value="1"
+                                                           <c:if test="${body.data.disType == 1}">checked</c:if>>
                                                     <span><spring:message code="list.detail.tothewhole1" text="할인금액"/></span>
                                                 </label>
-                                                <label style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="disType" class="disType" value="2" style="margin-right: 5px" <c:if test="${body.data.disType == 2}">checked</c:if>>
+
+                                                <label>
+                                                    <input type="radio"
+                                                           name="disType"
+                                                           class="disType"
+                                                           value="2"
+                                                           <c:if test="${body.data.disType == 2}">checked</c:if>>
                                                     <span><spring:message code="list.detail.affiliate1" text="할인률"/></span>
                                                 </label>
-                                            </span>
-                                            <span>
-                                                <input type="text" class="form-control discountAmt" name="discountAmt" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="${body.data.discountAmt}">
-                                                <span id="amt-form" <c:if test="${body.data.disType == 2}">style="display: none"</c:if>>원</span>
-                                                <span id="rate-form" <c:if test="${body.data.disType == 1}">style="display: none"</c:if>>%</span>
-                                            </span>
+                                            </div>
+
+                                            <div class="discount-option-group point-charge-box" id="pointChangeBox">
+                                                <input type="checkbox"
+                                                       class="pointChangeYn"
+                                                       name="pointChangeYn"
+                                                       id="pointChangeYn"
+                                                       <c:if test="${body.data.pointChangeYn == 'Y'}">checked</c:if>>
+                                                <label for="pointChangeYn">사용잔액 포인트 전환</label>
+                                            </div>
+
+                                            <div class="discount-amount-box">
+                                                <input type="text"
+                                                       class="form-control discountAmt"
+                                                       name="discountAmt"
+                                                       oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                                                       value="${body.data.discountAmt}">
+
+                                                <span id="amt-form"
+                                                      class="discount-unit"
+                                                      <c:if test="${body.data.disType == 2}">style="display: none"</c:if>>원</span>
+
+                                                <span id="rate-form"
+                                                      class="discount-unit"
+                                                      <c:if test="${body.data.disType == 1}">style="display: none"</c:if>>%</span>
+                                            </div>
+
                                         </div>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -286,12 +431,11 @@
                                     <td>
                                         <input type="text" name="cpnUseLimit" class="form-control cpnUseLimit" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="${body.data.cpnUseLimit}">
                                         <span>원</span>
-                                    </td>
                                     <td class="text-danger-darker" style="width:25%">
                                         <spring:message code="list.description.entertherepresentativebasemessage1" text="쿠폰 사용가능 주문 금액을 입력하세요."/>
                                     </td>
                                 </tr>
-                                <tr  id="ordCnt-form" <c:if test="${body.data.issuedCondition != 'D' && body.data.issuedType != 'D'}">style="display: none;" </c:if>>
+                                <tr  id="ordCnt-form" <c:if test="${body.data.issuedType != 'D' || body.data.issuedCondition != 'D' }">style="display: none;" </c:if>>
                                     <td class="bg-light"><spring:message code="list.detail.title1" text="쿠폰 적용 주문 횟수"/></td>
                                     <td>
                                         <input type="text" name="ordCnt" class="form-control ordCnt"oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="${body.data.ordCnt}">
@@ -334,56 +478,92 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="default-tab-2">
-                    <div style="width: 100%;">
-                        <form class="form-coupon-search" id="form-coupon-search">
-                            <div class="search-box">
-                                <div class="inner-search-box">
-                                    <div class="row">
-                                        <div class="col-xl-12 col-md-12 ">
-                                            <input class="cpnNo" type="hidden" name="cpnNo" value="${body.data.cpnNo}">
-                                            <table  class="table table-condensed table-bordered">
-                                                <tbody>
-                                                <tr>
-                                                    <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="생성일"/><%--등록기간--%></strong></td>
-                                                    <td>
-                                                        <label>
-                                                            <input type="text" class="form-control startDate background-white"  name="startDate" value="" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                                        </label>
-                                                        <label>
-                                                            <input type="text" class="form-control endDate background-white" name="endDate" value="" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                        </label>
-                                                    </td>
-                                                    <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/><%--검색어 입력--%></strong></td>
-                                                    <td style="border-right: none">
-                                                        <label>
-                                                            <select class="form-control keywordType" name="keywordType" style="width: 110px">
-                                                                <option value="cpnCode" ><spring:message code="list.search.title1" text="쿠폰코드"/></option>
-                                                                <option value="regStCode" ><spring:message code="list.search.title2" text="가맹점 코드"/></option>
-                                                                <option value="insertUserId" ><spring:message code="list.search.title2" text="생성자"/></option>
-                                                            </select>
-                                                            <input type="text" class="form-control width-150" name="keyword" value="" maxlength="150">
-                                                            <input type="button" class="btn btn-primary searchCouponPublish" style="margin-bottom: 3px;" value="검색">
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bg-light"><strong><spring:message code="list.search.searchword1" text=" 쿠폰생성"/><%--검색어 입력--%></strong></td>
-                                                    <td style="border-right: none" colspan="3">
-                                                        <label style="width: 100%">
-                                                            <input type="text" class="form-control width-100 numberOnly" id="publishCount" value="0" maxlength="3" numberOnly> 개
-                                                            <input type="button" class="btn btn-aqua  createCoupon" value="쿠폰코드 일괄생성">
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                    <div class="search-box search-box-inline p-0">
+                        <div class="inner-search-box">
+                            <form class="form-coupon-search" id="form-coupon-search">
+                                <input class="cpnNo" type="hidden" name="cpnNo" value="${body.data.cpnNo}">
+
+                                <div class="search-inline-bar">
+                                    <div class="search-field search-date">
+                                        <div class="search-label">생성일</div>
+                                        <div class="search-control-group">
+                                            <div class="date-input-wrap">
+                                                <input type="text"
+                                                       class="form-control startDate background-white"
+                                                       name="startDate"
+                                                       value=""
+                                                       readonly>
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+
+                                            <span class="date-separator">~</span>
+
+                                            <div class="date-input-wrap">
+                                                <input type="text"
+                                                       class="form-control endDate background-white"
+                                                       name="endDate"
+                                                       value=""
+                                                       readonly>
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <div class="search-field search-keyword">
+                                        <div class="search-label">검색어</div>
+                                        <div class="search-control-group search-keyword-group">
+                                            <select class="form-control keywordType" name="searchType">
+                                                <option value="cpnCode">
+                                                    <spring:message code="list.search.title1" text="쿠폰코드"/>
+                                                </option>
+                                                <option value="stCode">
+                                                    <spring:message code="list.search.title2" text="가맹점 코드"/>
+                                                </option>
+                                                <option value="insertUserId">
+                                                    <spring:message code="list.search.title2" text="생성자"/>
+                                                </option>
+                                            </select>
+
+                                            <input type="text"
+                                                   class="form-control width-150"
+                                                   name="searchKeyword"
+                                                   value=""
+                                                   maxlength="150"
+                                                   placeholder="검색어 입력">
+                                        </div>
+                                    </div>
+
+                                    <div class="search-field">
+                                        <div class="search-label">쿠폰생성</div>
+                                        <div class="search-control-group">
+                                            <input type="text"
+                                                   class="form-control width-100 numberOnly"
+                                                   id="publishCount"
+                                                   value="0"
+                                                   maxlength="5"
+                                                   numberOnly>
+
+                                            <span>개</span>
+
+                                            <button type="button"
+                                                    class="btn btn-search-inline createCoupon">
+                                                <span class="fa fa-plus">&nbsp;쿠폰코드 일괄생성</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="search-actions">
+                                        <button type="button"
+                                                class="btn btn-search-inline searchCouponPublish">
+                                            <i class="fa fa-search"></i>
+                                            검색
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                    <div class="list m-t-10">
+                    <div class="list m-t-20 height-600">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xl-12 ui-sortable">
@@ -402,8 +582,8 @@
                                                     <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="최대제한"/></th>
                                                     <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="등록개수"/></th>
                                                     <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="잔여개수"/></th>
-                                                    <th class="text-center" style="width: 70px;" ><spring:message code="list.word.no1" text=""/></th>
-                                                    <th class="text-center" style="width: 110px;" ><spring:message code="list.word.no1" text=""/></th>
+                                                    <th class="text-center" style="width: 130px;" ><spring:message code="list.word.no1" text=""/></th>
+                                                    <th class="text-center" style="width: 130px;" ><spring:message code="list.word.no1" text=""/></th>
                                                     </thead>
                                                 </table>
                                             </div>
@@ -415,55 +595,84 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="default-tab-3">
-                    <div style="width: 100%;">
-                        <form class="form-provide-search" id="form-provide-search">
-                            <div class="search-box">
-                                <div class="inner-search-box">
-                                    <div class="row">
-                                        <div class="col-xl-12 col-md-12 ">
-                                            <input class="cpnNo" type="hidden" name="cpnNo" value="${body.data.cpnNo}">
-                                            <table  class="table table-condensed table-bordered">
-                                                <tbody>
-                                                <tr>
-                                                    <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="생성일"/></strong></td>
-                                                    <td>
-                                                        <label>
-                                                            <input type="text" class="form-control periodS background-white"  name="periodS" value="" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                                        </label>
-                                                        <label>
-                                                            <input type="text" class="form-control periodE background-white" name="periodE" value="" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                        </label>
-                                                    </td>
-                                                    <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="쿠폰 사용 여부"/></strong></td>
-                                                    <td style="border-right: none">
-                                                        <select class="form-control" name="useYn">
-                                                            <option value="" value=""/>전체</option>
-                                                            <option value="Y"/>사용</option>
-                                                            <option value="N"/>미사용</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/></strong></td>
-                                                    <td style="border-right: none" colspan="3">
-                                                        <label>
-                                                            <select class="form-control keywordType" name="keywordType" style="width: 110px">
-                                                                <option value="cpnCode" ><spring:message code="list.search.title1" text="쿠폰코드"/></option>
-                                                            </select>
-                                                            <input type="text" class="form-control width-150" name="cpnCode" value="" maxlength="150">
-                                                            <input type="button" class="btn btn-primary searchCouponProvide" style="margin-bottom: 3px;" value="검색">
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                    <div class="search-box search-box-inline p-0">
+                        <div class="inner-search-box">
+                            <form class="form-provide-search" id="form-provide-search">
+                                <input class="cpnNo" type="hidden" name="cpnNo" value="${body.data.cpnNo}">
+
+                                <div class="search-inline-bar">
+                                    <div class="search-field search-date">
+                                        <div class="search-label">생성일</div>
+                                        <div class="search-control-group">
+                                            <div class="date-input-wrap">
+                                                <input type="text"
+                                                       class="form-control periodS background-white"
+                                                       name="periodS"
+                                                       value=""
+                                                       readonly>
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+
+                                            <span class="date-separator">~</span>
+
+                                            <div class="date-input-wrap">
+                                                <input type="text"
+                                                       class="form-control periodE background-white"
+                                                       name="periodE"
+                                                       value=""
+                                                       readonly>
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <div class="search-field">
+                                        <div class="search-label">쿠폰 사용 여부</div>
+                                        <div class="search-control-group">
+                                            <select class="form-control" name="useYn">
+                                                <option value="">전체</option>
+                                                <option value="Y">사용</option>
+                                                <option value="N">미사용</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="search-field search-keyword">
+                                        <div class="search-label">검색어</div>
+                                        <div class="search-control-group search-keyword-group">
+                                            <select class="form-control keywordType" name="searchType">
+                                                <option value="1">
+                                                    <spring:message code="list.search.title1" text="쿠폰코드"/>
+                                                </option>
+                                                <option value="2">
+                                                    <spring:message code="list.search.title1" text="사용자명"/>
+                                                </option>
+                                                <option value="3">
+                                                    <spring:message code="list.search.title1" text="연락처"/>
+                                                </option>
+                                            </select>
+
+                                            <input type="text"
+                                                   class="form-control width-150"
+                                                   name="searchKeyword"
+                                                   value=""
+                                                   maxlength="150"
+                                                   placeholder="검색어 입력">
+                                        </div>
+                                    </div>
+
+                                    <div class="search-actions">
+                                        <button type="button"
+                                                class="btn btn-search-inline searchCouponProvide">
+                                            <i class="fa fa-search"></i>
+                                            검색
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                    <div class="list m-t-10">
+                    <div class="list m-t-20 height-600">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xl-12 ui-sortable">
@@ -534,62 +743,217 @@
     const date = new Date(); //각 날짜 초기 세팅 date객체
     const dateClasses = ['.periodS', '.periodE', '.cpnPeriodS', '.cpnPeriodE', '.issuedDate'];
     const cpnNo = document.getElementsByName('cpnNo')[0].value;
+    const COUPON_PROVIDE_EXCEL_PAGE_SIZE = 1000;
 
-    var oldExportAction = function (self, e, dt, button, config) {
-        if (button[0].className.indexOf('buttons-excel') >= 0) {
-            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
-                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
+
+
+
+    function getCouponProvideBaseParam() {
+        var formData = objectifyForm($("#form-provide-search").serializeArray());
+        var param = formData;
+
+        param["periodS"] = (param["periodS"] || "").replaceAll("-", "");
+        param["periodE"] = (param["periodE"] || "").replaceAll("-", "");
+
+        return param;
+    }
+
+    function getCouponProvideExcelParam(pageNo) {
+        var param = getCouponProvideBaseParam();
+
+        param.draw = pageNo;
+        param.start = (pageNo - 1) * COUPON_PROVIDE_EXCEL_PAGE_SIZE;
+        param.length = COUPON_PROVIDE_EXCEL_PAGE_SIZE;
+        param.pageNo = pageNo;
+        param.pageSize = COUPON_PROVIDE_EXCEL_PAGE_SIZE;
+        param.excelDownloadYn = "Y";
+
+        return param;
+    }
+
+    function requestCouponProvideExcelPage(pageNo) {
+        return $.ajax({
+            url: "<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon-manage/coupon/provide",
+            type: "GET",
+            data: getCouponProvideExcelParam(pageNo),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             }
-            else {
-                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
-            }
-        } else if (button[0].className.indexOf('buttons-print') >= 0) {
-            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+        });
+    }
+
+    function couponProvideDiscountText(row) {
+        if (String(row.disType) === "1") {
+            return countString(row.discountAmt, "원");
         }
-    };
 
-    var newExportAction = function (e, dt, button, config) {
-        let startDate = $(".startDate").val()
-        let endDate = $(".endDate").val()
-        /*if(limitYn ==  && getDateDiff(startDate, endDate) > 365) {
-            alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
+        if (String(row.disType) === "2") {
+            return countString(row.discountAmt, "%");
+        }
+
+        return "-";
+    }
+
+    function couponProvideUseYnText(row) {
+        return useYnLimit({
+            useYn: row.useYn,
+            validateTo: row.expDate
+        }) || "-";
+    }
+
+    function excelValue(value) {
+        if (value === null || value === undefined || value === "") {
+            return "-";
+        }
+
+        return String(value);
+    }
+
+    function makeCouponProvideExcelRows(list) {
+        return list.map(function(row, index) {
+            return [
+                index + 1,
+                excelValue(row.cuCpnNo),
+                excelValue(row.cpnTitle),
+                excelValue(row.cpnCode),
+                excelValue(row.userName),
+                excelValue(row.userTel),
+                excelValue(couponProvideDiscountText(row)),
+                excelValue(countString(row.cpnUseLimit, "원")),
+                excelValue(countString(row.maxDisAmt, "원")),
+                excelValue(row.redayDate),
+                excelValue(row.expDate),
+                excelValue(couponProvideUseYnText(row)),
+                excelValue(row.useDate),
+                excelValue(row.ordNo)
+            ];
+        });
+    }
+
+    function downloadCouponProvideXlsx(list) {
+        if (typeof XLSX === "undefined") {
+            alert("엑셀 라이브러리가 로드되지 않았습니다.");
             return;
-        } else {*/
-            var self = this;
-            var oldStart = dt.settings()[0]._iDisplayStart;
+        }
 
-            dt.one('preXhr', function (e, s, data) {
-                // Just this once, load all data from the server...
-                data.start = 0;
-                data.length = 2147483647;
+        var headers = [
+            "번호",
+            "쿠폰일련번호",
+            "쿠폰명",
+            "쿠폰코드",
+            "사용자명",
+            "연락처",
+            "할인금액(할인율)",
+            "사용가능 주문금액",
+            "최대 할인금액",
+            "사용가능일",
+            "사용만료일",
+            "사용여부",
+            "사용일",
+            "주문번호"
+        ];
 
-                dt.one('preDraw', function (e, settings) {
-                    // Call the original action function
-                    oldExportAction(self, e, dt, button, config);
+        var rows = makeCouponProvideExcelRows(list);
+        var sheetData = [headers].concat(rows);
 
-                    dt.one('preXhr', function (e, s, data) {
-                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
-                        // Set the property to what it was before exporting.
-                        settings._iDisplayStart = oldStart;
-                        data.start = oldStart;
-                    });
+        var workbook = XLSX.utils.book_new();
+        var worksheet = XLSX.utils.aoa_to_sheet(sheetData);
 
-                    // Reload the grid with the original page. Otherwise,
-                    // API functions like table.cell(this) don't work properly.
-                    setTimeout(dt.ajax.reload, 0);
+        worksheet["!cols"] = [
+            { wch: 8 },
+            { wch: 18 },
+            { wch: 25 },
+            { wch: 22 },
+            { wch: 15 },
+            { wch: 18 },
+            { wch: 18 },
+            { wch: 18 },
+            { wch: 18 },
+            { wch: 15 },
+            { wch: 15 },
+            { wch: 12 },
+            { wch: 18 },
+            { wch: 18 }
+        ];
 
-                    // Prevent rendering of the full data to the DOM
-                    return false;
+        XLSX.utils.book_append_sheet(workbook, worksheet, "지급내역");
+        XLSX.writeFile(workbook, "지급내역_" + moment().format("YYYYMMDDHHmm") + ".xlsx");
+    }
+
+    function downloadCouponProvideExcel() {
+        var allList = [];
+        var pageNo = 1;
+        var totalCount = 0;
+
+        var $btn = $(".btn-excel-download");
+        var originalHtml = $btn.html();
+
+        $btn.prop("disabled", true).html('<i class="fa fa-spinner fa-spin"></i><span>엑셀 생성중...</span>');
+
+        function finish() {
+            $btn.prop("disabled", false).html(originalHtml);
+        }
+
+        function fetchNextPage() {
+            requestCouponProvideExcelPage(pageNo)
+                .done(function(res) {
+                    var list = [];
+
+                    if (res && res.data && res.data.infoData) {
+                        list = res.data.infoData;
+                    }
+
+                    if (res && res.data && res.data.totalCount) {
+                        totalCount = Number(res.data.totalCount);
+                    }
+
+                    if (list && list.length > 0) {
+                        allList = allList.concat(list);
+                    }
+
+                    if (
+                        list.length === 0 ||
+                        (totalCount > 0 && allList.length >= totalCount) ||
+                        (totalCount === 0 && list.length < COUPON_PROVIDE_EXCEL_PAGE_SIZE)
+                    ) {
+                        if (allList.length === 0) {
+                            alert("엑셀 다운로드할 데이터가 없습니다.");
+                            finish();
+                            return;
+                        }
+
+                        downloadCouponProvideXlsx(allList);
+                        finish();
+                        return;
+                    }
+
+                    pageNo++;
+                    fetchNextPage();
+                })
+                .fail(function() {
+                    alert("엑셀 다운로드 중 오류가 발생했습니다.");
+                    finish();
                 });
-            });
+        }
 
-            // Requery the server with the new one-time export settings
-            dt.ajax.reload();
-       /* }*/
-    };
+        fetchNextPage();
+    }
 
 
     $(() => {
+        function togglePointChangeBox() {
+            const disType = $("input[name='disType']:checked").val();
+
+            if (disType === "1") {
+                $("#pointChangeBox").show();
+            } else {
+                $("#pointChangeBox").hide();
+
+                // 체크 상태는 유지한다.
+                // 할인률 상태에서는 저장 시점에만 N으로 보낸다.
+            }
+        }
         /**
          * author june
          */
@@ -621,29 +985,52 @@
 
 
         //쿠폰 발급기준 - 조건충족시 발급조건 추가
+        //쿠폰 발급기준 - 조건충족시 발급조건 추가
         $(".issuedType").click((e) => {
             let value = e.target.value;
-            //let issuedConditionForm = document.getElementById('issuedCondition-form');
+
+            let issuedConditionForm = document.getElementById('issuedCondition-form');
             let periodSTrForm = document.getElementById('periodSTr-form');
-            let issuedCondition = $("[name=issuedCondition]:checked").val();
             let ordCntForm = document.getElementById('ordCnt-form');
+
+            let issuedCondition = $("[name=issuedCondition]:checked").val();
+
             switch (value) {
                 case 'D':
-                    periodSTrForm.style.display = 'none';
-                    issuedConditionForm.style.display = 'table-row'
-                    if(issuedCondition == 'D'){
-                        ordCntForm.style.display = 'table-row'
-                    } else {
-                        ordCntForm.style.display = 'none'
+                    if (periodSTrForm) {
+                        periodSTrForm.style.display = 'none';
                     }
+
+                    if (issuedConditionForm) {
+                        issuedConditionForm.style.display = 'table-row';
+                    }
+
+                    if (ordCntForm) {
+                        if (issuedCondition === 'D') {
+                            ordCntForm.style.display = 'table-row';
+                        } else {
+                            ordCntForm.style.display = 'none';
+                        }
+                    }
+
                     $('.issuedDate').datepicker('setDate', null);
                     break;
+
                 case 'T':
-                    issuedConditionForm.style.display = 'none';
-                    ordCntForm.style.display = 'none';
-                    periodSTrForm.style.display = 'table-row';
-                    if('${body.data.issuedDate}' == ''){
-                        $('.issuedDate').datepicker('setDate', date);
+                    if (issuedConditionForm) {
+                        issuedConditionForm.style.display = 'none';
+                    }
+
+                    if (ordCntForm) {
+                        ordCntForm.style.display = 'none';
+                    }
+
+                    if (periodSTrForm) {
+                        periodSTrForm.style.display = 'table-row';
+                    }
+
+                    if ('${body.data.issuedDate}' === '') {
+                        $('.issuedDate').datepicker('setDate', new Date());
                     }
                     break;
             }
@@ -679,9 +1066,11 @@
                     $(".maxDisAmt").val("0");
                     break;
             }
+
+            togglePointChangeBox();
         });
 
-
+        togglePointChangeBox();
         //쿠폰 유효기간구분
         $(".cpnPeriodType").click((e) => {
             let value = e.target.value;
@@ -730,11 +1119,14 @@
             let update = "<spring:message code="list.script.update1" text="수정"/>";
             let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful1" text="수정되었습니다."/>";
             let editfailed = "<spring:message code="list.script.editfailed1" text="수정에 실패하였습니다."/>";
+            let issuedType = $("[name=issuedType]:checked").val();
+            let issuedCondition = $("[name=issuedCondition]:checked").val();
 
 
 
             let _forms = $('#update_form');
             let req = convertFormToObj(_forms);
+            req.pointChangeYn = req.disType == "1" && $("#pointChangeYn").is(":checked") ? "Y" : "N";
 
             let cpnPeriodSPick = req.cpnPeriodS + "T00:00:00";
             let cpnPeriodEPick = req.cpnPeriodE + "T23:59:59";
@@ -749,11 +1141,18 @@
             }else {
                 req.maxDisAmt = Number(req.maxDisAmt);
             }
+
+
+            if(issuedCondition == 'D' && issuedType == 'D' && req.ordCnt < 1 ) {
+                alert("쿠폰 적용 주문 횟수는 최소 1개 이상 지정해주세요");
+                return;
+            }
             req.cpnPeriodLimit = Number(req.cpnPeriodLimit);
             req.periodS = req.periodS.replaceAll("-","").replaceAll("-","");
             req.periodE = req.periodE.replaceAll("-","").replaceAll("-","");
             req.cpnPeriodS = req.cpnPeriodS.replaceAll("-","").replaceAll("-","");
             req.cpnPeriodE = req.cpnPeriodE.replaceAll("-","").replaceAll("-","");
+
 
             if(req.issuedDate){
                 req.issuedDate = req.issuedDate.replaceAll("-","").replaceAll("-","");
@@ -773,7 +1172,7 @@
                             type: "PATCH",
                             url:"<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon-manage/coupon",
                             /*     url: "https://frapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/coupon",
-                                   url: "http://tfrapp.mompo한s.co.kr:8443/api-ms/v1/coupon-manage/coupon",
+                                   url: "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/coupon",
                            */
                             data: req,
                             contentType: "application/json",
@@ -899,95 +1298,95 @@
                 }
             };
 
-            table = $('#searchCouponDetailTab2').ajaxDataTable("form-coupon-search", "${path}/api/membership/coupon/publish/list", "A3","3", {
-                columns: [
-                    {data: "listIndex"},
-                    {data: "cpnCode"},
-                    {data: "cpnStatus" , render: function(data){
-                            if(data == 0) {
-                                return "<select class='cpnStatus'>" +
-                                    "<option value='1'>정상</option>" +
-                                    "<option selected value='0'>정지</option>" +
-                                    "</select>";
-                            } else if(data == 1) {
-                                return "<select class='cpnStatus'>" +
-                                    "<option selected value='1'>정상</option>" +
-                                    "<option value='0'>정지</option>" +
-                                    "</select>";
-                            } else {
-                                return "<select class='cpnStatus'>" +
-                                    "<option value='1'>정상</option>" +
-                                    "<option selected value='0'>정지</option>" +
-                                    "</select>";
-                            }
-                        }
-                    },
-                    {data: "insertDate",
-                        render: function(data){
-                            if(data){
-                                return dateFormat(data);
-                            } else {
-                                return "";
+            table = $('#searchCouponDetailTab2').ajaxDataTable(
+                "form-coupon-search",
+                "${path}/api/membership/coupon/publish/list",
+                "A3",
+                "3",
+                true,   // 또는 false
+                {
+                    columns: [
+                        {data: "listIndex"},
+                        {data: "cpnCode"},
+                        {data: "cpnStatus", render: function(data){
+                                if(data == 0) {
+                                    return "<select class='form-control w-100 cpnStatus'>" +
+                                        "<option value='1'>정상</option>" +
+                                        "<option selected value='0'>정지</option>" +
+                                        "</select>";
+                                } else {
+                                    return "<select class='form-control w-100 cpnStatus'>" +
+                                        "<option selected value='1'>정상</option>" +
+                                        "<option value='0'>정지</option>" +
+                                        "</select>";
+                                }
+                            }},
+                        {data: "insertDate", render: function(data){
+                                return data ? dateFormat(data) : "";
+                            }},
+                        {data: "insertUserId"},
+                        {data: "stCode", render: function(data){
+                                return "<input class='form-control w-100 stCode' type='text' value='" + (data || "") + "'>";
+                            }},
+                        {data: "registMax", render: function(data){
+                                return "<input class='form-control w-100 registMax numberOnly' type='text' value='" + (data ?? "") + "'>";
+                            }},
+                        {data: "totalRegistMax", render: function(data){
+                                return "<input class='form-control w-100 totalRegistMax numberOnly' type='text' value='" + (data ?? "") + "'>";
+                            }},
+                        {data: "mannaCouponRegist", render: function(data){
+                                return (data ? data.length : 0) + "개";
+                            }},
+                        {data: "useAbleCnt", render: function(data){
+                                return (data ?? 0) + "개";
+                            }},
+                        {
+                            data: "cpnCodePublishNo",
+                            render: function(data, type, row) {
+                                var html = "";
+
+                                html += "" +
+                                    "<button class='btn btn-sm btn-info couponPop' " +
+                                    "data-toggle='modal' " +
+                                    "data-target='#search_membership_coupon' " +
+                                    "publishNo='" + (row.publishNo || "") + "'>" +
+                                    "등록내역" +
+                                    "</button>";
+
+                                return html;
                             }
                         },
-                    },
-                    {data: "insertUserId"},
-                    {data: "stCode", render: function(data){
-                            if(data){
-                                return "<input class='stCode' type='text' value="+data+" > ";
-                            } else {
-                                return"<input class='stCode' type='text' value='' >";
+                        {
+                            data: "cpnCodePublishNo",
+                            render: function(data, type, row) {
+                                var html = "";
+
+                                var registCnt = row.mannaCouponRegist ? row.mannaCouponRegist.length : 0;
+
+                                html += "" +
+                                    "<input class='btn btn-sm btn-info couponUpdate' " +
+                                    "couponCode='" + (row.cpnCode || "") + "' " +
+                                    "publishNo='" + (row.publishNo || "") + "' " +
+                                    "type='button' value='수정'>";
+
+                                if (registCnt === 0) {
+                                    html += "" +
+                                        "<button class='btn btn-sm btn-danger couponDelete ml-1' " +
+                                        "publishNo='" + (row.publishNo || "") + "' " +
+                                        "couponCode='" + (row.cpnCode || "") + "'>" +
+                                        "삭제" +
+                                        "</button>";
+                                }
+
+                                return html;
                             }
                         }
-                    },
-                    {data: "registMax", render: function(data) {
-                            if (data) {
-                                return "<input class='registMax numberOnly' type='text'  value=" + data + " numberOnly> ";
-                            } else {
-                                return "<input class='registMax numberOnly' type='text'  value='' numberOnly>";
-                            }
-                        }
-                    },//인당제한
-                    {data: "totalRegistMax", render: function(data){
-                            if (data) {
-                                return "<input class='totalRegistMax numberOnly' type='text' value=" + data + " numberOnly> ";
-                            } else {
-                                return "<input class='totalRegistMax numberOnly' type='text' value='' numberOnly>";
-                            }
-                        }
-                    },//최대제한
-                    {data: "mannaCouponRegist",
-                        render: function (data){
-                            if(data){
-                                return data.length + "개"
-                            } else {
-                                return 0 + "개"
-                            }
-                        }
-                    },//등록개수
-                    {data: "useAbleCnt" ,
-                        render: function (data){
-                            if(data){
-                                return data + "개"
-                            } else {
-                                return 0 + "개"
-                            }
-                        }},//잔여개수
-                    {data: "cpnCodePublishNo",
-                        render: function (data) {
-                                return "<input class='btn btn-sm btn-info couponUpdate' couponCode="+data.cpnCode+" type='button' value='수정'>";
-                        }
-                    },//잔여개수
-                    {data: "cpnCodePublishNo",
-                        render: function (data) {
-                                return "<button class='btn btn-sm btn-info couponPop'  data-toggle='modal' data-target='#search_membership_coupon' publishNo="+data.publishNo+">등록내역</button>";
-                        }
-                    },//잔여개수
-                ],
-                columnDefs: [
-                    {targets: "_all", className: "text-center"},
-                ],
-            });
+                    ],
+                    columnDefs: [
+                        {targets: "_all", className: "text-center"}
+                    ]
+                }
+            );
 
             $("#testTable_filter").text("");
             //$("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
@@ -1003,7 +1402,7 @@
         if(!table2) {
             dateSetting(365);
 
-            table2 = $('#searchCouponRegist').ajaxDataTable("form-regist-search", "${path}/api/membership/coupon/regist/list", "A4","2" ,{
+            table2 = $('#searchCouponRegist').ajaxDataTable("form-regist-search", "${path}/api/membership/coupon/regist/list", "A4","2" , true ,{
                 columns: [
                     {data: "listIndex"},
                     {data: "registNo"},
@@ -1017,7 +1416,10 @@
                             }
                         },
                     },
-                    {data: "custName"},
+                    {
+                        data: "cust.custName",
+                        defaultContent: ""
+                    },
                     {data: "regCustTel", render: function(data){
                             if(data){
                                 return phoneHyphen(data)
@@ -1063,8 +1465,8 @@
             {data: "cuCpnNo"},
             {data: "cpnTitle"},
             {data: "cpnCode"},
-            {data: "custName"},
-            {data: "custTel"},
+            {data: "userName"},
+            {data: "userTel"},
             {data: "disTypeText",
                 render: function (data) {
                     if(data){
@@ -1180,64 +1582,48 @@
                 return param;
             },
             dataSrc: function(res) {
-
-                let conCuNoList = [];
-                // 리스트번호
-                if(res.data.infoData){
+                if (res.data && res.data.infoData) {
                     var data = res.data.infoData;
-                    for (let i = 0; i < data.length; i++) {
-                        data[i].listIndex = i + 1
-                        data[i]["number"] = i;
-                        data[i]["disTypeText"] = {disType : data[i]["disType"] , discountAmt : data[i]["discountAmt"]};
-                        data[i]["useYnCustom"] = {useYn : data[i]["useYn"] , validateTo : data[i]["expDate"]};
-                        conCuNoList.push(data[i].conCuNo.toString());
-                    }
-                    res.recordsTotal = res.data.totalCount
-                    res.recordsFiltered = res.data.totalCount
+                    var start = 0;
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '${path}/api/coupon/cust/concunosearch',
-                        traditional: true,
-                        data: {
-                            conCuNoList : conCuNoList,
-                        },
-                        async : false,
-                        dataType: "json",
-                        success: function(result) {
-                            for (let i = 0; i < data.length; i++) {
-                                for(let j = 0; j < result.custList.length; j++){
-                                    if( result.custList[j].extCustNo){
-                                        if(data[i]["conCuNo"] == result.custList[j].extCustNo){
-                                            data[i]["custName"] = result.custList[j].custName;
-                                            data[i]["custTel"] = result.custList[j].custTel;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
+                    if (res && res.start) {
+                        start = Number(res.start);
+                    }
+
+                    for (let i = 0; i < data.length; i++) {
+                        data[i].listIndex = start + i + 1;
+                        data[i]["number"] = i;
+                        data[i]["disTypeText"] = {
+                            disType: data[i]["disType"],
+                            discountAmt: data[i]["discountAmt"]
+                        };
+                        data[i]["useYnCustom"] = {
+                            useYn: data[i]["useYn"],
+                            validateTo: data[i]["expDate"]
+                        };
+                    }
+
+                    res.recordsTotal = res.data.totalCount || 0;
+                    res.recordsFiltered = res.data.totalCount || 0;
+
                     return data;
                 } else {
-                    var data = {};
                     res.recordsTotal = 0;
                     res.recordsFiltered = 0;
-                    return data;
+                    return [];
                 }
-
-
             },
             statusCode: {
                 200: (response) => {
-                    console.log(response)
+                    //console.log(response)
                     // TODO
                 },
                 400: (response) => {
-                    console.log(response)
+                    //console.log(response)
                     // TODO
                 },
                 500: (response) => {
-                    console.log(response)
+                    //console.log(response)
                     // TODO
                 }
             }
@@ -1251,19 +1637,25 @@
         },
         paging: true,
         responsive: true,
-        dom: '<"row"<"col-sm-12"l B><"col-sm-12"fr>>t<"row"<"col-sm-12"i><"col-sm-12"p>>',
-        //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+        dom:
+            '<"row mb-2 align-items-center"' +
+            '<"col-sm-6 d-flex align-items-center"lB>' +
+            '<"col-sm-6 d-flex justify-content-end"f>' +
+            '>' +
+            't' +
+            '<"row mt-2 align-items-center"' +
+            '<"col-sm-6"i>' +
+            '<"col-sm-6 d-flex justify-content-end"p>' +
+            '>',
+
         buttons: [
-            /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
-            /*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
-            { extend: 'excel',
-                text: '&nbsp; 엑셀 다운로드',
-                className: 'btn-sm fa fa-file-excel'
-                ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
-                ,title: ''
-                ,action: newExportAction
-            },
-            /*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+            {
+                text: '<i class="fa fa-file-excel"></i><span>엑셀 다운로드</span>',
+                className: 'btn btn-excel-download',
+                action: function () {
+                    downloadCouponProvideExcel();
+                }
+            }
         ],
     });
 
@@ -1329,6 +1721,50 @@
                             return;
                         } else {
                             alert("수정에 실패하였습니다.");
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    //쿠폰 삭제 버튼 클릭
+    $(document).on("click",".couponDelete",function(){
+        let cpnCode =  $(this).attr("couponCode");
+        let cpnStatus =  $(this).closest("tr").children("td").find(".cpnStatus").val();
+        let totalRegistMax =  $(this).closest("tr").children("td").find(".totalRegistMax").val();
+        let registMax = $(this).closest("tr").children("td").find(".registMax").val();
+        let stCode = $(this).closest("tr").children("td").find(".stCode").val();
+
+        swal({
+            title: "삭제하시겠습니까?",
+            icon: "warning",
+            buttons: [
+                "취소",
+                "삭제"
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/api/membership/coupon/delete',
+                    data: {
+                        cpnCode : cpnCode,
+                        cpnStatus : cpnStatus,
+                        stCode: stCode,
+                        registMax: registMax,
+                        totalRegistMax: totalRegistMax
+                    },
+                    // contentType: 'application/json',
+                    success: function(data) {
+                        let result = data.resultCode;
+                        if(result == 200) {
+                            alert("삭제에 성공하였습니다.");
+                            searchForm();
+                            return;
+                        } else {
+                            alert("삭제에 실패하였습니다.");
                         }
                     }
                 });

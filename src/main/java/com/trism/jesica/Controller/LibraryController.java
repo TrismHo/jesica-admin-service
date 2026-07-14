@@ -52,7 +52,7 @@ public class LibraryController {
         log.info("@@searchValue::{}", searchValue);
         Map<String,Object> map = permission(session,"system/master");
         searchValue.put("appCode",map.get("appCode"));
-        searchValue.put("startDate", DateUtil.now_yyyy_mm_dd_week());
+        searchValue.put("startDate", "2020-01-01");
         searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
         model.addAttribute("permission",map.get("permission"));
         model.addAttribute("downloadAble",map.get("downloadAble"));

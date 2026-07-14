@@ -1,14 +1,18 @@
 package com.trism.jesica.Service;
 
+import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.persistence.mysql.Repository.cust.TbCustDeviceRepository;
 import com.trism.jesicar.message.PushMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @Slf4j
@@ -16,6 +20,7 @@ import java.util.Map;
 @Service
 public class RabbitMqService {
     private final TbCustDeviceRepository tbCustDeviceRepository;
+    private final RestTemplateUtil restTemplateUtil;
 
     @Value("${rabbitmq.queue.name}")
     private String queueName;
@@ -32,7 +37,7 @@ public class RabbitMqService {
      * 1. Queue 로 메세지를 발행
      * 2. Producer 역할 -> Direct Exchange 전략
      **/
-    public void sendMessage(BigDecimal[] custList, String couponText, String pushTitle, String pushContents, Integer sendType) {
+    public void sendMessage(BigDecimal[] custList, String couponText, String pushTitle, Integer cpnNo, String pushContents, Integer sendType) {
       /*  PushMessage.Data data = PushMessage.Data.builder().type("5").build();
         PushMessage pushMessage = PushMessage.builder().appcode("om")
                 .os("a")
@@ -46,6 +51,42 @@ public class RabbitMqService {
         //사용자 조회
 
         if(sendType == 5){
+            //쿠폰정보 조회
+            ResponseEntity<Map> couponBody =  restTemplateUtil.getCouponDetailApi(cpnNo);
+            Map<String, Object> responseBody = couponBody.getBody();
+
+            if (responseBody == null) {
+                log.error("쿠폰 API 응답 body가 없습니다. cpnNo={}", cpnNo);
+                return;
+            }
+
+            Object dataObject = responseBody.get("data");
+            Map<String, Object> couponData =
+                    (Map<String, Object>) dataObject;
+            String cpnPeriodType = getString(couponData, "cpnPeriodType");
+
+            String readyDate;
+            String expireDate;
+
+            if ("D".equalsIgnoreCase(cpnPeriodType)) {
+                // 지정 기간형
+                readyDate = getString(couponData, "cpnPeriodS");
+                expireDate = getString(couponData, "cpnPeriodE");
+            } else {
+                // 발급일 기준 기간형
+                LocalDate today = LocalDate.now();
+
+                int cpnPeriodLimit = getInt(couponData, "cpnPeriodLimit", 0);
+
+                readyDate = today.format(DateTimeFormatter.ISO_LOCAL_DATE);
+                expireDate = today
+                        .plusDays(cpnPeriodLimit)
+                        .format(DateTimeFormatter.ISO_LOCAL_DATE);
+            }
+
+            log.info("couponBody status = {}", couponBody.getStatusCode());
+            log.info("couponBody body = {}", couponBody.getBody());
+
             for(int i = 0 ; i < custList.length ; i++){
                 PushMessage.Data data = PushMessage.Data.builder().type("5").build();
                 Map<String,Object> deviceInfo =  tbCustDeviceRepository.getDeviceInfo(custList[i]);
@@ -59,7 +100,18 @@ public class RabbitMqService {
                     } else if(Integer.parseInt(deviceInfo.get("deviceType").toString()) == 2){
                         os = "i";
                     }
-                    PushMessage pushMessage = PushMessage.builder().appcode("om")
+
+                    PushMessage.Coupon coupon = PushMessage.Coupon.builder()
+                            .cpnTitle(getString(couponData, "cpnTitle"))
+                            .readyDate(readyDate)
+                            .expireDate(expireDate)
+                            .disType(getString(couponData, "disType"))
+                            .disAmt(getString(couponData, "discountAmt"))
+                            .useLimit(getString(couponData, "cpnUseLimit"))
+                            .build();
+
+                    data.setCoupon(coupon);
+                    PushMessage pushMessage = PushMessage.builder().appcode("dv")
 
                             .os(os)
                             .timestamp(System.currentTimeMillis())
@@ -67,6 +119,7 @@ public class RabbitMqService {
                             .contents(pushContents)
                             .receiver(deviceInfo.get("pushKey").toString())
                             .data(data)
+
                             .build();
 
                     log.info(pushMessage.toString());
@@ -107,7 +160,43 @@ public class RabbitMqService {
         }
 
     }
+    private String getString(Map<String, Object> map, String key) {
+        if (map == null) {
+            return "";
+        }
 
+        Object value = map.get(key);
+
+        return value == null ? "" : String.valueOf(value);
+    }
+
+
+    private int getInt(
+            Map<String, Object> map,
+            String key,
+            int defaultValue
+    ) {
+        if (map == null) {
+            return defaultValue;
+        }
+
+        Object value = map.get(key);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        try {
+            return Integer.parseInt(String.valueOf(value));
+        } catch (NumberFormatException e) {
+            log.warn(
+                    "숫자 변환 실패. key={}, value={}",
+                    key,
+                    value
+            );
+            return defaultValue;
+        }
+    }
     /**
      * 1. Queue 에서 메세지를 구독
      **/

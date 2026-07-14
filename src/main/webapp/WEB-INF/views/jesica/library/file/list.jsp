@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="자료실"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="자료실"/></title>
+        <title>온동네 | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="자료실"/></title>
     </c:if>
 
 </head>
@@ -71,7 +71,56 @@
     .ellipsis {
         text-overflow: ellipsis;
     }
+    .table-ellipsis {
+        display: inline-block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
+        font-weight: 100;
+    }
 
+    .title-ellipsis {
+        width: 260px;
+    }
+
+    .body-ellipsis {
+        width: 420px;
+    }
+
+    #testTable {
+        table-layout: fixed;
+        width: 100% !important;
+    }
+
+    #testTable th,
+    #testTable td {
+        vertical-align: middle;
+    }
+
+    #testTable td {
+        overflow: hidden;
+    }
+
+    .file-name-cell {
+        max-width: 260px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .file-empty {
+        padding: 40px 12px;
+        text-align: center;
+        color: rgba(0,0,0,.45);
+        font-size: 13px;
+    }
+
+    .delete-file {
+        cursor: pointer;
+        color: #dc3545;
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -105,58 +154,102 @@
                 <!-- end page-header -->
                 <!-- begin row -->
 
-                <div class="search-box">
-                    <div class="inner-search-box p-15">
-                        <div class="row">
-                            <div class="col-xl-12 col-md-12 ">
-                                <form name="frmSearch" id="frmSearch1">
-                                    <input type="hidden" name="platformType" value="2">
-                                    <table class="table table-condensed table-bordered">
-                                        <tbody>
-                                        <tr>
-                                            <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="등록기간"/><%--등록기간--%></strong></td>
-                                            <td>
-                                                <label>
-                                                    <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                                </label>
-                                                <label>
-                                                    <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                </label>
-                                            </td>
-                                            <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/><%--검색어 입력--%></strong></td>
-                                            <td style="border-right: none">
-                                                <label>
-                                                    <select class="form-control searchOp" name="keywordType" style="width: 110px">
-                                                        <option value="fileTitle"><spring:message code="list.search.title2" text="문서명"/></option>
-                                                    </select>
-                                                    <input type="text" class="form-control width-150" name="keyword" value="${searchValue.keyword}" maxlength="150">
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </form>
-                            </div>
-                            <div class="col-xl-12 col-md-12 m-t-10">
-                                <div class="">
-                                    <c:if test="${permission == 2}">
-                                        <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info add-library-btn" style="width: 115px;cursor: auto;" ><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="자료등록"/></span></button>
-                                        </button>
-                                    </c:if>
-                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
+                <div class="search-box search-box-inline">
+                    <div class="inner-search-box">
+                        <div class="search-inline-bar">
+                            <input type="hidden" name="platformType" value="2">
+
+                            <div class="search-field search-date">
+                                <div class="search-label">등록기간</div>
+                                <div class="search-control-group">
+                                    <div class="date-input-wrap">
+                                        <input type="text"
+                                               class="form-control startDate background-white"
+                                               name="startDate"
+                                               value="${searchValue.startDate}"
+                                               readonly>
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+
+                                    <span class="date-separator">~</span>
+
+                                    <div class="date-input-wrap">
+                                        <input type="text"
+                                               class="form-control endDate background-white"
+                                               name="endDate"
+                                               value="${searchValue.endDate}"
+                                               readonly>
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="search-field">
+                                <div class="search-label">문서타입</div>
+                                <div class="search-control-group">
+                                    <select id="fileType" name="fileType" class="form-control">
+                                        <option value="">전체</option>
+                                        <option value="1">공통</option>
+                                        <option value="2">총판</option>
+                                        <option value="3">사용자</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="search-field">
+                                <div class="search-label">업종</div>
+                                <div class="search-control-group">
+                                    <select id="shopType" name="shopType" class="form-control">
+                                        <option value="">전체</option>
+                                        <option value="1">모두</option>
+                                        <option value="2">음식업</option>
+                                        <option value="3">특산물</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="search-field search-keyword">
+                                <div class="search-label">검색어</div>
+                                <div class="search-control-group search-keyword-group">
+                                    <select class="form-control searchOp" name="keywordType">
+                                        <option value="fileTitle">문서명</option>
+                                    </select>
+
+                                    <input type="text"
+                                           class="form-control width-150"
+                                           name="keyword"
+                                           value="${searchValue.keyword}"
+                                           maxlength="150"
+                                           placeholder="검색어 입력">
+                                </div>
+                            </div>
+
+                            <div class="search-actions">
+                                <button type="button"
+                                        class="btn btn-search-inline searchClick"
+                                        onClick="serarchForm()">
+                                    <i class="fa fa-search"></i>
+                                    검색
+                                </button>
+
+                                <c:if test="${permission == 2}">
+                                    <button type="button"
+                                            data-toggle="modal"
+                                            data-target="#give_coupon_all"
+                                            class="btn btn-search-inline ml-1 add-library-btn">
+                                        <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="자료등록"/></span>
+                                    </button>
+                                </c:if>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
+                    <table id="testTable" class="listTable display table compact-table table-striped">
                         <thead>
                         <tr class="text-center">
                             <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
                             <th width="%"><spring:message code="list.detail.title1" text="문서명"/></th>
                             <th width="%"><spring:message code="list.detail.title1" text="문서내용"/></th>
                             <th width="15%"><spring:message code="list.word.contents1" text="문서타입"/></th>
+                            <th width="15%"><spring:message code="list.word.contents1" text="업종"/></th>
                             <th width="15%"><spring:message code="list.word.status12" text="등록자"/></th>
                             <th width="%"><spring:message code="list.word.contents1" text="등록일"/></th>
                         </tr>
@@ -196,288 +289,211 @@
     let couponAddList = [];
     let searchCustList = [];
     let tablePop = null;
+    let table = null;
+
+    var selectedFiles = [];
+    var MAX_LIBRARY_TITLE_LENGTH = 100;
+    var MAX_LIBRARY_BODY_LENGTH = 1000;
+    var isLibrarySubmitting = false;
 
     var newExportAction = function (e, dt, button, config) {
-        let startDate = $(".startDate").val()
-        let endDate = $(".endDate").val()
-        if(getDateDiff(startDate, endDate) > 31) {
+        let startDate = $(".startDate").val();
+        let endDate = $(".endDate").val();
+
+        if (getDateDiff(startDate, endDate) > 31) {
             alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
             return;
-        } else {
-            var self = this;
-            var oldStart = dt.settings()[0]._iDisplayStart;
-
-            dt.one('preXhr', function (e, s, data) {
-                // Just this once, load all data from the server...
-                data.start = 0;
-                data.length = 2147483647;
-
-                dt.one('preDraw', function (e, settings) {
-                    // Call the original action function
-                    oldExportAction(self, e, dt, button, config);
-
-                    dt.one('preXhr', function (e, s, data) {
-                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
-                        // Set the property to what it was before exporting.
-                        settings._iDisplayStart = oldStart;
-                        data.start = oldStart;
-                    });
-
-                    // Reload the grid with the original page. Otherwise,
-                    // API functions like table.cell(this) don't work properly.
-                    setTimeout(dt.ajax.reload, 0);
-
-                    // Prevent rendering of the full data to the DOM
-                    return false;
-                });
-            });
-
-            // Requery the server with the new one-time export settings
-            dt.ajax.reload();
         }
+
+        var self = this;
+        var oldStart = dt.settings()[0]._iDisplayStart;
+
+        dt.one("preXhr", function (e, s, data) {
+            data.start = 0;
+            data.length = 2147483647;
+
+            dt.one("preDraw", function (e, settings) {
+                oldExportAction(self, e, dt, button, config);
+
+                dt.one("preXhr", function (e, s, data) {
+                    settings._iDisplayStart = oldStart;
+                    data.start = oldStart;
+                });
+
+                setTimeout(dt.ajax.reload, 0);
+                return false;
+            });
+        });
+
+        dt.ajax.reload();
     };
 
-    $(() => {
-        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/library/file/list","A2","1", true,{
-            columns: [
-                {data: "listIndex"},
-                {data: "fileTitle"},
-                {data: "fileBody"},
-                {data: "fileType"},
-                {data: "insertUserName"},
-                {data: "insertDate"}
-            ],
-            columnDefs: [
-                {targets: "_all", className: "text-center ellipsis "},
-                {
-                    targets: 0,
-                    width: '30px'
-                },
-                {targets: [2], className: "text"},
-                {
-                    targets: 3,
-                    width: '60px',
-                    render: function(data){
-                        if(data == 1){
-                            return "공통";
-                        } else if(data == 2){
-                            return "총판";
-                        } else if(data == 3){
-                            return "사용자";
-                        }
-                    }
-                },
-                {
-                    targets: [5],
-                    render: function(data){
-                        if(data){
-                            return dateFormat(data);
-                        } else {
-                            return "-";
-                        }
-                    },
-                },
-            ],
-        });
+    $(function () {
+        initLibraryTable();
+        initLibraryEvents();
 
         $("#testTable_filter").text("");
 
         dateSetting();
+    });
 
-        $(".searchOp").change(function(e) {
+    function initLibraryTable() {
+        table = $("#testTable").ajaxDataTable("frmSearch", "${path}/api/library/file/list", "A2", "1", true, {
+            columns: [
+                {data: "listIndex"},
+                {
+                    data: "fileTitle",
+                    render: function (data) {
+                        return makeEllipsisText(data, "title-ellipsis");
+                    }
+                },
+                {
+                    data: "fileBody",
+                    render: function (data) {
+                        return makeEllipsisText(data, "body-ellipsis");
+                    }
+                },
+                {data: "fileType"},
+                {data: "shopType"},
+                {data: "insertUserName"},
+                {data: "insertDate"}
+            ],
+            columnDefs: [
+                {
+                    targets: "_all",
+                    className: "text-center"
+                },
+                {
+                    targets: 0,
+                    width: "40px"
+                },
+                {
+                    targets: 1,
+                    width: "280px"
+                },
+                {
+                    targets: 2,
+                    width: "550px"
+                },
+                {
+                    targets: 3,
+                    width: "80px",
+                    render: function (data) {
+                        if (data == 1) {
+                            return "공통";
+                        } else if (data == 2) {
+                            return "총판";
+                        } else if (data == 3) {
+                            return "사용자";
+                        }
+
+                        return "-";
+                    }
+                },
+                {
+                    targets: 4,
+                    width: "80px",
+                    render: function (data) {
+                        if (data == 1) {
+                            return "모두";
+                        } else if (data == 2) {
+                            return "음식업";
+                        } else if (data == 3) {
+                            return "특산물";
+                        }
+
+                        return "-";
+                    }
+                },
+                {
+                    targets: 6,
+                    width: "200px",
+                    render: function (data) {
+                        if (data) {
+                            return dateFormat(data);
+                        }
+
+                        return "-";
+                    }
+                }
+            ]
+        });
+    }
+
+    function initLibraryEvents() {
+        $(".searchOp").off("change").on("change", function (e) {
             let option = e.target.value;
             let nameForm = document.getElementById("custName");
             let telForm = document.getElementById("custTel");
 
-            nameForm.value = '';
-            telForm.value = '';
-
-            switch (option) {
-                case 'custName':
-                    nameForm.style.display = 'inline';
-                    telForm.style.display = 'none';
-                    break;
-                case 'custTel':
-                    nameForm.style.display = 'none';
-                    telForm.style.display = 'inline';
-                    break;
-            }
-        });
-
-
-        //상세
-        $("#testTable").on('click','tbody td', function() {
-            var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
-           location.href = "${path}/library/file/detail?libNo="+row.libNo;
-        });
-    });
-
-
-    var fileNo = 0;
-    var filesArr = new Array();
-
-    /* 첨부파일 추가 */
-    function addFile(obj){
-        var maxFileCnt = 5;   // 첨부파일 최대 개수
-        var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-        var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-        var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-        // 첨부파일 개수 확인
-        if (curFileCnt > remainFileCnt) {
-            alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
-        }
-        let count = 0;
-        for (var j = 0; j < filesArr.length; j++) {
-            if (!filesArr[j].is_delete) {count ++}
-        }
-        if(count === 0){
-            $('.file-list').find("tr").eq(0).remove()
-        }
-        for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
-
-            const file = obj.files[i];
-
-            // 첨부파일 검증
-            if (validation(file)) {
-                // 파일 배열에 담기
-                var reader = new FileReader();
-                reader.onload = function () {
-                    filesArr.push(file);
-                };
-                reader.readAsDataURL(file)
-
-                // 목록 추가
-                let htmlData = '';
-                htmlData += '<tr id="file' + fileNo + '" class="filebox">';
-                htmlData += '   <td class="fileName text-center">' + file.name + '</td>';
-                htmlData += '   <td class="fileSize text-center">' + file.size + ' byte</td>';
-                htmlData += '   <td class="fileSize text-center"><a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a></td>';
-                htmlData += '</tr>';
-                $('.file-list').append(htmlData);
-                fileNo++;
-            } else {
-                continue;
-            }
-
-        }
-        // 초기화
-        document.querySelector("input[type=file]").value = "";
-    }
-
-    /* 첨부파일 검증 */
-    function validation(obj){
-        console.log(obj.type)
-        const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp', 'application/zip'];
-        if (obj.name.length > 100) {
-            alert("파일명이 100자 이상인 파일은 제외되었습니다.");
-            return false;
-        } else if (obj.size > (100 * 1024 * 1024)) {
-            alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
-            return false;
-        } else if (obj.name.lastIndexOf('.') == -1) {
-            alert("확장자가 없는 파일은 제외되었습니다.");
-            return false;
-        } else if (!fileTypes.includes(obj.type)) {
-            alert("첨부가 불가능한 파일은 제외되었습니다.");
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /* 첨부파일 삭제 */
-    function deleteFile(num) {
-        document.querySelector("#file" + num).remove();
-        filesArr[num].is_delete = true;
-        let count = 0 ;
-        for (var i = 0; i < filesArr.length; i++) {
-            if (!filesArr[i].is_delete) {count ++}
-        }
-        if(count === 0){
-            $(".file-list").html("");
-            $(".file-list").html(" <tr class='non-file'><td colspan='4' class='text-center '>파일이 존재하지 않습니다.</td></tr>")
-        }
-
-    }
-
-    $(document).on("click",".insertLibrary",function(){
-        /* 폼 전송 */
-
-        if (isNull($("input[name=fileTitle]").val())) {
-            return alert_focus("fileTitle", "문서제목을 입력주세요.");
-        }
-        if (isNull($("#fileBody").val())) {
-            return alert_focus("fileBody", "문서내용을 입력주세요.");
-        }
-
-
-        // 폼데이터 담기
-        var form = document.querySelector("form");
-        var formData = new FormData(form);
-        for (var i = 0; i < filesArr.length; i++) {
-            // 삭제되지 않은 파일만 폼데이터에 담기
-            if (!filesArr[i].is_delete) {
-                formData.append("libraryInfo",  new Blob([JSON.stringify({
-                    "fileTitle" : $("input[name=fileTitle]").val(),
-                    "fileBody" : $("#fileBody").val(),
-                    "fileType" : $("#fileType").val(),
-                    "appCode" : $("input[name=appCode]").val(),
-                    "insertUserId" : $("input[name=insertUserId]").val(),
-                    "insertUserName" : $("input[name=insertUserName]").val(),
-                })], {type:"application/json"}));
-                formData.append("attachFile", filesArr[i]);
-            }
-        }
-
-        $.ajax({
-            method: 'POST',
-            url: '/api/library/file/insert',
-            dataType: 'json',
-            data: formData,
-            async: true,
-            contentType: false,
-            processData: false,
-            timeout: 30000,
-            cache: false,
-            headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
-            success: function () {
-                alert("등록에 성공하였습니다.");
-                $(".libModalCloseBtn").click();
-                serarchForm();
-            },
-            error: function (xhr, desc, err) {
-                alert('에러가 발생 하였습니다.');
+            if (!nameForm || !telForm) {
                 return;
             }
-        })
-    })
 
+            nameForm.value = "";
+            telForm.value = "";
 
-    /*$(document).on("change", "#libFile", function (e) {
-        e.preventDefault();
-        let file = $("#libFile")[0].files[0],
-            reader = new FileReader();
-            reader.readAsDataURL(file);
-        //파일명 삽입
-        let fileName = "";
-        if (window.FileReader) {
-            // modern browser
-            fileName = file.name;
-        } else {
-            // old IE
-            fileName = $("#imgFile").val().split('/').pop().split('\\').pop();
-        } // 추출한 파일명 삽입
+            switch (option) {
+                case "custName":
+                    nameForm.style.display = "inline";
+                    telForm.style.display = "none";
+                    break;
+                case "custTel":
+                    nameForm.style.display = "none";
+                    telForm.style.display = "inline";
+                    break;
+            }
+        });
 
-        $('.fileName').text("변경할 이미지 :" + fileName);
-        $('.fileSize').text("용량 :" + file.size + " Byte");
+        $("#testTable").off("click", "tbody td").on("click", "tbody td", function () {
+            var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
 
-        return false;
-    });*/
+            if (!row || !row.libNo) {
+                return;
+            }
 
+            location.href = "${path}/library/file/detail?libNo=" + row.libNo;
+        });
+
+        $(document).off("click", ".insertLibrary").on("click", ".insertLibrary", function () {
+            insertLibrary(this);
+        });
+
+        $(document).off("hidden.bs.modal", "#give_coupon_all").on("hidden.bs.modal", "#give_coupon_all", function () {
+            resetLibraryModal();
+        });
+
+        // 여기 추가
+        $(document)
+            .off("input.libraryCount keyup.libraryCount change.libraryCount", "#fileTitle, #fileBody")
+            .on("input.libraryCount keyup.libraryCount change.libraryCount", "#fileTitle, #fileBody", function () {
+                if (this.id === "fileTitle") {
+                    updateLengthCount("#fileTitle", "#fileTitleCount", MAX_LIBRARY_TITLE_LENGTH);
+                }
+
+                if (this.id === "fileBody") {
+                    updateLengthCount("#fileBody", "#fileBodyCount", MAX_LIBRARY_BODY_LENGTH);
+                }
+            });
+
+        $("#give_coupon_all")
+            .off("shown.bs.modal.libraryCount")
+            .on("shown.bs.modal.libraryCount", function () {
+                updateLengthCount("#fileTitle", "#fileTitleCount", MAX_LIBRARY_TITLE_LENGTH);
+                updateLengthCount("#fileBody", "#fileBodyCount", MAX_LIBRARY_BODY_LENGTH);
+            });
+    }
 
     function serarchForm() {
+        if (!table) {
+            return;
+        }
+
         var numCols = table.columns().nodes().length;
-        for(var i=0; i<numCols; i++) {table.column(i).search(''); }
+
+        for (var i = 0; i < numCols; i++) {
+            table.column(i).search("");
+        }
 
         table.column().draw();
     }
@@ -486,9 +502,366 @@
         if (isNull(args.fileName)) {
             return alert_focus("userId", "변경할 비밀번호를 입력해주세요.");
         }
+
         return true;
     }
 
+    function insertLibrary(button) {
+        if (isLibrarySubmitting) {
+            return;
+        }
+
+        var title = $.trim($("#fileTitle").val() || $("input[name=fileTitle]").val() || "");
+        var body = $.trim($("#fileBody").val() || "");
+
+        if (!title) {
+            return alert_focus("fileTitle", "문서명을 입력해주세요.");
+        }
+
+        if (title.length > MAX_LIBRARY_TITLE_LENGTH) {
+            return alert_focus("fileTitle", "문서명은 최대 100자까지 입력 가능합니다.");
+        }
+
+        if (!body) {
+            return alert_focus("fileBody", "문서내용을 입력해주세요.");
+        }
+
+        if (body.length > MAX_LIBRARY_BODY_LENGTH) {
+            return alert_focus("fileBody", "문서내용은 최대 1000자까지 입력 가능합니다.");
+        }
+
+        isLibrarySubmitting = true;
+
+        var $button = $(button);
+        $button.prop("disabled", true);
+
+        var formData = new FormData();
+
+        var $form = $("#libraryForm");
+
+        var libraryInfo = {
+            fileTitle: $.trim($form.find("input[name='fileTitle']").val() || ""),
+            fileBody: $.trim($form.find("textarea[name='fileBody']").val() || ""),
+            fileType: Number($form.find("select[name='fileType']").val() || 1),
+            shopType: Number($form.find("select[name='shopType']").val() || 1),
+            appCode: $form.find("input[name='appCode']").val(),
+            insertUserId: $form.find("input[name='insertUserId']").val(),
+            insertUserName: $form.find("input[name='insertUserName']").val()
+        };
+
+        formData.append("libraryInfo", new Blob([JSON.stringify(libraryInfo)], {
+            type: "application/json"
+        }));
+
+        for (var i = 0; i < selectedFiles.length; i++) {
+            formData.append("attachFile", selectedFiles[i]);
+        }
+        console.log(libraryInfo)
+        $.ajax({
+            method: "POST",
+            url: "${path}/api/library/file/insert",
+            dataType: "json",
+            data: formData,
+            async: true,
+            contentType: false,
+            processData: false,
+            timeout: 30000,
+            cache: false,
+            headers: {
+                "cache-control": "no-cache",
+                "pragma": "no-cache"
+            },
+            success: function (res) {
+                alert((res && res.message) ? res.message : "등록에 성공하였습니다.");
+
+                $(".libModalCloseBtn").trigger("click");
+
+                resetLibraryModal();
+
+                if (table && table.ajax) {
+                    table.ajax.reload(null, false);
+                } else {
+                    serarchForm();
+                }
+            },
+            error: function () {
+                alert("에러가 발생 하였습니다.");
+            },
+            complete: function () {
+                isLibrarySubmitting = false;
+                $button.prop("disabled", false);
+            }
+        });
+    }
+
+    function addFile(input) {
+        var files = input.files;
+
+        if (!files || files.length === 0) {
+            return;
+        }
+
+        var maxFileCnt = 5;
+        var remainFileCnt = maxFileCnt - selectedFiles.length;
+        var curFileCnt = files.length;
+
+        if (remainFileCnt <= 0) {
+            alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+            $("#libFile").val("");
+            return;
+        }
+
+        if (curFileCnt > remainFileCnt) {
+            alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+        }
+
+        for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
+            var file = files[i];
+
+            if (validation(file)) {
+                appendSelectedFile(file);
+            }
+        }
+
+        $("#libFile").val("");
+    }
+
+    function appendSelectedFile(file) {
+        var key = getFileKey(file);
+
+        for (var i = 0; i < selectedFiles.length; i++) {
+            if (getFileKey(selectedFiles[i]) === key) {
+                return;
+            }
+        }
+
+        selectedFiles.push(file);
+        renderFileList();
+    }
+
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        renderFileList();
+    }
+
+    function renderFileList() {
+        var $tbody = $("#file-list");
+
+        if ($tbody.length === 0) {
+            return;
+        }
+
+        $tbody.empty();
+
+        if (!selectedFiles || selectedFiles.length === 0) {
+            $tbody.append(
+                '<tr class="none-file">' +
+                '   <td colspan="4" class="file-empty">파일이 존재하지 않습니다.</td>' +
+                '</tr>'
+            );
+            return;
+        }
+
+        for (var i = 0; i < selectedFiles.length; i++) {
+            var file = selectedFiles[i];
+
+            var rowHtml = ""
+                + '<tr class="file-row">'
+                + '  <td class="ps-10px border-0 text-center">' + getFileIcon(file) + '</td>'
+                + '  <td class="px-10px border-0 file-name-cell" title="' + escapeAttr(file.name) + '">' + escapeHtml(file.name) + '</td>'
+                + '  <td class="px-10px text-center">' + fmtBytes(file.size) + '</td>'
+                + '  <td class="delete-col text-center">'
+                + '    <a class="delete-file" onclick="removeFile(' + i + ');">'
+                + '      <i class="far fa-minus-square"></i>'
+                + '    </a>'
+                + '  </td>'
+                + '</tr>';
+
+            $tbody.append(rowHtml);
+        }
+    }
+
+    function validation(file) {
+        if (!file) {
+            return false;
+        }
+
+        if (file.name.length > 100) {
+            alert("파일명이 100자 이상인 파일은 제외되었습니다.");
+            return false;
+        }
+
+        if (file.size > (100 * 1024 * 1024)) {
+            alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
+            return false;
+        }
+
+        if (file.name.lastIndexOf(".") === -1) {
+            alert("확장자가 없는 파일은 제외되었습니다.");
+            return false;
+        }
+
+        var fileName = file.name.toLowerCase();
+        var fileExt = fileName.substring(fileName.lastIndexOf(".") + 1);
+        var fileType = (file.type || "").toLowerCase();
+
+        var allowExts = [
+            "pdf",
+            "gif",
+            "jpg",
+            "jpeg",
+            "png",
+            "bmp",
+            "tif",
+            "tiff",
+            "hwp",
+            "zip",
+            "7z"
+        ];
+
+        var allowMimeTypes = [
+            "application/pdf",
+            "image/gif",
+            "image/jpeg",
+            "image/png",
+            "image/bmp",
+            "image/tif",
+            "image/tiff",
+
+            "application/haansofthwp",
+            "application/x-hwp",
+
+            "application/zip",
+            "application/x-zip",
+            "application/x-zip-compressed",
+            "multipart/x-zip",
+            "application/octet-stream",
+
+            "application/x-7z-compressed",
+            "application/7z",
+            "application/x-compressed"
+        ];
+
+        var isAllowedExt = allowExts.includes(fileExt);
+        var isAllowedMime = !fileType || allowMimeTypes.includes(fileType);
+
+        if (!isAllowedExt || !isAllowedMime) {
+            alert("첨부가 불가능한 파일은 제외되었습니다.");
+            return false;
+        }
+
+        return true;
+    }
+
+    function resetLibraryModal() {
+        selectedFiles = [];
+        isLibrarySubmitting = false;
+
+        $("#fileTitle").val("");
+        $("input[name=fileTitle]").val("");
+        $("#fileBody").val("");
+        $("#fileType").val("1");
+        $("#libFile").val("");
+
+        renderFileList();
+
+        updateLengthCount("#fileTitle", "#fileTitleCount", MAX_LIBRARY_TITLE_LENGTH);
+        updateLengthCount("#fileBody", "#fileBodyCount", MAX_LIBRARY_BODY_LENGTH);
+
+        $(".insertLibrary").prop("disabled", false);
+    }
+
+    function bindLibraryLengthCounter(inputSelector, countSelector, maxLength) {
+        var $input = $(inputSelector);
+
+        $input.off("input.libraryCount keyup.libraryCount change.libraryCount");
+        $input.on("input.libraryCount keyup.libraryCount change.libraryCount", function () {
+            updateLengthCount(inputSelector, countSelector, maxLength);
+        });
+
+        updateLengthCount(inputSelector, countSelector, maxLength);
+    }
+
+    function updateLengthCount(inputSelector, countSelector, maxLength) {
+        var $input = $(inputSelector);
+        var $count = $(countSelector);
+
+        if ($input.length === 0 || $count.length === 0) {
+            return;
+        }
+
+        var value = $input.val() || "";
+
+        if (value.length > maxLength) {
+            value = value.substring(0, maxLength);
+            $input.val(value);
+        }
+
+        var len = value.length;
+        $count.text(len + " / " + maxLength);
+        $count.toggleClass("is-over", len > maxLength);
+    }
+
+    function makeEllipsisText(data, className) {
+        var text = data || "-";
+
+        return ""
+            + '<span class="table-ellipsis ' + className + '" title="' + escapeAttr(text) + '">'
+            + escapeHtml(text)
+            + '</span>';
+    }
+
+    function getFileKey(file) {
+        return file.name + "__" + file.size + "__" + file.lastModified;
+    }
+
+    function getFileIcon(file) {
+        var type = (file.type || "").toLowerCase();
+
+        if (type.indexOf("pdf") > -1) {
+            return '<i class="far fa-file-pdf text-body text-opacity-50 fa-lg"></i>';
+        }
+
+        if (type.indexOf("image/") === 0) {
+            return '<i class="far fa-image text-body text-opacity-50 fa-lg"></i>';
+        }
+
+        if (type.indexOf("zip") > -1 || type.indexOf("compressed") > -1) {
+            return '<i class="far fa-file-archive text-body text-opacity-50 fa-lg"></i>';
+        }
+
+        return '<i class="far fa-file-alt text-body text-opacity-50 fa-lg"></i>';
+    }
+
+    function fmtBytes(bytes) {
+        var units = ["B", "KB", "MB", "GB"];
+        var size = Number(bytes || 0);
+        var unitIndex = 0;
+
+        while (size >= 1024 && unitIndex < units.length - 1) {
+            size = size / 1024;
+            unitIndex++;
+        }
+
+        return (unitIndex === 0 ? size : size.toFixed(1)) + " " + units[unitIndex];
+    }
+
+    function escapeHtml(str) {
+        return String(str || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    function escapeAttr(str) {
+        return String(str || "")
+            .replace(/&/g, "&amp;")
+            .replace(/"/g, "&quot;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+    }
 </script>
 </body>
 </html>

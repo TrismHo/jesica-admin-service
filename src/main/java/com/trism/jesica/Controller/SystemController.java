@@ -5,6 +5,8 @@ import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.TbSystemCategoryDTO;
 import com.trism.jesica.dto.TbUserStaffDTO;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppService;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppServiceLocation;
 import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.mysql.Entitiy.car.TbStoreRentalCar;
 import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
@@ -15,6 +17,7 @@ import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.mysql.projection.SiteMenuAclProjection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -40,7 +43,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class SystemController {
-
+    private final AppServiceService appServiceService;
     private final SystemGoodsService systemGoodsService;
 
     private final WorkerApplyService workerApplyService;
@@ -48,6 +51,8 @@ public class SystemController {
     private final MasterService masterService;
 
     private final BoardService boardService;
+
+    private final BadgeService badgeService;
 
     private final ApiService apiService;
 
@@ -450,7 +455,7 @@ public class SystemController {
 
             List<TbSiteAcl> tbSiteAclList =  authService.getSiteAcl(Long.valueOf(userNo));
             List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
-            List<Map<String, Object>>  tbSiteMenuAclList = authService.getTbSiteMenuAclList(Long.valueOf(userNo));
+            List<SiteMenuAclProjection>  tbSiteMenuAclList = authService.getTbSiteMenuAclList(Long.valueOf(userNo));
 
             model.addAttribute("tbUserStaff", tbUserStaff);
             model.addAttribute("userNo", userNo);
@@ -604,6 +609,98 @@ public class SystemController {
         return new ModelAndView("/jesica/system/brcode/list");
     }
 
+    @GetMapping("/location/list")
+    public ModelAndView locationList(Model model,@RequestParam Map<String,Object> searchValue) {
+
+        try {
+            model.addAttribute("serviceList", appServiceService.getServiceList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("serviceList", null);
+        }
+
+        return new ModelAndView("jesica/system/location/list");
+    }
+
+    @GetMapping("/surcharge/list")
+    public ModelAndView surchargeList(Model model,@RequestParam Map<String,Object> searchValue) {
+
+        try {
+            model.addAttribute("serviceList", appServiceService.getServiceList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("serviceList", null);
+        }
+
+        return new ModelAndView("jesica/system/surcharge/list");
+    }
+    @GetMapping("/location/insert")
+    public ModelAndView locationInsert(Model model, HttpSession session) {
+        Map<String,Object> map = permission(session,"board/banner");
+
+        List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
+        List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
+        List<TbSystemCode> sysLangCode = apiService.systemCodeList("LANG");
+        //List<TbAppVersion> appVersionList = apiService.getAppVersionListTypeOne(appCode);
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appVersionList",appVersionList);
+
+        model.addAttribute("sysCodeList" , sysCodeList);
+        model.addAttribute("sysCodeList2" , sysCodeList2);
+        model.addAttribute("appCode",map.get("appCode"));
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
+
+        return new ModelAndView("jesica/system/location/insert");
+    }
+    @GetMapping("/location/detail")
+    public ModelAndView locationDetail(@RequestParam Integer serviceNo, Model model) {
+
+        try {
+            TbAppService service = appServiceService.getServiceDetail(serviceNo);
+            List<TbAppServiceLocation> locations = appServiceService.getLocationList(serviceNo);
+            List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
+            List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2");
+            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            List<HashMap<String, String>> appCodeList = new ArrayList<>();
+            for(TbSystemCode appList : appVersionList){
+                HashMap<String, String> appMap = new HashMap<>();
+                appMap.put("codeName",appList.getCodeName());
+                appMap.put("sysCode",appList.getSysCode());
+                appCodeList.add(appMap);
+            }
+            model.addAttribute("appCodeList",appCodeList);
+            model.addAttribute("sysCodeList" , sysCodeList);
+            model.addAttribute("sysCodeList2" , sysCodeList2);
+            model.addAttribute("service", service);
+            model.addAttribute("locationList", locations);
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("service", null);
+            model.addAttribute("locationList", null);
+        }
+
+        return new ModelAndView("jesica/system/location/detail");
+    }
+
+    @GetMapping("/badge/list")
+    public ModelAndView badgeList(Model model,@RequestParam Map<String,Object> searchValue) {
+        searchValue.put("startDate", DateUtil.now_yyyy_mm_dd_3month());
+        searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("jesica/system/badge/list");
+    }
+
+
+    @GetMapping("/faq/list")
+    public ModelAndView faqList(Model model,@RequestParam Map<String,Object> searchValue) {
+        searchValue.put("startDate", DateUtil.now_yyyy_mm_dd_3month());
+        searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
+        model.addAttribute("searchValue", searchValue);
+
+        return new ModelAndView("jesica/system/faq/list");
+    }
 
 
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {

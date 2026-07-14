@@ -36,6 +36,12 @@ public class TbUserStaff extends TbUser {
     private LocalDateTime updateDate;
 
     /**
+     * 서비스 번호
+     */
+    @Column(name = "service_no", nullable = false)
+    private Integer serviceNo = null;
+
+    /**
      * 수정 사용자 고유 아이디
      */
     @Column(name = "update_user_id")

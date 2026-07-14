@@ -1,177 +1,526 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<style>
-    ul {
-        list-style: none;
-        padding: 0 4px;
-    }
-    /*.modal-body {
-        background: #e0e0e0;
-    }*/
-    .dataTables_paginate li {
-        padding: 0px;
-        background: #F9F9F9;
-    }
-    .list {height: 550px; overflow-y: auto;}
-    .modal-footer {display: block;}
-    a.page-link {padding: 5px 10px;}
 
-    .nav-item .nav-link{color:rgba(255,255,255,.65)}.nav.nav-tabs.nav-tabs-inverse .nav-item .nav-link:focus,.nav.nav-tabs.nav-tabs-inverse .nav-item .nav-link:hover{color:#fff}.nav.nav-tabs.nav-tabs-inverse .nav-item .nav-link.active{color:#2d353c}.nav.nav-pills .nav-item .nav-link{padding:.61875rem .9375rem;font-weight:600;color:#6f8293}.nav.nav-pills .nav-item .nav-link:focus,.nav.nav-pills .nav-item .nav-link:hover{color:#2d353c}.nav.nav-pills .nav-item .nav-link.active{color:#fff}@media (max-width:767.98px){.nav-wizards-container{overflow:scroll}.nav-wizards-container .nav.nav-wizards-1,.nav-wizards-container .nav.nav-wizards-2,.nav-wizards-container .nav.nav-wizards-3{min-width:600px}}.nav.nav-wizards-1{-webkit-flex-wrap:nowrap;-ms-flex-wrap:nowrap;flex-wrap:nowrap}.nav.nav-wizards-1 .nav-item{padding:0}.nav.nav-wizards-1 .nav-item .nav-link{position:relative;color:#495057}.nav.nav-wizards-1 .nav-item .nav-link .nav-no{width:40px;height:40px;margin:0 auto;font-weight:600;background:0 0;border:2px solid #ced4da;position:relative;z-index:10;font-size:.875rem;border-radius:40px;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear}.nav.nav-wizards-1 .nav-item .nav-link .nav-text{text-align:center;margin-top:.46875rem;font-weight:600;font-size:.75rem}.nav.nav-wizards-1 .nav-item .nav-link.active,.nav.nav-wizards-1 .nav-item .nav-link.completed{color:#348fe2}.nav.nav-wizards-1 .nav-item .nav-link.active .nav-no,.nav.nav-wizards-1 .nav-item .nav-link.completed .nav-no{border-color:#348fe2;color:#348fe2}.nav.nav-wizards-1 .nav-item .nav-link.active:after,.nav.nav-wizards-1 .nav-item .nav-link.active:before,.nav.nav-wizards-1 .nav-item .nav-link.completed:after,.nav.nav-wizards-1 .nav-item .nav-link.completed:before{background:#348fe2}.nav.nav-wizards-1 .nav-item .nav-link.active:after,.nav.nav-wizards-1 .nav-item .nav-link.completed:after{width:calc(50% - 20px)}.nav.nav-wizards-1 .nav-item .nav-link.active .nav-no{-webkit-box-shadow:0 0 0 5px rgba(52,143,226,.2);box-shadow:0 0 0 5px rgba(52,143,226,.2)}.nav.nav-wizards-1 .nav-item .nav-link.disabled{color:#adb5bd}.nav.nav-wizards-1 .nav-item .nav-link:after,.nav.nav-wizards-1 .nav-item .nav-link:before{content:'';position:absolute;top:1.6875rem;height:2px;background:#ced4da;left:0;right:calc(50% + 20px)}.nav.nav-wizards-1 .nav-item .nav-link:after{left:calc(50% + 20px);right:0;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear}.nav.nav-wizards-1 .nav-item:first-child .nav-link:after,.nav.nav-wizards-1 .nav-item:first-child .nav-link:before{left:calc(50% + 20px)}.nav.nav-wizards-1 .nav-item:last-child .nav-link:before{right:calc(50% + 20px)}.nav.nav-wizards-1 .nav-item:last-child .nav-link.active:before,.nav.nav-wizards-1 .nav-item:last-child .nav-link.completed:before{background:#348fe2}.nav.nav-wizards-1 .nav-item:last-child .nav-link:after{display:none}.nav.nav-wizards-2{-webkit-flex-wrap:nowrap;-ms-flex-wrap:nowrap;flex-wrap:nowrap}.nav.nav-wizards-2 .nav-item{padding:0 1rem}.nav.nav-wizards-2 .nav-item .nav-link{position:relative;color:#2d353c;background:#e9ecef;border-radius:60px}.nav.nav-wizards-2 .nav-item .nav-link .nav-text{text-align:center;font-weight:600;font-size:.75rem;position:relative;z-index:10;background:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nav.nav-wizards-2 .nav-item .nav-link:after,.nav.nav-wizards-2 .nav-item .nav-link:before{content:'';position:absolute;left:-1rem;right:-1rem;height:2px;top:50%;margin-top:-1px;background-color:#e9ecef;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear}.nav.nav-wizards-2 .nav-item .nav-link:after{width:0%;background:#348fe2}.nav.nav-wizards-2 .nav-item .nav-link.disabled{color:#ced4da}.nav.nav-wizards-2 .nav-item .nav-link.active,.nav.nav-wizards-2 .nav-item .nav-link.completed{background:#348fe2;color:#fff}.nav.nav-wizards-2 .nav-item .nav-link.active:after,.nav.nav-wizards-2 .nav-item{}
-    .card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 0px solid rgba(45,53,60,.15);
-        border-radius: 4px;
+<style>
+    .library-register-modal .modal-content {
+        border: 0;
+        border-radius: 0;
+        background: #fff;
     }
-    @media (min-width: 992px){
-        .modal-lg, .modal-xl {
+
+    .library-register-modal .modal-body {
+        padding: 0;
+        background: #f7f8fa;
+    }
+
+    .library-register-shell {
+        background: #fff;
+        border: 1px solid #cfd6dd;
+    }
+
+    .library-register-main {
+        display: flex;
+        align-items: stretch;
+        min-height: 520px;
+    }
+
+    .library-register-left {
+        width: 58%;
+        background: #fff;
+    }
+
+    .library-register-right {
+        flex: 1;
+        min-width: 0;
+        border-left: 1px solid #d9dee3;
+        background: #fbfbfc;
+    }
+
+    .section-head {
+        padding: 10px 12px;
+        border-bottom: 1px solid #d9dee3;
+        background: #f1f3f5;
+    }
+
+    .section-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .section-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: rgba(0,0,0,.5);
+    }
+
+    .section-body {
+        padding: 14px;
+    }
+
+    .admin-panel {
+        border: 1px solid #cfd6dd;
+        background: #fff;
+    }
+
+    .admin-info-wrap {
+        background: #fff;
+    }
+
+    .admin-info-row {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        border-bottom: 1px solid #d9dee3;
+    }
+
+    .admin-info-row:last-child {
+        border-bottom: 0;
+    }
+
+    .admin-info-label,
+    .admin-info-value {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .admin-info-label {
+        width: 118px;
+        padding: 14px 12px;
+        background: #f7f8fa;
+        border-right: 1px solid #d9dee3;
+        font-size: 12px;
+        font-weight: 700;
+        color: #333;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .admin-info-value {
+        padding: 12px;
+        background: #fff;
+        color: #222;
+        font-size: 13px;
+        line-height: 1.6;
+        min-width: 0;
+    }
+
+    .body-row .admin-info-label {
+        vertical-align: top;
+        padding-top: 14px;
+    }
+
+    .body-row .admin-info-value {
+        vertical-align: top;
+    }
+
+    .admin-input {
+        width: 100% !important;
+        height: 36px !important;
+        padding: 6px 10px !important;
+        border: 1px solid #bfc7cf !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        font-size: 13px !important;
+        color: #222 !important;
+    }
+
+    .admin-input:focus {
+        border-color: #7ea6d9 !important;
+        box-shadow: inset 0 0 0 1px #7ea6d9 !important;
+    }
+
+    .admin-select {
+        width: 220px !important;
+        max-width: 100%;
+        height: 36px !important;
+        padding: 6px 10px !important;
+        border: 1px solid #bfc7cf !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        font-size: 13px !important;
+        color: #222 !important;
+    }
+
+    .admin-select:focus {
+        border-color: #7ea6d9 !important;
+        box-shadow: inset 0 0 0 1px #7ea6d9 !important;
+    }
+
+    .select-help-text {
+        margin-top: 5px;
+        font-size: 12px;
+        color: rgba(0,0,0,.45);
+    }
+
+    .admin-textarea {
+        height: 240px !important;
+        resize: vertical;
+        line-height: 1.6 !important;
+        padding-top: 10px !important;
+    }
+
+    .char-row {
+        margin-top: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: rgba(0,0,0,.45);
+    }
+
+    .char-count {
+        font-weight: 700;
+        color: #666;
+    }
+
+    .char-count.is-over {
+        color: #dc3545;
+    }
+
+    .file-toolbar {
+        padding: 14px 12px;
+        border-bottom: 1px solid #d9dee3;
+        background: #f7f8fa;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .file-toolbar-left,
+    .file-toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .file-tree-header {
+        font-size: 13px;
+        color: #444;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .file-tree-header .fa-folder-open {
+        color: #d6a100;
+    }
+
+    .file-toolbar-hint {
+        font-size: 12px;
+        color: rgba(0,0,0,.45);
+    }
+
+    .file-scroll {
+        max-height: 430px;
+        overflow: auto;
+        background: #fff;
+    }
+
+    .file-table {
+        margin: 0 !important;
+    }
+
+    .file-table thead tr {
+        border-bottom: 1px solid #d9dee3;
+        background: #f8f9fa;
+    }
+
+    .file-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: #f8f9fa;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .file-table td,
+    .file-table th {
+        padding-top: 11px !important;
+        padding-bottom: 11px !important;
+        vertical-align: middle !important;
+    }
+
+    .file-row {
+        transition: background-color .12s ease;
+    }
+
+    .file-row:hover {
+        background: #fafafa;
+    }
+
+    .file-empty {
+        padding: 40px 12px;
+        text-align: center;
+        color: rgba(0,0,0,.45);
+        font-size: 13px;
+    }
+
+    .delete-col {
+        text-align: center;
+    }
+
+    .delete-file {
+        cursor: pointer;
+        color: #dc3545;
+    }
+
+    .bottom-actions {
+        padding: 12px 14px;
+        border-top: 1px solid #d9dee3;
+        background: #fff;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .bottom-actions .btn {
+        min-width: 84px;
+        border-radius: 0 !important;
+        font-weight: 600;
+        box-shadow: none !important;
+    }
+
+    .file-name-cell {
+        max-width: 260px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @media (min-width: 992px) {
+        .modal-lg.library-register-modal,
+        .modal-xl.library-register-modal {
             max-width: 1030px;
         }
     }
-    @media (max-width: 1920px) {
-        .modal-content {
+
+    @media (max-width: 992px) {
+        .library-register-main {
+            flex-direction: column;
+        }
+
+        .library-register-left {
             width: 100%;
         }
-    }
-    .cust-list th ,
-    .cust-list td {
-        padding: 5px 2px 5px 10px;
-    }
-    .icon-arrow {
-        border: 1px solid #ddd;
-        padding: 5px 27px 5px 16px;
-        background-color: azure;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .icon-arrow:hover {
-        color: #ddd;
-        background-color: #6c757d;
-        border-color: #6c757d;
-    }
-    table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
-        border-bottom-width: 1px;
+
+        .library-register-right {
+            width: 100%;
+            border-left: 0;
+            border-top: 1px solid #d9dee3;
+        }
+
+        .file-scroll {
+            max-height: unset;
+        }
     }
 
-    .offcanvas{transition:none}}.offcanvas-header{display:flex;align-items:center;justify-content:space-between;padding:.9375rem .9375rem}.offcanvas-header .btn-close{padding:.46875rem .46875rem;margin-top:-.46875rem;margin-right:-.46875rem;margin-bottom:-.46875rem}.offcanvas-title{margin-bottom:0;line-height:1.5}.offcanvas-body{flex-grow:1;padding:.9375rem .9375rem;overflow-y:auto}.offcanvas-start{top:0;left:0;width:400px;border-right:0 solid rgba(0,0,0,.2);transform:translateX(-100%)}.offcanvas-end{top:0;right:0;width:400px;border-left:0 solid rgba(0,0,0,.2);transform:translateX(100%)}.offcanvas-top{top:0;right:0;left:0;height:30vh;max-height:100%;border-bottom:0 solid rgba(0,0,0,.2);transform:translateY(-100%)}.offcanvas-bottom{right:0;left:0;height:30vh;max-height:100%;border-top:0 solid rgba(0,0,0,.2);transform:translateY(100%);}.offcanvas.show{transform:none}.clearfix::after{display:block;clear:both;content:""}.link-default{color:#e9ecef}.link-default:focus,.link-default:hover{color:#edf0f2}.link-inverse{color:#2d353c}.link-inverse:focus,.link-inverse:hover{color:#242a30}.link-primary{color:#00acac}.link-primary:focus,.link-primary:hover{color:#33bdbd}
+    @media (max-width: 768px) {
+        .admin-info-row,
+        .admin-info-label,
+        .admin-info-value {
+            display: block;
+            width: 100%;
+        }
+
+        .admin-info-label {
+            border-right: 0;
+            border-bottom: 1px solid #d9dee3;
+        }
+
+        .admin-textarea {
+            height: 180px !important;
+        }
+
+        .admin-select {
+            width: 100% !important;
+        }
+    }
+
+    .modal-content {
+        width: 100%;
+    }
 </style>
 
-<div class="modal-dialog modal-lg" role="document">
+<div class="modal-dialog modal-lg library-register-modal" role="document">
     <div class="modal-content">
-        <div class="panel panel-inverse">
-            <div class="panel-heading ui-sortable-handle"><h4 class="panel-title">자료등록</h4>
-                <div class="panel-heading-btn"><a href="javascript:;"
-                                                  class="btn btn-xs btn-icon btn-circle btn-danger"
-                                                  data-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-times"></i></a></div>
-            </div>
-        </div>
-        <div class="modal-body" style="padding: 5px;">
-            <div class="row">
-                <div class="col-xl-12 ui-sortable">
-                    <div class="panel-body">
-                        <div style="width: 100%;">
-                            <form class="form-coupon-search" name="libraryForm">
-                                <div class="search-box">
-                                    <div class="inner-search-box p-15">
-                                        <div class="row">
-                                            <div class="col-xl-12 col-md-12 ">
-                                                <input type="hidden" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
-                                                <input type="hidden" name="insertUserName" value="${sessionScope.sessionKey.userStaffName}">
-                                                <input type="hidden" name="appCode" value="${sessionScope.sessionKey.appCode}">
-                                                <table  class="table table-condensed table-bordered">
-                                                    <tbody>
-                                                        <tr >
-                                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="문서명"/></strong></td>
-                                                            <td colspan="">
-                                                                <input type="text" class="form-control width-250 fileTitle" name="fileTitle" placeholder="문서명을 입력해주세요">
-                                                            </td>
-                                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="문서타입"/></strong></td>
-                                                            <td colspan="">
-                                                                <label>
-                                                                    <select class="form-control fileType" id="fileType" name="fileType">
-                                                                        <option value="1">공통</option>
-                                                                        <option value="2">총판</option>
-                                                                        <option value="3">사용자</option>
-                                                                    </select>
-                                                                </label>
-                                                            </td>
-                                                        </tr>
-                                                       <tr>
-                                                           <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="문서내용"/></strong></td>
-                                                            <td colspan="3">
-                                                                <textarea class="w-100 form-control" id="fileBody" name="fileBody" placeholder="문서내용을 입력해주세요"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="m-l-15">
-                            <label for="libFile">
-                                <div class="button_base b03_skewed_slide_in btn btn-primary">
-                                    <div> <spring:message code="list.detail.selectfile" text="파일선택"/> </div>
-                                </div>
-                            </label>
-                            <form method="POST" id="multiForm" onsubmit="return false;" enctype="multipart/form-data">
-                                <input type="file" id="libFile" onchange="addFile(this);" multiple  name="imgFile1" class="fileBtn d-none" accept="*"  >
-                            </form>
-                            <%--<input type="button" class="btn btn-danger" id="deleteFile" value="선택파일 삭제">--%>
-                            <div class="insert">
-
-                                   <%-- <input type="file" onchange="addFile(this);" multiple />--%>
-                                   <%-- <div class="file-list"></div>--%>
-
-                            </div>
-
-                        </div>
-                        <div class="list m-t-5">
-                                <div class="col-xl-12 ui-sortable">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-xl-6 ui-sortable">
-                                                <div class="card">
-                                                    <div class="card-bod">
-                                                        <div class="panel-body p-t-20">
-                                                            <table id="searchCustTable" class="display table table-bordered w-100 table-striped cust-list ">
-                                                                <thead>
-                                                                    <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="파일명"/></th>
-                                                                    <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="파일크기"/></th>
-                                                                    <th class="text-center" style="width: 30px;" ></th>
-                                                                </thead>
-                                                                <tbody id="file-list" class="file-list" style="">
-                                                                   <%-- <tr><td colspan="4" style="text-align: center; background-color: #e4e4e4; border:1px solid #9e9e9e; height: 498px;">파일이 없습니다.</td> </tr>--%>
-                                                                    <tr class="none-file">
-                                                                        <td colspan="4" class="text-center ">파일이 존재하지 않습니다.</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
+        <div class="panel panel-inverse m-0">
+            <div class="panel-heading ui-sortable-handle">
+                <h4 class="panel-title">자료등록</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;"
+                       class="btn btn-xs btn-icon btn-circle btn-danger"
+                       data-dismiss="modal"
+                       aria-label="Close">
+                        <i class="fa fa-times"></i>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <%--<input type="button" class="btn btn-info m-r-15 float-right" id="cpnAlarmBtn" value="지급알림발송">--%>
-            <button type="button" class="btn btn-info btn_remove float-right m-l-5 insertLibrary" ><i class="fa fa-plus-circle m-r-3"></i> <spring:message code="list.detail.delete" text="등록하기"/></button>
-            <button type="button" class="btn btn-grey float-right libModalCloseBtn" data-dismiss="modal">닫기</button>
+
+        <div class="modal-body">
+            <div class="library-register-shell">
+                <div class="library-register-main">
+
+                    <div class="library-register-left">
+                        <div class="section-head">
+                            <h4 class="section-title">기본정보</h4>
+                            <div class="section-sub">문서명은 최대 100자, 문서내용은 최대 1000자까지 입력 가능합니다.</div>
+                        </div>
+
+                        <div class="section-body">
+                            <form class="form-coupon-search" name="libraryForm" id="libraryForm">
+                                <input type="hidden" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
+                                <input type="hidden" name="insertUserName" value="${sessionScope.sessionKey.userStaffName}">
+                                <input type="hidden" name="appCode" value="${sessionScope.sessionKey.appCode}">
+
+                                <div class="admin-panel">
+                                    <div class="admin-info-wrap">
+
+                                        <div class="admin-info-row">
+                                            <div class="admin-info-label">문서명</div>
+                                            <div class="admin-info-value">
+                                                <input type="text"
+                                                       class="form-control admin-input fileTitle"
+                                                       name="fileTitle"
+                                                       id="fileTitle"
+                                                       maxlength="100"
+                                                       placeholder="문서명을 입력해주세요">
+
+                                                <div class="char-row">
+                                                    <span>최대 100자</span>
+                                                    <span class="char-count" id="fileTitleCount">0 / 100</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="admin-info-row">
+                                            <div class="admin-info-label">문서타입</div>
+                                            <div class="admin-info-value">
+                                                <select class="form-control admin-select fileType"
+                                                        id="fileType"
+                                                        name="fileType">
+                                                    <option value="1">공통</option>
+                                                    <option value="2">총판</option>
+                                                    <option value="3">사용자</option>
+                                                </select>
+                                                <div class="select-help-text">
+                                                    공통은 전체 대상 자료로 조회됩니다.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="admin-info-row">
+                                            <div class="admin-info-label">업종</div>
+                                            <div class="admin-info-value">
+                                                <select class="form-control admin-select shopType"
+                                                        id="shopType"
+                                                        name="shopType">
+                                                    <option value="1">모두</option>
+                                                    <option value="2">음식업</option>
+                                                    <option value="3">특산물</option>
+                                                </select>
+                                                <div class="select-help-text">
+                                                    모두는 전체 업종 대상 자료로 조회됩니다.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="admin-info-row body-row">
+                                            <div class="admin-info-label">문서내용</div>
+                                            <div class="admin-info-value">
+                                                <textarea class="form-control admin-input admin-textarea"
+                                                          id="fileBody"
+                                                          name="fileBody"
+                                                          maxlength="1000"
+                                                          placeholder="문서내용을 입력해주세요"></textarea>
+
+                                                <div class="char-row">
+                                                    <span>최대 1000자</span>
+                                                    <span class="char-count" id="fileBodyCount">0 / 1000</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="library-register-right">
+                        <div class="file-toolbar">
+                            <div class="file-toolbar-left">
+                                <div class="file-tree-header">
+                                    <i class="fa fa-folder-open"></i>
+                                    <span>첨부파일</span>
+                                </div>
+                            </div>
+
+                            <div class="file-toolbar-right">
+                                <label for="libFile" class="btn btn-sm btn-primary m-0">
+                                    <i class="fa fa-paperclip m-r-5"></i> 파일선택
+                                </label>
+
+                                <form method="POST"
+                                      id="multiForm"
+                                      onsubmit="return false;"
+                                      enctype="multipart/form-data"
+                                      class="m-0">
+                                    <input type="file"
+                                           id="libFile"
+                                           onchange="addFile(this);"
+                                           multiple
+                                           name="imgFile1"
+                                           class="fileBtn d-none"
+                                           accept="*">
+                                </form>
+
+                                <div class="file-toolbar-hint">선택한 파일이 아래 목록에 추가됩니다.</div>
+                            </div>
+                        </div>
+
+                        <div class="file-scroll">
+                            <table class="table table-striped table-borderless table-sm m-0 text-nowrap file-table">
+                                <thead>
+                                <tr>
+                                    <th class="w-10px ps-10px"></th>
+                                    <th class="px-10px">파일명</th>
+                                    <th class="px-10px w-100px">크기</th>
+                                    <th class="px-10px w-60px text-center"></th>
+                                </tr>
+                                </thead>
+                                <tbody id="file-list" class="file-list">
+                                <tr class="none-file">
+                                    <td colspan="4" class="file-empty">파일이 존재하지 않습니다.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bottom-actions mt-0">
+                    <button type="button" class="btn btn-grey libModalCloseBtn" data-dismiss="modal">
+                        닫기
+                    </button>
+
+                    <button type="button" class="btn btn-info btn_remove insertLibrary">
+                        <i class="fa fa-plus-circle m-r-3"></i>
+                        등록하기
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-

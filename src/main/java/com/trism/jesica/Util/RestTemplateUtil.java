@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -254,8 +255,7 @@ public class RestTemplateUtil {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("authKey",  jesicaProperties.getMomPosServer().getAuthKey());
 		headers.add("Content-Type", "application/json");
-
-		String url = jesicaProperties.getMomPosServer().getServer()+"/v1/coupon-manage/detail/"+cpnNo;
+		String url = jesicaProperties.getMomPosServer().getApi()+"/v1/coupon-manage/detail/"+cpnNo;
 
 		//String url = "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/detail/"+cpnNo;
 		//String url = "http://frapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/detail/"+cpnNo; //운영
@@ -277,11 +277,63 @@ public class RestTemplateUtil {
 		headers.add("authKey",  jesicaProperties.getMomPosServer().getAuthKey());
 		headers.add("Content-Type", "application/json");
 
-		String url = jesicaProperties.getMomPosServer().getServer()+"/v1/coupon";
+		String url = jesicaProperties.getMomPosServer().getApi()+"/v1/coupon";
 		//String url = "http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon"; //테스트
 		//String url = "http://frapp.mompos.co.kr:8443/api-ms/v1/coupon";  //운영
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
 
+	public ResponseEntity<Map> getCustCouponList(Long custNo, String ordPathCd) {
+		Map<String, Object> result = new HashMap<>();
+
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("authKey", jesicaProperties.getMomPosServer().getAuthKey());
+			headers.add("Content-Type", "application/json");
+
+			String url = jesicaProperties.getMomPosServer().getServer()
+					+ "/v1/coupon/list/"
+					+ custNo;
+
+			if (ordPathCd != null && !"".equals(ordPathCd)) {
+				url += "?ordPathCd=" + URLEncoder.encode(ordPathCd, "UTF-8");
+			}
+
+			HttpEntity<?> entity = new HttpEntity<>(headers);
+
+			ResponseEntity<Map> response = restTemplate.exchange(
+					url,
+					HttpMethod.GET,
+					entity,
+					Map.class
+			);
+
+			return ResponseEntity
+					.status(response.getStatusCode())
+					.body(response.getBody());
+
+		} catch (Exception e) {
+			result.put("result", "500");
+			result.put("message", "쿠폰 목록 조회 중 오류가 발생했습니다.");
+			result.put("error", e.getMessage());
+
+			return ResponseEntity
+					.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(result);
+		}
+	}
+
+	//멤버쉽 API 상세 호출
+	public ResponseEntity<Map> getBadgeFileDel(Long seqNo) {
+		Map<String,Object> requestDto = new HashMap<>();
+		requestDto.put("seqNo",seqNo);
+		HttpHeaders headers = new HttpHeaders();
+	/*	headers.add("authKey",  jesicaProperties.getMomPosServer().getAuthKey());
+		headers.add("Content-Type", "application/json");*/
+		String url = jesicaProperties.getBadgeFileDel().getPath();
+
+		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}
 }

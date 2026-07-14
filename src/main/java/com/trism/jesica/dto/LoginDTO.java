@@ -3,13 +3,15 @@ package com.trism.jesica.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class LoginDTO {
+public class LoginDTO implements Serializable {
 
     private String serviceStatus;
 

@@ -28,4 +28,15 @@ public interface TbMannaCouponPublishRepository extends JpaRepository<TbMannaCou
              @Param("registMax") Long registMax,
              @Param("totalRegistMax") Long totalRegistMax
     );
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "DELETE FROM manna_coupon_publish " +
+        "WHERE cpn_code = :cpnCode "+
+          "AND NOT EXISTS ( "+
+              "SELECT 1 "+
+              "FROM manna_coupon_regist "+
+              "WHERE manna_coupon_regist.publish_no = manna_coupon_publish.publish_no "+
+          ")"
+        , nativeQuery = true)
+    int deleteInfo(@Param("cpnCode") String cpnCode);
 }

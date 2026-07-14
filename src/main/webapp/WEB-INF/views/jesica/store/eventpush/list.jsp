@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 발송내역"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 발송내역"/></title>
+        <title>온동네  | <spring:message code="sidemenu.boardmanagement.eventnotice" text="이벤트 발송내역"/></title>
     </c:if>
 </head>
 <style>
@@ -63,122 +63,125 @@
             <!-- end page-header -->
             <!-- begin row -->
 
-                <div class="search-box">
-                    <div class="inner-search-box p-15">
-                        <div class="row">
-                            <div class="col-xl-12 col-md-12 ">
-                                <form name="frmSearch" id="frmSearch">
-                                <table class="table table-condensed table-bordered">
-                                        <tbody>
-                                        <tr >
-                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification" text="이벤트 배달구분"/></strong></td>
-                                            <td >
-                                                <label>
-                                                    <select class="form-control param1" name="param1">
-                                                        <option value="" <c:if test="${searchValue.param1 == ''  || searchValue.param1 == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
-                                                        <option value="1" <c:if test="${searchValue.param1 == '1'}">selected</c:if>><spring:message code="list.search.all1" text="0원배달"/></option>
-                                                        <option value="2" <c:if test="${searchValue.param1 == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="0순위배달"/></option>
-                                                    </select>
-                                                </label>
-                                            </td>
-                                            <td class="bg-light" style="width:5%"><strong><spring:message code="list.search.registrationperiod1" text="앱코드"/><%--등록기간--%></strong></td>
-                                            <td >
-                                                <c:if test="${empty appCode}">
-                                                    <select id="brandTypeCd" name="brandTypeCd" class="form-control" >
-                                                        <option value="" selected>전체</option>
-                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                            <option value="${appCodeList.codeValue}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </c:if>
-                                                <c:if test="${!empty appCode}">
-                                                    <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                        <c:if test="${appCode == appCodeList.sysCode}">
-                                                            <input type="hidden" name="brandTypeCd" value="${appCodeList.codeValue}">
-                                                            <input type="text" class="form-control" value="${appCodeList.codeName}" disabled>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </td>
-                                            <td class="bg-light"><strong><spring:message code="list.search.stateofuse" text="이벤트 주문구분"/></strong></td>
-                                            <td>
-                                                <div class="row">
-                                                </div>
-                                                <label>
-                                                    <select class="form-control evOrdType" name="evOrdType">
-                                                        <option value="" <c:if test="${searchValue.evOrdType == ''  || searchValue.evOrdType == null}">selected</c:if>><spring:message code="list.search.all" text="전체"/></option>
-                                                        <option value="1" <c:if test="${searchValue.evOrdType == '1'}">selected</c:if>><spring:message code="list.search.normal1" text="배달"/></option>
-                                                        <option value="2" <c:if test="${searchValue.evOrdType == '2'}">selected</c:if>><spring:message code="list.search.stop1" text="포장"/></option>
-                                                        <option value="3" <c:if test="${searchValue.evOrdType == '3'}">selected</c:if>><spring:message code="list.search.stop1" text="대기"/></option>
-                                                        <option value="4" <c:if test="${searchValue.evOrdType == '4'}">selected</c:if>><spring:message code="list.search.stop1" text="예약"/></option>
-                                                        <option value="5" <c:if test="${searchValue.evOrdType == '5'}">selected</c:if>><spring:message code="list.search.stop1" text="테이블"/></option>
-                                                    </select>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-light"><strong><spring:message code="list.search.registrationperiod" text="등록기간"/><%--등록기간--%></strong></td>
-                                            <td>
-                                                <label>
-                                                    <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                                </label>
-                                                <label>
-                                                    <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                </label>
-                                            </td>
-                                            <td class="bg-light"><strong><spring:message code="list.search.searchword" text="검색어"/><%--검색어 입력--%></strong></td>
-                                            <td colspan="3">
-                                                <label>
-                                                    <select class="form-control">
-                                                        <%--<option>선택&lt;%&ndash;<spring:message code="merchandise.search9.option1" text="default text"/>&ndash;%&gt;&lt;%&ndash;상품명&ndash;%&gt;</option>--%>
-                                                        <option><spring:message code="list.search.title" text="제목"/><%--<spring:message code="merchandise.search9.option2" text="default text"/>--%><%--바코드--%></option>
-                                                        <%--<option>내용&lt;%&ndash;<spring:message code="merchandise.search9.option2" text="default text"/>&ndash;%&gt;&lt;%&ndash;바코드&ndash;%&gt;</option>--%>
-                                                    </select>
-                                                    <input type="text" class="form-control width-150 evTitle" name="evTitle" value="" maxlength="150">
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </form>
-                            </div>
-                            <div class="col-xl-12 col-md-12 m-t-10">
-                                <div class="">
-                                    <%--<button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
-                                        <span class="fa fa-plus"><spring:message code="list.word.eventregistration" text="이벤트 등록"/>&lt;%&ndash;<spring:message code="merchandise.registerbutton" text="default text"/>&ndash;%&gt;</span>
-                                    </button>--%>
-                                        <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchForm()"><i class="fa fa-search grayicon"></i> 검색 </button>
+            <div class="search-box search-box-inline">
+                <div class="inner-search-box">
+                    <form name="frmSearch" id="frmSearch">
+                        <div class="search-inline-bar">
+                            <div class="search-field search-date">
+                                <div class="search-label">등록기간</div>
+                                <div class="search-control-group">
+                                    <div class="date-input-wrap">
+                                        <input type="text" class="form-control startDate background-white" name="startDate" value="${searchValue.startDate}" readonly>
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <span class="date-separator">~</span>
+                                    <div class="date-input-wrap">
+                                        <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly>
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="search-field">
+                                <div class="search-label">이벤트 배달구분</div>
+                                <div class="search-control-group">
+                                    <select class="form-control param1" name="param1">
+                                        <option value="" <c:if test="${searchValue.param1 == ''  || searchValue.param1 == null}">selected</c:if>>전체</option>
+                                        <option value="1" <c:if test="${searchValue.param1 == '1'}">selected</c:if>>0원배달</option>
+                                        <option value="2" <c:if test="${searchValue.param1 == '2'}">selected</c:if>>0순위배달</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="search-field">
+                                <div class="search-label">앱코드</div>
+                                <div class="search-control-group">
+                                    <c:if test="${empty appCode}">
+                                        <select id="brandTypeCd" name="brandTypeCd" class="form-control">
+                                            <option value="" selected>전체</option>
+                                            <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                <option value="${appCodeList.codeValue}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>
+                                                        ${appCodeList.codeName}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                    </c:if>
+                                    <c:if test="${!empty appCode}">
+                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                            <c:if test="${appCode == appCodeList.sysCode}">
+                                                <input type="hidden" name="brandTypeCd" value="${appCodeList.codeValue}">
+                                                <input type="text" class="form-control" value="${appCodeList.codeName}" disabled>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:if>
+                                </div>
+                            </div>
+
+                            <div class="search-field">
+                                <div class="search-label">이벤트 주문구분</div>
+                                <div class="search-control-group">
+                                    <select class="form-control evOrdType" name="evOrdType">
+                                        <option value="" <c:if test="${searchValue.evOrdType == ''  || searchValue.evOrdType == null}">selected</c:if>>전체</option>
+                                        <option value="1" <c:if test="${searchValue.evOrdType == '1'}">selected</c:if>>배달</option>
+                                        <option value="2" <c:if test="${searchValue.evOrdType == '2'}">selected</c:if>>포장</option>
+                                        <option value="3" <c:if test="${searchValue.evOrdType == '3'}">selected</c:if>>대기</option>
+                                        <option value="4" <c:if test="${searchValue.evOrdType == '4'}">selected</c:if>>예약</option>
+                                        <option value="5" <c:if test="${searchValue.evOrdType == '5'}">selected</c:if>>테이블</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="search-field search-keyword">
+                                <div class="search-label">검색어</div>
+                                <div class="search-control-group search-keyword-group">
+                                    <select class="form-control">
+                                        <option>제목</option>
+                                    </select>
+                                    <input type="text" class="form-control evTitle" name="evTitle" value="" maxlength="150" placeholder="검색어 입력">
+                                </div>
+                            </div>
+
+                            <div class="search-actions">
+                                <button type="button" class="btn btn-search-inline searchClick" onclick="searchForm()">
+                                    <i class="fa fa-search"></i>
+                                    검색
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
+            </div>
 
             <div class="panel-body">
-                <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
-                    <thead>
-                    <tr class="text-center">
-                        <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
-                        <th><spring:message code="list.detail.title1" text="앱구분"/></th>
-                        <th><spring:message code="list.detail.title1" text="일련번호"/></th>
-                        <th ><spring:message code="list.word.status" text="이벤트 일련번호"/></th>
-                        <th ><spring:message code="list.word.contents1" text="그룹코드"/></th>
-                        <th ><spring:message code="list.word.status1" text="그룹명"/></th>
-                        <th ><spring:message code="list.word.status1" text="발송대상"/></th>
-                        <th ><spring:message code="list.word.status1" text="발송대상 주문건수"/></th>
-                        <th ><spring:message code="list.word.status1" text="발송건수"/></th>
-                        <th ><spring:message code="list.word.status1" text="이벤트 시작일"/></th>
-                        <th ><spring:message code="list.word.status1" text="이벤트 종료일"/></th>
-                        <th ><spring:message code="list.word.status1" text="이벤트 제목"/></th>
-                        <th ><spring:message code="list.word.status1" text="이벤트 할인"/></th>
-                        <th ><spring:message code="list.word.status1" text="이벤트 할인금액"/></th>
-                        <th ><spring:message code="list.word.status1" text="이벤트 할인금액 최대"/></th>
-                        <th ><spring:message code="list.word.status1" text="이벤트 주문구분"/></th>
-                        <th ><spring:message code="list.word.registrationdate1" text="이벤트 배달구분"/></th>
-                        <th ><spring:message code="list.word.serviceclassification1" text="입력일시"/></th>
-                    </tr>
-                    </thead>
-                </table>
+                <div class="panel-box table-panel-box">
+                    <div class="table-scroll-wrap">
+                        <table id="testTable" class="table compact-table table-striped" >
+                        <thead>
+                        <tr class="text-center">
+                            <th width="5%"><spring:message code="list.word.no" text="번호"/></th>
+                            <th><spring:message code="list.detail.title1" text="앱구분"/></th>
+                            <th><spring:message code="list.detail.title1" text="일련번호"/></th>
+                            <th ><spring:message code="list.word.status" text="이벤트 일련번호"/></th>
+                            <th ><spring:message code="list.word.contents1" text="그룹코드"/></th>
+                            <th ><spring:message code="list.word.status1" text="그룹명"/></th>
+                            <th ><spring:message code="list.word.status1" text="발송대상"/></th>
+                            <th ><spring:message code="list.word.status1" text="발송대상 주문건수"/></th>
+                            <th ><spring:message code="list.word.status1" text="발송건수"/></th>
+                            <th ><spring:message code="list.word.status1" text="이벤트 시작일"/></th>
+                            <th ><spring:message code="list.word.status1" text="이벤트 종료일"/></th>
+                            <th ><spring:message code="list.word.status1" text="이벤트 제목"/></th>
+                            <th ><spring:message code="list.word.status1" text="이벤트 할인"/></th>
+                            <th ><spring:message code="list.word.status1" text="이벤트 할인금액"/></th>
+                            <th ><spring:message code="list.word.status1" text="이벤트 할인금액 최대"/></th>
+                            <th ><spring:message code="list.word.status1" text="이벤트 주문구분"/></th>
+                            <th ><spring:message code="list.word.registrationdate1" text="이벤트 배달구분"/></th>
+                            <th ><spring:message code="list.word.serviceclassification1" text="입력일시"/></th>
+                        </tr>
+                        </thead>
+                    </table>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- end panel -->
@@ -284,7 +287,18 @@
             downloadChk = ""
         }
         table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/eventpush/list", "A2",downloadChk, true,{
+            responsive: false,
+            "sScrollX": "100%",
+            "sScrollXInner": "100%",
+            "bScrollCollapse": true,
+            autoWidth : true,
+            "fnInitComplete": function(oSettings) {
+                $( window ).resize();
+            },
 
+            "fnDrawCallback": function(oSettings) {
+                $( window ).trigger('resize');
+            },
             columns : [
                 {data: "listIndex"},
                 {data: "appName"},

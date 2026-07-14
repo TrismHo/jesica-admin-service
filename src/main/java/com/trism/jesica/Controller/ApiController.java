@@ -10,15 +10,15 @@ import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.JesicaProperties;
 import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppService;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppServiceLocation;
 import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyArea;
-import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeCompany;
-import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticePlatform;
-import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeRelease;
-import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeWorker;
+import com.trism.jesica.persistence.mysql.Entitiy.board.*;
 import com.trism.jesica.persistence.mysql.Entitiy.business.TbUserWorker;
 import com.trism.jesica.persistence.mysql.Entitiy.common.LoginSession;
 import com.trism.jesica.persistence.mysql.Entitiy.cust.TbCust;
 import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
+import com.trism.jesica.persistence.mysql.Entitiy.file.TbFile;
 import com.trism.jesica.persistence.mysql.Entitiy.goods.*;
 import com.trism.jesica.persistence.mysql.Entitiy.library.TbLibrary;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.*;
@@ -62,15 +62,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequestMapping("/api")
 @RestController
@@ -79,6 +82,8 @@ import java.util.*;
 @Slf4j
 public class ApiController {
 
+
+    private final AppServiceService appServiceService;
     private final LangService langService;
     private final JesicaProperties jesicaProperties;
     HttpSession session;
@@ -87,6 +92,7 @@ public class ApiController {
 
     private final AuthService authService;
     private final RabbitMqService rabbitMqService;
+    private final BadgeService badgeService;
 
     private final MannaService mannaService;
     private final ApiService apiService;
@@ -97,9 +103,11 @@ public class ApiController {
     @Autowired
     private RestTemplateUtil restTemplateUtil;
 
+
+
     @Autowired
     private ExtraLinkService extraLinkService;
-
+    private FileService fileService;
     @Autowired
     private CacheManager cacheManager;
 
@@ -807,49 +815,111 @@ public class ApiController {
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
+    @ResponseBody
+    @PostMapping("/system/badge/update")
+    public Map<String, Object> updateBadge(
+            @RequestParam("badgeFileNo") Long badgeFileNo,
+            @RequestParam("badgeType") Integer badgeType,
+            @RequestParam(value = "stCode", required = false) String stCode,
+            @RequestParam("userId") String userId,
+            @RequestParam("usingYn") String usingYn,
+            @RequestParam("dataStatus") Integer dataStatus,
+            @RequestParam(value = "badgeFile", required = false) MultipartFile badgeFile
+    ) {
+        Map<String, Object> result = new HashMap<>();
+
+        badgeService.updateBadge(
+                badgeFileNo,
+                badgeType,
+                stCode,
+                userId,
+                usingYn,
+                dataStatus,
+                badgeFile
+        );
+
+        result.put("success", true);
+        result.put("message", "수정되었습니다.");
+
+        return result;
+    }
+
+
+    @ResponseBody
+    @GetMapping("/system/badge/st/list")
+    public Map<String, Object> getBadgeStList(
+            @RequestParam("badgeFileNo") Long badgeFileNo
+    ) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            List<TbMannaBadgeSt> list =
+                    badgeService.getBadgeStList(badgeFileNo);
+
+            result.put("success", true);
+            result.put("message", "조회되었습니다.");
+            result.put("badgeStList", list);
+            result.put("totalCount", list.size());
+
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", e.getMessage());
+            result.put("badgeStList", Collections.emptyList());
+            result.put("totalCount", 0);
+        }
+
+        return result;
+    }
     /**
      * 파일 보기
      */
+    @CrossOrigin("*")
     @RequestMapping("/img/fileLoad")
-    public void fileLoad(String filePath, HttpServletRequest req , HttpServletResponse res) {
-        log.info(filePath);
+    public void fileLoad(String filePath, HttpServletResponse res) {
+        log.info("filePath={}", filePath);
 
-        InputStream is = null;
-        ByteArrayOutputStream bos = null;
         Path path = null;
 
-        Paths.get(filePath);
         try {
-            //test
-            path = Paths.get(jesicaProperties.getBaseImgPath().getPath(), URLDecoder.decode(filePath,"UTF-8"));
-            is = new FileInputStream(path.toFile().getPath());
+            path = Paths.get(
+                    jesicaProperties.getBaseImgPath().getPath(),
+                    URLDecoder.decode(filePath, StandardCharsets.UTF_8.name())
+            );
 
-            bos = new ByteArrayOutputStream();
+            File file = path.toFile();
 
-            byte [] buffer = new byte[512];
-            int readBuffer = 0;
-            while((readBuffer = is.read(buffer)) != -1) {
-                bos.write(buffer, 0, readBuffer);
+            if (!file.exists() || !file.isFile()) {
+                res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
             }
-            res.getOutputStream().write(bos.toByteArray());
-        }catch (FileNotFoundException e) {
-           log.info("file not found!!");
-        }catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (is != null) {
-                    is.close();
-                }
-                if (bos != null) {
-                    bos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            String contentType = Files.probeContentType(path);
+            if (contentType == null) {
+                contentType = "application/octet-stream";
             }
+
+            res.setContentType(contentType);
+            res.setContentLengthLong(file.length());
+
+            // 캐시가 가능하면 추가
+            res.setHeader("Cache-Control", "public, max-age=86400");
+
+            try (InputStream is = new BufferedInputStream(new FileInputStream(file));
+                 OutputStream os = res.getOutputStream()) {
+
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, read);
+                }
+                os.flush();
+            }
+
+        } catch (IOException e) {
+            log.error("file load error. filePath={}", filePath, e);
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
-
     //카테고리 Fo insert
     @ResponseBody
     @PostMapping("/categoryFo/insert")
@@ -3165,14 +3235,16 @@ public class ApiController {
                 String brCode = null;
                 String ordStatus = null;
                 String brandTypeCd = null;
+                String ordType = null;
                 brCode = ObjectUtils.isNotEmpty(searchValue.get("brCode")) ? searchValue.get("brCode").toString() : null;
                 ordStatus = ObjectUtils.isNotEmpty(searchValue.get("ordStatus")) ? searchValue.get("ordStatus").toString() : null;
                 brandTypeCd = ObjectUtils.isNotEmpty(searchValue.get("brandTypeCd")) ? searchValue.get("brandTypeCd").toString() : null;
+                ordType = ObjectUtils.isNotEmpty(searchValue.get("ordType")) ? searchValue.get("ordType").toString() : null;
                 log.info("@@searchValue {}",searchValue);
                 if (!"".equals(searchValue.get("dayType"))) {
-                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, searchValue.get("dayType").toString());
+                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, searchValue.get("dayType").toString(),ordType);
                 } else {
-                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, "2");
+                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, "2",ordType);
                 }
             } else {
 
@@ -3180,6 +3252,7 @@ public class ApiController {
                 String brCode = null;
                 String ordStatus = null;
                 String brandTypeCd = null;
+                String ordType = null;
                 /*if("jesicar".equals(company)) {
                     ordPathCd = "1063";
                     searchValue.put("ordPathCd","1063");
@@ -3207,9 +3280,9 @@ public class ApiController {
                 endDate = LocalDateTime.parse(string1, formatter);
                 log.info("@@searchValue {}",searchValue);
                 if (!"".equals(searchValue.get("dayType"))) {
-                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, searchValue.get("dayType").toString());
+                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, searchValue.get("dayType").toString(),ordType);
                 } else {
-                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, "2");
+                    resultMap =  statisticsService.getMannaOrderListPage(startDate,endDate, ordPathCd, brCode , ordStatus,brandTypeCd, pageable, "2",ordType);
                 }
             }
 
@@ -3461,12 +3534,7 @@ public class ApiController {
                 String brCode = null;
                 String brandTypeCd = null;
                 String ordStatus = null;
-              /*  if("jesicar".equals(company)) {
-                    ordPathCd = "1063";
-                    searchValue.put("ordPathCd","1063");
-                } else if ("yangpa".equals(company)) {
-                    searchValue.put("ordPathCd","1069");
-                }*/
+                String ordType = null;
                 ordPathCd = "1105";
                 searchValue.put("ordPathCd","1105");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -3487,18 +3555,21 @@ public class ApiController {
                 if (searchValue.get("brCode") != null && searchValue.get("brCode") != "") {
                     brCode = searchValue.get("brCode").toString();
                 }
+                if (searchValue.get("ordType") != null && searchValue.get("ordType") != "") {
+                    ordType = searchValue.get("ordType").toString();
+                }
                 if (searchValue.get("ordStatus") != null && searchValue.get("ordStatus") != "") {
                     ordStatus = searchValue.get("ordStatus").toString();
                 }
                 brandTypeCd = ObjectUtils.isNotEmpty(searchValue.get("brandTypeCd")) ? searchValue.get("brandTypeCd").toString() : null;
                 if (!"".equals(searchValue.get("dayType"))) {
                     if("1".equals(searchValue.get("dayType").toString())) {
-                        timeList =  statisticsService.getMannaLineWeekList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus);
+                        timeList =  statisticsService.getMannaLineWeekList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus, ordType);
                     } else {
-                        timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus);
+                        timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus, ordType);
                     }
                 } else {
-                    timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus);
+                    timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCd, ordStatus, ordType);
                 }
 
                 map.put("timeList" , timeList);
@@ -3509,6 +3580,7 @@ public class ApiController {
                 String brCode = null;
                 String ordStatus = null;
                 String brandTypeCode = null;
+                String ordType = null;
                /* if("jesicar".equals(company)) {
                     ordPathCd = "1063";
                     searchValue.put("ordPathCd","1063");
@@ -3530,7 +3602,7 @@ public class ApiController {
 
                 startDate = LocalDateTime.parse(string, formatter);
                 endDate = LocalDateTime.parse(string1, formatter);
-                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCode, ordStatus );
+                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd, brCode, brandTypeCode, ordStatus ,ordType);
                 map.put("timeList" , timeList);
             }
 
@@ -3541,6 +3613,67 @@ public class ApiController {
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
+    @ResponseBody
+    @RequestMapping(value = {"/manna/regist/list"})
+    public DataTableModel mannaRegistList(HttpServletRequest request,
+                                          DataTableDTO paging,
+                                          @RequestParam Map<String, Object> searchValue) {
+
+        searchValue.put("start", searchValue.get("start") == null ? "0" : searchValue.get("start").toString());
+        searchValue.put("length", searchValue.get("length") == null ? "10" : searchValue.get("length").toString());
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+
+        int page = paging.getStart() / paging.getLength();
+
+        Map<String, Object> resultMap = new HashMap<>();
+        Pageable pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by(Sort.Direction.DESC, "updateDate")
+        );
+
+        try {
+            resultMap = mannaService.getMannaStRegistList(searchValue, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultMap.put("stRegistList", new ArrayList<>());
+            resultMap.put("totalElement", 0);
+        }
+
+        List<Map<String, Object>> list = (List<Map<String, Object>>) resultMap.get("stRegistList");
+
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
+    @ResponseBody
+    @PostMapping("/manna/regist/file/list")
+    public ResponseEntity<?> mannaRegistFileData(@RequestBody Map<String, Object> searchValue, HttpSession session) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            String stCode = searchValue.get("stCode") != null ? searchValue.get("stCode").toString() : null;
+
+            List<Map<String, Object>> stRegistFileList = mannaService.getMannaStRegistFileList(stCode);
+
+            map.put("stRegistFileList", stRegistFileList);
+            map.put("stCode", stCode);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+
     @ResponseBody
     @PostMapping("/manna/order/main")
     public ResponseEntity<?> mannaOrderMain(@RequestParam("brandTypeCd") Object brandTypeCd, HttpSession session)  {
@@ -3561,9 +3694,9 @@ public class ApiController {
             startDate = LocalDateTime.parse(string, formatter);
             endDate = LocalDateTime.parse(string1, formatter);
             if("".equals(brandTypeCd.toString())){
-                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd ,brCode, null, ordStatus);
+                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd ,brCode, null, ordStatus, null);
             } else {
-                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd ,brCode, brandTypeCd.toString(), ordStatus);
+                timeList =  statisticsService.getMannaLineDayList(startDate,endDate, ordPathCd ,brCode, brandTypeCd.toString(), ordStatus, null);
             }
 
             map.put("timeList" , timeList);
@@ -3643,13 +3776,27 @@ public class ApiController {
     //배너 순서변경 리스트
     @ResponseBody
     @GetMapping("/banner/sortList")
-    public ResponseEntity<?> getSortList(@RequestParam("serviceType") Integer serviceType, @RequestParam("platformType") Integer platformType) {
-        log.info("serviceType::{}", serviceType);
-        log.info("platformType::{}", platformType);
+    public ResponseEntity<?> getSortList(@RequestParam(value = "serviceNo", required = false) Long serviceNo) {
 
         Map<String, Object> map = new HashMap();
         try {
-            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList(serviceType, platformType);
+            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList(0, 2,serviceNo);
+
+            map.put("listBannerSort", listBannerSort);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+    //배너 순서변경 리스트
+    @ResponseBody
+    @GetMapping("/bannerSp/sortList")
+    public ResponseEntity<?> getSortSpList(@RequestParam(value = "serviceNo", required = false) Long serviceNo) {
+
+        Map<String, Object> map = new HashMap();
+        try {
+            List<TbAppBannerDTO> listBannerSort = apiService.bannerSortList(1, 2,serviceNo);
 
             map.put("listBannerSort", listBannerSort);
         } catch (Exception e) {
@@ -3735,7 +3882,7 @@ public class ApiController {
 
     //배너 수정
     @ResponseBody
-    @PutMapping("/banner/update")
+    @PostMapping("/banner/update")
     public ResponseEntity<?> updateAppBanner(@RequestPart TbAppBannerData tbAppBannerData
             ,@RequestPart(value="imgFile", required = false) MultipartFile imgFile) {
         log.info("tbAppBannerData::{}", tbAppBannerData);
@@ -4150,7 +4297,34 @@ public class ApiController {
 
         return new ResponseEntity<>(map,HttpStatus.OK);
     }
+    @ResponseBody
+    @GetMapping("/order/deliveryStatus")
+    public Map<String, Object> getDeliveryStatus(
+            @RequestParam(required = false) Long ordNo,
+            @RequestParam(required = false) Long logisticsNo) {
 
+        Map<String, Object> result = new HashMap<>();
+        MannaDeliveryStatusDto dto = mannaService.getDeliveryStatus(ordNo, logisticsNo);
+
+        if (dto != null) {
+            List<TbSystemCode> courierCodeList = apiService.systemCodeList("CO");
+
+            Map<String, String> courierCodeMap = courierCodeList.stream()
+                    .collect(Collectors.toMap(
+                            item -> String.valueOf(item.getSysCode()).trim(),
+                            item -> String.valueOf(item.getCodeName()).trim(),
+                            (a, b) -> a
+                    ));
+
+            if (dto.getCourierCode() != null) {
+                String courierCode = String.valueOf(dto.getCourierCode()).trim();
+                dto.setCourierName(courierCodeMap.getOrDefault(courierCode, courierCode));
+            }
+        }
+
+        result.put("data", dto);
+        return result;
+    }
 
     // 맛집주문내역 페이징
     @ResponseBody
@@ -4292,6 +4466,45 @@ public class ApiController {
     }
 
     @ResponseBody
+    @PostMapping("/system/badge/insert")
+    public Map<String, Object> insertBadgeFile(
+            @RequestParam("badgeFile") MultipartFile badgeFile,
+            @RequestParam("badgeType") Integer badgeType,
+            @RequestParam(value = "stCode", required = false) String stCode,
+            @RequestParam("usingYn") String usingYn,
+            @RequestParam("userId") String userId,
+            @RequestParam("dataStatus") Integer dataStatus
+    ) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try {
+
+            badgeService.insertBadgeFile(
+                    badgeFile,
+                    badgeType,
+                    stCode,
+                    usingYn,
+                    dataStatus,
+                    userId
+            );
+
+            resultMap.put("result", true);
+            resultMap.put("message", "등록되었습니다.");
+
+        } catch (IllegalArgumentException e) {
+            resultMap.put("result", false);
+            resultMap.put("message", e.getMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultMap.put("result", false);
+            resultMap.put("message", "등록 중 오류가 발생했습니다.");
+        }
+
+        return resultMap;
+    }
+
+    @ResponseBody
     @PostMapping("/system/master/list")
     public DataTableModel systemMasterList(HttpServletRequest request, DataTableDTO paging,
                                               @RequestParam Map<String,Object> searchValue){
@@ -4304,23 +4517,26 @@ public class ApiController {
         LocalDateTime endDate = null;
         Map<String, Object> resultMap = null;
 
-        if (searchValue.get("startDate") != null) {
-            String string = searchValue.get("startDate").toString() + " 00:00:00";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            startDate = LocalDateTime.parse(string, formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String startDateStr = searchValue.get("startDate") == null
+                ? ""
+                : searchValue.get("startDate").toString().trim();
+
+        String endDateStr = searchValue.get("endDate") == null
+                ? ""
+                : searchValue.get("endDate").toString().trim();
+
+        if (!startDateStr.isEmpty()) {
+            startDate = LocalDateTime.parse(startDateStr + " 00:00:00", formatter);
         } else {
-            String string = "2020-01-01" + " 00:00:00";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            startDate = LocalDateTime.parse(string, formatter);
+            startDate = LocalDateTime.parse("2020-01-01 00:00:00", formatter);
         }
-        if (searchValue.get("endDate") != null) {
-            String string = searchValue.get("endDate").toString() + " 23:59:59";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            endDate = LocalDateTime.parse(string, formatter);
+
+        if (!endDateStr.isEmpty()) {
+            endDate = LocalDateTime.parse(endDateStr + " 23:59:59", formatter);
         } else {
-            String string =  DateUtil.now_yyyy_mm_dd()+ " 23:59:59";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            endDate = LocalDateTime.parse(string, formatter);
+            endDate = LocalDateTime.parse(DateUtil.now_yyyy_mm_dd() + " 23:59:59", formatter);
         }
 
         paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
@@ -4393,7 +4609,129 @@ public class ApiController {
                 .build();
     }
 
+    @ResponseBody
+    @PostMapping("/system/badge/list")
+    public DataTableModel mannaBadgeFileList(HttpServletRequest request,
+                                             DataTableDTO paging,
+                                             @RequestParam Map<String, Object> searchValue) {
 
+        LoginSession loginSession = (LoginSession) session.getAttribute("sessionKey");
+
+        LocalDateTime startDate;
+        LocalDateTime endDate;
+        Map<String, Object> resultMap = null;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        if (searchValue.get("startDate") != null && !"".equals(searchValue.get("startDate"))) {
+            String string = searchValue.get("startDate").toString() + " 00:00:00";
+            startDate = LocalDateTime.parse(string, formatter);
+        } else {
+            startDate = LocalDateTime.parse("2020-01-01 00:00:00", formatter);
+        }
+
+        if (searchValue.get("endDate") != null && !"".equals(searchValue.get("endDate"))) {
+            String string = searchValue.get("endDate").toString() + " 23:59:59";
+            endDate = LocalDateTime.parse(string, formatter);
+        } else {
+            String string = DateUtil.now_yyyy_mm_dd() + " 23:59:59";
+            endDate = LocalDateTime.parse(string, formatter);
+        }
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+
+        int page = paging.getStart() / paging.getLength();
+
+        Object badgeType = null;
+        Object usingYn = null;
+        Object dataStatus = null;
+        Object stCode = null;
+        Object originalFileName = null;
+
+        if (searchValue != null && !searchValue.isEmpty()) {
+
+            if (searchValue.get("badgeType") != null && !"".equals(searchValue.get("badgeType"))) {
+                badgeType = searchValue.get("badgeType");
+            }
+
+            if (searchValue.get("usingYn") != null && !"".equals(searchValue.get("usingYn"))) {
+                usingYn = searchValue.get("usingYn");
+            }
+
+            if (searchValue.get("dataStatus") != null && !"".equals(searchValue.get("dataStatus"))) {
+                dataStatus = searchValue.get("dataStatus");
+            }
+
+            if (searchValue.get("stCode") != null && !"".equals(searchValue.get("stCode"))) {
+                stCode = searchValue.get("stCode");
+            }
+
+            if (searchValue.get("originalFileName") != null && !"".equals(searchValue.get("originalFileName"))) {
+                originalFileName = searchValue.get("originalFileName");
+            }
+        }
+
+        Pageable pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("insertDate").descending()
+        );
+
+        try {
+            getSearchOption(session);
+
+            resultMap = badgeService.getBadgeFilePageList(
+                    badgeType,
+                    usingYn,
+                    dataStatus,
+                    stCode,
+                    originalFileName,
+                    startDate,
+                    endDate,
+                    pageable
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        List<TbMannaBadgeFile> list = (List<TbMannaBadgeFile>) resultMap.get("badgeFileList");
+
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
+
+
+    /*@ResponseBody
+    @PostMapping("/system/badge/delete")
+    public ResponseEntity<?> deleteBadgeFile(
+            @RequestParam Map<String,Object> searchValue,
+            @RequestParam(value = "badgeFileNo") Long badgeFileNo,
+            HttpSession session)
+    {
+
+        ResponseEntity<Map> tokenMap = restTemplateUtil.getBadgeFileDel(badgeFileNo);
+        Map<String, Object> codeMap2 = (Map) tokenMap.getBody();
+        badgeService.deleteBadgeFile(badgeFileNo);
+
+        return new ResponseEntity<>(codeMap2, HttpStatus.OK);
+    }*/
+    @ResponseBody
+    @PostMapping("/system/badge/delete")
+    public ResponseEntity<?> deleteBadgeFile(
+            @RequestParam("badgeFileNo") Long badgeFileNo) {
+
+        badgeService.deleteBadgeFile(badgeFileNo);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("message", "삭제되었습니다.");
+
+        return ResponseEntity.ok(result);
+    }
     // 쿠폰정보 수정
     @ResponseBody
     @PostMapping("/membership/coupon/update")
@@ -4403,6 +4741,24 @@ public class ApiController {
         Map<String,Object> map = new HashMap<>();
         try {
             apiService.membershipCouponUpdate(searchValue);
+            map.put("resultCode",200);
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("resultCode",400);
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    // 쿠폰정보 삭제
+    @ResponseBody
+    @PostMapping("/membership/coupon/delete")
+    public ResponseEntity<?> membershipCouponDelete(
+            @RequestParam Map<String, String> searchValue
+    ) {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            apiService.membershipCouponDelete(searchValue);
             map.put("resultCode",200);
         } catch (Exception e) {
             e.printStackTrace();
@@ -4645,21 +5001,274 @@ public class ApiController {
                 .build();
     }
 
+    // 배너 공지
+    @ResponseBody
+    @RequestMapping(value = "/banner/main/list", method = {RequestMethod.GET, RequestMethod.POST})
+    public DataTableModel mainBannerList(
+            HttpServletRequest request,
+            HttpSession session,
+            DataTableDTO paging,
+            @RequestParam Map<String, Object> searchValue
+    ) {
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength();
+
+        Pageable pageable = PageRequest.of(page, paging.getLength());
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try {
+            getSearchOption(session);
+            permission(session, "board/banner/main");
+
+            // ✅ 메인 강제
+            searchValue.put("serviceType", 0);
+
+            // ✅ 메인은 serviceNo 검색 허용
+            Object serviceNo = searchValue.get("serviceNo");
+            if (serviceNo != null && !"".equals(serviceNo.toString())) {
+                searchValue.put("serviceNo", Long.parseLong(serviceNo.toString()));
+            } else {
+                searchValue.remove("serviceNo");
+            }
+
+            // 메인은 bannerType 의미 없음
+            searchValue.remove("bannerType");
+
+            resultMap = boardService.tbAppBannerSearch(searchValue, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return toDataTableModel(resultMap);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/banner/local/list", method = {RequestMethod.GET, RequestMethod.POST})
+    public DataTableModel localBannerList(
+            HttpServletRequest request,
+            HttpSession session,
+            DataTableDTO paging,
+            @RequestParam Map<String, Object> searchValue
+    ) {
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength();
+
+        Pageable pageable = PageRequest.of(page, paging.getLength());
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try {
+            getSearchOption(session);
+            permission(session, "board/banner/local");
+
+            // ✅ 특산물 강제
+            searchValue.put("serviceType", 1);
+            searchValue.remove("serviceNo");
+
+            /*String bt = searchValue.get("bannerType") == null ? "0" : String.valueOf(searchValue.get("bannerType"));*/
+            String loc = searchValue.get("locationNo") == null ? null : String.valueOf(searchValue.get("locationNo"));
+
+            // -1 이면 전체 조회 조건은 serviceType = 1 한개만
+            if ("-1".equals(loc)) {
+                searchValue.remove("bannerType");
+                searchValue.remove("locationNo");
+
+            // 0 이면 전체 조회 조건은 bannerType이 0인것만 조회
+            } else if ("0".equals(loc)) {
+                searchValue.put("bannerType", 0);
+                searchValue.remove("locationNo");
+
+            // 그 이외에는 bannerType이 1이고 locationNo로 조회
+            } else {
+                searchValue.put("bannerType", 1);
+                searchValue.put("locationNo", loc);
+            }
+
+            // bannerType=0 => 전체노출: bannerType=0만, locationNo 무시
+           /* if ("0".equals(bt)) {
+                searchValue.put("bannerType", 0);
+                searchValue.remove("locationNo");
+            }
+            // bannerType=1 => 주소별노출: bannerType=1만, locationNo 있으면 addr1 필터
+            else if ("1".equals(bt)) {
+                searchValue.put("bannerType", 1);
+
+                // locationNo=0이면 "주소별 전체"로 처리 (필터 제거)
+                if (loc == null || "".equals(loc) || "0".equals(loc)) {
+                    searchValue.remove("locationNo");
+                } else {
+                    searchValue.put("locationNo", loc); // ✅ addr1 코드
+                }
+            } else {
+                // 이상값 방어: 기본은 전체노출
+                searchValue.put("bannerType", 0);
+                searchValue.remove("locationNo");
+            }*/
+            resultMap = boardService.tbAppBannerSearchLocation(searchValue, pageable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return toDataTableModel(resultMap);
+    }
+
+    private DataTableModel toDataTableModel(Map<String, Object> resultMap) {
+
+        @SuppressWarnings("unchecked")
+        List<TbAppBanner> list = (List<TbAppBanner>) resultMap.get("bannerList");
+        if (list == null) list = new ArrayList<>();
+
+        // 코드표
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        List<TbSystemCode> sidoList = apiService.systemCodeList("A1");
+        List<TbSystemCode> sigunguList = apiService.systemCodeList("A2");
+
+        // ✅ 전부 Map으로 (루프 안에서 선형탐색 금지)
+        Map<String, String> appMap = new HashMap<>();
+        for (TbSystemCode code : appVersionList) appMap.put(code.getSysCode(), code.getCodeName());
+
+        Map<String, String> sidoMap = new HashMap<>();
+        for (TbSystemCode code : sidoList) sidoMap.put(code.getSysCode(), code.getCodeName());
+
+        Map<String, String> sigunguMap = new HashMap<>();
+        for (TbSystemCode code : sigunguList) sigunguMap.put(code.getSysCode(), code.getCodeName());
+
+        List<TbAppBannerListData> dtoList = new ArrayList<>(list.size());
+
+        for (TbAppBanner b : list) {
+            TbAppBannerListData dto = new TbAppBannerListData();
+
+            dto.setBannerNo(b.getBannerNo());
+            dto.setAppCode(b.getAppCode());
+            dto.setAppName(appMap.get(b.getAppCode())); // ✅ O(1)
+            dto.setPlatformType(b.getPlatformType());
+            dto.setLangCode(b.getLangCode());
+            dto.setBannerType(b.getBannerType());
+            dto.setServiceType(b.getServiceType());
+            dto.setBoardType(b.getBoardType());
+            dto.setInsertDate(b.getInsertDate());
+            dto.setViewYn(b.getViewYn());
+            dto.setViewOrder(b.getViewOrder());
+            dto.setTitle(null);
+
+            // bannerFile
+            String bf = b.getBannerFile();
+            if (bf != null) {
+                try {
+                    dto.setBannerFile(URLEncoder.encode(bf, "UTF-8"));
+                } catch (Exception e) {
+                    dto.setBannerFile(bf);
+                }
+            }
+
+            Integer st = b.getServiceType();
+            if (st != null && st == 0) {
+                // 메인: serviceName
+                TbAppService svc = b.getService();
+                if (svc != null) dto.setServiceName(svc.getServiceName());
+            } else if (st != null && st == 1) {
+            // 특산물: addr1/addr2 code -> name (여러개 지원)
+            List<TbAppBannerLocation> locs = b.getLocations();
+            if (locs != null && !locs.isEmpty()) {
+
+                // 중복 제거 + 순서 유지
+                Set<String> a1Set = new LinkedHashSet<String>();
+                Set<String> a2Set = new LinkedHashSet<String>();
+
+                for (TbAppBannerLocation loc : locs) {
+                    if (loc == null) continue;
+
+                    String a1 = loc.getAddr1();
+                    String a2 = loc.getAddr2();
+
+                    if (a1 != null && !"".equals(a1)) {
+                        String a1Name = sidoMap.containsKey(a1) ? sidoMap.get(a1) : a1;
+                        a1Set.add(a1Name);
+                    }
+                    if (a2 != null && !"".equals(a2)) {
+                        String a2Name = sigunguMap.containsKey(a2) ? sigunguMap.get(a2) : a2;
+                        a2Set.add(a2Name);
+                    }
+                }
+
+                dto.setAddr1Name(joinWithComma(a1Set));
+                dto.setAddr2Name(joinWithComma(a2Set));
+            }
+        }
+            dtoList.add(dto);
+        }
+
+        long total = 0L;
+        Object te = resultMap.get("totalElement");
+        if (te != null) total = Long.parseLong(String.valueOf(te));
+
+        return DataTableModel.builder()
+                .recordsTotal((int) total)
+                .data(dtoList)
+                .build();
+    }
+
+    private String joinWithComma(Set<String> set) {
+        if (set == null || set.isEmpty()) return null;
+        StringBuilder sb = new StringBuilder();
+        for (String s : set) {
+            if (s == null) continue;
+            if (sb.length() > 0) sb.append(", ");
+            sb.append(s);
+        }
+        return sb.toString();
+    }
+
+
+
+    //관리자 자료 상세 - 준씨 공유
+    @ResponseBody
+    @RequestMapping("/library/file/detail/{libNo}")
+    public ResponseEntity<?>  fileDetail(@PathVariable("libNo") Long libNo) {
+        log.info("libNo:: {}", libNo);
+
+        Map<String,Object> map = new HashMap<>();
+        try {
+
+            TbLibrary libraryDetail = libraryService.tbLibraryDetail(libNo);
+            List<TbFile> files = fileService.getFileList(libNo);
+
+            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            map.put("appVersionList",appVersionList);
+            map.put("tbLibrary", libraryDetail);
+            map.put("files", files);
+            map.put("appCode","");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
     // 자료실 - 관리자 자료
     @ResponseBody
     @RequestMapping(value = {"/library/file/list"})
     public DataTableModel fileList(HttpServletRequest request, DataTableDTO paging,
                                @RequestParam Map<String,Object> searchValue){
 
-        LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
+        /*LoginSession loginSession = (LoginSession)session.getAttribute("sessionKey");
         String company = loginSession.getCompany();
         String appCode = loginSession.getAppCode();
 
-        if(!"".equals(appCode)){
+        System.out.println(company);
+        System.out.println(appCode);*/
+
+        /*if(!"".equals(appCode)){
             searchValue.put("appCode",appCode);
         } else {
             searchValue.put("appCode","");
-        }
+        }*/
+        searchValue.put("appCode","");
         paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
         paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
         int page = paging.getStart() / paging.getLength(); //Calculate page number
@@ -4673,12 +5282,14 @@ public class ApiController {
                 Sort.by("insertDate").descending()
         ) ;
         try {
-            getSearchOption(session);
+          /*  getSearchOption(session);
             if("jesicar".equals(company)) {
                 searchValue.put("platformType","1");
             } else if ("yangpa".equals(company)) {
                 searchValue.put("platformType","2");
-            }
+            }*/
+
+            searchValue.put("platformType","2");
             resultMap =  libraryService.getLibraryList(searchValue, pageable);
 
         } catch (Exception e) {
@@ -4696,13 +5307,14 @@ public class ApiController {
     }
 
 
+
+
     @ResponseBody
     @PostMapping("/library/file/insert")
     public ResponseEntity<?> libraryFileInsert(
              @RequestPart(value="libraryInfo" ,required = false) TbLibrary libraryInfo
             ,@RequestPart(value="attachFile" ,required = false) MultipartFile[] attachFile) {
         log.info("libraryInfo::{}", libraryInfo);
-        log.info("attachFile::{}", attachFile);
         Map<String,Object> map = new HashMap<>();
         TbLibrary library = apiService.insertLibraryFile(libraryInfo,attachFile);
 
@@ -4714,6 +5326,51 @@ public class ApiController {
             map.put("message", "등록에 실패하였습니다.");
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+    @ResponseBody
+    @PostMapping("/library/file/delete")
+    public ResponseEntity<?> libraryDelete(@RequestParam("libNo") Long libNo) {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            apiService.deleteLibrary(libNo);
+            map.put("result","200");
+            map.put("message","삭제 되었습니다.");
+        } catch (Exception e) {
+            map.put("result","500");
+            map.put("message","삭제 중 오류가 발생했습니다.");
+            map.put("error", e.getMessage());
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+
+    @ResponseBody
+    @PostMapping(value="/library/file/update", consumes = "multipart/form-data")
+    public ResponseEntity<?> libraryFileUpdate(
+            @RequestPart(value="libraryInfo", required = false) TbLibrary libraryInfo,
+            @RequestPart(value="attachFile", required = false) MultipartFile[] attachFile,
+            @RequestPart(value="deleteFileNos", required = false) List<Long> deleteFileNos
+    ) {
+        Map<String,Object> map = new HashMap<>();
+
+        try {
+            TbLibrary updated = apiService.updateLibraryFile(libraryInfo, attachFile, deleteFileNos);
+
+            if(ObjectUtils.isNotEmpty(updated)) {
+                map.put("result","200");
+                map.put("message", "수정 되었습니다.");
+            } else {
+                map.put("result","400");
+                map.put("message", "수정에 실패하였습니다.");
+            }
+            return new ResponseEntity<>(map, HttpStatus.OK);
+
+        } catch (Exception e) {
+            map.put("result","500");
+            map.put("message", "수정 중 오류가 발생했습니다.");
+            map.put("error", e.getMessage());
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
     }
 
     // 맛집주문내역 페이징
@@ -4810,13 +5467,14 @@ public class ApiController {
     public ResponseEntity<?> sendMessage(
             @RequestParam(value = "custList") BigDecimal[] custList,
             @RequestParam(value = "couponText") String couponText,
+            @RequestParam(value = "cpnNo") Integer cpnNo,
             @RequestParam(value = "pushTitle") String pushTitle,
             @RequestParam(value = "pushContents") String pushContents
 
     ) {
         Map<String,String> map = new HashMap<>();
         try {
-            this.rabbitMqService.sendMessage(custList, couponText, pushTitle, pushContents, 5);
+            this.rabbitMqService.sendMessage(custList, couponText, pushTitle, cpnNo, pushContents, 5);
             map.put("result","200");
             map.put("message", "등록 되었습니다.");
             return new ResponseEntity<>(map,HttpStatus.OK);
@@ -4844,7 +5502,7 @@ public class ApiController {
             for(int i = 0; i < custNoList.size(); i++){
                 custList[i].add(new BigDecimal(custNoList.get(i).get("custNo").toString()));
             }
-            this.rabbitMqService.sendMessage(custList, "", pushTitle, pushContents, type);
+            this.rabbitMqService.sendMessage(custList, "", pushTitle, null, pushContents, type);
             map.put("result","200");
             map.put("message", "등록 되었습니다.");
             return new ResponseEntity<>(map,HttpStatus.OK);
@@ -4879,6 +5537,103 @@ public class ApiController {
             map.put("message", "등록에 실패하였습니다.");
         }
         return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    @GetMapping("/cust/coupon/list/{custNo}")
+    @ResponseBody
+    public ResponseEntity<?> getCustCouponList(
+            @PathVariable Long custNo,
+            @RequestParam(value = "ordPathCd", required = false) String ordPathCd
+    ) {
+        ResponseEntity<Map> tokenMap = restTemplateUtil.getCustCouponList(custNo, ordPathCd);
+
+        return new ResponseEntity<>(tokenMap,HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/system/location/save")
+    public ResponseEntity<?> locationSave(
+            @RequestPart("tbAppService") TbAppService tbAppService,
+            @RequestPart(value="locationList", required=false) List<TbAppServiceLocation> locationList,
+            @RequestPart(value="serviceBi", required=false) MultipartFile serviceBi   // ✅ 추가
+    ) {
+        Map<String,Object> map = new HashMap<>();
+
+        try {
+            TbAppService saved = appServiceService.tbAppServiceSave(tbAppService, locationList, serviceBi);
+
+            if (saved != null && saved.getServiceNo() != null) {
+                map.put("result", "200");
+                map.put("message", "저장 되었습니다.");
+                map.put("serviceNo", saved.getServiceNo());
+                map.put("serviceBi", saved.getServiceBi()); // (선택) 프론트에서 미리보기/확인용
+            } else {
+                map.put("result", "400");
+                map.put("message", "저장에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            log.error("locationSave error", e);
+            map.put("result", "500");
+            map.put("message", "서버 오류가 발생했습니다.");
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @PostMapping("/system/location/update")
+    @ResponseBody
+    public ResponseEntity<?> locationUpdate(
+            @RequestPart("tbAppService") TbAppService tbAppService,
+            @RequestPart(value="locationList", required=false) List<TbAppServiceLocation> locationList,
+            @RequestPart(value="serviceBi", required=false) MultipartFile serviceBi,
+            @RequestParam(value="removeServiceBi", required=false, defaultValue="0") String removeServiceBi
+    ) {
+        Map<String,Object> map = new HashMap<>();
+
+        try {
+            int r = appServiceService.updateServiceFull(tbAppService, locationList, serviceBi, removeServiceBi);
+            map.put("result", r == 1 ? "200" : "400");
+            map.put("message", r == 1 ? "수정 되었습니다." : "수정에 실패하였습니다.");
+        } catch (Exception e) {
+            log.error("locationUpdate error", e);
+            map.put("result", "500");
+            map.put("message", "서버 오류가 발생했습니다.");
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+   /* @PostMapping("/system/location/update")
+    public Map<String, Object> update(
+            @RequestPart("tbAppService") TbAppService param
+    ) {
+        int result = appServiceService.updateService(param);
+
+        if (result == 1) {
+            Map<String, Object> res = new HashMap<>();
+            res.put("result", 200);
+            return res;
+        } else {
+            Map<String, Object> res = new HashMap<>();
+            res.put("result", 0000);
+            return res;
+        }
+    }*/
+
+    @PostMapping("/system/location/delete")
+    @ResponseBody
+    public Map<String,Object> deleteService(@RequestParam Integer serviceNo){
+
+        int r = appServiceService.deleteService(serviceNo);
+
+        Map<String,Object> result = new HashMap<>();
+        if(r == 1){
+            result.put("result", 200);
+        } else {
+            result.put("result", 0);
+        }
+
+
+        return result;
     }
 
     /**
@@ -4928,6 +5683,139 @@ public class ApiController {
     }
 
     @ResponseBody
+    @RequestMapping(value = {"/system/location/list"}, method = RequestMethod.POST)
+    public DataTableModel appServiceList(HttpServletRequest request,
+                                         DataTableDTO paging,
+                                         @RequestParam Map<String,Object> searchValue){
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength();
+
+        Pageable pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("insertDate").descending()
+        );
+
+        Map<String, Object> resultMap = appServiceService.tbAppServiceSearch(searchValue, pageable);
+
+        List<TbAppService> list = (List<TbAppService>) resultMap.get("serviceList");
+
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"/system/surcharge/list"}, method = RequestMethod.POST)
+    public DataTableModel surchargList(HttpServletRequest request,
+                                         DataTableDTO paging,
+                                         @RequestParam Map<String,Object> searchValue){
+
+        paging.setStart(Integer.parseInt(searchValue.get("start").toString()));
+        paging.setLength(Integer.parseInt(searchValue.get("length").toString()));
+        int page = paging.getStart() / paging.getLength();
+
+        Pageable pageable = PageRequest.of(
+                page,
+                paging.getLength(),
+                Sort.by("surchargeNo").descending()
+        );
+
+        Map<String, Object> resultMap = mannaService.getMannaLogisticsSurchargeList(searchValue, pageable);
+
+        List<TbMannaLogisticsSurcharge> list = (List<TbMannaLogisticsSurcharge>) resultMap.get("logisticsSurcharge");
+
+        return DataTableModel.builder()
+                .recordsTotal(Integer.parseInt(resultMap.get("totalElement").toString()))
+                .data(list)
+                .build();
+    }
+
+    @GetMapping("/system/surcharge/check")
+    @ResponseBody
+    public ResponseEntity<?> surchargeCheck(@RequestParam("postcode") String postcode) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            int result = apiService.checkSurchargePostcode(postcode);
+
+            map.put("result", "200");
+            map.put("surchargeYn", result);
+            map.put("message", result == 1 ? "추가요금 지역입니다." : "추가요금 지역이 아닙니다.");
+        } catch (Exception e) {
+            log.error("surchargeCheck error", e);
+            map.put("result", "500");
+            map.put("surchargeYn", 0);
+            map.put("message", "서버 오류가 발생했습니다.");
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+
+
+    @PostMapping("/system/surcharge/insert")
+    @ResponseBody
+    public ResponseEntity<?> surchargeInsert(TbMannaLogisticsSurcharge tbMannaLogisticsSurcharge) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            int r = apiService.insertSurcharge(tbMannaLogisticsSurcharge);
+
+            map.put("result", r == 1 ? "200" : "400");
+            map.put("message", r == 1 ? "등록 되었습니다." : "등록에 실패하였습니다.");
+        } catch (Exception e) {
+            log.error("surchargeInsert error", e);
+            map.put("result", "500");
+            map.put("message", "서버 오류가 발생했습니다.");
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/system/surcharge/update")
+    @ResponseBody
+    public ResponseEntity<?> surchargeUpdate(TbMannaLogisticsSurcharge tbMannaLogisticsSurcharge) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            int r = apiService.updateSurcharge(tbMannaLogisticsSurcharge);
+
+            map.put("result", r == 1 ? "200" : "400");
+            map.put("message", r == 1 ? "수정 되었습니다." : "수정에 실패하였습니다.");
+        } catch (Exception e) {
+            log.error("surchargeUpdate error", e);
+            map.put("result", "500");
+            map.put("message", "서버 오류가 발생했습니다.");
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @PostMapping("/system/surcharge/delete")
+    @ResponseBody
+    public ResponseEntity<?> surchargeDelete(@RequestParam("surchargeNo") Integer surchargeNo) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            int r = apiService.deleteSurcharge(surchargeNo);
+
+            map.put("result", r == 1 ? "200" : "400");
+            map.put("message", r == 1 ? "삭제 되었습니다." : "삭제에 실패하였습니다.");
+        } catch (Exception e) {
+            log.error("surchargeDelete error", e);
+            map.put("result", "500");
+            map.put("message", "서버 오류가 발생했습니다.");
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
     @PostMapping("/coupon/cust/concunosearch")
     public ResponseEntity<?> concunosearch(
             @RequestParam(value="conCuNoList") String[] resultList
@@ -4936,6 +5824,353 @@ public class ApiController {
         Map<String,Object> map = new HashMap<>();
         map.put("custList", custList);
         return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+
+    @ResponseBody
+    @GetMapping("/system/faq/list")
+    public ResponseEntity<Map<String, Object>> getFaqList(
+            @RequestParam(required = false) Long faqCategoryNo,
+            @RequestParam(required = false) String useYn,
+            @RequestParam(required = false) String keyword
+    ) {
+        MannaFaqListResponse response =
+                apiService.getFaqList(
+                        faqCategoryNo,
+                        useYn,
+                        keyword
+                );
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", 200);
+        result.put("faqList", response.getFaqList());
+        result.put("totalCount", response.getTotalCount());
+        result.put("categoryCount", response.getCategoryCount());
+
+        return ResponseEntity.ok(result);
+    }
+    @ResponseBody
+    @PostMapping("/system/faq/category/update")
+    public Map<String, Object> updateFaqCategory(
+            @RequestBody TbMannaFaqCategory param
+    ) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            apiService.updateFaqCategory(param);
+
+            result.put("result", true);
+            result.put(
+                    "message",
+                    "FAQ 카테고리가 수정되었습니다."
+            );
+
+        } catch (IllegalArgumentException e) {
+            result.put("result", false);
+            result.put("message", e.getMessage());
+
+        } catch (Exception e) {
+            log.error(
+                    "FAQ 카테고리 수정 오류. faqCategoryNo={}",
+                    param != null
+                            ? param.getFaqCategoryNo()
+                            : null,
+                    e
+            );
+
+            result.put("result", false);
+            result.put(
+                    "message",
+                    "FAQ 카테고리 수정 중 오류가 발생했습니다."
+            );
+        }
+
+        return result;
+    }
+    @ResponseBody
+    @PostMapping("/system/faq/category/delete")
+    public Map<String, Object> deleteFaqCategory(
+            @RequestParam Long faqCategoryNo,
+            @RequestParam(required = false) String updateId
+    ) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            apiService.deleteFaqCategory(
+                    faqCategoryNo,
+                    updateId
+            );
+
+            result.put("result", true);
+            result.put(
+                    "message",
+                    "FAQ 카테고리가 삭제되었습니다."
+            );
+
+        } catch (IllegalArgumentException e) {
+            result.put("result", false);
+            result.put("message", e.getMessage());
+
+        } catch (Exception e) {
+            log.error(
+                    "FAQ 카테고리 삭제 오류. faqCategoryNo={}",
+                    faqCategoryNo,
+                    e
+            );
+
+            result.put("result", false);
+            result.put(
+                    "message",
+                    "FAQ 카테고리 삭제 중 오류가 발생했습니다."
+            );
+        }
+
+        return result;
+    }
+
+    @ResponseBody
+    @GetMapping("/system/faq/category/list")
+    public Map<String, Object> getFaqCategoryList(
+            @RequestParam(required = false) String useYn,
+            @RequestParam(required = false) Integer dataStatus
+    ) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            List<Map<String, Object>> categoryList =
+                    apiService.getFaqCategoryList(
+                            useYn,
+                            dataStatus
+                    );
+
+            result.put("categoryList", categoryList);
+            result.put("totalCount", categoryList.size());
+            result.put("result", true);
+
+        } catch (Exception e) {
+            log.error("FAQ 카테고리 목록 조회 오류", e);
+
+            result.put("categoryList", Collections.emptyList());
+            result.put("totalCount", 0);
+            result.put("result", false);
+            result.put(
+                    "message",
+                    "FAQ 카테고리 목록을 불러오는 중 오류가 발생했습니다."
+            );
+        }
+
+        return result;
+    }
+
+    @ResponseBody
+    @PostMapping("/system/faq/category/insert")
+    public Map<String, Object> insertFaqCategory(
+            @RequestBody TbMannaFaqCategory param
+    ) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            TbMannaFaqCategory savedCategory =
+                    apiService.insertFaqCategory(param);
+
+            result.put("result", true);
+            result.put("message", "FAQ 카테고리가 등록되었습니다.");
+            result.put("category", savedCategory);
+
+        } catch (IllegalArgumentException e) {
+            result.put("result", false);
+            result.put("message", e.getMessage());
+
+        } catch (Exception e) {
+            log.error("FAQ 카테고리 등록 오류", e);
+
+            result.put("result", false);
+            result.put(
+                    "message",
+                    "FAQ 카테고리 등록 중 오류가 발생했습니다."
+            );
+        }
+
+        return result;
+    }
+
+    @ResponseBody
+    @GetMapping("/system/faq/detail")
+    public ResponseEntity<Map<String, Object>> getFaqDetail(
+            @RequestParam Long faqNo
+    ) {
+        TbMannaFaq faq = apiService.getFaqDetail(faqNo);
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", 200);
+        result.put("faq", faq);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @ResponseBody
+    @PostMapping("/system/faq/sort")
+    public ResponseEntity<Map<String, Object>> updateFaqSort(
+            @RequestBody List<MannaFaqSortRequest> sortList,
+            HttpSession session
+    ) {
+        String userId = resolveSessionUserId(session);
+
+        apiService.updateFaqSort(
+                sortList,
+                userId
+        );
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", 200);
+        result.put("message", "FAQ 노출 순서가 변경되었습니다.");
+
+        return ResponseEntity.ok(result);
+    }
+
+    @ResponseBody
+    @PostMapping("/system/faq/delete")
+    public ResponseEntity<Map<String, Object>> deleteFaq(
+            @RequestParam Long faqNo,
+            HttpSession session
+    ) {
+        String userId = resolveSessionUserId(session);
+
+        apiService.deleteFaq(
+                faqNo,
+                userId
+        );
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", 200);
+        result.put("message", "FAQ가 삭제되었습니다.");
+
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * 프로젝트마다 LoginSession의 사용자 ID getter가 달라질 수 있어
+     * getUserId, getStaffId, getLoginId 순서로 확인한다.
+     *
+     * 프로젝트의 실제 LoginSession 타입이 확정되어 있다면
+     * reflection 대신 명시적 캐스팅으로 바꾸는 것을 권장한다.
+     */
+    private String resolveSessionUserId(HttpSession session) {
+        if (session == null) {
+            return "SYSTEM";
+        }
+
+        Object sessionUser = session.getAttribute("sessionKey");
+
+        if (sessionUser == null) {
+            return "SYSTEM";
+        }
+
+        String[] getterNames = {
+                "getUserId",
+                "getStaffId",
+                "getLoginId"
+        };
+
+        for (String getterName : getterNames) {
+            try {
+                Method method =
+                        sessionUser.getClass().getMethod(getterName);
+
+                Object value = method.invoke(sessionUser);
+
+                if (value != null &&
+                        !String.valueOf(value).trim().isEmpty()) {
+                    return String.valueOf(value).trim();
+                }
+            } catch (Exception ignored) {
+            }
+        }
+
+        return "SYSTEM";
+    }
+    @PostMapping("/system/faq/insert")
+    @ResponseBody
+    public ResponseEntity<?> faqInsert(
+            @RequestBody TbMannaFaq tbMannaFaq
+    ) {
+        Map<String, Object> map = new HashMap<>();
+
+        log.info("faqInsert request: {}", tbMannaFaq);
+
+        try {
+            int r = apiService.insertFaq(tbMannaFaq);
+
+            map.put("result", r == 1 ? "200" : "400");
+            map.put(
+                    "message",
+                    r == 1
+                            ? "등록되었습니다."
+                            : "등록에 실패하였습니다."
+            );
+
+        } catch (Exception e) {
+            log.error("faqInsert error", e);
+
+            map.put("result", "500");
+            map.put("message", "서버 오류가 발생했습니다.");
+        }
+
+        return ResponseEntity.ok(map);
+    }
+    @PostMapping("/system/faq/update")
+    @ResponseBody
+    public ResponseEntity<?> faqUpdate(
+            @RequestBody TbMannaFaq tbMannaFaq
+    ) {
+        Map<String, Object> map = new HashMap<>();
+
+        log.info("faqInsert request: {}", tbMannaFaq);
+
+        try {
+            int r = apiService.updateFaq(tbMannaFaq);
+
+            map.put("result", r == 1 ? "200" : "400");
+            map.put(
+                    "message",
+                    r == 1
+                            ? "수정되었습니다."
+                            : "수정에 실패하였습니다."
+            );
+
+        } catch (Exception e) {
+            log.error("faqInsert error", e);
+
+            map.put("result", "500");
+            map.put("message", "서버 오류가 발생했습니다.");
+        }
+
+        return ResponseEntity.ok(map);
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> handleIllegalArgument(
+            IllegalArgumentException e
+    ) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", 400);
+        result.put("message", e.getMessage());
+
+        return ResponseEntity.badRequest().body(result);
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> handleException(
+            Exception e
+    ) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", 500);
+        result.put("message", "FAQ 처리 중 오류가 발생했습니다.");
+
+        return ResponseEntity
+                .status(500)
+                .body(result);
     }
 
 

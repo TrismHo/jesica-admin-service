@@ -6,6 +6,7 @@ import com.trism.jesica.Util.GetClientIp;
 import com.trism.jesica.Util.RestTemplateUtil;
 import com.trism.jesica.config.SessionConfig;
 import com.trism.jesica.dto.LoginDTO;
+import com.trism.jesica.dto.SiteMenuAclSessionDto;
 import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticePlatform;
 import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeRelease;
 import com.trism.jesica.persistence.mysql.Entitiy.business.*;
@@ -14,6 +15,7 @@ import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
+import com.trism.jesica.persistence.mysql.projection.SiteMenuAclProjection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -36,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequestMapping("/")
 @RestController
@@ -250,42 +253,6 @@ public class MainController {
             log.info("--------------auth/login------------------");
             System.out.println("Id :"+ bmLoginId);
             JsonObject params = new JsonObject();
-            /*HttpUtil.callInfo(params,"GET", request);*/
-            //String encPass = cipherService.encryptAES(bmLoginPwd);
-            //LoginDTO loginDTO = getLogin(clientId, bmLoginId, encPass);
-
-            int count = 0;
-            //Optional<LoginDTO> opLoginDto = getLoginChk(clientId, bmLoginId, bmLoginPwd, response, uuid, count);
-
-
-           /* if (opLoginDto.isPresent()) {
-                log.info("login auth success...");
-                LoginDTO loginDTO = opLoginDto.get();
-                //log.info("loginDTO::: {}" ,opLoginDto.get());
-
-                if(!"OK".equals(loginDTO.getServiceStatus())){
-                        map.put("result", "500");
-                        map.put("message", loginDTO.getDesc());
-                        isPwdMatch = false;
-                } else {
-                    Cache ehCacheAll      = cacheManager.getCache("loginCache");
-                    ehCacheAll.put("clientId", clientId);
-                    ehCacheAll.put("refreshToken", loginDTO.getData().getRefreshToken());
-
-                    session.setAttribute("accessToken",loginDTO.getData().getAccessToken());
-                    Cookie refreshToken = new Cookie("refreshToken",loginDTO.getData().getRefreshToken());
-                    isPwdMatch = true;
-                }
-            } else {
-                isPwdMatch = false;
-                map.put("result", "500");
-                map.put("message", "로그인오류입니다. 재로그인해주세요.");
-            }*/
-
-            //쿠키에 만료일
-            //엑세스토큰 세션
-
-
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             if(StringUtils.isNotEmpty(bmLoginPwd) && ObjectUtils.isNotEmpty(tbUser)) {
@@ -308,16 +275,19 @@ public class MainController {
                             appCodeName = "전체";
                         }
 
-
-
                         LoginSession loginSession = LoginSession.from(bm,appCodeName);
                         //loginSession.setUserStaffName("마스터");
                         /*loginSession.setUserStaffName(tbUser.get());*/
                         loginSession.setUserRole(0);
                         //로그인 중복 방지
-                        session.setAttribute(LoginSession.KEY, loginSession);
+                        session.setAttribute("sessionKey", loginSession);
                         //세션 30분유지
-                        session.setMaxInactiveInterval(60*60);
+                        session.setMaxInactiveInterval(60 * 60);
+                        // 로그인 성공 시
+                        int timeout = session.getMaxInactiveInterval(); // 초
+                        long expiresAt = System.currentTimeMillis() + timeout * 1000L;
+
+                        session.setAttribute("SESSION_EXPIRES_AT", expiresAt);
                         sessionConfig.newSession(bmLoginId, session);
                         // 성공이면 실패카운트 0으로 + 로그인 시간 등록
                         apiService.setSuccessLoginSet(tbUser.getUserNo());
@@ -325,7 +295,25 @@ public class MainController {
                         //메뉴 권한 저장
                         List<TbSiteAcl> tbSiteAclList =  authService.getSiteAcl(Long.valueOf(loginSession.getUserStaffNo()));
                         List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
-                        List<Map<String, Object>>  tbSiteMenuAclList = authService.getTbSiteMenuAclList(Long.valueOf(loginSession.getUserStaffNo()));
+
+                        List<SiteMenuAclProjection> tbSiteMenuAclList =
+                                authService.getTbSiteMenuAclList(Long.valueOf(loginSession.getUserStaffNo()));
+
+                        List<SiteMenuAclSessionDto> tbSiteMenuAclSessionList = tbSiteMenuAclList.stream()
+                                .map(item -> new SiteMenuAclSessionDto(
+                                        item.getMenuNo(),
+                                        item.getMenuName(),
+                                        item.getMenuUrl(),
+                                        item.getMenuIcon(),
+                                        item.getPermission(),
+                                        item.getDownloadAble(),
+                                        item.getStaffNo(),
+                                        item.getMenuLevel(),
+                                        item.getMenuGroup(),
+                                        item.getVisibleLevel()
+                                ))
+                                .collect(Collectors.toList());
+
                         if(StringUtils.isNotEmpty(bm.getAppCode())){
                             session.setAttribute("appCode",bm.getAppCode());
                         } else {
@@ -334,16 +322,10 @@ public class MainController {
 
                         session.setAttribute("tbSiteMenus",tbSiteMenus);
                         session.setAttribute("tbSiteAclList",tbSiteAclList);
-                        session.setAttribute("tbSiteMenuAclList",tbSiteMenuAclList);
+                        session.setAttribute("tbSiteMenuAclList",tbSiteMenuAclSessionList);
                         map.put("result", "200");
                         map.put("message", "로그인 성공");
                         map.put("url", "main");
-                        /*} else {
-                            map.put("result", "500");
-                            map.put("message", "로그인중복으로 이전계정이 로그아웃됩니다.");
-                            map.put("url", "login");*/
-
-
 
 
                     } else {
@@ -398,9 +380,19 @@ public class MainController {
                             }
                             //로그인 세션 저장
                             LoginSession loginSession = LoginSession.from(bm, appCodeName);
-                            session.setAttribute(LoginSession.KEY, loginSession);
-                            //세션 30분유지
-                            session.setMaxInactiveInterval(60*120);
+                            session.setAttribute("sessionKey", loginSession);
+
+                            // 로그인 성공 시
+                            sessionConfig.newSession(bmLoginId, session);
+
+                            //세션 60분유지
+                            session.setMaxInactiveInterval(60 * 60);
+
+                            int timeout = session.getMaxInactiveInterval(); // 초
+                            long expiresAt = System.currentTimeMillis() + timeout * 1000L;
+
+                            session.setAttribute("SESSION_EXPIRES_AT", expiresAt);
+
                             if(tbUser.getUserType().ordinal() == 1 ){
                                 session.setAttribute("headName",tbHead.getHeadName());
                             }
@@ -414,15 +406,8 @@ public class MainController {
                                 session.setAttribute("storeName",tbStore.getStoreName());
                             }
 
-                            session.setAttribute(LoginSession.KEY, loginSession);
-                            //세션 30분유지
-                            session.setMaxInactiveInterval(60*60);
-                            sessionConfig.newSession(bmLoginId, session);
-
                             //메뉴 권한 저장
                             List<TbSiteAcl> tbSiteAclList =  authService.getSiteAcl(Long.valueOf(loginSession.getUserStaffNo()));
-
-
                             List<TbSiteMenu> tbSiteMenus =  authService.getTbSiteMenuList();
                             session.setAttribute("tbSiteMenus",tbSiteMenus);
                             session.setAttribute("tbSiteAclList",tbSiteAclList);
@@ -531,7 +516,9 @@ public class MainController {
     @RequestMapping("/logout")
     public ModelAndView logout(HttpSession session) {
         if (session != null) {
-            session.invalidate();
+            session.removeAttribute("sessionKey");
+            session.removeAttribute("SESSION_EXPIRES_AT");
+            session.invalidate(); // 세션 완전 종료
         }
         return new ModelAndView("redirect:/login");
     }

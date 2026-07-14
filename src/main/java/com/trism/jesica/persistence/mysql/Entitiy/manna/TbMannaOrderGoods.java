@@ -106,4 +106,16 @@ public class TbMannaOrderGoods {
     @Column(name = "option_4_price")
     private Integer option4Price = null;
 
+    /**
+     * 할인 가격
+     */
+    @Column(name = "ord_dn_price")
+    private Integer ordDnPrice = null;
+
+    /**
+     * 가격 구분( 1: 정상가 , 2: 할인가)
+     */
+    @Column(name = "ord_price_type")
+    private String ordPriceType = null;
+
 }

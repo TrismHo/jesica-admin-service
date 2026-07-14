@@ -3,10 +3,12 @@ package com.trism.jesica.persistence.mysql.Entitiy.common;
 import com.trism.jesica.persistence.mysql.Entitiy.business.TbUserStaff;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class LoginSession {
+public class LoginSession implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public static final String KEY = "sessionKey";
 
 	private int userStaffNo;

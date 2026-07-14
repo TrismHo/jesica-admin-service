@@ -14,7 +14,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import javax.crypto.*;
 import java.io.UnsupportedEncodingException;
@@ -24,8 +26,10 @@ import java.security.Security;
 
 @Slf4j
 @EnableCaching
+@EnableJpaAuditing
 //SpringBootServletInitializer 톰캣구동을 위해
 @SpringBootApplication
+@EnableRedisHttpSession
 @EnableScheduling
 public class JesicaApplication extends SpringBootServletInitializer implements CommandLineRunner
  {

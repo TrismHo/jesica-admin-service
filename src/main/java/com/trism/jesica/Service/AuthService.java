@@ -4,13 +4,13 @@ import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteAcl;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Repository.system.TbSiteAclRepository;
 import com.trism.jesica.persistence.mysql.Repository.system.TbSiteMenuRepository;
+import com.trism.jesica.persistence.mysql.projection.SiteMenuAclProjection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -47,12 +47,12 @@ public class AuthService {
         return tbSiteMenuRepository.findByDataStatusAndVisibleLevel(1,2);
     }
     @Transactional(readOnly = true)
-    public List<Map<String, Object>>  getTbSiteMenuAclList(Long staffNo) {
+    public List<SiteMenuAclProjection>  getTbSiteMenuAclList(Long staffNo) {
         return tbSiteMenuRepository.getTbSiteMenuAclList(staffNo);
     }
-    @Transactional(readOnly = true)
-    public List<Map<String, Object>>  getTbSiteMenuAclListAll(Long staffNo) {
+ /*   @Transactional(readOnly = true)
+    public List<SiteMenuAclProjection>  getTbSiteMenuAclListAll(Long staffNo) {
         return tbSiteMenuRepository.getTbSiteMenuAclListAll(staffNo);
-    }
+    }*/
 }
 

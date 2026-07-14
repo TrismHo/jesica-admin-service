@@ -9,7 +9,7 @@
         <title>Jesicar | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 등록"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae  | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 등록"/></title>
+        <title>온동네  | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 등록"/></title>
     </c:if>
 
 </head>
@@ -203,6 +203,7 @@
                                                         <span><spring:message code="list.detail.affiliate1" text="할인율"/></span>
                                                     </label>
                                                 </span>
+                                                <input type="checkbox" value="">
 
                                                 <span>
                                                     <input type="text" class="form-control dcAmt" name="dcAmt" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">

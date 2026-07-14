@@ -11,7 +11,7 @@
     </c:if>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <title>Jig-Bae  | <spring:message code="sidemenu.couponmanagement.couponmanagement1" text="쿠폰 관리"/></title>
+    <title>온동네  | <spring:message code="sidemenu.couponmanagement.couponmanagement1" text="쿠폰 관리"/></title>
 </head>
 <style>
     .dataTables_wrapper.dt-bootstrap4 .dataTables_filter label .form-control {
@@ -75,76 +75,90 @@
             </div>
             <!-- end page-header -->
             <!-- begin row -->
-                <div class="search-box">
-                    <div class="inner-search-box p-15">
-                        <div class="row">
-                            <div class="col-xl-12 col-md-12 ">
-                                    <input type="hidden" name="ordPathCd" value="<spring:eval expression="@environment.getProperty('file.ordPathCd.pickOrder')" />">
-                                    <input type="hidden" name="authKey" value="<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />">
-                                    <table class="table table-condensed table-bordered">
-                                    <tbody>
-                                    <tr >
-                                        <td class="bg-light width-170">
-                                            <strong>상태</strong>
-                                        </td>
-                                        <td colspan="3">
-                                            <div class="row">
-                                            </div>
-                                            <label>
-                                                <select class="form-control dataStatus" name="cpnStatus">
-                                                    <option value="A" ><spring:message code="list.search.all1" text="전체"/></option>
-                                                    <option value="Y" selected>정상</option>
-                                                    <option value="N" >정지</option>
-                                                </select>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light">
-                                            <label>
-                                                <select class="form-control" name="searchType">
-                                                    <option value="R" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="등록기간"/></option>
-                                                    <option value="U" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="사용기간"/></option>
-                                                </select>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="form-control periodS background-white"  name="periodS" value="" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                            </label>
-                                            <label>
-                                                <input type="text" class="form-control periodE background-white" name="periodE" value="" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                            </label>
-                                        </td>
-                                        <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/></strong></td>
-                                        <td>
-                                            <label>
-                                                <select class="form-control">
-                                                    <option><spring:message code="list.search.title1" text="쿠폰명"/></option>
-                                                </select>
-                                                <input type="text" class="form-control width-150" name="cpnTitle" value="" maxlength="150">
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-xl-12 col-md-12 m-t-10">
-                                <div class="">
+            <div class="search-box search-box-inline">
+                <div class="inner-search-box">
+                    <input type="hidden" name="ordPathCd" value="<spring:eval expression="@environment.getProperty('file.ordPathCd.pickOrder')" />">
+                    <input type="hidden" name="authKey" value="<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />">
 
-                                    <c:if test="${permission == 2}">
-                                        <button type="button" data-toggle="modal" data-target="#add_modal" class="insert_btn btn btn-primary float-left m-b-10">
-                                            <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰생성"/></span>
-                                        </button>
-                                    </c:if>
-                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onclick="searchForm()"><i class="fa fa-search grayicon"></i> 검색 </button>
+                    <div class="search-inline-bar">
+                        <div class="search-field">
+                            <div class="search-label">상태</div>
+                            <div class="search-control-group">
+                                <select class="form-control dataStatus" name="cpnStatus">
+                                    <option value="A">전체</option>
+                                    <option value="Y" selected>정상</option>
+                                    <option value="N">정지</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="search-field search-date">
+                            <div class="search-label">기간</div>
+                            <div class="search-control-group">
+                                <select class="form-control" name="searchType">
+                                    <option value="R" <c:if test="${searchValue.serviceType == '3'}">selected</c:if>>등록기간</option>
+                                    <option value="U" <c:if test="${searchValue.serviceType == '2'}">selected</c:if>>사용기간</option>
+                                </select>
+
+                                <div class="date-input-wrap">
+                                    <input type="text"
+                                           class="form-control periodS background-white"
+                                           name="periodS"
+                                           value=""
+                                           readonly>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+
+                                <span class="date-separator">~</span>
+
+                                <div class="date-input-wrap">
+                                    <input type="text"
+                                           class="form-control periodE background-white"
+                                           name="periodE"
+                                           value=""
+                                           readonly>
+                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="search-field search-keyword">
+                            <div class="search-label">검색어</div>
+                            <div class="search-control-group search-keyword-group">
+                                <select class="form-control" disabled>
+                                    <option>쿠폰명</option>
+                                </select>
+                                <input type="text"
+                                       class="form-control width-150"
+                                       name="cpnTitle"
+                                       value=""
+                                       maxlength="150"
+                                       placeholder="쿠폰명 입력">
+                            </div>
+                        </div>
+
+                        <div class="search-actions">
+                            <button type="button"
+                                    class="btn btn-search-inline searchClick"
+                                    onclick="searchForm()">
+                                <i class="fa fa-search"></i>
+                                검색
+                            </button>
+
+                            <c:if test="${permission == 2}">
+                                <button type="button"
+                                        data-toggle="modal"
+                                        data-target="#add_modal"
+                                        class="insert_btn btn btn-search-inline ml-1">
+                                    <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰생성"/></span>
+                                </button>
+                            </c:if>
+                        </div>
                     </div>
                 </div>
+            </div>
             <div class="panel-body">
-                <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
+                <table id="testTable" class="listTable display table compact-table table-striped">
                     <thead>
                         <tr class="text-center">
                             <th><spring:message code="list.word.no1" text="번호"/></th>
@@ -225,51 +239,6 @@
 <%@include file="../../../common/include_custom_js.jsp" %>
 <%-- Custom JS End--%>
 <script>
-    var oldExportAction = function (self, e, dt, button, config) {
-        if (button[0].className.indexOf('buttons-excel') >= 0) {
-            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
-                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
-            }
-            else {
-                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
-            }
-        } else if (button[0].className.indexOf('buttons-print') >= 0) {
-            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
-        }
-    };
-
-    var newExportAction = function (e, dt, button, config) {
-        var self = this;
-        var oldStart = dt.settings()[0]._iDisplayStart;
-
-        dt.one('preXhr', function (e, s, data) {
-            // Just this once, load all data from the server...
-            data.start = 0;
-            data.length = 2147483647;
-
-            dt.one('preDraw', function (e, settings) {
-                // Call the original action function
-                oldExportAction(self, e, dt, button, config);
-
-                dt.one('preXhr', function (e, s, data) {
-                    // DataTables thinks the first item displayed is index 0, but we're not drawing that.
-                    // Set the property to what it was before exporting.
-                    settings._iDisplayStart = oldStart;
-                    data.start = oldStart;
-                });
-
-                // Reload the grid with the original page. Otherwise,
-                // API functions like table.cell(this) don't work properly.
-                setTimeout(dt.ajax.reload, 0);
-
-                // Prevent rendering of the full data to the DOM
-                return false;
-            });
-        });
-
-        // Requery the server with the new one-time export settings
-        dt.ajax.reload();
-    };
     var table;
     $(() => {
 
@@ -456,15 +425,15 @@
                 },
                 statusCode: {
                     200: (response) => {
-                        console.log(response)
+                        //console.log(response)
                         // TODO
                     },
                     400: (response) => {
-                        console.log(response)
+                        //console.log(response)
                         // TODO
                     },
                     500: (response) => {
-                        console.log(response)
+                        //console.log(response)
                         // TODO
                     }
                 }

@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
+        <title>온동네 | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
     </c:if>
 
 </head>
@@ -251,7 +251,7 @@
                          <%--<th class="align-middle "><spring:message code="list.word.orderno1" text="주문경로"/></th>--%>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="가맹점이름"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="지불금액"/></th>
-                        <th class="align-middle "><spring:message code="list.word.orderno1" text="봉사료"/></th>
+                        <th class="align-middle "><spring:message code="list.word.orderno1" text="배달/택배비"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="주문상태"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="고객연락처"/></th>
                          <th class="align-middle "><spring:message code="list.word.orderno1" text="배달서비스"/></th>

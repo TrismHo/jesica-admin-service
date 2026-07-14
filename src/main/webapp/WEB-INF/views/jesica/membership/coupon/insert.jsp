@@ -5,9 +5,86 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jig-Bae | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 관리"/></title>
+    <title>온동네 | <spring:message code="list.detail.platformnoticeregistration1" text="쿠폰 관리"/></title>
 
 </head>
+<style>
+    .discount-setting-box {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .discount-option-group {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 34px;
+        padding: 6px 10px;
+        border: 1px solid #ddd;
+        background: #fafafa;
+    }
+
+    .discount-option-group label {
+        margin-bottom: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 400;
+        white-space: nowrap;
+    }
+
+    .discount-option-group input[type="radio"],
+    .discount-option-group input[type="checkbox"] {
+        margin: 0;
+    }
+
+    .point-charge-box {
+        background: #fff;
+    }
+
+    .point-charge-box label {
+        color: #333;
+    }
+
+    .discount-amount-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 34px;
+    }
+
+    .discount-amount-box .discountAmt {
+        width: 130px;
+        min-width: 130px;
+    }
+
+    .discount-unit {
+        display: inline-flex;
+        align-items: center;
+        min-width: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    @media (max-width: 1200px) {
+        .discount-setting-box {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .discount-option-group,
+        .discount-amount-box {
+            width: 100%;
+        }
+
+        .discount-amount-box .discountAmt {
+            width: 160px;
+        }
+    }
+</style>
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>
@@ -199,24 +276,53 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="할인방식"/></td>
+                                    <td class="bg-light">
+                                        <spring:message code="list.detail.postclassification1" text="할인방식"/>
+                                    </td>
                                     <td>
-                                        <div style="display: flex; align-items: center">
-                                            <span class="m-r-20">
-                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="disType" class="disType" value="1" style="margin-right: 5px" checked>
+                                        <div class="discount-setting-box">
+
+                                            <div class="discount-option-group">
+                                                <label>
+                                                    <input type="radio"
+                                                           name="disType"
+                                                           class="disType"
+                                                           value="1"
+                                                           checked>
                                                     <span><spring:message code="list.detail.tothewhole1" text="할인금액"/></span>
                                                 </label>
-                                                <label style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="disType" class="disType" value="2" style="margin-right: 5px">
+
+                                                <label>
+                                                    <input type="radio"
+                                                           name="disType"
+                                                           class="disType"
+                                                           value="2">
                                                     <span><spring:message code="list.detail.affiliate1" text="할인률"/></span>
                                                 </label>
-                                            </span>
-                                            <span>
-                                                <input type="text" class="form-control discountAmt" name="discountAmt" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" value="0">
-                                                <span id="amt-form" >원</span>
-                                                <span id="rate-form" style="display: none">%</span>
-                                            </span>
+                                            </div>
+
+                                            <div class="discount-option-group point-charge-box" id="pointChangeBox">
+                                                <label for="pointChangeYn">
+                                                    <input type="checkbox"
+                                                           class="pointChangeYn"
+                                                           name="pointChangeYn"
+                                                           id="pointChangeYn"
+                                                           value="1">
+                                                    <span>사용잔액 포인트 전환</span>
+                                                </label>
+                                            </div>
+
+                                            <div class="discount-amount-box">
+                                                <input type="text"
+                                                       class="form-control discountAmt"
+                                                       name="discountAmt"
+                                                       oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                                                       value="0">
+
+                                                <span id="amt-form" class="discount-unit">원</span>
+                                                <span id="rate-form" class="discount-unit" style="display: none">%</span>
+                                            </div>
+
                                         </div>
                                     </td>
                                     <td class="text-danger-darker" style="width:25%">
@@ -312,6 +418,17 @@
     const dateClasses = [ '.periodS', '.periodE', '.cpnPeriodS', '.cpnPeriodE', '.issuedDate'];
 
     $(() => {
+
+        function togglePointChangeBox() {
+            const disType = $("input[name='disType']:checked").val();
+
+            if (disType === "1") {
+                $("#pointChangeBox").show();
+            } else {
+                $("#pointChangeBox").hide();
+                $("#pointChangeYn").prop("checked", false);
+            }
+        }
         /**
          * author june
          */
@@ -384,10 +501,11 @@
                     $(".maxDisAmt").attr("disabled", true);
                     $(".maxDisAmt").val("0");
                     break;
+
                 case 2:
                     amtForm.style.display = 'none'
                     rateForm.style.display = 'inline';
-                    if($(".discountAmt").val() > 100){
+                    if ($(".discountAmt").val() > 100) {
                         $(".discountAmt").val(100);
                     }
                     $(".discountAmt").attr("maxlength", 3);
@@ -396,9 +514,11 @@
                     $(".maxDisAmt").attr("disabled", false);
                     break;
             }
+
+            togglePointChangeBox();
         });
 
-
+        togglePointChangeBox();
 
 
         //쿠폰 유효기간 구분
@@ -442,9 +562,14 @@
             let update = "<spring:message code="list.script.update1" text="등록"/>";
             let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful1" text="등록되었습니다."/>";
             let editfailed = "<spring:message code="list.script.editfailed1" text="등록에 실패하였습니다."/>";
+            let issuedCondition = $("[name=issuedCondition]:checked").val();
+            let issuedType = $("[name=issuedType]:checked").val();
 
             let _forms = $('#update_form');
             let req = convertFormToObj(_forms);
+
+            req.pointChangeYn = $("#pointChangeYn").is(":checked") ? "Y" : "N";
+
             let cpnPeriodSPick = req.cpnPeriodS + "T00:00:00";
             let cpnPeriodEPick = req.cpnPeriodE + "T23:59:59";
 
@@ -455,6 +580,10 @@
                 req.maxDisAmt = Number(0);
             }else {
                 req.maxDisAmt = Number(req.maxDisAmt);
+            }
+            if(issuedCondition == 'D' && issuedType == 'D' && req.ordCnt < 1 ) {
+                alert("쿠폰 적용 주문 횟수는 최소 1개 이상 지정해주세요");
+                return;
             }
             req.cpnPeriodLimit = Number(req.cpnPeriodLimit);
             req.periodS = req.periodS.replaceAll("-","").replaceAll("-","");

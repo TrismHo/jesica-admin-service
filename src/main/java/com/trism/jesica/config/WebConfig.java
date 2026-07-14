@@ -27,10 +27,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
@@ -54,6 +51,41 @@ public class WebConfig /*extends WebMvcConfigurationSupport*/ implements WebMvcC
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/library/**")
+                .allowedOrigins("http://localhost:5173",
+                        "http://127.0.0.1:5173",
+                        "https://store.kncsol.co.kr",
+                        "https://stmng.kncsol.co.kr",
+                        "http://tstmng.kncsol.co.kr",
+                        "https://mng.kncsol.co.kr",
+                        "https://mng.jigbae.co.kr",
+                        "http://test.jigbae.co.kr",
+                        "http://tstore.kncsol.co.kr",
+                        "http://test.kncsol.co.kr")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(false)
+                .maxAge(3600);
+        registry.addMapping("/api/file/**")
+                .allowedOrigins("http://localhost:5173",
+                        "http://127.0.0.1:5173",
+                        "https://store.kncsol.co.kr",
+                        "https://stmng.kncsol.co.kr",
+                        "http://tstmng.kncsol.co.kr",
+                        "https://mng.kncsol.co.kr",
+                        "https://mng.jigbae.co.kr",
+                        "http://test.jigbae.co.kr",
+                        "https://mng.kncsol.co.kr",
+                        "http://tstore.kncsol.co.kr",
+                        "http://test.kncsol.co.kr")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(false)
+                .maxAge(3600);
     }
 
     /**

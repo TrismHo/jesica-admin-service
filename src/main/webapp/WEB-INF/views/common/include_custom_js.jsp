@@ -814,37 +814,39 @@
         }
     }
 
-    function useYnLimit (data){
-        if(data){
-            let now = new Date();
+    function useYnLimit(data) {
+        if (!data) return "";
 
-            let month = now.getMonth() + 1;
-            let day = now.getDate();
+        let now = new Date();
+        let month = now.getMonth() + 1;
+        let day = now.getDate();
 
-            month = month >= 10 ? month : '0' + month;
-            day = day >= 10 ? day : '0' + day;
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
 
-            let nowNumber = Number(now.getFullYear()+""+month+""+day)
-            let limitDate = Number(data.validateTo.replaceAll("-","").replaceAll("-",""))
+        let nowNumber = Number(now.getFullYear() + "" + month + "" + day);
 
-            if(nowNumber > limitDate && data.useYn == 'N') {
+        let validateTo = data.validateTo ? String(data.validateTo).replaceAll("-", "") : "";
+
+        if (validateTo) {
+            let limitDate = Number(validateTo);
+
+            if (nowNumber > limitDate && data.useYn == 'N') {
                 return "만료";
-            } else {
-                if (data.useYn) {
-                    if (data.useYn == 'Y') {
-                        return "사용";
-                    } else if (data.useYn == 'N') {
-                        return "미사용";
-                    } else {
-                        return "-";
-                    }
-                } else {
-                    return "";
-                }
             }
-        } else {
-            return "";
         }
+
+        if (data.useYn) {
+            if (data.useYn == 'Y') {
+                return "사용";
+            } else if (data.useYn == 'N') {
+                return "미사용";
+            } else {
+                return "-";
+            }
+        }
+
+        return "";
     }
 
     function enumString (code) {
@@ -858,6 +860,185 @@
 
     }
 
+    function getDeliveryStatusMeta(statusCode, statusText) {
+        const code = String(statusCode || '');
+
+        if (code === '1') {
+            return {
+                text: '배송준비',
+                tone: 'ready',
+                progressStep: 1,
+                isCancel: false
+            };
+        }
+
+        if (code === '2') {
+            return {
+                text: '집하완료',
+                tone: 'ready',
+                progressStep: 2,
+                isCancel: false
+            };
+        }
+
+        if (code === '3') {
+            return {
+                text: '배송진행중',
+                tone: 'moving',
+                progressStep: 3,
+                isCancel: false
+            };
+        }
+
+        if (code === '4') {
+            return {
+                text: '지점도착',
+                tone: 'moving',
+                progressStep: 4,
+                isCancel: false
+            };
+        }
+
+        if (code === '5') {
+            return {
+                text: '배송출발',
+                tone: 'moving',
+                progressStep: 5,
+                isCancel: false
+            };
+        }
+
+        if (code === '6') {
+            return {
+                text: '배송완료',
+                tone: 'done',
+                progressStep: 6,
+                isCancel: false
+            };
+        }
+
+        if (code === '9') {
+            return {
+                text: '조회실패',
+                tone: 'cancel',
+                progressStep: 5,
+                isCancel: true
+            };
+        }
+
+        return {
+            text: statusText || code || '-',
+            tone: '',
+            progressStep: 1,
+            isCancel: false
+        };
+    }
+    function getToneClassName(tone, prefix) {
+        if (tone === 'ready') return prefix + 'is-ready';
+        if (tone === 'moving') return prefix + 'is-moving';
+        if (tone === 'done') return prefix + 'is-done';
+        if (tone === 'cancel') return prefix + 'is-cancel';
+        return '';
+    }
+
+    /*function getHistoryStatusText(item) {
+        const meta = getDeliveryStatusMeta(
+            item.statusCode || item.status,
+            item.statusText || item.statusName || item.stepName
+        );
+        return meta.text;
+    }*/
+    /*function getHistoryStatusText(item) {
+        if (item.statusText) return item.statusText;
+
+        const meta = getDeliveryStatusMeta(
+            item.statusCode || item.status,
+            item.statusName || item.stepName
+        );
+        return meta.text;
+    }*/
+    function getHistoryStatusText(item) {
+        const meta = getDeliveryStatusMeta(
+            item.statusCode || item.status,
+            item.statusName || item.stepName
+        );
+
+        if (item.statusText && item.statusText !== meta.text) {
+           /* return meta.text + ' (' + item.statusText + ')';*/
+            return item.statusText;
+        }
+
+        return item.statusText || meta.text;
+    }
+
+    function getHistoryStatusClass(item) {
+        const meta = getDeliveryStatusMeta(
+            item.statusCode || item.status,
+            item.statusText || item.statusName || item.stepName
+        );
+
+        if (meta.tone === 'ready') return 'is-ready';
+        if (meta.tone === 'moving') return 'is-moving';
+        if (meta.tone === 'done') return 'is-done';
+        if (meta.tone === 'cancel') return 'is-cancel';
+        return '';
+    }
+
+    function getCurrentStep(data, historyList) {
+        let statusCode = String(
+            data.statusCode || data.currentStatusCode || ''
+        );
+
+        if (historyList && historyList.length > 0) {
+            const latestHistory = historyList
+                .slice()
+                .sort(function(a, b) {
+                    const dateA = new Date(
+                        a.transDate || a.time || a.regDate || a.date || 0
+                    );
+                    const dateB = new Date(
+                        b.transDate || b.time || b.regDate || b.date || 0
+                    );
+
+                    return dateB - dateA;
+                })[0];
+
+            if (latestHistory) {
+                statusCode = String(
+                    latestHistory.statusCode ||
+                    latestHistory.status ||
+                    statusCode
+                );
+            }
+        }
+
+        const isCancel = statusCode === '9';
+
+        let step = 0;
+
+        if (statusCode === '1') step = 1;
+        else if (statusCode === '2') step = 2;
+        else if (statusCode === '3') step = 3;
+        else if (statusCode === '4') step = 4;
+        else if (statusCode === '5') step = 5;
+        else if (statusCode === '6') step = 6;
+
+        return {
+            step: step,
+            isCancel: isCancel,
+            statusCode: statusCode
+        };
+    }
+
+    function getDeliveryBadgeClass(statusCode, statusText) {
+        const meta = getDeliveryStatusMeta(statusCode, statusText);
+
+        if (meta.tone === 'ready') return 'is-ready';
+        if (meta.tone === 'moving') return 'is-moving';
+        if (meta.tone === 'done') return 'is-done';
+        if (meta.tone === 'cancel') return 'is-cancel';
+        return '';
+    }
     function orderType(code) {
         switch (code) {
             case "1":
@@ -875,6 +1056,12 @@
             case "5":
                 return "테이블";
                 break;
+            case "6":
+                return "택배배송";
+                break;
+            case "7":
+                return "오늘배송";
+                break;
             default:
                 return "-";
         }
@@ -889,7 +1076,7 @@
                 return "접수완료";
                 break;
             case 3:
-                return "조리중";
+                return "가맹점 확인";
                 break;
             case 4:
                 return "배달중";

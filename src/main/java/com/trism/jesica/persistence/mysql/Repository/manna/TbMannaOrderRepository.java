@@ -124,6 +124,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             "    wait," +
             "    reserv," +
             "    tables," +
+            "    parcel," +
+            "    todayDelivery," +
             "   (delivery+takeout+wait+reserv+tables) as sumCount" +
             "    from(        " +
             "        select        " +
@@ -135,6 +137,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             "            , SUM(CASE WHEN ab.ordType = 3  THEN 1 ELSE 0 END) AS wait  " +
             "            , SUM(CASE WHEN ab.ordType = 4  THEN 1 ELSE 0 END) AS reserv " +
             "            , SUM(CASE WHEN ab.ordType = 5  THEN 1 ELSE 0 END) AS tables  " +
+            "            , SUM(CASE WHEN ab.ordType = 6  THEN 1 ELSE 0 END) AS parcel  " +
+            "            , SUM(CASE WHEN ab.ordType = 7  THEN 1 ELSE 0 END) AS todayDelivery  " +
             "               from      " +
             "                   (select            " +
             "                           ord_no as ordNo,     " +
@@ -165,6 +169,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             "                   and ord_path_cd = :ordPathCd" +
             "                   and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode))      " +
             "                   and ((:ordStatus is null and 1=1) or (:ordStatus is not null and a.ord_status = :ordStatus))       " +
+            "                   and ((:ordType is null and 1=1) or (:ordType is not null and a.ord_type = :ordType))       " +
             "                   and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and a.brand_type_cd = :brandTypeCd))) ab       " +
             "           group by yyyymmdd          " +
             "        )c        " +
@@ -188,6 +193,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                     "                   and ord_path_cd = :ordPathCd" +
                     "                   and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode))      " +
                     "                   and ((:ordStatus is null and 1=1) or (:ordStatus is not null and a.ord_status = :ordStatus))       " +
+                    "                   and ((:ordType is null and 1=1) or (:ordType is not null and a.ord_type = :ordType))       " +
                     "                   and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and a.brand_type_cd = :brandTypeCd))) ab       " +
                     "           group by yyyymmdd          " +
                     "        )c        " +
@@ -199,6 +205,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             , @Param("brCode") String brCode
             , @Param("ordStatus") String ordStatus
             , @Param("brandTypeCd") String brandTypeCd
+            , @Param("ordType") String ordType
             , Pageable pageable
     );
 
@@ -214,6 +221,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             "    ,SUM(wait) as wait " +
             "    ,SUM(reserv) as reserv " +
             "    ,SUM(tables) as tables " +
+            "    ,SUM(parcel) as parcel " +
+            "    ,SUM(todayDelivery) as todayDelivery " +
             "    ,(SUM(delivery) + SUM(takeout) + SUM(wait) + SUM(reserv) + SUM(tables)) as sumcount" +
             "    ,weekdate" +
             "    from(        " +
@@ -226,6 +235,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             "            , SUM(CASE WHEN ab.ordType = 3 THEN 1 ELSE 0 END) AS wait  " +
             "            , SUM(CASE WHEN ab.ordType = 4 THEN 1 ELSE 0 END) AS reserv " +
             "            , SUM(CASE WHEN ab.ordType = 5 THEN 1 ELSE 0 END) AS tables  " +
+            "            , SUM(CASE WHEN ab.ordType = 6  THEN 1 ELSE 0 END) AS parcel  " +
+            "            , SUM(CASE WHEN ab.ordType = 7  THEN 1 ELSE 0 END) AS todayDelivery  " +
             "            ,DATE_FORMAT(DATE_SUB(date_format(ab.ordDate, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.ordDate, '%Y/%m/%d'))-1) DAY), '%Y/%m/%d') as start " +
             "    ,DATE_FORMAT(DATE_SUB(date_format(ab.ordDate, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.ordDate, '%Y/%m/%d'))-7) DAY), '%Y/%m/%d') as end " +
             "    ,DATE_FORMAT(date_format(ab.ordDate, '%Y/%m/%d'), '%Y%U') AS `weekdate`" +
@@ -259,6 +270,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             "                    and ord_path_cd = :ordPathCd " +
             "                    and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode)) " +
             "                    and ((:ordStatus is null and 1=1) or (:ordStatus is not null and ord_status = :ordStatus)) " +
+            "                    and ((:ordType is null and 1=1) or (:ordType is not null and ord_type = :ordType)) " +
             "                   and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and a.brand_type_cd = :brandTypeCd))) ab       " +
             "           group by yyyymmdd          " +
             "        )c        " +
@@ -283,6 +295,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                     "                   and ord_path_cd = :ordPathCd" +
                     "                   and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode))      " +
                     "                   and ((:ordStatus is null and 1=1) or (:ordStatus is not null and a.ord_status = :ordStatus))       " +
+                    "                   and ((:ordType is null and 1=1) or (:ordType is not null and a.ord_type = :ordType))       " +
                     "                   and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and a.brand_type_cd = :brandTypeCd))) ab       " +
                     "           group by yyyymmdd          " +
                     "        )c        " +
@@ -294,6 +307,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
             , @Param("brCode") String brCode
             , @Param("ordStatus") String ordStatus
             , @Param("brandTypeCd") String brandTypeCd
+            , @Param("ordType") String ordType
             , Pageable pageable
     );
 
@@ -344,6 +358,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                             "    ,wait" +
                             "    ,reserv" +
                             "    ,tables " +
+                            "    ,parcel " +
+                            "    ,todayDelivery " +
                             "    ,(delivery + takeout + wait + reserv + tables) as sumcount" +
                             "    ,weekdate" +
                             "    from(        " +
@@ -356,6 +372,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                             "            , SUM(CASE WHEN ab.ordType = 3 THEN 1 ELSE 0 END) AS wait  " +
                             "            , SUM(CASE WHEN ab.ordType = 4 THEN 1 ELSE 0 END) AS reserv " +
                             "            , SUM(CASE WHEN ab.ordType = 5 THEN 1 ELSE 0 END) AS tables  " +
+                            "            , SUM(CASE WHEN ab.ordType = 6  THEN 1 ELSE 0 END) AS parcel  " +
+                            "            , SUM(CASE WHEN ab.ordType = 7  THEN 1 ELSE 0 END) AS todayDelivery  " +
                             "            ,DATE_FORMAT(DATE_SUB(date_format(ab.ordDate, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.ordDate, '%Y/%m/%d'))-1) DAY), '%Y/%m/%d') as start " +
                             "    ,DATE_FORMAT(DATE_SUB(date_format(ab.ordDate, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.ordDate, '%Y/%m/%d'))-7) DAY), '%Y/%m/%d') as end " +
                             "    ,DATE_FORMAT(date_format(ab.ordDate, '%Y/%m/%d'), '%Y%U') AS `weekdate`" +
@@ -389,7 +407,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                             "                    and ord_path_cd = :ordPathCd " +
                             "                    and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode))       " +
                             "                    and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and brand_type_cd = :brandTypeCd)) " +
-                            "                    and ((:ordStatus is null and 1=1) or (:ordStatus is not null and ord_status = :ordStatus))) ab      " +
+                            "                    and ((:ordStatus is null and 1=1) or (:ordStatus is not null and ord_status = :ordStatus))      " +
+                            "                    and ((:ordType is null and 1=1) or (:ordType is not null and ord_type = :ordType))) ab      " +
                             "           group by yyyymmdd          " +
                             "        )c        " +
                             "   group by yyyymmdd" +
@@ -400,7 +419,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                                                  @Param("ordPathCd") String ordPathCd,
                                                  @Param("brCode") String brCode,
                                                  @Param("brandTypeCd") String brandTypeCd,
-                                                 @Param("ordStatus") String ordStatus
+                                                 @Param("ordStatus") String ordStatus,
+                                                 @Param("ordType") String ordType
     );
 
     @Query(value =
@@ -458,6 +478,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                     "    ,SUM(wait) as wait " +
                     "    ,SUM(reserv) as reserv " +
                     "    ,SUM(tables) as tables " +
+                    "    ,SUM(parcel) as parcel " +
+                    "    ,SUM(todayDelivery) as todayDelivery " +
                     "    ,(SUM(delivery) + SUM(takeout) + SUM(wait) + SUM(reserv) + SUM(tables)) as sumcount" +
                     "    ,weekdate" +
                     "    from(        " +
@@ -470,6 +492,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                     "            , SUM(CASE WHEN ab.ordType = 3 THEN 1 ELSE 0 END) AS wait  " +
                     "            , SUM(CASE WHEN ab.ordType = 4 THEN 1 ELSE 0 END) AS reserv " +
                     "            , SUM(CASE WHEN ab.ordType = 5 THEN 1 ELSE 0 END) AS tables  " +
+                    "            , SUM(CASE WHEN ab.ordType = 6  THEN 1 ELSE 0 END) AS parcel  " +
+                    "            , SUM(CASE WHEN ab.ordType = 7  THEN 1 ELSE 0 END) AS todayDelivery  " +
                     "            ,DATE_FORMAT(DATE_SUB(date_format(ab.ordDate, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.ordDate, '%Y/%m/%d'))-1) DAY), '%Y/%m/%d') as start " +
                     "    ,DATE_FORMAT(DATE_SUB(date_format(ab.ordDate, '%Y/%m/%d'), INTERVAL (DAYOFWEEK(date_format(ab.ordDate, '%Y/%m/%d'))-7) DAY), '%Y/%m/%d') as end " +
                     "    ,DATE_FORMAT(date_format(ab.ordDate, '%Y/%m/%d'), '%Y%U') AS `weekdate`" +
@@ -503,6 +527,7 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                     "                    and ord_path_cd = :ordPathCd " +
                     "                    and ((:brCode is null and 1=1) or (:brCode is not null and a.br_code = :brCode)) " +
                     "                    and ((:brandTypeCd is null and 1=1) or (:brandTypeCd is not null and brand_type_cd = :brandTypeCd)) " +
+                    "                    and ((:ordType is null and 1=1) or (:ordType is not null and ord_type = :ordType)) " +
                     "                    and ((:ordStatus is null and 1=1) or (:ordStatus is not null and ord_status = :ordStatus))) ab " +
                     "           group by yyyymmdd          " +
                     "        )c        " +
@@ -514,7 +539,8 @@ public interface TbMannaOrderRepository extends JpaRepository<TbMannaOrder, Long
                                                   @Param("ordPathCd") String ordPathCd,
                                                   @Param("brCode") String brCode,
                                                   @Param("brandTypeCd") String brandTypeCd,
-                                                  @Param("ordStatus") String ordStatus
+                                                  @Param("ordStatus") String ordStatus,
+                                                  @Param("ordType") String ordType
     );
     Page<TbMannaOrder> findAll(Specification<TbMannaOrder> specification, Pageable pageable);
 

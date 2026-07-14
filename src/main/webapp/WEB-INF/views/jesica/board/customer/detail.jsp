@@ -9,7 +9,7 @@
         <title>Jesicar | <spring:message code="list.detail.platformno리ticeregistration12" text="회원 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae r | <spring:message code="list.detail.platformno리ticeregistration12" text="회원 관리"/></title>
+        <title>온동네 | <spring:message code="list.detail.platformno리ticeregistration12" text="회원 관리"/></title>
     </c:if>
 </head>
 <style>
@@ -173,6 +173,367 @@
     #searchCouponCustTab{
         border-bottom: 1px solid #e4e7ea !important;
     }
+    .panel-box {
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+
+</style>
+<style>
+    /* =========================
+       고객 상세 개선 디자인
+       ========================= */
+
+    .cust-detail-page {
+        color: #222;
+        font-size: 12px;
+    }
+
+    .cust-detail-header {
+        padding: 20px 15px 8px 15px;
+    }
+
+    .cust-detail-title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .detail-shell {
+        border: 1px solid #d9dee3;
+        background: #fff;
+    }
+
+    .detail-section {
+        border-top: 1px solid #e8ebef;
+    }
+
+    .detail-section:first-child {
+        border-top: 0;
+    }
+
+    .section-head {
+        padding: 10px 14px;
+        border-bottom: 1px solid #e6e9ed;
+        background: #f7f8fa;
+    }
+
+    .section-title {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .section-body {
+        padding: 12px 14px;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .summary-card {
+        border: 1px solid #dfe3e8;
+        background: #fff;
+        min-height: 58px;
+        padding: 8px 10px;
+    }
+
+    .summary-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #7b8490;
+        margin-bottom: 4px;
+    }
+
+    .summary-value {
+        font-size: 12px;
+        font-weight: 700;
+        color: #222;
+        line-height: 1.35;
+        word-break: break-word;
+    }
+
+    .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .panel-box {
+        border: 1px solid #d9dee3;
+        background: #fff;
+    }
+
+    .panel-box + .panel-box {
+        margin-top: 10px;
+    }
+
+    .panel-box-head {
+        padding: 9px 12px;
+        border: 1px solid #e8ebef;
+        background: #fafbfc;
+        font-size: 12px;
+        font-weight: 700;
+        color: #555;
+    }
+
+
+
+    .compact-table .form-control {
+        height: 32px;
+        font-size: 12px;
+        border-radius: 0;
+    }
+
+    .field-help {
+        display: none;
+        margin-top: 4px;
+        font-size: 11px;
+        color: #9aa3ad;
+        font-weight: 500;
+    }
+
+    .inline-radio-group,
+    .inline-check-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .radio-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        min-height: 28px;
+        padding: 5px 9px;
+        border: 1px solid #dfe3e8;
+        background: #fff;
+        cursor: pointer;
+    }
+
+    .radio-chip input[type="radio"] {
+        width: auto;
+        height: auto;
+        appearance: auto;
+        margin: 0;
+    }
+    .compact-table th {
+        min-width: 10px;
+    }
+    .switch-card {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        min-width: 170px;
+        padding: 5px 10px;
+        border: 1px solid #dfe3e8;
+        background: #fff;
+    }
+
+    .badge-code {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 20px;
+        padding: 2px 7px;
+        margin-right: 4px;
+        background: #eef2f7;
+        color: #334155;
+        font-weight: 800;
+        font-size: 11px;
+    }
+
+    .status-green {
+        color: #1f7a3d;
+        font-weight: 700;
+    }
+
+    .status-red {
+        color: #d63939;
+        font-weight: 700;
+    }
+
+    .status-orange {
+        color: #f08c00;
+        font-weight: 700;
+    }
+
+    .status-gray {
+        color: #7a828a;
+        font-weight: 700;
+    }
+
+    .muted {
+        color: #98a1ab;
+    }
+
+    .simple-table-wrap {
+        overflow-x: auto;
+        border: 1px solid #e8ebef;
+    }
+
+    .simple-table {
+        width: 100%;
+        min-width: 520px;
+        margin-bottom: 0;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    .simple-table thead th {
+        background: #f8f9fb;
+        color: #555;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 9px 8px;
+        border-bottom: 1px solid #dfe3e8;
+        text-align: center;
+    }
+
+    .simple-table tbody td {
+        padding: 8px;
+        border-top: 1px solid #eef1f4;
+        font-size: 12px;
+        color: #222;
+        vertical-align: middle;
+        line-height: 1.4;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    .scroll-y-box {
+        max-height: 190px;
+        overflow-y: auto;
+    }
+
+    .bottom-actions {
+        margin-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .bottom-actions .btn {
+        min-width: 82px;
+        height: 34px;
+        border-radius: 0 !important;
+        font-size: 12px;
+        font-weight: 600;
+        box-shadow: none !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @media (max-width: 1280px) {
+        .summary-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 992px) {
+        .main-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .summary-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .compact-table th {
+            width: 100px;
+        }
+
+        .switch-card {
+            min-width: 100%;
+        }
+    }
+    /* 기존 main-grid 대신 사용 */
+    .info-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+        gap: 10px;
+        align-items: start;
+    }
+
+    .info-grid .panel-box {
+        margin-top: 0;
+        border: 0px;
+    }
+
+    .panel-box {
+        border: 1px solid #d9dee3;
+        background: #fff;
+    }
+
+
+    .panel-box-body {
+        padding: 0;
+    }
+
+
+
+
+
+
+
+
+    .simple-table {
+        width: 100%;
+        min-width: 520px;
+        margin-bottom: 0;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+
+    .scroll-y-box {
+        max-height: 190px;
+        overflow-y: auto;
+    }
+
+    .status-green {
+        color: #1f7a3d;
+        font-weight: 700;
+    }
+
+    .status-red {
+        color: #d63939;
+        font-weight: 700;
+    }
+
+    .status-orange {
+        color: #f08c00;
+        font-weight: 700;
+    }
+
+    .status-gray {
+        color: #7a828a;
+        font-weight: 700;
+    }
+
+    .muted {
+        color: #98a1ab;
+    }
+
+    @media (max-width: 992px) {
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .switch-row {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -217,428 +578,319 @@
             </ul>
             <div class="tab-content" style="padding: 15px 15px 5px 15px">
                 <div class="tab-pane fade active show" id="default-tab-1">
-                    <div class="table-responsive">
-                        <form name="update_form" id="update_form" class="update_form">
-                            <input class="custNo" type="hidden" name="custNo" value="${tbCust.custNo}">
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr class="height-50">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
-                                        <td>
-                                            <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbCust.platformType == 0}">checked</c:if>>
-                                                <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
-                                            </label>--%>
-                                                <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                                    <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                        <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                        <span><spring:message code="list.detail.deliveryman1" text="온동네"/></span>
-                                                    </label>
-                                                </c:if>
-                                                <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-                                                    <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                        <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
-                                                        <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
-                                                    </label>
-                                                </c:if>
-                                            <%--<label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbCust.platformType == 1}">checked</c:if>>
-                                                <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
-                                            </label>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" <c:if test="${tbCust.platformType == 2}">checked</c:if>>
-                                                <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
-                                            </label>
-                                            <label class="" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbCust.platformType == 3}">checked</c:if>>
-                                                <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                            </label>--%>
-                                        </td>
-                                    </tr>
-                                    <tr  class="height-50">
-                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="로그인 ID"/></td>
-                                        <td>${tbCust.loginId}</td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="로그인 ID 입니다.(변경불가)"/>
-                                        </td>
-                                    </tr>
-                                    <tr class="height-50">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="회원여부"/></td>
-                                        <td>
-                                            <c:if test="${tbCust.isMember == 1}">회원</c:if>
-                                            <c:if test="${tbCust.isMember == 0}">비회원</c:if>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="회원 여부입니다.(변경불가)"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="성별"/></td>
-                                        <td  class="height-50">
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="gender" class="gender" value="M" style="margin-right: 5px" <c:if test="${tbCust.gender == 'M'}">checked</c:if>>
-                                                <span><spring:message code="list.detail.tothewhole1" text="남자"/></span>
-                                            </label>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="gender" class="gender" value="F" style="margin-right: 5px" <c:if test="${tbCust.gender == 'F'}">checked</c:if>>
-                                                <span><spring:message code="list.detail.affiliate1" text="여자"/></span>
-                                            </label>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="gender" class="gender" value="N" style="margin-right: 5px" <c:if test="${tbCust.gender == 'N'}">checked</c:if>>
-                                                <span><spring:message code="list.detail.affiliate1" text="알수없음"/></span>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="성별을 선택하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr class="height-50">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="추천가맹점명"/></td>
-                                        <td>
-                                            <span style="font-weight: bold; color: red;"><c:if test="${tbCust.extRecommStCode}"> [${tbCust.extRecommStCode}] </c:if>  </span> ${tbCust.extRecommStName}
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="추천가맹점명 입니다."/>
-                                        </td>
-                                    </tr>
-                                    <tr class="height-50">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="추천인(전화번호)"/></td>
-                                        <td>
-                                            <c:if test=" ${tbCust.recommCustName != null}"> ${tbCust.recommCustName} (${tbCust.recommCustTel})</c:if>
-                                            <c:if test=" ${tbCust.recommCustName == null}"> 추천인 없음 </c:if>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="추천인과 전화번호입니다."/>
-                                        </td>
-                                    </tr>
+                    <form name="update_form" id="update_form" class="update_form">
+                        <input class="custNo" type="hidden" name="custNo" value="${tbCust.custNo}">
 
-                                    <tr class="height-50">
-                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="이름"/></td>
-                                        <td><input type="text" name="custName" class="form-control" value="${tbCust.custName}"></td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 이름을 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="휴대폰 번호"/></td>
-                                        <td><input type="text" name="custTel" class="form-control" value="${tbCust.custTel}"></td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 휴대폰번호를 입력하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="계정 상태"/></td>
-                                        <td  class="height-50">
-                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="dataStatus" class="dataStatus" value="0" style="margin-right: 5px" <c:if test="${tbCust.dataStatus == 0}">checked</c:if>>
-                                                <span><spring:message code="list.detail.tothewhole1" text="삭제"/></span>
-                                            </label>
-                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="dataStatus" class="dataStatus" value="1" style="margin-right: 5px" <c:if test="${tbCust.dataStatus == 1}">checked</c:if>>
-                                                <span><spring:message code="list.detail.affiliate1" text="정상"/></span>
-                                            </label>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="dataStatus" class="dataStatus" value="2" style="margin-right: 5px" <c:if test="${tbCust.dataStatus == 2}">checked</c:if>>
-                                                <span><spring:message code="list.detail.deliveryman12" text="정지"/></span>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="계정 상태를 선택하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr class="height-50">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="가입일자"/></td>
-                                        <td><%--<javatime:format value="${tbCust.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />--%>${tbCust.insertDate}</td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="가입일자입니다.(변경불가)"/>
-                                        </td>
-                                    </tr>
-                                    <tr class="height-50">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="친구수"/></td>
-                                        <td>
-                                            ${tbCust.recommCount} 명
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="친구수 입니다."/>
-                                        </td>
-                                    </tr>
+                        <div class="detail-shell">
 
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.map" text="친구목록"/></td>
-                                        <td>
-                                            <div class="panel-body">
-                                                <table id="testTable" class="display table table-bordered w-100 table-striped  ">
-                                                    <thead>
-                                                    <th class="text-center" style="width: 46px"><spring:message code="list.word.no" text="순번"/></th>
-                                                    <th class="text-center" style="width: 84px;">이름</th>
-                                                    <th class="text-center" style="width: 98px;">전화번호</th>
-                                                    <th class="text-center" style="width: 98px;">이용횟수</th>
-                                                    <th class="text-center" style="width: 98px;">가입일</th>
-                                                    </thead>
+                            <!-- 고객 요약 -->
+                            <div class="detail-section">
+                                <div class="section-head">
+                                    <h4 class="section-title">고객 요약</h4>
+                                </div>
+
+                                <div class="section-body">
+                                    <div class="summary-grid">
+                                        <div class="summary-card">
+                                            <div class="summary-label">로그인 ID</div>
+                                            <div class="summary-value">${tbCust.loginId}</div>
+                                        </div>
+
+                                        <div class="summary-card">
+                                            <div class="summary-label">회원여부</div>
+                                            <div class="summary-value">
+                                                <c:choose>
+                                                    <c:when test="${tbCust.isMember == 1}">
+                                                        <span class="status-green">회원</span>
+                                                    </c:when>
+                                                    <c:when test="${tbCust.isMember == 0}">
+                                                        <span class="status-gray">비회원</span>
+                                                    </c:when>
+                                                    <c:otherwise>-</c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </div>
+                                        <div class="summary-card">
+                                            <div class="summary-label">계정 상태</div>
+                                            <div class="summary-value">
+                                                ${tbCust.insertDate}
+                                            </div>
+                                        </div>
+
+                                        <div class="summary-card">
+                                            <div class="summary-label">누적주문횟수</div>
+                                            <div class="summary-value">${tbCust.useCount} 회</div>
+                                        </div>
+                                        <div class="summary-card">
+                                            <div class="summary-label">추천가맹점명</div>
+                                            <div class="summary-value">
+                                                <c:if test="${tbCust.extRecommStCode}">
+                                                    <span class="badge-code">${tbCust.extRecommStCode}</span>
+                                                </c:if>
+                                                ${tbCust.extRecommStName}
+                                            </div>
+                                        </div>
+                                        <div class="summary-card">
+                                            <div class="summary-label">추천인</div>
+                                            <div class="summary-value">
+                                                <c:choose>
+                                                    <c:when test="${tbCust.recommCustName != null}">
+                                                        ${tbCust.recommCustName} (${tbCust.recommCustTel})
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="muted">추천인 없음</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 상세 정보 -->
+                            <div class="detail-section">
+                                <div class="section-body">
+                                    <div class="info-grid">
+
+                                        <!-- 기본 정보 -->
+                                        <div class="panel-box">
+                                            <div class="panel-box-body">
+                                                <table class="compact-table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>플랫폼 구분</th>
+                                                        <td>
+                                                            <div class="inline-radio-group">
+                                                                <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
+                                                                    <label class="radio-chip">
+                                                                        <input type="radio" name="platformType" value="2" checked>
+                                                                        <span>온동네</span>
+                                                                    </label>
+                                                                </c:if>
+
+                                                                <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                                                    <label class="radio-chip">
+                                                                        <input type="radio" name="platformType" value="1" checked>
+                                                                        <span>제시카</span>
+                                                                    </label>
+                                                                </c:if>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>이름 </th>
+                                                        <td>
+                                                            <input type="text" name="custName" class="form-control" value="${tbCust.custName}">
+                                                            <span class="field-help">고객 이름을 입력하세요.</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>휴대폰 번호</th>
+                                                        <td>
+                                                            <input type="text" name="custTel" class="form-control" value="${tbCust.custTel}">
+                                                            <span class="field-help">고객 이름을 입력하세요.</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>성별</th>
+                                                        <td>
+                                                            <div class="inline-radio-group">
+                                                                <label class="radio-chip">
+                                                                    <input type="radio" name="gender" class="gender" value="M" <c:if test="${tbCust.gender == 'M'}">checked</c:if>>
+                                                                    <span>남자</span>
+                                                                </label>
+
+                                                                <label class="radio-chip">
+                                                                    <input type="radio" name="gender" class="gender" value="F" <c:if test="${tbCust.gender == 'F'}">checked</c:if>>
+                                                                    <span>여자</span>
+                                                                </label>
+
+                                                                <label class="radio-chip">
+                                                                    <input type="radio" name="gender" class="gender" value="N" <c:if test="${tbCust.gender == 'N'}">checked</c:if>>
+                                                                    <span>알수없음</span>
+                                                                </label>
+                                                            </div>
+                                                            <span class="field-help">성별을 선택하세요.</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>계정 상태</th>
+                                                        <td>
+                                                            <div class="inline-radio-group">
+                                                                <label class="radio-chip">
+                                                                    <input type="radio" name="dataStatus" class="dataStatus" value="0" <c:if test="${tbCust.dataStatus == 0}">checked</c:if>>
+                                                                    <span>삭제</span>
+                                                                </label>
+
+                                                                <label class="radio-chip">
+                                                                    <input type="radio" name="dataStatus" class="dataStatus" value="1" <c:if test="${tbCust.dataStatus == 1}">checked</c:if>>
+                                                                    <span>정상</span>
+                                                                </label>
+
+                                                                <label class="radio-chip">
+                                                                    <input type="radio" name="dataStatus" class="dataStatus" value="2" <c:if test="${tbCust.dataStatus == 2}">checked</c:if>>
+                                                                    <span>정지</span>
+                                                                </label>
+                                                            </div>
+                                                            <span class="field-help">계정 상태를 선택하세요.</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>수신 여부</th>
+                                                        <td>
+                                                            <div class="switch-row">
+                                                                <label class="switch-card">
+                                                                    <span>주문 PUSH 수신</span>
+                                                                    <input role="switch" type="checkbox" name="pushOrderYn" class="pushOrderYn" <c:if test="${tbCust.pushOrderYn == 1}">checked</c:if>>
+                                                                </label>
+                                                                <br>
+                                                                <label class="switch-card mt-1">
+                                                                    <span>마케팅 PUSH 수신</span>
+                                                                    <input role="switch" type="checkbox" name="pushMarketingYn" class="pushMarketingYn" <c:if test="${tbCust.pushMarketingYn == 1}">checked</c:if>>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    </tbody>
                                                 </table>
                                             </div>
-                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; overflow: auto; height: 150px;">
-                                                <ul class="attachList p-0" style="margin-bottom:0px;" >
-                                                    <li >
-                                                        <div class="panel-body">
-                                                            <table id="areaTable" class="display table table-bordered w-100 table-striped border-bottom-d4">
-                                                                <tbody>
-                                                                <c:choose>
-                                                                    <c:when test="${friends.size() > 0}">
-                                                                        <c:forEach items="${friends}" var="item" varStatus="status" step="1">
-                                                                            <tr class="" >
-                                                                                <td style="width:46px;" class="text-center">${status.index + 1}</td>
-                                                                                <td style="width:84px" class="text-center">${item.custName}</td>
-                                                                                <td style="width:98px;" class="text-center formatPhone">${item.custTel}</td>
-                                                                                <td style="width:98px;" class="text-center">${item.useCount} 회</td>
-                                                                                <td style="width:98px;" class="text-center">${item.insertdate }</td>
-                                                                            </tr>
-                                                                        </c:forEach>
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <tr class="" >
-                                                                            <td colspan="5" class="text-center border-bottom-0"> 데이터가 없습니다. </td>
-                                                                        </tr>
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.addresssearchautosettingmessage" text="친구추천으로 가입한 친구목록입니다."/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="수신여부"/></td>
-                                        <td>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                              <%--  <th class="bg-light">SMS 수신여부</th>--%>
-                                                <th class="bg-light">주문 PUSH 수신여부</th>
-                                                <%--<th class="bg-light">공지이벤트 PUSH 수신여부</th>--%>
-                                                <th class="bg-light">마케팅 PUSH 수신여부</th>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                   <%-- <td>
-                                                        <label>
-                                                            <input role="switch" type="checkbox" name="smsYn" class="smsYn"   <c:if test="${tbCust.smsYn == 1}">checked</c:if>/>
-                                                            <span>SMS수신</span>
-                                                        </label>
-                                                    </td>--%>
-                                                    <td>
-                                                        <label>
-                                                            <input role="switch" type="checkbox" name="pushOrderYn" class="pushOrderYn" <c:if test="${tbCust.pushOrderYn == 1}">checked</c:if>/>
-                                                            <span>주문 PUSH 수신</span>
-                                                        </label>
-                                                    </td>
-                                                   <%-- <td>
-                                                        <label>
-                                                            <input role="switch" type="checkbox" name="pushNoticeYn" class="pushNoticeYn"  <c:if test="${tbCust.pushNoticeYn == 1}">checked</c:if> />
-                                                            <span>공지이벤트 PUSH 수신</span>
-                                                        </label>
-                                                    </td>--%>
-                                                    <td>
-                                                        <label>
-                                                            <input role="switch" type="checkbox" name="pushMarketingYn" class="pushMarketingYn"   <c:if test="${tbCust.pushMarketingYn == 1}">checked</c:if>/>
-                                                            <span>마케팅 PUSH 수신</span>
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
+                                        </div>
 
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.map" text="지역"/></td>
-                                        <td>
-                                            <div class="panel-body">
-                                                <table id="testTable" class="display table table-bordered w-100 table-striped ">
-                                                    <thead>
-                                                    <th class="text-center" style="width: 46px"><spring:message code="list.word.no" text="순번"/></th>
-                                                    <th class="text-center" style="width: 84px;">시/도</th>
-                                                    <th class="text-center" style="width: 98px;">시/군/구</th>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e;">
-                                                <ul class="attachList p-0" style="margin-bottom:0px;" >
-                                                        <li >
+                                        <!-- 계정 / 추천 정보 -->
+                                        <div class="panel-box">
+                                            <div class="panel-box-body">
+                                                <table class="compact-table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>친구수 (${tbCust.recommCount} 명)</th>
+                                                        <td>
                                                             <div class="panel-body">
-                                                                <table id="areaTable" class="display table table-bordered w-100 table-striped ">
-                                                                    <tbody>
-                                                                    <c:choose>
-                                                                        <c:when test="${tbCustLocation.size() > 0}">
-                                                                            <c:forEach items="${tbCustLocation}" var="item" varStatus="status" step="1">
-                                                                                <tr class="" >
-                                                                                    <td style="width:46px;" class="text-center">${status.index + 1}</td>
-                                                                                    <td style="width:84px" class="text-center">${item.codeName1}</td>
-                                                                                    <td style="width:98px;" class="text-center">${item.codeName2}</td>
-                                                                                </tr>
-                                                                            </c:forEach>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <tr class="" >
-                                                                                <td colspan="3" class="text-center"> 데이터가 없습니다. </td>
-                                                                            </tr>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                    </tbody>
+                                                                <table id="testTable" class="display table table-bordered w-100 table-striped  ">
+                                                                    <thead>
+                                                                    <tr><th class="text-center" style="width: 46px">순번</th>
+                                                                        <th class="text-center" style="width: 84px;">이름</th>
+                                                                        <th class="text-center" style="width: 98px;">전화번호</th>
+                                                                        <th class="text-center" style="width: 98px;">이용횟수</th>
+                                                                        <th class="text-center" style="width: 98px;">가입일</th>
+                                                                    </tr></thead>
                                                                 </table>
                                                             </div>
-                                                        </li>
-                                                    </ul>
+                                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; overflow: auto; height: 89px;">
+                                                                <ul class="attachList p-0" style="margin-bottom:0px;">
+                                                                    <li>
+                                                                        <div class="panel-body">
+                                                                            <table id="areaTable" class="display table table-bordered w-100 table-striped border-bottom-d4">
+                                                                                <tbody>
+
+
+
+                                                                                <c:choose>
+                                                                                    <c:when test="${friends.size() > 0}">
+                                                                                        <c:forEach items="${friends}" var="item" varStatus="status" step="1">
+                                                                                            <tr>
+                                                                                                <td>${status.index + 1}</td>
+                                                                                                <td>${item.custName}</td>
+                                                                                                <td class="formatPhone">${item.custTel}</td>
+                                                                                                <td>${item.useCount} 회</td>
+                                                                                                <td>${item.insertdate}</td>
+                                                                                            </tr>
+                                                                                        </c:forEach>
+                                                                                    </c:when>
+
+                                                                                    <c:otherwise>
+                                                                                        <tr>
+                                                                                            <td colspan="5" class="text-center">데이터가 없습니다.</td>
+                                                                                        </tr>
+                                                                                    </c:otherwise>
+                                                                                </c:choose>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><spring:message code="list.detail.map" text="지역"/></th>
+                                                        <td>
+                                                            <div class="panel-body">
+                                                                <table id="testTable" class="display table table-bordered w-100 table-striped ">
+                                                                    <thead>
+                                                                    <th class="text-center" style="width:46px;"><spring:message code="list.word.no" text="순번"/></th>
+                                                                    <th class="text-center" style="width:54px" >시/도</th>
+                                                                    <th class="text-center" style="width:58px;">시/군/구</th>
+                                                                    </thead>
+                                                                </table>
+                                                            </div>
+                                                            <div class="list m-t-0" style="background-color: #e4e4e4; border:1px solid #9e9e9e; height: 89px;">
+                                                                <ul class="attachList p-0" style="margin-bottom:0px;" >
+                                                                    <li >
+                                                                        <div class="panel-body">
+                                                                            <table id="areaTable" class="display table table-bordered w-100 table-striped ">
+                                                                                <tbody>
+                                                                                <c:choose>
+                                                                                    <c:when test="${tbCustLocation.size() > 0}">
+                                                                                        <c:forEach items="${tbCustLocation}" var="item" varStatus="status" step="1">
+                                                                                            <tr class="" >
+                                                                                                <td style="width:46px;" class="text-center">${status.index + 1}</td>
+                                                                                                <td style="width:54px" class="text-center">${item.codeName1}</td>
+                                                                                                <td style="width:58px;" class="text-center">${item.codeName2}</td>
+                                                                                            </tr>
+                                                                                        </c:forEach>
+                                                                                    </c:when>
+                                                                                    <c:otherwise>
+                                                                                        <tr class="" >
+                                                                                            <td colspan="3" class="text-center"> 데이터가 없습니다. </td>
+                                                                                        </tr>
+                                                                                    </c:otherwise>
+                                                                                </c:choose>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>지역상세</th>
+                                                        <td>
+                                                            <input type="text" class="form-control w-100" name="addr5" value="${tbStore.addr5}" maxlength="200">
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.addresssearchautosettingmessage" text="등록되어있는 시/도 시/군/구입니다 (변경불가)"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.addressdetail" text="주소 상세"/></td>
-                                        <td>
-                                            <label class="m-r-10">
-                                                <input type="text" class="form-control width-400" name="addr5" value="${tbStore.addr5}" maxlength="200">
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker"><spring:message code="list.description.pleaseentertheaddressdetailsifany" text="주소 상세항목이 있으면 입력하세요"/></td>
-                                    </tr>
-                                 <%--   <tr>
-                                       &lt;%&ndash; <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
-                                        <td><input type="text" class="form-control" value="${tbCust.cash}" readonly></td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 캐쉬입니다.(변경불가)"/>
-                                        </td>&ndash;%&gt;
-                                      <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
-                                        <td>
-                                            <table>
-                                               &lt;%&ndash; <tr>
-                                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="캐쉬"/></td>
-                                                    <td ><input type="text" class="form-control" value="${tbCust.cash}" readonly> Cash</td>
-                                                    <td class="text-danger-darker" style="width:25%">
-                                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 캐쉬입니다.(변경불가)"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="마일리지"/></td>
-                                                    <td ><input type="text" class="form-control" value="${tbCust.mileage}" readonly> Mile</td>
-                                                    <td class="text-danger-darker" style="width:30%">
-                                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="고객 보유 마일리지입니다.(변경불가)"/>
-                                                    </td>
-                                                </tr>&ndash;%&gt;
-                                                <tr>
-                                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="잔여포인트"/></td>
-                                                    <td ><input type="text" class="form-control" value="${tbCust.point}" readonly> Point</td>
-                                                    <td class="text-danger-darker" style="width:30%">
-                                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="사용하고 남은 잔여포인트입니다.(변경불가)"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="누적포인트"/></td>
-                                                    <td ><input type="text" class="form-control" value="${tbCust.accPoint}" readonly> Point</td>
-                                                    <td class="text-danger-darker" style="width:30%">
-                                                        <spring:message code="list.description.entertherepresentativebasemessage1" text="현재까지 누적된 포인트입니다.(변경불가)"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text=""/>
-                                        </td>
-                                    </tr>--%>
-                                    <tr>
-                                        <td class="bg-light" width="15%"><spring:message code="list.detail.postclassification1" text="누적주문횟수"/></td>
-                                        <td><input type="text" class="form-control" value="${tbCust.useCount}" readonly> 회</td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="누적된 주문횟수입니다."/>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                        <!-- 주소 / 지역 -->
+                                        <div class="panel-box">
+                                            <div class="panel-box-body d-flex">
+                                                <div class="p-12">
 
-                                   <%-- <tr class="height-50">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="SMS 수신여부"/></td>
-                                        <td>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="smsYn" class="smsYn" value="0" style="margin-right: 5px" <c:if test="${tbCust.smsYn == 0}">checked</c:if>>
-                                                <span><spring:message code="list.detail.tothewhole1" text="거부"/></span>
-                                            </label>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="smsYn" class="smsYn" value="1" style="margin-right: 5px" <c:if test="${tbCust.smsYn == 1}">checked</c:if>>
-                                                <span><spring:message code="list.detail.affiliate1" text="동의"/></span>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="SMS 수신여부를 선택하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="주문 PUSH 수신여부"/></td>
-                                        <td class="height-50">
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="pushOrderYn" class="pushOrderYn" value="0" style="margin-right: 5px" <c:if test="${tbCust.pushOrderYn == 0}">checked</c:if>>
-                                                <span><spring:message code="list.detail.tothewhole1" text="거부"/></span>
-                                            </label>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="pushOrderYn" class="pushOrderYn" value="1" style="margin-right: 5px" <c:if test="${tbCust.pushOrderYn == 1}">checked</c:if>>
-                                                <span><spring:message code="list.detail.affiliate1" text="동의"/></span>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="주문 PUSH 수신여부를 선택하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="공지이벤트 PUSH 수신여부"/></td>
-                                        <td  class="height-50">
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="pushNoticeYn" class="pushNoticeYn" value="0" style="margin-right: 5px" <c:if test="${tbCust.pushNoticeYn == 0}">checked</c:if>>
-                                                <span><spring:message code="list.detail.tothewhole1" text="거부"/></span>
-                                            </label>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="pushNoticeYn" class="pushNoticeYn" value="1" style="margin-right: 5px" <c:if test="${tbCust.pushNoticeYn == 1}">checked</c:if>>
-                                                <span><spring:message code="list.detail.affiliate1" text="동의"/></span>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="공지이벤트 PUSH 수신여부를 선택하세요."/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="마케팅 PUSH 수신여부"/></td>
-                                        <td  class="height-50">
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="pushMarketingYn" class="pushMarketingYn" value="0" style="margin-right: 5px" <c:if test="${tbCust.pushMarketingYn == 0}">checked</c:if>>
-                                                <span><spring:message code="list.detail.tothewhole1" text="거부"/></span>
-                                            </label>
-                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="pushMarketingYn" class="pushMarketingYn" value="1" style="margin-right: 5px" <c:if test="${tbCust.pushMarketingYn == 1}">checked</c:if>>
-                                                <span><spring:message code="list.detail.affiliate1" text="동의"/></span>
-                                            </label>
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="마케팅 PUSH 수신여부를 선택하세요."/>
-                                        </td>
-                                    </tr>--%>
-                                </tbody>
-                            </table>
+                                                    <span class="field-help">등록되어있는 시/도 시/군/구입니다. 변경불가</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
-                        </form>
-                    </div>
-                    <div style="display: flex; align-content: center">
-                        <span>
-                            <button type="button" class="btn btn-primary btn_list m-t-5" style="display: flex; align-items: center">
-                                <i class="fa fa-list"></i>
-                                <span class="m-l-5"><spring:message code="list.detail.list1" text="목록"/></span>
+                    <div class="bottom-actions">
+                        <button type="button" class="btn btn-primary btn_list">
+                            <i class="fa fa-list"></i>
+                            <span class="m-l-5">목록</span>
+                        </button>
+
+                        <c:if test="${permission == 2}">
+                            <button type="button" class="btn btn-primary btn_up">
+                                <i class="fa fa-check"></i>
+                                <span class="m-l-5">수정</span>
                             </button>
-                        </span>
-                        <span style="display: flex; align-items: center; margin-left: auto">
-                              <c:if test="${permission == 2}">
-                                  <button type="button" class="btn btn-primary btn_up m-r-5" style="display: flex; align-items: center">
-                                    <i class="fa fa-check"></i>
-                                    <span class="m-l-5"><spring:message code="list.detail.enrollment1" text="수정"/></span>
-                                </button>
-                              </c:if>
-                        </span>
+                        </c:if>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="default-tab-2">
@@ -762,8 +1014,7 @@
         if (button[0].className.indexOf('buttons-excel') >= 0) {
             if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
                 $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
-            }
-            else {
+            } else {
                 $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
             }
         } else if (button[0].className.indexOf('buttons-print') >= 0) {
@@ -772,209 +1023,244 @@
     };
 
     var newExportAction = function (e, dt, button, config) {
-        let startDate = $(".startDate").val()
-        let endDate = $(".endDate").val()
-        /*if(limitYn ==  && getDateDiff(startDate, endDate) > 365) {
-            alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
-            return;
-        } else {*/
         var self = this;
         var oldStart = dt.settings()[0]._iDisplayStart;
 
         dt.one('preXhr', function (e, s, data) {
-            // Just this once, load all data from the server...
             data.start = 0;
             data.length = 2147483647;
 
             dt.one('preDraw', function (e, settings) {
-                // Call the original action function
                 oldExportAction(self, e, dt, button, config);
 
                 dt.one('preXhr', function (e, s, data) {
-                    // DataTables thinks the first item displayed is index 0, but we're not drawing that.
-                    // Set the property to what it was before exporting.
                     settings._iDisplayStart = oldStart;
                     data.start = oldStart;
                 });
 
-                // Reload the grid with the original page. Otherwise,
-                // API functions like table.cell(this) don't work properly.
-                setTimeout(dt.ajax.reload, 0);
+                setTimeout(function () {
+                    dt.ajax.reload(null, false);
+                }, 0);
 
-                // Prevent rendering of the full data to the DOM
                 return false;
             });
         });
 
-        // Requery the server with the new one-time export settings
         dt.ajax.reload();
-        /* }*/
     };
 
     let table = null;
+
     $(() => {
         table = $("#searchCouponCustTab").DataTable({
-            language :  {
+            language: {
                 lang_set,
                 "processing": "데이터 불러오는 중...",
-                "info": "총 _MAX_ 건",
-            }, //or lang_eng
-            /*   pagingType: "full_numbers",*/
-            /*   pagingType : "full_numbers",*/
-            /* lengthMenu : [ [ 10, 20, 30 ,40], [ 10, 20, 30, 40] ],*/
-            responsive: true,
-            processing:true,
-            bAutoWidth: false,
-            ordering: true,
-            serverSide: true,
-            columns : [
-                {data: "listIndex"},
-                {data: "cuCpnNo"},
-                {data: "cpnTitle"},
-                {data: "cpnCode"},
-                {data: "disTypeText",
-                    render: function (data) {
-                        if(data){
-                            if(data.disType == "1"){
-                                return countString(data.discountAmt,"원");
-                            } else if(data.disType == "2"){
-                                return countString(data.discountAmt,"%");
-                            } else {
-                                return "-";
-                            }
-                        }
-                    }
-                },
-                {data: "cpnUseLimit" ,
-                    render: function (data) {
-                        return countString(data,"원");
-                    }
-                },
-                {data: "maxDisAmt" ,render: function (data) {
-                        return countString(data,"원");
-                    }
-                },
-                {data: "validateFrom"},
-                {data: "validateTo"},
-                {data: "useYnCustom" ,
-                    render: function (data) {
-                      return useYnLimit(data);
-                    }
-                },
-                {data: "useDate",
-                    render: function (data) {
-                        return dateFormat(data);
-                    }},
-                {data: "ordNo"}
-            ],
-            columnDefs: [
-                {targets: "_all", className: "text-center"},
-                {targets: [8,9,10], className: "text-center",
-                    render: function (data) {
-                        if(data){
-                            return dateFormatYYYYMMDD(data);
-                        } else {
-                            return "";
-                        }
-
-                    },
-                },
-                {targets: [3], className: "text-center",
-                    render: function (data) {
-                        if(data){
-                            return data;
-                        } else {
-                            return "";
-                        }
-                    },
-                }
-            ],
-            ajax : {
-                url:"<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon/list/${tbCust.custNo}",
-                type: "GET",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
-                    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                },
-                data: function (res) {
-                    // var formData = objectifyForm($("#form-provide-search").serializeArray());
-                    /*var param = formData;
-
-                    param["periodS"] = param["periodS"].replaceAll("-","").replaceAll("-","");
-                    param["periodE"] = param["periodE"].replaceAll("-","").replaceAll("-","");
-
-                    param["draw"] = res.draw;
-                    param["length"] = res.length;
-                    param["start"] = res.start;
-
-                    param.pageSize = param.testTable_length;
-                    param.pageNo = res.start/res.length + 1;*/
-                    return res;
-                },
-                dataSrc: function(res) {
-                    console.log(data)
-                    // 리스트번호
-                    if(res.data){
-                        var data = res.data;
-                        for (let i = 0; i < data.length; i++) {
-                            data[i].listIndex = i + 1
-                            data[i]["number"] = i;
-                            data[i]["disTypeText"] = {disType : data[i]["disType"] , discountAmt : data[i]["discountAmt"]};
-                            data[i]["useYnCustom"] = {useYn : data[i]["useYn"] , validateTo : data[i]["validateTo"]};
-                        }
-                        res.recordsTotal = res.data.length;
-                        res.recordsFiltered = res.data.length;
-                        return data;
-                    } else {
-                        var data = {};
-                        res.recordsTotal = 0;
-                        res.recordsFiltered = 0;
-                        return data;
-                    }
-                },
-                statusCode: {
-                    200: (response) => {
-                        console.log(response)
-                        // TODO
-                    },
-                    400: (response) => {
-                        console.log(response)
-                        // TODO
-                    },
-                    500: (response) => {
-                        console.log(response)
-                        // TODO
-                    }
-                }
+                "info": "총 _TOTAL_ 건",
+                "infoEmpty": "총 0 건",
+                "emptyTable": "데이터가 없습니다.",
+                "zeroRecords": "검색 결과가 없습니다."
             },
-            layout: {
-                top1: {
-                    searchBuilder: {
-                        liveSearch: true
-                    }
-                }
-            },
+
+            serverSide: false,
+            processing: true,
             paging: false,
-            /*responsive: true,*/
-            dom: '<"row"<"col-sm-12" f><"col-sm-12"B>>t<"row"<"col-sm-12"><"col-sm-12"p>>',
-            //dom: '<"row"<"col-sm-2"l><"col-sm-3"B><"col-sm-7"fr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+            searching: true,
+            ordering: true,
+            responsive: false,
+            bAutoWidth: false,
             scrollCollapse: true,
             scrollY: '50vh',
-            buttons: [
-                /*{ extend: 'copy', text: ' 복사', className: 'btn-sm fa fa-copy' },*/
-                /*   { extend: 'csv', text: ' &nbsp;CSV 다운로드', className: 'btn-sm fa fa-file-csv' },*/
-                { extend: 'excel',
-                    text: '&nbsp; 엑셀 다운로드',
-                    className: 'btn-sm fa fa-file-excel'
-                    ,filename: '엑셀출력_'+moment().format('YYYYMMDDhhmm')
-                    ,title: ''
-                    ,action: newExportAction
+
+            columns: [
+                { data: "listIndex", defaultContent: "" },
+                { data: "cuCpnNo", defaultContent: "" },
+                { data: "cpnTitle", defaultContent: "" },
+                {
+                    data: "cpnCode",
+                    defaultContent: "",
+                    render: function (data) {
+                        return data ? data : "";
+                    }
                 },
-                /*    { extend: 'print',text: ' 프린트', className: 'btn-sm fa fa-print' },*/
+                {
+                    data: "disTypeText",
+                    defaultContent: "",
+                    render: function (data) {
+                        if (!data) {
+                            return "-";
+                        }
+
+                        if (data.disType == "1") {
+                            return countString(data.discountAmt, "원");
+                        }
+
+                        if (data.disType == "2") {
+                            return countString(data.discountAmt, "%");
+                        }
+
+                        return "-";
+                    }
+                },
+                {
+                    data: "cpnUseLimit",
+                    defaultContent: "",
+                    render: function (data) {
+                        if (data === null || data === undefined || data === "") {
+                            return "-";
+                        }
+
+                        return countString(data, "원");
+                    }
+                },
+                {
+                    data: "maxDisAmt",
+                    defaultContent: "",
+                    render: function (data) {
+                        if (data === null || data === undefined || data === "") {
+                            return "-";
+                        }
+
+                        return countString(data, "원");
+                    }
+                },
+                {
+                    data: "validateFrom",
+                    defaultContent: "",
+                    render: function (data) {
+                        if (!data) {
+                            return "";
+                        }
+
+                        return dateFormatYYYYMMDD(data);
+                    }
+                },
+                {
+                    data: "validateTo",
+                    defaultContent: "",
+                    render: function (data) {
+                        if (!data) {
+                            return "";
+                        }
+
+                        return dateFormatYYYYMMDD(data);
+                    }
+                },
+                {
+                    data: "useYnCustom",
+                    defaultContent: "",
+                    render: function (data) {
+                        if (!data) {
+                            return "";
+                        }
+
+                        return useYnLimit(data);
+                    }
+                },
+                {
+                    data: "useDate",
+                    defaultContent: "",
+                    render: function (data) {
+                        if (!data) {
+                            return "";
+                        }
+
+                        return dateFormatYYYYMMDD(data);
+                    }
+                },
+                {
+                    data: "ordNo",
+                    defaultContent: "",
+                    render: function (data) {
+                        return data ? data : "";
+                    }
+                }
             ],
-            initComplete: function (settings, json) {
-                $("#searchCouponCustTab").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
+
+            columnDefs: [
+                {
+                    targets: "_all",
+                    className: "text-center"
+                }
+            ],
+
+            /*
+             * 중요:
+             * ajax 객체 방식이 아니라 함수 방식으로 사용.
+             * 이렇게 하면 DataTables가 ?_=1779781777573 같은 cache busting 파라미터를 붙이지 못함.
+             */
+            ajax: function (data, callback, settings) {
+                $.ajax({
+                    url: "<spring:eval expression="@environment.getProperty('file.momPosServer.server')" />/v1/coupon/list/${tbCust.custNo}?ordPathCd=<spring:eval expression="@environment.getProperty('file.ordPathCd.pickOrder')" />",
+                    type: "GET",
+                    dataType: "json",
+                    cache: true,
+
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
+                    },
+
+                    success: function (res) {
+                        var list = [];
+
+                        if (res && res.data && Array.isArray(res.data)) {
+                            list = res.data;
+
+                            for (let i = 0; i < list.length; i++) {
+                                list[i].listIndex = i + 1;
+                                list[i].number = i;
+
+                                list[i].disTypeText = {
+                                    disType: list[i].disType,
+                                    discountAmt: list[i].discountAmt
+                                };
+
+                                list[i].useYnCustom = {
+                                    useYn: list[i].useYn,
+                                    validateTo: list[i].validateTo
+                                };
+                            }
+                        }
+
+                        callback({
+                            data: list
+                        });
+                    },
+
+                    error: function (xhr, status, error) {
+                        console.error("쿠폰 목록 조회 실패");
+                        console.error("status:", status);
+                        console.error("error:", error);
+                        console.error("response:", xhr.responseText);
+
+                        alert("쿠폰 목록 조회 중 오류가 발생했습니다.");
+
+                        callback({
+                            data: []
+                        });
+                    }
+                });
             },
+
+            dom: '<"row"<"col-sm-12" f><"col-sm-12"B>>t<"row"<"col-sm-12"><"col-sm-12"p>>',
+
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '&nbsp; 엑셀 다운로드',
+                    className: 'btn-sm fa fa-file-excel',
+                    filename: '엑셀출력_' + moment().format('YYYYMMDDHHmm'),
+                    title: ''
+                }
+            ],
+
+            initComplete: function (settings, json) {
+                if (!$("#searchCouponCustTab").parent().hasClass("coupon-table-scroll-wrap")) {
+                    $("#searchCouponCustTab").wrap(
+                        "<div class='coupon-table-scroll-wrap' style='overflow:auto; width:100%; position:relative;'></div>"
+                    );
+                }
+            }
         });
 
         $(".btn_list").click(() => {
@@ -992,11 +1278,8 @@
             let _forms = $('#update_form');
             let req = convertFormToObj(_forms);
 
-
-           /* req.smsYn = (req.smsYn == "on") ? "1": "0";*/
-            req.pushMarketingYn = (req.pushMarketingYn == "on") ? "1": "0";
-            /*req.pushNoticeYn = (req.pushNoticeYn == "on") ? "1": "0";*/
-            req.pushOrderYn = (req.pushOrderYn == "on") ? "1": "0";
+            req.pushMarketingYn = (req.pushMarketingYn == "on") ? "1" : "0";
+            req.pushOrderYn = (req.pushOrderYn == "on") ? "1" : "0";
 
             if (inputDataCheck(req)) {
                 swal({
@@ -1011,18 +1294,26 @@
                     if (isConfirm) {
                         $.ajax({
                             type: "PUT",
-                            url,
+                            url: url,
                             data: JSON.stringify(req),
                             contentType: "application/json",
                             dataType: "json",
                             success: function (data) {
                                 if (data.result == 200) {
                                     alert(updatesussmsg);
-                                    location.href="${path}/board/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName="
+                                    location.href = "${path}/board/cust/list?isMember=&dataStatus=&startDate=2020-01-01&endDate=${now}&custName=";
                                 } else {
                                     alert(editfailed);
                                     return;
                                 }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("고객 수정 실패");
+                                console.error("status:", status);
+                                console.error("error:", error);
+                                console.error("response:", xhr.responseText);
+
+                                alert(editfailed);
                             }
                         });
                     }
@@ -1030,57 +1321,57 @@
             }
         });
 
-        $(".btn_coupon_detail").click(function() {
+        $(".btn_coupon_detail").click(function () {
             let couponNo = $(this).attr('couponNo');
             location.href = "${path}/coupon/management/detail?couponNo=" + couponNo;
         });
 
-
-        $("#selectAddr").click(function() {
-            let word = $(".selectArea2 option:checked").text()
+        $("#selectAddr").click(function () {
+            let word = $(".selectArea2 option:checked").text();
             let code = $(".selectArea2").val();
 
-
             $("#areaTable").append(
-                " <tr >" +
-                "     <td class=\"store_text\">\n" +
-                word+
-                "     </td>\n" +
-                "     <td class=\"store_text\">\n" +
-                word+
-                "     </td>\n" +
-                "     <td class=\"store_text\">\n" +
-                word+
-                "     </td>\n" +
+                " <tr>" +
+                "     <td class=\"store_text\">" + word + "</td>" +
+                "     <td class=\"store_text\">" + word + "</td>" +
+                "     <td class=\"store_text\">" + word + "</td>" +
                 " </tr>"
             );
         });
 
-        $(".selectArea").on("change", function (){
-            // 시/도 선택시
+        $(".selectArea").on("change", function () {
             $.ajax({
                 type: "POST",
                 url: "${path}/api/system/code/area/list",
-                data: {sysType : "A2", sysCode : $(this).val()+"%"},
-                /*contentType: "application/json;",*/
+                data: {
+                    sysType: "A2",
+                    sysCode: $(this).val() + "%"
+                },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     let list = data.systemCodeList;
                     $(".selectArea2").html("");
-                    for(var i = 0 ; i < list.length ; i++){
+
+                    for (var i = 0; i < list.length; i++) {
                         $(".selectArea2").append(
-                            "<option value="+list[i].sysCode+">"+list[i].codeName+"</option>"
-                        )
+                            "<option value='" + list[i].sysCode + "'>" + list[i].codeName + "</option>"
+                        );
                     }
+                },
+                error: function (xhr, status, error) {
+                    console.error("지역 코드 조회 실패");
+                    console.error("status:", status);
+                    console.error("error:", error);
+                    console.error("response:", xhr.responseText);
                 }
             });
         });
-        //searchForm();
     });
 
     function inputDataCheck(args) {
         let emptyCustNameMsg = "<spring:message code="list.script.pleaseenterantitle1" text="이름을 입력해주세요"/>";
         let emptyCustTelMsg = "<spring:message code="list.script.pleaseenterantitle1" text="전화번호를 입력해주세요"/>";
+
         if (isNull(args.custName)) {
             return alert_focus("custName", emptyCustNameMsg);
         } else if (isNull(args.custTel)) {
@@ -1089,18 +1380,19 @@
 
         return true;
     }
+
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     });
 
-
-    function  formatPhone(phone) {
-        if (phone == null || phone.isEmpty()) {
+    function formatPhone(phone) {
+        if (phone == null || phone === "") {
             return "";
         }
 
-        let _phone = phone.trim().replaceAll("-", "");
-        switch (_phone.length()) {
+        let _phone = String(phone).trim().replaceAll("-", "");
+
+        switch (_phone.length) {
             case 10:
                 return _phone.substring(0, 3) + "-" + _phone.substring(3, 6) + "-" + _phone.substring(6);
             case 11:
@@ -1109,6 +1401,7 @@
                 return _phone;
         }
     }
+
 </script>
 </body>
 </html>

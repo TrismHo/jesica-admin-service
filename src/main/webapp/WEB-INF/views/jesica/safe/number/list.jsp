@@ -10,7 +10,7 @@
         <title>Jesicar | 안심번호관리 </title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae | 안심번호관리 </title>
+        <title>온동네 | 안심번호관리 </title>
     </c:if>
 </head>
 <style>

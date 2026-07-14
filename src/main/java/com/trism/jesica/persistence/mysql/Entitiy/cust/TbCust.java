@@ -11,10 +11,11 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +42,12 @@ public class TbCust extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cust_no")
     private Long custNo;
+
+    /**
+     * 서비스 번호
+     */
+    @Column(name = "service_no", nullable = false)
+    private Integer serviceNo = null;
 
     /**
      * 데이터_상태 (0: 삭제, 1: 정상, 2: 정지)
@@ -272,6 +279,10 @@ public class TbCust extends BaseEntity {
     @JoinColumn(name = "cust_no", referencedColumnName = "cust_no", insertable = false, updatable = false)
     @JsonManagedReference
     private TbCustLocation custLocation;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cust_no", referencedColumnName = "cust_no", insertable = false, updatable = false)
+    private List<TbCustSns> snsList = new ArrayList<>();
 
     @Transient
     private String recommCustName;

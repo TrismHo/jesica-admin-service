@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
+        <title>온동네 | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
 </head>
 <style>
@@ -49,7 +49,7 @@
             <!-- end page-header -->
             <!-- begin row -->
 
-                <div class="search-box">
+            <div class="search-box">
                     <div class="inner-search-box p-5">
                         <div class="row">
                             <div class="col-xl-12 col-md-12 ">
@@ -341,6 +341,7 @@
         }
         return true;
     }
+
 </script>
 </body>
 </html>

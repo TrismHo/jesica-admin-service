@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jig-Bae  | <spring:message code="list.detail.detailsofpasorders" text="온동네주문내역"/></title>
+    <title>온동네  | <spring:message code="list.detail.detailsofpasorders" text="온동네주문내역"/></title>
 </head>
 <style>
     .modal.modal-message .modal-body, .modal.modal-message .modal-footer, .modal.modal-message .modal-header {

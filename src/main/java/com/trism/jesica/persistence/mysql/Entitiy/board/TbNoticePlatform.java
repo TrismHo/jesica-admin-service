@@ -1,9 +1,12 @@
 package com.trism.jesica.persistence.mysql.Entitiy.board;
 
 import com.trism.jesica.config.EmptyStringToNullConverter;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppService;
 import com.trism.jesica.persistence.mysql.core.entity.BaseEntity;
 import com.trism.jesica.persistence.mysql.type.DataStatus;
 import lombok.Data;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
@@ -14,6 +17,12 @@ import javax.persistence.*;
 @Data
 @Entity
 public class TbNoticePlatform extends BaseEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="service_no", referencedColumnName="service_no",
+            insertable=false, updatable=false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private TbAppService service;
     private static final long serialVersionUID = 1L;
 
     /**
@@ -29,6 +38,12 @@ public class TbNoticePlatform extends BaseEntity {
      */
     @Column(name = "data_status", nullable = false)
     private DataStatus dataStatus = null;
+
+    /**
+     * 서비스 번호
+     */
+    @Column(name = "service_no", nullable = false)
+    private Integer serviceNo = null;
 
     /**
      * 노출여부(0:숨김, 1:노출)

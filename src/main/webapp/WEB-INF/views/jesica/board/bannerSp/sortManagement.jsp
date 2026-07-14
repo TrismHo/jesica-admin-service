@@ -1,0 +1,111 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<style>
+    ul {
+        list-style: none;
+        padding: 0 4px;
+    }
+    .list li {
+        padding: 5px;
+        background: #F9F9F9;
+    }
+    .list {height: 360px; overflow-y: auto;}
+    .modal-footer {display: block;}
+    a.page-link {padding: 5px 10px;}
+
+.nav-item .nav-link{color:rgba(255,255,255,.65)}.nav.nav-tabs.nav-tabs-inverse .nav-item .nav-link:focus,.nav.nav-tabs.nav-tabs-inverse .nav-item .nav-link:hover{color:#fff}.nav.nav-tabs.nav-tabs-inverse .nav-item .nav-link.active{color:#2d353c}.nav.nav-pills .nav-item .nav-link{padding:.61875rem .9375rem;font-weight:600;color:#6f8293}.nav.nav-pills .nav-item .nav-link:focus,.nav.nav-pills .nav-item .nav-link:hover{color:#2d353c}.nav.nav-pills .nav-item .nav-link.active{color:#fff}@media (max-width:767.98px){.nav-wizards-container{overflow:scroll}.nav-wizards-container .nav.nav-wizards-1,.nav-wizards-container .nav.nav-wizards-2,.nav-wizards-container .nav.nav-wizards-3{min-width:600px}}.nav.nav-wizards-1{-webkit-flex-wrap:nowrap;-ms-flex-wrap:nowrap;flex-wrap:nowrap}.nav.nav-wizards-1 .nav-item{padding:0}.nav.nav-wizards-1 .nav-item .nav-link{position:relative;color:#495057}.nav.nav-wizards-1 .nav-item .nav-link .nav-no{width:40px;height:40px;margin:0 auto;font-weight:600;background:0 0;border:2px solid #ced4da;position:relative;z-index:10;font-size:.875rem;border-radius:40px;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear}.nav.nav-wizards-1 .nav-item .nav-link .nav-text{text-align:center;margin-top:.46875rem;font-weight:600;font-size:.75rem}.nav.nav-wizards-1 .nav-item .nav-link.active,.nav.nav-wizards-1 .nav-item .nav-link.completed{color:#348fe2}.nav.nav-wizards-1 .nav-item .nav-link.active .nav-no,.nav.nav-wizards-1 .nav-item .nav-link.completed .nav-no{border-color:#348fe2;color:#348fe2}.nav.nav-wizards-1 .nav-item .nav-link.active:after,.nav.nav-wizards-1 .nav-item .nav-link.active:before,.nav.nav-wizards-1 .nav-item .nav-link.completed:after,.nav.nav-wizards-1 .nav-item .nav-link.completed:before{background:#348fe2}.nav.nav-wizards-1 .nav-item .nav-link.active:after,.nav.nav-wizards-1 .nav-item .nav-link.completed:after{width:calc(50% - 20px)}.nav.nav-wizards-1 .nav-item .nav-link.active .nav-no{-webkit-box-shadow:0 0 0 5px rgba(52,143,226,.2);box-shadow:0 0 0 5px rgba(52,143,226,.2)}.nav.nav-wizards-1 .nav-item .nav-link.disabled{color:#adb5bd}.nav.nav-wizards-1 .nav-item .nav-link:after,.nav.nav-wizards-1 .nav-item .nav-link:before{content:'';position:absolute;top:1.6875rem;height:2px;background:#ced4da;left:0;right:calc(50% + 20px)}.nav.nav-wizards-1 .nav-item .nav-link:after{left:calc(50% + 20px);right:0;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear}.nav.nav-wizards-1 .nav-item:first-child .nav-link:after,.nav.nav-wizards-1 .nav-item:first-child .nav-link:before{left:calc(50% + 20px)}.nav.nav-wizards-1 .nav-item:last-child .nav-link:before{right:calc(50% + 20px)}.nav.nav-wizards-1 .nav-item:last-child .nav-link.active:before,.nav.nav-wizards-1 .nav-item:last-child .nav-link.completed:before{background:#348fe2}.nav.nav-wizards-1 .nav-item:last-child .nav-link:after{display:none}.nav.nav-wizards-2{-webkit-flex-wrap:nowrap;-ms-flex-wrap:nowrap;flex-wrap:nowrap}.nav.nav-wizards-2 .nav-item{padding:0 1rem}.nav.nav-wizards-2 .nav-item .nav-link{position:relative;color:#2d353c;background:#e9ecef;border-radius:60px}.nav.nav-wizards-2 .nav-item .nav-link .nav-text{text-align:center;font-weight:600;font-size:.75rem;position:relative;z-index:10;background:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nav.nav-wizards-2 .nav-item .nav-link:after,.nav.nav-wizards-2 .nav-item .nav-link:before{content:'';position:absolute;left:-1rem;right:-1rem;height:2px;top:50%;margin-top:-1px;background-color:#e9ecef;-webkit-transition:all .2s linear;-moz-transition:all .2s linear;-ms-transition:all .2s linear;-o-transition:all .2s linear;transition:all .2s linear}.nav.nav-wizards-2 .nav-item .nav-link:after{width:0%;background:#348fe2}.nav.nav-wizards-2 .nav-item .nav-link.disabled{color:#ced4da}.nav.nav-wizards-2 .nav-item .nav-link.active,.nav.nav-wizards-2 .nav-item .nav-link.completed{background:#348fe2;color:#fff}.nav.nav-wizards-2 .nav-item .nav-link.active:after,.nav.nav-wizards-2 .nav-item{}
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0px solid rgba(45,53,60,.15);
+        border-radius: 4px;
+    }
+
+    .modal-content {
+        width: 100% !important;
+    }
+    ul#sortable {
+        border: 1px solid rgb(230, 230, 230);
+        padding: 0;
+        margin: 0;
+    }
+    ul#sortable li {
+        display: flex;
+    }
+    ul#sortable li:not(:last-child) {
+        border-bottom: 1px solid rgb(230, 230, 230);
+    }
+    ul#sortable li div:not(:first-child) {
+        border-left: 1px solid rgb(230, 230, 230);
+        padding: 25px;
+        line-height: 50px;
+    }
+    ul#sortable li div img {
+        width: 200px;
+        height: 100px;
+    }
+    .timeline-body {
+        min-width: 0 !important;
+    }
+    .sort-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        border-color: rgb(240, 240, 240);
+        margin-bottom: 5px;
+    }
+    #sortable tr td:last-child {
+        padding: 5px;
+    }
+    #sortable tr td img {
+        width: 192px;
+        height: 54px;
+    }
+</style>
+
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="panel panel-inverse">
+            <div class="panel-heading ui-sortable-handle"><h4 class="panel-title"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="배너순서관리"/></h4>
+                <div class="panel-heading-btn"><a href="javascript:;"
+                                                  class="btn btn-xs btn-icon btn-circle btn-danger"
+                                                  data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i></a></div>
+            </div>
+        </div>
+        <div class="modal-body" style="padding: 5px;">
+            <form class="store_search_form">
+                <div class="timeline-body">
+                    <div class="timeline-header m-b-5">
+                        <i class="fas fa-lg fa-fw m-r-5 fa-info-circle"></i>
+                        <span id="sortManageTitle"></span>
+                    </div>
+                    <table id="sortTable" class="sort-table" border="1">
+                        <thead>
+                            <tr>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="순서"/></th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="게시판 종류"/></th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="게시글 제목"/></th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="등록일시"/></th>
+                                <th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="이미지"/></th>
+                            </tr>
+                        </thead>
+                        <tbody id="sortable" class="bannerSortList">
+                        </tbody>
+                    </table>
+<%--                    <ul id="sortable" class="bannerSortList m-b-10"></ul>--%>
+                    <div class="no-sort-item"></div>
+                    <small id="explain" style="font-size: 13px"><th><spring:message code="sidemenu.boardmanagement.delivernotice1" text="* 드래그로 순서변경이 가능합니다."/></th></small>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-grey float-right storeModalCloseBtn" data-dismiss="modal"><spring:message code="sidemenu.boardmanagement.delivernotice1" text="닫기"/></button>
+        </div>
+    </div>
+</div>
+

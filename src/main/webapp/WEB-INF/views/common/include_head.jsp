@@ -46,8 +46,9 @@
 <c:set var="servletPath" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<meta content="" name="description"/>
-<meta content="" name="author"/>
+<meta property="og:title" content="온동네 | 앱관리자" />
+<meta property="og:description" content="온동네 앱 관리자 사이트" />
+<meta property="og:type" content="website" />
 
 <%--<meta name="_csrf" id="_csrf" content="${_csrf.token}"/>--%>
 <%--<meta name="_csrf_header" id="_csrf_header" content="${_csrf.headerName}"/>--%>
@@ -63,11 +64,11 @@
 <!-- ================== END BASE CSS STYLE ================== -->
 <link href="${path}/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
 <link href="${path}/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />
-<link href="${path}/assets/plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<%--<link href="${path}/assets/plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">--%>
 <link href="${path}/assets/plugins/tag-it/css/jquery.tagit.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
 <link href="${path}/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
-<link rel="icon" href="${path}/assets/img/icon/icon.png"/>
+<%--<link rel="icon" href="${path}/assets/img/icon/icon.png"/>--%>
 
 <%--운영--%>
 <c:set var="documentURL" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
@@ -75,7 +76,7 @@
 <%--태스트--%>
 <c:set var="servletPath" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 
-
+<link rel="icon" href="/ondongne_pavicon.ico" />
 <link href="${path}/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.css" rel="stylesheet" />
 <link href="${path}/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 <link href="${path}/assets/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.css" rel="stylesheet" />

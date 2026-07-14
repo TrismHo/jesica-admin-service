@@ -1,10 +1,12 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.ApiService;
+import com.trism.jesica.Service.AppServiceService;
 import com.trism.jesica.Service.AuthService;
 import com.trism.jesica.Service.BoardService;
 import com.trism.jesica.Util.DateUtil;
 import com.trism.jesica.dto.TbAppBannerLocationDTO;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppService;
 import com.trism.jesica.persistence.mysql.Entitiy.board.TbAppBanner;
 import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticeCompany;
 import com.trism.jesica.persistence.mysql.Entitiy.board.TbNoticePlatform;
@@ -38,6 +40,7 @@ public class BoardController {
     private final ApiService apiService;
     private final AuthService authService;
     private final BoardService boardService;
+    private final AppServiceService serviceService;
 
     /**
      * 블록배달리스트
@@ -52,8 +55,11 @@ public class BoardController {
 
         searchValue.put("appCode",map.get("appCode"));
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        List<TbAppService> appServiceList = apiService.getAppServiceList();
         model.addAttribute("appVersionList",appVersionList);
-        searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+        model.addAttribute("appServiceList",appServiceList);
+        //searchValue.put("startDate",DateUtil.now_yyyy_mm_dd_month());
+        searchValue.put("startDate","2020-01-01");
         searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("permission",map.get("permission"));
@@ -85,7 +91,9 @@ public class BoardController {
         Map<String,Object> map = permission(session,"board/cust");
 
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        List<TbAppService> appServiceList = apiService.getAppServiceList();
         model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appServiceList",appServiceList);
         model.addAttribute("appCode",map.get("appCode"));
         model.addAttribute("permission",map.get("permission"));
         model.addAttribute("downloadAble",map.get("downloadAble"));
@@ -95,10 +103,11 @@ public class BoardController {
     @GetMapping("/platform/detail")
     public ModelAndView detailformPlatformNotice(@RequestParam("noticeNo") Long noticeNo , Model model, HttpSession session) {
         Map<String,Object> map = permission(session,"board/platform");
-
+        List<TbAppService> appServiceList = apiService.getAppServiceList();
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         model.addAttribute("appVersionList",appVersionList);
         model.addAttribute("appCode",map.get("appCode"));
+        model.addAttribute("appServiceList",appServiceList);
 
         log.info("noticeNo :: {}",noticeNo);
         try {
@@ -217,7 +226,11 @@ public class BoardController {
             searchValue.put("platformType",map.get("platformType"));
             searchValue.put("appCode",map.get("appCode"));
             List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            List<TbAppService> appServiceList = apiService.getAppServiceList();
+
             model.addAttribute("appVersionList",appVersionList);
+            model.addAttribute("appServiceList",appServiceList);
+
             List<TbEvent> resultList =  boardService.tbEventSearch(searchValue);
             model.addAttribute("tbEventList", resultList);
             model.addAttribute("permission",map.get("permission"));
@@ -233,9 +246,10 @@ public class BoardController {
     @GetMapping("/event/insert")
     public ModelAndView insertEvent(Model model, HttpSession session) {
         Map<String,Object> map = permission(session,"board/event");
-
+        List<TbAppService> appServiceList = apiService.getAppServiceList();
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
         model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appServiceList",appServiceList);
         model.addAttribute("appCode",map.get("appCode"));
         model.addAttribute("permission",map.get("permission"));
         model.addAttribute("downloadAble",map.get("downloadAble"));
@@ -246,8 +260,9 @@ public class BoardController {
     public ModelAndView detailEvent(@RequestParam("eventNo") Long eventNo , Model model, HttpSession session) {
         log.info("eventNo :: {}",eventNo);
         Map<String,Object> map = permission(session,"board/event");
-
+        List<TbAppService> appServiceList = apiService.getAppServiceList();
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        model.addAttribute("appServiceList",appServiceList);
         model.addAttribute("appVersionList",appVersionList);
         model.addAttribute("appCode",map.get("appCode"));
       /*  try {
@@ -303,65 +318,63 @@ public class BoardController {
     }
 
     @GetMapping("/banner/list")
-    public ModelAndView listAppBanner(@RequestParam Map<String,Object> searchValue,
-                                          Model model, HttpSession session) {
-        log.info("@@searchValue {}",searchValue);
-        Map<String,Object> map = permission(session,"board/banner");
+    public ModelAndView listAppBanner(
+            @RequestParam(required = false) Long appService,
+            Model model,
+            HttpSession session
+    ) {
+        Map<String, Object> map = permission(session, "board/banner");
+
         try {
-            if (ObjectUtils.isNotEmpty(searchValue)) {
+            model.addAttribute("appServiceList", serviceService.getServiceList());
+            model.addAttribute("appVersionList", apiService.systemCodeList("AC"));
 
-            } else {
-                searchValue = getSearchOption(session);
-                searchValue.put("startDate","2020-01-01");
-                searchValue.put("endDate", DateUtil.now_yyyy_mm_dd());
-                searchValue.put("serviceType", "0");
-                searchValue.put("dataStatus", "OK");
-                searchValue.put("appCode",map.get("appCode"));
-            }
-                searchValue.put("platformType",map.get("platformType"));
-           /*     searchValue.put("appCode",map.get("appCode"));*/
+            Map<String, Object> viewSearchValue = new HashMap<>();
+            viewSearchValue.put("serviceNo", appService); // JSP selected 유지용
+            model.addAttribute("searchValue", viewSearchValue);
 
-
-            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
-            List<HashMap<String, String>> appCodeList = new ArrayList<>();
-            for(TbSystemCode appList : appVersionList){
-                HashMap<String, String> appMap = new HashMap<>();
-                appMap.put("codeName",appList.getCodeName());
-                appMap.put("sysCode",appList.getSysCode());
-                appCodeList.add(appMap);
-            }
-            model.addAttribute("appCodeList",appCodeList);
-            model.addAttribute("appVersionList",appVersionList);
-            List<TbAppBanner> tbAppBannerList = boardService.tbAppBannerSearch(searchValue);
-            log.info("tbAppBannerList::[{}]", tbAppBannerList);
-
-            if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
-                List<TbAppBanner> tbAppBannerListNew = new ArrayList<>();
-
-                for (TbAppBanner tbAppBanner : tbAppBannerList) {
-                    String url = "";
-
-                    if (tbAppBanner.getBannerFile() != null) {
-                        url = URLEncoder.encode(tbAppBanner.getBannerFile(), "UTF-8");
-                    }
-                    tbAppBanner.setBannerFile(url);
-                    tbAppBannerListNew.add(tbAppBanner);
-                }
-                model.addAttribute("bannerList", tbAppBannerListNew);
-            } else {
-                model.addAttribute("bannerList", null);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        model.addAttribute("searchValue", searchValue);
-        model.addAttribute("permission",map.get("permission"));
-        model.addAttribute("downloadAble",map.get("downloadAble"));
-
-
+        model.addAttribute("permission", map.get("permission"));
+        model.addAttribute("downloadAble", map.get("downloadAble"));
         return new ModelAndView("jesica/board/banner/list");
+    }
+
+    @GetMapping("/bannerSp/list")
+    public ModelAndView listAppBannerSp(
+            @RequestParam(required = false) Long appService,
+            Model model,
+            HttpSession session
+    ) {
+        Map<String, Object> map = permission(session, "board/banner");
+
+        try {
+            List<TbSystemCode> sidoList = apiService.systemCodeList("A1");
+            List<HashMap<String, String>> areaArray = new ArrayList<>();
+            for(TbSystemCode areaList : sidoList){
+                HashMap<String, String> appMap = new HashMap<>();
+                appMap.put("locationName",areaList.getCodeName());
+                appMap.put("locationNo",areaList.getSysCode());
+                areaArray.add(appMap);
+            }
+
+            /*model.addAttribute("appServiceList", serviceService.getServiceList());*/
+            model.addAttribute("locationList", areaArray);
+            model.addAttribute("appVersionList", apiService.systemCodeList("AC"));
+
+            Map<String, Object> viewSearchValue = new HashMap<>();
+            viewSearchValue.put("serviceNo", appService); // JSP selected 유지용
+            model.addAttribute("searchValue", viewSearchValue);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("permission", map.get("permission"));
+        model.addAttribute("downloadAble", map.get("downloadAble"));
+        return new ModelAndView("jesica/board/bannerSp/list");
     }
 
     @GetMapping("/banner/insert")
@@ -374,8 +387,10 @@ public class BoardController {
         //List<TbAppVersion> appVersionList = apiService.getAppVersionListTypeOne(appCode);
 
         List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        List<TbAppService> appServiceList = apiService.getAppServiceList();
         model.addAttribute("appVersionList",appVersionList);
 
+        model.addAttribute("appServiceList" , appServiceList);
         model.addAttribute("sysCodeList" , sysCodeList);
         model.addAttribute("sysCodeList2" , sysCodeList2);
         model.addAttribute("sysLangCode",sysLangCode);
@@ -385,6 +400,31 @@ public class BoardController {
         model.addAttribute("downloadAble",map.get("downloadAble"));
 
         return new ModelAndView("jesica/board/banner/insert");
+    }
+
+    @GetMapping("/bannerSp/insert")
+    public ModelAndView insertAppBannerSp(Model model, HttpSession session) {
+        Map<String,Object> map = permission(session,"board/banner");
+
+        List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
+        List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
+        List<TbSystemCode> sysLangCode = apiService.systemCodeList("LANG");
+        //List<TbAppVersion> appVersionList = apiService.getAppVersionListTypeOne(appCode);
+
+        List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+        List<TbAppService> appServiceList = apiService.getAppServiceList();
+        model.addAttribute("appVersionList",appVersionList);
+
+        model.addAttribute("appServiceList" , appServiceList);
+        model.addAttribute("sysCodeList" , sysCodeList);
+        model.addAttribute("sysCodeList2" , sysCodeList2);
+        model.addAttribute("sysLangCode",sysLangCode);
+        model.addAttribute("appVersionList",appVersionList);
+        model.addAttribute("appCode",map.get("appCode"));
+        model.addAttribute("permission",map.get("permission"));
+        model.addAttribute("downloadAble",map.get("downloadAble"));
+
+        return new ModelAndView("jesica/board/bannerSp/insert");
     }
 
     @GetMapping("/banner/detail")
@@ -399,14 +439,13 @@ public class BoardController {
             List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
             List<TbSystemCode> sysLangCode = apiService.systemCodeList("LANG");
             //List<TbAppVersion> appVersionList = apiService.getAppVersionListTypeOne(appCode);
-
+            List<TbAppService> appServiceList = apiService.getAppServiceList();
             List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
             model.addAttribute("appVersionList",appVersionList);
-
+            model.addAttribute("appServiceList" , appServiceList);
             model.addAttribute("sysCodeList" , sysCodeList);
             model.addAttribute("sysCodeList2" , sysCodeList2);
             model.addAttribute("sysLangCode",sysLangCode);
-            model.addAttribute("appVersionList",appVersionList);
             model.addAttribute("appCode",map.get("appCode"));
 
             String url = "";
@@ -428,6 +467,48 @@ public class BoardController {
         }
 
         return new ModelAndView("jesica/board/banner/detail");
+    }
+
+    @GetMapping("/bannerSp/detail")
+    public ModelAndView detailAppBannerSp(@RequestParam("bannerNo") Long bannerNo, Model model, HttpSession session) {
+        log.info("bannerNo:: ", bannerNo);
+        Map<String,Object> map = permission(session,"board/banner");
+
+        try {
+            TbAppBanner tbAppBanner = boardService.tbAppBannerDetail(bannerNo);
+            List<TbAppBannerLocationDTO> tbAppBannerLocation = boardService.getAppBannerLocation(bannerNo);
+            List<TbSystemCode> sysCodeList =  apiService.systemCodeList("A1");
+            List<TbSystemCode> sysCodeList2 =  apiService.systemCodeList("A2","11%");
+            List<TbSystemCode> sysLangCode = apiService.systemCodeList("LANG");
+            //List<TbAppVersion> appVersionList = apiService.getAppVersionListTypeOne(appCode);
+            List<TbAppService> appServiceList = apiService.getAppServiceList();
+            List<TbSystemCode> appVersionList = apiService.systemCodeList("AC");
+            model.addAttribute("appVersionList",appVersionList);
+            model.addAttribute("appServiceList" , appServiceList);
+            model.addAttribute("sysCodeList" , sysCodeList);
+            model.addAttribute("sysCodeList2" , sysCodeList2);
+            model.addAttribute("sysLangCode",sysLangCode);
+            model.addAttribute("appCode",map.get("appCode"));
+
+            String url = "";
+            if (ObjectUtils.isNotEmpty(tbAppBanner.getBannerFile())) {
+                url = URLEncoder.encode(tbAppBanner.getBannerFile(), "UTF-8");
+            }
+            if (ObjectUtils.isNotEmpty(tbAppBannerLocation)) {
+                model.addAttribute("appBannerLocation" , tbAppBannerLocation);
+            } else {
+                model.addAttribute("appBannerLocation" , null);
+            }
+
+            model.addAttribute("tbAppBanner", tbAppBanner);
+            model.addAttribute("imgFile", url);
+            model.addAttribute("permission",map.get("permission"));
+            model.addAttribute("downloadAble",map.get("downloadAble"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("jesica/board/bannerSp/detail");
     }
 
     @GetMapping("/management/list")

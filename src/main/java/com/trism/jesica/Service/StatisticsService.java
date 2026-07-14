@@ -118,13 +118,14 @@ public class StatisticsService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> getMannaLineDayList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String brandTypeCd, String ordStatus) {
-        return tbMannaOrderRepository.getMannaLineDayList(startDate, endDate, ordPathCd, brCode, brandTypeCd, ordStatus);
+    public List<Map<String, Object>> getMannaLineDayList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String brandTypeCd, String ordStatus, String ordType) {
+        return tbMannaOrderRepository.getMannaLineDayList(startDate, endDate, ordPathCd, brCode, brandTypeCd, ordStatus, ordType);
     }
 
+
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> getMannaLineWeekList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode,String brandTypeCd, String ordStatus) {
-        return tbMannaOrderRepository.getMannaLineWeekList(startDate, endDate, ordPathCd, brCode,brandTypeCd, ordStatus);
+    public List<Map<String, Object>> getMannaLineWeekList(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode,String brandTypeCd, String ordStatus, String ordType) {
+        return tbMannaOrderRepository.getMannaLineWeekList(startDate, endDate, ordPathCd, brCode,brandTypeCd, ordStatus, ordType);
     }
 
     /*@Transactional(readOnly = true)
@@ -181,13 +182,13 @@ public class StatisticsService {
     }
 
     @Transactional(readOnly = true)
-    public Map<String, Object> getMannaOrderListPage(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String ordStatus, String brandTypeCd, Pageable pageable, String dayType) {
+    public Map<String, Object> getMannaOrderListPage(LocalDateTime startDate, LocalDateTime endDate, String ordPathCd, String brCode, String ordStatus, String brandTypeCd, Pageable pageable, String dayType, String ordType) {
         Map<String, Object> map = new HashMap<>();
         Page<Map<String, Object>> tbMannaOrderList = null;
         if("2".equals(dayType)){
-            tbMannaOrderList = tbMannaOrderRepository.getMannaOrderDayListPage(startDate, endDate, ordPathCd, brCode, ordStatus, brandTypeCd, pageable);
+            tbMannaOrderList = tbMannaOrderRepository.getMannaOrderDayListPage(startDate, endDate, ordPathCd, brCode, ordStatus, brandTypeCd,ordType, pageable);
         } else {
-            tbMannaOrderList = tbMannaOrderRepository.getMannaOrderWeekListPage(startDate, endDate, ordPathCd, brCode, ordStatus, brandTypeCd, pageable);
+            tbMannaOrderList = tbMannaOrderRepository.getMannaOrderWeekListPage(startDate, endDate, ordPathCd, brCode, ordStatus, brandTypeCd,ordType, pageable);
         }
 
 

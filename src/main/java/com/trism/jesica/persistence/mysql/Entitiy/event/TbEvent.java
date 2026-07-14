@@ -3,11 +3,14 @@ package com.trism.jesica.persistence.mysql.Entitiy.event;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.trism.jesica.config.EmptyStringToNullConverter;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppService;
 import com.trism.jesica.persistence.mysql.core.entity.CreatedDateEntity;
 import com.trism.jesica.persistence.mysql.type.DataStatus;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +24,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class TbEvent extends CreatedDateEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="service_no", referencedColumnName="service_no",
+            insertable=false, updatable=false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private TbAppService service;
     private static final long serialVersionUID = 1L;
 
     /**
@@ -30,6 +39,12 @@ public class TbEvent extends CreatedDateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_no", insertable = false, nullable = false)
     private Long eventNo;
+
+    /**
+     * 서비스 번호
+     */
+    @Column(name = "service_no", nullable = false)
+    private Integer serviceNo = null;
 
     /**
      * 데이터_상태 (0: 삭제, 1: 정상)

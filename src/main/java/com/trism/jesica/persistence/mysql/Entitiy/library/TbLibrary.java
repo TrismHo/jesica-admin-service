@@ -3,6 +3,7 @@ package com.trism.jesica.persistence.mysql.Entitiy.library;
 import com.trism.jesica.config.EmptyStringToNullConverter;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -63,17 +64,13 @@ public class TbLibrary implements Serializable {
     /**
      * 등록일
      */
-    @Column(name = "insert_date", updatable = false, nullable = false)
     @CreatedDate
+    @Column(name = "insert_date", updatable = false, nullable = false)
     private LocalDateTime insertDate;
 
-    /**
-     * 수정일
-     */
-    @Column(name = "update_date", updatable = false, nullable = false)
-    @CreatedDate
+    @LastModifiedDate
+    @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDate;
-
     /**
      * 등록자ID
      */
@@ -113,4 +110,10 @@ public class TbLibrary implements Serializable {
      */
     @Column(name = "file_type")
     private Integer fileType;
+
+    /**
+     * 업종
+     */
+    @Column(name = "shop_type")
+    private Integer shopType;
 }

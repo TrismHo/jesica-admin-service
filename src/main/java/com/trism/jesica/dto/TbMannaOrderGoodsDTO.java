@@ -75,6 +75,16 @@ public interface TbMannaOrderGoodsDTO {
      */
     Integer getOption4Price();
 
+    /**
+     * 할인 가격
+     */
+    Integer getOrdDnPrice();
+
+    /**
+     * 가격구분( 1: 정상가 , 2: 할인가)
+     */
+    String getOrdPriceType();
+
 
 
 }

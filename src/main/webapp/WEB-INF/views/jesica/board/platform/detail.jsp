@@ -9,9 +9,29 @@
         <title>Jesicar | <spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae  | <spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지"/></title>
+        <title>온동네  | <spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지"/></title>
     </c:if>
 </head>
+<style >
+    .compact-table th {
+        width: 140px;
+        background: #fcfcfd;
+        color: #6b7280;
+        font-weight: 700;
+    }
+
+    .compact-table td {
+        color: #222;
+        font-weight: 500;
+        background: #fff;
+    }
+    .panel-box {
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+
+</style>
+
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>
@@ -29,19 +49,24 @@
     <!-- end #sidebar -->
 
     <!-- begin #content -->
-    <div id="content" class="content p-0">
-        <div class="col-xl-12">
-            <div class="p-t-20 p-b-0">
-                <ol class="breadcrumb float-xl-right p-r-10">
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/><%--가맹점 설정--%></a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/><%--상품--%></a></li>
+    <div id="content" class="content p-20">
+        <div class="notice-detail-page">
+            <div class="notice-detail-header">
+                <ol class="breadcrumb float-xl-right p-r-10 m-b-10">
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement" text="게시판 관리"/></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"><spring:message code="sidemenu.boardmanagement.platformannouncement" text="플랫폼 공지"/></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지 상세"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지 상세"/></h3>
+                <h3 class="notice-detail-title"><spring:message code="list.detail.platformnoticedetail" text="플랫폼 공지 상세"/></h3>
             </div>
-            <div class="row width-full p-5">
-                <div class="panel panel-inverse width-full">
-                    <div class="table-responsive m-l-5">
+
+            <div class="detail-shell">
+                <div class="detail-section">
+                    <div class="section-head">
+                        <h4 class="section-title">공지 기본 정보</h4>
+                    </div>
+
+                    <div class="section-body">
                         <form name="update_form" id="update_form" class="update_form">
                             <input type="hidden" class="updateUserId" name="updateUserId" value="${sessionScope.sessionKey.userLoginId}">
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${tbNoticePlatform.insertUserId}">
@@ -49,156 +74,135 @@
                             <input type="hidden" name="dataStatus" value="${tbNoticePlatform.dataStatus}">
                             <input type="hidden" name="platformType" value="${tbNoticePlatform.platformType}">
                             <input type="hidden" name="groupType" value="${tbNoticePlatform.groupType}">
-                            <table class="table table-bordered">
-                                <tbody>
-                               <%-- <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="게시물 구분"/></td>
-                                    <td>
-                                        &lt;%&ndash; <label class="m-r-10 ">
-                                             <input type="radio" name="groupType" value="0" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 0}">checked</c:if>> <spring:message code="list.detail.tothewhole" text="전체에게"/>
-                                         </label>&ndash;%&gt;
 
-                                        <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                            <label class="m-r-10 ">
-                                                <input type="radio" name="groupType" value="5" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
-                                            </label>
-                                        </c:if>
-                                        <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-                                            <label class="m-r-10 ">
-                                                <input type="radio" name="groupType" value="5" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 5}">checked</c:if>> <spring:message code="list.detail.affiliate사1" text="고객"/>
-                                            </label>
-                                            <label class="">
-                                                <input type="radio" name="groupType" value="4" class="align-bottom" <c:if test="${tbNoticePlatform.groupType == 4}">checked</c:if>> <spring:message code="list.detail.deliveryman1" text="드라이버"/>
-                                            </label>
-                                        </c:if>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification" text="플랫폼 구분"/></td>
-                                    <td>
-                                        &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="platformType" value="0" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 0}">checked</c:if>>
-                                            <span><spring:message code="list.detail.affiliate1" text="사용안함"/></span>
-                                        </label>&ndash;%&gt;
-                                            <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" checked>
-                                                    <span><spring:message code="list.detail.deliveryman1" text="직배"/></span>
-                                                </label>
+                            <div class="main-grid">
+                                <div>
+                                    <div class="panel-box">
+                                        <div class="panel-box-head">노출 및 서비스 설정</div>
+                                        <table class="compact-table">
+                                            <tbody>
+                                            <tr>
+                                                <th>앱코드</th>
+                                                <td>
+                                                    <c:if test="${empty appCode}">
+                                                        <select name="appCode" class="form-control" style="max-width: 240px;">
+                                                            <c:forEach var="appCodeList" items="${appVersionList}">
+                                                                <option value="${appCodeList.sysCode}" <c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>
+                                                                        ${appCodeList.codeName}
+                                                                </option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </c:if>
+                                                    <c:if test="${!empty appCode}">
+                                                        <input type="text" class="form-control" name="appCode" readonly value="${tbNoticePlatform.appCode}" style="max-width: 240px;">
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>서비스지역</th>
+                                                <td>
+                                                    <select name="serviceNo" class="form-control" style="max-width: 240px;">
+                                                        <c:forEach var="serviceList" items="${appServiceList}">
+                                                            <option value="${serviceList.serviceNo}" <c:if test="${tbNoticePlatform.serviceNo == serviceList.serviceNo}">selected</c:if>>
+                                                                    ${serviceList.serviceName}
+                                                            </option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>제목</th>
+                                                <td>
+                                                    <input type="text" name="title" value="${tbNoticePlatform.title}" class="form-control width-full title" maxlength="150">
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="panel-box">
+                                        <div class="panel-box-head">등록 정보</div>
+                                        <table class="compact-table">
+                                            <tbody>
+                                            <tr>
+                                                <th>등록 사용자</th>
+                                                <td class="meta-text">
+                                                    ${tbNoticePlatform.insertUserId}
+                                                    (<javatime:format value="${tbNoticePlatform.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
+                                                </td>
+                                            </tr>
+                                            <c:if test="${tbNoticePlatform.updateDate != null && tbNoticePlatform.updateDate != ''}">
+                                                <tr>
+                                                    <th>수정 사용자</th>
+                                                    <td class="meta-text">
+                                                            ${tbNoticePlatform.updateUserId}
+                                                        (<javatime:format value="${tbNoticePlatform.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
+                                                    </td>
+                                                </tr>
                                             </c:if>
-                                            <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" checked>
-                                                    <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
-                                                </label>
-                                            </c:if>
-                                        &lt;%&ndash;<label class="m-r-10" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="platformType" value="1" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 1}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="제시카"/></span>
-                                        </label>
-                                        <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="platformType" value="2" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 2}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="양파오더"/></span>
-                                        </label>
-                                        <label class="" style="display: inline-flex; align-items: center">
-                                            <input type="radio" name="platformType" value="3" class="m-t-1 m-r-3" <c:if test="${tbNoticePlatform.platformType == 3}">checked</c:if>>
-                                            <span><spring:message code="list.detail.deliveryman1" text="세날"/></span>
-                                        </label>&ndash;%&gt;
-                                    </td>
-                                </tr>--%>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱코드"/></td>
-                                    <td>
-                                        <c:if test="${empty appCode}">
-                                            <select name="appCode" class="form-control w-25" >
-                                                <option value="">전체</option>
-                                                <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                    <option value="${appCodeList.sysCode}"<c:if test="${tbNoticePlatform.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
-                                                </c:forEach>
-                                            </select>
-                                        </c:if>
-                                        <c:if test="${!empty appCode}">
-                                            <input type="text" class="form-control" name="appCode" readonly value="${tbNoticePlatform.appCode}">
-                                        </c:if>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.checkexposure" text="노출여부"/></td>
-                                    <td>
-                                        <label class="m-r-10 ">
-                                            <input type="radio" name="viewYn" value="0" class="align-bottom" <c:if test="${tbNoticePlatform.viewYn == 0}">checked</c:if>> <spring:message code="list.detail.hide" text="숨김"/>
-                                        </label>
-                                        <label class="m-r-10 ">
-                                            <input type="radio" name="viewYn" value="1" class="align-bottom" <c:if test="${tbNoticePlatform.viewYn == 1}">checked</c:if>> <spring:message code="list.detail.exposure" text="노출"/>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.title" text="제목"/></td>
-                                    <td><input type="text" name="title" value="${tbNoticePlatform.title}" class="form-control width-full title" maxlength="150"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.contents" text="내용"/></td>
-                                    <td>
-                                        <textarea  id="body"  class="form-control width-full ckeditor" rows="20">${tbNoticePlatform.body}</textarea>
-                                        <textarea style="display: none;"  name="body"  class="body" rows="10">${tbNoticePlatform.body}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="등록 사용자(등록일)"/></td>
-                                    <td>
-                                        <label class="m-r-10 ">
-                                            ${tbNoticePlatform.insertUserId} (<javatime:format value="${tbNoticePlatform.insertDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
-                                        </label>
-                                    </td>
-                                </tr>
-                                <c:if test="${tbNoticePlatform.updateDate != null && tbNoticePlatform.updateDate != '' }">
+                                            <tr>
+                                                <th>공지번호</th>
+                                                <td>${tbNoticePlatform.noticeNo}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>노출여부</th>
+                                                <td>
+                                                    <div class="radio-group">
+                                                        <label>
+                                                            <input type="radio" name="viewYn" value="0" <c:if test="${tbNoticePlatform.viewYn == 0}">checked</c:if>>
+                                                            <span>숨김</span>
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="viewYn" value="1" <c:if test="${tbNoticePlatform.viewYn == 1}">checked</c:if>>
+                                                            <span>노출</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel-box" style="margin-top: 10px;">
+                                <div class="panel-box-head">공지 내용</div>
+                                <table class="compact-table">
+                                    <tbody>
                                     <tr>
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="수정 사용자(수정일)"/></td>
-                                        <td>
-                                            <label class="m-r-10 ">
-                                                    ${tbNoticePlatform.updateUserId} (<javatime:format value="${tbNoticePlatform.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" />)
-                                            </label>
+                                        <td class="p-0">
+                                            <textarea id="body" class="form-control width-full ckeditor" rows="20">${tbNoticePlatform.body}</textarea>
+                                            <textarea style="display:none;" name="body" class="body" rows="10">${tbNoticePlatform.body}</textarea>
                                         </td>
                                     </tr>
-                                </c:if>
-                                <%-- <tr>
-                                     <td class="bg-light">첨부파일&lt;%&ndash;<spring:message code="merchandise.insert.storesalestatus" text="default text"/>&ndash;%&gt;&lt;%&ndash;매장 판매상태&ndash;%&gt;</td>
-                                     <td>
-                                         <div class="category_sort">
-                                             <ul class="sort_list">
-                                                 <li>
-                                                     <div class="sort_body" id="sort_body">
-                                                         <img class="width-full" src="data:image/png;base64,${thumbNail}" onerror="this.src='${path}/assets/img/logo/logo-noimg.gif'">
-                                                     </div>
-                                                 </li>
-                                                 <li>
-                                                     * 권장 이미지 비율 : 984*876<br><br>
-                                                     <div class="fileName"></div>
-                                                     <br>
-                                                     <div class="fileSize"></div>
-                                                 </li>
-                                             </ul>
-                                             <label for="imgFile">
-                                                 <div id="button_base" class="button_base b03_skewed_slide_in btn btn-primary">
-                                                     <div>파일선택</div>
-                                                 </div>
-                                             </label>
-                                             <input type="file" id="imgFile" name="imgFile" class="fileBtn d-none">
-                                         </div>
-                                     </td>
-                                 </tr>--%>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </form>
-                    </div>
-                    <div class="m-l-5">
-                        <c:if test="${permission == 2}">
-                            <button type="button" class="btn btn-danger btn_remove float-right m-t-5 m-b-5 m-r-5" noticeNo="${tbNoticePlatform.noticeNo}"><i class="fa fa-trash-alt m-r-3"></i> <spring:message code="list.detail.delete" text="삭제"/></button>
-                            <button type="button" class="btn btn-primary btn_up float-right m-t-5 m-b-5 m-r-5"><i class="fa fa-check m-r-3"></i> <spring:message code="list.detail.update" text="수정"/></button>
-                            <button type="button" class="btn btn-blue btn_push float-right m-t-5 m-b-5 m-r-5" noticeNo="${tbNoticePlatform.noticeNo}"><i class="fa fa-caret-right m-r-3"></i> <spring:message code="list.detail.delete" text="푸시발송(전체)"/></button>
-                        </c:if>
-                        <button type="button" class="btn btn-primary btn_list float-left m-t-5 m-b-5 m-r-5"><i class="fa fa-list m-r-3"></i> <spring:message code="list.detail.list" text="목록"/></button>
+
+                        <div class="bottom-actions">
+                            <div>
+                                <button type="button" class="btn btn-primary btn_list">
+                                    <i class="fa fa-list m-r-3"></i> 목록
+                                </button>
+                            </div>
+
+                            <div class="action-right">
+                                <c:if test="${permission == 2}">
+                                    <button type="button" class="btn btn-blue btn_push" noticeNo="${tbNoticePlatform.noticeNo}">
+                                        <i class="fa fa-caret-right m-r-3"></i> 푸시발송(전체)
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn_up">
+                                        <i class="fa fa-check m-r-3"></i> 수정
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn_remove" noticeNo="${tbNoticePlatform.noticeNo}">
+                                        <i class="fa fa-trash-alt m-r-3"></i> 삭제
+                                    </button>
+                                </c:if>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

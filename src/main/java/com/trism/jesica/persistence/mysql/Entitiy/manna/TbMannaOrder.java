@@ -371,6 +371,36 @@ public class TbMannaOrder  {
     @Column(name = "brand_type_cd")
     private String brandTypeCd = null;
 
+    /**
+     * PG사_승인번호
+     */
+    @Column(name = "pg_auth_code")
+    private String pgAuthCode = null;
+
+
+    /**
+     * PG사_결제상태(0:결제준비, 1:결제완료, 2:결제실패, 3:결제취소, 4:취소요청, 5:취소완료, 6:취소실패)
+     */
+    @Column(name = "pg_status")
+    private String pgStatus = null;
+
+    @Transient
+    private TbMannaLogistics logistics;
+
+    @Transient
+    private java.util.List<TbMannaLogistics> logisticsList;
+
+    @Transient
+    private Long logisticsNo;
+
+    @Transient
+    private String deliveryTrackingStatus;
+
+    @Transient
+    private String receiverName;
+
+    @Transient
+    private String deliveryTrackingStatusName;
 
     @Transient
     private String extBrCode = null;

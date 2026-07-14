@@ -10,7 +10,7 @@
         <title>Jesicar | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae  | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
+        <title>온동네  | <spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></title>
     </c:if>
 
 </head>
@@ -68,7 +68,16 @@
         left: 0;
         top:0;
     }
-
+    .btn {
+        padding: 2px .45rem;
+        font-size: .75rem;
+        line-height:  unset;
+    }
+    table#testTable td, table#testTable th {
+        padding: 5px;
+        vertical-align: middle;
+        border-top: 0px solid #e4e7ea;
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -102,149 +111,134 @@
             <!-- end page-header -->
             <!-- begin row -->
 
-                <div class="search-box">
-                    <div class="inner-search-box p-15">
-                        <div class="row">
-                            <div class="col-xl-12 col-md-12 ">
-                                <form name="frmSearch" id="frmSearch1">
-                                    <input type="hidden" name="platformType" value="2">
-                                    <table class="table table-condensed table-bordered">
-                                        <tbody>
-                                        <tr >
-                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="앱구분"/></strong></td>
-                                            <td>
-                                                <c:if test="${empty appCode}">
-                                                    <select id="appCode" name="appCode" class="form-control" >
-                                                        <option value="" selected>전체</option>
-                                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                            <option value="${appCodeList.sysCode}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>${appCodeList.sysCode} (${appCodeList.codeName})</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </c:if>
-                                                <c:if test="${!empty appCode}">
-                                                    <input type="text" class="form-control appCode" name="appCode" readonly value="${sessionScope.sessionKey.appCodeName}">
-                                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
-                                                </c:if>
-                                            </td>
-<%--
-                                            <td class="bg-light"><strong><spring:message code="list.search.postclassification1" text="회원여부"/></strong></td>
-                                            <td>
-                                                <label>
-                                                    <select class="form-control" name="isMember">
-                                                        &lt;%&ndash;<option value="" <c:if test="${searchValue.isMember == ''  || searchValue.isMember == null}">selected</c:if>><spring:message code="list.search.all12" text="전체"/></option>&ndash;%&gt;
-                                                        <option value="1" <c:if test="${searchValue.isMember == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters12" text="회원"/></option>
-                                                        <option value="0" <c:if test="${searchValue.isMember == '0'}">selected</c:if>><spring:message code="list.search.deliverymanname12" text="비회원"/></option>
-                                                    </select>
-                                                </label>
-                                            </td>
---%>
-                                            <%--<td class="bg-light"><strong><spring:message code="list.search.postclassification" text="플랫폼 구분"/></strong></td>
-                                            <td style="width: 400px">
-                                                <label>
-                                                    <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-                                                        <select class="form-control" name="platformType">
-                                                            <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
-                                                        </select>
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                                        <select class="form-control" name="platformType">
-                                                            <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="PICK오더"/></option>
-                                                        </select>
-                                                    </c:if>
-                                                    &lt;%&ndash;<select class="form-control" name="platformType">
-                                                        <option value="" <c:if test="${searchValue.platformType == ''  || searchValue.platformType == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>
-&lt;%&ndash;                                                        <option value="0" <c:if test="${searchValue.platformType == '0'}">selected</c:if>><spring:message code="list.search.all1" text="사용안함"/></option>&ndash;%&gt;
-                                                        <option value="1" <c:if test="${searchValue.platformType == '1'}">selected</c:if>><spring:message code="list.search.affiliatedheadquarters1" text="제시카"/></option>
-                                                        <option value="2" <c:if test="${searchValue.platformType == '2'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="양파오더"/></option>
-                                                        <option value="3" <c:if test="${searchValue.platformType == '3'}">selected</c:if>><spring:message code="list.search.deliverymanname1" text="세날"/></option>
-                                                    </select>&ndash;%&gt;
-                                                </label>
-                                            </td>--%>
-                                            <td class="bg-light"><strong><spring:message code="list.search.stateofuse12" text="사용상태"/></strong></td>
-                                            <td>
-                                                <div class="row">
-                                                </div>
-                                                <label>
-                                                    <select class="form-control dataStatus" name="dataStatus">
-                                                        <%--<option value="" <c:if test="${searchValue.dataStatus == ''  || searchValue.dataStatus == null}">selected</c:if>><spring:message code="list.search.all1" text="전체"/></option>--%>
-                                                        <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>><spring:message code="list.search.normal12" text="정상"/></option>
-                                                        <option value="DELETE" <c:if test="${searchValue.dataStatus == 'DELETE'}">selected</c:if>><spring:message code="list.search.stop12" text="탈퇴"/></option>
-                                                    </select>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bg-light"><strong><spring:message code="list.search.registrationperiod1" text="가입기간"/><%--등록기간--%></strong></td>
-                                            <td>
-                                                <label>
-                                                    <input type="text" class="form-control startDate background-white"  name="startDate" value="${searchValue.startDate}" readonly> <i class="fas fa-lg fa-fw fa-calendar-alt date"></i> ~ &nbsp;
-                                                </label>
-                                                <label>
-                                                    <input type="text" class="form-control endDate background-white" name="endDate" value="${searchValue.endDate}" readonly> <i class="fas fa-lg fa-fw m-r-5 fa-calendar-alt date"></i>
-                                                </label>
-                                            </td>
-                                            <td class="bg-light"><strong><spring:message code="list.search.searchword1" text="검색어 입력"/><%--검색어 입력--%></strong></td>
-                                            <td style="border-right: none">
-                                                <label>
-                                                    <select class="form-control searchOp" name="keywordType" style="width: 110px">
-                                                        <option value="custName" <c:if test="${searchValue.keywordType == 'custName'}">selected</c:if>><spring:message code="list.search.title1" text="이름"/></option>
-                                                        <option value="custTel" <c:if test="${searchValue.keywordType == 'custTel'}">selected</c:if>><spring:message code="list.search.title2" text="전화번호"/></option>
-                                                    </select>
-                                                    <input type="text" class="form-control width-150" name="keyword" value="${searchValue.keyword}" maxlength="150">
-                                                </label>
-                                            </td>
-                                            <%--<td class="bg-light"><strong><spring:message code="list.search.searchword1" text="추천가맹점"/>&lt;%&ndash;검색어 입력&ndash;%&gt;</strong></td>
-                                            <td style="width:30%">
-                                                <label>
-                                                    <input type="text" data-toggle="modal" data-target="#store_search_modal" value="${searchValue.storeTxt}"  placeholder="<spring:message code="list.search.distributorheadquarters1" text="가맹점"/>" name="storeTxt" class="form-control background-white storeTxt width-150" readonly>
-                                                    <input type="hidden" name="storeNo" value="${searchValue.storeNo}"  class="form-control background-white width-100" readonly>
-                                                </label>
-                                            </td>--%>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </form>
-                            </div>
-                           <div class="col-xl-12 col-md-12 m-t-10">
-                                <div class="">
-                                    <c:if test="${permission == 2}">
-                                        <button type="button" data-toggle="modal" data-target="#give_coupon_all" class="btn btn-info giveAllbtn" style="width: 115px;cursor: auto;" custno=""><span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span></button>
-                                        </button>
-                                    </c:if>
+            <div class="search-box search-box-inline">
+                <div class="inner-search-box">
+                    <div class="search-inline-bar">
+                        <input type="hidden" name="platformType" value="2">
 
-                                    <button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>
+                        <div class="search-field">
+                            <div class="search-label">앱구분</div>
+                            <div class="search-control-group">
+                                <c:if test="${empty appCode}">
+                                    <select id="appCode" name="appCode" class="form-control">
+                                        <option value="" selected>전체</option>
+                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                            <option value="${appCodeList.sysCode}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>
+                                                    ${appCodeList.codeName}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </c:if>
+                                <c:if test="${!empty appCode}">
+                                    <input type="text" class="form-control appCode" name="appCode" readonly value="${sessionScope.sessionKey.appCodeName}">
+                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
+                                </c:if>
+                            </div>
+                        </div>
+
+                        <div class="search-field">
+                            <div class="search-label">사용상태</div>
+                            <div class="search-control-group">
+                                <select class="form-control dataStatus" name="dataStatus">
+                                    <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>>정상</option>
+                                    <option value="DELETE" <c:if test="${searchValue.dataStatus == 'DELETE'}">selected</c:if>>탈퇴</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="search-field search-date">
+                            <div class="search-label">가입기간</div>
+                            <div class="search-control-group">
+                                <div class="date-input-wrap">
+                                    <input type="text"
+                                           class="form-control startDate background-white"
+                                           name="startDate"
+                                           value="${searchValue.startDate}"
+                                           readonly>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+
+                                <span class="date-separator">~</span>
+
+                                <div class="date-input-wrap">
+                                    <input type="text"
+                                           class="form-control endDate background-white"
+                                           name="endDate"
+                                           value="${searchValue.endDate}"
+                                           readonly>
+                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="search-field search-keyword">
+                            <div class="search-label">검색어</div>
+                            <div class="search-control-group search-keyword-group">
+                                <select class="form-control searchOp" name="keywordType">
+                                    <option value="custName" <c:if test="${searchValue.keywordType == 'custName'}">selected</c:if>>이름</option>
+                                    <option value="custTel" <c:if test="${searchValue.keywordType == 'custTel'}">selected</c:if>>전화번호</option>
+                                </select>
+                                <input type="text"
+                                       class="form-control width-150"
+                                       name="keyword"
+                                       value="${searchValue.keyword}"
+                                       maxlength="150"
+                                       placeholder="검색어 입력">
+                            </div>
+                        </div>
+
+                        <div class="search-actions">
+                            <button type="button"
+                                    class="btn btn-search-inline searchClick"
+                                    onClick="serarchForm()">
+                                <i class="fa fa-search"></i>
+                                검색
+                            </button>
+
+                            <c:if test="${permission == 2}">
+                                <button type="button"
+                                        data-toggle="modal"
+                                        data-target="#give_coupon_all"
+                                        class="btn btn-search-inline ml-1 giveAllbtn"
+                                        custno="">
+                                    <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span>
+                                </button>
+                            </c:if>
+                        </div>
                     </div>
                 </div>
+            </div>
             <div class="panel-body">
-                <table id="testTable" class="listTable display table table-bordered w-100 table-striped">
-                    <thead>
-                    <tr class="text-center">
-                        <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
-                        <th width="3%"><spring:message code="list.word.no1" text="앱구분"/></th>
-                        <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
-                        <th width="6%"><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
-                        <th width="5%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
-                        <th width="3%"><spring:message code="list.word.contents1" text="시/도"/></th>
-                        <th width="4%"><spring:message code="list.word.contents1" text="시/군/구"/></th>
-                        <th width="5%"><spring:message code="list.word.status12" text="성별"/></th>
-                        <th width="8%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
-                        <th width="6%"><spring:message code="list.word.serviceclassification1" text="총판코드"/></th>
-                        <th width="6%"><spring:message code="list.word.serviceclassification1" text="마스터가맹점"/></th>
-                        <th width="6%"><spring:message code="list.word.serviceclassification1" text="가맹점코드"/></th>
-                        <th width=""><spring:message code="list.word.serviceclassification1" text="추천가맹점"/></th>
-                        <th width=""><spring:message code="list.word.serviceclassification1" text="추천인(전화번호)"/></th>
-                        <th width=""><spring:message code="list.word.serviceclassification1" text="친구수"/></th>
-                        <%--<th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
-                        <th width="8%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
-                        <th width="8%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
-                        <th width="8%"><spring:message code="list.word.registrationdate1" text="탈퇴일"/></th>
-                        <th width="8%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
-                    </tr>
-                    </thead>
-                </table>
+                <div class="panel-box table-panel-box">
+                    <div class="table-scroll-wrap">
+                        <table id="testTable" class="table compact-table table-striped" >
+                            <thead>
+                            <tr class="text-center">
+                                <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
+                                <th width="3%"><spring:message code="list.word.no1" text="앱구분"/></th>
+                                <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
+                                <th width="6%"><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
+                                <th width="5%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
+                                <th width="3%"><spring:message code="list.word.contents1" text="시/도"/></th>
+                                <th width="4%"><spring:message code="list.word.contents1" text="시/군/구"/></th>
+                                <th width="5%"><spring:message code="list.word.status12" text="성별"/></th>
+                                <th width="8%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
+                                <th width="6%"><spring:message code="list.word.serviceclassification1" text="총판코드"/></th>
+                                <th width="6%"><spring:message code="list.word.serviceclassification1" text="마스터가맹점"/></th>
+                                <th width="6%"><spring:message code="list.word.serviceclassification1" text="가맹점코드"/></th>
+                                <th width=""><spring:message code="list.word.serviceclassification1" text="추천가맹점"/></th>
+                                <th width=""><spring:message code="list.word.serviceclassification1" text="추천인(전화번호)"/></th>
+                                <th width=""><spring:message code="list.word.serviceclassification1" text="친구수"/></th>
+                                <%--<th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
+                                <th width="8%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
+                                <th width="8%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
+                                <th width="8%"><spring:message code="list.word.registrationdate1" text="탈퇴일"/></th>
+                                <th width="8%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- end panel -->
@@ -309,58 +303,6 @@
         $("#loginPwd").val('');
     });
 
-    var oldExportAction = function (self, e, dt, button, config) {
-        if (button[0].className.indexOf('buttons-excel') >= 0) {
-            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
-                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
-            }
-            else {
-                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
-            }
-        } else if (button[0].className.indexOf('buttons-print') >= 0) {
-            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
-        }
-    };
-
-    var newExportAction = function (e, dt, button, config) {
-        let startDate = $(".startDate").val()
-         let endDate = $(".endDate").val()
-         if(getDateDiff(startDate, endDate) > 31) {
-             alert("엑셀 날짜범위는 최대 31일까지 가능합니다.");
-             return;
-         } else {
-             var self = this;
-             var oldStart = dt.settings()[0]._iDisplayStart;
-
-             dt.one('preXhr', function (e, s, data) {
-                 // Just this once, load all data from the server...
-                 data.start = 0;
-                 data.length = 2147483647;
-
-                 dt.one('preDraw', function (e, settings) {
-                     // Call the original action function
-                     oldExportAction(self, e, dt, button, config);
-
-                     dt.one('preXhr', function (e, s, data) {
-                         // DataTables thinks the first item displayed is index 0, but we're not drawing that.
-                         // Set the property to what it was before exporting.
-                         settings._iDisplayStart = oldStart;
-                         data.start = oldStart;
-                     });
-
-                     // Reload the grid with the original page. Otherwise,
-                     // API functions like table.cell(this) don't work properly.
-                     setTimeout(dt.ajax.reload, 0);
-
-                     // Prevent rendering of the full data to the DOM
-                     return false;
-                 });
-             });
-
-             // Requery the server with the new one-time export settings
-             dt.ajax.reload();
-         }
-    };
 
     $(() => {
        /* $("#testTable").DataTable({
@@ -377,6 +319,18 @@
             downloadChk = ""
         }
         table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/cust/list","A1",downloadChk, true,{
+            responsive: false,
+            "sScrollX": "100%",
+            "sScrollXInner": "100%",
+            "bScrollCollapse": true,
+            autoWidth : true,
+            "fnInitComplete": function(oSettings) {
+                $( window ).resize();
+            },
+
+            "fnDrawCallback": function(oSettings) {
+                $( window ).trigger('resize');
+            },
             columns: [
                 {data: "listIndex"},
                 {data: "appName"},
@@ -433,9 +387,18 @@
                     },
                 },
                 {
-                    targets: [3,15,16],
+                    targets: [15],
                     render: function(data){
-                        return dateFormat(data);
+                        return data ? dateFormat(data) : "-";
+                    },
+                },
+                {
+                    targets: [16],
+                    render: function(data, type, row){
+                        if (row.dataStatus === "DELETE") {
+                            return data ? dateFormat(data) : "탈퇴";
+                        }
+                        return "-";
                     },
                 },
                 {
@@ -556,11 +519,16 @@
         });
 
         //상세
-        $("#testTable").on('click','tbody td', function() {
+        $("#testTable").on('click', 'tbody td', function() {
             var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
-            if($(this)[0]._DT_CellIndex.column != 16){
-                location.href = "${path}/board/cust/detail?custNo=" + row.custNo;
+            var colIdx = $(this)[0]._DT_CellIndex.column;
+
+            // 탈퇴일(16), 비밀번호(17) 클릭 시 상세 이동 막기
+            if (colIdx === 16 || colIdx === 17) {
+                return;
             }
+
+            location.href = "${path}/board/cust/detail?custNo=" + row.custNo;
         });
 
         $.ajax({
@@ -584,27 +552,75 @@
                 xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             },
             success: function (data) {
+                const $selectCoupon = $(".selectCoupon");
 
-                let cpnList = data.data.infoData;
-                if (data.resCode == '0000') {
-                    $(".selectCoupon").html("");
-                    if(cpnList.length == 0 || cpnList == null){
-                        $(".selectCoupon").html("");
-                    }else {
-                        for (var i = 0; i < cpnList.length; i++) {
-                            $(".selectCoupon").append(
-                                "<option class=\"p-0\"  value="+cpnList[i].cpnNo+" >" +
-                                "" +cpnList[i].cpnTitle+""+
-                                "</option>");
-                        }
-                    }
-                } else {
-                    $(".selectCoupon").append(
-                        "             <option class=\"p-0\"  >" +
-                        "등록된 쿠폰이 없습니다."+
-                        "             </option>");
+                $selectCoupon.empty();
+
+                if (!data || data.resCode !== "0000") {
+                    renderEmptyCouponOption("쿠폰 목록 조회에 실패했습니다.");
                     return;
                 }
+
+                const couponList =
+                    data.data && Array.isArray(data.data.infoData)
+                        ? data.data.infoData
+                        : [];
+
+                const availableCouponList = couponList
+                    .filter(function (coupon) {
+                        return isAvailableCoupon(coupon);
+                    })
+                    .filter(function (coupon, index, array) {
+                        return array.findIndex(function (item) {
+                            return String(item.cpnNo) === String(coupon.cpnNo);
+                        }) === index;
+                    })
+                    .sort(function (a, b) {
+                        return String(a.cpnTitle || "").localeCompare(
+                            String(b.cpnTitle || ""),
+                            "ko"
+                        );
+                    });
+
+                if (availableCouponList.length === 0) {
+                    renderEmptyCouponOption("사용 가능한 쿠폰이 없습니다.");
+                    return;
+                }
+
+                $selectCoupon.append(
+                    $("<option>", {
+                        value: "",
+                        text: "쿠폰을 선택해주세요.",
+                        selected: true,
+                        disabled: true
+                    })
+                );
+
+                availableCouponList.forEach(function (coupon) {
+                    let optionText = coupon.cpnTitle;
+
+                 /*   if (coupon.discountAmt) {
+                        optionText += " / " + coupon.discountAmt;
+                    }
+
+                    if (coupon.usePeriod) {
+                        optionText += " / " + coupon.usePeriod;
+                    }*/
+
+                    $selectCoupon.append(
+                        $("<option>", {
+                            value: coupon.cpnNo,
+                            text: optionText
+                        })
+                            .attr("data-cpn-title", coupon.cpnTitle || "")
+                            .attr("data-issued-type", coupon.issuedType || "")
+                            .attr("data-issued-condition", coupon.issuedCondition || "")
+                            .attr("data-issued-date", coupon.issuedDate || "")
+                            .attr("data-discount-amt", coupon.discountAmt || "")
+                            .attr("data-use-period", coupon.usePeriod || "")
+                            .attr("data-status", coupon.dataStatus || "")
+                    );
+                });
             }
         });
 
@@ -659,6 +675,7 @@
         });
 
         $(".searchCustCouponList").on("click", function() {
+            renderKeywordPreview();
             if(!tablePop){
                 tablePop = $("#searchCustTable").DataTable({
                     language :  {
@@ -725,39 +742,47 @@
                             param["useCount"] = $("input[name=useCount]").val();
                             param["maxMin"] = $("select[name=maxMin]").val();
                             param["keywordPopType"] = $("select[name=keywordPopType]").val();
-                            param["keywordPop"] = $("input[name=keywordPop]").val();
-                            param["keywordPop"] = $("input[name=keywordPop]").val();
-                            param["keywordPop"] = $("input[name=keywordPop]").val();
+                            param["keywordPop"] = $("textarea[name=keywordPop]").val();
                             param["custStartDate"] = $("input[name=custStartDate]").val();
                             param["custEndDate"] = $("input[name=custEndDate]").val();
                             return param;
                         },
                         dataSrc: function(res) {
-                            var data= res.data;
+                            var data = res.data || [];
 
+                            const totalCount = res.recordsFiltered || res.recordsTotal || data.length;
+                            updateCouponCount(totalCount);
 
                             // 리스트번호
                             for (let i = 0; i < data.length; i++) {
-                                //data[i].listIndex = i + 1
-                                data[i].listIndex = { custName:data[i].custName, custTel:data[i].custTel ,extCustNo:data[i].extCustNo, custNo:data[i].custNo }
+                                data[i].listIndex = {
+                                    custName: data[i].custName,
+                                    custTel: data[i].custTel,
+                                    extCustNo: data[i].extCustNo,
+                                    custNo: data[i].custNo
+                                };
+
                                 data[i]["number"] = i;
-                                if(data[i]["recommCust"]){
-                                    data[i]["recommCustName"] =data[i]["recommCust"]["custName"] +"("+ phoneHyphen(data[i]["recommCust"]["custTel"]) +")";
+
+                                if (data[i]["recommCust"]) {
+                                    data[i]["recommCustName"] =
+                                        data[i]["recommCust"]["custName"] + "(" + phoneHyphen(data[i]["recommCust"]["custTel"]) + ")";
                                 }
                             }
+
                             return data;
                         },
                         statusCode: {
                             200: (response) => {
-                                console.log(response)
+                                //console.log(response)
                                 // TODO
                             },
                             400: (response) => {
-                                console.log(response)
+                                //console.log(response)
                                 // TODO
                             },
                             500: (response) => {
-                                console.log(response)
+                                //console.log(response)
                                 // TODO
                             }
                         }
@@ -791,6 +816,7 @@
     $(document).on("click","#couponAllLeftBtn",function() {
         couponAddList = [];
         $("#cust-select").html("");
+        updateCouponCount(0);
         $(".searchCustCouponList").click();
     });
 
@@ -831,6 +857,7 @@
                             }
                         }
                     }
+                    updateCouponCount();
                     $(".searchCustCouponList").click();
                 }
             } else {
@@ -842,6 +869,36 @@
 
 
     });
+
+    /*알람발송시 cpnno세팅*/
+    $(document).on("click", ".couponAlarmOpenBtn", function (event) {
+        const cpnNo = $(".selectCoupon").val();
+        const couponTitle = $(".selectCoupon option:selected").text().trim();
+
+        if (!cpnNo) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            alert("쿠폰을 선택해주세요.");
+            return false;
+        }
+
+        if (couponAddList.length <= 0) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            alert("보낼 대상을 최소 1명 이상 선택해주세요.");
+            return false;
+        }
+
+        $(this)
+            .attr("data-cpn-no", cpnNo)
+            .attr("data-coupon-title", couponTitle);
+
+        $("#select_push_template")
+            .data("cpn-no", cpnNo)
+            .data("coupon-title", couponTitle);
+    });
     //지급결과 알람
     $(document).on("click","#cpnAlarmBtn",function() {
         let custList = [];
@@ -852,6 +909,7 @@
             custList.push($row);
             count++;
         });
+        const cpnNo = $(".selectCoupon").val();
         let couponText = $(".selectCoupon option:selected").text();
         let pushTitle = $(".push-title").val();
         let pushContents = $(".push-contents").val();
@@ -865,6 +923,7 @@
                 contentType: "application/json",
                 dataType: "json",
                 data: {
+                    cpnNo: Number(cpnNo),
                     custList : custList,
                     couponText: couponText,
                     pushTitle: pushTitle,
@@ -898,6 +957,7 @@
 
         if(!couponAddList.includes(Number(extCustNo))) {
             couponAddList.push(Number(extCustNo));
+            updateCouponCount();
             $(this).parents("tr").addClass("active-off")
             $(this).parents("tr").removeClass("active-on")
             $("#cust-select").append(
@@ -924,6 +984,8 @@
         if(couponAddList.includes(Number(extCustNo))){
             let filtered = couponAddList.filter((element) => element !== Number(extCustNo));
             couponAddList = filtered;
+
+            updateCouponCount();
             $(this).parents("tr").remove();
         }
     });
@@ -954,7 +1016,345 @@
     }
 
 
+    function updateCouponCount(searchCount) {
+        if (searchCount !== undefined && searchCount !== null) {
+            $("#searchCustTotalCount").text(Number(searchCount).toLocaleString());
+        }
 
+        $("#selectedCustTotalCount").text(couponAddList.length.toLocaleString());
+    }
+
+    function getKeywordPopList() {
+        const value = $(".form-coupon-search [name=keywordPop]").val() || "";
+
+        return value
+            .split(/\r\n|\n|\r|,|\t/)
+            .map(function(item) {
+                return item.trim();
+            })
+            .filter(function(item) {
+                return item !== "";
+            });
+    }
+
+    function renderKeywordPreview() {
+        const keywordList = getKeywordPopList();
+        const $list = $(".keyword-preview-list");
+
+        $(".keywordPreviewCount").text(keywordList.length);
+        $(".keywordPreviewTotal").text(keywordList.length);
+
+        $list.empty();
+
+        if (keywordList.length === 0) {
+            $list.append('<div class="keyword-preview-empty">입력된 검색어가 없습니다.</div>');
+            return;
+        }
+
+        keywordList.forEach(function(keyword, index) {
+            $list.append(
+                '<span class="keyword-preview-item">' +
+                (index + 1) + '. ' + keyword +
+                '</span>'
+            );
+        });
+    }
+
+    $(document).on("input", ".keywordPopTextarea", function() {
+        renderKeywordPreview();
+    });
+
+    $(document).on("click", ".btn-keyword-preview", function() {
+        renderKeywordPreview();
+        $(".keyword-preview-panel").slideToggle(120);
+    });
+
+    $(document).on("click", ".btn-keyword-preview-close", function() {
+        $(".keyword-preview-panel").slideUp(120);
+    });
+
+    function getKeywordPreviewList() {
+        var rawText = $('.keywordPopTextarea').val() || '';
+
+        return rawText
+            .split(/\r?\n/)
+            .map(function (item) {
+                return $.trim(item);
+            })
+            .filter(function (item) {
+                return item !== '';
+            });
+    }
+
+    function updateKeywordPreviewCount() {
+        var count = getKeywordPreviewList().length;
+        $('.keywordPreviewTotal').text(count);
+    }
+
+    $(document).on('input', '.keywordPopTextarea', function () {
+        updateKeywordPreviewCount();
+    });
+
+    $(document).ready(function () {
+        updateKeywordPreviewCount();
+    });
+
+    /**
+     * 현재 지급 가능한 쿠폰인지 확인
+     */
+    function isAvailableCoupon(coupon) {
+        if (!coupon) {
+            return false;
+        }
+
+        if (
+            coupon.cpnNo === null ||
+            coupon.cpnNo === undefined ||
+            String(coupon.cpnTitle || "").trim() === ""
+        ) {
+            return false;
+        }
+
+        const dataStatus = String(coupon.dataStatus || "").trim();
+
+        // 실제 응답값이 "정상"인 쿠폰만 노출
+        if (dataStatus !== "정상") {
+            return false;
+        }
+
+        return isAvailableUsePeriod(coupon);
+    }
+
+    /**
+     * 쿠폰 사용기간 유효 여부 확인
+     *
+     * 지원 형식
+     * 1. 발급일로부터 1일
+     * 2. 발급일로부터 30일
+     * 3. 2026-04-21 ~ 2026-04-30
+     */
+    function isAvailableUsePeriod(coupon) {
+        const usePeriod = String(coupon.usePeriod || "").trim();
+
+        if (!usePeriod) {
+            return false;
+        }
+
+        const today = getTodayDateOnly();
+
+        /*
+         * "발급일로부터 XX일"
+         * putDate를 시작일로 계산
+         */
+        const periodDays = getIssuedPeriodDays(usePeriod);
+
+        if (periodDays !== null) {
+            const putDate = parseCouponDate(coupon.putDate);
+
+            if (!putDate) {
+                console.warn(
+                    "쿠폰 등록일을 해석할 수 없습니다.",
+                    coupon.cpnNo,
+                    coupon.putDate
+                );
+
+                return false;
+            }
+
+            const expiredDate = new Date(putDate);
+
+            /*
+             * 사용기간 1일이면 등록 당일까지만 유효
+             * 사용기간 30일이면 등록일 포함 30일간 유효
+             */
+            expiredDate.setDate(
+                expiredDate.getDate() + periodDays - 1
+            );
+
+            return today >= putDate && today <= expiredDate;
+        }
+
+        /*
+         * "2026-04-21 ~ 2026-04-30"
+         */
+        const periodRange = parseCouponPeriodRange(usePeriod);
+
+        if (!periodRange) {
+            console.warn(
+                "해석할 수 없는 쿠폰 사용기간입니다.",
+                coupon.cpnNo,
+                usePeriod
+            );
+
+            return false;
+        }
+
+        return (
+            today >= periodRange.startDate &&
+            today <= periodRange.endDate
+        );
+    }
+    /**
+     * "발급일로부터 N일" 형식인지 확인
+     */
+    function isIssuedDateBasedPeriod(usePeriod) {
+        const periodText = String(usePeriod || "")
+            .replace(/\s/g, "")
+            .trim();
+
+        return /^발급일로부터\d+일$/.test(periodText);
+    }
+
+    /**
+     * "발급일로부터 XX일"에서 일수 추출
+     *
+     * 예:
+     * 발급일로부터 1일  -> 1
+     * 발급일로부터 30일 -> 30
+     */
+    function getIssuedPeriodDays(usePeriod) {
+        const normalized = String(usePeriod || "")
+            .replace(/\s/g, "")
+            .trim();
+
+        const matched = normalized.match(
+            /^발급일로부터(\d+)일$/
+        );
+
+        if (!matched) {
+            return null;
+        }
+
+        const days = Number(matched[1]);
+
+        if (!Number.isInteger(days) || days < 0) {
+            return null;
+        }
+
+        return days;
+    }
+
+    /**
+     * 고정 날짜 범위 파싱
+     *
+     * 지원:
+     * 2026-04-21 ~ 2026-04-30
+     * 20260421 ~ 20260430
+     * 2026.04.21 ~ 2026.04.30
+     * 2026/04/21 ~ 2026/04/30
+     */
+    function parseCouponPeriodRange(usePeriod) {
+        const periodText = String(usePeriod || "").trim();
+
+        const dateMatches = periodText.match(
+            /\d{4}[-./]?\d{2}[-./]?\d{2}/g
+        );
+
+        if (!dateMatches || dateMatches.length < 2) {
+            return null;
+        }
+
+        const startDate = parseCouponDate(dateMatches[0]);
+        const endDate = parseCouponDate(dateMatches[1]);
+
+        if (!startDate || !endDate) {
+            return null;
+        }
+
+        if (startDate > endDate) {
+            return null;
+        }
+
+        return {
+            startDate: startDate,
+            endDate: endDate
+        };
+    }
+
+    /**
+     * 날짜 문자열을 시간 없는 Date 객체로 변환
+     *
+     * 지원:
+     * 2026-05-22
+     * 20260522
+     * 2026.05.22
+     * 2026/05/22
+     */
+    function parseCouponDate(dateValue) {
+        if (!dateValue) {
+            return null;
+        }
+
+        const normalized = String(dateValue)
+            .replace(/\D/g, "");
+
+        if (normalized.length !== 8) {
+            return null;
+        }
+
+        const year = Number(normalized.substring(0, 4));
+        const month = Number(normalized.substring(4, 6));
+        const day = Number(normalized.substring(6, 8));
+
+        const date = new Date(
+            year,
+            month - 1,
+            day
+        );
+
+        // 2026-02-31 같은 잘못된 날짜 방지
+        if (
+            date.getFullYear() !== year ||
+            date.getMonth() !== month - 1 ||
+            date.getDate() !== day
+        ) {
+            return null;
+        }
+
+        return date;
+    }
+
+    /**
+     * 오늘 날짜를 00:00:00 기준으로 반환
+     */
+    function getTodayDateOnly() {
+        const today = new Date();
+
+        return new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate()
+        );
+    }
+
+    /**
+     * 오늘 날짜를 00:00:00 기준으로 반환
+     */
+    function getTodayDateOnly() {
+        const today = new Date();
+
+        return new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate()
+        );
+    }
+
+    /**
+     * 사용 가능한 쿠폰이 없을 때 option 표시
+     */
+    function renderEmptyCouponOption(message) {
+        $(".selectCoupon")
+            .empty()
+            .append(
+                $("<option>", {
+                    value: "",
+                    text: message,
+                    selected: true,
+                    disabled: true
+                })
+            );
+    }
 </script>
 </body>
 </html>

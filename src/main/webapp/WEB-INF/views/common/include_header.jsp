@@ -14,7 +14,7 @@
                     <li class="dropdown navbar-language" style="font-size: 17px;">
                         <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
                             <a href="${path}/main">
-                                <img  style="width: 70px; margin-left: 20px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/ondongne_logo_storeweb.png"/>">
+                                <img  style="width: 50px; margin-left: 20px;" src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/top_title_png.png"/>">
                                 <%--<b style="text-shadow: -1px 0 #8f98ff, 0 1px #8f98ff, 1px 0 #8f98ff, 0 -1px #8f98ff;
                                 font-size: 14px;">Manager</b>--%>
                             </a>
@@ -76,7 +76,7 @@
                        총판:  ${sessionScope.sessionKey.appCodeName}
                     </a>
                 </span>--%>
-                <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
+               <%-- <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                     <a  class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
                        <c:if test="${sessionScope.sessionKey.appCode != ''}">
                            총판:  ${sessionScope.sessionKey.appCodeName}
@@ -85,9 +85,9 @@
                            슈퍼마스터
                        </c:if>
                     </a>
-                </span>
+                </span>--%>
 
-               <c:if test="${sessionScope.sessionKey.roleType == 0}">
+              <%-- <c:if test="${sessionScope.sessionKey.roleType == 0}">
                  <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
                     <a href="${path}/language/list" class="btn btn-sm btn-white btn-white-without-border" data-change="widget-theme" data-theme="dark">
                         <i class="fas fa-lg fa-fw m-r-10 fa-language"></i><spring:message code="header.language.setting" text="Language"/>
@@ -97,7 +97,7 @@
                     <a class="btn btn-sm btn-white btn-white-without-border new-control-btn" data-change="widget-theme" data-theme="dark"><spring:message code="list.detail.control" text="관제 바로가기"/></a>
                       </a>
                     </span>
-                </c:if>
+                </c:if>--%>
                 <c:if test="${sessionScope.sessionKey.roleType != 1}">
                     <c:if test="${sessionScope.sessionKey.userType == 1 || sessionScope.sessionKey.userType == 2 || sessionScope.sessionKey.userType == 3 ||sessionScope.sessionKey.userType == 4 ||sessionScope.sessionKey.userType == 5}">
                      <%-- <span class="btn-group pull-right m-l-20 p-1 bg-black-transparent-2 rounded">
@@ -115,7 +115,7 @@
                     </c:forEach>
                 </c:if>
             </li>
-            <li class="dropdown navbar-language">
+            <%--<li class="dropdown navbar-language">
                 <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="ko" data-toggle="dropdown" >
                     <span class="flag-icon flag-icon-kr" title="ko"></span>
                     <span class="name_ d-none d-sm-inline">KR</span> <b class="caret"></b>
@@ -128,22 +128,43 @@
                     <span class="flag-icon flag-icon-kh" title="kh"></span>
                     <span class="name_ d-none d-sm-inline">KH</span> <b class="caret"></b>
                 </a>
-<%--
+&lt;%&ndash;
                 <a href="#" class="dropdown-toggle pr-1 pl-1 pr-sm-3 pl-sm-3" id="la" data-toggle="dropdown" style="display: none;">
                     <span class="flag-icon flag-icon-la" title="la"></span>
                     <span class="name d-none d-sm-inline">LA</span> <b class="caret"></b>
                 </a>
---%>
+&ndash;%&gt;
                 <div class="dropdown-menu">
-                    <%--<a href="${servletPath}?lang=ko" class="dropdown-item"><span class="flag-icon flag-icon-kr" title="kr"></span> 한국어</a>
+                    &lt;%&ndash;<a href="${servletPath}?lang=ko" class="dropdown-item"><span class="flag-icon flag-icon-kr" title="kr"></span> 한국어</a>
                     <a href="${servletPath}?lang=en" class="dropdown-item"><span class="flag-icon flag-icon-us" title="us"></span> English</a>
                     <a href="${servletPath}?lang=lao" class="dropdown-item"><span class="flag-icon flag-icon-la" title="la"></span> ພາສາລາວ</a>
---%>
+&ndash;%&gt;
                    <a href="#" class="dropdown-item lang_btn" lang="ko"><span class="flag-icon flag-icon-kr" title="ko"></span> 한국어</a>
-                    <%--<a href="#" class="dropdown-item lang_btn" lang="en"><span class="flag-icon flag-icon-us" title="en"></span> English</a>--%>
-                    <%--<a href="#" class="dropdown-item lang_btn" lang="lao"><span class="flag-icon flag-icon-la" title="la"></span> ພາສາລາວ</a>--%>
-                    <%--<a href="#" class="dropdown-item lang_btn" lang="kh"><span class="flag-icon flag-icon-kh" title="kh"></span>ប ្រទេសកម្ពុជា </a>--%>
+                    &lt;%&ndash;<a href="#" class="dropdown-item lang_btn" lang="en"><span class="flag-icon flag-icon-us" title="en"></span> English</a>&ndash;%&gt;
+                    &lt;%&ndash;<a href="#" class="dropdown-item lang_btn" lang="lao"><span class="flag-icon flag-icon-la" title="la"></span> ພາສາລາວ</a>&ndash;%&gt;
+                    &lt;%&ndash;<a href="#" class="dropdown-item lang_btn" lang="kh"><span class="flag-icon flag-icon-kh" title="kh"></span>ប ្រទេសកម្ពុជា </a>&ndash;%&gt;
                 </div>
+            </li>--%>
+            <li class="nav-item d-flex align-items-center" style="margin-right: 10px;">
+                <a href="/member/list" class="nav-link d-flex align-items-center" style="gap:8px;">
+                    <i class="far fa-clock fa-icon-set"></i>
+                    <span id="sessionTimer"
+                          style="
+                display:inline-flex;
+                align-items:center;
+                justify-content:center;
+                min-width:78px;
+                height: 20px;
+                padding:0px 10px;
+                border:1px solid rgba(255,255,255,.25);
+                border-radius:999px;
+                background:rgb(76 82 87);
+                color:#fff;
+                font-size:12px;
+                line-height:1;
+              ">
+        </span>
+                </a>
             </li>
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -153,5 +174,43 @@
     </div>
 </div>
 <script>
+    const expiresAt = ${sessionScope.SESSION_EXPIRES_AT};
+    let expired = false;
+    let timerId = null;
 
+    function updateTimer() {
+        if (expired) return;
+
+        const remain = Math.floor((expiresAt - Date.now()) / 1000);
+
+        if (remain <= 0) {
+            expired = true;
+            clearInterval(timerId);
+
+            alert("세션이 만료되었습니다.");
+            location.href = "/login";
+            return;
+        }
+
+        const min = Math.floor(remain / 60);
+        const sec = remain % 60;
+
+        document.getElementById("sessionTimer").innerText =
+            min + "분 " + sec + "초";
+    }
+
+    timerId = setInterval(updateTimer, 1000);
+    updateTimer();
+
+    function logOut() {
+        $.ajax({
+            url: '/logout',
+            type: 'POST',
+            success: function(res) {
+                if (res.result === "200") {
+                    location.href = '/' + res.url;
+                }
+            }
+        });
+    }
 </script>

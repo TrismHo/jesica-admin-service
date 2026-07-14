@@ -9,7 +9,7 @@
         <title>Jesicar | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 공지"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae  | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 공지"/></title>
+        <title>온동네  | <spring:message code="list.detail.eventnoticeregistration" text="이벤트 공지"/></title>
     </c:if>
 </head>
 <body>
@@ -97,15 +97,25 @@
                                     <td>
                                         <c:if test="${empty appCode}">
                                             <select name="appCode" class="form-control w-25" >
-                                                <option value="">전체</option>
                                                 <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                    <option value="${appCodeList.sysCode}">${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                    <option value="${appCodeList.sysCode}">${appCodeList.codeName}</option>
                                                 </c:forEach>
                                             </select>
                                         </c:if>
                                         <c:if test="${!empty appCode}">
                                             <input type="text" class="form-control" name="appCode" readonly value="${appCode}">
                                         </c:if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-light"><spring:message code="list.detail.postclassification1" text="서비스지역"/></td>
+                                    <td>
+                                        <select name="serviceNo" class="form-control w-25" >
+                                            <%-- <option value="">전체</option>--%>
+                                            <c:forEach var="serviceList" items="${appServiceList}" varStatus="status">
+                                                <option value="${serviceList.serviceNo}" <c:if test="${serviceList.serviceNo == 1}"> selected</c:if>>${serviceList.serviceName}</option>
+                                            </c:forEach>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>

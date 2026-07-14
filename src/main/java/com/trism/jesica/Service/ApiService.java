@@ -10,6 +10,7 @@ import com.trism.jesica.config.KeyGeneratorConfig;
 import com.trism.jesica.dto.*;
 import com.trism.jesica.exception.ErrorCode;
 import com.trism.jesica.exception.ServiceException;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppService;
 import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppVersion;
 import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyArea;
 import com.trism.jesica.persistence.mysql.Entitiy.block.TbDlvyAreaGeo;
@@ -23,6 +24,9 @@ import com.trism.jesica.persistence.mysql.Entitiy.file.TbFile;
 import com.trism.jesica.persistence.mysql.Entitiy.goods.*;
 import com.trism.jesica.persistence.mysql.Entitiy.library.TbLibrary;
 import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaCouponRegist;
+import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaFaq;
+import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaFaqCategory;
+import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaLogisticsSurcharge;
 import com.trism.jesica.persistence.mysql.Entitiy.service.TbServiceChargeGroup;
 import com.trism.jesica.persistence.mysql.Entitiy.service.TbStoreServiceCharge;
 import com.trism.jesica.persistence.mysql.Entitiy.storedlvy.TbStoreDlvyCharge;
@@ -33,6 +37,7 @@ import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.mysql.Entitiy.vacs.TbVacsVact;
 import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.mysql.Repository.app.TbAppServiceRepository;
 import com.trism.jesica.persistence.mysql.Repository.app.TbAppVersionRepository;
 import com.trism.jesica.persistence.mysql.Repository.block.TbDlvyAreaGeoRepository;
 import com.trism.jesica.persistence.mysql.Repository.block.TbDlvyAreaRepository;
@@ -51,6 +56,9 @@ import com.trism.jesica.persistence.mysql.Repository.goods.*;
 import com.trism.jesica.persistence.mysql.Repository.library.TbLibraryRepository;
 import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaCouponPublishRepository;
 import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaCouponRegistRepository;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaFaqRepository;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaFaqCategoryRepository;
+import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaLogisticsSurchargeRepository;
 import com.trism.jesica.persistence.mysql.Repository.safe.TbSafenMappingRepository;
 import com.trism.jesica.persistence.mysql.Repository.service.TbServiceChargeGroupRepository;
 import com.trism.jesica.persistence.mysql.Repository.service.TbServiceChargeRepository;
@@ -91,11 +99,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class ApiService {
+    private final TbAppServiceRepository tbAppServiceRepository;
     private final TbFileRepository tbFileRepository;
     private final TbLibraryRepository tbLibraryRepository;
     private final TbMannaCouponPublishRepository tbMannaCouponPublishRepository;
@@ -173,8 +183,10 @@ public class ApiService {
     private final TbRentalInfoRepository tbRentalInfoRepository;
     private final TbMannaCouponRegistRepository tbMannaCouponRegistRepository;
     private final TbAppVersionRepository tbAppVersionRepository;
+    private final TbMannaLogisticsSurchargeRepository tbMannaLogisticsSurchargeRepository;
 
-
+    private final TbMannaFaqRepository tbMannaFaqRepository;
+    private final TbMannaFaqCategoryRepository tbMannaFaqCategoryRepository;
 
 
     @Transactional
@@ -612,6 +624,177 @@ public class ApiService {
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
+    public TbLibrary updateLibraryFile(TbLibrary libraryInfo,
+                                       MultipartFile[] attachFile,
+                                       List<Long> deleteFileNos) throws Exception {
+
+        if (libraryInfo == null || libraryInfo.getLibNo() == null) {
+            throw new IllegalArgumentException("libNo is required");
+        }
+
+        TbLibrary origin = tbLibraryRepository.findById(libraryInfo.getLibNo())
+                .orElseThrow(() -> new RuntimeException("Library not found: " + libraryInfo.getLibNo()));
+
+        // 1) 문서 필드 업데이트
+        if (libraryInfo.getFileTitle() != null) {
+            origin.setFileTitle(libraryInfo.getFileTitle());
+        }
+
+        if (libraryInfo.getFileBody() != null) {
+            origin.setFileBody(libraryInfo.getFileBody());
+        }
+
+        if (libraryInfo.getFileType() != null) {
+            origin.setFileType(libraryInfo.getFileType());
+        }
+
+        if (libraryInfo.getShopType() != null) {
+            origin.setShopType(libraryInfo.getShopType());
+        }
+
+        if (libraryInfo.getDataStatus() != null) {
+            origin.setDataStatus(libraryInfo.getDataStatus());
+        }
+
+        origin.setUpdateDate(LocalDateTime.now());
+
+        TbLibrary savedLibrary = tbLibraryRepository.save(origin);
+
+        // 2) 삭제할 파일 처리
+        if (deleteFileNos != null && !deleteFileNos.isEmpty()) {
+            for (Long fileNo : deleteFileNos) {
+                TbFile file = tbFileRepository.findById(fileNo).orElse(null);
+                if (file == null) {
+                    continue;
+                }
+
+                // 이 문서의 파일만 삭제
+                if (!Objects.equals(file.getLibNo(), savedLibrary.getLibNo())) {
+                    continue;
+                }
+
+                File real = new File(file.getFilePath(), file.getFileName());
+
+                if (real.exists()) {
+                    boolean deleted = real.delete();
+
+                    if (!deleted) {
+                        throw new RuntimeException("File delete failed: " + real.getAbsolutePath());
+                    }
+                }
+
+                tbFileRepository.delete(file);
+            }
+        }
+
+        // 3) 실제 추가 업로드 파일이 있는지 확인
+        boolean hasUploadFile = false;
+
+        if (attachFile != null && attachFile.length > 0) {
+            for (MultipartFile mf : attachFile) {
+                if (mf != null && !mf.isEmpty()) {
+                    hasUploadFile = true;
+                    break;
+                }
+            }
+        }
+
+        // 추가할 파일이 없으면 여기서 종료
+        if (!hasUploadFile) {
+            return savedLibrary;
+        }
+
+        // 4) 추가 업로드 파일이 있을 때만 저장 경로 생성
+        LocalDate now = LocalDate.now();
+        String year = now.format(DateTimeFormatter.ofPattern("yyyy"));
+        Path filePath = Paths.get(jesicaProperties.getBaseFilePath().getPath(), "library", year);
+
+        File uploadDir = filePath.toFile();
+
+        if (!uploadDir.exists()) {
+            boolean ok = uploadDir.mkdirs();
+
+            if (!ok && !uploadDir.exists()) {
+                throw new RuntimeException("Upload dir create failed: " + uploadDir.getAbsolutePath());
+            }
+        }
+
+        // 5) 추가 업로드 파일 저장
+        for (MultipartFile mf : attachFile) {
+            if (mf == null || mf.isEmpty()) {
+                continue;
+            }
+
+            String orgFileName = mf.getOriginalFilename();
+
+            if (orgFileName == null || orgFileName.trim().isEmpty()) {
+                orgFileName = "file";
+            }
+
+            String orgFileExtension = "";
+            int dot = orgFileName.lastIndexOf(".");
+
+            if (dot >= 0) {
+                orgFileExtension = orgFileName.substring(dot);
+            }
+
+            String saveFileName = UUID.randomUUID().toString().replaceAll("-", "") + orgFileExtension;
+            Long saveFileSize = mf.getSize();
+
+            log.info("================== file start ==================");
+            log.info("파일 실제 이름: {}", orgFileName);
+            log.info("파일 저장 이름: {}", saveFileName);
+            log.info("파일 크기: {}", saveFileSize);
+            log.info("content type: {}", mf.getContentType());
+            log.info("================== file   END ==================");
+
+            TbFile file = new TbFile();
+            file.setLibNo(savedLibrary.getLibNo());
+            file.setFileOriginName(orgFileName);
+            file.setFileName(saveFileName);
+            file.setFileSize(saveFileSize);
+            file.setFilePath(filePath.toFile().getPath());
+            file.setFileContentType(
+                    mf.getContentType() != null ? mf.getContentType() : "application/octet-stream"
+            );
+            file.setInsertDate(LocalDateTime.now());
+
+            tbFileRepository.save(file);
+
+            File outFile = new File(filePath.toFile().getPath(), saveFileName);
+
+            try (OutputStream os = new FileOutputStream(outFile)) {
+                os.write(mf.getBytes());
+            }
+        }
+
+        return savedLibrary;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteLibrary(Long libNo) throws Exception {
+        TbLibrary lib = tbLibraryRepository.findById(libNo)
+                .orElseThrow(() -> new RuntimeException("Library not found: " + libNo));
+
+        // 1) 첨부파일 조회
+        List<TbFile> files = tbFileRepository.findByLibNo(libNo); // 아래 Repository 참고
+
+        // 2) 실제 파일 삭제 + DB 삭제
+        for (TbFile f : files) {
+            File real = new File(f.getFilePath(), f.getFileName());
+            if (real.exists() && !real.delete()) {
+                throw new RuntimeException("File delete failed: " + real.getAbsolutePath());
+            }
+            tbFileRepository.delete(f);
+        }
+
+        // 3) 자료실 글 소프트삭제
+        lib.setDataStatus(0);
+        lib.setUpdateDate(LocalDateTime.now());
+        tbLibraryRepository.save(lib);
+    }
+
     @Transactional
     public TbStoreGoods updateTbStoreGoods(TbStoreGoodsData tbStoreGoodsData, List deleteIdList, List<TbStoreGoodsItemData> tbStoreGoodsItemDataList, MultipartFile imgFile1,
                                            MultipartFile imgFile2,
@@ -960,11 +1143,11 @@ public class ApiService {
     @Transactional
     public int updateMultiTbStore(TbStoreMultiData tbStoreMultiData) {
         int result = 0;
-             result  = tbStoreRepository.multiUpdate(tbStoreMultiData.getStoreNo()
-             ,tbStoreMultiData.getMultiType()
-             ,tbStoreMultiData.getMasterChargeYn()
-             ,tbStoreMultiData.getMasterGoodsYn()
-             ,tbStoreMultiData.getMasterStoreNo());
+        result  = tbStoreRepository.multiUpdate(tbStoreMultiData.getStoreNo()
+                ,tbStoreMultiData.getMultiType()
+                ,tbStoreMultiData.getMasterChargeYn()
+                ,tbStoreMultiData.getMasterGoodsYn()
+                ,tbStoreMultiData.getMasterStoreNo());
         return result;
     }
 
@@ -981,7 +1164,7 @@ public class ApiService {
         } else {
             result =  tbHeadRepository.findByAll();
         }
-       return result;
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -996,7 +1179,7 @@ public class ApiService {
         } else {
             result =  tbBranchRepository.findByAll(Long.parseLong((String)searchValue.get("headNo")));
         }
-       return result;
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -1013,7 +1196,7 @@ public class ApiService {
                 result =  tbBrandRepository.findByAll();
             }
         }
-       return result;
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -1030,7 +1213,7 @@ public class ApiService {
         } else  {
             result =  tbStoreRepository.findByAll(Long.parseLong((String)searchValue.get("headNo")), Long.parseLong((String)searchValue.get("branchNo")));
         }
-       return result;
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -1045,7 +1228,7 @@ public class ApiService {
         } else {
             result =  tbDeliveryRepository.findByAll();
         }
-       return result;
+        return result;
     }
 
     @Transactional
@@ -1063,7 +1246,7 @@ public class ApiService {
         int result =  tbStoreCategoryFoRepository.deleteCategoryFo(
                 storeNo,
                 catCode
-                );
+        );
         return result;
     }
 /*
@@ -1095,35 +1278,35 @@ public class ApiService {
         int result =  tbStoreGoodsItemRepository.deleteStoreGoodsitem(
                 storeGoodsNo,
                 basicItemNo
-                );
+        );
         return result;
     }
 
     @Transactional
     public int insertTbStoreCategory(TbStoreCategoryData tbStoreCategoryData) {
-            int result = 0;
-            if(tbStoreCategoryData.getStoreCatNo() != null){
-                //아이디가 있으면 update
-                result = 0;
-            } else {
-                //아이디가 없으면 insert
-                tbStoreCategoryRepository.save(tbStoreCategoryData.insertData());
-                result = 1;
-            }
+        int result = 0;
+        if(tbStoreCategoryData.getStoreCatNo() != null){
+            //아이디가 있으면 update
+            result = 0;
+        } else {
+            //아이디가 없으면 insert
+            tbStoreCategoryRepository.save(tbStoreCategoryData.insertData());
+            result = 1;
+        }
         return result;
     }
 
     @Transactional
     public int updateTbStoreCategory(TbStoreCategoryData tbStoreCategoryData) {
-            int result = 0;
-            if(tbStoreCategoryRepository.existsById(tbStoreCategoryData.getStoreCatNo())){
-                tbStoreCategoryRepository.save(tbStoreCategoryData.insertData());
-                //아이디가 있으면 update
-                result = 1;
-            } else {
-                //아이디가 없으면 insert
-                result = 0;
-            }
+        int result = 0;
+        if(tbStoreCategoryRepository.existsById(tbStoreCategoryData.getStoreCatNo())){
+            tbStoreCategoryRepository.save(tbStoreCategoryData.insertData());
+            //아이디가 있으면 update
+            result = 1;
+        } else {
+            //아이디가 없으면 insert
+            result = 0;
+        }
         return result;
     }
 
@@ -1188,7 +1371,7 @@ public class ApiService {
     public int addStoreGoodsOption(Long storeOptNo, Long storeGoodsNo) {
         Integer viewOrder = tbStoreGoodsOptionRepository.getTbStoreGoodsOptionMaxNo(storeGoodsNo);
         int result = 0;
-            result = tbStoreGoodsOptionRepository.addStoreGoodsOption(storeOptNo, storeGoodsNo , (viewOrder+1));
+        result = tbStoreGoodsOptionRepository.addStoreGoodsOption(storeOptNo, storeGoodsNo , (viewOrder+1));
         return result;
     }
 
@@ -1200,6 +1383,10 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<TbSystemCode> systemCodeList(String sysType) {
         return tbSystemCodeRepository.findBySysTypeAndDataStatusOrderByViewOrderAsc(sysType,DataStatus.OK);
+    }
+    @Transactional(readOnly = true)
+    public List<TbAppService> getAppServiceList() {
+        return tbAppServiceRepository.findByDataStatusOrderByServiceNoAsc(1);
     }
 
     @Transactional(readOnly = true)
@@ -1222,13 +1409,13 @@ public class ApiService {
             //본사
             if (type == 1){
                 result = tbHeadRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),owner,Long.parseLong(no));
-            //총판
+                //총판
             } else if (type == 2){
                 result = tbBranchRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),owner,Long.parseLong(no));
-            //가맹점
+                //가맹점
             } else if (type == 3){
                 result =tbStoreRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),owner,Long.parseLong(no));
-            //드라이버
+                //드라이버
             } else if (type == 4){
                 result =tbUserWorkerRepository.setCyAccountSet(vacsVact.get(0).getBankCd(), vacsVact.get(0).getAcctNo(),owner,Long.parseLong(no));
             }
@@ -1459,7 +1646,7 @@ public class ApiService {
                 String encodedPassword = new BCryptPasswordEncoder().encode(pass);
                 tbUserStaffData.setUserPwd(encodedPassword);
 
-                 tbUserStaff = tbUserStaffRepository.findByUserId(tbUserStaffData.getUserId());
+                tbUserStaff = tbUserStaffRepository.findByUserId(tbUserStaffData.getUserId());
 
                 if(ObjectUtils.isNotEmpty(tbUserStaff)) {
                     if (!StringUtils.isEmpty(tbUserStaff.getName())) {
@@ -1577,7 +1764,7 @@ public class ApiService {
                         tbUserStaffData.getBlockTypeCode(),
                         tbUserStaffData.getUpdateUserId(),
                         tbUserStaffData.getDataStatus().ordinal()
-                        );
+                );
                 if(result == 1 && result2 == 1) {
                     result = 1;
                 } else {
@@ -1890,7 +2077,7 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<TbStoreDTO> storeTxt(String storeName) {
         if(" ".equals(storeName)){
-           //return tbStoreRepository.findAll();
+            //return tbStoreRepository.findAll();
             return tbStoreRepository.findByStoreAll(storeName);
         } else {
             //return tbStoreRepository.findByStoreName(storeName);
@@ -1902,7 +2089,7 @@ public class ApiService {
     @Transactional(readOnly = true)
     public List<TbStoreDTO> getBranchTxt(String branchName) {
         if(" ".equals(branchName)){
-           //return tbStoreRepository.findAll();
+            //return tbStoreRepository.findAll();
             return tbBranchRepository.findByBranchNameAll(branchName);
         } else {
             //return tbStoreRepository.findByStoreName(storeName);
@@ -1931,14 +2118,14 @@ public class ApiService {
     @Transactional
     public int deliveryshareAddList(Long dlvyNo ,List<String> addList ) {
 
-            for(String acceptNo : addList) {
-                try {
-                    tbDeliveryShareRepository.saveToList(dlvyNo, Long.parseLong(acceptNo));
-                } catch (Exception e){
-                    e.printStackTrace();
-                    return 0;
-                }
+        for(String acceptNo : addList) {
+            try {
+                tbDeliveryShareRepository.saveToList(dlvyNo, Long.parseLong(acceptNo));
+            } catch (Exception e){
+                e.printStackTrace();
+                return 0;
             }
+        }
         return 1;
     }
     @Transactional
@@ -1953,27 +2140,27 @@ public class ApiService {
     }
     @Transactional
     public int deliveryshareDelList(Long dlvyNo ,List<String> delList ) {
-            for(String acceptNo : delList) {
-                try {
-                    tbDeliveryShareRepository.deleteToList(dlvyNo, Long.parseLong(acceptNo));
-                } catch (Exception e){
-                    e.printStackTrace();
-                    return 0;
-                }
+        for(String acceptNo : delList) {
+            try {
+                tbDeliveryShareRepository.deleteToList(dlvyNo, Long.parseLong(acceptNo));
+            } catch (Exception e){
+                e.printStackTrace();
+                return 0;
             }
+        }
         return 1;
     }
     @Transactional
     public int deleteDeliveryman(String phone ) {
         try {
             //기사 회원 조희
-           Integer workerNo = tbWorkerApplyRepository.selectUserNo(phone);
+            Integer workerNo = tbWorkerApplyRepository.selectUserNo(phone);
             tbWorkerChargeRepository.deleteWorkerCharge(phone);
             tbUserWorkerRepository.deleteUserWorker(phone);
             tbUserRepository.deleteUser(phone);
             tbWorkerApplyAttachRepository.deleteWorkerApplyAttach(phone);
             tbWorkerApplyRepository.deleteWorkerApply(phone);
-           //worker_no가 있으면 승인이 완료된 상태이므로 worker roweh tkrwp
+            //worker_no가 있으면 승인이 완료된 상태이므로 worker roweh tkrwp
           /* if(workerNo != null) {
                tbWorkerChargeRepository.deleteWorkerCharge(phone);
                tbUserWorkerRepository.deleteUserWorker(phone);
@@ -1997,10 +2184,10 @@ public class ApiService {
     public int deleteDriverApply(String phone ) {
         try {
             //기사 회원 조희
-           //Integer workerNo = tbWorkerApplyRepository.selectUserNo(phone);
+            //Integer workerNo = tbWorkerApplyRepository.selectUserNo(phone);
             tbWorkerApplyAttachRepository.deleteWorkerApplyAttach(phone);
             tbWorkerApplyRepository.deleteWorkerApply(phone);
-           //worker_no가 있으면 승인이 완료된 상태이므로 worker roweh tkrwp
+            //worker_no가 있으면 승인이 완료된 상태이므로 worker roweh tkrwp
           /* if(workerNo != null) {
                tbWorkerChargeRepository.deleteWorkerCharge(phone);
                tbUserWorkerRepository.deleteUserWorker(phone);
@@ -2481,6 +2668,56 @@ public class ApiService {
         }
         return result;
     }
+    @Transactional
+    public int insertFaq(TbMannaFaq tbMannaFaq) {
+        if (tbMannaFaq == null) {
+            throw new IllegalArgumentException("FAQ 정보가 없습니다.");
+        }
+
+        if (tbMannaFaq.getFaqNo() != null) {
+            return 0;
+        }
+
+        validateFaqCategory(tbMannaFaq.getFaqCategoryNo());
+
+        tbMannaFaq.setDataStatus(1);
+        tbMannaFaq.setInsertDate(LocalDateTime.now());
+
+        if (tbMannaFaq.getUseYn() == null || tbMannaFaq.getUseYn().trim().isEmpty()) {
+            tbMannaFaq.setUseYn("Y");
+        }
+
+        if (tbMannaFaq.getDisplayOrder() == null || tbMannaFaq.getDisplayOrder() <= 0) {
+            Integer maxDisplayOrder = tbMannaFaqRepository
+                    .findMaxDisplayOrderByFaqCategoryNo(tbMannaFaq.getFaqCategoryNo());
+
+            tbMannaFaq.setDisplayOrder(
+                    maxDisplayOrder == null ? 1 : maxDisplayOrder + 1
+            );
+        }
+
+        tbMannaFaqRepository.save(tbMannaFaq);
+        return 1;
+    }
+
+    @Transactional
+    public int updateFaq(TbMannaFaq tbMannaFaq) {
+        if (tbMannaFaq == null || tbMannaFaq.getFaqNo() == null) {
+            return 0;
+        }
+
+        validateFaqCategory(tbMannaFaq.getFaqCategoryNo());
+
+        return tbMannaFaqRepository.update(
+                tbMannaFaq.getFaqNo(),
+                tbMannaFaq.getFaqCategoryNo(),
+                tbMannaFaq.getFaqQ(),
+                tbMannaFaq.getFaqA(),
+                tbMannaFaq.getUseYn(),
+                tbMannaFaq.getDisplayOrder(),
+                normalizeUserId(tbMannaFaq.getUpdateId())
+        );
+    }
 
     @Transactional
     public int updateTbNoticePlatform(TbNoticePlatform tbNoticePlatform) {
@@ -2622,22 +2859,22 @@ public class ApiService {
 
     @Transactional
     public int insertEvent(TbEvent tbEvent
-                           /*MultipartFile imgFileSmall*/) {
+            /*MultipartFile imgFileSmall*/) {
         int result = 0;
 
-            if(tbEvent.getEventNo() != null) {
-                result = 0;
-            } else {
-                TbEvent tbEvent1 = tbEventRepository.save(tbEvent);
-                result = 1;
-            }
+        if(tbEvent.getEventNo() != null) {
+            result = 0;
+        } else {
+            TbEvent tbEvent1 = tbEventRepository.save(tbEvent);
+            result = 1;
+        }
 
         return result;
     }
 
     @Transactional
     public int updateEvent(TbEvent tbEvent
-                           /*MultipartFile imgFileSmallFile*/) {
+            /*MultipartFile imgFileSmallFile*/) {
         int result = 0;
 
           /*  //썸네일 -
@@ -2669,19 +2906,19 @@ public class ApiService {
                 tbEvent.setImgFileSmall(tbEvent.getImgFileSmall());
             }*/
 
-            if(tbEvent.getEventNo() != null) {
-                /*TbSystemGoods tbSystemGoods = tbSystemGoodsRepository.save(tbSystemGoodsData.updateData());*/
-                TbEvent tbEvent1 = tbEventRepository.save(tbEvent);
-                result = 1;
-            } else {
-                result = 0;
-            }
+        if(tbEvent.getEventNo() != null) {
+            /*TbSystemGoods tbSystemGoods = tbSystemGoodsRepository.save(tbSystemGoodsData.updateData());*/
+            TbEvent tbEvent1 = tbEventRepository.save(tbEvent);
+            result = 1;
+        } else {
+            result = 0;
+        }
         return result;
     }
 
     @Transactional
     public int insertTbNoticeRelease(TbNoticeRelease tbNoticeRelease
-                           ) {
+    ) {
         int result = 0;
         if(tbNoticeRelease.getNoticeNo() != null) {
             result = 0;
@@ -2818,7 +3055,7 @@ public class ApiService {
         Integer catLevel = Integer.parseInt(searchValue.get("catLevel").toString());
         String parentCatCode = searchValue.get("parentCatCode").toString();
 
-            result = tbSystemCategoryRepository.findByCatLevelAndParentCatCode(parentCatCode ,catLevel);
+        result = tbSystemCategoryRepository.findByCatLevelAndParentCatCode(parentCatCode ,catLevel);
         return result;
     }
 
@@ -3192,14 +3429,9 @@ public class ApiService {
     }
 
     @Transactional(readOnly = true)
-    public List<TbAppBannerDTO> bannerSortList(Integer serviceType, Integer platformType) {
-        List<TbAppBannerDTO> listEvent = tbAppBannerRepository.getSortEventList(serviceType, platformType);
-        List<TbAppBannerDTO> listNotice = tbAppBannerRepository.getSortNoticeList(serviceType, platformType);
-        List<TbAppBannerDTO> listNone = tbAppBannerRepository.getSortNoneList(serviceType, platformType);
+    public List<TbAppBannerDTO> bannerSortList(Integer serviceType, Integer platformType, Long serviceNo) {
 
-        listEvent.addAll(listNotice);
-        listEvent.addAll(listNone);
-
+        List<TbAppBannerDTO> listEvent  = tbAppBannerRepository.getSortBannerList(serviceType, platformType, serviceNo);
         return listEvent;
     }
 
@@ -3293,28 +3525,24 @@ public class ApiService {
                 tbAppBannerData.setBannerFile(tbAppBannerData.getBannerFile());
             }
 
-            List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatus(1, 1);
+            List<TbAppBanner> tbAppBannerList =
+                    tbAppBannerRepository.findAllByViewYnAndDataStatusAndServiceNo(1, 1, tbAppBannerData.getServiceNo());
 
             if (tbAppBannerData.getViewYn() == 1) {
-                if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
-                    if(ObjectUtils.isNotEmpty(tbAppBannerList.get(0).getViewOrder())) {
-                        tbAppBannerData.setViewOrder(1);
-                    } else {
-                        int viewOrder = tbAppBannerList.get(0).getViewOrder();
-                        for (TbAppBanner tbAppBanner: tbAppBannerList) {
-                            if (tbAppBanner.getViewOrder() > viewOrder) {
-                                viewOrder = tbAppBanner.getViewOrder();
-                            }
-                        }
-                        tbAppBannerData.setViewOrder(viewOrder + 1);
-                    }
 
-                } else {
-                    tbAppBannerData.setViewOrder(1);
+                int max = 0;
+                if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
+                    for (TbAppBanner b : tbAppBannerList) {
+                        Integer vo = b.getViewOrder();
+                        if (vo != null && vo > max) max = vo;
+                    }
                 }
+
+                tbAppBannerData.setViewOrder(max + 1);  // ✅ 리스트가 비었으면 max=0 => 1
             } else {
                 tbAppBannerData.setViewOrder(null);
             }
+
             TbAppBanner bannerNo = tbAppBannerRepository.save(tbAppBannerData.insertData());
             if(tbAppBannerData.getBannerType() == 1){
                 for (Map<String,String> area : areaList) {
@@ -3333,91 +3561,130 @@ public class ApiService {
     public int updateTbAppBanner(TbAppBannerData tbAppBannerData, MultipartFile imgFile) {
         int result = 0;
         tbAppBannerData.setPlatformType(2);
-        if (tbAppBannerRepository.existsById(tbAppBannerData.getBannerNo())) {
-            try {
-                OutputStream os = null;
 
-                if (imgFile != null && !imgFile.isEmpty()) {
-                    String fileName = DateUtil.now_yyyymmdd().substring(6, 8) + "_" + DateUtil.now_hhmmss() + "_" + RandomStringUtils.random(4, 33, 125, true, true);
-                    Path filePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
-                            jesicaProperties.getBoardPath().getPath(),
-                            jesicaProperties.getBannerPath().getPath());
+        try {
+            Optional<TbAppBanner> opt = tbAppBannerRepository.findById(tbAppBannerData.getBannerNo());
+            if (!opt.isPresent()) {
+                return 0;
+            }
 
-                    byte[] bytes = imgFile.getBytes();
+            // ✅ 기존 엔티티를 영속 상태로 가져와서 필드만 갱신한다.
+            // 이렇게 하면 DTO -> Entity 변환 과정에서 연관객체(service)까지 건드려서
+            // HHH000502(immutable association modified) 경고가 나는 상황을 피할 수 있다.
+            TbAppBanner banner = opt.get();
+            int prevViewYn = banner.getViewYn() == null ? 0 : banner.getViewYn();
 
-                    File uploadFile = new File(filePath.toFile().getPath());
-                    if (!uploadFile.exists()) {
-                        uploadFile.mkdirs();
-                    }
+            // ---- bannerFile 처리 ----
+            if (imgFile != null && !imgFile.isEmpty()) {
+                String fileName = DateUtil.now_yyyymmdd().substring(6, 8) + "_" + DateUtil.now_hhmmss() + "_" + RandomStringUtils.random(4, 33, 125, true, true);
+                Path filePath = Paths.get(
+                        jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getBannerPath().getPath()
+                );
 
-                    int pos = imgFile.getOriginalFilename().lastIndexOf(".");
-                    String ext = imgFile.getOriginalFilename().substring(pos + 1);
-                    Path uploadFullPath = Paths.get(
-                            jesicaProperties.getBoardPath().getPath(),
-                            jesicaProperties.getBannerPath().getPath(),
-                            fileName + "." + ext);
-
-                    Path fileNamePath = Paths.get(jesicaProperties.getBaseImgPath().getPath(),
-                            jesicaProperties.getBoardPath().getPath(),
-                            jesicaProperties.getBannerPath().getPath(),
-                            fileName + "." + ext);
-
-                    os = new FileOutputStream(new File(fileNamePath.toFile().getPath()));
-                    os.write(bytes);
-                    os.close();
-                    tbAppBannerData.setBannerFile(uploadFullPath.toFile().getPath());
-                    log.debug("uploadFullPath=''", uploadFullPath);
-                } else {
-                    Optional<TbAppBanner> tbAppBanner = tbAppBannerRepository.findById(tbAppBannerData.getBannerNo());
-                    tbAppBannerData.setBannerFile(tbAppBanner.get().getBannerFile());
+                byte[] bytes = imgFile.getBytes();
+                File uploadDir = new File(filePath.toFile().getPath());
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
                 }
 
-                if (tbAppBannerData.getViewYn() == 0) {
-                    int viewOrder = 1;
-                    if (ObjectUtils.isNotEmpty(tbAppBannerData.getViewOrder())){
-                         viewOrder = tbAppBannerData.getViewOrder();
-                    }
+                int pos = imgFile.getOriginalFilename().lastIndexOf(".");
+                String ext = imgFile.getOriginalFilename().substring(pos + 1);
 
-                    List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(1, 1, viewOrder);
+                Path uploadFullPath = Paths.get(
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getBannerPath().getPath(),
+                        fileName + "." + ext
+                );
 
-                    for(int i = 0; i < tbAppBannerList.size(); i++) {
-                        int index = viewOrder + i;
-                        tbAppBannerRepository.updateViewOrder(index, tbAppBannerList.get(i).getBannerNo());
-                    }
-                    tbAppBannerData.setViewOrder(null);
-                } else {
-                    Optional<TbAppBanner> appBanner = tbAppBannerRepository.findById(tbAppBannerData.getBannerNo());
+                Path fileNamePath = Paths.get(
+                        jesicaProperties.getBaseImgPath().getPath(),
+                        jesicaProperties.getBoardPath().getPath(),
+                        jesicaProperties.getBannerPath().getPath(),
+                        fileName + "." + ext
+                );
 
-                    if (appBanner.isPresent()) {
-                        int preViewYn = appBanner.get().getViewYn();
+                try (OutputStream os = new FileOutputStream(new File(fileNamePath.toFile().getPath()))) {
+                    os.write(bytes);
+                }
 
-                        //숨김에서 노출로 변경할 때 마지막 viewOrder 매핑
-                        if (preViewYn == 0) {
-                            List<TbAppBanner> tbAppBannerList = tbAppBannerRepository.findAllByViewYnAndDataStatus(1, 1);
-                            int viewOrder = tbAppBannerList.get(0).getViewOrder();
+                banner.setBannerFile(uploadFullPath.toFile().getPath());
+                log.debug("uploadFullPath='{}'", uploadFullPath);
+            } // 파일이 없으면 기존 bannerFile 유지
 
-                            for (TbAppBanner tbAppBanner: tbAppBannerList) {
+            // ---- 기본 필드 갱신 (FK는 serviceNo로만) ----
+            banner.setPlatformType(2);
+            banner.setServiceType(tbAppBannerData.getServiceType());
+            banner.setViewYn(tbAppBannerData.getViewYn());
+            banner.setBoardType(tbAppBannerData.getBoardType());
+            banner.setBoardNo(tbAppBannerData.getBoardNo());
+            banner.setDataStatus(tbAppBannerData.getDataStatus());
+            banner.setBannerType(tbAppBannerData.getBannerType());
+            banner.setLangCode(tbAppBannerData.getLangCode());
+            banner.setAppCode(tbAppBannerData.getAppCode());
 
-                                if(ObjectUtils.isEmpty(tbAppBanner.getViewOrder())){
-                                    viewOrder = 0;
-                                } else {
-                                    if (tbAppBanner.getViewOrder() > viewOrder) {
-                                        viewOrder = tbAppBanner.getViewOrder();
-                                    }
-                                }
+            // ✅ 연관객체(service)는 수정하지 않는다. (service는 조회 전용)
+            banner.setServiceNo(tbAppBannerData.getServiceNo());
+
+            // boardType != 3 이면 schemeUrl 제거
+            if (tbAppBannerData.getBoardType() != 3 && tbAppBannerData.getBoardType() != 4) {
+                banner.setSchemeUrl(null);
+            } else {
+                banner.setSchemeUrl(tbAppBannerData.getSchemeUrl());
+            }
+
+            // ---- viewOrder 재정렬 로직 ----
+            if (tbAppBannerData.getViewYn() == 0) {
+                // 노출 -> 숨김으로 변경: 현재 viewOrder 이후 항목들을 앞으로 당김
+                Integer currentViewOrder = banner.getViewOrder();
+                int viewOrder = (currentViewOrder != null ? currentViewOrder : 1);
+
+                List<TbAppBanner> tbAppBannerList = tbAppBannerRepository
+                        .findAllByViewYnAndDataStatusAndViewOrderIsGreaterThan(1, 1, viewOrder);
+
+                for (int i = 0; i < tbAppBannerList.size(); i++) {
+                    int index = viewOrder + i;
+                    tbAppBannerRepository.updateViewOrder(index, tbAppBannerList.get(i).getBannerNo());
+                }
+                banner.setViewOrder(null);
+            } else {
+                // 숨김(0) -> 노출(1)로 변경할 때 마지막 viewOrder로 붙임
+                if (prevViewYn == 0) {
+                    List<TbAppBanner> tbAppBannerList = tbAppBannerRepository
+                            .findAllByViewYnAndDataStatusAndServiceNo(1, 1, tbAppBannerData.getServiceNo());
+
+                    int max = 0;
+                    if (ObjectUtils.isNotEmpty(tbAppBannerList)) {
+                        for (TbAppBanner b : tbAppBannerList) {
+                            Integer vo = b.getViewOrder();
+                            if (vo != null && vo > max) {
+                                max = vo;
                             }
-                            tbAppBannerData.setViewOrder(viewOrder + 1);
                         }
                     }
+                    banner.setViewOrder(max + 1);
                 }
-                if(tbAppBannerData.getBoardType() != 3){
-                    tbAppBannerData.setSchemeUrl(null);
-                }
-                tbAppBannerRepository.save(tbAppBannerData.updateData());
-                result = 1;
-            } catch (Exception e) {
-                e.printStackTrace();
+                // 그 외(이미 노출 상태에서 수정)는 viewOrder 유지
             }
+
+            // ✅ 기존 viewYn을 기반으로 "숨김 -> 노출" 상황에서 viewOrder 계산
+            // (위에서 banner.setViewYn(...)를 했기 때문에, 기존 상태는 별도로 저장)
+            // 따라서 기존값을 따로 다시 계산한다.
+            // -> 안전하게 DB에서 현재 상태를 다시 조회하지 않고, 최초 조회 시점 값으로 판단
+            //    (현재 트랜잭션 내에서 banner는 영속 객체)
+
+            // 최종: banner.getViewYn()는 이미 새 값이므로,
+            // 최초 조회 직후 값을 사용하도록 코드를 단순하게 다시 구성
+
+            // ---- 저장 ----
+            // banner는 영속 상태라 save()가 없어도 flush 시점에 반영되지만,
+            // 기존 패턴을 유지하기 위해 save 호출은 남겨둔다.
+            tbAppBannerRepository.save(banner);
+
+            result = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return result;
@@ -3485,7 +3752,7 @@ public class ApiService {
                     tbCustData.getGender(),
                     /*tbCustData.getSmsYn(),*/
                     tbCustData.getPushOrderYn(),
-                   /* tbCustData.getPushNoticeYn(),*/
+                    /* tbCustData.getPushNoticeYn(),*/
                     tbCustData.getPushMarketingYn(),
                     tbCustData.getPlatformType());
             result = 1;
@@ -3551,6 +3818,23 @@ public class ApiService {
 
         try {
             tbMannaCouponPublishRepository.updateInfo(cpnCode,cpnStatus,stCode,registMax,totalRegistMax);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public int membershipCouponDelete(Map<String , String> map) {
+        int result = 0;
+        String cpnCode = "";
+        if(map.get("cpnCode") != null) {
+            cpnCode = map.get("cpnCode").toString();
+        }
+
+        try {
+            tbMannaCouponPublishRepository.deleteInfo(cpnCode);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3686,6 +3970,517 @@ public class ApiService {
             throw new ServiceException(ErrorCode.BAD_REQUEST);
         }
         return tbMannaCouponRegist.get();
+    }
+
+
+    @Transactional
+    public int insertSurcharge(TbMannaLogisticsSurcharge param) {
+        TbMannaLogisticsSurcharge entity = new TbMannaLogisticsSurcharge();
+
+        entity.setPostcodeS(param.getPostcodeS());
+        entity.setPostcodeE(param.getPostcodeE());
+        entity.setAddrName(param.getAddrName());
+
+        tbMannaLogisticsSurchargeRepository.save(entity);
+
+        return 1;
+    }
+
+    @Transactional
+    public int updateSurcharge(TbMannaLogisticsSurcharge param) {
+        if (param.getSurchargeNo() == null) {
+            return 0;
+        }
+
+        Optional<TbMannaLogisticsSurcharge> optional =
+                tbMannaLogisticsSurchargeRepository.findById(param.getSurchargeNo());
+
+        if (!optional.isPresent()) {
+            return 0;
+        }
+
+        TbMannaLogisticsSurcharge entity = optional.get();
+
+        entity.setPostcodeS(param.getPostcodeS());
+        entity.setPostcodeE(param.getPostcodeE());
+        entity.setAddrName(param.getAddrName());
+
+        tbMannaLogisticsSurchargeRepository.save(entity);
+
+        return 1;
+    }
+
+    @Transactional
+    public int deleteSurcharge(Integer surchargeNo) {
+        if (surchargeNo == null) {
+            return 0;
+        }
+        if (!tbMannaLogisticsSurchargeRepository.existsById(surchargeNo)) {
+            return 0;
+        }
+        tbMannaLogisticsSurchargeRepository.deleteById(surchargeNo);
+        return 1;
+    }
+
+    @Transactional(readOnly = true)
+    public int checkSurchargePostcode(String postcode) {
+        if (postcode == null || postcode.trim().isEmpty()) {
+            return 0;
+        }
+
+        postcode = postcode.trim();
+
+        if (postcode.length() != 5) {
+            return 0;
+        }
+
+        boolean exists = tbMannaLogisticsSurchargeRepository
+                .existsByPostcodeSLessThanEqualAndPostcodeEGreaterThanEqual(postcode, postcode);
+
+        return exists ? 1 : 0;
+    }
+
+    @Transactional(readOnly = true)
+    public MannaFaqListResponse getFaqList(
+            Long faqCategoryNo,
+            String useYn,
+            String keyword
+    ) {
+        useYn = normalize(useYn);
+        keyword = normalize(keyword);
+
+        List<TbMannaFaq> faqList = tbMannaFaqRepository.getFaqList(
+                faqCategoryNo,
+                useYn,
+                keyword
+        );
+
+        List<TbMannaFaq> allFaqList =
+                tbMannaFaqRepository
+                        .findByDataStatusOrderByDisplayOrderAscFaqNoAsc(1);
+
+        /*
+         * 기존 카테고리명 문자열 집계 대신 카테고리 번호를 key로 사용한다.
+         * 화면에서는 category API의 faqCount를 우선 사용하고,
+         * FAQ 목록 응답의 categoryCount도 보조적으로 사용할 수 있다.
+         */
+        Map<String, Long> categoryCount = new LinkedHashMap<>();
+        categoryCount.put("total", (long) allFaqList.size());
+
+        Map<String, Long> grouped = allFaqList.stream()
+                .filter(item -> item.getFaqCategoryNo() != null)
+                .collect(
+                        Collectors.groupingBy(
+                                item -> String.valueOf(item.getFaqCategoryNo()),
+                                LinkedHashMap::new,
+                                Collectors.counting()
+                        )
+                );
+
+        categoryCount.putAll(grouped);
+
+        return MannaFaqListResponse.builder()
+                .faqList(faqList)
+                .totalCount(faqList.size())
+                .categoryCount(categoryCount)
+                .build();
+    }
+
+    @Transactional
+    public TbMannaFaqCategory insertFaqCategory(
+            TbMannaFaqCategory param
+    ) {
+        if (param == null) {
+            throw new IllegalArgumentException(
+                    "카테고리 정보가 없습니다."
+            );
+        }
+
+        String faqCategoryName =
+                param.getFaqCategoryName() == null
+                        ? ""
+                        : param.getFaqCategoryName().trim();
+
+        if (faqCategoryName.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "카테고리명을 입력해주세요."
+            );
+        }
+
+        if (faqCategoryName.length() > 50) {
+            throw new IllegalArgumentException(
+                    "카테고리명은 최대 50자까지 입력할 수 있습니다."
+            );
+        }
+
+        boolean duplicate =
+                tbMannaFaqCategoryRepository
+                        .existsByFaqCategoryNameAndDataStatus(
+                                faqCategoryName,
+                                1
+                        );
+
+        if (duplicate) {
+            throw new IllegalArgumentException(
+                    "이미 등록된 카테고리명입니다."
+            );
+        }
+
+
+        String useYn =
+                param.getUseYn() == null
+                        ? "Y"
+                        : param.getUseYn().trim().toUpperCase();
+
+        if (
+                !"Y".equals(useYn)
+                        && !"N".equals(useYn)
+        ) {
+            useYn = "Y";
+        }
+
+        String insertId =
+                param.getInsertId() == null
+                        ? ""
+                        : param.getInsertId().trim();
+
+        TbMannaFaqCategory category =
+                new TbMannaFaqCategory();
+
+        category.setFaqCategoryName(faqCategoryName);
+        category.setUseYn(useYn);
+        category.setDataStatus(1);
+        category.setInsertId(insertId);
+        category.setInsertDate(LocalDateTime.now());
+
+        return tbMannaFaqCategoryRepository.save(category);
+    }
+    @Transactional
+    public void deleteFaqCategory(
+            Long faqCategoryNo,
+            String updateId
+    ) {
+        if (faqCategoryNo == null) {
+            throw new IllegalArgumentException(
+                    "FAQ 카테고리 번호가 없습니다."
+            );
+        }
+
+        TbMannaFaqCategory category =
+                tbMannaFaqCategoryRepository
+                        .findByFaqCategoryNoAndDataStatus(
+                                faqCategoryNo,
+                                1
+                        )
+                        .orElseThrow(
+                                () -> new IllegalArgumentException(
+                                        "존재하지 않거나 이미 삭제된 카테고리입니다."
+                                )
+                        );
+
+        long faqCount =
+                tbMannaFaqRepository
+                        .countByFaqCategoryNoAndDataStatus(
+                                faqCategoryNo,
+                                1
+                        );
+
+        if (faqCount > 0) {
+            throw new IllegalArgumentException(
+                    "해당 카테고리에 등록된 FAQ가 있어 삭제할 수 없습니다."
+            );
+        }
+
+        String normalizedUpdateId =
+                updateId == null
+                        ? ""
+                        : updateId.trim();
+
+        int updatedCount =
+                tbMannaFaqCategoryRepository
+                        .softDeleteCategory(
+                                category.getFaqCategoryNo(),
+                                normalizedUpdateId
+                        );
+
+        if (updatedCount < 1) {
+            throw new IllegalStateException(
+                    "FAQ 카테고리 삭제에 실패했습니다."
+            );
+        }
+    }
+
+    @Transactional
+    public void updateFaqCategory(
+            TbMannaFaqCategory param
+    ) {
+        if (param == null) {
+            throw new IllegalArgumentException(
+                    "카테고리 정보가 없습니다."
+            );
+        }
+
+        Long faqCategoryNo =
+                param.getFaqCategoryNo();
+
+        if (faqCategoryNo == null) {
+            throw new IllegalArgumentException(
+                    "FAQ 카테고리 번호가 없습니다."
+            );
+        }
+
+        TbMannaFaqCategory origin =
+                tbMannaFaqCategoryRepository
+                        .findByFaqCategoryNoAndDataStatus(
+                                faqCategoryNo,
+                                1
+                        )
+                        .orElseThrow(
+                                () -> new IllegalArgumentException(
+                                        "존재하지 않거나 삭제된 카테고리입니다."
+                                )
+                        );
+
+        String faqCategoryName =
+                param.getFaqCategoryName() == null
+                        ? ""
+                        : param.getFaqCategoryName().trim();
+
+        if (faqCategoryName.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "카테고리명을 입력해주세요."
+            );
+        }
+
+        if (faqCategoryName.length() > 50) {
+            throw new IllegalArgumentException(
+                    "카테고리명은 최대 50자까지 입력할 수 있습니다."
+            );
+        }
+
+        boolean duplicate =
+                tbMannaFaqCategoryRepository
+                        .existsByFaqCategoryNameAndDataStatusAndFaqCategoryNoNot(
+                                faqCategoryName,
+                                1,
+                                faqCategoryNo
+                        );
+
+        if (duplicate) {
+            throw new IllegalArgumentException(
+                    "이미 등록된 카테고리명입니다."
+            );
+        }
+
+        String useYn =
+                param.getUseYn() == null
+                        ? origin.getUseYn()
+                        : param.getUseYn()
+                        .trim()
+                        .toUpperCase();
+
+        if (
+                !"Y".equals(useYn)
+                        && !"N".equals(useYn)
+        ) {
+            useYn = "Y";
+        }
+
+
+        String updateId =
+                param.getUpdateId() == null
+                        ? ""
+                        : param.getUpdateId().trim();
+
+        int updatedCount =
+                tbMannaFaqCategoryRepository
+                        .updateCategory(
+                                faqCategoryNo,
+                                faqCategoryName,
+                                useYn,
+                                updateId
+                        );
+
+        if (updatedCount < 1) {
+            throw new IllegalStateException(
+                    "FAQ 카테고리 수정에 실패했습니다."
+            );
+        }
+    }
+    /**
+     * FAQ 관리 화면의 왼쪽 카테고리와 등록/수정 셀렉트에서 사용한다.
+     *
+     * 응답 예시:
+     * {
+     *   faqCategoryNo: 1,
+     *   faqCategoryName: "이용안내",
+     *   displayOrder: 1,
+     *   useYn: "Y",
+     *   faqCount: 3
+     * }
+     */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getFaqCategoryList(
+            String useYn,
+            Integer dataStatus
+    ) {
+        String normalizedUseYn = normalize(useYn);
+        int normalizedDataStatus = dataStatus == null ? 1 : dataStatus;
+
+        List<TbMannaFaqCategory> categoryList;
+
+        if (normalizedUseYn.isEmpty()) {
+            categoryList = tbMannaFaqCategoryRepository
+                    .findByDataStatusOrderByFaqCategoryNoAsc(
+                            normalizedDataStatus
+                    );
+        } else {
+            categoryList = tbMannaFaqCategoryRepository
+                    .findByUseYnAndDataStatusOrderByFaqCategoryNoAsc(
+                            normalizedUseYn,
+                            normalizedDataStatus
+                    );
+        }
+
+        List<TbMannaFaq> allFaqList = tbMannaFaqRepository
+                .findByDataStatusOrderByDisplayOrderAscFaqNoAsc(1);
+
+        Map<Long, Long> countMap = allFaqList.stream()
+                .filter(item -> item.getFaqCategoryNo() != null)
+                .collect(
+                        Collectors.groupingBy(
+                                TbMannaFaq::getFaqCategoryNo,
+                                Collectors.counting()
+                        )
+                );
+
+        return categoryList.stream()
+                .map(category -> {
+                    Map<String, Object> item = new LinkedHashMap<>();
+
+                    item.put(
+                            "faqCategoryNo",
+                            category.getFaqCategoryNo()
+                    );
+                    item.put(
+                            "faqCategoryName",
+                            category.getFaqCategoryName()
+                    );
+                    item.put("useYn", category.getUseYn());
+                    item.put(
+                            "faqCount",
+                            countMap.getOrDefault(
+                                    category.getFaqCategoryNo(),
+                                    0L
+                            )
+                    );
+
+                    return item;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public TbMannaFaq getFaqDetail(Long faqNo) {
+        if (faqNo == null) {
+            throw new IllegalArgumentException("FAQ 번호가 없습니다.");
+        }
+
+        return tbMannaFaqRepository
+                .findByFaqNoAndDataStatus(faqNo, 1)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "FAQ 정보를 찾을 수 없습니다."
+                        )
+                );
+    }
+
+    @Transactional
+    public void updateFaqSort(
+            List<MannaFaqSortRequest> sortList,
+            String updateId
+    ) {
+        if (sortList == null || sortList.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "변경할 FAQ 순서 정보가 없습니다."
+            );
+        }
+
+        updateId = normalizeUserId(updateId);
+
+        for (int i = 0; i < sortList.size(); i++) {
+            MannaFaqSortRequest request = sortList.get(i);
+
+            if (request == null || request.getFaqNo() == null) {
+                continue;
+            }
+
+            int displayOrder =
+                    request.getDisplayOrder() == null ||
+                            request.getDisplayOrder() <= 0
+                            ? i + 1
+                            : request.getDisplayOrder();
+
+            int updated = tbMannaFaqRepository.updateDisplayOrder(
+                    request.getFaqNo(),
+                    displayOrder,
+                    updateId
+            );
+
+            if (updated == 0) {
+                throw new IllegalArgumentException(
+                        "FAQ 순서 변경 대상이 없습니다. faqNo="
+                                + request.getFaqNo()
+                );
+            }
+        }
+    }
+
+    @Transactional
+    public void deleteFaq(Long faqNo, String updateId) {
+        if (faqNo == null) {
+            throw new IllegalArgumentException("FAQ 번호가 없습니다.");
+        }
+
+        int updated = tbMannaFaqRepository.softDeleteFaq(
+                faqNo,
+                normalizeUserId(updateId)
+        );
+
+        if (updated == 0) {
+            throw new IllegalArgumentException(
+                    "삭제할 FAQ 정보를 찾을 수 없습니다."
+            );
+        }
+    }
+
+    private void validateFaqCategory(Long faqCategoryNo) {
+        if (faqCategoryNo == null) {
+            throw new IllegalArgumentException(
+                    "FAQ 카테고리를 선택해주세요."
+            );
+        }
+
+        boolean exists = tbMannaFaqCategoryRepository
+                .existsByFaqCategoryNoAndDataStatus(
+                        faqCategoryNo,
+                        1
+                );
+
+        if (!exists) {
+            throw new IllegalArgumentException(
+                    "사용 가능한 FAQ 카테고리가 아닙니다."
+            );
+        }
+    }
+
+    private String normalize(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    private String normalizeUserId(String value) {
+        String userId = normalize(value);
+        return userId.isEmpty() ? "SYSTEM" : userId;
     }
 }
 

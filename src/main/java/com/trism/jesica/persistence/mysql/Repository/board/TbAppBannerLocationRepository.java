@@ -57,4 +57,9 @@ public interface TbAppBannerLocationRepository extends JpaRepository<TbAppBanner
             "        banner_no = :bannerNo) a " +
             "", nativeQuery = true)
     List<TbAppBannerLocationDTO> findByBannerNo (@Param("bannerNo") Long bannerNo);
+
+
+
+    @Query(value = "select addr_1 from tb_app_service_location where location_no = :locationNo", nativeQuery = true)
+    String findAddr1ByLocationNo(@Param("locationNo") Integer locationNo);
 }

@@ -6,10 +6,10 @@
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
     <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
-         <title>Jesicar |<spring:message code="list.detail.1" text="배너 관리"/></title>
+         <title>Jesicar |<spring:message code="list.detail.1" text="메인 배너 관리"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae |<spring:message code="list.detail.1" text="배너 관리"/></title>
+        <title>온동네 |<spring:message code="list.detail.1" text="메인 배너 관리"/></title>
     </c:if>
 </head>
 <body>
@@ -35,10 +35,10 @@
             <div class="p-t-20 p-b-0">
                 <ol class="breadcrumb float-xl-right p-r-10">
                     <li class="breadcrumb-item"><spring:message code="sidemenu.1" text="게시판 관리"/></li>
-                    <li class="breadcrumb-item"><a href="${path}/driver/deliveryman/list"><spring:message code="sidemenu.workgroupmanagement.1" text="배너 관리"/></a></li>
+                    <li class="breadcrumb-item"><a href="${path}/driver/deliveryman/list"><spring:message code="sidemenu.workgroupmanagement.1" text="메인 배너 관리"/></a></li>
                     <li class="breadcrumb-item active"><spring:message code="list.detail.1" text="배너 등록"/></li>
                 </ol>
-                <h3 class="rix-title p-b-5"><spring:message code="list.detail.1" text="배너 등록"/></h3>
+                <h3 class="rix-title p-b-5"><spring:message code="list.detail.1" text="메인 배너 등록"/></h3>
             </div>
             <div class="row width-full p-5">
                 <div class="panel panel-inverse width-full">
@@ -47,6 +47,7 @@
                             <input type="hidden" class="insertUserId" name="insertUserId" value="${sessionScope.sessionKey.userLoginId}">
                             <input type="hidden" name="dataStatus" value="1">
                             <input type="hidden" name="platformType" value="2">
+                            <input type="hidden" name="bannerType" value="0">
                             <table class="table table-bordered">
                                 <tbody>
                                 <%--<tr>
@@ -85,13 +86,11 @@
                                     <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="노출서비스"/></td>
                                         <td>
-                                            <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-                                                <label class="m-r-10" style="display: inline-flex; align-items: center">
-                                                    <input type="radio" name="serviceType" class="serviceType" value="0" style="margin-right: 5px" checked>
-                                                    <span><spring:message code="list.detail.tothewhole1" text="메인"/></span>
-                                                </label>
-                                            </c:if>
-                                            <c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
+                                            <label class="m-r-10" style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="serviceType" class="serviceType" value="0" style="margin-right: 5px" checked>
+                                                <span><spring:message code="list.detail.tothewhole1" text="메인"/></span>
+                                            </label>
+                                            <%--<c:if test="${sessionScope.sessionKey.company == 'jesicar'}">
                                                 <label class="m-r-10" style="display: inline-flex; align-items: center">
                                                     <input type="radio" name="serviceType" class="serviceType" value="0" style="margin-right: 5px" checked>
                                                     <span><spring:message code="list.detail.tothewhole1" text="메인"/></span>
@@ -108,7 +107,7 @@
                                                     <input type="radio" name="serviceType" class="serviceType" value="4" style="margin-right: 5px">
                                                     <span><spring:message code="list.detail.affiliate1" text="마트"/></span>
                                                 </label>
-                                            </c:if>
+                                            </c:if>--%>
 
                                             <%--<label style="display: inline-flex; align-items: center">
                                                 <input type="radio" name="serviceType" class="serviceType" value="5" style="margin-right: 5px">
@@ -153,9 +152,9 @@
                                         <td>
                                             <c:if test="${empty appCode}">
                                                 <select name="appCode" class="form-control w-25" >
-                                                    <option value="">전체</option>
+                                                   <%-- <option value="">전체</option>--%>
                                                     <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                        <option value="${appCodeList.sysCode}">${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                        <option value="${appCodeList.sysCode}">${appCodeList.codeName}</option>
                                                     </c:forEach>
                                                 </select>
                                             </c:if>
@@ -168,6 +167,20 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="서비스지역"/></td>
+                                        <td>
+                                            <select name="serviceNo" class="form-control w-25" >
+                                               <%-- <option value="">전체</option>--%>
+                                                <c:forEach var="serviceList" items="${appServiceList}" varStatus="status">
+                                                   <option value="${serviceList.serviceNo}" <c:if test="${serviceList.serviceNo == 1}"> selected</c:if> >${serviceList.serviceName}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </td>
+                                        <td class="text-danger-darker" style="width:25%">
+                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="서비스지역를 지정해주세요"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="게시판 종류"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
@@ -175,7 +188,7 @@
                                                 <span><spring:message code="list.detail.tothewhole1" text="연결안함"/></span>
                                             </label>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
-                                                <input type="radio" name="boardType" value="1" style="margin-right: 5px" checked>
+                                                <input type="radio" name="boardType" value="1" style="margin-right: 5px" >
                                                 <span><spring:message code="list.detail.tothewhole1" text="이벤트"/></span>
                                             </label>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
@@ -186,12 +199,16 @@
                                                 <input type="radio" name="boardType" value="3" style="margin-right: 5px">
                                                 <span><spring:message code="list.detail.affiliate1" text="앱화면"/></span>
                                             </label>
+                                            <label class="m-r-10 " style="display: inline-flex; align-items: center">
+                                                <input type="radio" name="boardType" value="4" style="margin-right: 5px">
+                                                <span><spring:message code="list.detail.affiliate1" text="외부링크"/></span>
+                                            </label>
                                         </td>
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="게시판 종류를 선택하세요."/>
                                         </td>
                                     </tr>
-                                     <tr>
+                                   <%-- <tr>
                                         <td class="bg-light"><spring:message code="list.detail.postclassification1" text="주소별 노출사용여부"/></td>
                                         <td>
                                             <label class="m-r-10 " style="display: inline-flex; align-items: center">
@@ -206,7 +223,7 @@
                                         <td class="text-danger-darker" style="width:25%">
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="주소별 노출사용여부를 선택하세요."/>
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr class="location_tr" style="display: none;">
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="지역등록"/></td>
                                         <td>
@@ -289,7 +306,7 @@
                                         </td>
                                     </tr>
                                     <tr class="appScheme" style="display: none">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="앱스키마 URL"/></td>
+                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="URL"/></td>
                                         <td>
                                             <input type="text" class="form-control w-25"  name="schemeUrl">
                                         </td>
@@ -443,7 +460,7 @@
         })
 
         $(document).on("change", "input[name='boardType']", function() {
-           if($(this).val() == 3 ){
+           if($(this).val() == 3 || $(this).val() == 4){
                $(".boardSelect").css("display","none");
                $(".appScheme").css("display","");
            } else {
@@ -664,15 +681,15 @@
 
     function inputDataCheck(args) {
         if (isNull(args.boardNo)) {
-            if(args.boardType != 0 && args.boardType != 3) {
+            if(args.boardType != 0 && args.boardType != 3 && args.boardType != 4) {
                 return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
             }
         } else if (isNull($("#imgFile")[0].files[0])) {
             return alert_focus("button_base", "배너이미지를 선택해주세요");
         }
 
-        if(args.boardType == 3 && args.schemeUrl == "") {
-            return alert_focus("board-search-btn", "앱스키마 URL을 입력해주세요");
+        if(args.boardType == 3 && args.boardType == 4 && args.schemeUrl == "") {
+            return alert_focus("board-search-btn", "URL을 입력해주세요");
         }
         return true;
     }

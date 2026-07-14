@@ -1,16 +1,22 @@
 package com.trism.jesica.persistence.mysql.Entitiy.board;
 
 import com.trism.jesica.config.EmptyStringToNullConverter;
+import com.trism.jesica.persistence.mysql.Entitiy.app.TbAppService;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_app_banner")
 @Accessors(chain = true)
@@ -19,6 +25,14 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TbAppBanner {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_no", referencedColumnName = "service_no", insertable = false, updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @Setter(lombok.AccessLevel.NONE) // FK는 serviceNo로만 변경, 연관객체는 조회 전용
+    private TbAppService service;
+
+    @OneToMany(mappedBy = "banner", fetch = FetchType.LAZY)
+    private List<TbAppBannerLocation> locations = new ArrayList<>(); // ✅ serviceType=1일 때만 사용
 
     private static final long serialVersionUID = 1L;
 
@@ -29,6 +43,12 @@ public class TbAppBanner {
     @Column(name = "banner_no", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bannerNo;
+
+    /**
+     * 서비스 번호
+     */
+    @Column(name = "service_no", nullable = false)
+    private Integer serviceNo = null;
 
     /**
      * 데이터_상태 (0: 삭제, 1: 정상)
@@ -131,7 +151,8 @@ public class TbAppBanner {
             Integer bannerType,
             String langCode,
             String schemeUrl,
-            String appCode
+            String appCode,
+            Integer serviceNo
     ) {
         this.bannerNo = bannerNo;
         this.platformType = platformType;
@@ -147,6 +168,7 @@ public class TbAppBanner {
         this.langCode = langCode;
         this.schemeUrl = schemeUrl;
         this.appCode = appCode;
+        this.serviceNo = serviceNo;
     }
 
     public void updateDisabledTbAppBanner() {

@@ -20,9 +20,10 @@
 <script src="${path}/assets/plugins/datetimepicker-master/jquery.datetimepicker.js"></script>
 <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <!--End bootstrap, jquery, datatables-->
 
-<script src="${path}/assets/plugins/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<%--<script src="${path}/assets/plugins/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>--%>
 <script src="${path}/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="${path}/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
 <script src="${path}/assets/plugins/jquery.maskedinput/src/jquery.maskedinput.js"></script>
@@ -443,50 +444,64 @@
                 data[i].listIndex = i + 1
                 data[i]["number"] = i;
             }
-        } else if(type == "A1"){
-            var a1= res.a1;
-            var a2= res.a2;
-            // 리스트번호
-            for (let i = 0; i < data.length; i++) {
-                data[i].listIndex = i + 1
-                data[i]["number"] = i;
-                /*if(data[i]["isMember"] != 1){
-                    //비회원
-                    data[i]["memberType"] = { type: 0 };
-                }*/
-                if(data[i]["isMember"] == 1 && data[i]["snsToken1"] == null && data[i]["snsToken2"] == null){
-                    //회원
-                    data[i]["memberType"] = { type: 1 , custNo: data[i].custNo};
-                }
-                if(data[i]["snsToken1"] != null || data[i]["snsToken2"] != null){
-                    if(data[i]["snsToken1"] == null || data[i]["snsToken2"] != null){
-                        //Apple회원
-                        data[i]["memberType"] = { type: 2 };
+        }  else if(type == "A1"){
+        var a1= res.a1;
+        var a2= res.a2;
+
+        for (let i = 0; i < data.length; i++) {
+            data[i].listIndex = i + 1;
+            data[i]["number"] = i;
+
+            // 기본값: 일반회원
+            data[i]["memberType"] = { type: 1, custNo: data[i].custNo };
+
+            // snsList 기준으로 snsType 판별
+            let snsType = null;
+            if (data[i]["snsList"] && data[i]["snsList"].length > 0) {
+                for (let s = 0; s < data[i]["snsList"].length; s++) {
+                    const sns = data[i]["snsList"][s];
+
+                    if (sns && sns["snsType"] == 3) {
+                        snsType = 3;   // Apple 우선
+                        break;
+                    } else if (sns && sns["snsType"] == 2) {
+                        snsType = 2;   // Kakao
                     }
-                    if(data[i]["snsToken1"] != null || data[i]["snsToken2"] == null){
-                        //Kakao회원
-                        data[i]["memberType"] = { type: 3 };
-                    }
-                }
-                if(data[i]["recommCust"]){
-                    data[i]["recommCustName"] =data[i]["recommCust"]["custName"] +"("+ phoneHyphen(data[i]["recommCust"]["custTel"]) +")";
-                }
-                if(data[i]["custLocation"]) {
-                    for(var j = 0; j < a1.length ; j++) {
-                        if(data[i]["custLocation"]["addr1"] == a1[j].sysCode) {
-                            data[i]["custLocation"]["addr1"] = a1[j].codeName;
-                        }
-                    }
-                    for(var h = 0; h < a2.length ; h++) {
-                        if(data[i]["custLocation"]["addr2"] == a2[h].sysCode) {
-                            data[i]["custLocation"]["addr2"] = a2[h].codeName;
-                        }
-                    }
-                } else {
-                    data[i]["custLocation"] = {addr1 : "", addr2: ""};
                 }
             }
-        } else if(type == "A3"){
+
+            if (snsType == 3) {
+                // Apple회원
+                data[i]["memberType"] = { type: 2 };
+            } else if (snsType == 2) {
+                // Kakao회원
+                data[i]["memberType"] = { type: 3 };
+            } else {
+                // 그 외는 일반회원
+                data[i]["memberType"] = { type: 1, custNo: data[i].custNo };
+            }
+
+            if(data[i]["recommCust"]){
+                data[i]["recommCustName"] =
+                    data[i]["recommCust"]["custName"] + "(" + phoneHyphen(data[i]["recommCust"]["custTel"]) + ")";
+            }
+
+            if(data[i]["custLocation"]) {
+                for(var j = 0; j < a1.length ; j++) {
+                    if(data[i]["custLocation"]["addr1"] == a1[j].sysCode) {
+                        data[i]["custLocation"]["addr1"] = a1[j].codeName;
+                    }
+                }
+                for(var h = 0; h < a2.length ; h++) {
+                    if(data[i]["custLocation"]["addr2"] == a2[h].sysCode) {
+                        data[i]["custLocation"]["addr2"] = a2[h].codeName;
+                    }
+                }
+            } else {
+                data[i]["custLocation"] = {addr1 : "", addr2: ""};
+            }
+         }
+        }else if(type == "A3"){
             for (let i = 0; i < data.length; i++) {
                 data[i].listIndex = i + 1
                 data[i]["number"] = i;
@@ -523,6 +538,11 @@
                 if($(".dayType").val() == "1"){
                     data[i]["yyyymmdd"] = dateFormatYYYYMMDD(data[i]["start"]) +" ~ "+dateFormatYYYYMMDD(data[i]["end"]);
                 }
+            }
+        } else if(type == "A7"){
+            for (let i = 0; i < data.length; i++) {
+                data[i].listIndex = i + 1
+                data[i]["number"] = i;
             }
         }
         return data;
@@ -577,7 +597,8 @@
         let date2 = new Date();
         let startDate = "${searchValue.startDate}";
         let endDate = "${searchValue.endDate}";
-        var month30 = new Date(date2.setDate(date2.getDate() - Number(dataSet)));
+        let month30 = new Date(date2.setDate(date2.getDate() - Number(dataSet)));
+        let defaultMonth = new Date("2020-01-01");
 
         $(".startDate").datepicker({
             calendarWeeks: false,
@@ -588,7 +609,11 @@
         });
 
         if(startDate == ""){
-            $(".startDate").datepicker('setDate', month30);
+            if(dataSet == 2020) {
+                $(".startDate").datepicker('setDate', defaultMonth);
+            }else {
+                $(".startDate").datepicker('setDate', month30);
+            }
         } else {
             $(".startDate").datepicker('setDate', startDate);
         }
@@ -701,7 +726,6 @@
                     return param;
                 },
                 "dataSrc": function (res) {
-                    console.log(res)
                     return dataSrcFunction(res,dataSrcType);
                 },
                 error: function(xhr, status, err) {
@@ -720,7 +744,226 @@
         var val = $.extend(true, setting, init);
         return $(this).DataTable(val);
     };
+    /**
+     * DataTables 기본 Excel / Print 원본 액션
+     */
+    var oldExportAction = function (self, e, dt, button, config) {
+        if (button[0].className.indexOf('buttons-excel') >= 0) {
+            if ($.fn.dataTable.ext.buttons.excelHtml5.available(dt, config)) {
+                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config);
+            } else {
+                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+            }
+        } else if (button[0].className.indexOf('buttons-print') >= 0) {
+            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+        }
+    };
 
+    /**
+     * 일반 DataTables 전체 엑셀 다운로드
+     *
+     * 사용:
+     * {
+     *   extend: 'excel',
+     *   action: newExportAction
+     * }
+     */
+    var newExportAction = function (e, dt, button, config) {
+        var self = this;
+        var oldStart = dt.settings()[0]._iDisplayStart;
+
+        var startDate = $(".startDate").val() || $(".periodS").val();
+        var endDate = $(".endDate").val() || $(".periodE").val();
+
+        if (startDate && endDate && typeof getDateDiff === "function") {
+            if (getDateDiff(startDate, endDate) > 120) {
+                alert("엑셀 날짜범위는 최대 120일까지 가능합니다.");
+                return;
+            }
+        }
+
+        dt.one('preXhr', function (e, s, data) {
+            var exportLength = 2147483647;
+
+            data.start = 0;
+            data.length = exportLength;
+
+            // 서버에서 pageSize/pageNo를 기준으로 페이징하는 화면 대응
+            data.pageNo = 1;
+            data.pageSize = exportLength;
+
+            // 일부 화면에서 length select name 값으로 pageSize를 만드는 경우 대응
+            data.testTable_length = exportLength;
+
+            // 서버에서 엑셀 여부 분기할 수 있게 추가
+            data.excelDownloadYn = "Y";
+
+            dt.one('preDraw', function (e, settings) {
+                oldExportAction(self, e, dt, button, config);
+
+                dt.one('preXhr', function (e, s, data) {
+                    settings._iDisplayStart = oldStart;
+                    data.start = oldStart;
+
+                    // 원래 화면 페이지 복구
+                    data.pageNo = oldStart / dt.page.len() + 1;
+                    data.pageSize = dt.page.len();
+                    data.length = dt.page.len();
+                    data.testTable_length = dt.page.len();
+
+                    delete data.excelDownloadYn;
+                });
+
+                setTimeout(function () {
+                    dt.ajax.reload();
+                }, 0);
+
+                return false;
+            });
+        });
+
+        dt.ajax.reload();
+    };
+
+    // 오타로 쓰는 화면 호환
+
+    /**
+     * 기존 화면 중 오타로 newExprortAction 을 쓰는 곳이 있으면 호환 처리
+     */
+    var newExprortAction = newExportAction;
+
+
+    /**
+     * 값 없을 때 엑셀 기본 표시값
+     */
+    function excelEmptyValue(value, emptyText) {
+        if (emptyText === undefined || emptyText === null) {
+            emptyText = "-";
+        }
+
+        if (value === null || value === undefined || value === "") {
+            return emptyText;
+        }
+
+        return String(value);
+    }
+
+
+    /**
+     * SheetJS 기반 XLSX 다운로드 공통
+     *
+     * 주의:
+     * XLSX 라이브러리가 필요함.
+     * include_common_js.jsp 또는 include_custom_js.jsp에 xlsx.full.min.js 로드 필요.
+     */
+    function downloadCommonXlsx(options) {
+        if (typeof XLSX === "undefined") {
+            alert("엑셀 라이브러리가 로드되지 않았습니다.");
+            return;
+        }
+
+        var headers = options.headers || [];
+        var rows = options.rows || [];
+        var sheetName = options.sheetName || "Sheet1";
+        var fileName = options.fileName || ("엑셀출력_" + moment().format("YYYYMMDDHHmm") + ".xlsx");
+        var cols = options.cols || [];
+
+        var workbook = XLSX.utils.book_new();
+        var worksheet = XLSX.utils.aoa_to_sheet([headers].concat(rows));
+
+        if (cols.length > 0) {
+            worksheet["!cols"] = cols;
+        }
+
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+        XLSX.writeFile(workbook, fileName);
+    }
+
+
+    /**
+     * 서버 페이징을 돌면서 전체 데이터 XLSX 다운로드
+     *
+     * 사용처:
+     * - 서버에서 length 값을 제한하는 화면
+     * - DataTables exportAll 로는 전체 데이터가 안 내려오는 화면
+     */
+    function downloadCommonPagedXlsx(options) {
+        var pageSize = Number(options.pageSize || 1000);
+        var pageNo = 1;
+        var allList = [];
+        var totalCount = 0;
+
+        var $btn = $(options.buttonSelector || ".btn-excel-download");
+        var originalHtml = $btn.html();
+
+        var loadingText = options.loadingText || "엑셀 생성중...";
+        var emptyMessage = options.emptyMessage || "엑셀 다운로드할 데이터가 없습니다.";
+        var failMessage = options.failMessage || "엑셀 다운로드 중 오류가 발생했습니다.";
+
+        function setLoading() {
+            if ($btn.length > 0) {
+                $btn.prop("disabled", true)
+                    .html('<i class="fa fa-spinner fa-spin"></i><span>' + loadingText + '</span>');
+            }
+        }
+
+        function finish() {
+            if ($btn.length > 0) {
+                $btn.prop("disabled", false).html(originalHtml);
+            }
+        }
+
+        function fetchNextPage() {
+            options.requestPage(pageNo, pageSize)
+                .done(function (res) {
+                    var list = options.getList(res) || [];
+
+                    if (typeof options.getTotalCount === "function") {
+                        totalCount = Number(options.getTotalCount(res) || 0);
+                    }
+
+                    if (list.length > 0) {
+                        allList = allList.concat(list);
+                    }
+
+                    var isLast =
+                        list.length === 0 ||
+                        (totalCount > 0 && allList.length >= totalCount) ||
+                        (totalCount === 0 && list.length < pageSize);
+
+                    if (isLast) {
+                        if (allList.length === 0) {
+                            alert(emptyMessage);
+                            finish();
+                            return;
+                        }
+
+                        var rows = options.makeRows(allList);
+
+                        downloadCommonXlsx({
+                            headers: options.headers,
+                            rows: rows,
+                            sheetName: options.sheetName,
+                            fileName: options.fileName,
+                            cols: options.cols
+                        });
+
+                        finish();
+                        return;
+                    }
+
+                    pageNo++;
+                    fetchNextPage();
+                })
+                .fail(function () {
+                    alert(failMessage);
+                    finish();
+                });
+        }
+
+        setLoading();
+        fetchNextPage();
+    }
 
 
 </script>

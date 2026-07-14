@@ -15,13 +15,12 @@ public class TbAppBannerData {
     private Long boardNo;
     private String bannerFile;
     private Integer dataStatus;
-
     private Integer platformType;
-
     private Integer bannerType;
     private String langCode;
     private String appCode;
     private String schemeUrl;
+    private Integer serviceNo;
 
     public TbAppBanner insertData() {
 
@@ -39,6 +38,7 @@ public class TbAppBannerData {
                 .langCode(langCode)
                 .schemeUrl(schemeUrl)
                 .appCode(appCode)
+                .serviceNo(serviceNo)
                 .build();
     }
 
@@ -58,6 +58,7 @@ public class TbAppBannerData {
                 .langCode(langCode)
                 .schemeUrl(schemeUrl)
                 .appCode(appCode)
+                .serviceNo(serviceNo)
                 .build();
     }
 }

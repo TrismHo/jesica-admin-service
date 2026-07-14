@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jig-Bae | 사용자 관리</title>
+    <title>온동네 | 사용자 관리</title>
 </head>
 <style>
     .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -155,7 +155,7 @@
                                                 <c:if test="${empty appCode}">
                                                     <select id="appCode" name="appCode" class="form-control w-25" >
                                                         <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                                            <option value="${appCodeList.sysCode}">${appCodeList.sysCode} (${appCodeList.codeName})</option>
+                                                            <option value="${appCodeList.sysCode}">${appCodeList.codeName}</option>
                                                         </c:forEach>
                                                     </select>
                                                 </c:if>

@@ -17,6 +17,7 @@ public class JesicaProperties {
     private SystemImgPath systemImgPath;
     private ProfilePath profilePath;
     private LicensePath licensePath;
+    private BadgePath badgePath;
     private CareerPath careerPath;
     private ServicePath servicePath;
     private ApiServer apiServer;
@@ -29,6 +30,10 @@ public class JesicaProperties {
     private SamplePath samplePath;
     private MomPosServer momPosServer;
     private OrdPathCd ordPathCd;
+    private CwPath cwPath;
+    private StPath stPath;
+    private StDwPath stDwPath;
+    private BadgeFileDel badgeFileDel;
 
 
 
@@ -77,6 +82,10 @@ public class JesicaProperties {
         private String path;
     }
     @Data
+    public static class BadgePath {
+        private String path;
+    }
+    @Data
     public static class CareerPath {
         private String path;
     }
@@ -111,6 +120,7 @@ public class JesicaProperties {
     @Data
     public static class MomPosServer {
         private String server;
+        private String api;
         private String authKey;
     }
 
@@ -118,5 +128,21 @@ public class JesicaProperties {
     public static class OrdPathCd {
         private String jesicar;
         private String pickOrder;
+    }
+    @Data
+    public static class CwPath {
+        private String path;
+    }
+    @Data
+    public static class StPath {
+        private String path;
+    }
+    @Data
+    public static class StDwPath {
+        private String path;
+    }
+    @Data
+    public static class BadgeFileDel {
+        private String path;
     }
 }

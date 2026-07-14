@@ -9,7 +9,7 @@
         <title>Jesicar | <spring:message code="list.detail.detailsofpasorders" text="세차주문내역"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
+        <title>온동네 | <spring:message code="sidemenu.boardmanagement.platformannouncement1" text="세차주문내역"/></title>
     </c:if>
 </head>
 <style>
@@ -458,7 +458,7 @@
                                             <table  style="width: 100%" class="border-0">
                                                 <tr class="border-0">
                                                     <td class="border-top-0 border-right-0 border-left-0 border-bottom-0 height-40">
-                                                   <%-- ${fn:substring(callDetail.takeoutDate,0,2) }-${fn:substring(callDetail.takeoutDate,2,4) }-${fn:substring(callDetail.takeoutDate,4,6) }
+                                                 <%--   ${fn:substring(callDetail.takeoutDate,0,2) }-${fn:substring(callDetail.takeoutDate,2,4) }-${fn:substring(callDetail.takeoutDate,4,6) }
                                                     ${fn:substring(callDetail.takeoutDate,6,8) }:${fn:substring(callDetail.takeoutDate,8,10) }:${fn:substring(callDetail.takeoutDate,10,12) }--%>
                                                             ${callDetail.takeoutDate}
                                                     </td>

@@ -56,6 +56,12 @@ public class PushMessage implements Serializable {
          * 이벤트 정보
          */
         private Event event;
+
+
+        /**
+         * 쿠폰 정보
+         */
+        private Coupon coupon;
     }
 
     @Builder
@@ -74,5 +80,22 @@ public class PushMessage implements Serializable {
         private String title;  //이벤트 제목
         private String disType;  //할인구분(1:정액, 2:정률)
         private String disAmt;  //할인금액
+    }
+
+
+    //쿠폰용 추가 2026.06.29
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @lombok.Data
+    public static class Coupon implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        private String cpnTitle;  //매장코드
+        private String readyDate;  //매장명
+        private String expireDate;  //주문구분(1:배달, 2:포장)
+        private String disAmt; //배달구분(1:0원배달, 2:0순위배달)
+        private String disType; //이벤트 시작일(yyyymmdd)
+        private String useLimit;  //이벤트 종료일(yyyymmdd)
     }
 }

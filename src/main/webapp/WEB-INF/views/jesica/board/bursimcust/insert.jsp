@@ -9,7 +9,7 @@
         <title>Jesicar | 고객공지등록</title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae | 고객공지등록</title>
+        <title>온동네 | 고객공지등록</title>
     </c:if>
 </head>
 <body>

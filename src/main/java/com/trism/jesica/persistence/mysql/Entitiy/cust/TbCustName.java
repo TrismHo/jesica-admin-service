@@ -27,6 +27,12 @@ public class TbCustName implements Serializable {
     private Long custNo;
 
     /**
+     * 서비스 번호
+     */
+    @Column(name = "service_no", nullable = false)
+    private Integer serviceNo = null;
+
+    /**
      * 데이터_상태 (0: 삭제, 1: 정상, 2: 정지)
      */
     @Column(name = "data_status")

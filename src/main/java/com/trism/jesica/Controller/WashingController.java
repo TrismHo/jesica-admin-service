@@ -1,8 +1,8 @@
 package com.trism.jesica.Controller;
 
 import com.trism.jesica.Service.MannaService;
+import com.trism.jesica.dto.MannaOrderDetailDto;
 import com.trism.jesica.dto.TbMannaOrderGoodsDTO;
-import com.trism.jesica.persistence.mysql.Entitiy.manna.TbMannaOrder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -65,16 +65,18 @@ public class WashingController {
         List<TbMannaOrderGoodsDTO> tbMannaOrderGoodsDTO;
         try {
             //;
-            TbMannaOrder tbCallAll = mannaService.getCallAllDetail(ordNo);
+            MannaOrderDetailDto detail = mannaService.getCallAllDetail(ordNo);
+
+            model.addAttribute("callDetail", detail.getOrder());
+            model.addAttribute("logisticsDetail", detail.getLogistics());
             tbMannaOrderGoodsDTO = mannaService.getOrderGoods(ordNo);
-            model.addAttribute("callDetail",tbCallAll);
             model.addAttribute("goodsInfo",tbMannaOrderGoodsDTO);
             model.addAttribute("goodsInfoDetail",mannaService.getOrderGoodOpt(ordNo));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new ModelAndView("/jesica/washing/order/detail");
+        return new ModelAndView("/jesica/store/order/detail");
     }
 
     private void putSearchOption(HttpSession session, Map<String,Object> searchValue) {

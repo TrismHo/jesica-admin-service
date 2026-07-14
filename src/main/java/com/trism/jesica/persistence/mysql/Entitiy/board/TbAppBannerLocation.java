@@ -21,6 +21,13 @@ public class TbAppBannerLocation {
 
     private static final long serialVersionUID = 1L;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "banner_no", insertable = false, updatable = false)
+    private TbAppBanner banner;
+
+    @Column(name = "banner_no", nullable = false)
+    private Long bannerNo;
+
     /**
      * 주소_SEQ
      */
@@ -28,12 +35,6 @@ public class TbAppBannerLocation {
     @Column(name = "bnr_loc_no", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bnrLocNo;
-
-    /**
-     * 데이터_상태 (0: 삭제, 1: 정상)
-     */
-    @Column(name = "bannerNo", nullable = false)
-    private Long bannerNo;
 
 
     /**

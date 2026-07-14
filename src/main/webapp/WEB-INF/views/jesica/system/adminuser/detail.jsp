@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <%@include file="../../../common/include_head.jsp" %>
-    <title>Jig-Bae | <spring:message code="list.detail.systemproductdetails" text="사용자 관리"/></title>
+    <title>온동네 | <spring:message code="list.detail.systemproductdetails" text="사용자 관리"/></title>
 </head>
 <style>
     .background-eee{
@@ -14,6 +14,11 @@
     .background-fff{
         background-color: #fff;
     }
+    .panel-box {
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+
 </style>
 <body>
 <!-- begin #page-loader -->

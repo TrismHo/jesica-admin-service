@@ -10,6 +10,7 @@ import com.trism.jesica.exception.ServiceException;
 import com.trism.jesica.persistence.mysql.Entitiy.board.*;
 import com.trism.jesica.persistence.mysql.Entitiy.coupon.TbCoupon;
 import com.trism.jesica.persistence.mysql.Entitiy.cust.TbCust;
+import com.trism.jesica.persistence.mysql.Entitiy.cust.TbCustSns;
 import com.trism.jesica.persistence.mysql.Entitiy.event.TbEvent;
 import com.trism.jesica.persistence.mysql.Entitiy.poinhistory.TbPointHistory;
 import com.trism.jesica.persistence.mysql.Repository.board.*;
@@ -18,6 +19,7 @@ import com.trism.jesica.persistence.mysql.Repository.coupon.TbCouponRepository;
 import com.trism.jesica.persistence.mysql.Repository.cust.TbCustAddrRepository;
 import com.trism.jesica.persistence.mysql.Repository.cust.TbCustLocationRepository;
 import com.trism.jesica.persistence.mysql.Repository.cust.TbCustRepository;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustSnsRepository;
 import com.trism.jesica.persistence.mysql.Repository.event.TbEventRepository;
 import com.trism.jesica.persistence.mysql.Repository.manna.TbMannaEventPushRepository;
 import com.trism.jesica.persistence.mysql.Repository.poinhistory.TbPointHistoryRepository;
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,6 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -41,7 +45,7 @@ public class BoardService {
     private final TbAppBannerLocationRepository tbAppBannerLocationRepository;
     private final TbCustLocationRepository tbCustLocationRepository;
 
-
+    private final TbCustSnsRepository tbCustSnsRepository;
     private final JesicaProperties jesicaProperties;
 
     private final TbNoticePlatformRepository tbNoticePlatformRepository;
@@ -80,23 +84,29 @@ public class BoardService {
                 : tbNoticePlatformRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    public Map<String, Object> tbNoticePlatFormSearch(Map<String,Object> searchValue, Pageable pageable) {
-        Specification<TbNoticePlatform> predicate = null;
-        Map<String, Object> map = new HashMap<>();
-        for (String key : searchValue.keySet()) {
-            Object value = searchValue.get(key);
-            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
-            searchValue.put(key, (String) value);
-            predicate = (Specification<TbNoticePlatform>) SearchUtil.searchNoticePlatform(searchValue);
-        }
-        Page<TbNoticePlatform> TbNoticePlatformPage = tbNoticePlatformRepository.findAll(predicate, pageable);
-        ;
-        /*List<TbMannaOrder> list = searchValue.isEmpty() ? null
-                : tbMannaOrderRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "ordDate"));*/
+    public Map<String, Object> tbNoticePlatFormSearch(Map<String, Object> searchValue, Pageable pageable) {
 
-        map.put("platformList",TbNoticePlatformPage.getContent());
-        map.put("totalPage",TbNoticePlatformPage.getTotalPages());
-        map.put("totalElement",TbNoticePlatformPage.getTotalElements());
+        // 1) 값 null 방어 + 문자열 trim 정리(선택)
+        if (searchValue != null) {
+            for (Map.Entry<String, Object> e : searchValue.entrySet()) {
+                Object v = e.getValue();
+                if (v == null) continue;
+                e.setValue(v.toString().trim());
+            }
+        }
+
+        // ✅ Spec은 한번만 만든다
+        Specification<TbNoticePlatform> spec =
+                Specification.where(SearchUtil.searchNoticePlatform(searchValue))
+                        .and(SearchUtil.noticeSpec());
+        // 2) 스펙은 한번만 생성
+
+        Page<TbNoticePlatform> page = tbNoticePlatformRepository.findAll(spec, pageable);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("platformList", page.getContent());
+        map.put("totalPage", page.getTotalPages());
+        map.put("totalElement", page.getTotalElements());
         return map;
     }
 
@@ -186,23 +196,28 @@ public class BoardService {
                 : tbEventRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "insertDate"));
     }
 
-    public Map<String, Object> tbEventSearch(Map<String,Object> searchValue, Pageable pageable) {
-        Specification<TbEvent> predicate = null;
-        Map<String, Object> map = new HashMap<>();
-        for (String key : searchValue.keySet()) {
-            Object value = searchValue.get(key);
-            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
-            searchValue.put(key, (String) value);
-            predicate = (Specification<TbEvent>) SearchUtil.searchEvent(searchValue);
-        }
-        Page<TbEvent> TbEventPage = tbEventRepository.findAll(predicate, pageable);
-        ;
-        /*List<TbMannaOrder> list = searchValue.isEmpty() ? null
-                : tbMannaOrderRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "ordDate"));*/
+    public Map<String, Object> tbEventSearch(Map<String, Object> searchValue, Pageable pageable) {
 
-        map.put("eventList",TbEventPage.getContent());
-        map.put("totalPage",TbEventPage.getTotalPages());
-        map.put("totalElement",TbEventPage.getTotalElements());
+        Map<String, Object> map = new HashMap<>();
+
+        // ✅ 값 String 캐스팅 금지: toString()으로 정리 (null은 제외)
+        Map<String, Object> param = new HashMap<>();
+        for (Map.Entry<String, Object> e : searchValue.entrySet()) {
+            if (e.getValue() == null) continue;
+            param.put(e.getKey(), e.getValue().toString());
+        }
+
+
+        // ✅ Spec은 한번만 만든다
+        Specification<TbEvent> spec =
+                Specification.where(SearchUtil.searchEvent(param))
+                        .and(SearchUtil.fetchService());
+
+        Page<TbEvent> page = tbEventRepository.findAll(spec, pageable);
+
+        map.put("eventList", page.getContent());
+        map.put("totalPage", page.getTotalPages());
+        map.put("totalElement", page.getTotalElements());
         return map;
     }
 
@@ -255,25 +270,92 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true, value = "mysqlTransactionManager")
-    public List<TbAppBanner> tbAppBannerSearch(Map<String,Object> searchValue) {
-        Specification<TbAppBanner> predicate = null;
-        for (String key : searchValue.keySet()) {
-            Object value = searchValue.get(key);
-            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
-            searchValue.put(key,(String)value);
-            predicate = (Specification<TbAppBanner>) SearchUtil.searchAppBanner(searchValue);
+    public Map<String, Object> tbAppBannerSearch(Map<String, Object> searchValue, Pageable pageable) {
+
+        Integer serviceType = toInt(searchValue.get("serviceType")); // 컨트롤러에서 0 강제됨
+
+        Specification<TbAppBanner> predicate =
+                Specification.where(SearchUtil.searchAppBanner(searchValue))
+                        .and(SearchUtil.bannerFetchSpec(serviceType));
+
+        Sort sort = Sort.by(
+                new Sort.Order(Sort.Direction.DESC, "viewYn"),
+                new Sort.Order(Sort.Direction.ASC, "viewOrder"),
+                new Sort.Order(Sort.Direction.DESC, "insertDate")
+        );
+
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
+        Page<TbAppBanner> page = tbAppBannerRepository.findAll(predicate, sortedPageable);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("bannerList", page.getContent());
+        result.put("totalElement", page.getTotalElements());
+        return result;
+    }
+
+    @Transactional(readOnly = true, value = "mysqlTransactionManager")
+    public Map<String, Object> tbAppBannerSearchLocation(Map<String, Object> searchValue, Pageable pageable) {
+
+        // ✅ 특산물 고정
+        searchValue.put("serviceType", 1);
+        searchValue.remove("serviceNo");
+
+        // ✅ 컨트롤러에서 세팅된 값 사용
+        Integer bannerType = toInt(searchValue.get("bannerType"));
+        Object locObj = searchValue.get("locationNo");
+        String locationNo = (locObj == null) ? null : String.valueOf(locObj);
+
+        // ✅ addr1 필터는 bannerType=1일 때만 사용
+        String addr1Filter = null;
+        if (bannerType != null && bannerType == 1) {
+            if (locationNo != null && !"".equals(locationNo) && !"-1".equals(locationNo) && !"0".equals(locationNo)) {
+                addr1Filter = locationNo;
+            }
         }
-        List<Sort.Order> orders = new ArrayList<>();
 
-        Sort.Order viewYn = new Sort.Order(Sort.Direction.DESC, "viewYn");
-        Sort.Order viewOrder = new Sort.Order(Sort.Direction.ASC, "viewOrder");
-        Sort.Order insertDateOrder = new Sort.Order(Sort.Direction.DESC, "insertDate");
-        orders.add(viewYn);
-        orders.add(viewOrder);
-        orders.add(insertDateOrder);
+        // ✅ 기본조건 + addr1 조건
+        Specification<TbAppBanner> spec =
+                Specification.where(SearchUtil.searchAppBanner(searchValue))
+                        .and(SearchUtil.bannerLocationAddr1Spec(bannerType, addr1Filter));
 
-        return searchValue.isEmpty() ? null
-                : tbAppBannerRepository.findAll(predicate, Sort.by(orders));
+        Sort sort = Sort.by(
+                new Sort.Order(Sort.Direction.DESC, "viewYn"),
+                new Sort.Order(Sort.Direction.ASC, "viewOrder"),
+                new Sort.Order(Sort.Direction.DESC, "insertDate")
+        );
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
+        Page<Long> idPage = tbAppBannerRepository.findAllIds(spec, sortedPageable);
+        List<Long> ids = idPage.getContent();
+
+        List<TbAppBanner> content = new ArrayList<>();
+        if (!ids.isEmpty()) {
+            List<TbAppBanner> fetched = tbAppBannerRepository.findLocalBannersWithLocations(ids);
+
+            Map<Long, TbAppBanner> map = new HashMap<Long, TbAppBanner>();
+            for (TbAppBanner b : fetched) {
+                map.put(b.getBannerNo(), b);
+            }
+
+            for (Long id : ids) {
+                TbAppBanner b = map.get(id);
+                if (b != null) {
+                    content.add(b);
+                }
+            }
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("bannerList", content);
+        result.put("totalElement", idPage.getTotalElements());
+        return result;
+    }
+    private Integer toInt(Object v) {
+        if (v == null) return null;
+        String s = String.valueOf(v);
+        if ("".equals(s)) return null;
+        try { return Integer.parseInt(s); } catch (Exception e) { return null; }
     }
 
     @Transactional(readOnly = true, value = "mysqlTransactionManager")
@@ -352,22 +434,37 @@ public class BoardService {
     }
 
     public Map<String, Object> getCustList(Map<String,Object> searchValue, Pageable pageable) {
-        Specification<TbCust> predicate = null;
         Map<String, Object> map = new HashMap<>();
+
         for (String key : searchValue.keySet()) {
             Object value = searchValue.get(key);
-            log.info("@@ key,value = [key]:" + key + ", [value]:" + value);
-            searchValue.put(key, (String) value);
-            predicate = (Specification<TbCust>) SearchUtil.searchCustList(searchValue);
+            log.info("@@ key,value = [key]:{}, [value]:{}", key, value);
         }
-        Page<TbCust> custPage = tbCustRepository.findAll(predicate, pageable);
-        ;
-        /*List<TbMannaOrder> list = searchValue.isEmpty() ? null
-                : tbMannaOrderRepository.findAll(predicate, Sort.by(Sort.Direction.DESC, "ordDate"));*/
 
-        map.put("custList",custPage.getContent());
-        map.put("totalPage",custPage.getTotalPages());
-        map.put("totalElement",custPage.getTotalElements());
+        Specification<TbCust> predicate = SearchUtil.searchCustList(searchValue);
+        Page<TbCust> custPage = tbCustRepository.findAll(predicate, pageable);
+
+        List<TbCust> custList = custPage.getContent();
+
+        if (!custList.isEmpty()) {
+            List<Long> custNoList = custList.stream()
+                    .map(TbCust::getCustNo)
+                    .collect(Collectors.toList());
+
+            List<TbCustSns> snsAllList = tbCustSnsRepository.findByCustNoIn(custNoList);
+
+            Map<Long, List<TbCustSns>> snsMap = snsAllList.stream()
+                    .collect(Collectors.groupingBy(TbCustSns::getCustNo));
+
+            for (TbCust cust : custList) {
+                cust.setSnsList(snsMap.getOrDefault(cust.getCustNo(), new ArrayList<>()));
+            }
+        }
+
+        map.put("custList", custList);
+        map.put("totalPage", custPage.getTotalPages());
+        map.put("totalElement", custPage.getTotalElements());
+
         return map;
     }
 

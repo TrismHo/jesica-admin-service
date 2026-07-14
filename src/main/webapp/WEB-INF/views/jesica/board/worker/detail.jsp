@@ -9,10 +9,17 @@
         <title>Jesicar | <spring:message code="list.detail.shippernoticedetails" text="드라이버 공지상세"/></title>
     </c:if>
     <c:if test="${sessionScope.sessionKey.company == 'yangpa'}">
-        <title>Jig-Bae  | <spring:message code="list.detail.shippernoticedetails" text="드라이버 공지상세"/></title>
+        <title>온동네  | <spring:message code="list.detail.shippernoticedetails" text="드라이버 공지상세"/></title>
     </c:if>
 
 </head>
+<style>
+    .panel-box {
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+
+</style>
 <body>
 <!-- begin #page-loader -->
 <div id="page-loader" class="fade show"><span class="spinner"></span></div>

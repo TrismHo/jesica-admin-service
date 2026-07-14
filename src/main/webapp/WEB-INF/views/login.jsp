@@ -2,12 +2,12 @@
 <html lang="ko">
 <head>
 	<meta charset="utf-8" />
-	<title>Jig-Bae | Login</title>
+	<title>온동네 | Login</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content name="description" />
 	<meta content name="author" />
 	<%@include file="common/include_head.jsp" %>
-	<link href="../assets/css/vendor.min.css" rel="stylesheet" />
+<%--	<link href="../assets/css/vendor.min.css" rel="stylesheet" />--%>
 	<link href="../assets/css/default/app.min.css" rel="stylesheet" />
 
 </head>
@@ -80,14 +80,14 @@
 
 <div id="app" class="app">
 
-	<div class="login login-v1" style="background-color: #eacccc;">
+	<div class="login login-v1" style="background-color: #ffffff;">
 
 		<div class="login-container">
 
 			<div class="login-header">
 				<div class="brand">
 					<div class="d-flex align-items-center">
-						<img  style="width: 400px; border-radius: 20px; " src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/ondongne_logo_storeweb.png"/>">
+						<img  style="width: 400px; border-radius: 20px; " src="${path}<spring:message code="header.logoimg" text="/assets/img/logo/top_title_png.png"/>">
 					</div>
 				</div>
 			</div>
