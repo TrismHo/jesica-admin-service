@@ -305,15 +305,56 @@
                                             <spring:message code="list.description.entertherepresentativebasemessage1" text="연결할 게시글을 검색 후 선택해주세요."/>
                                         </td>
                                     </tr>
-                                    <tr class="appScheme" style="display: none">
-                                        <td class="bg-light"><spring:message code="list.detail.postclassification1" text="URL"/></td>
-                                        <td>
-                                            <input type="text" class="form-control w-25"  name="schemeUrl">
-                                        </td>
-                                        <td class="text-danger-darker" style="width:25%">
-                                            <spring:message code="list.description.entertherepresentativebasemessage1" text="앱스키마 URL을 입력해주세요."/>
-                                        </td>
-                                    </tr>
+                                <!-- 앱화면 선택 -->
+                                <tr class="appScreenSelect" style="display: none;">
+                                    <td class="bg-light">
+                                        <spring:message
+                                                code="list.detail.postclassification1"
+                                                text="앱화면"
+                                        />
+                                    </td>
+                                    <td>
+                                        <select
+                                                id="appScreenSchemeUrl"
+                                                class="form-control w-25"
+                                        >
+                                            <option value="">사용할 코드를 선택해주세요.</option>
+                                            <option value="specialty?stCode=S09090">특산물 메인</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-danger-darker" style="width:25%">
+                                        연결할 앱화면을 선택해주세요.
+                                    </td>
+                                </tr>
+
+                                <!-- 외부링크 입력 -->
+                                <tr class="externalLinkInput" style="display: none;">
+                                    <td class="bg-light">
+                                        <spring:message
+                                                code="list.detail.postclassification1"
+                                                text="외부링크 URL"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                                type="text"
+                                                id="externalSchemeUrl"
+                                                class="form-control w-50"
+                                                placeholder="https://example.com"
+                                        >
+                                    </td>
+                                    <td class="text-danger-darker" style="width:25%">
+                                        이동할 외부링크 URL을 입력해주세요.
+                                    </td>
+                                </tr>
+
+                                <!-- 실제 서버 전송값 -->
+                                        <input
+                                                type="hidden"
+                                                id="schemeUrl"
+                                                name="schemeUrl"
+                                                value=""
+                                        >
                                     <tr>
                                         <td class="bg-light" rowspan="1"><spring:message code="list.detail.image12" text="배너 이미지"/></td>
                                         <td>
@@ -460,19 +501,41 @@
         })
 
         $(document).on("change", "input[name='boardType']", function() {
-           if($(this).val() == 3 || $(this).val() == 4){
-               $(".boardSelect").css("display","none");
-               $(".appScheme").css("display","");
-           } else {
-               if($(this).val() == 0){
-                   $(".boardSelect").css("display","none");
-                   $(".appScheme").css("display","none");
-               } else {
-                   $(".boardSelect").css("display","");
-                   $(".appScheme").css("display","none");
-               }
+            const boardType = String($(this).val());
 
-           }
+            // 전체 초기화
+            $(".boardSelect").hide();
+            $(".appScreenSelect").hide();
+            $(".externalLinkInput").hide();
+
+            $(".selBoardNo").val("");
+            $("#board_title").text("");
+
+            $("#appScreenSchemeUrl").val("");
+            $("#externalSchemeUrl").val("");
+            $("#schemeUrl").val("");
+
+            switch (boardType) {
+                case "0":
+                    // 연결안함
+                    break;
+
+                case "1":
+                case "2":
+                    // 이벤트 / 공지
+                    $(".boardSelect").show();
+                    break;
+
+                case "3":
+                    // 앱화면
+                    $(".appScreenSelect").show();
+                    break;
+
+                case "4":
+                    // 외부링크
+                    $(".externalLinkInput").show();
+                    break;
+            }
         });
         $(document).on("click", "#selBoardNoBtn", function() {
             $('#board_title').text('');
@@ -491,18 +554,37 @@
             $('.boardModalCloseBtn').click();
         });
         let areaList = [];
+
         $(document).on("click", ".btn_add", function() {
+            const selectedBoardType =
+                $("input[name='boardType']:checked").val();
+
+            if (String(selectedBoardType) === "3") {
+                $("#schemeUrl").val(
+                    $("#appScreenSchemeUrl").val()
+                );
+            } else if (String(selectedBoardType) === "4") {
+                $("#schemeUrl").val(
+                    $.trim($("#externalSchemeUrl").val())
+                );
+            } else {
+                $("#schemeUrl").val("");
+            }
+
             let url = "${path}/api/banner/insert";
-            let _forms = $('#insert_form');
+            let _forms = $("#insert_form");
             let req = convertFormToObj(_forms);
 
-            let confirmfailmsg = "<spring:message code="list.script.registrationfailed1" text="등록에 실패하였습니다."/>";
-            let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="등록 하시겠습니까?"/>";
-            let confirm = "<spring:message code="list.script.enrollment1" text="등록"/>";
-            let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
-            let duplicatemsg = "<spring:message code="list.script.duplicateaccount1" text="계정이 중복되었습니다."/>";
+            let confirmfailmsg =
+                "<spring:message code='list.script.registrationfailed1' text='등록에 실패하였습니다.'/>";
+            let confirmmsg =
+                "<spring:message code='list.script.wouldyouliketoregister1' text='등록 하시겠습니까?'/>";
+            let confirm =
+                "<spring:message code='list.script.enrollment1' text='등록'/>";
+            let cancel =
+                "<spring:message code='list.script.cancel1' text='취소'/>";
 
-           if (inputDataCheck(req)) {
+            if (inputDataCheck(req)) {
                 swal({
                     title: confirmmsg,
                     icon: "warning",
@@ -510,30 +592,66 @@
                         cancel,
                         confirm
                     ],
-                    dangerMode: true,
-                }).then(function (isConfirm) {
-                    if (isConfirm) {
-                        let formData = new FormData(document.getElementById('insert_form'));
-                        formData.append("tbAppBannerData",  new Blob([JSON.stringify(req)], {type:"application/json"}));
-                        formData.append("imgFile", $("#imgFile")[0].files[0]);
-                        formData.append("areaList",  new Blob([JSON.stringify(areaList)], {type:"application/json"}));
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: formData,
-                            dataType: "json",
-                            processData: false,
-                            contentType: false,
-                            success: function (data) {
-                                if (data.result == 200) {
-                                    location.href = "${path}/board/banner/list?dataStatus=OK&startDate=2020-01-01&endDate=${now}&serviceType="+data.serviceType+"&boardType=&platformType="+req.platformType;
-                                } else {
-                                    alert(confirmfailmsg);
-                                    return;
-                                }
-                            }
-                        });
+                    dangerMode: true
+                }).then(function(isConfirm) {
+                    if (!isConfirm) {
+                        return;
                     }
+
+                    let formData =
+                        new FormData(
+                            document.getElementById("insert_form")
+                        );
+
+                    formData.append(
+                        "tbAppBannerData",
+                        new Blob(
+                            [JSON.stringify(req)],
+                            {
+                                type: "application/json"
+                            }
+                        )
+                    );
+
+                    formData.append(
+                        "imgFile",
+                        $("#imgFile")[0].files[0]
+                    );
+
+                    formData.append(
+                        "areaList",
+                        new Blob(
+                            [JSON.stringify(areaList)],
+                            {
+                                type: "application/json"
+                            }
+                        )
+                    );
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            if (data.result == 200) {
+                                location.href =
+                                    "${path}/board/banner/list" +
+                                    "?dataStatus=OK" +
+                                    "&startDate=2020-01-01" +
+                                    "&endDate=${now}" +
+                                    "&serviceType=" +
+                                    data.serviceType +
+                                    "&boardType=" +
+                                    "&platformType=" +
+                                    req.platformType;
+                            } else {
+                                alert(confirmfailmsg);
+                            }
+                        }
+                    });
                 });
             }
         });
@@ -676,21 +794,86 @@
         $("#board_search_modal").on('show.bs.modal', () => {
             $('.searchBoardBtn').click();
         });
+
     });
 
+    $(document).on("change", "#appScreenSchemeUrl", function() {
+        const boardType = $("input[name='boardType']:checked").val();
+
+        if (String(boardType) === "3") {
+            $("#schemeUrl").val($(this).val());
+        }
+    });
+
+    $(document).on("input", "#externalSchemeUrl", function() {
+        const boardType = $("input[name='boardType']:checked").val();
+
+        if (String(boardType) === "4") {
+            $("#schemeUrl").val($.trim($(this).val()));
+        }
+    });
 
     function inputDataCheck(args) {
-        if (isNull(args.boardNo)) {
-            if(args.boardType != 0 && args.boardType != 3 && args.boardType != 4) {
-                return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
-            }
-        } else if (isNull($("#imgFile")[0].files[0])) {
-            return alert_focus("button_base", "배너이미지를 선택해주세요");
+        const boardType = String(args.boardType);
+        const schemeUrl = $.trim(args.schemeUrl || "");
+
+        // 이벤트 / 공지는 게시글 선택 필수
+        if (
+            (boardType === "1" || boardType === "2") &&
+            isNull(args.boardNo)
+        ) {
+            return alert_focus(
+                "board-search-btn",
+                "게시글을 검색 후 선택해주세요."
+            );
         }
 
-        if(args.boardType == 3 && args.boardType == 4 && args.schemeUrl == "") {
-            return alert_focus("board-search-btn", "URL을 입력해주세요");
+        // 앱화면 선택 필수
+        if (boardType === "3" && schemeUrl === "") {
+            return alert_focus(
+                "appScreenSchemeUrl",
+                "연결할 앱화면을 선택해주세요."
+            );
         }
+
+        // 현재는 special01만 허용
+        if (
+            boardType === "3" &&
+            schemeUrl !== "specialty?stCode=S09090"
+        ) {
+            return alert_focus(
+                "appScreenSchemeUrl",
+                "올바른 앱화면을 선택해주세요."
+            );
+        }
+
+        // 외부링크 입력 필수
+        if (boardType === "4" && schemeUrl === "") {
+            return alert_focus(
+                "externalSchemeUrl",
+                "외부링크 URL을 입력해주세요."
+            );
+        }
+
+        // 외부링크 URL 형식 검사
+        if (
+            boardType === "4" &&
+            !/^https?:\/\/.+/i.test(schemeUrl)
+        ) {
+            return alert_focus(
+                "externalSchemeUrl",
+                "외부링크는 http:// 또는 https://로 입력해주세요."
+            );
+        }
+
+        // 배너 이미지 필수
+        if (isNull($("#imgFile")[0].files[0])) {
+            return alert_focus(
+                "button_base",
+                "배너이미지를 선택해주세요."
+            );
+        }
+
         return true;
     }
 

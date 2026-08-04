@@ -651,7 +651,7 @@
                                                     <spring:message code="list.search.title1" text="연락처"/>
                                                 </option>
                                             </select>
-
+부
                                             <input type="text"
                                                    class="form-control width-150"
                                                    name="searchKeyword"
@@ -679,7 +679,7 @@
                                     <div class="card_">
                                         <div class="card-bod">
                                             <div class="panel-body">
-                                                <table id="searchCouponProvideTab3" class="display table table-bordered w-100 table-striped cust-list ">
+                                                <table id="searchCouponProvideTab3" class="listTable display table compact-table table-striped">
                                                     <thead>
                                                     <th class="text-center" style="width: 50px;" >번호</th>
                                                     <th class="text-center" style="width: 150px;" ><spring:message code="list.word.no1" text="쿠폰일련번호"/></th>

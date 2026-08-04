@@ -171,12 +171,57 @@
                                                 </td>
                                             </tr>
 
-                                            <tr class="appScheme" <c:if test="${tbAppBanner.boardType != 3 && tbAppBanner.boardType != 4 }">style="display:none"</c:if>>
-                                                <th>URL</th>
+                                            <!-- 앱화면 선택 -->
+                                            <tr class="appScreenSelect"
+                                                <c:if test="${tbAppBanner.boardType != 3}">style="display:none"</c:if>>
+                                                <th>앱화면</th>
                                                 <td>
-                                                    <input type="text" name="schemeUrl" class="form-control w-100" value="${tbAppBanner.schemeUrl}" style="max-width: 420px;">
+                                                    <select id="appScreenSchemeUrl"
+                                                            class="form-control"
+                                                            style="max-width: 420px;">
+                                                        <option value="">앱화면을 선택해주세요.</option>
+
+                                                        <option value="specialty?stCode=S09090"
+                                                                <c:if test="${tbAppBanner.boardType == 3 && tbAppBanner.schemeUrl == 'specialty?stCode=S09090'}">
+                                                                    selected
+                                                                </c:if>>
+                                                            특산물 메인
+                                                        </option>
+
+                                                        <%--
+                                                        추후 앱화면이 추가되면 option만 확장하면 됩니다.
+
+                                                        <option value="special02"
+                                                                <c:if test="${tbAppBanner.boardType == 3 && tbAppBanner.schemeUrl == 'special02'}">
+                                                                    selected
+                                                                </c:if>>
+                                                            스페셜 화면 2
+                                                        </option>
+                                                        --%>
+                                                    </select>
                                                 </td>
                                             </tr>
+
+                                            <!-- 외부링크 입력 -->
+                                            <tr class="externalLinkInput"
+                                                <c:if test="${tbAppBanner.boardType != 4}">style="display:none"</c:if>>
+                                                <th>외부링크 URL</th>
+                                                <td>
+                                                    <input type="text"
+                                                           id="externalSchemeUrl"
+                                                           class="form-control w-100"
+                                                           value="<c:if test="${tbAppBanner.boardType == 4}">${tbAppBanner.schemeUrl}</c:if>"
+                                                           placeholder="https://example.com"
+                                                           autocomplete="off"
+                                                           style="max-width: 420px;">
+                                                </td>
+                                            </tr>
+
+                                            <!-- 백엔드로 실제 전송되는 공통값 -->
+                                            <input type="hidden"
+                                                   id="schemeUrl"
+                                                   name="schemeUrl"
+                                                   value="${tbAppBanner.schemeUrl}">
 
                                             <tr>
                                                 <th>서비스지역</th>
@@ -337,19 +382,73 @@
         });
 
         // boardType 변경시 입력 UI 토글
-        $(document).on("change", "input[name='boardType']", function() {
-            if($(this).val() == 3 || $(this).val() == 4){
-                $(".boardSelect").css("display","none");
-                $(".appScheme").css("display","");
-            } else {
-                if($(this).val() == 0){
-                    $(".boardSelect").css("display","none");
-                    $(".appScheme").css("display","none");
-                } else {
-                    $(".boardSelect").css("display","");
-                    $(".appScheme").css("display","none");
+        // boardType에 맞는 연결 입력 영역 표시
+        function toggleBoardTypeFields(boardTypeValue, resetValue) {
+            const selectedBoardType = String(boardTypeValue);
+
+            $(".boardSelect").hide();
+            $(".appScreenSelect").hide();
+            $(".externalLinkInput").hide();
+
+            if (selectedBoardType === "0") {
+                // 연결안함
+                if (resetValue) {
+                    $("#boardNo").val("");
+                    $("#board_title").text("");
+                    $("#appScreenSchemeUrl").val("");
+                    $("#externalSchemeUrl").val("");
+                    $("#schemeUrl").val("");
+                }
+
+                return;
+            }
+
+            if (selectedBoardType === "1" || selectedBoardType === "2") {
+                // 이벤트 / 공지
+                $(".boardSelect").show();
+
+                if (resetValue) {
+                    $("#appScreenSchemeUrl").val("");
+                    $("#externalSchemeUrl").val("");
+                    $("#schemeUrl").val("");
+                }
+
+                return;
+            }
+
+            if (selectedBoardType === "3") {
+                // 앱화면
+                $(".appScreenSelect").show();
+
+                if (resetValue) {
+                    $("#boardNo").val("");
+                    $("#board_title").text("");
+                    $("#externalSchemeUrl").val("");
+                    $("#schemeUrl").val(
+                        $("#appScreenSchemeUrl").val() || ""
+                    );
+                }
+
+                return;
+            }
+
+            if (selectedBoardType === "4") {
+                // 외부링크
+                $(".externalLinkInput").show();
+
+                if (resetValue) {
+                    $("#boardNo").val("");
+                    $("#board_title").text("");
+                    $("#appScreenSchemeUrl").val("");
+                    $("#schemeUrl").val(
+                        $.trim($("#externalSchemeUrl").val())
+                    );
                 }
             }
+        }
+
+        $(document).on("change", "input[name='boardType']", function() {
+            toggleBoardTypeFields($(this).val(), true);
         });
 
         // =========================
@@ -458,10 +557,14 @@
         let boardSearchXhr = null;
 
         const loadBoardTitle = () => {
-            if (boardType == 0 || boardType == 3) {
-                $('.selBoardNo').val('');
-                $('#board_title').text('');
-                originBoardTitle = '';
+            if (
+                String(boardType) === "0" ||
+                String(boardType) === "3" ||
+                String(boardType) === "4"
+            ) {
+                $(".selBoardNo").val("");
+                $("#board_title").text("");
+                originBoardTitle = "";
                 return;
             }
             if (!boardNo) {
@@ -560,28 +663,38 @@
         // =========================
         // boardType 클릭 시 boardNo 상태 정리
         // =========================
-        $(".boardType").click((e) => {
-            const value = e.target.value;
+        $(".boardType").on("change", function(e) {
+            const value = String(e.target.value);
+            const originalBoardType = String("${tbAppBanner.boardType}");
+
             boardType = value;
 
-            if (value == 0 || value == 3) {
+            // 연결안함 / 앱화면 / 외부링크는 게시글 번호를 사용하지 않음
+            if (
+                value === "0" ||
+                value === "3" ||
+                value === "4"
+            ) {
                 $("#boardNo").val("");
                 boardNo = "";
-                $("#board_title").text('');
-                originBoardTitle = '';
+                $("#board_title").text("");
+                originBoardTitle = "";
                 return;
             }
 
-            if (value == '${tbAppBanner.boardType}') {
-                $("#boardNo").val('${tbAppBanner.boardNo}');
-                boardNo = '${tbAppBanner.boardNo}';
+            // 기존 이벤트 또는 공지 유형을 다시 선택한 경우 원래 게시글 복구
+            if (value === originalBoardType) {
+                $("#boardNo").val("${tbAppBanner.boardNo}");
+                boardNo = "${tbAppBanner.boardNo}";
                 loadBoardTitle();
-            } else {
-                $("#boardNo").val("");
-                boardNo = "";
-                $("#board_title").text('');
-                originBoardTitle = '';
+                return;
             }
+
+            // 다른 게시판 유형으로 변경한 경우 새 게시글 선택 필요
+            $("#boardNo").val("");
+            boardNo = "";
+            $("#board_title").text("");
+            originBoardTitle = "";
         });
 
         // 모달에서 게시글 선택 적용
@@ -697,10 +810,26 @@
         // ✅ 수정: FormData imgFile 중복/undefined 제거 + reload 금지
         // =========================
         $(document).on("click", ".btn_update", function() {
+            const selectedBoardType =
+                String($("input[name='boardType']:checked").val());
+
+            if (selectedBoardType === "3") {
+                $("#schemeUrl").val(
+                    $("#appScreenSchemeUrl").val() || ""
+                );
+            } else if (selectedBoardType === "4") {
+                $("#schemeUrl").val(
+                    $.trim($("#externalSchemeUrl").val())
+                );
+            } else {
+                $("#schemeUrl").val("");
+            }
+
             let url = "${path}/api/banner/update";
-            let _forms = $('#update_form');
+            let _forms = $("#update_form");
             let req = convertFormToObj(_forms);
             let bannerNo = req.bannerNo;
+
 
             let confirmfailmsg = "<spring:message code="list.script.registrationfailed1" text="수정에 실패하였습니다."/>";
             let confirmmsg = "<spring:message code="list.script.wouldyouliketoregister1" text="수정 하시겠습니까?"/>";
@@ -796,20 +925,87 @@
             });
         });
 
+        // 앱화면 select 변경
+        $(document).on("change", "#appScreenSchemeUrl", function() {
+            const boardTypeValue =
+                $("input[name='boardType']:checked").val();
+
+            if (String(boardTypeValue) !== "3") {
+                return;
+            }
+
+            $("#schemeUrl").val($(this).val() || "");
+        });
+
+        // 외부링크 입력
+        $(document).on("input", "#externalSchemeUrl", function() {
+            const boardTypeValue =
+                $("input[name='boardType']:checked").val();
+
+            if (String(boardTypeValue) !== "4") {
+                return;
+            }
+
+            $("#schemeUrl").val(
+                $.trim($(this).val())
+            );
+        });
+        toggleBoardTypeFields(
+            $("input[name='boardType']:checked").val(),
+            false
+        );
     });
 
     // =========================
     // Validation helpers (원본 유지)
     // =========================
     function inputDataCheck(args) {
-        if (isNull(args.boardNo)) {
-            if (args.boardType != 0 && args.boardType != 3 && args.boardType != 4) {
-                return alert_focus("board-search-btn", "게시글을 검색후 선택해주세요");
-            }
+        const boardTypeValue = String(args.boardType);
+        const schemeUrl = $.trim(args.schemeUrl || "");
+
+        // 이벤트 / 공지는 게시글 선택 필수
+        if (
+            (boardTypeValue === "1" ||
+                boardTypeValue === "2") &&
+            isNull(args.boardNo)
+        ) {
+            return alert_focus(
+                "board-search-btn",
+                "게시글을 검색 후 선택해주세요."
+            );
         }
 
-        if ((args.boardType == 3 || args.boardType == 4) && isNull(args.schemeUrl)) {
-            return alert_focus("schemeUrl", "URL을 입력해주세요");
+        // 앱화면은 select 선택 필수
+        if (
+            boardTypeValue === "3" &&
+            schemeUrl === ""
+        ) {
+            return alert_focus(
+                "appScreenSchemeUrl",
+                "연결할 앱화면을 선택해주세요."
+            );
+        }
+
+        // 외부링크는 URL 입력 필수
+        if (
+            boardTypeValue === "4" &&
+            schemeUrl === ""
+        ) {
+            return alert_focus(
+                "externalSchemeUrl",
+                "외부링크 URL을 입력해주세요."
+            );
+        }
+
+        // 외부링크 URL 형식 검사
+        if (
+            boardTypeValue === "4" &&
+            !/^https?:\/\/.+/i.test(schemeUrl)
+        ) {
+            return alert_focus(
+                "externalSchemeUrl",
+                "외부링크는 http:// 또는 https://로 입력해주세요."
+            );
         }
 
         return true;

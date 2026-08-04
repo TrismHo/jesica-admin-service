@@ -357,6 +357,7 @@
                                     <th class="align-middle">이용횟수</th>
                                     <th class="align-middle">취소사유</th>
                                     <th class="align-middle">택배현황</th>
+                                    <th class="align-middle">구매확정일자</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -576,7 +577,8 @@
                 {data: "eaAddr4"},
                 {data: "totalUseCount"},
                 {data: "cancelMemo"},
-                {data: "deliveryTrackingStatus"}
+                {data: "deliveryTrackingStatus"},
+                {data: "endDate"}
             ],
             columnDefs: [
                 {targets: "_all", className: "text-center"},
@@ -698,7 +700,20 @@
                             meta.text +
                             "</span>";
                     }
-                }
+                },
+                {
+                    targets: 23,
+                    render: function (data, type, row) {
+                        var ordType = String(row.ordType || '');
+
+                        if (ordType === '6') {
+                            return dateFormat(data);
+                        } else {
+                            return '-';
+                        }
+
+                    }
+                },
             ]
         });
 
