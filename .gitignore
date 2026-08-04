@@ -47,6 +47,10 @@ build/
 # External tool builders
 .externalToolBuilders/
 
+# Build artifacts
+*.war
+*.jar
+
 # Locally stored "Eclipse launch configurations"
 *.launch
 
