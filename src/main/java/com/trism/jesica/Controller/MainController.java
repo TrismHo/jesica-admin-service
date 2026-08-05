@@ -333,6 +333,8 @@ public class MainController {
                         if (isPwdMatch == false ) {
                             //실패횟수가 5회이상이면 정지 => 마스터 계정은 횟수만 증가
                             apiService.setPassCount(tbUser.getUserNo(), tbUser.getPwdFailCount()+1);
+                            map.put("result", "500");
+                            map.put("message", "로그인 정보가 일치하지 않습니다.");
                             map.put("url", "login");
                         }
                     }
