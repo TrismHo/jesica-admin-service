@@ -17,6 +17,7 @@ public interface TbSystemCodeRepository extends JpaRepository<TbSystemCode, Stri
     List<TbSystemCode> findBySysTypeAndDataStatusOrderByViewOrderAsc(@Param("sysType") String sysType,@Param("dataStatus") DataStatus dataStatus);
     List<TbSystemCode> findBySysTypeAndSysCodeLikeAndDataStatus(@Param("sysType") String sysType,@Param("sysCode") String sysCode,@Param("dataStatus") DataStatus dataStatus);
     TbSystemCode findBySysTypeAndSysCode(@Param("sysType") String sysType, @Param("sysCode") String sysCode);
+    TbSystemCode findBySysTypeAndCodeName(@Param("sysType") String sysType, @Param("codeName") String codeName);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "update tb_system_code set " +

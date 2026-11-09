@@ -22,6 +22,11 @@ public class SystemCodeService {
         return tbSystemCodeRepository.findBySysType(sysType);
     }
 
+
+    public TbSystemCode getSysCode(String sysType, String codeName) {
+        return tbSystemCodeRepository.findBySysTypeAndCodeName(sysType,codeName);
+    };
+
     @Transactional
     public int updateSystemCode(
                                 String sysCode,

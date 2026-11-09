@@ -1,4 +1,3 @@
-
 package com.trism.jesica.config;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -16,49 +15,113 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.SharedEntityManagerCreator;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Slf4j
 @Configuration
+@AllArgsConstructor
+@EnableJpaAuditing
+@EntityScan("com.trism.jesica.persistence.mysql.Entity")
 @EnableJpaRepositories(
         basePackages = "com.trism.jesica.persistence.mysql",
         entityManagerFactoryRef = "mysqlEntityManagerFactory",
         transactionManagerRef = "mysqlTransactionManager"
 )
-//@EnableTransactionManagement
-@EnableJpaAuditing // jpa 에서 created_date modified_date 등을 자동으로 넣어주기 위해 사용.
-@AllArgsConstructor
-@EntityScan("com.trism.jesica.persistence.mysql.Entity")
 public class MysqlDataSourceConfig {
 
     private final Environment env;
 
-
-    @Bean
+    /**
+     * MySQL DataSource
+     *
+     * 기본 DB이기 때문에 Primary
+     */
     @Primary
-    @ConfigurationProperties(prefix = "spring.service-pick.datasource.hikari")
+    @Bean(name = "mysqlDataSource")
+    @ConfigurationProperties(
+            prefix = "spring.service-pick.datasource.hikari"
+    )
     public DataSource mysqlDataSource() {
-        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+
+        return DataSourceBuilder
+                .create()
+                .type(HikariDataSource.class)
+                .build();
     }
 
+
+    /**
+     * MySQL EntityManagerFactory
+     *
+     * 기본 EntityManagerFactory
+     */
     @Primary
     @Bean(name = "mysqlEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean mysqlEntityManagerFactory(@Qualifier("mysqlDataSource") DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+    public LocalContainerEntityManagerFactoryBean mysqlEntityManagerFactory(
+            @Qualifier("mysqlDataSource")
+            DataSource dataSource
+    ) {
+
+        LocalContainerEntityManagerFactoryBean emf =
+                new LocalContainerEntityManagerFactoryBean();
+
         emf.setDataSource(dataSource);
-        emf.setPackagesToScan("com.trism.jesica.persistence.mysql"); // MySQL 엔티티 패키지
-        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        emf.setPackagesToScan(
+                "com.trism.jesica.persistence.mysql"
+        );
+
+        emf.setJpaVendorAdapter(
+                new HibernateJpaVendorAdapter()
+        );
+
+        emf.setPersistenceUnitName("mysql");
+
         return emf;
     }
 
+
+    /**
+     * ★ 중요
+     *
+     * EntityManager를 직접 주입하는 기존 RepositoryImpl에서
+     * 아무 Qualifier가 없으면 MySQL을 사용하도록 함.
+     */
+    @Primary
+    @Bean(name = "mysqlEntityManager")
+    public EntityManager mysqlEntityManager(
+            @Qualifier("mysqlEntityManagerFactory")
+            EntityManagerFactory entityManagerFactory
+    ) {
+
+        return SharedEntityManagerCreator
+                .createSharedEntityManager(
+                        entityManagerFactory
+                );
+    }
+
+
+    /**
+     * MySQL TransactionManager
+     *
+     * @Transactional 에 transactionManager가 지정되지 않으면
+     * MySQL 사용
+     */
     @Primary
     @Bean(name = "mysqlTransactionManager")
-    public PlatformTransactionManager mysqlTransactionManager(@Qualifier("mysqlEntityManagerFactory") LocalContainerEntityManagerFactoryBean emf) {
-        return new JpaTransactionManager(emf.getObject());
+    public PlatformTransactionManager mysqlTransactionManager(
+            @Qualifier("mysqlEntityManagerFactory")
+            EntityManagerFactory entityManagerFactory
+    ) {
+
+        return new JpaTransactionManager(
+                entityManagerFactory
+        );
     }
 }
-
-

@@ -34,6 +34,7 @@ public class JesicaProperties {
     private StPath stPath;
     private StDwPath stDwPath;
     private BadgeFileDel badgeFileDel;
+    private MannaShop mannaShop;
 
 
 
@@ -144,5 +145,10 @@ public class JesicaProperties {
     @Data
     public static class BadgeFileDel {
         private String path;
+    }
+    @Data
+    public static class MannaShop {
+        private String path;
+        private String authKey;
     }
 }

@@ -643,6 +643,19 @@
                                                 </c:choose>
                                             </div>
                                         </div>
+                                        <div class="summary-card">
+                                            <div class="summary-label">추천 배송원 코드</div>
+                                            <div class="summary-value">
+                                                <c:choose>
+                                                    <c:when test="${tbCust.extRecommWkCode != null}">
+                                                        ${tbCust.extRecommWkCode}
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="muted">추천 배송원 코드 없음</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

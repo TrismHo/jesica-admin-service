@@ -336,4 +336,52 @@ public class RestTemplateUtil {
 		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
 		return restTemplate.postForEntity(url, entity, Map.class);
 	}
+	//추천가맹점 연동
+	public ResponseEntity<Map> updateCustRecommSt(String custTel, String stCode , String getOrdType, String actType) {
+		Map<String,Object> requestDto = new HashMap<>();
+
+
+
+		requestDto.put("in_ORD_CU_TEL",custTel);
+		requestDto.put("in_ST_CODE",stCode);
+		requestDto.put("in_ORD_TYPE_CD",getOrdType);
+		requestDto.put("in_ACT_TYPE",actType);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json;charset=UTF-8");
+		headers.add("Accept",  "application/json; charset=utf-8");
+		headers.add("AUTH_KEY",  jesicaProperties.getMannaShop().getAuthKey());
+		headers.add("PF_TYPE_CD",  "1018");
+		headers.add("ORD_PATH_CD",  "1105");
+
+		String url = jesicaProperties.getMannaShop().getPath()+"v1/put_cu_recomm_info";
+
+		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}
+
+	//추천가맹점 연동전 조회(실제 존재여부판단용)
+	/*public ResponseEntity<Map> setStCode() {
+		Map<String,Object> requestDto = new HashMap<>();
+
+		requestDto.put("in_ST_CODE","S123456");
+		requestDto.put("in_CU_LAT_Y","1");
+		requestDto.put("in_CU_LNG_X","1");
+		requestDto.put("in_CC_ADDR_4","1");
+		requestDto.put("in_CC_ADDR_5","1");
+		requestDto.put("in_CC_ADDR_6","1");
+		requestDto.put("in_CC_ADDR_8","1");
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json;charset=UTF-8");
+		headers.add("Accept",  "application/json; charset=utf-8");
+		headers.add("AUTH_KEY",  jesicaProperties.getMannaShop().getAuthKey());
+		headers.add("PF_TYPE_CD",  "1018");
+		headers.add("ORD_PATH_CD",  "1105");
+
+		String url = jesicaProperties.getMannaShop().getPath()+ "/v3/st_info";
+		System.out.println(url);
+		HttpEntity<Map<String,Object>> entity = new HttpEntity<Map<String,Object>>(requestDto, headers);
+		return restTemplate.postForEntity(url, entity, Map.class);
+	}*/
 }

@@ -78,6 +78,56 @@
         vertical-align: middle;
         border-top: 0px solid #e4e7ea;
     }
+
+    .recommend-store-register {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        min-width: 245px;
+    }
+
+    .recommend-store-register .recommend-st-name {
+        width: 165px;
+        height: 28px;
+        padding: 3px 8px;
+        font-size: 12px;
+        border: 1px solid #d5dbe1;
+        border-radius: 3px;
+        background: #fff;
+    }
+
+    .recommend-store-register .recommend-st-name:focus {
+        border-color: #348fe2;
+        outline: none;
+        box-shadow: 0 0 0 1px rgba(52, 143, 226, 0.15);
+    }
+
+    .recommend-store-register .btn-recommend-st {
+        height: 28px;
+        min-width: 48px;
+        padding: 0 8px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .recommend-store-register .btn-recommend-st:disabled {
+        cursor: default;
+        opacity: 0.65;
+    }
+
+    .recommend-store-complete {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 28px;
+    }
+
+    .recommend-store-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: #2d353c;
+    }
 </style>
 <body>
 <!-- begin #page-loader -->
@@ -96,154 +146,155 @@
 
     <!-- end #sidebar -->
     <form name="frmSearch" id="frmSearch">
-    <!-- begin #content -->
-    <div id="content" class="content p-0">
-        <!-- begin panel -->
-        <div class="panel panel-inverse m-t-1">
-            <!-- begin page-header -->
-            <div class="col-xs-auto p-t-20 p-b-0">
-                <ol class="breadcrumb float-xl-right">
-                    <li class="breadcrumb-item"><a href="${path}/board/cust/list"><spring:message code="sidemenu.boardmanagement12" text="사용자 관리"/></a></li>
-                    <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></li>
-                </ol>
-                <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></h3>
-            </div>
-            <!-- end page-header -->
-            <!-- begin row -->
+        <!-- begin #content -->
+        <div id="content" class="content p-0">
+            <!-- begin panel -->
+            <div class="panel panel-inverse m-t-1">
+                <!-- begin page-header -->
+                <div class="col-xs-auto p-t-20 p-b-0">
+                    <ol class="breadcrumb float-xl-right">
+                        <li class="breadcrumb-item"><a href="${path}/board/cust/list"><spring:message code="sidemenu.boardmanagement12" text="사용자 관리"/></a></li>
+                        <li class="breadcrumb-item active"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></li>
+                    </ol>
+                    <h3 class="rix-title"><spring:message code="sidemenu.boardmanagement.platformannouncement12" text="회원 관리"/></h3>
+                </div>
+                <!-- end page-header -->
+                <!-- begin row -->
 
-            <div class="search-box search-box-inline">
-                <div class="inner-search-box">
-                    <div class="search-inline-bar">
-                        <input type="hidden" name="platformType" value="2">
+                <div class="search-box search-box-inline">
+                    <div class="inner-search-box">
+                        <div class="search-inline-bar">
+                            <input type="hidden" name="platformType" value="2">
 
-                        <div class="search-field">
-                            <div class="search-label">앱구분</div>
-                            <div class="search-control-group">
-                                <c:if test="${empty appCode}">
-                                    <select id="appCode" name="appCode" class="form-control">
-                                        <option value="" selected>전체</option>
-                                        <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
-                                            <option value="${appCodeList.sysCode}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>
-                                                    ${appCodeList.codeName}
-                                            </option>
-                                        </c:forEach>
+                            <div class="search-field">
+                                <div class="search-label">앱구분</div>
+                                <div class="search-control-group">
+                                    <c:if test="${empty appCode}">
+                                        <select id="appCode" name="appCode" class="form-control">
+                                            <option value="" selected>전체</option>
+                                            <c:forEach var="appCodeList" items="${appVersionList}" varStatus="status">
+                                                <option value="${appCodeList.sysCode}" <c:if test="${searchValue.appCode == appCodeList.sysCode}">selected</c:if>>
+                                                        ${appCodeList.codeName}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                    </c:if>
+                                    <c:if test="${!empty appCode}">
+                                        <input type="text" class="form-control appCode" name="appCode" readonly value="${sessionScope.sessionKey.appCodeName}">
+                                        <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
+                                    </c:if>
+                                </div>
+                            </div>
+
+                            <div class="search-field">
+                                <div class="search-label">사용상태</div>
+                                <div class="search-control-group">
+                                    <select class="form-control dataStatus" name="dataStatus">
+                                        <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>>정상</option>
+                                        <option value="DELETE" <c:if test="${searchValue.dataStatus == 'DELETE'}">selected</c:if>>탈퇴</option>
                                     </select>
-                                </c:if>
-                                <c:if test="${!empty appCode}">
-                                    <input type="text" class="form-control appCode" name="appCode" readonly value="${sessionScope.sessionKey.appCodeName}">
-                                    <input type="hidden" class="form-control appCode" name="appCode" readonly value="${appCode}">
-                                </c:if>
-                            </div>
-                        </div>
-
-                        <div class="search-field">
-                            <div class="search-label">사용상태</div>
-                            <div class="search-control-group">
-                                <select class="form-control dataStatus" name="dataStatus">
-                                    <option value="OK" <c:if test="${searchValue.dataStatus == 'OK'}">selected</c:if>>정상</option>
-                                    <option value="DELETE" <c:if test="${searchValue.dataStatus == 'DELETE'}">selected</c:if>>탈퇴</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="search-field search-date">
-                            <div class="search-label">가입기간</div>
-                            <div class="search-control-group">
-                                <div class="date-input-wrap">
-                                    <input type="text"
-                                           class="form-control startDate background-white"
-                                           name="startDate"
-                                           value="${searchValue.startDate}"
-                                           readonly>
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-
-                                <span class="date-separator">~</span>
-
-                                <div class="date-input-wrap">
-                                    <input type="text"
-                                           class="form-control endDate background-white"
-                                           name="endDate"
-                                           value="${searchValue.endDate}"
-                                           readonly>
-                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="search-field search-keyword">
-                            <div class="search-label">검색어</div>
-                            <div class="search-control-group search-keyword-group">
-                                <select class="form-control searchOp" name="keywordType">
-                                    <option value="custName" <c:if test="${searchValue.keywordType == 'custName'}">selected</c:if>>이름</option>
-                                    <option value="custTel" <c:if test="${searchValue.keywordType == 'custTel'}">selected</c:if>>전화번호</option>
-                                </select>
-                                <input type="text"
-                                       class="form-control width-150"
-                                       name="keyword"
-                                       value="${searchValue.keyword}"
-                                       maxlength="150"
-                                       placeholder="검색어 입력">
+                            <div class="search-field search-date">
+                                <div class="search-label">가입기간</div>
+                                <div class="search-control-group">
+                                    <div class="date-input-wrap">
+                                        <input type="text"
+                                               class="form-control startDate background-white"
+                                               name="startDate"
+                                               value="${searchValue.startDate}"
+                                               readonly>
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+
+                                    <span class="date-separator">~</span>
+
+                                    <div class="date-input-wrap">
+                                        <input type="text"
+                                               class="form-control endDate background-white"
+                                               name="endDate"
+                                               value="${searchValue.endDate}"
+                                               readonly>
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="search-actions">
-                            <button type="button"
-                                    class="btn btn-search-inline searchClick"
-                                    onClick="serarchForm()">
-                                <i class="fa fa-search"></i>
-                                검색
-                            </button>
+                            <div class="search-field search-keyword">
+                                <div class="search-label">검색어</div>
+                                <div class="search-control-group search-keyword-group">
+                                    <select class="form-control searchOp" name="keywordType">
+                                        <option value="custName" <c:if test="${searchValue.keywordType == 'custName'}">selected</c:if>>이름</option>
+                                        <option value="custTel" <c:if test="${searchValue.keywordType == 'custTel'}">selected</c:if>>전화번호</option>
+                                    </select>
+                                    <input type="text"
+                                           class="form-control width-150"
+                                           name="keyword"
+                                           value="${searchValue.keyword}"
+                                           maxlength="150"
+                                           placeholder="검색어 입력">
+                                </div>
+                            </div>
 
-                            <c:if test="${permission == 2}">
+                            <div class="search-actions">
                                 <button type="button"
-                                        data-toggle="modal"
-                                        data-target="#give_coupon_all"
-                                        class="btn btn-search-inline ml-1 giveAllbtn"
-                                        custno="">
-                                    <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span>
+                                        class="btn btn-search-inline searchClick"
+                                        onClick="serarchForm()">
+                                    <i class="fa fa-search"></i>
+                                    검색
                                 </button>
-                            </c:if>
+
+                                <c:if test="${permission == 2}">
+                                    <button type="button"
+                                            data-toggle="modal"
+                                            data-target="#give_coupon_all"
+                                            class="btn btn-search-inline ml-1 giveAllbtn"
+                                            custno="">
+                                        <span class="fa fa-plus">&nbsp;<spring:message code="list.search.noticeregistration1" text="쿠폰일괄지급"/></span>
+                                    </button>
+                                </c:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-box table-panel-box">
+                        <div class="table-scroll-wrap">
+                            <table id="testTable" class="table compact-table table-striped" >
+                                <thead>
+                                <tr class="text-center">
+                                    <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
+                                    <th width="3%"><spring:message code="list.word.no1" text="앱구분"/></th>
+                                    <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
+                                    <th width="6%"><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
+                                    <th width="5%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
+                                    <th width="3%"><spring:message code="list.word.contents1" text="시/도"/></th>
+                                    <th width="4%"><spring:message code="list.word.contents1" text="시/군/구"/></th>
+                                    <th width="5%"><spring:message code="list.word.status12" text="성별"/></th>
+                                    <th width="8%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
+                                    <th width="6%"><spring:message code="list.word.serviceclassification1" text="총판코드"/></th>
+                                    <th width="6%"><spring:message code="list.word.serviceclassification1" text="마스터가맹점"/></th>
+                                    <th width="6%"><spring:message code="list.word.serviceclassification1" text="가맹점코드"/></th>
+                                    <th width=""><spring:message code="list.word.serviceclassification1" text="추천가맹점"/></th>
+                                    <th width=""><spring:message code="list.word.serviceclassification1" text="추천인(전화번호)"/></th>
+                                    <th width="8%">추천배송원코드</th>
+                                    <th width=""><spring:message code="list.word.serviceclassification1" text="친구수"/></th>
+                                    <%--<th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
+                                    <th width="8%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
+                                    <th width="8%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
+                                    <th width="8%"><spring:message code="list.word.registrationdate1" text="탈퇴일"/></th>
+                                    <th width="8%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel-body">
-                <div class="panel-box table-panel-box">
-                    <div class="table-scroll-wrap">
-                        <table id="testTable" class="table compact-table table-striped" >
-                            <thead>
-                            <tr class="text-center">
-                                <th width="3%"><spring:message code="list.word.no1" text="번호"/></th>
-                                <th width="3%"><spring:message code="list.word.no1" text="앱구분"/></th>
-                                <th width="5%"><spring:message code="list.detail.title1" text="이름"/></th>
-                                <th width="6%"><spring:message code="list.word.contents1" text="휴대폰번호"/></th>
-                                <th width="5%"><spring:message code="list.word.status12" text="누적주문횟수"/></th>
-                                <th width="3%"><spring:message code="list.word.contents1" text="시/도"/></th>
-                                <th width="4%"><spring:message code="list.word.contents1" text="시/군/구"/></th>
-                                <th width="5%"><spring:message code="list.word.status12" text="성별"/></th>
-                                <th width="8%"><spring:message code="list.word.serviceclassification1" text="로그인ID"/></th>
-                                <th width="6%"><spring:message code="list.word.serviceclassification1" text="총판코드"/></th>
-                                <th width="6%"><spring:message code="list.word.serviceclassification1" text="마스터가맹점"/></th>
-                                <th width="6%"><spring:message code="list.word.serviceclassification1" text="가맹점코드"/></th>
-                                <th width=""><spring:message code="list.word.serviceclassification1" text="추천가맹점"/></th>
-                                <th width=""><spring:message code="list.word.serviceclassification1" text="추천인(전화번호)"/></th>
-                                <th width=""><spring:message code="list.word.serviceclassification1" text="친구수"/></th>
-                                <%--<th width="10%"><spring:message code="list.word.status1" text="캐쉬"/></th>
-                                <th width="8%"><spring:message code="list.word.status12" text="마일리지"/></th>--%>
-                                <th width="8%"><spring:message code="list.word.registrationdate1" text="가입일"/></th>
-                                <th width="8%"><spring:message code="list.word.registrationdate1" text="탈퇴일"/></th>
-                                <th width="8%"><spring:message code="list.word.modifieddate1" text="비밀번호"/></th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <!-- end panel -->
         </div>
-        <!-- end panel -->
-    </div>
-    <!-- end #content -->
+        <!-- end #content -->
     </form>
     <!-- begin scroll to top btn -->
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
@@ -280,257 +331,738 @@
     let couponAddList = [];
     let searchCustList = [];
     let tablePop = null;
-    $(".storeSel").on("click",function(){
+    let table = null;
+
+    $(".storeSel").on("click", function () {
         var storeNo = $(this).attr("storeNo");
         var storeName = $(this).attr("storeName");
+
         $("input[name=storeNo]").val(storeNo);
-        $(".storeTxt").val(storeName+" ["+storeNo+"]");
+        $(".storeTxt").val(storeName + " [" + storeNo + "]");
         $(".storeModalCloseBtn").click();
     });
-    $('.filterText').keyup(function(event) {
+
+    $(".filterText").keyup(function () {
         var val = $(this).val();
-        if (val == "") {
-            $('.filterUL li').hide();
+
+        if (val === "") {
+            $(".filterUL li").hide();
         } else {
-            $('.filterUL li').hide();
-            $(".filterUL li:contains('"+val+"')").show();
+            $(".filterUL li").hide();
+            $(".filterUL li:contains('" + val + "')").show();
         }
     });
 
-    $(document).on("click",".btn-pwd",function() {
+    $(document).on("click", ".btn-pwd", function () {
         let custNo = $(this).attr("custno");
+
         $("#custNo").val(custNo);
-        $("#loginPwd").val('');
+        $("#loginPwd").val("");
     });
 
-
     $(() => {
-       /* $("#testTable").DataTable({
-            language : lang_set, //or lang_eng
-        });*/
+
         let downloadAble = `${downloadAble}`;
         let roleType = `${sessionScope.sessionKey.roleType}`;
         let downloadChk = "1";
-        if(roleType != 0){
-            if(downloadAble == 1){
+
+        if (roleType != 0) {
+
+            if (downloadAble == 1) {
                 downloadChk = "";
             }
+
         } else {
-            downloadChk = ""
+            downloadChk = "";
         }
-        table = $('#testTable').ajaxDataTable("frmSearch", "${path}/api/cust/list","A1",downloadChk, true,{
-            responsive: false,
-            "sScrollX": "100%",
-            "sScrollXInner": "100%",
-            "bScrollCollapse": true,
-            autoWidth : true,
-            "fnInitComplete": function(oSettings) {
-                $( window ).resize();
-            },
 
-            "fnDrawCallback": function(oSettings) {
-                $( window ).trigger('resize');
-            },
-            columns: [
-                {data: "listIndex"},
-                {data: "appName"},
-                {data: "custName"},
-                {data: "custTel"},
-                {data: "useCount" ,
-                    render: function(data){
-                        return data + " 회";
-                    }},
-                {data: "custLocation.addr1"},
-                {data: "custLocation.addr2"},
-                {data: "gender"},
-                {data: "loginId"},
-                {data: "extBrCode"},
-                {data: "extMasterStCode"},
-                {data: "extRecommStCode"},
-                {data: "extRecommStName"},
-                {data: "recommCustName"},
-                {data: "recommCount"},
-                {data: "insertDate"},
-                {data: "updateDate"},
-                {data: "memberType"}
-            ],
-            columnDefs: [
-                {targets: "_all", className: "text-center"},
-                {
-                    targets: 0,
-                    width: '30px'
+        /**
+         * 회원 목록
+         */
+        table = $("#testTable").ajaxDataTable(
+            "frmSearch",
+            "${path}/api/cust/list",
+            "A1",
+            downloadChk,
+            true,
+            {
+                responsive: false,
+
+                sScrollX: "100%",
+                sScrollXInner: "100%",
+                bScrollCollapse: true,
+
+                autoWidth: true,
+
+                fnInitComplete: function () {
+                    $(window).resize();
                 },
-                {
-                    targets: 7,
-                    width: '60px',
-                    render: function(data){
-                        if(data == "M"){
-                            return "남";
-                        } else if(data == "F"){
-                            return "여";
-                        } else if(data == "N"){
-                            return "알수없음";
+
+                fnDrawCallback: function () {
+                    $(window).trigger("resize");
+                },
+
+                columns: [
+
+                    // 0 번호
+                    {
+                        data: "listIndex",
+                        defaultContent: "-"
+                    },
+
+                    // 1 앱구분
+                    {
+                        data: "appName",
+                        defaultContent: "-"
+                    },
+
+                    // 2 이름
+                    {
+                        data: "custName",
+                        defaultContent: "-"
+                    },
+
+                    // 3 휴대폰번호
+                    {
+                        data: "custTel",
+                        defaultContent: "-"
+                    },
+
+                    // 4 누적주문횟수
+                    {
+                        data: "useCount",
+                        defaultContent: 0,
+                        render: function (data) {
+                            return Number(data || 0) + " 회";
+                        }
+                    },
+
+                    // 5 시/도
+                    {
+                        data: null,
+                        defaultContent: "-",
+                        render: function (data, type, row) {
+
+                            if (
+                                row &&
+                                row.custLocation &&
+                                row.custLocation.addr1
+                            ) {
+                                return row.custLocation.addr1;
+                            }
+
+                            return "-";
+                        }
+                    },
+
+                    // 6 시/군/구
+                    {
+                        data: null,
+                        defaultContent: "-",
+                        render: function (data, type, row) {
+
+                            if (
+                                row &&
+                                row.custLocation &&
+                                row.custLocation.addr2
+                            ) {
+                                return row.custLocation.addr2;
+                            }
+
+                            return "-";
+                        }
+                    },
+
+                    // 7 성별
+                    {
+                        data: "gender",
+                        defaultContent: "-"
+                    },
+
+                    // 8 로그인ID
+                    {
+                        data: "loginId",
+                        defaultContent: "-"
+                    },
+
+                    // 9 총판코드
+                    {
+                        data: "extBrCode",
+                        defaultContent: "-"
+                    },
+
+                    // 10 마스터가맹점
+                    {
+                        data: "extMasterStCode",
+                        defaultContent: "-"
+                    },
+
+                    // 11 가맹점코드
+                    {
+                        data: "extRecommStCode",
+                        defaultContent: "-"
+                    },
+
+                    // 12 추천가맹점
+                    {
+                        data: "extRecommStName",
+                        defaultContent: ""
+                    },
+
+                    // 13 추천인
+                    {
+                        data: "recommCustName",
+                        defaultContent: "-"
+                    },
+
+                    //14추천 배송원
+                    {
+                        data: "extRecommWkCode",
+                        defaultContent: "-",
+                        render: function (data) {
+                            return data == null || String(data).trim() === ""
+                                ? "-"
+                                : String(data);
+                        }
+                    },
+
+                    // 15 친구수
+                    {
+                        data: "recommCount",
+                        defaultContent: 0
+                    },
+
+                    // 16 가입일
+                    {
+                        data: "insertDate",
+                        defaultContent: ""
+                    },
+
+                    // 17 탈퇴일
+                    {
+                        data: "updateDate",
+                        defaultContent: ""
+                    },
+
+                    // 18 비밀번호
+                    {
+                        data: "memberType",
+                        defaultContent: null
+                    }
+                ],
+
+                columnDefs: [
+
+                    {
+                        targets: "_all",
+                        className: "text-center"
+                    },
+
+                    {
+                        targets: 0,
+                        width: "30px"
+                    },
+
+                    /**
+                     * 휴대폰
+                     */
+                    {
+                        targets: 3,
+                        render: function (data) {
+
+                            if (!data) {
+                                return "-";
+                            }
+
+                            return phoneHyphen(data);
+                        }
+                    },
+
+                    /**
+                     * 성별
+                     */
+                    {
+                        targets: 7,
+                        width: "60px",
+                        render: function (data) {
+
+                            if (data === "M") {
+                                return "남";
+                            }
+
+                            if (data === "F") {
+                                return "여";
+                            }
+
+                            if (data === "N") {
+                                return "알수없음";
+                            }
+
+                            return "-";
+                        }
+                    },
+
+                    /**
+                     * 추천가맹점
+                     */
+                    {
+                        targets: 12,
+                        width: "280px",
+                        orderable: false,
+
+                        render: function (data, type, row) {
+
+                            /**
+                             * DataTable 정렬 / 검색 처리 시에는
+                             * HTML이 아닌 실제 데이터 반환
+                             */
+                            if (type !== "display") {
+                                return data || "";
+                            }
+
+                            /**
+                             * 이미 추천가맹점이 등록된 경우
+                             */
+                            if (data) {
+
+                                return (
+                                    '<div class="recommend-store-complete">' +
+                                    '<span class="recommend-store-name">' +
+                                    data +
+                                    '</span>' +
+                                    '</div>'
+                                );
+                            }
+
+                            /**
+                             * custNo 없는 경우
+                             */
+                            if (!row || !row.custNo) {
+                                return "-";
+                            }
+
+                            /**
+                             * 추천가맹점 미등록
+                             *
+                             * 가맹점명을 직접 입력
+                             */
+                            return (
+                                '<div class="recommend-store-register" ' +
+                                'data-cust-no="' + row.custNo + '">' +
+
+                                '<input ' +
+                                'type="text" ' +
+                                'class="form-control recommend-st-name" ' +
+                                'placeholder="가맹점코드 입력" ' +
+                                'maxlength="100" ' +
+                                'autocomplete="off" ' +
+                                '/>' +
+
+                                '<button ' +
+                                'type="button" ' +
+                                'class="btn btn-info btn-recommend-st" ' +
+                                'data-cust-tel="' + row.custTel + '"' +
+                                'data-ord-type="' + (row.ordType || "") + '">' +
+                                '등록' +
+                                '</button>' +
+
+                                '</div>'
+                            );
+                        }
+                    },
+
+                    /**
+                     * 친구수
+                     */
+                    {
+                        targets: 15,
+                        width: "50px",
+                        render: function (data) {
+                            return Number(data || 0) + " 명";
+                        }
+                    },
+
+                    /**
+                     * 가입일
+                     */
+                    {
+                        targets: 16,
+                        render: function (data) {
+
+                            if (!data) {
+                                return "-";
+                            }
+
+                            return dateFormat(data);
+                        }
+                    },
+
+                    /**
+                     * 탈퇴일
+                     */
+                    {
+                        targets: 17,
+                        render: function (data, type, row) {
+
+                            if (
+                                row &&
+                                row.dataStatus === "DELETE"
+                            ) {
+
+                                return data
+                                    ? dateFormat(data)
+                                    : "탈퇴";
+                            }
+
+                            return "-";
+                        }
+                    },
+
+                    /**
+                     * 비밀번호 / 회원타입
+                     */
+                    {
+                        targets: 18,
+                        width: "120px",
+
+                        render: function (data) {
+
+                            if (
+                                !data ||
+                                data.type === undefined ||
+                                data.type === null
+                            ) {
+                                return "-";
+                            }
+
+                            let button = "";
+
+                            let permission = `${permission}`;
+                            let roleType = `${sessionScope.sessionKey.roleType}`;
+
+                            /**
+                             * 비회원
+                             */
+                            if (data.type == 0) {
+
+                                button =
+                                    "<button " +
+                                    "type='button' " +
+                                    "class='btn btn-info btn-pwd' " +
+                                    "style='width:115px; cursor:auto;'>" +
+
+                                    "<span style='display:flex; align-items:center;'>" +
+
+                                    "<i class='fa fa-window-close'></i>" +
+
+                                    "<span class='m-l-5'>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                    "<spring:message code='list.detail.list1' text='비회원'/>" +
+                                    "</span>" +
+
+                                    "</span>" +
+
+                                    "</button>";
+
+                            }
+
+                            /**
+                             * 일반 회원
+                             */
+                            else if (
+                                data.type == 1 &&
+                                permission == 2 &&
+                                roleType == 0
+                            ) {
+
+                                button =
+                                    "<button " +
+                                    "type='button' " +
+                                    "data-toggle='modal' " +
+                                    "data-target='#password_modal' " +
+                                    "class='btn btn-warning btn-pwd' " +
+                                    "style='width:115px; cursor:auto;' " +
+                                    "custNo='" + (data.custNo || "") + "'>" +
+
+                                    "<span style='display:flex; align-items:center;'>" +
+
+                                    "<i class='fa fa-lock'></i>" +
+
+                                    "<span>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                    "<spring:message code='list.detail.list1' text='비밀번호변경'/>" +
+                                    "</span>" +
+
+                                    "</span>" +
+
+                                    "</button>";
+
+                            }
+
+                            /**
+                             * Apple
+                             */
+                            else if (data.type == 2) {
+
+                                button =
+                                    "<button " +
+                                    "type='button' " +
+                                    "class='btn btn-info btn-pwd' " +
+                                    "style='width:115px; cursor:auto;'>" +
+
+                                    "<span style='display:flex; align-items:center;'>" +
+
+                                    "<i class='fa fa-window-close'></i>" +
+
+                                    "<span>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                    "<spring:message code='list.detail.list1' text='Apple회원'/>" +
+                                    "</span>" +
+
+                                    "</span>" +
+
+                                    "</button>";
+
+                            }
+
+                            /**
+                             * Kakao
+                             */
+                            else if (data.type == 3) {
+
+                                button =
+                                    "<button " +
+                                    "type='button' " +
+                                    "class='btn btn-info btn-pwd' " +
+                                    "style='width:115px; cursor:auto;'>" +
+
+                                    "<span style='display:flex; align-items:center;'>" +
+
+                                    "<i class='fa fa-window-close'></i>" +
+
+                                    "<span>" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                    "<spring:message code='list.detail.list1' text='Kakao회원'/>" +
+                                    "</span>" +
+
+                                    "</span>" +
+
+                                    "</button>";
+
+                            }
+
+                            else {
+                                return "-";
+                            }
+
+                            return button;
                         }
                     }
-                },
-                {
-                    targets: 3,
-                    render: function(data){
-                        return phoneHyphen(data);
-                    }
-                },
-                {
-                    targets: 14,
-                    width: '50px',
-                    render: function(data){
-                        return data + " 명";
-                    },
-                },
-                {
-                    targets: [15],
-                    render: function(data){
-                        return data ? dateFormat(data) : "-";
-                    },
-                },
-                {
-                    targets: [16],
-                    render: function(data, type, row){
-                        if (row.dataStatus === "DELETE") {
-                            return data ? dateFormat(data) : "탈퇴";
-                        }
-                        return "-";
-                    },
-                },
-                {
-                    targets: 17,
-                    width: '120px',
-                    render: function(data){
-                        var button;
-                        let permission = `${permission}`
-                        let roleType = `${sessionScope.sessionKey.roleType}`
-
-                        if(data.type == 0){
-                            button =  "<button type='button'   class='btn btn-info btn-pwd' style='width: 115px;cursor: auto;'>"+
-                                "<span style='display: flex; align-items: center'>"+
-                                "<i class='fa fa-window-close'></i>"+
-                                "<span class='m-l-5'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="비회원"/></span>"+
-                                "</span>"+
-                                "</button>";
-                        } else if(data.type == 1 && permission == 2 && roleType == 0){
-                            button =  "<button type='button'  data-toggle='modal' data-target='#password_modal'  class='btn btn-warning btn-pwd' style='width: 115px;cursor: auto;' custNo="+data.custNo+">"+
-                                "<span style='display: flex; align-items: center'>"+
-                                "<i class='fa fa-lock'></i>"+
-                                "<span class='m'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="비밀번호변경"/></span>"+
-                                "</span>"+
-                                "</button>";
-                        } else if(data.type == 2){
-                            button =  "<button type='button'   class='btn btn-info btn-pwd' style='width: 115px;cursor: auto;'>"+
-                                "<span style='display: flex; align-items: center'>"+
-                                "<i class='fa fa-window-close'></i>"+
-                                "<span class=''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Apple회원"/></span>"+
-                                "</span>"+
-                                "</button>";
-                        } else if(data.type == 3){
-                            button =  "<button type='button'   class='btn btn-info btn-pwd' style='width: 115px;cursor: auto;'>"+
-                                "<span style='display: flex; align-items: center'>"+
-                                "<i class='fa fa-window-close'></i>"+
-                                "<span class=''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="list.detail.list1" text="Kakao회원"/></span>"+
-                                "</span>"+
-                                "</button>";
-                        } else {
-                            return "-"
-                        }
-
-                        return button;
-                    },
-                },
-            ],
-        });
-
-
+                ]
+            }
+        );
 
         $("#testTable_filter").text("");
-        //$("#testTable_filter").append('<button type="button" class="btn-box-r bgGray float-right line-height-25 width-100 p-5 searchClick" onClick=serarchForm() ><i class="fa fa-search grayicon"></i> <spring:message code="merchandise.searchbutton" text="검색"/> </button>');
 
         dateSetting();
-        /*getToday();*/
 
-        $(".searchOp").change(function(e) {
+
+        /**
+         * 검색조건 변경
+         */
+        $(".searchOp").change(function (e) {
+
             let option = e.target.value;
+
             let nameForm = document.getElementById("custName");
             let telForm = document.getElementById("custTel");
 
-            nameForm.value = '';
-            telForm.value = '';
+            /**
+             * 요소가 없는 페이지에서도 오류 안 나도록
+             */
+            if (!nameForm || !telForm) {
+                return;
+            }
+
+            nameForm.value = "";
+            telForm.value = "";
 
             switch (option) {
-                case 'custName':
-                    nameForm.style.display = 'inline';
-                    telForm.style.display = 'none';
+
+                case "custName":
+
+                    nameForm.style.display = "inline";
+                    telForm.style.display = "none";
+
                     break;
-                case 'custTel':
-                    nameForm.style.display = 'none';
-                    telForm.style.display = 'inline';
+
+                case "custTel":
+
+                    nameForm.style.display = "none";
+                    telForm.style.display = "inline";
+
                     break;
             }
         });
 
-        $(document).on("click",".update_pwd_btn",function() {
-            let wouldyouliketoupdate = "<spring:message code="list.script.wouldyouliketoupdate1" text="수정하시겠습니까?"/>";
-            let update = "<spring:message code="list.script.update1" text="수정"/>";
-            let cancel = "<spring:message code="list.script.cancel1" text="취소"/>";
-            let updatesussmsg = "<spring:message code="list.script.correctionwassuccessful1" text="수정 되었습니다."/>";
-            let editfailed = "<spring:message code="list.script.editfailed1" text="수정에 실패하였습니다."/>";
 
-            let url = "${path}/api/user/cust/updatePwd";
-            let _forms = $('.update_pwd_form');
-            let req = convertFormToObj(_forms);
+        /**
+         * 비밀번호 변경
+         */
+        $(document).on(
+            "click",
+            ".update_pwd_btn",
+            function () {
 
-            if (inputDataCheck(req)) {
+                let wouldyouliketoupdate =
+                    "<spring:message code='list.script.wouldyouliketoupdate1' text='수정하시겠습니까?'/>";
+
+                let update =
+                    "<spring:message code='list.script.update1' text='수정'/>";
+
+                let cancel =
+                    "<spring:message code='list.script.cancel1' text='취소'/>";
+
+                let updatesussmsg =
+                    "<spring:message code='list.script.correctionwassuccessful1' text='수정 되었습니다.'/>";
+
+                let editfailed =
+                    "<spring:message code='list.script.editfailed1' text='수정에 실패하였습니다.'/>";
+
+                let url =
+                    "${path}/api/user/cust/updatePwd";
+
+                let _forms =
+                    $(".update_pwd_form");
+
+                let req =
+                    convertFormToObj(_forms);
+
+                if (!inputDataCheck(req)) {
+                    return;
+                }
+
                 swal({
                     title: wouldyouliketoupdate,
                     icon: "warning",
+
                     buttons: [
                         cancel,
                         update
                     ],
-                    dangerMode: true,
+
+                    dangerMode: true
+
                 }).then(function (isConfirm) {
-                    if (isConfirm) {
-                        $.ajax({
-                            type: "PUT",
-                            url,
-                            data: JSON.stringify(req),
-                            contentType: "application/json",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.result == 200) {
-                                    modalHide($('#password_modal'));
-                                    alert(updatesussmsg);
-                                } else {
-                                    alert(editfailed);
-                                    return;
-                                }
-                            }
-                        });
+
+                    if (!isConfirm) {
+                        return;
                     }
-                })
+
+                    $.ajax({
+
+                        type: "PUT",
+
+                        url: url,
+
+                        data: JSON.stringify(req),
+
+                        contentType:
+                            "application/json",
+
+                        dataType:
+                            "json",
+
+                        success: function (data) {
+
+                            if (
+                                data &&
+                                data.result == 200
+                            ) {
+
+                                modalHide(
+                                    $("#password_modal")
+                                );
+
+                                alert(
+                                    updatesussmsg
+                                );
+
+                            } else {
+
+                                alert(
+                                    editfailed
+                                );
+                            }
+                        },
+
+                        error: function () {
+
+                            alert(
+                                editfailed
+                            );
+                        }
+                    });
+                });
             }
-        });
+        );
 
-        //상세
-        $("#testTable").on('click', 'tbody td', function() {
-            var row = $("#testTable").DataTable().row($(this).parents("tr")).data();
-            var colIdx = $(this)[0]._DT_CellIndex.column;
 
-            // 탈퇴일(16), 비밀번호(17) 클릭 시 상세 이동 막기
-            if (colIdx === 16 || colIdx === 17) {
-                return;
+        /**
+         * 회원 상세 이동
+         */
+        $("#testTable").on(
+            "click",
+            "tbody td",
+            function () {
+
+                const row = $("#testTable")
+                    .DataTable()
+                    .row(
+                        $(this).parents("tr")
+                    )
+                    .data();
+
+                if (!row) {
+                    return;
+                }
+
+                const cellInfo =
+                    $(this)[0]._DT_CellIndex;
+
+                if (!cellInfo) {
+                    return;
+                }
+
+                const colIdx =
+                    cellInfo.column;
+
+                /**
+                 * 클릭 제외 컬럼
+                 *
+                 * 12 추천가맹점
+                 * 16 탈퇴일
+                 * 17 비밀번호
+                 */
+                if (
+                    colIdx === 12 ||
+                    colIdx === 16 ||
+                    colIdx === 17
+                ) {
+                    return;
+                }
+
+                location.href =
+                    "${path}/board/cust/detail?custNo=" +
+                    row.custNo;
             }
+        );
 
-            location.href = "${path}/board/cust/detail?custNo=" + row.custNo;
-        });
-
+        /**
+         * ---------------------------------------------------
+         * 기존 쿠폰 기능 복구
+         * ---------------------------------------------------
+         */
         $.ajax({
             type: "GET",
             /*url:"http://tfrapp.mompos.co.kr:8443/api-ms/v1/coupon-manage/list",*/
@@ -597,15 +1129,15 @@
                 );
 
                 availableCouponList.forEach(function (coupon) {
-                    let optionText = coupon.cpnTitle;
+                    let optionText = "[" + coupon.cpnNo + "] " + coupon.cpnTitle;
 
-                 /*   if (coupon.discountAmt) {
-                        optionText += " / " + coupon.discountAmt;
-                    }
+                    /*   if (coupon.discountAmt) {
+                           optionText += " / " + coupon.discountAmt;
+                       }
 
-                    if (coupon.usePeriod) {
-                        optionText += " / " + coupon.usePeriod;
-                    }*/
+                       if (coupon.usePeriod) {
+                           optionText += " / " + coupon.usePeriod;
+                       }*/
 
                     $selectCoupon.append(
                         $("<option>", {
@@ -664,14 +1196,14 @@
                 });
             }
 
-           /* let startDate = $(".custStartDate").val()
-            let endDate = $(".custEndDate").val()
-            if(getDateDiff(startDate, endDate) > 14) {
-                alert("날짜범위는 최대 14일까지 가능합니다.");
-                return;
-            } else {
+            /* let startDate = $(".custStartDate").val()
+             let endDate = $(".custEndDate").val()
+             if(getDateDiff(startDate, endDate) > 14) {
+                 alert("날짜범위는 최대 14일까지 가능합니다.");
+                 return;
+             } else {
 
-            }*/
+             }*/
         });
 
         $(".searchCustCouponList").on("click", function() {
@@ -707,7 +1239,7 @@
                         {data: "custName"},
                         {data: "custTel", render: function (data) {
                                 if (data) {
-                                  return  phoneHyphen(data);
+                                    return  phoneHyphen(data);
                                 } else {
                                     return "";
                                 }
@@ -813,6 +1345,13 @@
             tablePop.column().draw();
         });
     });
+
+
+    /**
+     * ---------------------------------------------------
+     * 기존 쿠폰 대상 선택 / 알림 발송 이벤트 복구
+     * ---------------------------------------------------
+     */
     $(document).on("click","#couponAllLeftBtn",function() {
         couponAddList = [];
         $("#cust-select").html("");
@@ -825,47 +1364,47 @@
         let _forms = $('.form-coupon-search');
         let req = convertFormToObj(_forms);
         $.ajax({
-        url: "${path}/api/cust/all",
+            url: "${path}/api/cust/all",
             type: "POST",
             data: req,
             dataType: "json",
             success: function (data) {
-            if (data.resultCode == 200) {
-                let custList = data.resultList;
-                $("#cust-none-select").html("");
-                if(custList.length == 0 || custList == null){
+                if (data.resultCode == 200) {
+                    let custList = data.resultList;
+                    $("#cust-none-select").html("");
+                    if(custList.length == 0 || custList == null){
 
-                    $("#cust-none-select").append(
-                        "             <tr class=\"p-0\">" +
-                        "                <td colspan='4' class=\"text-center\">조회된 정보가 없습니다.</td>" +
-                        "             </tr>");
-                } else {
-                   /* searchCustList =[];*/
-                    for (var i = 0; i < custList.length; i++) {
-                        if(custList[i].extCustNo){
-                            if(!couponAddList.includes(custList[i].extCustNo)){
-                                couponAddList.push(custList[i].extCustNo);
+                        $("#cust-none-select").append(
+                            "             <tr class=\"p-0\">" +
+                            "                <td colspan='4' class=\"text-center\">조회된 정보가 없습니다.</td>" +
+                            "             </tr>");
+                    } else {
+                        /* searchCustList =[];*/
+                        for (var i = 0; i < custList.length; i++) {
+                            if(custList[i].extCustNo){
+                                if(!couponAddList.includes(custList[i].extCustNo)){
+                                    couponAddList.push(custList[i].extCustNo);
 
-                                $("#cust-select").append(
-                                    "             <tr class=\"p-0\" extCustNo="+custList[i].extCustNo+" custNo="+custList[i].custNo+" >" +
-                                    "                <td class=\"text-center custNo\" style=\"width:50px;\">"+custList[i].custNo+"<i class=\"\"></i></td>" +
-                                    "                <td class=\"text-center\" style=\"width:150px;\">"+custList[i].custName+"<i class=\"\"></i></td>" +
-                                    "                <td class=\"text-center\">("+  phoneHyphen(custList[i].custTel)+")<i class=\"\"></i></td>" +
-                                    "                <td class=\"text-center\" style=\"width:67px;\" ><i class=\"fas fa-lg fa-fw icon-arrow fa fa-solid fa-minus move-left\" extCustNo="+custList[i].extCustNo+" custName="+custList[i].custName+" custTel="+custList[i].custTel+" custNo="+custList[i].custNo+"></i>" +
-                                    "                </td>" +
-                                    "             </tr>");
+                                    $("#cust-select").append(
+                                        "             <tr class=\"p-0\" extCustNo="+custList[i].extCustNo+" custNo="+custList[i].custNo+" >" +
+                                        "                <td class=\"text-center custNo\" style=\"width:50px;\">"+custList[i].custNo+"<i class=\"\"></i></td>" +
+                                        "                <td class=\"text-center\" style=\"width:150px;\">"+custList[i].custName+"<i class=\"\"></i></td>" +
+                                        "                <td class=\"text-center\">("+  phoneHyphen(custList[i].custTel)+")<i class=\"\"></i></td>" +
+                                        "                <td class=\"text-center\" style=\"width:67px;\" ><i class=\"fas fa-lg fa-fw icon-arrow fa fa-solid fa-minus move-left\" extCustNo="+custList[i].extCustNo+" custName="+custList[i].custName+" custTel="+custList[i].custTel+" custNo="+custList[i].custNo+"></i>" +
+                                        "                </td>" +
+                                        "             </tr>");
+                                }
                             }
                         }
+                        updateCouponCount();
+                        $(".searchCustCouponList").click();
                     }
-                    updateCouponCount();
-                    $(".searchCustCouponList").click();
+                } else {
+                    alert("조회에 실패하였습니다.")
+                    return;
                 }
-            } else {
-                alert("조회에 실패하였습니다.")
-                return;
             }
-        }
-    });
+        });
 
 
     });
@@ -928,7 +1467,7 @@
                     couponText: couponText,
                     pushTitle: pushTitle,
                     pushContents: pushContents
-,                },
+                },
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("authKey", "<spring:eval expression="@environment.getProperty('file.momPosServer.authKey')" />");
                     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -975,10 +1514,10 @@
     $(document).on("click", ".move-left", function() {
         let extCustNo = $(this).attr("extCustNo");
         $('.active-off').each(function() {
-           if($(this).attr("extcustNo") == extCustNo){
-               $(this).removeClass("active-off");
-               $(this).addClass("active-on");
-           }
+            if($(this).attr("extcustNo") == extCustNo){
+                $(this).removeClass("active-off");
+                $(this).addClass("active-on");
+            }
         });
 
         if(couponAddList.includes(Number(extCustNo))){
@@ -991,39 +1530,290 @@
     });
 
 
-    function serarchForm() {
-        var numCols = table.columns().nodes().length;
-        for(var i=0; i<numCols; i++) {table.column(i).search(''); }
-        /*  var searchType = $("#searchType").val();
-          var searchValue = $("#searchValue").val();*/
+    /**
+     * ---------------------------------------------------
+     * 추천가맹점 등록
+     * ---------------------------------------------------
+     */
+    $(document).on(
+        "click",
+        ".btn-recommend-st",
+        function (event) {
 
-        table.column().draw();
-        /*let startDate = $(".startDate").val()
-        let endDate = $(".endDate").val()
-        if(getDateDiff(startDate, endDate) > 31) {
-            alert("날짜범위는 최대 31일까지 가능합니다.");
-            return;
-        } else {
+            /**
+             * 회원 상세페이지 이동 막기
+             */
+            event.preventDefault();
+            event.stopPropagation();
 
-        }*/
-    }
+            const $button =
+                $(this);
 
-    function inputDataCheck(args) {
-        if (isNull(args.loginPwd)) {
-            return alert_focus("userId", "변경할 비밀번호를 입력해주세요.");
+            const $wrapper =
+                $button.closest(
+                    ".recommend-store-register"
+                );
+
+            const custNo = $wrapper.data("cust-no");
+            const custTel = $button.data("cust-tel");
+            const ordType = $button.data("ord-type");
+
+            if (!custNo) {
+                alert("고객번호를 확인할 수 없습니다.");
+                return;
+            }
+
+            /**
+             * 가맹점코드
+             */
+            const stCode =
+                $.trim(
+                    $wrapper
+                        .find(".recommend-st-name")
+                        .val()
+                );
+
+            /**
+             * 고객번호 체크
+             */
+            if (!custTel) {
+                alert("휴대폰번호를 확인할 수 없습니다.");
+                return;
+            }
+
+            /**
+             * 가맹점명 체크
+             */
+            if (!stCode) {
+
+                alert("가맹점명을 입력해주세요.");
+                $wrapper
+                    .find(".recommend-st-name")
+                    .focus();
+
+                return;
+            }
+
+            swal({
+
+                title: "추천가맹점을 등록하시겠습니까?",
+                text: "가맹점 코드 : " + stCode,
+                icon: "warning",
+                buttons: [
+                    "취소",
+                    "등록"
+                ],
+                dangerMode: false
+            }).then(function (isConfirm) {
+
+                if (!isConfirm) {
+                    return;
+                }
+
+                /**
+                 * 중복 클릭 방지
+                 */
+                $button
+                    .prop(
+                        "disabled",
+                        true
+                    )
+                    .text("등록중...");
+
+                $.ajax({
+                    type: "POST",
+
+                    /**
+                     * 백엔드 API
+                     *
+                     * 필요하면 URL만 실제 API에 맞춰 변경
+                     */
+                    url:"${path}/api/cust/recommend-store",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data:
+                        JSON.stringify({
+                            custNo: custNo,
+                            custTel: custTel,
+                            stCode:stCode,
+                            ordType:"1001"
+                        }),
+
+                    success:
+                        function (data) {
+
+                            console.log(
+                                "추천가맹점 등록 응답",
+                                data
+                            );
+
+                            /**
+                             * 프로젝트 응답 포맷 여러 경우 대응
+                             */
+                            const success =
+                                data &&
+                                (
+                                    data.success === true ||
+                                    data.result == 200 ||
+                                    data.resultCode == 200 ||
+                                    data.code == 200
+                                );
+
+                            if (success) {
+
+                                swal({
+
+                                    title: "등록완료",
+                                    text: "추천가맹점이 등록되었습니다.",
+                                    icon: "success"
+                                }).then(
+                                    function () {
+
+                                        /**
+                                         * 현재 페이지 유지하고
+                                         * 목록만 다시 조회
+                                         */
+                                        if (
+                                            table &&
+                                            table.ajax
+                                        ) {
+
+                                            table.ajax.reload(
+                                                null,
+                                                false
+                                            );
+
+                                        } else {
+                                            location.reload();
+                                        }
+                                    }
+                                );
+
+                                return;
+                            }
+
+                            /**
+                             * 등록 실패
+                             */
+                            let message =
+                                "추천가맹점 등록에 실패하였습니다.";
+
+                            if (data) {
+
+                                message =
+                                    data.message ||
+                                    data.msg ||
+                                    data.resultMsg ||
+                                    message;
+                            }
+
+                            alert(
+                                message
+                            );
+
+                            $button
+                                .prop(
+                                    "disabled",
+                                    false
+                                )
+                                .text("등록");
+                        },
+                    error:
+                        function (xhr) {
+
+                            console.error(
+                                "추천가맹점 등록 오류",
+                                xhr
+                            );
+
+                            let message = "추천가맹점 등록 중 오류가 발생하였습니다.";
+                            if (
+                                xhr.responseJSON
+                            ) {
+                                message =
+                                    xhr.responseJSON.message ||
+                                    xhr.responseJSON.msg ||
+                                    message;
+                            }
+                            alert(message);
+                            $button
+                                .prop(
+                                    "disabled",
+                                    false
+                                )
+                                .text("등록");
+                        }
+                });
+            });
         }
-        return true;
-    }
+    );
 
 
-    function updateCouponCount(searchCount) {
-        if (searchCount !== undefined && searchCount !== null) {
-            $("#searchCustTotalCount").text(Number(searchCount).toLocaleString());
+    /**
+     * 추천가맹점 input 클릭
+     *
+     * td 상세 이동 이벤트 막기
+     */
+    $(document).on(
+        "click",
+        ".recommend-st-name",
+        function (event) {
+
+            event.stopPropagation();
         }
+    );
 
-        $("#selectedCustTotalCount").text(couponAddList.length.toLocaleString());
-    }
 
+    /**
+     * input에서 Enter 누르면 등록
+     */
+    $(document).on(
+        "keydown",
+        ".recommend-st-name",
+        function (event) {
+
+            event.stopPropagation();
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                $(this)
+                    .closest(
+                        ".recommend-store-register"
+                    )
+                    .find(
+                        ".btn-recommend-st"
+                    )
+                    .trigger(
+                        "click"
+                    );
+            }
+        }
+    );
+
+
+    /**
+     * 등록 버튼 클릭 시에도
+     * 상세페이지 이동 완전히 차단
+     */
+    $(document).on(
+        "click",
+        ".recommend-store-register",
+        function (event) {
+
+            event.stopPropagation();
+        }
+    );
+
+
+    /**
+     * ---------------------------------------------------
+     * 쿠폰 검색 / 유효기간 / 표시 helper 복구
+     * ---------------------------------------------------
+     */
     function getKeywordPopList() {
         const value = $(".form-coupon-search [name=keywordPop]").val() || "";
 
@@ -1353,6 +2143,83 @@
                     selected: true,
                     disabled: true
                 })
+            );
+    }
+
+
+    /**
+     * 검색
+     */
+    function serarchForm() {
+
+        if (!table) {
+            return;
+        }
+
+        var numCols =
+            table.columns()
+                .nodes()
+                .length;
+
+        for (
+            var i = 0;
+            i < numCols;
+            i++
+        ) {
+
+            table
+                .column(i)
+                .search("");
+        }
+
+        table
+            .column()
+            .draw();
+    }
+
+
+    /**
+     * 비밀번호 유효성
+     */
+    function inputDataCheck(args) {
+
+        if (
+            isNull(
+                args.loginPwd
+            )
+        ) {
+
+            return alert_focus(
+                "userId",
+                "변경할 비밀번호를 입력해주세요."
+            );
+        }
+
+        return true;
+    }
+
+
+    /**
+     * 쿠폰 인원수
+     */
+    function updateCouponCount(searchCount) {
+
+        if (
+            searchCount !== undefined &&
+            searchCount !== null
+        ) {
+
+            $("#searchCustTotalCount")
+                .text(
+                    Number(searchCount)
+                        .toLocaleString()
+                );
+        }
+
+        $("#selectedCustTotalCount")
+            .text(
+                couponAddList.length
+                    .toLocaleString()
             );
     }
 </script>

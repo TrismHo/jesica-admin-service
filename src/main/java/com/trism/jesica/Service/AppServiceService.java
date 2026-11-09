@@ -363,5 +363,21 @@ public class AppServiceService {
 
         return 1;
     }
+
+    public Integer findServiceNoByServiceName(String serviceName) {
+        TbAppService service =
+                tbAppServiceRepository.findByServiceName(serviceName);
+        return service != null
+                ? service.getServiceNo()
+                : null;
+    }
+
+    public Integer findServiceNo(String addr1, String addr2) {
+        TbAppServiceLocation service =
+                tbAppServiceLocationRepository.findByAddr1AndAddr2(addr1,addr2);
+        return service != null
+                ? service.getServiceNo()
+                : null;
+    }
 }
 

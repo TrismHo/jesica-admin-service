@@ -1,10 +1,12 @@
-/*
+
 package com.trism.jesica.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trism.jesica.persistence.oracle.Entity.MnA1Today;
+import com.trism.jesica.persistence.oracle.Entity.MnGrSt;
 import com.trism.jesica.persistence.oracle.Repository.MnA1TodayRepository;
+import com.trism.jesica.persistence.oracle.Repository.MnGrStRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.driver.OracleConnection;
@@ -17,7 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.sql.*;
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -32,6 +37,8 @@ public class OracleService {
     @Autowired
     private SimpleJdbcCall oracleSimpleJdbcCall;
     private final MnA1TodayRepository mnA1TodayRepository;
+
+    private final MnGrStRepository mnGrStRepository;
 
     @Transactional(readOnly = true, value="oracleTransactionManager")
     public MnA1Today oracleTest() {
@@ -104,6 +111,13 @@ public class OracleService {
         // 결과를 반환
         return outParams;
     }
+
+    @Transactional(readOnly = true, value = "oracleTransactionManager")
+    public MnGrSt findStore(String stCode) {
+        return mnGrStRepository
+                .findByStCodeAndDataStatus(stCode, "1")
+                .orElse(null);
+    }
 }
 
-*/
+

@@ -10,4 +10,5 @@ public interface TbAppServiceLocationRepository extends JpaRepository<TbAppServi
     // service_no로 location 조회
     List<TbAppServiceLocation> findByServiceNoOrderByLocationNoDesc(Integer serviceNo);
     Integer deleteByServiceNo(Integer serviceNo);
+    TbAppServiceLocation findByAddr1AndAddr2(String addr1, String addr2);
 }

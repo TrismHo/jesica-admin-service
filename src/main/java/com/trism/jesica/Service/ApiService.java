@@ -4307,6 +4307,27 @@ public class ApiService {
             );
         }
     }
+    @Transactional
+    public int updateCustRecommSt(
+            Integer custNo,
+            String stCode,
+            String recommStName,
+            String brCode,
+            String masterStCode,
+            Integer serviceNo,
+            String stAppUseType
+    ) {
+        return tbCustRepository.updateCustRecommSt(
+                custNo,
+                stCode,
+                recommStName,
+                brCode,
+                masterStCode,
+                serviceNo,
+                stAppUseType
+        );
+    }
+
     /**
      * FAQ 관리 화면의 왼쪽 카테고리와 등록/수정 셀렉트에서 사용한다.
      *

@@ -1,56 +1,122 @@
 package com.trism.jesica.persistence.mysql.Repository.board;
 
 import com.trism.jesica.persistence.mysql.Entitiy.board.TbAppBanner;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
-import javax.persistence.criteria.*;
-import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class TbAppBannerRepositoryImpl implements TbAppBannerRepositoryCustom {
 
-    private final EntityManager em;
+    @PersistenceContext(unitName = "mysql")
+    private EntityManager em;
 
     @Override
-    public Page<Long> findAllIds(Specification<TbAppBanner> spec, Pageable pageable) {
+    public Page<Long> findAllIds(
+            Specification<TbAppBanner> spec,
+            Pageable pageable
+    ) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
-        // content query
+        // =========================
+        // Content Query
+        // =========================
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
         Root<TbAppBanner> root = cq.from(TbAppBanner.class);
+
         cq.select(root.get("bannerNo"));
 
-        Predicate p = spec.toPredicate(root, cq, cb);
-        if (p != null) cq.where(p);
+        if (spec != null) {
+            Predicate p = spec.toPredicate(root, cq, cb);
 
-        // sort
-        List<Order> orders = new ArrayList<>();
-        for (Sort.Order s : pageable.getSort()) {
-            Path<Object> path = root.get(s.getProperty());
-            orders.add(s.isAscending() ? cb.asc(path) : cb.desc(path));
+            if (p != null) {
+                cq.where(p);
+            }
         }
-        if (!orders.isEmpty()) cq.orderBy(orders);
 
-        TypedQuery<Long> q = em.createQuery(cq);
-        q.setFirstResult((int) pageable.getOffset());
-        q.setMaxResults(pageable.getPageSize());
-        List<Long> ids = q.getResultList();
+        // =========================
+        // Sort
+        // =========================
+        List<Order> orders = new ArrayList<>();
 
-        // count query
-        CriteriaQuery<Long> countCq = cb.createQuery(Long.class);
-        Root<TbAppBanner> countRoot = countCq.from(TbAppBanner.class);
-        countCq.select(cb.count(countRoot));
+        for (Sort.Order s : pageable.getSort()) {
 
-        Predicate cp = spec.toPredicate(countRoot, countCq, cb);
-        if (cp != null) countCq.where(cp);
+            Path<Object> path = root.get(s.getProperty());
 
-        Long total = em.createQuery(countCq).getSingleResult();
+            orders.add(
+                    s.isAscending()
+                            ? cb.asc(path)
+                            : cb.desc(path)
+            );
+        }
 
-        return new PageImpl<>(ids, pageable, total);
+        if (!orders.isEmpty()) {
+            cq.orderBy(orders);
+        }
+
+        TypedQuery<Long> query = em.createQuery(cq);
+
+        query.setFirstResult(
+                (int) pageable.getOffset()
+        );
+
+        query.setMaxResults(
+                pageable.getPageSize()
+        );
+
+        List<Long> ids = query.getResultList();
+
+        // =========================
+        // Count Query
+        // =========================
+        CriteriaQuery<Long> countCq =
+                cb.createQuery(Long.class);
+
+        Root<TbAppBanner> countRoot =
+                countCq.from(TbAppBanner.class);
+
+        countCq.select(
+                cb.count(countRoot)
+        );
+
+        if (spec != null) {
+
+            Predicate cp =
+                    spec.toPredicate(
+                            countRoot,
+                            countCq,
+                            cb
+                    );
+
+            if (cp != null) {
+                countCq.where(cp);
+            }
+        }
+
+        Long total =
+                em.createQuery(countCq)
+                        .getSingleResult();
+
+        return new PageImpl<>(
+                ids,
+                pageable,
+                total
+        );
     }
 }

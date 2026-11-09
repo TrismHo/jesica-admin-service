@@ -1,4 +1,5 @@
-/*
+
+
 package com.trism.jesica.config;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -48,6 +49,7 @@ public class OracleDataSourceConfig {
         emf.setDataSource(dataSource);
         emf.setPackagesToScan("com.trism.jesica.persistence.oracle"); // Oracle 엔티티 패키지
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        emf.setPersistenceUnitName("oracle");
         return emf;
     }
 
@@ -68,4 +70,5 @@ public class OracleDataSourceConfig {
     }
 
 }
-*/
+
+

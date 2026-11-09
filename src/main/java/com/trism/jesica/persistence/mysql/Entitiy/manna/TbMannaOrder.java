@@ -408,5 +408,7 @@ public class TbMannaOrder  {
     private String extMasterStCode = null;
     @Transient
     private String extRecommStCode = null;
+    @Transient
+    private String extRecommWkCode = null;
 
 }

@@ -29,6 +29,9 @@ import com.trism.jesica.persistence.mysql.Entitiy.system.TbSiteMenu;
 import com.trism.jesica.persistence.mysql.Entitiy.system.TbSystemCode;
 import com.trism.jesica.persistence.mysql.Entitiy.vacs.TbVacsVact;
 import com.trism.jesica.persistence.mysql.Entitiy.worker.TbWorkerApply;
+import com.trism.jesica.persistence.mysql.Repository.cust.TbCustRepository;
+import com.trism.jesica.persistence.mysql.Repository.system.TbSystemCodeRepository;
+import com.trism.jesica.persistence.oracle.Entity.MnGrSt;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -81,6 +84,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Slf4j
 public class ApiController {
+    @Autowired
+    private TbSystemCodeRepository tbSystemCodeRepository;
 
 
     private final AppServiceService appServiceService;
@@ -103,18 +108,16 @@ public class ApiController {
     @Autowired
     private RestTemplateUtil restTemplateUtil;
 
+    private OracleService oracleService;
 
 
-    @Autowired
+
     private ExtraLinkService extraLinkService;
     private FileService fileService;
-    @Autowired
     private CacheManager cacheManager;
 
-    @Autowired
     private SystemPropService systemPropService;
 
-    @Autowired
     private WorkerApplyService workerApplyService;
 
     private final WorkGroupService workGroupService;
@@ -133,6 +136,8 @@ public class ApiController {
     private final LibraryService libraryService ;
 
     private final SystemCodeService systemCodeService;
+
+    private final TbCustRepository tbCustRepository;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -4369,6 +4374,9 @@ public class ApiController {
                 if(tbCust.getExtRecommStCode() != null){
                     list.get(i).setExtRecommStCode(list.get(i).getTbCust().getExtRecommStCode());
                 }
+                if(tbCust.getExtRecommWkCode() != null){
+                    list.get(i).setExtRecommWkCode(list.get(i).getTbCust().getExtRecommWkCode());
+                }
             }
         }
 
@@ -6166,14 +6174,137 @@ public class ApiController {
     ) {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("status", 500);
-        result.put("message", "FAQ 처리 중 오류가 발생했습니다.");
+        result.put("message", "처리 중 오류가 발생했습니다.");
 
         return ResponseEntity
                 .status(500)
                 .body(result);
     }
 
+    @PostMapping("/cust/recommend-store")
+    public ResponseEntity<?> registerRecommendStore(
+            @RequestBody CustRecommendStoreRequest request
+    ) {
 
+        Map<String, Object> map = new HashMap<>();
+
+        // 정상 상태의 가맹점 조회
+        MnGrSt mnGrSt = oracleService.findStore(request.getStCode());
+
+        // 가맹점이 없거나 정상 상태가 아니면 등록 불가
+        if (mnGrSt == null) {
+
+            map.put("result", "400");
+            map.put(
+                    "message",
+                    "등록 가능한 가맹점이 아닙니다."
+            );
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(map);
+        }
+
+        log.info(
+                "추천가맹점 등록 요청 custTel={}, stCode={}, ordType={}",
+                request.getCustTel(),
+                request.getStCode(),
+                request.getOrdType()
+        );
+
+        // 추천가맹점 등록
+        ResponseEntity<Map> success =
+                restTemplateUtil.updateCustRecommSt(
+                        request.getCustTel(),
+                        request.getStCode(),
+                        request.getOrdType(),
+                        "1"
+                );
+        log.info("추천가맹점 1차 응답 status={}", success.getBody().get("RES_CODE"));
+        log.info("추천가맹점 1차 응답 body={}", success.getBody().get("DATA"));
+        if("0000".equals(success.getBody().get("RES_CODE"))){
+            ResponseEntity<Map> success2 =
+                    restTemplateUtil.updateCustRecommSt(
+                            request.getCustTel(),
+                            request.getStCode(),
+                            request.getOrdType(),
+                            "2"
+                    );
+            log.info("추천가맹점 2차 응답 status={}", success2.getBody().get("RES_CODE"));
+            log.info("추천가맹점 2차 응답 body={}", success2.getBody().get("DATA"));
+            if("0000".equals(success2.getBody().get("RES_CODE"))){
+
+                Map<String,String> object = (Map<String,String>)success2.getBody().get("DATA");
+
+                String addr1 = Optional.ofNullable(object.get("ST_ADDR_1"))
+                        .map(Object::toString)
+                        .map(String::trim)
+                        .orElse("");
+
+                String addr2 = Optional.ofNullable(object.get("ST_ADDR_2"))
+                        .map(Object::toString)
+                        .map(String::trim)
+                        .orElse("");
+                log.info("addr1={}", addr1);
+                log.info("addr2={}", addr2);
+
+
+                Integer serviceNo = getServiceNo(addr1, addr2);
+
+
+                int result = apiService.updateCustRecommSt(
+                        request.getCustNo(),
+                        request.getStCode(),
+                        Objects.toString(object.get("RECOMM_ST_NAME"), null),
+                        Objects.toString(object.get("BR_CODE"), null),
+                        Objects.toString(object.get("MASTER_ST_CODE"), null),
+                        serviceNo,
+                        Objects.toString(object.get("ST_APP_USE_TYPE"), null)
+                );
+
+
+                if (result == 0 ) {
+                    map.put("result", "400");
+                    map.put(
+                            "message",
+                            "추천가맹점 등록에 실패했습니다."
+                    );
+
+                    return ResponseEntity
+                            .badRequest()
+                            .body(map);
+                }
+
+                map.put("result", "200");
+                map.put(
+                        "message",
+                        "추천가맹점이 등록되었습니다."
+                );
+            }
+        }
+
+
+
+        return ResponseEntity.ok(map);
+    }
+    private Integer getServiceNo(String addr1, String addr2) {
+
+        if (StringUtils.isBlank(addr1)) {
+            return null;
+        }
+
+      /*  String serviceName;*/
+
+      /*  if (StringUtils.isNotBlank(addr2)) {
+            //serviceName = addr1.trim() + " " + addr2.trim();
+            TbSystemCode sido = systemCodeService.getSysCode("A1",addr1);
+            TbSystemCode sigungu = systemCodeService.getSysCode("A2",addr2);
+        } else {
+           // serviceName = addr1.trim() + "(전체)";
+        }*/
+        return appServiceService.findServiceNo(systemCodeService.getSysCode("A1",addr1).getSysCode(),systemCodeService.getSysCode("A2",addr2).getSysCode());
+        //return appServiceService.findServiceNoByServiceName(serviceName);
+    }
 
     /**
      * 전달된 파라미터에 맞게 난수를 생성한다

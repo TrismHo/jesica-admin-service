@@ -11,4 +11,6 @@ public interface TbAppServiceRepository    extends JpaRepository<TbAppService, I
 
     // 정상 데이터만 리스트 (data_status=1)
     List<TbAppService> findByDataStatusOrderByServiceNoAsc(Integer dataStatus);
+
+    TbAppService findByServiceName(String serviceName);
 }

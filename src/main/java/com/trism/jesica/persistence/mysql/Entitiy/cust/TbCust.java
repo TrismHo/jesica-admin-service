@@ -194,11 +194,19 @@ public class TbCust extends BaseEntity {
     @Column(name = "platform_type", nullable = false)
     private Integer platformType = 1;
 
+
+    /**
+     * 추천 배송원 코드
+     */
+    @Column(name = "ext_recomm_wk_code")
+    private String extRecommWkCode = null;
+
     /**
      * 추천 가맹점 코드
      */
     @Column(name = "ext_recomm_st_code")
     private String extRecommStCode = null;
+
 
     /**
      * 추천 가맹점명
@@ -230,6 +238,8 @@ public class TbCust extends BaseEntity {
      */
     @Column(name = "recomm_count")
     private Integer recommCount;
+
+
 
     /**
      * 추천인

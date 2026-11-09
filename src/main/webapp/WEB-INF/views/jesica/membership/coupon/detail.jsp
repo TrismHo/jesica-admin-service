@@ -743,7 +743,7 @@
     const date = new Date(); //각 날짜 초기 세팅 date객체
     const dateClasses = ['.periodS', '.periodE', '.cpnPeriodS', '.cpnPeriodE', '.issuedDate'];
     const cpnNo = document.getElementsByName('cpnNo')[0].value;
-    const COUPON_PROVIDE_EXCEL_PAGE_SIZE = 1000;
+    const COUPON_PROVIDE_EXCEL_PAGE_SIZE = 100;
 
 
 

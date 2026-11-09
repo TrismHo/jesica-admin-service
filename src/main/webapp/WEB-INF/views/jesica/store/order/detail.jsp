@@ -234,6 +234,34 @@
             font-weight: 700;
         }
 
+        /* 주문자 추천정보: 코드별 구분 표시 */
+        .recommend-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px;
+        }
+
+        .recommend-info-item {
+            min-width: 0;
+            padding: 7px 9px;
+            border: 1px solid #e8ebef;
+            background: #fafbfc;
+        }
+
+        .recommend-info-label {
+            margin-bottom: 3px;
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .recommend-info-value {
+            color: #222;
+            font-size: 12px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
         .compact-table td {
             color: #222;
             font-weight: 500;
@@ -520,15 +548,15 @@
                                                     </tr>
                                                     <tr>
                                                         <th>
-                                                           수령인
+                                                            수령인
                                                         </th>
                                                         <td>
-                                                            ${callDetail.ordCuName}
+                                                                ${callDetail.ordCuName}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <th>
-                                                           수령인 연락처
+                                                            수령인 연락처
                                                         </th>
                                                         <td>
                                                             <c:if test="${callDetail.ordCuTel.length() == 11}">
@@ -807,9 +835,44 @@
                                             <tr>
                                                 <th>추천정보</th>
                                                 <td>
-                                                    ${callDetail.tbCust.extBrCode} |
-                                                    ${callDetail.tbCust.extRecommStCode} |
-                                                    ${callDetail.tbCust.extMasterStCode}
+                                                    <div class="recommend-info-grid">
+                                                        <div class="recommend-info-item">
+                                                            <div class="recommend-info-label">추천 총판코드</div>
+                                                            <div class="recommend-info-value">
+                                                                <c:choose>
+                                                                    <c:when test="${not empty callDetail.tbCust.extBrCode}"><c:out value="${callDetail.tbCust.extBrCode}"/></c:when>
+                                                                    <c:otherwise><span class="muted">-</span></c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+                                                        </div>
+                                                        <div class="recommend-info-item">
+                                                            <div class="recommend-info-label">추천 가맹점 코드</div>
+                                                            <div class="recommend-info-value">
+                                                                <c:choose>
+                                                                    <c:when test="${not empty callDetail.tbCust.extRecommStCode}"><c:out value="${callDetail.tbCust.extRecommStCode}"/></c:when>
+                                                                    <c:otherwise><span class="muted">-</span></c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+                                                        </div>
+                                                        <div class="recommend-info-item">
+                                                            <div class="recommend-info-label">추천 마스터가맹점 코드</div>
+                                                            <div class="recommend-info-value">
+                                                                <c:choose>
+                                                                    <c:when test="${not empty callDetail.tbCust.extMasterStCode}"><c:out value="${callDetail.tbCust.extMasterStCode}"/></c:when>
+                                                                    <c:otherwise><span class="muted">-</span></c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+                                                        </div>
+                                                        <div class="recommend-info-item">
+                                                            <div class="recommend-info-label">추천 배송원 코드</div>
+                                                            <div class="recommend-info-value">
+                                                                <c:choose>
+                                                                    <c:when test="${not empty callDetail.tbCust.extRecommWkCode}"><c:out value="${callDetail.tbCust.extRecommWkCode}"/></c:when>
+                                                                    <c:otherwise><span class="muted">-</span></c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1182,3 +1245,4 @@
 </script>
 </body>
 </html>
+

@@ -352,6 +352,7 @@
                                     <th class="align-middle">추천총판</th>
                                     <th class="align-middle">추천마스터가맹</th>
                                     <th class="align-middle">추천가맹</th>
+                                    <th class="align-middle">추천배송원</th>
                                     <th class="align-middle">고객연락처</th>
                                     <th class="align-middle">배달주소</th>
                                     <th class="align-middle">이용횟수</th>
@@ -573,6 +574,7 @@
                 {data: "extBrCode"},
                 {data: "extMasterStCode"},
                 {data: "extRecommStCode"},
+                {data: "extRecommWkCode", defaultContent: "-"},
                 {data: "ordCuTel"},
                 {data: "eaAddr4"},
                 {data: "totalUseCount"},
@@ -662,13 +664,13 @@
                     }
                 },
                 {
-                    targets: 20,
+                    targets: 21,
                     render: function (data) {
                         return countString(data, "회");
                     }
                 },
                 {
-                    targets: 22,
+                    targets: 23,
                     orderable: false,
                     searchable: false,
                     render: function (data, type, row) {
@@ -702,7 +704,7 @@
                     }
                 },
                 {
-                    targets: 23,
+                    targets: 24,
                     render: function (data, type, row) {
                         var ordType = String(row.ordType || '');
 

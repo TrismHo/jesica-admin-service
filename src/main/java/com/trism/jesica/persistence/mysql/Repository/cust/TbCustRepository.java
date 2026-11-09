@@ -29,6 +29,7 @@ public interface TbCustRepository extends JpaRepository<TbCust, Long>, JpaSpecif
             "           cust.ext_cust_no as extCustNo, " +
             "           cust.ext_recomm_st_code as extRecommStCode, " +
             "           cust.ext_recomm_st_name as extRecommStName, " +
+            "           cust.ext_recomm_wk_code as extRecommWkCode, " +
             "           cust.gender as gender, " +
             "           cust.is_member as isMember, " +
             "           cust.login_id as loginId, " +
@@ -236,8 +237,32 @@ public interface TbCustRepository extends JpaRepository<TbCust, Long>, JpaSpecif
             "        cust_no as custNo " +
             "       from tb_cust as cust " +
             "       where data_status = 1 " +
-            "       and (:appCode is null and 1 = 1 ) or ( :appCode is not null and app_code = ':appCode' ) )"+
+            "       and (:appCode is null and 1 = 1 ) or ( :appCode is not null and app_code = ':appCode' )"+
             "       and platform_type = 2 "+
             "",nativeQuery = true)
     List<Map<String,Object>> getAppCodeCustList(@Param("appCode") String appCode);
+
+
+    @Modifying
+    @Query(value =
+            "update tb_cust set " +
+                    "ext_recomm_st_code = :stCode, " +
+                    "ext_recomm_st_name = :recommStName, " +
+                    "ext_br_code = :brCode, " +
+                    "ext_master_st_code = :masterStCode, " +
+                    "service_no = :serviceNo, " +
+                    "ext_recomm_st_type = :stAppUseType, " +
+                    "update_date = now() " +
+                    "where cust_no = :custNo",
+            nativeQuery = true
+    )
+    int updateCustRecommSt(
+            @Param("custNo") Integer custNo,
+            @Param("stCode") String stCode,
+            @Param("recommStName") String recommStName,
+            @Param("brCode") String brCode,
+            @Param("masterStCode") String masterStCode,
+            @Param("serviceNo") Integer serviceNo,
+            @Param("stAppUseType") String stAppUseType
+    );
 }

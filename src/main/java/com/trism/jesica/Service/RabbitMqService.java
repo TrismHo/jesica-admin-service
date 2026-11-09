@@ -87,6 +87,10 @@ public class RabbitMqService {
             log.info("couponBody status = {}", couponBody.getStatusCode());
             log.info("couponBody body = {}", couponBody.getBody());
 
+            PushMessage.Coupon coupon;
+            PushMessage pushMessage;
+
+
             for(int i = 0 ; i < custList.length ; i++){
                 PushMessage.Data data = PushMessage.Data.builder().type("5").build();
                 Map<String,Object> deviceInfo =  tbCustDeviceRepository.getDeviceInfo(custList[i]);
@@ -101,7 +105,7 @@ public class RabbitMqService {
                         os = "i";
                     }
 
-                    PushMessage.Coupon coupon = PushMessage.Coupon.builder()
+                     coupon = PushMessage.Coupon.builder()
                             .cpnTitle(getString(couponData, "cpnTitle"))
                             .readyDate(readyDate)
                             .expireDate(expireDate)
@@ -111,7 +115,7 @@ public class RabbitMqService {
                             .build();
 
                     data.setCoupon(coupon);
-                    PushMessage pushMessage = PushMessage.builder().appcode("dv")
+                    pushMessage = PushMessage.builder().appcode("dv")
 
                             .os(os)
                             .timestamp(System.currentTimeMillis())
@@ -121,8 +125,6 @@ public class RabbitMqService {
                             .data(data)
 
                             .build();
-
-                    log.info(pushMessage.toString());
                     this.rabbitTemplate.convertAndSend(exchangeName,routingKey,pushMessage);
               /*  try {
                     Thread.sleep(10); //0.01초 대기
@@ -132,6 +134,7 @@ public class RabbitMqService {
                 }
             }
         } else if(sendType != 5){
+            PushMessage pushMessage;
             for(int i = 0 ; i < custList.length ; i++){
                 PushMessage.Data data = PushMessage.Data.builder().type(sendType.toString()).build();
                 Map<String,Object> deviceInfo =  tbCustDeviceRepository.getDeviceInfo(custList[i]);
@@ -145,7 +148,7 @@ public class RabbitMqService {
                     } else if(Integer.parseInt(deviceInfo.get("deviceType").toString()) == 2){
                         os = "i";
                     }
-                    PushMessage pushMessage = PushMessage.builder().appcode("om")
+                     pushMessage = PushMessage.builder().appcode("om")
                             .os(os)
                             .timestamp(System.currentTimeMillis())
                             .title(pushTitle)
